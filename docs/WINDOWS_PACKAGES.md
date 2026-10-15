@@ -1,8 +1,11 @@
 # Windows package catalog
 
-All downloads are fixed-version HTTPS URLs with SHA-256 checksums. Recipes are
-generated from tools/windows-packages.json using tools/render_windows_formulae.py.
-MSYS2 dependency archives are pinned as resources, not installed by pacman.
+This table records the original 22-package batch and its historical versions.
+The tap now contains 210 formulae maintained directly in
+`tap/homebrew-core/Formula`. Those Ruby files are authoritative for current
+versions, URLs, checksums and tests; follow [PACKAGING.md](PACKAGING.md).
+The renderer is disabled; `tools/windows-packages.json` remains only as a legacy
+package-test fixture. MSYS2 dependency archives are pinned resources.
 
 | Package | Version | Windows packaging |
 | --- | --- | --- |

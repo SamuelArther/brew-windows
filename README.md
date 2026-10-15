@@ -1,67 +1,99 @@
 # brew-windows
 
-A from-scratch C#/.NET 10 Windows port following Homebrew 7.0.9.
-Homebrew attribution and its BSD-2-Clause license are in THIRD_PARTY_NOTICES.txt.
-No analytics are sent.
+A from-scratch C#/.NET 10 Windows port following Homebrew 7.0.9, with **210
+formulae** and a built-in Ruby interpreter. No analytics are sent.
+Homebrew attribution: [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt).
 
-Build prerequisites: .NET 10 SDK and LLVM-MinGW `clang` on PATH. MSVC is not required.
+## Build and publish
+
+Building requires the .NET 10 SDK and LLVM-MinGW `clang` on PATH, without MSVC.
+Published builds are self-contained and need no separate .NET installation.
 
 ```powershell
 dotnet build
 dotnet publish src/Brew -c Release -o .artifacts/brew
-$env:BREW_PREFIX = "$PWD/.test-work/homebrew"
-.artifacts/brew/brew.exe install jq
-.artifacts/brew/brew.exe list
-& "$env:BREW_PREFIX/bin/jq.exe" --version
-.artifacts/brew/brew.exe uninstall jq
 ```
 
-The publish directory includes the self-contained single-file executable, the
-core tap, and license notices. Add `%BREW_PREFIX%\bin` to PATH to invoke installed
-programs by name. The default prefix is `%LOCALAPPDATA%\Homebrew`.
-`BREW_REPOSITORY` overrides tap discovery; `BREW_CACHE` overrides the download cache.
-Downloads are HTTPS and always SHA-256 checked, including cached downloads.
+Keep the complete published directory together: `brew.exe`, bundled `tap`
+(including aliases and audit-exception JSON), and license notices.
 
-The initial CLI supports install, list, uninstall, link, and unlink. jq uses the
-official standalone Windows x64 release. DLL-bearing bin executables use the
-small native launcher built from shim/shim.c; other files use real symlinks.
+## Setup
 
-Interpreter integration is specified in [docs/FORMULA_API.md](docs/FORMULA_API.md).
-The independent package smoke test uses an explicit interpreter test double:
+Use Windows x64 with Developer Mode enabled for real symlinks. Windows 11's
+`tar.exe` with zstd and 7z support is required for the corresponding archives.
+The default prefix is `%LOCALAPPDATA%\Homebrew`; keep it short for GCC header paths.
+
+Initialize PowerShell from the repository:
 
 ```powershell
+$brew = (Resolve-Path .artifacts/brew/brew.exe).Path
+$env:PATH = "$(Split-Path $brew);$env:PATH"
+& $brew shellenv pwsh | Out-String | Invoke-Expression
+brew install jq
+jq --version
+brew list
+brew uninstall jq
+```
+
+For persistent setup, put the first three lines in `$PROFILE`, replacing the
+first line with `$brew = 'C:\Tools\brew-windows\brew.exe'` or your actual path.
+Set `BREW_PREFIX`, `BREW_CACHE`, or `BREW_REPOSITORY` before `shellenv` to override
+the prefix, cache, or directory containing `tap`. Kegs live in
+`Cellar/<name>/<version>`; `brew --prefix <name>` resolves through `opt` symlinks.
+
+## Commands
+
+- Packages: `install`, `uninstall`, `reinstall`, `upgrade`, `outdated`, `fetch`.
+- Queries: `list`, `info`, `search`, `desc`, `deps`, `uses`, `leaves`, `missing`, `options`.
+- Maintenance: `link`, `unlink`, `pin`, `unpin`, `cleanup`, `autoremove`.
+- System/taps: `update`, `doctor`, `config`, `shellenv`, `commands`, `help`, `home`,
+  `tap`, `untap`, `tap-info`, `log`, `--prefix`, `--cellar`, `--cache`,
+  `--repository`, `--env`, `--version`.
+- Formula development: `create`, `edit`, `cat`, `formula`, `audit`, `style`,
+  `readall`, `test`, `livecheck` (`lc`), `bump`, `bump-formula-pr`, `bump-revision`,
+  `extract`, `unpack`, `linkage`, `sh`, `irb`, `ruby`.
+- Git/GitHub/release handlers include `tap-new`, `pr-pull`, `pr-publish`,
+  `pr-upload`, `bottle`, `dispatch-build-bottle`, `release`, `contributions`,
+  `lgtm`, API generation, update helpers, `test-bot`, `determine-test-runners`.
+
+Run `brew commands --quiet` for the full registered list and
+`brew <command> --help` for arguments. This release candidate has remaining gaps:
+casks and source builds are unsupported; Ruby is a subset; GitHub/release
+workflows are not fully verified, and some developer operations are explicitly
+unsupported. See [developer command status](docs/DEV_COMMANDS.md).
+
+## Packages
+
+Edit recipes directly using [Writing and checking formulae](docs/PACKAGING.md).
+**Do not regenerate recipes:** the renderer is disabled, and
+`tools/windows-packages.json` is only a legacy package-test fixture.
+Regeneration would discard hand-written tests, livecheck rules and fixes.
+
+Downloads use HTTPS and pinned SHA-256 checksums, including caches and mirrors.
+Most use official releases; third-party builders include GyanD (FFmpeg),
+FireDaemon (OpenSSL), LuaBinaries (Lua), and MSYS2 (GNU tools). Checksums identify
+files; builder provenance still matters. The [original catalog](docs/WINDOWS_PACKAGES.md)
+records the initial batch; each formula contains its current URLs and resources.
+
+Commands are available in each keg's `bin`. Global commands use symlinks or
+native shims for DLL lookup and fixed arguments. Keg-only formulae require
+explicit linking. MSYS2 tools bundle pinned runtime resources. MSI extraction
+runs no installer actions.
+
+## Verification
+
+```powershell
+dotnet run --project tests/Commands
 dotnet run --project tests/Smoke
-```
-
-It downloads and executes real jq, verifies installation and removal, detects
-corrupt downloads and link collisions, and checks native shim argument forwarding
-and exit status. It leaves artifacts under `.test-work/smoke` for inspection;
-remove that directory before rerunning.
-
-Run the full jq integration test against the real Ruby interpreter (PowerShell 7):
-
-```powershell
-dotnet build
-pwsh -File tests/EndToEnd.ps1
-# To verify a published release instead:
 pwsh -File tests/EndToEnd.ps1 -BrewExe .artifacts/brew/brew.exe
+& .artifacts/brew/brew.exe readall
+& .artifacts/brew/brew.exe audit
+& .artifacts/brew/brew.exe style
 ```
 
-Each integration run uses a new isolated prefix and a shared test download cache.
+Command tests use isolated prefixes and cached synthetic archives. Smoke tests
+run real jq and check rollback and native shims; move or remove their
+`.test-work/smoke` directory before rerunning. End-to-end tests use a new prefix.
+Verify the exact published executable and its bundled tap before distribution.
 
-The [Windows package catalog](docs/WINDOWS_PACKAGES.md) documents the additional
-22 packages, their upstream sources, MSYS2 packaging and compatibility limits.
-All recipes have pinned SHA-256 checksums. Packages preserve their complete
-directory layout, with command launchers in `BREW_PREFIX/bin`. MSYS2 tools bundle
-their own pinned runtime dependencies under their keg. Python uses the full
-official NuGet distribution; Maven includes a JDK. Firefox is extracted without
-running its installer or opening a GUI. AWS CLI MSI extraction executes no MSI actions.
-
-```powershell
-dotnet run --project tests/Packages                 # Verify all real Ruby metadata
-dotnet run --project tests/Packages -- node yarn    # Install, execute, remove
-python tools/render_windows_formulae.py             # Regenerate recipes from pinned catalog
-```
-
-Windows 11's `tar.exe` with zstd support is required for MSYS2 package archives.
-`brew --prefix readline` and `brew --prefix libyaml` locate development libraries.
+Interpreter contract: [FORMULA_API.md](docs/FORMULA_API.md).
