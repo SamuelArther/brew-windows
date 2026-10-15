@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/Brew/*.cs" Exclude="../../src/Brew/Program.cs" />
+    <Compile Include="../../src/Brew/Formulae/*.cs" />
+    <EmbeddedResource Include="../../shim/shim.exe" LogicalName="shim.exe" />
+  </ItemGroup>
+  <Target Name="BuildFixture" BeforeTargets="Build">
+    <Exec Command="clang -shared -o &quot;$(TargetDir)fixture.dll&quot; &quot;$(MSBuildProjectDirectory)/fixture-dll.c&quot; -Wl,--out-implib,&quot;$(TargetDir)libfixture.a&quot;" />
+    <Exec Command="clang -municode -o &quot;$(TargetDir)fixture.exe&quot; &quot;$(MSBuildProjectDirectory)/fixture.c&quot; &quot;$(TargetDir)libfixture.a&quot;" />
+  </Target>
+</Project>
