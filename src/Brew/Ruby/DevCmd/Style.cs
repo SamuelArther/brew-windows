@@ -746,7 +746,8 @@ static class FormulaCops
             }
             if (line.Length > 118)
             {
-                bool allowed = LineLengthAllowed.Any(p => line.Contains(p));
+                // RuboCop's default AllowHeredoc: true skips heredoc bodies.
+                bool allowed = src.HeredocLines.Contains(ln) || LineLengthAllowed.Any(p => line.Contains(p));
                 if (!allowed)
                 {
                     var uri = Regex.Matches(line, @"(https?|ftp|file)://[^\s""')>]*").LastOrDefault();
