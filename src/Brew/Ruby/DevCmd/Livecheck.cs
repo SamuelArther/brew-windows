@@ -235,6 +235,7 @@ static class RubyJson
         JsonValue v when v.GetValueKind() == JsonValueKind.False => false,
         JsonValue v when v.TryGetValue<long>(out var l) => l,
         JsonValue v => v.GetValue<double>(),
+        _ => n.ToJsonString(),
     };
 
     static RHash ToHash(JsonObject o)
