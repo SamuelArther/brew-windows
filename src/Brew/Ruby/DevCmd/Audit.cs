@@ -278,7 +278,9 @@ sealed class FormulaAuditor
         {
             var unversioned = Regex.Replace(f.Name, "@.*$", "");
             // Formulary.factory also resolves aliases (e.g. openssl -> openssl@3)
-            if (DevCommands.FormulaPath(unversioned) == null && !DevCommands.Aliases(f.Name).Contains(unversioned))
+            var aliasDir = Path.Combine(Path.GetDirectoryName(DevCommands.CoreTapFormulaDir)!, "Aliases");
+            if (DevCommands.FormulaPath(unversioned) == null
+                && !(Directory.Exists(aliasDir) && Directory.EnumerateFileSystemEntries(aliasDir).Any(a => Path.GetFileName(a) == unversioned)))
                 Problem($"{f.Name} is versioned but no {unversioned} formula exists");
         }
         else if (!Versioned)
@@ -516,18 +518,20 @@ sealed class FormulaAuditor
         }
     }
 
-    // Tap#audit_exception: tap/<tap>/audit_exceptions/<list>.json is a JSON array or object of formula names.
-    static bool AuditException(string list, string name)
+    // Tap#audit_exception: tap/<tap>/audit_exceptions/<list>.json is a JSON array of formula names, or an object
+    // whose values are compared with `value` (an array value includes it).
+    static bool AuditException(string list, string name, string value = null)
     {
         var file = Path.Combine(StyleCheck.TapDir, "audit_exceptions", list + ".json");
         if (!File.Exists(file)) return false;
         using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(file));
-        return doc.RootElement.ValueKind switch
-        {
-            System.Text.Json.JsonValueKind.Array => doc.RootElement.EnumerateArray().Any(e => e.GetString() == name),
-            System.Text.Json.JsonValueKind.Object => doc.RootElement.TryGetProperty(name, out _),
-            _ => false,
-        };
+        var root = doc.RootElement;
+        if (root.ValueKind == System.Text.Json.JsonValueKind.Array) return root.EnumerateArray().Any(e => e.GetString() == name);
+        if (root.ValueKind != System.Text.Json.JsonValueKind.Object || !root.TryGetProperty(name, out var entry)) return false;
+        if (string.IsNullOrEmpty(value)) return entry.ValueKind is not (System.Text.Json.JsonValueKind.False or System.Text.Json.JsonValueKind.Null);
+        return entry.ValueKind == System.Text.Json.JsonValueKind.Array
+            ? entry.EnumerateArray().Any(e => e.ValueKind == System.Text.Json.JsonValueKind.String && e.GetString() == value)
+            : entry.ValueKind == System.Text.Json.JsonValueKind.String && entry.GetString() == value;
     }
 
     void AuditVersionedKegOnly()
@@ -730,7 +734,11 @@ sealed class FormulaAuditor
         if (urlVersion != null) int.TryParse(urlVersion.Split('.', '-', '_').ElementAtOrDefault(1), out minor);
         Match mm;
         if ((mm = Regex.Match(url, @"[\d._-](alpha|beta|rc\d)")).Success)
-            Problem($"Stable: version URLs should not contain `{mm.Groups[1].Value}`");
+        {
+            var versionPrefix = Regex.Replace(version, @"\d+$", "");
+            if (!AuditException("unstable_allowlist", f.Name, versionPrefix) && !AuditException("unstable_devel_allowlist", f.Name, versionPrefix))
+                Problem($"Stable: version URLs should not contain `{mm.Groups[1].Value}`");
+        }
         else if (Regex.IsMatch(url, @"download\.gnome\.org/sources") || Regex.IsMatch(url, @"ftp\.gnome\.org/pub/GNOME/sources", RegexOptions.IgnoreCase))
         {
             if (urlVersion == null || Versions.Compare(urlVersion, "1.0") < 0 || Versions.Compare(urlVersion, "40.0") >= 0 || minor % 2 == 0) return;
