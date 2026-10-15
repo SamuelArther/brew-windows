@@ -102,6 +102,10 @@ public sealed partial class Interp
         Def(En, "reject", (it, self, a, b) => new RArray(it.ToList(self).Where(x => !Truthy(it.Y1(b, x)))));
         Def(En, "filter_map", (it, self, a, b) => new RArray(it.ToList(self).Select(x => it.Y1(b, x)).Where(Truthy)));
         Def(En, "find detect", (it, self, a, b) => it.ToList(self).FirstOrDefault(x => Truthy(it.Y1(b, x))));
+        Def(En, "grep", (it, self, a, b) =>
+            new RArray(it.ToList(self).Where(x => it.CaseEq(a[0], x)).Select(x => b != null ? it.Y1(b, x) : x)));
+        Def(En, "grep_v", (it, self, a, b) =>
+            new RArray(it.ToList(self).Where(x => !it.CaseEq(a[0], x)).Select(x => b != null ? it.Y1(b, x) : x)));
         Def(En, "find_index", (it, self, a, b) =>
         {
             var items = it.ToList(self);

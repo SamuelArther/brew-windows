@@ -115,10 +115,32 @@ class Rbenv < Formula
     sha256 "3748af28f69e946ec5a42e6670c9bbf6da7352dc93baaa537f69e99c5483b9fc"
   end
 
-  # Experimental MSYS2 shell integration. Does not promise native Windows Ruby builds, include ruby-build, or modify shell profiles.
+  # Experimental MSYS2 shell integration. Does not promise native Windows Ruby builds,
+  # include ruby-build, or modify shell profiles.
 
   def install
     msys2_install "opt/rbenv"
     msys2_bin "opt/rbenv/libexec/rbenv", "rbenv"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/rbenv --version")
+
+    # Create a fake ruby version and executable.
+    rbenv_root = testpath/"rbenv"
+    ENV["RBENV_ROOT"] = rbenv_root
+    ruby_bin = rbenv_root/"versions/1.2.3/bin"
+    ruby_bin.mkpath
+    foo_script = ruby_bin/"foo"
+    foo_script.write "echo hello"
+    chmod "+x", foo_script
+
+    # Test versions. (Windows has no system Ruby, so don't expect a "system" entry.)
+    assert_equal "1.2.3", shell_output("#{bin}/rbenv versions --bare").strip
+    assert_match "1.2.3", shell_output("#{bin}/rbenv versions")
+
+    # Test rehash.
+    system bin/"rbenv", "rehash"
+    refute_match "Cellar", (rbenv_root/"shims/foo").read
   end
 end

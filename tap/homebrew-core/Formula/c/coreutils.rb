@@ -5,6 +5,12 @@ class Coreutils < Formula
   sha256 "62dfee1c39fd15f99c39802b35e82643bc14fffc16d6c76d4001caa385ec77e3"
   license "GPL-3.0-or-later"
 
+  # Track the MSYS2 package this formula installs (upstream releases reach MSYS2 later).
+  livecheck do
+    url "https://repo.msys2.org/msys/x86_64/"
+    regex(/href=.*?coreutils[._-]v?(\d+(?:\.\d+)+)-\d+-x86_64\.pkg\.t/i)
+  end
+
   resource "bash" do
     url "https://repo.msys2.org/msys/x86_64/bash-5.3.20-2-x86_64.pkg.tar.zst"
     sha256 "0951e809c552dd7dd2835df1b2d590822187f14e717d809e942e4eb677d0adfd"
@@ -221,5 +227,12 @@ class Coreutils < Formula
     msys2_bin "usr/bin/groups.exe", "groups"
     msys2_bin "usr/bin/hostname.exe", "hostname"
     msys2_bin "usr/bin/runcon.exe", "runcon"
+  end
+
+  test do
+    (testpath/"test").write("test")
+    (testpath/"test.sha1").write("a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 test")
+    system bin/"sha1sum", "-c", "test.sha1"
+    system bin/"ln", "-f", "test", "test.sha1"
   end
 end

@@ -19,9 +19,11 @@ class Dotnet < Formula
   end
 
   test do
+    assert_match version.to_s, shell_output("#{bin}/dotnet --version")
+
     target_framework = "net#{version.major_minor}"
 
-    (testpath/"test.cs").write <<~CSHARP
+    (testpath/"test.cs").write <<~CS
       using System;
 
       namespace Homebrew
@@ -30,23 +32,36 @@ class Dotnet < Formula
         {
           public static void Main(string[] args)
           {
-            Console.WriteLine(String.Join(",", args));
+            var joined = String.Join(",", args);
+            Console.WriteLine(joined);
           }
         }
       }
-    CSHARP
+    CS
 
     (testpath/"test.csproj").write <<~XML
       <Project Sdk="Microsoft.NET.Sdk">
         <PropertyGroup>
           <OutputType>Exe</OutputType>
           <TargetFrameworks>#{target_framework}</TargetFrameworks>
+          <PlatformTarget>AnyCPU</PlatformTarget>
+          <RootNamespace>Homebrew</RootNamespace>
+          <PackageId>Homebrew.Dotnet</PackageId>
+          <Title>Homebrew.Dotnet</Title>
+          <Product>$(AssemblyName)</Product>
+          <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         </PropertyGroup>
+        <ItemGroup>
+          <Compile Include="test.cs" />
+        </ItemGroup>
       </Project>
     XML
 
-    system bin/"dotnet", "build", "--framework", target_framework, "--output", testpath, testpath/"test.csproj"
-    output = shell_output("#{bin}/dotnet run --framework #{target_framework} #{testpath}/test.dll a b c")
-    assert_equal "#{testpath}/test.dll,a,b,c", output.chomp
+    # No build servers, so nothing keeps running from the keg after the test.
+    system bin/"dotnet", "build", "--disable-build-servers", "--framework", target_framework,
+           "--output", testpath, testpath/"test.csproj"
+    output = shell_output("#{bin}/dotnet run --disable-build-servers --framework #{target_framework} " \
+                          "#{testpath}/test.dll a b c")
+    assert_equal "#{testpath}/test.dll,a,b,c\n", output
   end
 end

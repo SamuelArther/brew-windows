@@ -212,6 +212,20 @@ class Wget < Formula
 
   def install
     msys2_install
+    # pacman normally runs update-ca-trust after installing ca-certificates; without it the
+    # CA bundle wget reads (/usr/ssl/certs/ca-bundle.crt) is empty and every HTTPS fetch fails.
+    system libexec/"usr/bin/p11-kit.exe", "extract", "--format=pem-bundle", "--filter=ca-anchors",
+           "--overwrite", "--comment", "--purpose", "server-auth", "/usr/ssl/certs/ca-bundle.crt"
+    # p11-kit creates it read-only, which would stop `brew uninstall` from deleting it.
+    system libexec/"usr/bin/chmod.exe", "644", "/usr/ssl/certs/ca-bundle.crt"
     msys2_bin "usr/bin/wget.exe", "wget"
+  end
+
+  test do
+    system bin/"wget", "-O", testpath/"google.html", "https://google.com"
+    assert_path_exists testpath/"google.html"
+
+    # Verify PSL support is built in via libpsl
+    assert_match "+psl", shell_output("#{bin}/wget --version")
   end
 end

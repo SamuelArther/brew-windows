@@ -126,11 +126,31 @@ public sealed partial class Interp
         Def(P, "binread", (it, self, a, b) => S(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))));
         Def(P, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(Me(self)))).Select(l => (object)S(l))));
         Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
-        Def(P, "write atomic_write binwrite", (it, self, a, b) =>
+        // Homebrew's WriteMkpathExtension: refuses to overwrite, creates parent directories.
+        Def(P, "write binwrite", (it, self, a, b) =>
         {
             var p = it.Abs(Me(self));
             var s = it.ToS(a[0]);
-            File.WriteAllText(p, s, new UTF8Encoding(false));
+            bool hasOffset = a.Length > 1 && a[1] is long;
+            var mode = a.Length > 0 && a[^1] is RHash h && h.D.TryGetValue(Sym("mode"), out var m) && m is RString ms ? ms.V : null;
+            bool append = mode != null && System.Text.RegularExpressions.Regex.IsMatch(mode, "^a\\+?$");
+            if ((File.Exists(p) || Directory.Exists(p)) && !hasOffset && !append)
+                throw it.Error(it.RuntimeError, $"Will not overwrite {Me(self)}");
+            var dir = Path.GetDirectoryName(p);
+            if (dir != null) Directory.CreateDirectory(dir);
+            if (append) File.AppendAllText(p, s, new UTF8Encoding(false));
+            else File.WriteAllText(p, s, new UTF8Encoding(false));
+            return (long)Encoding.UTF8.GetByteCount(s);
+        });
+        Def(P, "atomic_write", (it, self, a, b) =>
+        {
+            var p = it.Abs(Me(self));
+            var s = it.ToS(a[0]);
+            var dir = Path.GetDirectoryName(p);
+            if (dir != null) Directory.CreateDirectory(dir);
+            var tmp = p + ".tmp" + Guid.NewGuid().ToString("N")[..8];
+            File.WriteAllText(tmp, s, new UTF8Encoding(false));
+            File.Move(tmp, p, true);
             return (long)Encoding.UTF8.GetByteCount(s);
         });
         Def(P, "append_lines", (it, self, a, b) =>
@@ -213,7 +233,7 @@ public sealed partial class Interp
         Def(P, "cleanpath", (it, self, a, b) => it.NewPath(CleanPath(Me(self))));
         Def(P, "relative_path_from", (it, self, a, b) => it.NewPath(Path.GetRelativePath(it.Abs(it.PathStr(a[0])), it.Abs(Me(self))).Replace('\\', '/')));
         Def(P, "each_filename", (it, self, a, b) => { foreach (var part in Me(self).Split('/', '\\', StringSplitOptions.RemoveEmptyEntries)) it.Y1(b, S(part)); return null; });
-        Def(P, "chmod", (it, self, a, b) => 1L);
+        Def(P, "chmod", (it, self, a, b) => { Chmod(it.Abs(Me(self)), it.Int(a[0]), false); return 1L; });
         Def(P, "== eql? ===", (it, self, a, b) => a[0] is RObject { Host: string h } o && o.Class == it.PathnameClass && h == Me(self));
         Def(P, "<=>", (it, self, a, b) => a[0] is RObject { Host: string h } ? (long)Math.Sign(string.CompareOrdinal(Me(self), h)) : null);
         Def(P, "hash", (it, self, a, b) => (long)Me(self).GetHashCode());
@@ -280,7 +300,11 @@ public sealed partial class Interp
         DefS(F, "rename", (it, self, a, b) => { it.MovePath(it.Abs(it.PathStr(a[0])), it.Abs(it.PathStr(a[1]))); return 0L; });
         DefS(F, "symlink", (it, self, a, b) => { it.MakeSymlink(it.PathStr(a[0]), it.Abs(it.PathStr(a[1]))); return 0L; });
         DefS(F, "readlink", (it, self, a, b) => S(new FileInfo(it.Abs(it.PathStr(a[0]))).LinkTarget ?? ""));
-        DefS(F, "chmod", (it, self, a, b) => (long)(a.Length - 1));
+        DefS(F, "chmod", (it, self, a, b) =>
+        {
+            foreach (var x in a.Skip(1)) Chmod(it.Abs(it.PathStr(x)), it.Int(a[0]), false);
+            return (long)(a.Length - 1);
+        });
         DefS(F, "fnmatch fnmatch?", (it, self, a, b) => GlobRegex(it.Str(a[0]), true).IsMatch(it.PathStr(a[1])));
         DefS(F, "open new", (it, self, a, b) =>
         {
@@ -411,7 +435,9 @@ public sealed partial class Interp
             }
             return a[0];
         });
-        DefS(FU, "chmod chmod_R chown chown_R", (it, self, a, b) => null);
+        DefS(FU, "chmod", (it, self, a, b) => { foreach (var p in Paths(it, a[1])) Chmod(p, a[0] is long l ? l : 0b110100100, false); return null; });
+        DefS(FU, "chmod_R", (it, self, a, b) => { foreach (var p in Paths(it, a[1])) Chmod(p, a[0] is long l ? l : 0b110100100, true); return null; });
+        DefS(FU, "chown chown_R", (it, self, a, b) => null);
         DefS(FU, "pwd", (it, self, a, b) => S(it.Cwd));
         DefS(FU, "cd chdir", (it, self, a, b) => it.Invoke(it.DirClass, "chdir", new[] { a[0] }, b));
         DefS(FU, "compare_file identical? cmp", (it, self, a, b) =>
@@ -491,7 +517,20 @@ public sealed partial class Interp
         return r.Length == 0 ? "." : r;
     }
 
-    public void RemoveTree(string p)
+    // Windows has no permission bits; the owner-write bit maps to the read-only attribute.
+    static void Chmod(string p, long mode, bool recursive)
+    {
+        bool readOnly = (mode & 0x80) == 0;   // 0200
+        if (File.Exists(p)) new FileInfo(p) { IsReadOnly = readOnly };
+        else if (recursive && Directory.Exists(p))
+            foreach (var f in Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories))
+                new FileInfo(f) { IsReadOnly = readOnly };
+    }
+
+    public void RemoveTree(string p) => DeleteTree(p);
+
+    // rm -rf that also removes read-only files (git objects, chmod 0444).
+    public static void DeleteTree(string p)
     {
         if (IsSymlink(p)) { if (Directory.Exists(p)) Directory.Delete(p); else File.Delete(p); return; }
         if (Directory.Exists(p))

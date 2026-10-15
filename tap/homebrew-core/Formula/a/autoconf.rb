@@ -6,6 +6,12 @@ class Autoconf < Formula
   sha256 "40781b015533fe25492ec64706532ec84b803f1c86fc6e4fda832da49582cc59"
   license "GPL-2.0-only"
 
+  # Track the MSYS2 package this formula installs (upstream releases reach MSYS2 later).
+  livecheck do
+    url "https://repo.msys2.org/msys/x86_64/"
+    regex(/href=.*?autoconf2\.\d+[._-]v?(\d+(?:\.\d+)+)-\d+-any\.pkg\.t/i)
+  end
+
   resource "autoconf2.69" do
     url "https://repo.msys2.org/msys/x86_64/autoconf2.69-2.69-4-any.pkg.tar.zst"
     sha256 "56b2de8e53e46a88bb217a427c2f7b5671ac6400148681fb2089e9b7be817364"
@@ -150,5 +156,26 @@ class Autoconf < Formula
     msys2_bin "usr/bin/autoscan", "autoscan"
     msys2_bin "usr/bin/autoupdate", "autoupdate"
     msys2_bin "usr/bin/ifnames", "ifnames"
+  end
+
+  test do
+    cp libexec/"usr/share/autoconf-#{version}/autotest/autotest.m4", "autotest.m4"
+    system bin/"autoconf", "autotest.m4"
+
+    # No AC_PROG_CC: Windows has no system C compiler for configure to find.
+    (testpath/"configure.ac").write <<~M4
+      AC_INIT([hello], [1.0])
+      AC_CONFIG_SRCDIR([hello.c])
+      AC_OUTPUT
+    M4
+    (testpath/"hello.c").write "int foo(void) { return 42; }"
+
+    system bin/"autoconf"
+    # configure is a POSIX shell script; run it with the bundled MSYS2 bash and tools
+    # (mixing in another MSYS runtime's cat/sed from PATH corrupts config.status).
+    ENV.prepend_path "PATH", libexec/"usr/bin"
+    system libexec/"usr/bin/bash.exe", "./configure"
+    assert_path_exists testpath/"config.status"
+    assert_match "hello config.status 1.0", shell_output("#{libexec}/usr/bin/bash.exe ./config.status --version")
   end
 end

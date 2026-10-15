@@ -5,6 +5,12 @@ class AzureCli < Formula
   sha256 "c0c49639a96d8c0dfb9973cfe08c97c5eeb69be050102138ede806285e6fcf1f"
   license "MIT"
 
+  livecheck do
+    url :stable
+    regex(/^azure-cli[._-]v?(\d+(?:\.\d+)+)$/i)
+    strategy :github_latest
+  end
+
   # Not a homebrew-core formula any more: Homebrew ships Azure CLI as the azure-cli cask.
   # desc/homepage come from that cask; license is upstream's MIT. Uses Microsoft's official
   # Windows x64 zip (bundled Python), which is what the MSI installs.

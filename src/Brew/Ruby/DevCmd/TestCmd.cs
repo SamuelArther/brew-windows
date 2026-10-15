@@ -203,7 +203,7 @@ sealed class TestCmd : DevCommand
                     if (retain) Out.Ohai("Temporary files retained at:", testPath);
                     else
                     {
-                        try { Directory.Delete(testPath, true); }
+                        try { Interp.DeleteTree(testPath); }
                         catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
                     }
                 }

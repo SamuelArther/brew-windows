@@ -5,6 +5,12 @@ class Libtool < Formula
   sha256 "ed51a0790d6cd59d24f2f76c826ed0e8d85f81bc1ac2807736400ea5e178fc5a"
   license "LGPL-2.0-or-later" => { with: "Libtool-exception" }
 
+  # Track the MSYS2 package this formula installs (upstream releases reach MSYS2 later).
+  livecheck do
+    url "https://repo.msys2.org/msys/x86_64/"
+    regex(/href=.*?libtool[._-]v?(\d+(?:\.\d+)+)-\d+-x86_64\.pkg\.t/i)
+  end
+
   resource "autoconf-wrapper" do
     url "https://repo.msys2.org/msys/x86_64/autoconf-wrapper-20260320-2-any.pkg.tar.zst"
     sha256 "40781b015533fe25492ec64706532ec84b803f1c86fc6e4fda832da49582cc59"
@@ -179,5 +185,13 @@ class Libtool < Formula
     msys2_install
     msys2_bin "usr/bin/libtool", "libtool"
     msys2_bin "usr/bin/libtoolize", "libtoolize"
+  end
+
+  test do
+    system bin/"libtool", "execute", "/usr/bin/true"
+
+    # Compiling with libtool needs a C compiler, which Windows doesn't ship.
+    system bin/"libtoolize", "--ltdl"
+    assert_path_exists testpath/"libltdl/ltdl.c"
   end
 end

@@ -5,6 +5,12 @@ class Readline < Formula
   sha256 "de2423c2e10fcd88272a0ab2f833f6a082cfe613d4c17c2f548cc50a5d2190c4"
   license "GPL-3.0-or-later"
 
+  # Track the MSYS2 UCRT64 package this formula installs (version includes the patch level).
+  livecheck do
+    url "https://repo.msys2.org/mingw/ucrt64/"
+    regex(/href=.*?mingw-w64-ucrt-x86_64-readline[._-]v?(\d+(?:\.\d+)+)-\d+-any\.pkg\.t/i)
+  end
+
   resource "mingw-w64-ucrt-x86_64-cc-libs" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cc-libs-16.2.0-6-any.pkg.tar.zst"
     sha256 "d8fff9e62443168bcda8ce746697243519c4f090ea607357ce94feac0bd10a50"
@@ -35,7 +41,8 @@ class Readline < Formula
     sha256 "f1809089f8ed5cec858ae8584289172896eb921be1e78ba583555f74e9015428"
   end
 
-  # UCRT64 development library, not a standalone command. Headers and import libraries are installed in the keg include/lib directories.
+  # UCRT64 development library, not a standalone command.
+  # Headers and import libraries are installed in the keg include/lib directories.
 
   def install
     install_tree
@@ -46,5 +53,14 @@ class Readline < Formula
     install_resource "mingw-w64-ucrt-x86_64-termcap", "libexec"
     install_resource "mingw-w64-ucrt-x86_64-tzdata", "libexec"
     install_library
+  end
+
+  test do
+    # No system C compiler on Windows to build homebrew-core's test program;
+    # check the headers, import libraries, DLLs and pkg-config metadata instead.
+    assert_match "readline", (include/"readline/readline.h").read
+    assert_path_exists lib/"libreadline.dll.a"
+    assert_path_exists bin/"libreadline8.dll"
+    assert_match "Version: #{version.major_minor}", (lib/"pkgconfig/readline.pc").read
   end
 end

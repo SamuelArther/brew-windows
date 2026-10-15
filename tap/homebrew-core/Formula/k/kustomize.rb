@@ -6,6 +6,11 @@ class Kustomize < Formula
   sha256 "763c4040ff01435bfce39661072452ebdf1cf2808bb91f5708ab4420834fbd42"
   license "Apache-2.0"
 
+  livecheck do
+    url :stable
+    regex(%r{^kustomize/v?(\d+(?:\.\d+)+)$}i)
+  end
+
   def install
     bin.install "kustomize.exe"
   end

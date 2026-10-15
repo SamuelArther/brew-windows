@@ -6,6 +6,23 @@ class Automake < Formula
   sha256 "b10534ec9f19d2b04d75fb2eb87c17425a86296196a792ca9d6b47f31141a426"
   license "GPL-2.0-only"
 
+  # Track the MSYS2 package this formula installs (upstream releases reach MSYS2 later).
+  livecheck do
+    url "https://repo.msys2.org/msys/x86_64/"
+    regex(/href=.*?automake1\.\d+[._-]v?(\d+(?:\.\d+)+)-\d+-any\.pkg\.t/i)
+  end
+
+  # aclocal and automake run autoconf/autom4te, which have to live in this same MSYS2 root.
+  resource "autoconf-wrapper" do
+    url "https://repo.msys2.org/msys/x86_64/autoconf-wrapper-20260320-2-any.pkg.tar.zst"
+    sha256 "40781b015533fe25492ec64706532ec84b803f1c86fc6e4fda832da49582cc59"
+  end
+
+  resource "autoconf2.73" do
+    url "https://repo.msys2.org/msys/x86_64/autoconf2.73-2.73-1-any.pkg.tar.zst"
+    sha256 "716d0542dc12a481f1c2d5574f17f1470eb9d3226cf6e206d4e243c12fa95e1a"
+  end
+
   resource "automake1.15" do
     url "https://repo.msys2.org/msys/x86_64/automake1.15-1.15.1-4-any.pkg.tar.zst"
     sha256 "e3c73d0094eebbc2353b2ddd0b7c81020917c2ec09d3e4967d7abc9794fa7843"
@@ -39,6 +56,11 @@ class Automake < Formula
   resource "db" do
     url "https://repo.msys2.org/msys/x86_64/db-6.2.32-6-x86_64.pkg.tar.zst"
     sha256 "41bc94acad3b53eaa92227ec34412305f648848ffbc963bcad88274517e13e8d"
+  end
+
+  resource "diffutils" do
+    url "https://repo.msys2.org/msys/x86_64/diffutils-3.12-1-x86_64.pkg.tar.zst"
+    sha256 "7902c8ce3d4dd69a0f5e98dc9d5c83c17b23314ba486169db57ef6e2835ce3b6"
   end
 
   resource "findutils" do
@@ -140,5 +162,27 @@ class Automake < Formula
     msys2_install
     msys2_bin "usr/bin/automake", "automake"
     msys2_bin "usr/bin/aclocal", "aclocal"
+  end
+
+  test do
+    # No C program: Windows has no system C compiler or make for configure to find.
+    (testpath/"hello.txt").write "Hello, World!"
+    (testpath/"configure.ac").write <<~M4
+      AC_INIT(test, 1.0)
+      AM_INIT_AUTOMAKE
+      AC_CONFIG_FILES(Makefile)
+      AC_OUTPUT
+    M4
+    (testpath/"Makefile.am").write <<~MAKE
+      dist_data_DATA = hello.txt
+    MAKE
+    system bin/"aclocal"
+    system bin/"automake", "--add-missing", "--foreign"
+    assert_path_exists testpath/"Makefile.in"
+    # autoconf and configure run in the bundled MSYS2 root, with its own tools first on PATH.
+    ENV.prepend_path "PATH", libexec/"usr/bin"
+    system libexec/"usr/bin/bash.exe", "/usr/bin/autoconf"
+    system libexec/"usr/bin/bash.exe", "./configure"
+    assert_match "dist_data_DATA = hello.txt", (testpath/"Makefile").read
   end
 end

@@ -5,10 +5,20 @@ class YoutubeDl < Formula
   sha256 "26e5c00c35c5c3edc86dfc0a720aed109a13b1b7c67ac654a0ce8ff82a1f2c16"
   license "Unlicense"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   # Actual youtube-dl, not yt-dlp. Upstream latest stable is old; modern site compatibility is not guaranteed.
 
   def install
     install_tree
     windows_exe "libexec/youtube-dl.exe", "youtube-dl"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/youtube-dl --version")
+    assert_match "youtube", shell_output("#{bin}/youtube-dl --list-extractors")
   end
 end

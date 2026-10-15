@@ -5,6 +5,14 @@ class Heroku < Formula
   version "11.12.0"
   sha256 "4d600a4500b8d55bb1d8e2af0f32f5e457b29b3615cb98f487c812d43468ef90"
   license "ISC"
+
+  livecheck do
+    url "https://cli-assets.heroku.com/channels/stable/heroku-win32-x64-buildmanifest"
+    strategy :json do |json|
+      json["version"]
+    end
+  end
+
   depends_on "git"
 
   # Official standalone CLI with bundled Node.js. Login/deployment are never run during installation.
@@ -12,5 +20,11 @@ class Heroku < Formula
   def install
     install_tree
     windows_cmd "libexec/bin/heroku.cmd", "heroku"
+  end
+
+  test do
+    # The standalone CLI otherwise spawns a background self-update that outlives the test.
+    ENV["HEROKU_DISABLE_AUTOUPDATE"] = "1"
+    assert_match "Error: not logged in", shell_output("#{bin}/heroku auth:whoami 2>&1", 100)
   end
 end
