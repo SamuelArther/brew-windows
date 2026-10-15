@@ -1,20 +1,32 @@
 class Findutils < Formula
   desc "Collection of GNU find, xargs, and locate"
   homepage "https://www.gnu.org/software/findutils/"
+  version "4.11.0"
   url "https://repo.msys2.org/msys/x86_64/findutils-4.11.0-2-x86_64.pkg.tar.zst"
   sha256 "f19d3c6b1b073d4c5759ae83f5639d11a5f0227b772f7d86d600db573d9d5d32"
   license "GPL-3.0-or-later"
 
   # GNU findutils via MSYS2, exposed unprefixed and with Homebrew's g prefix (Windows has its own find.exe).
+  # bash, coreutils and sed are bundled for the updatedb script.
 
   resource "bash" do
     url "https://repo.msys2.org/msys/x86_64/bash-5.3.20-2-x86_64.pkg.tar.zst"
     sha256 "0951e809c552dd7dd2835df1b2d590822187f14e717d809e942e4eb677d0adfd"
   end
 
+  resource "coreutils" do
+    url "https://repo.msys2.org/msys/x86_64/coreutils-8.32-5-x86_64.pkg.tar.zst"
+    sha256 "62dfee1c39fd15f99c39802b35e82643bc14fffc16d6c76d4001caa385ec77e3"
+  end
+
   resource "gcc-libs" do
     url "https://repo.msys2.org/msys/x86_64/gcc-libs-15.3.0-1-x86_64.pkg.tar.zst"
     sha256 "0d99a122c453c05ae21ba3dcea910f2e0d93d38ae067c677a112a315b0f3cec5"
+  end
+
+  resource "gmp" do
+    url "https://repo.msys2.org/msys/x86_64/gmp-6.3.0-2-x86_64.pkg.tar.zst"
+    sha256 "f84536138e618d47a1df2da83916cfebbd449f159ffad52f994a71060a41cf34"
   end
 
   resource "libiconv" do
@@ -30,6 +42,11 @@ class Findutils < Formula
   resource "msys2-runtime" do
     url "https://repo.msys2.org/msys/x86_64/msys2-runtime-3.6.11-3-x86_64.pkg.tar.zst"
     sha256 "b6478bd1b4cb4b2e07c45db725fee93f9424c19fa248240dcb7b7f4187cd92db"
+  end
+
+  resource "sed" do
+    url "https://repo.msys2.org/msys/x86_64/sed-4.9-1-x86_64.pkg.tar.zst"
+    sha256 "3748af28f69e946ec5a42e6670c9bbf6da7352dc93baaa537f69e99c5483b9fc"
   end
 
   def install
