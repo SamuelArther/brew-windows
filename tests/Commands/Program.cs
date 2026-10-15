@@ -151,6 +151,7 @@ try
     Equal(multipleDependencies.Output.StartsWith("==> Installing dependencies for diamond: branch and probe\n"), true, "Homebrew multiple dependency summary");
     Equal((await Run("uninstall", "--ignore-dependencies", "leaf")).Code, 0, "remove dependency for missing check");
     Equal((await Run("missing", "diamond")).Output, "leaf\n", "missing detects transitive absent dependencies");
+    assertions += await LifecycleRegression.Run(root);
     Console.WriteLine($"PASS: {assertions} command assertions; no GUI or GitHub writes. Fixtures: {root}");
 }
 finally { foreach (var pair in saved) Environment.SetEnvironmentVariable(pair.Key, pair.Value); }
