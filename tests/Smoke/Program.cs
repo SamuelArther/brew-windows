@@ -10,6 +10,11 @@ if (args.Length > 0)
     {
         var stagedArchive = await Archive.StageAsync(Path.GetFullPath(archiveFile), Path.GetFileName(archiveFile), Path.Combine(work, Guid.NewGuid().ToString("N")));
         Check(Directory.EnumerateFiles(stagedArchive, "*", SearchOption.AllDirectories).Any(), "real archive extracted");
+        if (Path.GetFileName(archiveFile) == "nsis.exe")
+            Check(Directory.EnumerateFiles(stagedArchive, "notepad++.exe", SearchOption.AllDirectories).Any(), "NSIS payload extracted without executing setup");
+        if (Path.GetFileName(archiveFile) == "inno-setup.exe")
+            Check(Directory.EnumerateFiles(stagedArchive, "ISCC.exe", SearchOption.AllDirectories).Any()
+                || Directory.EnumerateFiles(stagedArchive, "git.exe", SearchOption.AllDirectories).Any(), "Inno payload extracted without executing setup");
         Console.WriteLine("PASS: extracted " + Path.GetFileName(archiveFile));
     }
     return;
@@ -164,6 +169,22 @@ Directory.CreateDirectory(Path.Combine(msysBuild, "usr", "bin"));
 var msys = new InstallContext(Path.Combine(root, "msys-keg"), msysBuild, brewPrefix: root);
 msys.Msys2Install();
 Check(Directory.Exists(Path.Combine(msys.Prefix, "libexec", "bin")), "MSYS keg retains working bin alias");
+var sharedFirst = Path.Combine(paths.Rack("shared-first"), "1");
+var sharedSecond = Path.Combine(paths.Rack("shared-second"), "1");
+foreach (var sharedKeg in new[] { sharedFirst, sharedSecond })
+{
+    var sharedBin = Path.Combine(sharedKeg, "libexec", "ucrt64", "bin"); Directory.CreateDirectory(sharedBin);
+    File.Copy(Path.Combine(AppContext.BaseDirectory, "fixture.dll"), Path.Combine(sharedBin, "fixture.dll"));
+}
+File.WriteAllText(Path.Combine(sharedFirst, "INSTALL_RECEIPT.json"), System.Text.Json.JsonSerializer.Serialize(new Receipt("shared-first", "1", "", "", [])));
+Check(SharedRuntime.Deduplicate(paths, sharedSecond) > 0, "identical MSYS2 DLLs are hardlinked");
+var different = Path.Combine(paths.Rack("shared-different"), "1");
+Directory.CreateDirectory(Path.Combine(different, "libexec", "ucrt64", "bin"));
+var changed = File.ReadAllBytes(Path.Combine(sharedFirst, "libexec", "ucrt64", "bin", "fixture.dll")); changed[^1] ^= 1;
+File.WriteAllBytes(Path.Combine(different, "libexec", "ucrt64", "bin", "fixture.dll"), changed);
+Check(SharedRuntime.Deduplicate(paths, different) == 0, "same-name same-size different DLLs remain independent");
+File.Delete(Path.Combine(sharedFirst, "libexec", "ucrt64", "bin", "fixture.dll"));
+Check(File.Exists(Path.Combine(sharedSecond, "libexec", "ucrt64", "bin", "fixture.dll")), "removing one keg preserves another keg's shared DLL");
 Console.WriteLine("PASS: lifecycle, SHA256, rollback, atomic receipts, launchers, archives, symlinks and native shim.");
 
 static void Check(bool condition, string message)

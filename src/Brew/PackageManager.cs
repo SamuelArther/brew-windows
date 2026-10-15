@@ -95,6 +95,7 @@ public sealed class PackageManager(Paths paths)
             createdKeg = true;
             var context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
             formula.Install(context);
+            if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
             linker.MaterializeCommands(keg, context.Commands);
             links = (linkKeg ?? !Metadata.Bool(formula, "KegOnly", "IsKegOnly")) ? linker.Link(keg, context.Commands) : [];
             opt.Set(name, keg);
