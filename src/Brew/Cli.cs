@@ -108,7 +108,7 @@ public static class Cli
                 case "info": query.Info(args); break;
                 case "search": query.Search(args); break;
                 case "desc": query.Desc(args); break;
-                case "deps": query.Deps(args); break;
+                case "deps": return query.Deps(args);
                 case "uses": query.Uses(args); break;
                 case "leaves": foreach (var name in query.Leaves(args)) Console.WriteLine(name); break;
                 case "outdated": return query.Outdated(args);

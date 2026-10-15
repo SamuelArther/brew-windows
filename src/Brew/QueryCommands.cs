@@ -126,23 +126,39 @@ public sealed class QueryCommands(Paths paths)
         return args.Names.Count > 0 && names.Length > 0 ? 1 : 0;
     }
 
-    public void Deps(CommandArguments args)
+    public int Deps(CommandArguments args)
     {
+        var circular = false;
         var names = args.Names.Count > 0 ? args.Names : args.Has("--installed") ? store.All.Select(k => k.Receipt.Name).Distinct().ToList() : repository.Names.ToList();
         foreach (var name in names)
         {
             var visited = new HashSet<string>();
-            void Visit(string current, int depth)
+            var active = new HashSet<string>();
+            void Visit(string current, string prefix)
             {
-                foreach (var dependency in Dependencies(repository.Load(current)).Where(d => Include(d, args)))
+                active.Add(current);
+                var dependencies = Dependencies(repository.Load(current)).Where(d => Include(d, args)).ToArray();
+                for (var i = 0; i < dependencies.Length; i++)
                 {
-                    if (args.Has("--tree")) Console.WriteLine(new string(' ', depth * 4) + "└── " + dependency.Name);
-                    if (!visited.Add(dependency.Name)) continue;
-                    if (!args.Has("--direct")) Visit(dependency.Name, depth + 1);
+                    var dependency = dependencies[i];
+                    var last = i == dependencies.Length - 1;
+                    var isCircular = active.Contains(dependency.Name);
+                    var repeated = !visited.Add(dependency.Name);
+                    var pruned = args.Has("--prune") && repeated;
+                    if (args.Has("--tree"))
+                    {
+                        Console.WriteLine(prefix + (last ? "└── " : "├── ") + dependency.Name
+                            + (isCircular ? " (CIRCULAR DEPENDENCY)" : pruned ? " (PRUNED)" : ""));
+                        circular |= isCircular;
+                    }
+                    if (isCircular || pruned || !args.Has("--tree") && repeated) continue;
+                    if (!args.Has("--direct")) Visit(dependency.Name, prefix + (last ? "    " : "│   "));
                 }
+                active.Remove(current);
             }
             if (args.Has("--tree")) Console.WriteLine(name);
-            Visit(name, 0);
+            Visit(name, "");
+            if (args.Has("--tree")) Console.WriteLine();
             if (!args.Has("--tree"))
             {
                 var result = visited.Order(StringComparer.Ordinal).ToArray();
@@ -150,6 +166,7 @@ public sealed class QueryCommands(Paths paths)
                 else Console.WriteLine(name + ": " + string.Join(" ", result));
             }
         }
+        return circular ? 1 : 0;
     }
 
     public void Uses(CommandArguments args)
@@ -160,12 +177,18 @@ public sealed class QueryCommands(Paths paths)
         foreach (var name in candidates)
         {
             var seen = new HashSet<string>();
-            bool Uses(string current)
+            var reached = new HashSet<string>();
+            void Visit(string current)
             {
-                if (!seen.Add(current)) return false;
-                return Dependencies(repository.Load(current)).Where(d => Include(d, args)).Any(d => targets.Contains(d.Name) || args.Has("--recursive") && Uses(d.Name));
+                if (!seen.Add(current)) return;
+                foreach (var dependency in Dependencies(repository.Load(current)).Where(d => Include(d, args)))
+                {
+                    reached.Add(dependency.Name);
+                    if (args.Has("--recursive")) Visit(dependency.Name);
+                }
             }
-            if (Uses(name)) Console.WriteLine(name);
+            Visit(name);
+            if (targets.All(reached.Contains)) Console.WriteLine(name);
         }
     }
 

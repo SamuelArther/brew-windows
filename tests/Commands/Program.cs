@@ -111,11 +111,24 @@ try
     Equal((await Run("autoremove")).Code, 0, "autoremove");
     Equal((await Run("list")).Output, "", "all fixtures removed");
     Equal((await Run("cleanup", "--prune=all", "--dry-run")).Code, 0, "cache cleanup dry run");
+    await Formula("branch", "1.0", dependency: "leaf");
+    await Formula("diamond", "1.0", dependencies: ["branch", "probe"]);
+    Equal((await Run("uses", "branch", "probe")).Output, "diamond\n", "uses intersects requested dependencies");
+    Equal((await Run("uses", "--recursive", "leaf", "probe")).Output, "diamond\n", "recursive uses intersects transitive dependencies");
+    Equal((await Run("deps", "--tree", "diamond")).Output,
+        "diamond\n├── branch\n│   └── leaf\n└── probe\n    └── leaf\n\n", "Homebrew dependency tree branches and repeated subtrees");
+    Equal((await Run("deps", "--tree", "--prune", "diamond")).Output,
+        "diamond\n├── branch\n│   └── leaf\n└── probe\n    └── leaf (PRUNED)\n\n", "Homebrew pruned dependency tree");
+    await Formula("cyclea", "1.0", dependency: "cycleb");
+    await Formula("cycleb", "1.0", dependency: "cyclea");
+    var cycle = await Run("deps", "--tree", "cyclea");
+    Equal(cycle.Code, 1, "circular dependency tree exit status");
+    Equal(cycle.Output, "cyclea\n└── cycleb\n    └── cyclea (CIRCULAR DEPENDENCY)\n\n", "Homebrew circular dependency marker");
     Console.WriteLine($"PASS: {assertions} command assertions; no GUI or GitHub writes. Fixtures: {root}");
 }
 finally { foreach (var pair in saved) Environment.SetEnvironmentVariable(pair.Key, pair.Value); }
 
-async Task Formula(string name, string version, string dependency = null, string tap = "homebrew-core", bool fail = false, string conflict = null, bool kegOnly = false)
+async Task Formula(string name, string version, string dependency = null, string tap = "homebrew-core", bool fail = false, string conflict = null, bool kegOnly = false, string[] dependencies = null)
 {
     var path = Path.Combine(repo, "tap", tap, "Formula", name.StartsWith("lib", StringComparison.Ordinal) ? "lib" : name[..1], name + ".rb"); Directory.CreateDirectory(Path.GetDirectoryName(path));
     var zip = Path.Combine(root, name + "-" + version + ".zip");
@@ -131,6 +144,7 @@ async Task Formula(string name, string version, string dependency = null, string
     File.Copy(zip, Path.Combine(cache, sha + "--" + Path.GetFileName(zip)), overwrite: true);
     File.WriteAllText(path, $"class {char.ToUpperInvariant(name[0]) + name[1..]} < Formula\n  desc \"{name} fixture\"\n  homepage \"https://example.invalid/{name}\"\n  version \"{version}\"\n  url \"https://example.invalid/{Path.GetFileName(zip)}\"\n  sha256 \"{sha}\"\n  license \"MIT\"\n" +
         (dependency == null ? "" : $"  depends_on \"{dependency}\"\n") +
+        string.Concat((dependencies ?? []).Select(d => $"  depends_on \"{d}\"\n")) +
         (conflict == null ? "" : $"  conflicts_with \"{conflict}\", because: \"fixture conflict\"\n") +
         (kegOnly ? "  keg_only :versioned_formula\n" : "") +
         "  def install\n" + (kegOnly ? $"    install_tree\n    windows_exe \"libexec/payload.exe\", \"{name}\"\n" : $"    bin.install \"{name}.cmd\"\n") +
