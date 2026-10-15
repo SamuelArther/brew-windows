@@ -1,7 +1,6 @@
 class Pandoc < Formula
   desc "Swiss-army knife of markup format conversion"
   homepage "https://pandoc.org/"
-  version "3.12.1"
   url "https://github.com/jgm/pandoc/releases/download/3.12.1/pandoc-3.12.1-windows-x86_64.zip"
   sha256 "6ef431cb20b2c24a0371fc19200dc49d452be54b1b5c9239f3462841ef53e587"
   license "GPL-2.0-or-later"

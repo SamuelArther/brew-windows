@@ -1,8 +1,8 @@
 class Sqlite < Formula
   desc "Command-line interface for SQLite"
   homepage "https://sqlite.org/index.html"
-  version "3.54.0"
   url "https://sqlite.org/2026/sqlite-tools-win-x64-3540000.zip"
+  version "3.54.0"
   sha256 "63cb06e952a83fd140139b008ed5b47496608161c62f8cd17bc96e8beb1de029"
   license "blessing"
 

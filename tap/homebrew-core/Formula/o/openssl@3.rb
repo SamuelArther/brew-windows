@@ -1,7 +1,6 @@
 class OpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl-library.org"
-  version "3.5.9"
   url "https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-3.5.9.zip"
   sha256 "76da391395be029b44794857b9ff380255e02a0960a98314cd3f6a6816d82696"
   license "Apache-2.0"

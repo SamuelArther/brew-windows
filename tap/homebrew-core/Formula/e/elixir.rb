@@ -1,7 +1,6 @@
 class Elixir < Formula
   desc "Functional metaprogramming aware language built on Erlang VM"
   homepage "https://elixir-lang.org/"
-  version "1.20.4"
   url "https://github.com/elixir-lang/elixir/releases/download/v1.20.4/elixir-otp-29.zip"
   sha256 "7863c546cda13fecc949e562e326042451dacf8fd8698a36783cb71eeb223b46"
   license "Apache-2.0"

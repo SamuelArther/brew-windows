@@ -1,7 +1,6 @@
 class Scala < Formula
   desc "JVM-based programming language"
   homepage "https://scala-lang.org/"
-  version "3.10.0"
   url "https://github.com/scala/scala3/releases/download/3.10.0/scala3-3.10.0-x86_64-pc-win32.zip"
   sha256 "28f58a614bdcce1554b7d9a2acd697c0fd88839b6bfbd4e0420e98d641a58472"
   license "Apache-2.0"

@@ -1,7 +1,6 @@
 class YoutubeDl < Formula
   desc "Download videos from supported websites"
   homepage "https://ytdl-org.github.io/youtube-dl/"
-  version "2021.12.17"
   url "https://github.com/ytdl-org/youtube-dl/releases/download/2021.12.17/youtube-dl.exe"
   sha256 "26e5c00c35c5c3edc86dfc0a720aed109a13b1b7c67ac654a0ce8ff82a1f2c16"
   license "Unlicense"

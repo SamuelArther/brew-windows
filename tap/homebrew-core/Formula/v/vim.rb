@@ -1,7 +1,6 @@
 class Vim < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
-  version "9.2.1192"
   url "https://github.com/vim/vim-win32-installer/releases/download/v9.2.1192/gvim_9.2.1192_x64.zip"
   sha256 "7afd73e7b453edba211a80f7c45208ef645f4d13554986de67a2d843aa1fc6b1"
   license "Vim"

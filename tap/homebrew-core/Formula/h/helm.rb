@@ -1,8 +1,8 @@
 class Helm < Formula
   desc "Kubernetes package manager"
   homepage "https://helm.sh/"
-  version "4.3.1"
   url "https://get.helm.sh/helm-v4.3.1-windows-amd64.zip"
+  version "4.3.1"
   sha256 "fcfd7b796dcf0f225abc40b5636a3b01f55f3de2fb1dfb18475df94e62c14112"
   license "Apache-2.0"
 

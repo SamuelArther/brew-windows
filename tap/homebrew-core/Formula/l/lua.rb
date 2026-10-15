@@ -1,8 +1,8 @@
 class Lua < Formula
   desc "Powerful, lightweight programming language"
   homepage "https://www.lua.org/"
-  version "5.5.0"
   url "https://downloads.sourceforge.net/project/luabinaries/5.5.0/Tools%20Executables/lua-5.5.0_Win64_bin.zip"
+  version "5.5.0"
   sha256 "7825cb261d0dc61cb0e1511d451ceaf10bf72d2bba1855bfd3350add190e0024"
   license "MIT"
 

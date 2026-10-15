@@ -1,8 +1,8 @@
 class Go < Formula
   desc "Open source programming language to build simple/reliable/efficient software"
   homepage "https://go.dev/"
-  version "1.27.2"
   url "https://go.dev/dl/go1.27.2.windows-amd64.zip"
+  version "1.27.2"
   sha256 "1314008898bd40df77af4b014f777f08873dbdfbcd3d92308728ee03304fe04f"
   license "BSD-3-Clause"
 

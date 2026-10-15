@@ -1,7 +1,6 @@
 class Python3 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  version "3.15.0"
   url "https://api.nuget.org/v3-flatcontainer/python/3.15.0/python.3.15.0.nupkg"
   sha256 "2f59399a704f1b7078606eca622992021fa4521058e25fdd09e55f8533f2a12e"
   license "Python-2.0"

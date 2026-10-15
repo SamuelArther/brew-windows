@@ -156,16 +156,20 @@ public static class DevCommands
         if (arg.EndsWith(".rb", StringComparison.OrdinalIgnoreCase) && File.Exists(arg)) return Path.GetFullPath(arg);
         var name = NameOf(arg).ToLowerInvariant();
         if (name.Length == 0 || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0) return null;
-        var p = Path.Combine(CoreTapFormulaDir, name[..1], name + ".rb");
-        return File.Exists(p) ? p : null;
+        foreach (var p in new[] { Path.Combine(CoreTapFormulaDir, Shard(name), name + ".rb"), Path.Combine(CoreTapFormulaDir, name + ".rb") })
+            if (File.Exists(p)) return p;
+        return AllFormulaFiles().FirstOrDefault(f => Path.GetFileNameWithoutExtension(f) == name);
     }
 
     // The path a formula would have, whether or not it exists.
     public static string ExpectedFormulaPath(string name)
     {
         name = NameOf(name).ToLowerInvariant();
-        return Path.Combine(CoreTapFormulaDir, name[..1], name + ".rb");
+        return Path.Combine(CoreTapFormulaDir, Shard(name), name + ".rb");
     }
+
+    // CoreTap#new_formula_subdirectory
+    public static string Shard(string name) => name.StartsWith("lib") ? "lib" : name[..1];
 
     // Formulary.factory: loads or raises FormulaUnavailableError's message.
     public static FormulaSpec LoadFormula(string arg)

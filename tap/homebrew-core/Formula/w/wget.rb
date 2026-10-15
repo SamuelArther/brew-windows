@@ -1,7 +1,6 @@
 class Wget < Formula
   desc "Internet file retriever"
   homepage "https://www.gnu.org/software/wget/"
-  version "1.25.0"
   url "https://repo.msys2.org/msys/x86_64/wget-1.25.0-4-x86_64.pkg.tar.zst"
   sha256 "533bd9beb98fe40789558de0343aa29361709876af6a3b9eb2e83f88a18645d3"
   license "GPL-3.0-or-later"

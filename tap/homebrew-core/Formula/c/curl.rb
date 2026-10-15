@@ -1,8 +1,8 @@
 class Curl < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "8.23.0"
   url "https://curl.se/windows/dl-8.23.0_1/curl-8.23.0_1-win64-mingw.zip"
+  version "8.23.0"
   sha256 "752ff19c45be64af5b5f8d5222dce64e0f7b03d740a7362a4055c220fa9637c6"
   license "curl"
 

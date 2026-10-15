@@ -1,7 +1,6 @@
 class Fd < Formula
   desc "Simple, fast and user-friendly alternative to find"
   homepage "https://github.com/sharkdp/fd"
-  version "10.5.0"
   url "https://github.com/sharkdp/fd/releases/download/v10.5.0/fd-v10.5.0-x86_64-pc-windows-msvc.zip"
   sha256 "a227701b8551c35a9931d9f6da75503cf86d88e182d71fb849a70864c5d57cd7"
   license any_of: ["Apache-2.0", "MIT"]

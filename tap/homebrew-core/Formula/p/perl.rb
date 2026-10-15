@@ -1,7 +1,6 @@
 class Perl < Formula
   desc "Highly capable, feature-rich programming language"
   homepage "https://www.perl.org/"
-  version "5.42.3.1"
   url "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/SP_54231_64bit/strawberry-perl-5.42.3.1-64bit-portable.zip"
   sha256 "6a081a811781c30aca51dbc036afd93092af91e3297901f02c17043795a10690"
   license any_of: ["Artistic-1.0-Perl", "GPL-1.0-or-later"]

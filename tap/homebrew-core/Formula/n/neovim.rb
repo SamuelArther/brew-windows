@@ -1,7 +1,6 @@
 class Neovim < Formula
   desc "Ambitious Vim-fork focused on extensibility and agility"
   homepage "https://neovim.io/"
-  version "0.12.6"
   url "https://github.com/neovim/neovim/releases/download/v0.12.6/nvim-win64.zip"
   sha256 "4e12b7103b601ffc8f25954b4da100f339faa73dccb69a5b135e897fa3d893ed"
   license "Apache-2.0"

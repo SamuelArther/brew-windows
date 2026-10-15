@@ -67,7 +67,6 @@ public static partial class FormulaLoader
             spec.VersionFromUrl = true;
         }
         if (spec.Version == null) throw new InvalidOperationException($"{name}: version could not be detected from URL: {spec.Url}");
-        if (spec.Sha256 == null) throw new InvalidOperationException($"{name}: formula requires a sha256");
         spec.HasCaveats = it.FindMethod(cls, "caveats")?.Owner != formulaClass;
         spec.HasPostInstall = it.FindMethod(cls, "post_install")?.Owner != formulaClass;
         return spec;
@@ -123,6 +122,13 @@ public static partial class FormulaLoader
             f.SetIvar("@__testpath", Interp.S(testPath));
             it.Env["HOME"] = testPath;
             it.Env["USERPROFILE"] = testPath;
+            // Windows tools look up their config/cache dirs under the profile.
+            var local = Path.Combine(testPath, "AppData", "Local");
+            var roaming = Path.Combine(testPath, "AppData", "Roaming");
+            Directory.CreateDirectory(local);
+            Directory.CreateDirectory(roaming);
+            it.Env["LOCALAPPDATA"] = local;
+            it.Env["APPDATA"] = roaming;
             return it.CallProc(spec.TestBlock, Array.Empty<object>(), null, f, null);
         });
     }
@@ -381,7 +387,7 @@ public static partial class FormulaLoader
         var self = it.Main;
         var current = it.CurrentFile;
         var formulaDir = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath(current)));
-        var path = Path.Combine(formulaDir ?? "", name[..1], name + ".rb");
+        var path = Path.Combine(formulaDir ?? "", DevCommands.Shard(name), name + ".rb");
         if (!File.Exists(path)) path = DevCommands.FormulaPath(name) ?? path;
         if (!File.Exists(path)) throw it.Error(it.ConstGet(it.ObjectClass, "FormulaUnavailableError") as RClass ?? it.DefineClass("FormulaUnavailableError", it.RuntimeError),
             $"No available formula with the name \"{name}\".");
@@ -491,8 +497,15 @@ public static partial class FormulaLoader
         return holder;
     }
 
-    static DateOnly? ParseDate(Interp it, object v) =>
-        v == null ? null : DateOnly.ParseExact(it.ToS(v), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+    // Ruby's Date.parse accepts many formats; style (not loading) complains about non-ISO ones.
+    static DateOnly? ParseDate(Interp it, object v)
+    {
+        if (v == null) return null;
+        var s = it.ToS(v);
+        if (DateOnly.TryParseExact(s, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d)) return d;
+        if (DateTime.TryParse(s, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var dt)) return DateOnly.FromDateTime(dt);
+        throw it.Error(it.ArgumentError, $"invalid date: {Interp.InspectStr(s)}");
+    }
 
     static object Reason(Interp it, object v) => v switch { null => null, RSymbol s => s, _ => it.ToS(v) };
 

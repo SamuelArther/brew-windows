@@ -1,8 +1,8 @@
 class Automake < Formula
   desc "Generate Makefile.in files from Makefile.am"
   homepage "https://gitweb.gentoo.org/proj/autotools-wrappers.git/"
-  version "1.18.1"
   url "https://repo.msys2.org/msys/x86_64/automake-wrapper-20260320-2-any.pkg.tar.zst"
+  version "1.18.1"
   sha256 "b10534ec9f19d2b04d75fb2eb87c17425a86296196a792ca9d6b47f31141a426"
   license "GPL-2.0-only"
 

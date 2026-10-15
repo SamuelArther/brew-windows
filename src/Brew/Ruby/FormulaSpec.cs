@@ -138,7 +138,7 @@ public sealed class FormulaSpec
 
     public bool HasPostInstall;
 
-    public FormulaDefinition ToDefinition() => new()
+    public FormulaDefinition ToDefinition() => Sha256 == null ? throw new InvalidOperationException($"{Name}: formula requires a sha256") : new()
     {
         Name = Name,
         Version = PkgVersion,

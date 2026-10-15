@@ -1,8 +1,8 @@
 class Php < Formula
   desc "General-purpose scripting language"
   homepage "https://www.php.net/"
-  version "8.5.11"
   url "https://windows.php.net/downloads/releases/php-8.5.11-nts-Win32-vs17-x64.zip"
+  version "8.5.11"
   sha256 "0ea96e0d2b9b737a6036f05cf4e95c49313faa6d0f27bd97edb2742503f0c043"
   license all_of: [
     "PHP-3.01",

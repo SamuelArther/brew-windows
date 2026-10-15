@@ -1,7 +1,6 @@
 class Emacs < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  version "31.1"
   url "https://ftpmirror.gnu.org/gnu/emacs/windows/emacs-31/emacs-31.1.zip"
   sha256 "96a1018e9de877e77768ca884007f1a9df44889e9ae81ae3ca3d904b5681b8b6"
   license "GPL-3.0-or-later"

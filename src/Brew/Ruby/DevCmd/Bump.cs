@@ -518,7 +518,7 @@ sealed class BumpFormulaPr : DevCommand
             throw new UsageError("`--revision` must be passed with either `--tag` or `--version`!");
         if (args.Named.Count == 0) throw new UsageError("This command requires a formula argument.");
 
-        var formula = DevCommands.LoadFormula(args.Named[0]);
+        var formula = DevTap.LoadFormula(args.Named[0]);
         if (formula.Disabled) throw new BrewError("This formula is disabled!");
         if (formula.DeprecationReason is RSymbol { Name: "does_not_build" }) throw new BrewError("This formula is deprecated and does not build!");
         var tap = DevTap.FromPath(formula.Path) ?? throw new BrewError("This formula is not in a tap!");
@@ -754,7 +754,7 @@ sealed class BumpRevision : DevCommand
 
     public override void Run(ParsedArgs args)
     {
-        var formulae = args.Named.Select(DevCommands.LoadFormula).ToList();
+        var formulae = args.Named.Select(DevTap.LoadFormula).ToList();
         foreach (var formula in formulae)
         {
             int current = formula.Revision, next = current + 1;
@@ -838,7 +838,6 @@ sealed class Bump : DevCommand
             var tap = DevTap.Normalize(tapName);
             if (tap.StartsWith("homebrew/")) throw new UsageError("`--tap` requires `--auto` for official taps.");
             var dir = DevTap.Path(tap);
-            if (!Directory.Exists(dir)) throw new BrewError($"No available tap {tap}.");
             if (!args.Switch("cask")) formulae.AddRange(DevTap.FormulaFiles(dir).Select(FormulaLoader.LoadSpec));
         }
         else if (args.Switch("installed"))
@@ -853,7 +852,7 @@ sealed class Bump : DevCommand
             foreach (var n in args.Named)
             {
                 if (args.Switch("cask")) throw new BrewError($"No available cask with the name \"{n}\".");
-                formulae.Add(FormulaLoader.LoadSpec(DevCommands.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".")));
+                formulae.Add(FormulaLoader.LoadSpec(DevTap.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".")));
             }
         }
         else if (!args.Switch("cask"))

@@ -1,7 +1,6 @@
 class Zig < Formula
   desc "Programming language designed for robustness, optimality, and clarity"
   homepage "https://ziglang.org/"
-  version "0.17.0"
   url "https://ziglang.org/download/0.17.0/zig-x86_64-windows-0.17.0.zip"
   sha256 "b5663f69581dcf391293fbf16c06cb80d81d806545ce618b4d0bab7f0eb8c428"
   license "MIT"

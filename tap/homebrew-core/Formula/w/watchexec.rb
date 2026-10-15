@@ -1,7 +1,6 @@
 class Watchexec < Formula
   desc "Execute commands when watched files change"
   homepage "https://watchexec.github.io/"
-  version "2.8.0"
   url "https://github.com/watchexec/watchexec/releases/download/v2.8.0/watchexec-2.8.0-x86_64-pc-windows-msvc.zip"
   sha256 "0c872fc18c8e801f21614c6daf2504a5826d5c705bb67f7a583d879f5410d9ea"
   license "Apache-2.0"

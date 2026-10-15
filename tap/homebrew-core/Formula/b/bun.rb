@@ -1,8 +1,8 @@
 class Bun < Formula
   desc "Incredibly fast JavaScript runtime, bundler, test runner, and package manager"
   homepage "https://bun.com/"
-  version "1.4.3"
   url "https://github.com/oven-sh/bun/releases/download/bun-v1.4.3/bun-windows-x64.zip"
+  version "1.4.3"
   sha256 "0bf84e808552beea67bf1202a287a35c6c825d837b287b3f8e9dd513dba35d3d"
   license all_of: [
     "MIT",

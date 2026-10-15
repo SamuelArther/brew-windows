@@ -132,6 +132,11 @@ public static partial class FormulaLoader
                 if (!i.Env.ContainsKey("CURL_HOME")) i.Env["CURL_HOME"] = home;
                 i.Env["PYTHONDONTWRITEBYTECODE"] = "1";
                 i.Env["XDG_CONFIG_HOME"] = Path.Combine(home, ".config");
+                // Windows' known folders (SHGetKnownFolderPath) live under the profile.
+                i.Env["LOCALAPPDATA"] = Path.Combine(home, "AppData", "Local");
+                i.Env["APPDATA"] = Path.Combine(home, "AppData", "Roaming");
+                Directory.CreateDirectory(i.Env["LOCALAPPDATA"]);
+                Directory.CreateDirectory(i.Env["APPDATA"]);
 
                 // Formula#setup_home and the identity sandboxed `git commit` needs
                 Directory.CreateDirectory(home);

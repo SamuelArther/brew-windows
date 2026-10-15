@@ -1,7 +1,6 @@
 class Mkcert < Formula
   desc "Simple tool to make locally trusted development certificates"
   homepage "https://github.com/FiloSottile/mkcert"
-  version "1.4.4"
   url "https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-windows-amd64.exe"
   sha256 "d2660b50a9ed59eada480750561c96abc2ed4c9a38c6a24d93e30e0977631398"
   license "BSD-3-Clause"

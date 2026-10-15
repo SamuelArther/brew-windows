@@ -1,7 +1,6 @@
 class Erlang < Formula
   desc "Programming language for highly scalable real-time systems"
   homepage "https://www.erlang.org/"
-  version "29.1.2"
   url "https://github.com/erlang/otp/releases/download/OTP-29.1.2/otp_win64_29.1.2.zip"
   sha256 "4efe9772a84c6c1ef75377e9326815584958776c905f2bf687b62509e2d809c0"
   license "Apache-2.0"

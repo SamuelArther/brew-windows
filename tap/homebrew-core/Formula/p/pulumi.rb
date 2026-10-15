@@ -1,7 +1,6 @@
 class Pulumi < Formula
   desc "Cloud native development platform"
   homepage "https://www.pulumi.com/"
-  version "3.268.0"
   url "https://github.com/pulumi/pulumi/releases/download/v3.268.0/pulumi-v3.268.0-windows-x64.zip"
   sha256 "c7c3baabb2cf80d1edfdf9255c6aede9c0adfccedf1d98d2e8ec149211fc223e"
   license "Apache-2.0"

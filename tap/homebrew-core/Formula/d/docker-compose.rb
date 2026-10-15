@@ -1,7 +1,6 @@
 class DockerCompose < Formula
   desc "Isolated development environments using Docker"
   homepage "https://docs.docker.com/compose/"
-  version "5.6.0"
   url "https://github.com/docker/compose/releases/download/v5.6.0/docker-compose-windows-x86_64.exe"
   sha256 "8aeaa0055e660e12cf07cd70680dc8333957fe6718528b91ec3da084eab62483"
   license "Apache-2.0"

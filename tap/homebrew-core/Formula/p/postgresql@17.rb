@@ -1,7 +1,6 @@
 class PostgresqlAT17 < Formula
   desc "Object-relational database system"
   homepage "https://www.postgresql.org/"
-  version "17.11"
   url "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip"
   sha256 "6eabdf00d2893713b75db4336a23c3fdf505f056e217ec6e2e95d901750cfea3"
   license "PostgreSQL"

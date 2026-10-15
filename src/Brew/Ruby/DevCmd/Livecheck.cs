@@ -37,7 +37,7 @@ static class DevHttp
     }) { Timeout = TimeSpan.FromSeconds(timeout) };
 
     static string token;
-    static bool tokenLooked;
+    static bool tokenLooked, tokenFromGh;
 
     // GitHub::API.credentials: $HOMEBREW_GITHUB_API_TOKEN, then $GITHUB_TOKEN, then `gh auth token`.
     public static string GitHubToken
@@ -53,7 +53,7 @@ static class DevHttp
                 try
                 {
                     var (code, stdout, _) = DevCommands.Capture(gh, new[] { "auth", "token" });
-                    if (code == 0 && stdout.Trim().Length > 0) token = stdout.Trim();
+                    if (code == 0 && stdout.Trim().Length > 0) { token = stdout.Trim(); tokenFromGh = true; }
                 }
                 catch (Exception e) when (e is IOException or System.ComponentModel.Win32Exception) { }
             }
@@ -97,6 +97,15 @@ static class DevHttp
                     ? ", or:\nCreate a GitHub personal access token:\n  https://github.com/settings/tokens\nand then set it as `HOMEBREW_GITHUB_API_TOKEN`."
                     : "";
                 message = $"GitHub API Error: {message}\nRate limit exceeded for {resource} resource ({limit} limit).\nTry again in {mins} {Out.Pluralize("minute", mins)}{pat}";
+            }
+            else if (code == 401 || code == 403)
+            {
+                message = $"GitHub API Error: {message}";
+                if (GitHubToken == null) { }
+                else if (tokenFromGh)
+                    message += "\nYour GitHub CLI login session may be invalid.\nRefresh it with:\n  gh auth login --hostname github.com";
+                else
+                    message += $"\n`$HOMEBREW_GITHUB_API_TOKEN` may be invalid or expired; check:\n  {Formatter.Url("https://github.com/settings/tokens")}";
             }
             throw new GitHubApiError(message, code);
         }
@@ -466,7 +475,7 @@ static class LivecheckEngine
         {
             if (refName == "parent") break;
             FormulaSpec next;
-            try { next = DevCommands.LoadFormula(refName); }
+            try { next = DevTap.LoadFormula(refName); }
             catch (BrewError) { throw new BrewError($"No available formula with the name \"{refName}\"."); }
             if (chain.Any(c => c.Path == next.Path) || next.Path == f.Path)
             {
@@ -997,7 +1006,6 @@ sealed class LivecheckCmd : DevCommand
         if (args.Flag("tap") is { } tapName)
         {
             var dir = DevTap.Path(tapName);
-            if (!Directory.Exists(dir)) throw new BrewError($"No available tap {DevTap.Normalize(tapName)}.");
             if (!args.Switch("cask")) formulae.AddRange(DevTap.FormulaFiles(dir).Select(FormulaLoader.LoadSpec));
         }
         else if (args.Switch("installed"))
@@ -1014,7 +1022,7 @@ sealed class LivecheckCmd : DevCommand
             foreach (var n in args.Named)
             {
                 if (args.Switch("cask")) throw new BrewError($"No available cask with the name \"{n}\".");
-                var p = DevCommands.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".");
+                var p = DevTap.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".");
                 formulae.Add(FormulaLoader.LoadSpec(p));
             }
         }
@@ -1028,7 +1036,7 @@ sealed class LivecheckCmd : DevCommand
                 return line.Trim();
             }).Where(l => !string.IsNullOrEmpty(l));
             foreach (var n in names)
-                if (DevCommands.FormulaPath(n) is { } p) formulae.Add(FormulaLoader.LoadSpec(p));
+                if (DevTap.FormulaPath(n) is { } p) formulae.Add(FormulaLoader.LoadSpec(p));
         }
         else if (!args.Switch("cask"))
         {

@@ -1,7 +1,6 @@
 class Duckdb < Formula
   desc "Embeddable SQL OLAP Database Management System"
   homepage "https://www.duckdb.org"
-  version "1.5.6"
   url "https://github.com/duckdb/duckdb/releases/download/v1.5.6/duckdb_cli-windows-amd64.zip"
   sha256 "798eae475d07c645ff3b914f7b0e676d06502b5412dd7552638fafed81f9e916"
   license "MIT"

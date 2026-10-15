@@ -1,7 +1,6 @@
 class KubernetesCli < Formula
   desc "Kubernetes command-line interface"
   homepage "https://kubernetes.io/docs/reference/kubectl/"
-  version "1.37.1"
   url "https://dl.k8s.io/release/v1.37.1/bin/windows/amd64/kubectl.exe"
   sha256 "14b93c4916a6f37a06fbc1f46b0a1d2404c4f9741be09f00d6caf8af3b05f1d3"
   license "Apache-2.0"

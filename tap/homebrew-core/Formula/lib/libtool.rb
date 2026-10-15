@@ -1,10 +1,9 @@
 class Libtool < Formula
   desc "Generic library support script"
   homepage "https://www.gnu.org/software/libtool"
-  version "2.6.2"
   url "https://repo.msys2.org/msys/x86_64/libtool-2.6.2-1-x86_64.pkg.tar.zst"
   sha256 "ed51a0790d6cd59d24f2f76c826ed0e8d85f81bc1ac2807736400ea5e178fc5a"
-  license "LGPL-2.0-or-later WITH Libtool-exception"
+  license "LGPL-2.0-or-later" => { with: "Libtool-exception" }
 
   resource "autoconf-wrapper" do
     url "https://repo.msys2.org/msys/x86_64/autoconf-wrapper-20260320-2-any.pkg.tar.zst"

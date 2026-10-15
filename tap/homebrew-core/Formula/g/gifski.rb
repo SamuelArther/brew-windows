@@ -1,7 +1,6 @@
 class Gifski < Formula
   desc "Highest-quality GIF encoder based on pngquant"
   homepage "https://gif.ski/"
-  version "1.34.0"
   url "https://github.com/ImageOptim/gifski/releases/download/1.34.0/gifski-1.34.0.tar.xz"
   sha256 "b9b6591aa163123d737353d9c8581efdf3234d28eeaa45329b31da905cd5a996"
   license "AGPL-3.0-only"

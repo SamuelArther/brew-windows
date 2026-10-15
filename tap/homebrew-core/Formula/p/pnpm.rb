@@ -1,7 +1,6 @@
 class Pnpm < Formula
   desc "Fast, disk space efficient package manager"
   homepage "https://pnpm.io/"
-  version "12.11.2"
   url "https://github.com/pnpm/pnpm/releases/download/v12.11.2/pnpm-win32-x64.zip"
   sha256 "66cac6b725bfc75fadac959fc435821048558adb50b89c82d0d2d5e57465a1dd"
   license "MIT"

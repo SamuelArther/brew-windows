@@ -1,7 +1,6 @@
 class Meson < Formula
   desc "Fast and user friendly build system"
   homepage "https://mesonbuild.com/"
-  version "1.12.1"
   url "https://github.com/mesonbuild/meson/releases/download/1.12.1/meson-1.12.1-64.msi"
   sha256 "0e541b6ae656cd9c8f9d5f8ac9eddc22c68d37006ae1dfd055e3ab485519804d"
   license "Apache-2.0"

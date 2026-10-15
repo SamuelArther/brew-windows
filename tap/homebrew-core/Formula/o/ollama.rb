@@ -1,7 +1,6 @@
 class Ollama < Formula
   desc "Create, run, and share large language models (LLMs)"
   homepage "https://ollama.com/"
-  version "0.40.4"
   url "https://github.com/ollama/ollama/releases/download/v0.40.4/ollama-windows-amd64.zip"
   sha256 "7485a1172f8527db4342a63521b9342fc466185ff0855da378cc864ecf6354cf"
   license "MIT"

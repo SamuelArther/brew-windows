@@ -666,7 +666,7 @@ static class FormulaCops
         "FormulaAudit/LivecheckSkip", "FormulaAudit/LivecheckUrlProvided", "FormulaAudit/LivecheckUrlSymbol", "FormulaAudit/Miscellaneous",
         "FormulaAudit/PyPiUrls", "FormulaAudit/Test", "FormulaAudit/Text", "FormulaAudit/Urls", "FormulaAudit/Version",
         "FormulaAuditStrict/GitUrls", "FormulaAuditStrict/Text",
-        "Layout/EmptyLines", "Layout/EndOfLine", "Layout/IndentationStyle", "Layout/IndentationWidth", "Layout/LineLength",
+        "Lint/Syntax", "Layout/EmptyLines", "Layout/EndOfLine", "Layout/IndentationStyle", "Layout/IndentationWidth", "Layout/LineLength",
         "Layout/TrailingEmptyLines", "Layout/TrailingWhitespace", "Style/StringLiterals", "Style/StringLiteralsInInterpolation",
     };
 
@@ -806,7 +806,8 @@ static class FormulaCops
                 {
                     var first = s.Body[0];
                     int width = first.Col - s.Col;
-                    if (width != 2 && first.Line > s.Line && !src.HeredocLines.Contains(first.Line))
+                    bool clause = Regex.IsMatch(src.MLine(first.Line).Trim(), @"^(when|in|else|elsif|rescue|ensure|then)\b");
+                    if (width != 2 && !clause && first.Line > s.Line && !src.HeredocLines.Contains(first.Line))
                     {
                         int ls = src.LineStart[first.Line - 1];
                         var fix = new List<CopEdit>();
@@ -1680,6 +1681,15 @@ static class StyleCheck
 
     public static List<CopOffense> Inspect(string path, string text, List<string> only, List<string> except)
     {
+        // Lint/Syntax: RuboCop reports unparsable files and runs no other cops on them.
+        try { FormulaLoader.OnBigStack(() => Parser.Parse(text)); }
+        catch (RubySyntaxError e)
+        {
+            var m = Regex.Match(e.Message, @"^syntax error, line (\d+): (.*)$", RegexOptions.Singleline);
+            int line = m.Success ? int.Parse(m.Groups[1].Value) : 1;
+            var syntax = new CopOffense { Cop = "Lint/Syntax", Severity = "F", Line = line, Column = 1, Message = m.Success ? m.Groups[2].Value : e.Message };
+            return new List<CopOffense> { syntax };
+        }
         var src = new RbSource(path, text);
         var norm = path.Replace('\\', '/');
         var ctx = new CopContext
@@ -1789,7 +1799,7 @@ static class StyleCheck
     {
         Validate(only);
         var all = Expand(files).ToList();
-        bool clang = Environment.GetEnvironmentVariable("CI") != null || files.Count(f => !Directory.Exists(f)) == 1 && files.Count == 1;
+        bool clang = Environment.GetEnvironmentVariable("CI") != null || files.Count(f => !Directory.Exists(f)) == 1;
         var o = Console.Out;
         if (!clang) o.WriteLine($"Inspecting {Out.Pluralize("file", all.Count, true)}");
         var results = new List<(string path, List<CopOffense> offs)>();

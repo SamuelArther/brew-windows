@@ -1,7 +1,6 @@
 class Starship < Formula
   desc "Cross-shell prompt for astronauts"
   homepage "https://starship.rs/"
-  version "1.26.0"
   url "https://github.com/starship/starship/releases/download/v1.26.0/starship-x86_64-pc-windows-msvc.zip"
   sha256 "690021e22f2bf2c57d5867dc0fababe5e55e714c26942bd909ffddb6c5df42f2"
   license "ISC"

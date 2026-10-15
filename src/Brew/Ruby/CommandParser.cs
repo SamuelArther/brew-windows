@@ -361,7 +361,7 @@ public sealed class CommandParser
         foreach (var o in opts.Where(o => o.DependsOn != null))
             foreach (var n in o.Long.Take(1))
                 if (Passed(n) && !Passed(o.DependsOn))
-                    throw new UsageError($"`{n}` cannot be passed without `{o.DependsOn}`.");
+                    throw new UsageError($"`{n}` cannot be passed without `{o.DependsOn.TrimEnd('=')}`.");
         foreach (var group in conflicts)
         {
             var passed = group.Where(Passed).ToList();

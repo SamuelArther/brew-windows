@@ -1,7 +1,6 @@
 class Rust < Formula
   desc "Safe, concurrent, practical language"
   homepage "https://www.rust-lang.org/"
-  version "1.99.0"
   url "https://static.rust-lang.org/dist/rust-1.99.0-x86_64-pc-windows-msvc.tar.xz"
   sha256 "209f916c04cd7ed1938a4592e8adc1b1017adada67dc8f8a0a92bca9c4963966"
   license any_of: ["Apache-2.0", "MIT"]
