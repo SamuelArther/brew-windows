@@ -16,6 +16,15 @@ public sealed partial class Interp
 
     public RObject NewPath(string p) => new() { Class = PathnameClass, Host = p };
 
+    // bin/"tool" on Windows means tool.exe / tool.cmd: the existing PATHEXT variant, if any.
+    public string WithExe(string p)
+    {
+        if (Path.HasExtension(p) && !p.EndsWith('.')) return null;
+        foreach (var e in Env.GetValueOrDefault("PATHEXT", ".COM;.EXE;.BAT;.CMD").Split(';', StringSplitOptions.RemoveEmptyEntries))
+            if (File.Exists(p + e)) return p + e;
+        return null;
+    }
+
     public string PathStr(object o) => o switch
     {
         RString s => s.V,
@@ -97,11 +106,11 @@ public sealed partial class Interp
         Def(P, "extname", (it, self, a, b) => S(ExtName(Me(self))));
         Def(P, "sub_ext", (it, self, a, b) => { var p = Me(self); var e = ExtName(p); return it.NewPath((e.Length > 0 ? p[..^e.Length] : p) + it.Str(a[0])); });
         Def(P, "sub", (it, self, a, b) => it.NewPath(it.Sub(Me(self), a, b, false)));
-        Def(P, "exist?", (it, self, a, b) => { var p = it.Abs(Me(self)); return File.Exists(p) || Directory.Exists(p); });
-        Def(P, "file?", (it, self, a, b) => File.Exists(it.Abs(Me(self))));
+        Def(P, "exist?", (it, self, a, b) => { var p = it.Abs(Me(self)); return File.Exists(p) || Directory.Exists(p) || it.WithExe(p) != null; });
+        Def(P, "file?", (it, self, a, b) => File.Exists(it.Abs(Me(self))) || it.WithExe(it.Abs(Me(self))) != null);
         Def(P, "directory?", (it, self, a, b) => Directory.Exists(it.Abs(Me(self))));
         Def(P, "symlink?", (it, self, a, b) => IsSymlink(it.Abs(Me(self))));
-        Def(P, "executable?", (it, self, a, b) => { var p = it.Abs(Me(self)); return File.Exists(p) && IsExecutableName(p) || Directory.Exists(p); });
+        Def(P, "executable?", (it, self, a, b) => { var p = it.Abs(Me(self)); return File.Exists(p) && IsExecutableName(p) || Directory.Exists(p) || it.WithExe(p) != null; });
         Def(P, "readable? writable?", (it, self, a, b) => { var p = it.Abs(Me(self)); return File.Exists(p) || Directory.Exists(p); });
         Def(P, "absolute?", (it, self, a, b) => Path.IsPathFullyQualified(Me(self)) || Me(self).StartsWith('/'));
         Def(P, "relative?", (it, self, a, b) => !(Path.IsPathFullyQualified(Me(self)) || Me(self).StartsWith('/')));

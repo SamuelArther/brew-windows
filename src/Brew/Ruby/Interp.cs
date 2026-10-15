@@ -282,6 +282,7 @@ public sealed partial class Interp
     public string Str(object o) => o switch
     {
         RString s => s.V,
+        RObject r when r is not RClass && RespondTo(r, "to_str") && Invoke(r, "to_str", Array.Empty<object>(), null) is RString rs => rs.V,
         _ => throw TypeErr($"no implicit conversion of {TypeName(o)} into String"),
     };
 
@@ -316,6 +317,7 @@ public sealed partial class Interp
         switch (o)
         {
             case RString s: return s.V;
+            case string str: return str;
             case null: return "";
             case long l: return l.ToString(CultureInfo.InvariantCulture);
             case double d: return FloatToS(d);
@@ -352,6 +354,7 @@ public sealed partial class Interp
             case bool b: return b ? "true" : "false";
             case long or double: return ToS(o);
             case RString s: return InspectStr(s.V);
+            case string str: return InspectStr(str);
             case RSymbol y: return ":" + SymName(y.Name);
             case RArray a: return "[" + string.Join(", ", a.L.Select(Inspect)) + "]";
             case RHash h:
@@ -361,7 +364,7 @@ public sealed partial class Interp
                     : Inspect(kv.Key) + " => " + Inspect(kv.Value))) + "}";
             case RRange r: return Inspect(r.From).Replace("nil", "") + (r.Excl ? "..." : "..") + (r.To == null ? "" : Inspect(r.To));
             case RClass c when FindMethod(DispatchClass(c), "inspect")?.Fn != null: return c.Name;
-            case RRegex re: return "/" + re.Source + "/" + re.Flags;
+            case RRegex re: return "/" + System.Text.RegularExpressions.Regex.Replace(re.Source, @"(?<!\\)/", "\\/") + "/" + re.Flags;
         }
         var r2 = Invoke(o, "inspect", Array.Empty<object>(), null);
         return r2 is RString rs ? rs.V : "#<" + ClassOf(o).Name + ">";
@@ -739,8 +742,9 @@ public sealed partial class Interp
     object EvalCall(CallNode c, Frame f)
     {
         CurLine = c.Line;
-        if (c.Recv == null && c.Args.Count == 0 && c.Block == null && !c.HasParens && c.Name is "it" or "_1" && f.TryGet("it", out var itv))
-            return itv;
+        // `it` in blocks, and locals the parser couldn't see (assigned on an earlier REPL line)
+        if (c.Recv == null && c.Args.Count == 0 && c.Block == null && !c.HasParens && f.TryGet(c.Name is "_1" ? "it" : c.Name, out var lv))
+            return lv;
         object recv;
         bool fcall = c.Recv == null;
         if (fcall) recv = f.Self;
@@ -1206,7 +1210,7 @@ public sealed partial class Interp
         using var proc = System.Diagnostics.Process.Start(psi)!;
         var output = proc.StandardOutput.ReadToEnd();
         proc.WaitForExit();
-        Globals["$?"] = (long)proc.ExitCode;
+        SetStatus(proc.ExitCode, proc.Id);
         return S(output.Replace("\r\n", "\n"));
     }
 }

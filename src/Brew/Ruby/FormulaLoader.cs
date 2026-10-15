@@ -6,19 +6,14 @@ using Brew.Formulae;
 namespace Brew.Ruby;
 
 // Evaluates a formula .rb file with the mini-Ruby interpreter. See docs/FORMULA_API.md.
-public static class FormulaLoader
+public static partial class FormulaLoader
 {
-    sealed class Spec
-    {
-        public string Desc, Homepage, Url, Sha256, Version, License;
-        public readonly List<string> Dependencies = new();
-        public readonly List<FormulaResource> Resources = new();
-    }
+    public static FormulaDefinition Load(string path) => LoadSpec(path).ToDefinition();
 
-    public static FormulaDefinition Load(string path) => OnBigStack(() => LoadCore(Path.GetFullPath(path)));
+    public static FormulaSpec LoadSpec(string path) => OnBigStack(() => LoadCore(Path.GetFullPath(path)));
 
     // Formula code can recurse deeply through the interpreter; give it room.
-    static T OnBigStack<T>(Func<T> fn)
+    internal static T OnBigStack<T>(Func<T> fn)
     {
         T result = default;
         ExceptionDispatchInfo error = null;
@@ -42,52 +37,54 @@ public static class FormulaLoader
         return new Regex(@"(.)@(\d)").Replace(s, "$1AT$2", 1);
     }
 
-    static FormulaDefinition LoadCore(string path)
+    static FormulaSpec LoadCore(string path)
     {
         var name = Path.GetFileNameWithoutExtension(path);
         var it = new Interp();
         var formulaClass = DefineFormula(it);
         try { it.Run(File.ReadAllText(path), path); }
         catch (RubySyntaxError e) { throw new InvalidOperationException($"{name}: {path}: {e.Message}", e); }
-        catch (RubyError e) { throw new InvalidOperationException($"{name}: {Describe(it, e)}", e); }
+        catch (RubyError e) { throw new InvalidOperationException($"{name}: {Where(it, path)}{Describe(it, e)}", e); }
 
         var className = ClassName(name);
         if (it.ObjectClass.Consts.GetValueOrDefault(className) is not RClass cls || !it.Ancestors(cls).Contains(formulaClass))
         {
-            var classes = it.ObjectClass.Consts.Values.OfType<RClass>().Where(c => c.Host is Spec || c.Super == formulaClass).ToList();
+            var classes = it.ObjectClass.Consts.Values.OfType<RClass>().Where(c => c.Host is FormulaSpec || c.Super == formulaClass).ToList();
             var found = classes.Count == 0 ? "found no classes" : "only found: " + string.Join(", ", classes.Select(c => c.Name.Split("::")[^1]));
             throw new InvalidOperationException($"No available formula with the name \"{name}\".\nIn formula file: {path}\nExpected to find class {className}, but {found}.");
         }
 
         var spec = SpecOf(cls);
-        var version = spec.Version ?? ParseVersion(spec.Url);
+        spec.Name = name;
+        spec.Path = path;
+        spec.ClassName = className;
+        spec.Interp = it;
+        spec.Class = cls;
         if (spec.Url == null) throw new InvalidOperationException($"{name}: formula requires at least a URL");
-        if (version == null) throw new InvalidOperationException($"{name}: version could not be detected from URL: {spec.Url}");
-        if (spec.Sha256 == null) throw new InvalidOperationException($"{name}: formula requires a sha256");
-
-        return new FormulaDefinition
+        if (spec.Version == null)
         {
-            Name = name,
-            Version = version,
-            Url = spec.Url,
-            Sha256 = spec.Sha256,
-            Description = spec.Desc,
-            Homepage = spec.Homepage,
-            License = spec.License,
-            Dependencies = spec.Dependencies.ToList(),
-            Resources = spec.Resources.ToList(),
-            Install = ctx => OnBigStack(() => { RunInstall(it, cls, name, version, ctx); return 0; }),
-        };
+            spec.Version = Versions.Parse(spec.Url);
+            spec.VersionFromUrl = true;
+        }
+        if (spec.Version == null) throw new InvalidOperationException($"{name}: version could not be detected from URL: {spec.Url}");
+        if (spec.Sha256 == null) throw new InvalidOperationException($"{name}: formula requires a sha256");
+        spec.HasCaveats = it.FindMethod(cls, "caveats")?.Owner != formulaClass;
+        spec.HasPostInstall = it.FindMethod(cls, "post_install")?.Owner != formulaClass;
+        return spec;
     }
+
+    static string Where(Interp it, string path) => it.CurLine > 0 ? $"{path}:{it.CurLine}: " : "";
 
     static string Describe(Interp it, RubyError e) =>
         e.ClassName is "RuntimeError" ? e.Message : $"{e.Message} ({e.ClassName})";
 
-    static void RunInstall(Interp it, RClass cls, string name, string version, InstallContext ctx)
+    // Creates a formula instance bound to ctx and runs fn with it (on a big stack).
+    internal static T WithInstance<T>(FormulaSpec spec, InstallContext ctx, Func<Interp, RObject, T> fn) => OnBigStack(() =>
     {
-        var f = new RObject { Class = cls, Host = ctx };
-        f.SetIvar("@name", Interp.S(name));
-        f.SetIvar("@version", Interp.S(version));
+        var it = spec.Interp;
+        var f = new RObject { Class = spec.Class, Host = ctx };
+        f.SetIvar("@name", Interp.S(spec.Name));
+        f.SetIvar("@version", Interp.S(spec.Version));
         it.Cwd = ctx.BuildPath;
         if (ctx.BrewPrefix != null)
         {
@@ -103,11 +100,37 @@ public static class FormulaLoader
             ctx.InstallBin(Path.GetRelativePath(ctx.BuildPath, src), newName);
             return true;
         };
-        try { it.Invoke(f, "install", Array.Empty<object>(), null); }
-        catch (RubyError e) { throw new InvalidOperationException($"{name}: {Describe(it, e)}", e); }
+        try { return fn(it, f); }
+        catch (RubyError e) { throw new InvalidOperationException($"{spec.Name}: {Describe(it, e)}", e); }
+        catch (RubySyntaxError e) { throw new InvalidOperationException($"{spec.Name}: {e.Message}", e); }
+    });
+
+    internal static void RunInstall(FormulaSpec spec, InstallContext ctx) =>
+        WithInstance(spec, ctx, (it, f) => it.Invoke(f, "install", Array.Empty<object>(), null));
+
+    internal static void RunPostInstall(FormulaSpec spec, string prefix, string brewPrefix)
+    {
+        if (!spec.HasPostInstall) return;
+        WithInstance(spec, new InstallContext(prefix, prefix, null, brewPrefix), (it, f) => it.Invoke(f, "post_install", Array.Empty<object>(), null));
     }
 
-    static Spec SpecOf(RClass c) => (Spec)(c.Host ??= new Spec());
+    internal static void RunTest(FormulaSpec spec, string prefix, string brewPrefix, string testPath)
+    {
+        if (spec.TestBlock == null) throw new InvalidOperationException($"{spec.Name} defines no test");
+        Directory.CreateDirectory(testPath);
+        WithInstance(spec, new InstallContext(prefix, testPath, null, brewPrefix), (it, f) =>
+        {
+            f.SetIvar("@__testpath", Interp.S(testPath));
+            it.Env["HOME"] = testPath;
+            it.Env["USERPROFILE"] = testPath;
+            return it.CallProc(spec.TestBlock, Array.Empty<object>(), null, f, null);
+        });
+    }
+
+    static FormulaSpec SpecOf(RClass c) => (FormulaSpec)(c.Host ??= new FormulaSpec());
+
+    // Implemented in TestHelpers.cs (assertions, shell_output, testpath, ...).
+    static partial void DefineTestHelpers(Interp it, RClass formula);
 
     static InstallContext Ctx(Interp it, object self) =>
         (self as RObject)?.Host as InstallContext ?? throw it.Error(it.RuntimeError, "this method is only available during install");
@@ -115,6 +138,7 @@ public static class FormulaLoader
     static RClass DefineFormula(Interp it)
     {
         var F = it.DefineClass("Formula");
+        F.Includes.Add(it.FileUtilsModule);   // Homebrew's Formula includes FileUtils (mv, cp, rm_r, ...)
         var os = it.DefineModule("OS");
         it.DefS(os, "mac? linux?", (i, s, a, b) => false);
         it.DefS(os, "windows?", (i, s, a, b) => true);
@@ -131,11 +155,14 @@ public static class FormulaLoader
         it.DefS(utils, "safe_popen_read popen_read", (i, s, a, b) => i.Backtick(string.Join(" ", a.Select(i.ToS).Select(Quote))));
 
         // ---- class-level DSL ----
-        void Field(string names, Action<Spec, string> set) =>
+        FormulaSpec Sp(object self) => SpecOf((RClass)self);
+        object Kw(Interp i, object[] a, string key) =>
+            a.Length > 0 && a[^1] is RHash h && h.D.TryGetValue(Interp.Sym(key), out var v) ? v : null;
+        void Field(string names, Action<FormulaSpec, string> set) =>
             it.DefS(F, names, (i, self, a, b) =>
             {
                 i.Arity(a, 1, 2);
-                set(SpecOf((RClass)self), i.ToS(a[0]));
+                set(Sp(self), i.ToS(a[0]));
                 return null;
             });
         Field("desc", (s, v) => s.Desc = v);
@@ -143,37 +170,90 @@ public static class FormulaLoader
         Field("url", (s, v) => s.Url = v);
         Field("version", (s, v) => s.Version = v);
         Field("sha256", (s, v) => s.Sha256 = v.ToLowerInvariant());
-        it.DefS(F, "license", (i, self, a, b) => { SpecOf((RClass)self).License = LicenseString(i, a[0]); return null; });
-        it.DefS(F, "depends_on", (i, self, a, b) =>
+        Field("mirror", (s, v) => s.Mirrors.Add(v));
+        it.DefS(F, "license", (i, self, a, b) => { Sp(self).License = LicenseString(i, a[0]); return null; });
+        it.DefS(F, "revision", (i, self, a, b) => { Sp(self).Revision = (int)i.Int(a[0]); return null; });
+        it.DefS(F, "version_scheme", (i, self, a, b) => { Sp(self).VersionScheme = (int)i.Int(a[0]); return null; });
+        it.DefS(F, "depends_on", (i, self, a, b) => { AddDeps(i, Sp(self).Dependencies, a); return null; });
+        it.DefS(F, "uses_from_macos", (i, self, a, b) => { AddDeps(i, Sp(self).UsesFromMacos, a); return null; });
+        it.DefS(F, "conflicts_with", (i, self, a, b) =>
         {
-            var spec = SpecOf((RClass)self);
-            foreach (var arg in a)
+            var because = Kw(i, a, "because") is { } bc ? i.ToS(bc) : null;
+            foreach (var x in a) if (x is RString s) Sp(self).Conflicts.Add(new Conflict(s.V, because));
+            return null;
+        });
+        it.DefS(F, "keg_only", (i, self, a, b) =>
+        {
+            var spec = Sp(self);
+            spec.KegOnlyReason = a[0] is RSymbol ? a[0] : i.ToS(a[0]);
+            spec.KegOnlyExplanation = a.Length > 1 ? i.ToS(a[1]) : "";
+            return null;
+        });
+        it.DefS(F, "option", (i, self, a, b) => { Sp(self).Options.Add((i.ToS(a[0]), a.Length > 1 ? i.ToS(a[1]) : "")); return null; });
+        it.DefS(F, "deprecate!", (i, self, a, b) =>
+        {
+            var spec = Sp(self);
+            spec.DeprecationDate = ParseDate(i, Kw(i, a, "date"));
+            if (spec.DeprecationDate > DateOnly.FromDateTime(DateTime.Today)) return null;
+            spec.Deprecated = true;
+            spec.DeprecationReason = Reason(i, Kw(i, a, "because"));
+            spec.DeprecationReplacement = Replacement(i, a, Kw);
+            return null;
+        });
+        it.DefS(F, "disable!", (i, self, a, b) =>
+        {
+            var spec = Sp(self);
+            spec.DisableDate = ParseDate(i, Kw(i, a, "date"));
+            var reason = Reason(i, Kw(i, a, "because"));
+            if (spec.DisableDate > DateOnly.FromDateTime(DateTime.Today))
             {
-                if (arg is RString s) spec.Dependencies.Add(s.V);
-                else if (arg is RHash h)
-                    foreach (var kv in h.D)
-                        if (kv.Key is RString dep && !IsTag(i, kv.Value, "test", "optional")) spec.Dependencies.Add(dep.V);
+                spec.Deprecated = true;
+                spec.DeprecationReason = reason;
+                spec.DeprecationReplacement = Replacement(i, a, Kw);
+                return null;
+            }
+            spec.Disabled = true;
+            spec.Deprecated = false;
+            spec.DisableReason = reason;
+            spec.DisableReplacement = Replacement(i, a, Kw);
+            return null;
+        });
+        it.DefS(F, "head", (i, self, a, b) =>
+        {
+            if (a.Length > 0) Sp(self).HeadUrl = i.ToS(a[0]);
+            if (b != null)
+            {
+                var holder = NewHolder(i, F, new FormulaSpec());
+                i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
+                Sp(self).HeadUrl = ((FormulaSpec)holder.Host).Url;
             }
             return null;
         });
         it.DefS(F, "resource", (i, self, a, b) =>
         {
-            var r = new Spec();
-            var holder = new RClass { Name = "Resource", Class = i.ClassClass, Super = i.ObjectClass, Host = r };
-            i.SingletonOf(holder).Super = i.SingletonOf(F);
+            var holder = NewHolder(i, F, new FormulaSpec());
             if (b != null) i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
-            SpecOf((RClass)self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256));
+            var r = (FormulaSpec)holder.Host;
+            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256));
+            return null;
+        });
+        it.DefS(F, "test", (i, self, a, b) => { Sp(self).TestBlock = b; return null; });
+        it.DefS(F, "livecheck", (i, self, a, b) =>
+        {
+            var lc = Sp(self).Livecheck = new LivecheckSpec();
+            if (b == null) return null;
+            var holder = new RObject { Class = LivecheckClass(i), Host = lc };
+            i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             return null;
         });
         it.DefS(F, "stable", (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>(), null, self, i.SingletonOf((RClass)self)));
         // Only the Windows (and matching CPU) branches run.
         it.DefS(F, "on_windows", (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>(), null, self, i.SingletonOf((RClass)self)));
         it.DefS(F, arm ? "on_arm" : "on_intel", (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>(), null, self, i.SingletonOf((RClass)self)));
-        it.DefS(F, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
+        it.DefS(F, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_tahoe on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
             (i, self, a, b) => null);
-        it.DefS(F, "head bottle livecheck test mirror revision version_scheme option deprecated_option uses_from_macos conflicts_with " +
-                   "keg_only deprecate! disable! patch skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
-                   "compatibility_version no_autobump! pypi_packages env",
+        it.DefS(F, "bottle deprecated_option patch skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
+                   "compatibility_version no_autobump! pypi_packages env allow_network_access! deny_network_access!",
             (i, self, a, b) => null);
 
         // ---- instance methods (install time) ----
@@ -181,7 +261,8 @@ public static class FormulaLoader
         string Nm(object self) => ((RObject)self).GetIvar("@name").ToString();
         RObject Under(Interp i, object self, string rel) => i.NewPath(Path.Combine(Prefix(i, self), rel));
         it.Def(F, "name full_name", (i, self, a, b) => ((RObject)self).GetIvar("@name"));
-        it.Def(F, "version", (i, self, a, b) => ((RObject)self).GetIvar("@version"));
+        it.Def(F, "version", (i, self, a, b) => VersionObject(i, ((RObject)self).GetIvar("@version").ToString()));
+        it.DefS(F, "[]", (i, self, a, b) => OtherFormula(i, i.StrOrSym(a[0])));
         it.Def(F, "prefix", (i, self, a, b) => i.NewPath(Prefix(i, self)));
         foreach (var (method, rel) in new[]
                  {
@@ -208,7 +289,7 @@ public static class FormulaLoader
         it.Def(F, "opt_bin", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "bin")));
         it.Def(F, "opt_lib", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "lib")));
         it.Def(F, "opt_libexec", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "libexec")));
-        it.Def(F, "caveats test plist", (i, self, a, b) => null);
+        it.Def(F, "caveats post_install plist", (i, self, a, b) => null);
         it.Def(F, "build", (i, self, a, b) => i.Main);
         it.Def(F, "head? bottle?", (i, self, a, b) => false);
         it.Def(F, "stable?", (i, self, a, b) => true);
@@ -254,7 +335,80 @@ public static class FormulaLoader
         it.Def(it.KernelModule, "odie", (i, self, a, b) => throw i.Error(i.RuntimeError, i.ToS(a[0])));
         it.Def(it.KernelModule, "odebug", (i, self, a, b) => null);
         it.Def(it.KernelModule, "quiet_system", (i, self, a, b) => i.RunSystem(a));
+        DefineTestHelpers(it, F);
         return F;
+    }
+
+    // Homebrew's Version: a string-like object with major/minor/patch helpers.
+    internal static RObject VersionObject(Interp it, string v)
+    {
+        var cls = it.ConstGet(it.ObjectClass, "Version") as RClass;
+        if (cls == null)
+        {
+            cls = it.DefineClass("Version");
+            cls.Includes.Add(it.ComparableModule);
+            string V(object o) => (string)((RObject)o).Host;
+            string Other(Interp i, object o) => o is RObject { Host: string h } ? h : i.ToS(o);
+            it.DefS(cls, "new", (i, self, a, b) => VersionObject(i, i.ToS(a[0])));
+            it.Def(cls, "to_s to_str", (i, self, a, b) => Interp.S(V(self)));
+            it.Def(cls, "inspect", (i, self, a, b) => Interp.S($"#<Version {V(self)}>"));
+            it.Def(cls, "<=>", (i, self, a, b) => a[0] == null ? null : (long)Versions.Compare(V(self), Other(i, a[0])));
+            it.Def(cls, "== eql?", (i, self, a, b) => a[0] != null && Versions.Compare(V(self), Other(i, a[0])) == 0);
+            it.Def(cls, "hash", (i, self, a, b) => (long)V(self).GetHashCode());
+            it.Def(cls, "major", (i, self, a, b) => Ver(i, Versions.Major(V(self))));
+            it.Def(cls, "minor", (i, self, a, b) => Ver(i, Versions.Minor(V(self))));
+            it.Def(cls, "patch", (i, self, a, b) => Ver(i, Versions.Patch(V(self))));
+            it.Def(cls, "major_minor", (i, self, a, b) => Ver(i, Versions.MajorMinor(V(self))));
+            it.Def(cls, "major_minor_patch", (i, self, a, b) => Ver(i, Versions.MajorMinorPatch(V(self))));
+            it.Def(cls, "head?", (i, self, a, b) => V(self).StartsWith("HEAD"));
+            it.Def(cls, "null?", (i, self, a, b) => false);
+            it.Def(cls, "to_i", (i, self, a, b) => i.Invoke(Interp.S(V(self)), "to_i", Array.Empty<object>(), null));
+            it.Def(cls, "to_f", (i, self, a, b) => i.Invoke(Interp.S(V(self)), "to_f", Array.Empty<object>(), null));
+            foreach (var m in new[] { "sub", "gsub", "split", "tr", "start_with?", "end_with?", "include?", "=~", "match?", "length", "+", "delete" })
+            {
+                var name = m;
+                it.Def(cls, name, (i, self, a, b) => i.Invoke(Interp.S(V(self)), name, a, b));
+            }
+        }
+        return new RObject { Class = cls, Host = v };
+    }
+
+    static object Ver(Interp it, string v) => v == null ? null : VersionObject(it, v);
+
+    // Formula["name"] from within a formula: another formula of the same tap, at its opt prefix.
+    static RObject OtherFormula(Interp it, string name)
+    {
+        var self = it.Main;
+        var current = it.CurrentFile;
+        var formulaDir = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath(current)));
+        var path = Path.Combine(formulaDir ?? "", name[..1], name + ".rb");
+        if (!File.Exists(path)) path = DevCommands.FormulaPath(name) ?? path;
+        if (!File.Exists(path)) throw it.Error(it.ConstGet(it.ObjectClass, "FormulaUnavailableError") as RClass ?? it.DefineClass("FormulaUnavailableError", it.RuntimeError),
+            $"No available formula with the name \"{name}\".");
+        var spec = LoadSpec(path);
+        var cls = it.ConstGet(it.ObjectClass, "FormulaReference") as RClass;
+        if (cls == null)
+        {
+            cls = it.DefineClass("FormulaReference");
+            FormulaSpec S(object o) => (FormulaSpec)((RObject)o).Host;
+            string Opt(Interp i, object o, string sub)
+            {
+                var prefix = i.ConstGet(i.ObjectClass, "HOMEBREW_PREFIX") is RObject { Host: string hp } ? hp : DevCommands.Prefix;
+                return Path.Combine(prefix, "opt", S(o).Name, sub);
+            }
+            it.Def(cls, "name full_name to_s", (i, s, a, b) => Interp.S(S(s).Name));
+            it.Def(cls, "version", (i, s, a, b) => VersionObject(i, S(s).Version));
+            it.Def(cls, "pkg_version", (i, s, a, b) => Interp.S(S(s).PkgVersion));
+            it.Def(cls, "opt_prefix prefix", (i, s, a, b) => i.NewPath(Opt(i, s, "")));
+            foreach (var (m, sub) in new[] { ("opt_bin", "bin"), ("bin", "bin"), ("opt_lib", "lib"), ("lib", "lib"), ("opt_libexec", "libexec"), ("libexec", "libexec"), ("opt_include", "include"), ("include", "include"), ("opt_share", "share"), ("share", "share"), ("opt_pkgshare", "share") })
+            {
+                var sb = sub;
+                var isPkg = m == "opt_pkgshare";
+                it.Def(cls, m, (i, s, a, b) => i.NewPath(isPkg ? Path.Combine(Opt(i, s, sb), S(s).Name) : Opt(i, s, sb)));
+            }
+            it.Def(cls, "any_version_installed? latest_version_installed? installed?", (i, s, a, b) => Directory.Exists(Opt(i, s, "")));
+        }
+        return new RObject { Class = cls, Host = spec };
     }
 
     static RClass BuildError(Interp it) => it.ConstGet(it.ObjectClass, "BuildError") as RClass ?? it.DefineClass("BuildError", it.RuntimeError);
@@ -317,23 +471,62 @@ public static class FormulaLoader
         if (errors.Count > 0) throw it.Error(it.RuntimeError, "inreplace failed\n" + string.Join("\n", errors));
     }
 
-    // A small subset of Homebrew's Version.parse.
-    public static string ParseVersion(string url)
+    static void AddDeps(Interp it, List<Dependency> list, object[] a)
     {
-        if (url == null) return null;
-        var path = Uri.TryCreate(url, UriKind.Absolute, out var u) ? u.AbsolutePath : url;
-        var stem = Regex.Replace(Path.GetFileName(path), @"\.(tar\.(gz|bz2|xz|zst|lz|Z)|t[gbx]z|zip|7z|exe|msi|nupkg|msix|tgz|gem|jar|pkg\.tar\.zst)$", "", RegexOptions.IgnoreCase);
-        foreach (var pat in new[]
-                 {
-                     @"[-_]v?(\d+(?:\.\d+)+(?:[-_.]?(?:alpha|beta|rc|pre|p)\d*)?)(?:[-_.]|$)",
-                     @"^v?(\d+(?:\.\d+)+)$",
-                     @"[-_]v?(\d+)$",
-                 })
+        foreach (var arg in a)
         {
-            var m = Regex.Match(stem, pat, RegexOptions.IgnoreCase);
-            if (m.Success) return m.Groups[1].Value;
+            if (arg is RString s) list.Add(new Dependency(s.V, Array.Empty<string>()));
+            else if (arg is RHash h)
+                foreach (var kv in h.D)
+                    if (kv.Key is RString dep)
+                        list.Add(new Dependency(dep.V, (kv.Value is RArray arr ? arr.L : new List<object> { kv.Value })
+                            .OfType<RSymbol>().Select(x => x.Name).ToList()));
         }
-        var gh = Regex.Match(path, @"/(?:releases/download|archive/refs/tags|archive)/(?:[a-zA-Z-]*?)v?(\d+(?:\.\d+)+)(?:/|\.)");
-        return gh.Success ? gh.Groups[1].Value : null;
+    }
+
+    static RObject NewHolder(Interp it, RClass formula, FormulaSpec spec)
+    {
+        var holder = new RClass { Name = "Resource", Class = it.ClassClass, Super = it.ObjectClass, Host = spec };
+        it.SingletonOf(holder).Super = it.SingletonOf(formula);
+        return holder;
+    }
+
+    static DateOnly? ParseDate(Interp it, object v) =>
+        v == null ? null : DateOnly.ParseExact(it.ToS(v), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
+    static object Reason(Interp it, object v) => v switch { null => null, RSymbol s => s, _ => it.ToS(v) };
+
+    static string Replacement(Interp it, object[] a, Func<Interp, object[], string, object> kw) =>
+        (kw(it, a, "replacement_formula") ?? kw(it, a, "replacement")) is { } f ? it.ToS(f)
+        : kw(it, a, "replacement_cask") is { } c ? "--cask " + it.ToS(c) : null;
+
+    static RClass LivecheckClass(Interp it)
+    {
+        if (it.ConstGet(it.ObjectClass, "Livecheck") is RClass existing) return existing;
+        var L = it.DefineClass("Livecheck");
+        LivecheckSpec Lc(object self) => (LivecheckSpec)((RObject)self).Host;
+        it.Def(L, "url", (i, self, a, b) =>
+        {
+            if (a[0] is RSymbol s) Lc(self).UrlSymbol = s.Name;
+            else Lc(self).Url = i.ToS(a[0]);
+            return null;
+        });
+        it.Def(L, "regex", (i, self, a, b) =>
+        {
+            var r = (RRegex)a[0];
+            Lc(self).Regex = r.Source;
+            Lc(self).RegexFlags = r.Flags;
+            return null;
+        });
+        it.Def(L, "strategy", (i, self, a, b) =>
+        {
+            Lc(self).Strategy = i.StrOrSym(a[0]);
+            Lc(self).StrategyBlock = b;
+            return null;
+        });
+        it.Def(L, "skip", (i, self, a, b) => { Lc(self).Skip = a.Length > 0 ? i.ToS(a[0]) : ""; return null; });
+        it.Def(L, "formula", (i, self, a, b) => { Lc(self).Formula = i.StrOrSym(a[0]); return null; });
+        it.Def(L, "throttle", (i, self, a, b) => null);
+        return L;
     }
 }

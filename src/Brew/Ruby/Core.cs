@@ -835,7 +835,7 @@ public sealed partial class Interp
             psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + parts[0] + "\"");
         else
         {
-            psi = new System.Diagnostics.ProcessStartInfo(parts[0]);
+            psi = new System.Diagnostics.ProcessStartInfo(ResolveProgram(parts[0]));
             foreach (var p in parts.Skip(1)) psi.ArgumentList.Add(p);
         }
         psi.UseShellExecute = false;
@@ -845,13 +845,56 @@ public sealed partial class Interp
         {
             using var proc = System.Diagnostics.Process.Start(psi)!;
             proc.WaitForExit();
-            Globals["$?"] = (long)proc.ExitCode;
+            SetStatus(proc.ExitCode, proc.Id);
             return proc.ExitCode == 0;
         }
         catch (System.ComponentModel.Win32Exception)
         {
-            Globals["$?"] = 127L;
+            SetStatus(127, 0);
             return null;
         }
+    }
+
+    // Finds a program the way a Windows shell would: relative to cwd, then the (virtual) PATH, honoring PATHEXT.
+    public string ResolveProgram(string name)
+    {
+        var exts = Env.GetValueOrDefault("PATHEXT", ".COM;.EXE;.BAT;.CMD").Split(';', StringSplitOptions.RemoveEmptyEntries);
+        IEnumerable<string> Candidates(string p) => Path.HasExtension(p) && File.Exists(p) ? new[] { p } : exts.Select(e => p + e).Prepend(p);
+        if (name.Contains('/') || name.Contains('\\'))
+            return Candidates(Abs(name)).FirstOrDefault(File.Exists) ?? name;
+        foreach (var dir in Env.GetValueOrDefault("PATH", "").Split(';', StringSplitOptions.RemoveEmptyEntries).Prepend(Cwd))
+        {
+            string full;
+            try { full = Path.Combine(dir.Trim('"'), name); }
+            catch (ArgumentException) { continue; }
+            var hit = Candidates(full).FirstOrDefault(File.Exists);
+            if (hit != null) return hit;
+        }
+        return name;
+    }
+
+    public void SetStatus(int code, int pid)
+    {
+        var st = new RObject { Class = ProcessStatusClass(), Host = (code, pid) };
+        Globals["$?"] = st;
+        Globals["$CHILD_STATUS"] = st;
+    }
+
+    RClass ProcessStatusClass()
+    {
+        var process = ConstGet(ObjectClass, "Process") as RClass ?? DefineModule("Process");
+        if (process.Consts.GetValueOrDefault("Status") is RClass c) return c;
+        c = DefineClass("Status", ObjectClass, process);
+        (int code, int pid) St(object o) => ((int, int))((RObject)o).Host;
+        Def(c, "exitstatus to_i", (it, self, a, b) => (long)St(self).code);
+        Def(c, "pid", (it, self, a, b) => (long)St(self).pid);
+        Def(c, "success?", (it, self, a, b) => St(self).code == 0);
+        Def(c, "exited?", (it, self, a, b) => true);
+        Def(c, "signaled? stopped? coredump?", (it, self, a, b) => false);
+        Def(c, "termsig stopsig", (it, self, a, b) => null);
+        Def(c, "==", (it, self, a, b) => a[0] is long l ? l == St(self).code : ReferenceEquals(self, a[0]));
+        Def(c, "to_s", (it, self, a, b) => S($"pid {St(self).pid} exit {St(self).code}"));
+        Def(c, "inspect", (it, self, a, b) => S($"#<Process::Status: pid {St(self).pid} exit {St(self).code}>"));
+        return c;
     }
 }
