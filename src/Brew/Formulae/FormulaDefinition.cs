@@ -99,7 +99,7 @@ public sealed class InstallContext
         Directory.CreateDirectory(Path.Combine(root, "tmp"));
         Directory.CreateDirectory(Path.Combine(root, "etc"));
         // MSYS2's standard layout aliases /bin to /usr/bin.
-        if (!Directory.Exists(Path.Combine(root, "bin")))
+        if (Directory.Exists(Path.Combine(root, "usr", "bin")) && !Directory.Exists(Path.Combine(root, "bin")))
             Directory.CreateSymbolicLink(Path.Combine(root, "bin"), Path.Combine(root, "usr", "bin"));
     }
 

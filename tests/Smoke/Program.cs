@@ -154,6 +154,16 @@ using (var writer = new StreamWriter(archive.CreateEntry("../escaped.txt").Open(
 try { await Archive.StageAsync(malicious, "malicious.zip", Path.Combine(root, "unsafe-stage")); throw new Exception("Traversal accepted."); }
 catch (IOException) { }
 Check(!File.Exists(Path.Combine(root, "escaped.txt")), "archive traversal rejected");
+var ucrtBuild = Path.Combine(root, "ucrt-build");
+Directory.CreateDirectory(Path.Combine(ucrtBuild, "ucrt64", "bin"));
+var ucrt = new InstallContext(Path.Combine(root, "ucrt-keg"), ucrtBuild, brewPrefix: root);
+ucrt.Msys2Install();
+Check(new DirectoryInfo(Path.Combine(ucrt.Prefix, "libexec", "bin")).LinkTarget == null, "UCRT64-only keg has no broken MSYS bin alias");
+var msysBuild = Path.Combine(root, "msys-build");
+Directory.CreateDirectory(Path.Combine(msysBuild, "usr", "bin"));
+var msys = new InstallContext(Path.Combine(root, "msys-keg"), msysBuild, brewPrefix: root);
+msys.Msys2Install();
+Check(Directory.Exists(Path.Combine(msys.Prefix, "libexec", "bin")), "MSYS keg retains working bin alias");
 Console.WriteLine("PASS: lifecycle, SHA256, rollback, atomic receipts, launchers, archives, symlinks and native shim.");
 
 static void Check(bool condition, string message)
