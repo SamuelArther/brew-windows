@@ -19,6 +19,7 @@ try
 {
     assertions += await DownloadTests.Run(root);
     assertions += await ConcurrentDownloads.Run(root);
+    assertions += LinkConflicts.Run(root);
     await Formula("leaf", "1.0"); await Formula("probe", "1.0", dependency: "leaf");
     await Formula("terraform", "1.0", tap: "hashicorp-tap");
     await Formula("libfixture", "1.0");

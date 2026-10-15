@@ -43,7 +43,7 @@ public sealed class Linker(Paths paths)
                 var destination = Path.Combine(paths.Bin, command.Name);
                 var sidecar = destination + ".brew-shim";
                 if (Exists(destination) || Exists(sidecar))
-                    throw new IOException($"Could not symlink {Path.GetRelativePath(keg, source)}\nTarget {destination}\nalready exists.");
+                    throw new IOException(ConflictMessage(keg, source, destination));
                 bool shim = command.Arguments.Length > 0 || !string.Equals(Path.GetDirectoryName(source), bin, StringComparison.OrdinalIgnoreCase)
                     || Path.GetExtension(source).Equals(".exe", StringComparison.OrdinalIgnoreCase)
                     && Directory.EnumerateFiles(bin).Any(f => Path.GetExtension(f).Equals(".dll", StringComparison.OrdinalIgnoreCase));
@@ -62,6 +62,22 @@ public sealed class Linker(Paths paths)
             return links;
         }
         catch { Unlink(links); throw; }
+    }
+
+    string ConflictMessage(string keg, string source, string destination)
+    {
+        var target = new FileInfo(destination).LinkTarget;
+        var sidecar = destination + ".brew-shim";
+        var contents = File.Exists(sidecar) ? File.ReadAllText(sidecar) : null;
+        var owner = new InstallationStore(paths).All.FirstOrDefault(k => k.Receipt.Links.Any(l =>
+            string.Equals(l.Path, destination, StringComparison.OrdinalIgnoreCase)
+            && (l.Shim ? IsOurShim(destination) && contents == l.Target + (l.Arguments.Length == 0 ? "" : "\n" + l.Arguments)
+                : target != null && string.Equals(Path.GetFullPath(target, paths.Bin), l.Target, StringComparison.OrdinalIgnoreCase))))?.Receipt.Name;
+        var suggestion = owner == null ? $"already exists. You may want to remove it:\n  rm '{destination}'\n"
+            : $"is a symlink belonging to {owner}. You can unlink it:\n  brew unlink {owner}\n";
+        return $"Could not symlink {Path.GetRelativePath(keg, source)}\nTarget {destination}\n{suggestion}\n"
+            + $"To force the link and overwrite all conflicting files:\n  brew link --overwrite {Path.GetFileName(Path.GetDirectoryName(keg))}\n\n"
+            + $"To list all files that would be deleted:\n  brew link --overwrite {Path.GetFileName(Path.GetDirectoryName(keg))} --dry-run\n";
     }
 
     static void WriteShim(string destination, string source, string arguments)
