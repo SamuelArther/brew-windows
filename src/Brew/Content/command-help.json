@@ -1,0 +1,214 @@
+{
+  "install": {
+    "description": "Install a <formula> or <cask>. Additional options specific to a <formula> may be appended to the command.  Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively.  Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew cleanup will then be run for the installed formulae and casks or, every 30 days, for all packages.  Unless $HOMEBREW_NO_INSTALL_UPGRADE is set, brew install <formula> will upgrade <formula> if it is already installed but outdated.",
+    "source": "cmd/install.rb"
+  },
+  "uninstall": {
+    "description": "Uninstall a <formula> or <cask>.",
+    "source": "cmd/uninstall.rb"
+  },
+  "reinstall": {
+    "description": "Uninstall and then reinstall a <formula> or <cask> using the same options it was originally installed with, plus any appended options specific to a <formula>.  Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively.  Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew cleanup will then be run for the reinstalled formulae and casks or, every 30 days, for all packages.",
+    "source": "cmd/reinstall.rb"
+  },
+  "upgrade": {
+    "description": "Upgrade outdated, unpinned packages using the same options they were originally installed with, plus any appended brew formula options. If <cask> or <formula> are specified, upgrade only the given <cask> or <formula> (unless they are pinned; see pin, unpin).  Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively.  Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew cleanup will then be run for the upgraded formulae and casks or, every 30 days, for all packages.",
+    "source": "cmd/upgrade.rb"
+  },
+  "outdated": {
+    "description": "List installed casks and formulae that have an updated version available. By default, version information is displayed in interactive shells and suppressed otherwise.",
+    "source": "cmd/outdated.rb"
+  },
+  "list": {
+    "description": "List all installed formulae and casks. If <formula> is provided, summarise the paths within its current keg. If <cask> is provided, list its artifacts.",
+    "source": "cmd/list.rb"
+  },
+  "info": {
+    "description": "Display brief statistics for your Homebrew installation. If a <formula> or <cask> is provided, show summary of information about it.",
+    "source": "cmd/info.rb"
+  },
+  "search": {
+    "description": "Perform a substring search of cask tokens and formula names for <text>. If <text> is flanked by slashes, it is interpreted as a regular expression.",
+    "source": "cmd/search.rb"
+  },
+  "deps": {
+    "description": "Show dependencies for <formula>. When given multiple formula arguments, show the intersection of dependencies for each formula. By default, deps shows all required and recommended dependencies.  If any version of each formula argument is installed and no other options are passed, this command displays their actual runtime dependencies (similar to brew linkage), which may differ from a formula's declared dependencies.\n\n*Note:* --missing and --skip-recommended have precedence over --include-*.",
+    "source": "cmd/deps.rb"
+  },
+  "uses": {
+    "description": "Show formulae and casks that specify <formula> as a dependency; that is, show dependents of <formula>. When given multiple formula arguments, show the intersection of formulae that use <formula>. By default, uses shows all formulae and casks that specify <formula> as a required or recommended dependency for their stable builds.\n\n*Note:* --missing and --skip-recommended have precedence over --include-*.",
+    "source": "cmd/uses.rb"
+  },
+  "leaves": {
+    "description": "List installed formulae that are not dependencies of another installed formula or cask.",
+    "source": "cmd/leaves.rb"
+  },
+  "autoremove": {
+    "description": "Uninstall formulae that were only installed as a dependency of another formula and are now no longer needed.",
+    "source": "cmd/autoremove.rb"
+  },
+  "link": {
+    "description": "Symlink all of <formula>'s installed files or <cask>'s binaries, manpages and shell completions into Homebrew's prefix. This is done automatically when you install formulae and casks but can be useful for manual installations.",
+    "source": "cmd/link.rb"
+  },
+  "unlink": {
+    "description": "Remove symlinks for <formula> or <cask> from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink <formula> && <commands> && brew link <formula>",
+    "source": "cmd/unlink.rb"
+  },
+  "pin": {
+    "description": "Pin the specified package, preventing it from being upgraded when issuing the brew upgrade <formula> or <cask> command. See also unpin.\n\n*Note:* Other packages which depend on newer versions of a pinned formula might not install or run correctly. Pinned casks with auto_updates true may update themselves outside Homebrew.",
+    "source": "cmd/pin.rb"
+  },
+  "unpin": {
+    "description": "Unpin the specified package, allowing it to be upgraded by brew upgrade <formula> or <cask>. See also pin.",
+    "source": "cmd/unpin.rb"
+  },
+  "cleanup": {
+    "description": "Remove stale lock files and outdated downloads for all formulae and casks, and remove old versions of installed formulae. If arguments are specified, only do this for the given formulae and casks. Removes all downloads more than #{days} days old. This can be adjusted with $HOMEBREW_CLEANUP_MAX_AGE_DAYS.",
+    "source": "cmd/cleanup.rb"
+  },
+  "fetch": {
+    "description": "Download a bottle (if available) or source packages for <formula>e and binaries for <cask>s. For files, also print SHA-256 checksums.",
+    "source": "cmd/fetch.rb"
+  },
+  "update": {
+    "description": "Fetch the newest version of Homebrew and all formulae from GitHub using git(1) and perform any necessary migrations.",
+    "source": "cmd/update.rb"
+  },
+  "doctor": {
+    "description": "Check your system for potential problems. Will exit with a non-zero status if any potential problems are found.  Please note that these warnings are just used to help the Homebrew maintainers with debugging if you file an issue. If everything you use Homebrew for is working fine: please don't worry or file an issue; just ignore this.",
+    "source": "cmd/doctor.rb"
+  },
+  "config": {
+    "description": "Show Homebrew and system configuration info useful for debugging. If you file a bug report, you will be required to provide this information.",
+    "source": "cmd/config.rb"
+  },
+  "shellenv": {
+    "description": "Valid shells: bash|csh|fish|pwsh|sh|tcsh|zsh  Print export statements. When run in a shell, this installation of Homebrew will be added to your $PATH, $MANPATH, and $INFOPATH.  The variables $HOMEBREW_PREFIX, $HOMEBREW_CELLAR and $HOMEBREW_REPOSITORY are also exported to avoid querying them multiple times. To help guarantee idempotence, this command produces no output when Homebrew's bin and sbin directories are first and second respectively in your $PATH. Consider adding evaluation of this command's output to your dotfiles (e.g. ~/.bash_profile or ~/.zprofile on macOS and ~/.bashrc or ~/.zshrc on Linux) with e.g.:   eval \"$(brew shellenv zsh)\" or eval \"$(brew shellenv bash)\"  The shell should be specified explicitly with a supported shell name parameter but will be detected automatically if not provided (but this may not be correct). Unknown shells will output POSIX exports.",
+    "source": "cmd/shellenv.rb"
+  },
+  "commands": {
+    "description": "Show lists of built-in and external commands.",
+    "source": "cmd/commands.rb"
+  },
+  "help": {
+    "description": "Outputs the usage instructions for brew <command>. Equivalent to brew --help <command>.",
+    "source": "cmd/help.rb"
+  },
+  "home": {
+    "description": "Open a <formula> or <cask>'s homepage in a browser, or open Homebrew's own homepage if no argument is provided.",
+    "source": "cmd/home.rb"
+  },
+  "desc": {
+    "description": "Display <formula>'s name and one-line description. The cache is created on the first search, making that search slower than subsequent ones.",
+    "source": "cmd/desc.rb"
+  },
+  "options": {
+    "description": "Show install options specific to <formula>.",
+    "source": "cmd/options.rb"
+  },
+  "tap": {
+    "description": "Tap a repository containing formulae, casks, or external commands. If no arguments are provided, list all installed taps.  With <URL> unspecified, tap a repository from GitHub using HTTPS. Since so many taps are hosted on GitHub, this command is a shortcut for:  brew tap <user>/<repo> https://github.com/<user>/homebrew-<repo>  With <URL> specified, tap a repository from anywhere, using any transport protocol that git(1) handles. Unlike the one-argument form of tap which simplifies things, the two-argument form makes no assumptions, so taps can be cloned from places other than GitHub and using protocols other than HTTPS, e.g. SSH, git, HTTP, FTP(S), rsync.",
+    "source": "cmd/tap.rb"
+  },
+  "untap": {
+    "description": "Remove a tapped formula repository.",
+    "source": "cmd/untap.rb"
+  },
+  "tap-info": {
+    "description": "Show detailed information about one or more <tap>s. If no <tap> names are provided, display brief statistics for all installed taps.",
+    "source": "cmd/tap-info.rb"
+  },
+  "log": {
+    "description": "Show the git log for <formula> or <cask>, or show the log for the Homebrew repository if no formula or cask is provided.",
+    "source": "cmd/log.rb"
+  },
+  "tap-new": {
+    "description": "Generate the template files for a new tap.",
+    "source": "dev-cmd/tap-new.rb"
+  },
+  "pr-pull": {
+    "description": "Download and publish bottles and apply the bottle commit from a pull request with artifacts generated by GitHub Actions. Requires write access to the repository.",
+    "source": "dev-cmd/pr-pull.rb"
+  },
+  "pr-publish": {
+    "description": "Publish bottles for a pull request with GitHub Actions. Requires write access to the repository.",
+    "source": "dev-cmd/pr-publish.rb"
+  },
+  "pr-upload": {
+    "description": "Apply the bottle commit and publish bottles to a host.",
+    "source": "dev-cmd/pr-upload.rb"
+  },
+  "bottle": {
+    "description": "Generate a bottle (binary package) from a formula that was installed with --build-bottle. If the formula specifies a rebuild version, it will be incremented in the generated DSL. Passing --keep-old will attempt to keep it at its original value, while --no-rebuild will remove it.",
+    "source": "dev-cmd/bottle.rb"
+  },
+  "dispatch-build-bottle": {
+    "description": "Build bottles for these formulae with GitHub Actions.",
+    "source": "dev-cmd/dispatch-build-bottle.rb"
+  },
+  "release": {
+    "description": "Create a new draft Homebrew/brew release with the appropriate version number and release notes.  By default, brew release will bump the patch version number. Pass --major or --minor to bump the major or minor version numbers, respectively. The command will fail if the previous major or minor release was made less than one month ago.  Without --force, this command will just output the release notes without creating the release or triggering the workflow.\n\n*Note:* Requires write access to the Homebrew/brew repository.",
+    "source": "dev-cmd/release.rb"
+  },
+  "contributions": {
+    "description": "Summarise contributions to Homebrew repositories.",
+    "source": "dev-cmd/contributions.rb"
+  },
+  "lgtm": {
+    "description": "Run brew typecheck, brew style --changed and the relevant brew tests, brew audit and brew test checks in one go.",
+    "source": "dev-cmd/lgtm.rb"
+  },
+  "generate-formula-api": {
+    "description": "Generate homebrew/core API data files for <#{HOMEBREW_API_WWW}>. The generated files are written to the current directory.",
+    "source": "dev-cmd/generate-formula-api.rb"
+  },
+  "generate-cask-api": {
+    "description": "Generate homebrew/cask API data files for <#{HOMEBREW_API_WWW}>. The generated files are written to the current directory.",
+    "source": "dev-cmd/generate-cask-api.rb"
+  },
+  "generate-internal-api": {
+    "description": "Generate internal API data files for <#{HOMEBREW_API_WWW}>. The generated files are written to the current directory.",
+    "source": "dev-cmd/generate-internal-api.rb"
+  },
+  "generate-advisories-api": {
+    "description": "Generate advisory API data for <#{HOMEBREW_API_WWW}> from a checkout of <https://github.com/Homebrew/advisory-database>. The generated file is written to the current directory.",
+    "source": "dev-cmd/generate-advisories-api.rb"
+  },
+  "generate-analytics-api": {
+    "description": "Generates analytics API data files for <#{HOMEBREW_API_WWW}>. The generated files are written to the current directory.",
+    "source": "dev-cmd/generate-analytics-api.rb"
+  },
+  "update-maintainers": {
+    "description": "Update the list of maintainers in the Homebrew/brew README.",
+    "source": "dev-cmd/update-maintainers.rb"
+  },
+  "update-sponsors": {
+    "description": "Update the list of GitHub Sponsors in the Homebrew/brew README.",
+    "source": "dev-cmd/update-sponsors.rb"
+  },
+  "update-license-data": {
+    "description": "Update SPDX license data in the Homebrew repository.",
+    "source": "dev-cmd/update-license-data.rb"
+  },
+  "update-python-resources": {
+    "description": "Update versions for PyPI resource blocks in <formula>.",
+    "source": "dev-cmd/update-python-resources.rb"
+  },
+  "update-perl-resources": {
+    "description": "Update versions for CPAN resource blocks in <formula>.",
+    "source": "dev-cmd/update-perl-resources.rb"
+  },
+  "update-portable-ruby": {
+    "description": "Update the vendored portable-ruby from the current portable-ruby formula: write the version files and bottle checksums, run brew vendor-install ruby, then sync utils/ruby.sh, vendored gems and RBI files to the bundler shipped by the new ruby.",
+    "source": "dev-cmd/update-portable-ruby.rb"
+  },
+  "update-test": {
+    "description": "Run a test of brew update with a new repository clone. If no options are passed, use origin/main as the start commit.",
+    "source": "dev-cmd/update-test.rb"
+  },
+  "vendor-gems": {
+    "description": "Install and commit Homebrew's vendored gems.",
+    "source": "dev-cmd/vendor-gems.rb"
+  }
+}
