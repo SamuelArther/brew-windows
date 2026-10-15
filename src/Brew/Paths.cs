@@ -28,6 +28,15 @@ public sealed class Paths
         return name;
     }
 
+    public static string ValidateResourceName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name) || name.Contains("..") || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
+            || name.Contains('/') || name.Contains('\\') || name.EndsWith('.') || name.EndsWith(' ')
+            || System.Text.RegularExpressions.Regex.IsMatch(name, @"\A(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\.|\z)", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+            throw new InvalidOperationException($"Invalid resource name: {name}");
+        return name;
+    }
+
     public string Rack(string name) => Path.Combine(Cellar, ValidateName(name));
     public static string FormulaName(string fullName) => ValidateName(fullName.Split('/')[^1]);
     // Homebrew CoreTap.new_formula_subdirectory (BSD-2-Clause).

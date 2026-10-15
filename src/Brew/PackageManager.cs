@@ -84,7 +84,7 @@ public sealed class PackageManager(Paths paths)
             var resources = new Dictionary<string, string>();
             foreach (var resource in formula.Resources)
             {
-                Paths.ValidateName(resource.Name);
+                Paths.ValidateResourceName(resource.Name);
                 var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
                 var resourcePath = Path.Combine(build, ".resources", resource.Name);
                 var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);

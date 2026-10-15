@@ -20,6 +20,17 @@ try
     assertions += await DownloadTests.Run(root);
     assertions += await ConcurrentDownloads.Run(root);
     assertions += LinkConflicts.Run(root);
+    await Formula("resources", "1.0", resourceNames: ["mingw-w64-ucrt-x86_64-SDL2", "PyYAML", "MarkupSafe"]);
+    Equal((await Run("install", "resources")).Code, 0, "uppercase resource names install end to end");
+    Equal((await Run("uninstall", "resources")).Code, 0, "uppercase resource fixture uninstalls");
+    foreach (var invalid in new[] { "../escape", "a/b", "a\\b", "..", ".", "", "C:escape", "NUL", "trailing." })
+    {
+        await Formula("resources", "1.0", resourceNames: [invalid]);
+        var rejected = await Run("install", "resources");
+        Equal(rejected.Code, 1, "unsafe resource fails: " + invalid);
+        Equal(rejected.Error.Contains("Invalid resource name:"), true, "resource diagnostic: " + invalid);
+        Equal(Directory.Exists(Path.Combine(prefix, "Cellar", "resources")), false, "unsafe resource creates no keg");
+    }
     await Formula("leaf", "1.0"); await Formula("probe", "1.0", dependency: "leaf");
     await Formula("terraform", "1.0", tap: "hashicorp-tap");
     await Formula("libfixture", "1.0");
@@ -159,7 +170,7 @@ try
 }
 finally { foreach (var pair in saved) Environment.SetEnvironmentVariable(pair.Key, pair.Value); }
 
-async Task Formula(string name, string version, string dependency = null, string tap = "homebrew-core", bool fail = false, string conflict = null, bool kegOnly = false, string[] dependencies = null)
+async Task Formula(string name, string version, string dependency = null, string tap = "homebrew-core", bool fail = false, string conflict = null, bool kegOnly = false, string[] dependencies = null, string[] resourceNames = null)
 {
     var path = Path.Combine(repo, "tap", tap, "Formula", name.StartsWith("lib", StringComparison.Ordinal) ? "lib" : name[..1], name + ".rb"); Directory.CreateDirectory(Path.GetDirectoryName(path));
     var zip = Path.Combine(root, name + "-" + version + ".zip");
@@ -178,6 +189,7 @@ async Task Formula(string name, string version, string dependency = null, string
         string.Concat((dependencies ?? []).Select(d => $"  depends_on \"{d}\"\n")) +
         (conflict == null ? "" : $"  conflicts_with \"{conflict}\", because: \"fixture conflict\"\n") +
         (kegOnly ? "  keg_only :versioned_formula\n" : "") +
+        string.Concat((resourceNames ?? []).Select(r => $"  resource {JsonSerializer.Serialize(r)} do\n    url \"https://example.invalid/{Path.GetFileName(zip)}\"\n    sha256 \"{sha}\"\n  end\n")) +
         "  def install\n" + (kegOnly ? $"    install_tree\n    windows_exe \"libexec/payload.exe\", \"{name}\"\n" : $"    bin.install \"{name}.cmd\"\n") +
         (fail ? "    raise \"fixture failure\"\n" : "") + "  end\nend\n");
 }

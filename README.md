@@ -1,7 +1,7 @@
 # brew-windows
 
-A from-scratch C#/.NET 10 Windows port following Homebrew 7.0.9, with **210
-formulae** and a built-in Ruby interpreter. No analytics are sent.
+A from-scratch C#/.NET 10 Windows port following Homebrew 7.0.9, with **1,208
+formulae**, **97 aliases** and a built-in Ruby interpreter. No analytics are sent.
 Homebrew attribution: [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt).
 
 ## Build and publish
