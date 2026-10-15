@@ -11,6 +11,8 @@ class Gping < Formula
     strategy :github_latest
   end
 
+  conflicts_with "inetutils", because: "both install `gping` binaries"
+
   def install
     bin.install "gping.exe"
   end

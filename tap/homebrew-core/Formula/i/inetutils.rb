@@ -8,6 +8,7 @@ class Inetutils < Formula
   # GNU inetutils clients via MSYS2 (MSYS2 builds dnsdomainname, ftp, rcp, rlogin, rsh, talk and telnet).
 
   conflicts_with "telnet", because: "both install `telnet` binaries"
+  conflicts_with "gping", because: "both install `gping` binaries"
 
   resource "gcc-libs" do
     url "https://repo.msys2.org/msys/x86_64/gcc-libs-15.3.0-1-x86_64.pkg.tar.zst"

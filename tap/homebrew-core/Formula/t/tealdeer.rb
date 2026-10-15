@@ -10,6 +10,8 @@ class Tealdeer < Formula
     strategy :github_latest
   end
 
+  conflicts_with "tlrc", because: "both install `tldr` binaries"
+
   def install
     bin.install "tealdeer-windows-x86_64-msvc.exe" => "tldr.exe"
   end

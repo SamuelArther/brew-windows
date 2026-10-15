@@ -11,6 +11,8 @@ class Coreutils < Formula
     regex(/href=.*?coreutils[._-]v?(\d+(?:\.\d+)+)-\d+-x86_64\.pkg\.t/i)
   end
 
+  conflicts_with "idutils", because: "both install `gid` and `gid.1`"
+
   resource "bash" do
     url "https://repo.msys2.org/msys/x86_64/bash-5.3.20-2-x86_64.pkg.tar.zst"
     sha256 "0951e809c552dd7dd2835df1b2d590822187f14e717d809e942e4eb677d0adfd"

@@ -13,6 +13,8 @@ class PkgConfig < Formula
 
   # pkgconf implementation, following Homebrew pkg-config compatibility naming.
 
+  conflicts_with "pkgconf", because: "both install the same binaries"
+
   def install
     install_tree
     windows_exe "libexec/ucrt64/bin/pkgconf.exe", "pkg-config"

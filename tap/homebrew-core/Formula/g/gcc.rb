@@ -10,6 +10,8 @@ class Gcc < Formula
   # Programs linked to libstdc++/libgcc DLLs need -static (or libexec/ucrt64/bin on PATH) to run.
   # Very deep BREW_PREFIX paths can push C++ headers past Windows' 260-character MAX_PATH.
 
+  conflicts_with "binutils", because: "both install the same binaries"
+
   resource "mingw-w64-ucrt-x86_64-binutils" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-binutils-2.47-4-any.pkg.tar.zst"
     sha256 "c18a40b871bfddb5da030f015003479ca85625afde1cb89f7313945e6151397d"
