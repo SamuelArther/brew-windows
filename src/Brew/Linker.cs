@@ -72,6 +72,28 @@ public sealed class Linker(Paths paths)
         File.WriteAllText(destination + ".brew-shim", source + (arguments.Length == 0 ? "" : "\n" + arguments), new UTF8Encoding(false));
     }
 
+    public void PreflightUnlink(IEnumerable<BinLink> links)
+    {
+        foreach (var link in links)
+        {
+            if (!string.Equals(Path.GetDirectoryName(Path.GetFullPath(link.Path)), paths.Bin, StringComparison.OrdinalIgnoreCase))
+                throw new IOException("Invalid link path in install receipt.");
+            if (link.Shim)
+            {
+                var sidecar = link.Path + ".brew-shim";
+                if (IsOurShim(link.Path) && (!Exists(sidecar)
+                    || File.ReadAllText(sidecar) == link.Target + (link.Arguments.Length == 0 ? "" : "\n" + link.Arguments)))
+                {
+                    RemovalPreflight.Check(link.Path);
+                    if (File.Exists(sidecar)) RemovalPreflight.Check(sidecar);
+                }
+            }
+            else if (new FileInfo(link.Path).LinkTarget is string target
+                && string.Equals(Path.GetFullPath(target, paths.Bin), link.Target, StringComparison.OrdinalIgnoreCase))
+                RemovalPreflight.Check(link.Path);
+        }
+    }
+
     public void Unlink(IEnumerable<BinLink> links)
     {
         foreach (var link in links)

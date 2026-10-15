@@ -106,7 +106,7 @@ public static class Cli
                     }
                     break;
                 case "list":
-                    var listed = args.Names.Count == 0 ? store.All.Select(k => k.Receipt.Name).Distinct().Order(StringComparer.Ordinal).ToArray() : args.Names.Select(n => n.Split('/')[^1]).ToArray();
+                    var listed = args.Names.Count == 0 ? store.All.Select(k => k.Receipt.Name).Distinct().Order(StringComparer.Ordinal).ToArray() : args.Names.Select(store.ResolveName).ToArray();
                     if (args.Has("--pinned")) listed = listed.Where(store.IsPinned).ToArray();
                     if (args.Has("--installed-on-request")) listed = listed.Where(n => store.Kegs(n).Any(k => k.Receipt.InstalledOnRequest)).ToArray();
                     if (args.Has("--installed-as-dependency")) listed = listed.Where(n => store.Kegs(n).All(k => !k.Receipt.InstalledOnRequest)).ToArray();
@@ -123,13 +123,13 @@ public static class Cli
                 case "uses": query.Uses(args); break;
                 case "leaves": foreach (var name in query.Leaves(args)) Console.WriteLine(name); break;
                 case "outdated": return query.Outdated(args);
-                case "pin": case "unpin": args.RequireNames(command); foreach (var name in args.Names) store.Pin(name.Split('/')[^1], command == "unpin"); break;
+                case "pin": case "unpin": args.RequireNames(command); foreach (var name in args.Names) store.Pin(name, command == "unpin"); break;
                 case "link": case "unlink":
                     args.RequireNames(command);
                     foreach (var name in args.Names)
-                        if (args.Has("--dry-run", "-n")) Console.WriteLine($"Would {command}: {store.Latest(name)?.Path ?? throw new InvalidOperationException($"No such keg: {paths.Rack(name)}")}");
+                        if (args.Has("--dry-run", "-n")) Console.WriteLine($"Would {command}: {store.Latest(store.ResolveName(name))?.Path ?? throw new InvalidOperationException($"No such keg: {paths.Rack(Paths.FormulaName(name))}")}");
                         else if (args.Has("--overwrite")) throw new InvalidOperationException("Use brew unlink to remove the existing formula's links before linking a replacement.");
-                        else manager.Link(name, command == "unlink");
+                        else manager.Link(name, command == "unlink", force: args.Has("--force", "-f"));
                     break;
                 case "cleanup": maintenance.Cleanup(args); break;
                 case "autoremove": maintenance.Autoremove(args); break;

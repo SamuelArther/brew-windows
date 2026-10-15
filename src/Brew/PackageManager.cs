@@ -16,14 +16,14 @@ public sealed class PackageManager(Paths paths)
     readonly InstallationStore store = new(paths);
     readonly OptLinks opt = new(paths);
 
-    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false)
+    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false, bool? linkKeg = null)
     {
         if (!installing.Add(name)) throw new InvalidOperationException($"Circular dependency: {name}");
-        try { await InstallCoreAsync(name, requested, force, ignoreDependencies); }
+        try { await InstallCoreAsync(name, requested, force, ignoreDependencies, linkKeg); }
         finally { installing.Remove(name); }
     }
 
-    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies)
+    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies, bool? linkKeg)
     {
         var file = repository.Find(name);
         var formula = repository.LoadFile(file);
@@ -96,7 +96,7 @@ public sealed class PackageManager(Paths paths)
             var context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
             formula.Install(context);
             linker.MaterializeCommands(keg, context.Commands);
-            links = Metadata.Bool(formula, "KegOnly", "IsKegOnly") ? [] : linker.Link(keg, context.Commands);
+            links = (linkKeg ?? !Metadata.Bool(formula, "KegOnly", "IsKegOnly")) ? linker.Link(keg, context.Commands) : [];
             opt.Set(name, keg);
             Metadata.Call(formula, "RunPostInstall", keg, paths.Prefix);
             ReceiptFile.Write(Path.Combine(keg, ReceiptName),
@@ -140,7 +140,7 @@ public sealed class PackageManager(Paths paths)
 
     public void Uninstall(string name, bool force, bool ignoreDependencies = false)
     {
-        name = Paths.ValidateName(name.Split('/')[^1]);
+        name = store.ResolveName(name);
         var kegs = InstalledKegs(name);
         if (kegs.Length == 0 && !force) throw new InvalidOperationException($"No such keg: {paths.Rack(name)}");
         if (!force && store.IsPinned(name)) throw new InvalidOperationException($"{name} is pinned. You must unpin it to uninstall.");
@@ -148,15 +148,27 @@ public sealed class PackageManager(Paths paths)
         {
             var dependents = Directory.EnumerateFiles(paths.Cellar, ReceiptName, SearchOption.AllDirectories)
                 .Select(f => JsonSerializer.Deserialize<Receipt>(File.ReadAllText(f)))
-                .Where(r => r.Name != name && r.Dependencies?.Contains(name) == true)
+                .Where(r => r.Name != name && r.Dependencies?.Any(d => Paths.FormulaName(d) == name) == true)
                 .Select(r => r.Name).Distinct().Order(StringComparer.Ordinal).ToArray();
             if (dependents.Length > 0)
                 throw new InvalidOperationException($"Refusing to uninstall {paths.Rack(name)}\nbecause it is required by {string.Join(", ", dependents)}, which {(dependents.Length == 1 ? "is" : "are")} currently installed.\nYou can override this and force removal with:\n  brew uninstall --ignore-dependencies {name}");
         }
-        foreach (var keg in kegs)
+        var removals = kegs.Select(keg => new InstalledKeg(keg,
+            JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)))
+                ?? throw new IOException($"Invalid install receipt: {keg}"))).ToArray();
+        // Check every keg before touching links or payloads: Windows can refuse deletion of open files.
+        foreach (var removal in removals)
         {
-            var receipt = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)))
-                ?? throw new IOException($"Invalid install receipt: {keg}");
+            RemovalPreflight.Tree(removal.Path);
+            linker.PreflightUnlink(removal.Receipt.Links);
+            var optLink = opt.PathFor(name);
+            if (new DirectoryInfo(optLink).LinkTarget is string target
+                && string.Equals(Path.GetFullPath(target, Path.GetDirectoryName(optLink)), removal.Path, StringComparison.OrdinalIgnoreCase))
+                RemovalPreflight.Check(optLink);
+        }
+        foreach (var removal in removals)
+        {
+            var keg = removal.Path; var receipt = removal.Receipt;
             Console.WriteLine($"Uninstalling {keg}... ({Abbreviation(keg)})");
             linker.Unlink(receipt.Links);
             opt.Remove(name, keg);
@@ -167,8 +179,9 @@ public sealed class PackageManager(Paths paths)
         if (File.Exists(pin)) File.Delete(pin);
     }
 
-    public void Link(string name, bool unlink)
+    public void Link(string name, bool unlink, bool force = false)
     {
+        name = store.ResolveName(name);
         foreach (var keg in RequireKegs(name))
         {
             var receiptPath = Path.Combine(keg, ReceiptName);
@@ -184,6 +197,14 @@ public sealed class PackageManager(Paths paths)
             else
             {
                 if (receipt.Links.Count > 0) { Console.Error.WriteLine($"Warning: Already linked: {keg}"); continue; }
+                var file = receipt.SourcePath;
+                var formula = file != null && File.Exists(file) ? repository.LoadFile(file) : repository.Load(name);
+                if (!force && Metadata.Bool(formula, "KegOnly")
+                    && Metadata.Text(Metadata.Get(formula, "KegOnlyReason"), "Name") != "versioned_formula")
+                {
+                    CommandOutput.Warning($"{name} is keg-only and must be linked with `--force`.");
+                    continue;
+                }
                 var links = linker.Link(keg, receipt.Commands);
                 try { ReceiptFile.Write(receiptPath, receipt with { Links = links }); }
                 catch { linker.Unlink(links); throw; }
@@ -199,7 +220,7 @@ public sealed class PackageManager(Paths paths)
         return kegs;
     }
 
-    public string[] InstalledKegs(string name) => store.Kegs(name).Select(k => k.Path).ToArray();
+    public string[] InstalledKegs(string name) => store.Kegs(store.ResolveName(name)).Select(k => k.Path).ToArray();
 
     public async Task FetchAsync(string name)
     {
@@ -242,7 +263,8 @@ public sealed class PackageManager(Paths paths)
                 catch { if (keg.Receipt.Links.Count > 0) InstallationStore.Save(keg, keg.Receipt with { Links = linker.Link(keg.Path, keg.Receipt.Commands) }); throw; }
                 moved.Add((keg, backup));
             }
-            await InstallAsync(name, previous.Length == 0 || previous.Any(k => k.Receipt.InstalledOnRequest));
+            await InstallAsync(name, previous.Length == 0 || previous.Any(k => k.Receipt.InstalledOnRequest),
+                linkKeg: previous.Length == 0 ? null : previous.Any(k => k.Receipt.Links.Count > 0));
         }
         catch
         {
