@@ -142,6 +142,8 @@ Version is the pkg_version, i.e. `1.2_1` when `revision 1`).
 FormulaSpec members:
 - Name, Path, ClassName, Desc, Homepage, Url, Sha256, Version, PkgVersion, Revision,
   VersionScheme, License (SPDX text as `brew info` prints it), HeadUrl, Mirrors.
+  Install/fetch try Url then Mirrors on download failure. Every candidate uses the
+  same Sha256 and primary URL cache filename; checksum mismatches fail immediately.
 - Dependencies / UsesFromMacos: `List<Dependency>`; Dependency(Name, Tags) with
   Build, Test, Optional, Recommended, Runtime. FormulaDefinition.Dependencies excludes
   test and optional deps.

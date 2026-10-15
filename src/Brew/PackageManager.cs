@@ -72,7 +72,7 @@ public sealed class PackageManager(Paths paths)
             CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency)} ({Metadata.Version(definition)})", green: true);
             await InstallAsync(dependency, requested: false);
         }
-        var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256);
+        var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
         var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(build);
         var createdKeg = false;
@@ -204,7 +204,7 @@ public sealed class PackageManager(Paths paths)
     public async Task FetchAsync(string name)
     {
         var formula = repository.Load(name);
-        await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256);
+        await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
         foreach (var resource in formula.Resources) await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
     }
 
