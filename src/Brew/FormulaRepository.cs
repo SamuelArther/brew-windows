@@ -25,7 +25,7 @@ public sealed class FormulaRepository(Paths paths)
         if (components.Length == 3) directory = Path.Combine(paths.Taps, TapName(components[0] + "/" + components[1]));
         else if (components.Length == 1) directory = paths.Taps;
         else throw new InvalidOperationException($"Invalid formula name: {input}");
-        var core = Path.Combine(paths.Taps, "homebrew-core", "Formula", name[..1], name + ".rb");
+        var core = paths.Formula(name);
         if (components.Length == 1 && File.Exists(core)) return core;
         var matches = Directory.Exists(directory) ? Directory.GetFiles(directory, name + ".rb", SearchOption.AllDirectories)
             .Where(f => f.Split(Path.DirectorySeparatorChar).Contains("Formula")).ToArray() : [];

@@ -18,6 +18,13 @@ try
 {
     await Formula("leaf", "1.0"); await Formula("probe", "1.0", dependency: "leaf");
     await Formula("terraform", "1.0", tap: "hashicorp-tap");
+    await Formula("libfixture", "1.0");
+    await Formula("libfixture", "2.0", tap: "secondary-tap");
+    var libraryPath = Path.Combine(repo, "tap", "homebrew-core", "Formula", "lib", "libfixture.rb");
+    Equal(new Paths().Formula("libfixture"), libraryPath, "lib formula canonical shard");
+    Equal(new FormulaRepository(new Paths()).Find("libfixture"), libraryPath, "core lib shard takes precedence over another tap");
+    Equal((await Run("install", "libfixture")).Code, 0, "install lib-sharded formula");
+    Equal((await Run("uninstall", "libfixture")).Code, 0, "uninstall lib-sharded formula");
     Equal((await Run("--version")).Output, "Homebrew 7.0.9\n", "version");
     Equal((await Run("--help")).Output, Normalize(CommandHelp.General) + "\n", "generic Homebrew help");
     Equal((await Run()).Code, 1, "no-arguments exit status");
@@ -27,7 +34,7 @@ try
     Equal((await Run("uses", "leaf")).Output, "probe\n", "reverse dependencies");
     using (var info = JsonDocument.Parse((await Run("info", "--json=v2", "probe")).Output))
         Equal(info.RootElement.GetProperty("formulae")[0].GetProperty("name").GetString(), "probe", "info JSON");
-    Equal((await Run("tap")).Output, "hashicorp/tap\nhomebrew/core\n", "tap listing");
+    Equal((await Run("tap")).Output, "hashicorp/tap\nhomebrew/core\nsecondary/tap\n", "tap listing");
     Equal((await Run("info", "hashicorp/tap/terraform")).Code, 0, "fully qualified third-party formula");
     await Formula("isolated", "1.0", kegOnly: true);
     Equal((await Run("install", "isolated")).Code, 0, "keg-only windows_exe installation");
@@ -101,7 +108,7 @@ finally { foreach (var pair in saved) Environment.SetEnvironmentVariable(pair.Ke
 
 async Task Formula(string name, string version, string dependency = null, string tap = "homebrew-core", bool fail = false, string conflict = null, bool kegOnly = false)
 {
-    var path = Path.Combine(repo, "tap", tap, "Formula", name[..1], name + ".rb"); Directory.CreateDirectory(Path.GetDirectoryName(path));
+    var path = Path.Combine(repo, "tap", tap, "Formula", name.StartsWith("lib", StringComparison.Ordinal) ? "lib" : name[..1], name + ".rb"); Directory.CreateDirectory(Path.GetDirectoryName(path));
     var zip = Path.Combine(root, name + "-" + version + ".zip");
     if (!File.Exists(zip))
     {

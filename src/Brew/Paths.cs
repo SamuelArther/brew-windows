@@ -29,5 +29,7 @@ public sealed class Paths
     }
 
     public string Rack(string name) => Path.Combine(Cellar, ValidateName(name));
-    public string Formula(string name) => Path.Combine(Repository, "tap", "homebrew-core", "Formula", ValidateName(name)[..1], name + ".rb");
+    // Homebrew CoreTap.new_formula_subdirectory (BSD-2-Clause).
+    public static string FormulaShard(string name) => ValidateName(name).StartsWith("lib", StringComparison.Ordinal) ? "lib" : name[..1];
+    public string Formula(string name) => Path.Combine(Taps, "homebrew-core", "Formula", FormulaShard(name), name + ".rb");
 }
