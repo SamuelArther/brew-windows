@@ -7,6 +7,21 @@ public sealed record BinLink(string Path, string Target, bool Shim, string Argum
 
 public sealed class Linker(Paths paths)
 {
+    public void MaterializeCommands(string keg, IEnumerable<CommandSpec> commands)
+    {
+        var bin = Path.Combine(keg, "bin");
+        foreach (var command in commands)
+        {
+            if (Path.GetFileName(command.Name) != command.Name) throw new IOException("Invalid command name.");
+            var destination = Path.Combine(bin, command.Name);
+            if (string.Equals(destination, command.Target, StringComparison.OrdinalIgnoreCase) && command.Arguments.Length == 0) continue;
+            Directory.CreateDirectory(bin);
+            if (Exists(destination) || Exists(destination + ".brew-shim"))
+                throw new IOException($"Installed command already exists: {destination}");
+            WriteShim(destination, command.Target, string.Join(" ", command.Arguments.Select(QuoteArgument)));
+        }
+    }
+
     public List<BinLink> Link(string keg, IEnumerable<CommandSpec> commands = null)
     {
         Directory.CreateDirectory(paths.Bin);
@@ -14,10 +29,13 @@ public sealed class Linker(Paths paths)
         try
         {
             var bin = Path.Combine(keg, "bin");
+            var registered = (commands ?? []).ToArray();
+            var names = registered.Select(c => c.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
             var entries = (Directory.Exists(bin) ? Directory.GetFiles(bin) : [])
                 .Where(f => !Path.GetExtension(f).Equals(".dll", StringComparison.OrdinalIgnoreCase))
+                .Where(f => !f.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase) && !names.Contains(Path.GetFileName(f)))
                 .Select(f => new CommandSpec(Path.GetFileName(f), f, []))
-                .Concat(commands ?? []).OrderBy(c => c.Name, StringComparer.Ordinal);
+                .Concat(registered).OrderBy(c => c.Name, StringComparer.Ordinal);
             foreach (var command in entries)
             {
                 var source = command.Target;
@@ -31,12 +49,9 @@ public sealed class Linker(Paths paths)
                     && Directory.EnumerateFiles(bin).Any(f => Path.GetExtension(f).Equals(".dll", StringComparison.OrdinalIgnoreCase));
                 if (shim)
                 {
-                    using var resource = typeof(Linker).Assembly.GetManifestResourceStream("shim.exe")
-                        ?? throw new IOException("DLL executable linking requires the embedded shim. Build with LLVM-MinGW clang.");
-                    using (var output = new FileStream(destination, FileMode.CreateNew)) resource.CopyTo(output);
                     var arguments = string.Join(" ", command.Arguments.Select(QuoteArgument));
                     links.Add(new(destination, source, true, arguments));
-                    File.WriteAllText(sidecar, source + (arguments.Length == 0 ? "" : "\n" + arguments), new UTF8Encoding(false));
+                    WriteShim(destination, source, arguments);
                 }
                 else
                 {
@@ -47,6 +62,14 @@ public sealed class Linker(Paths paths)
             return links;
         }
         catch { Unlink(links); throw; }
+    }
+
+    static void WriteShim(string destination, string source, string arguments)
+    {
+        using var resource = typeof(Linker).Assembly.GetManifestResourceStream("shim.exe")
+            ?? throw new IOException("DLL executable linking requires the embedded shim. Build with LLVM-MinGW clang.");
+        using (var output = new FileStream(destination, FileMode.CreateNew)) resource.CopyTo(output);
+        File.WriteAllText(destination + ".brew-shim", source + (arguments.Length == 0 ? "" : "\n" + arguments), new UTF8Encoding(false));
     }
 
     public void Unlink(IEnumerable<BinLink> links)

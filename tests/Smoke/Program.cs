@@ -3,6 +3,18 @@ using System.IO.Compression;
 using Brew;
 using Brew.Formulae;
 
+if (args.Length > 0)
+{
+    var work = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.test-work/archive-" + Guid.NewGuid().ToString("N")));
+    foreach (var archiveFile in args)
+    {
+        var stagedArchive = await Archive.StageAsync(Path.GetFullPath(archiveFile), Path.GetFileName(archiveFile), Path.Combine(work, Guid.NewGuid().ToString("N")));
+        Check(Directory.EnumerateFiles(stagedArchive, "*", SearchOption.AllDirectories).Any(), "real archive extracted");
+        Console.WriteLine("PASS: extracted " + Path.GetFileName(archiveFile));
+    }
+    return;
+}
+
 var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.test-work/smoke"));
 if (Directory.Exists(root)) throw new Exception($"Remove previous test workspace before running: {root}");
 Environment.SetEnvironmentVariable("BREW_PREFIX", root);
@@ -64,7 +76,7 @@ Brew.Ruby.FormulaLoader.InstallOverride = context =>
     context.InstallBin("jq-windows-amd64.exe", "jq.exe");
     throw new InvalidOperationException("fixture install failure");
 };
-try { await MustFail(() => manager.InstallAsync("jq"), "fixture install failure"); }
+try { await MustFail(() => new PackageManager(paths).InstallAsync("jq"), "fixture install failure"); }
 finally { Brew.Ruby.FormulaLoader.InstallOverride = null; }
 Check(!Directory.Exists(paths.Rack("jq")) && !File.Exists(jq), "formula error rollback");
 Check(!Directory.EnumerateFileSystemEntries(Path.Combine(root, "var", "homebrew", "build")).Any(), "build directory cleanup");
@@ -111,6 +123,23 @@ links = linker.Link(shimKeg, [new CommandSpec("prefixed.exe", Path.Combine(shimK
 result = await Run(Path.Combine(paths.Bin, "prefixed.exe"), ["user argument"]);
 Check(result.Code == 37 && result.Output.Contains("fixed with spaces") && result.Output.Contains("fixed\"quote")
     && result.Output.Contains(@"trailing\") && result.Output.Contains("user argument"), "fixed launcher argument quoting");
+linker.Unlink(links);
+
+// Keg-local launchers must work without global links, including DLLs and fixed arguments.
+var localKeg = Path.Combine(paths.Cellar, "local-fixture", "1");
+var localPayload = Path.Combine(localKeg, "libexec");
+Directory.CreateDirectory(localPayload);
+File.Copy(Path.Combine(AppContext.BaseDirectory, "fixture.exe"), Path.Combine(localPayload, "fixture.exe"));
+File.Copy(Path.Combine(AppContext.BaseDirectory, "fixture.dll"), Path.Combine(localPayload, "fixture.dll"));
+var localCommands = new[] { new CommandSpec("local-fixture.exe", Path.Combine(localPayload, "fixture.exe"), ["fixed argument"]) };
+linker.MaterializeCommands(localKeg, localCommands);
+result = await Run(Path.Combine(localKeg, "bin", "local-fixture.exe"), ["user argument"]);
+Check(result.Code == 37 && result.Output.Contains("fixed argument") && result.Output.Contains("user argument"), "keg-local DLL launcher executes");
+Check(!File.Exists(Path.Combine(paths.Bin, "local-fixture.exe")), "keg-local launcher needs no global link");
+links = linker.Link(localKeg, localCommands);
+Check(links.Count == 1, "global linking omits launcher sidecars and duplicates");
+result = await Run(Path.Combine(paths.Bin, "local-fixture.exe"), ["global argument"]);
+Check(result.Code == 37 && result.Output.Contains("global argument"), "global launcher executes after keg materialization");
 linker.Unlink(links);
 
 // Reject archive traversal, and expose an archive's single enclosing directory as buildpath.

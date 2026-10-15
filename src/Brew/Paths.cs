@@ -2,11 +2,12 @@ namespace Brew;
 
 public sealed class Paths
 {
-    public string Prefix { get; } = Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_PREFIX")
+    public string Prefix { get; } = Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_PREFIX") ?? Environment.GetEnvironmentVariable("HOMEBREW_PREFIX")
         ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Homebrew"));
     public string Cellar => Path.Combine(Prefix, "Cellar");
     public string Bin => Path.Combine(Prefix, "bin");
-    public string Cache => Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_CACHE") ?? Path.Combine(Prefix, "cache", "downloads"));
+    public string Cache => Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_CACHE") ?? Environment.GetEnvironmentVariable("HOMEBREW_CACHE") ?? Path.Combine(Prefix, "cache", "downloads"));
+    public string Taps => Path.Combine(Repository, "tap");
     public string Repository { get; } = FindRepository();
 
     static string FindRepository()
