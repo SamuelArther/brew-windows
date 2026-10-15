@@ -4,14 +4,23 @@ using Brew.Formulae;
 
 namespace Brew;
 
-public sealed record Receipt(string Name, string Version, string Url, string Sha256, List<BinLink> Links);
+public sealed record Receipt(string Name, string Version, string Url, string Sha256, List<BinLink> Links,
+    List<CommandSpec> Commands = null, List<string> Dependencies = null);
 
 public sealed class PackageManager(Paths paths)
 {
     const string ReceiptName = "INSTALL_RECEIPT.json";
     readonly Linker linker = new(paths);
+    readonly HashSet<string> installing = new(StringComparer.OrdinalIgnoreCase);
 
     public async Task InstallAsync(string name)
+    {
+        if (!installing.Add(name)) throw new InvalidOperationException($"Circular dependency: {name}");
+        try { await InstallCoreAsync(name); }
+        finally { installing.Remove(name); }
+    }
+
+    async Task InstallCoreAsync(string name)
     {
         var file = paths.Formula(name);
         if (!File.Exists(file)) throw new InvalidOperationException($"No available formula with the name \"{name}\".");
@@ -28,10 +37,18 @@ public sealed class PackageManager(Paths paths)
         var keg = Path.Combine(rack, formula.Version);
         if (File.Exists(Path.Combine(keg, ReceiptName)))
         {
-            Console.Error.WriteLine($"Warning: {name} {formula.Version} is already installed and up-to-date.\nTo reinstall {formula.Version}, run:\n  brew reinstall {name}");
+            var installed = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)));
+            var hasCommands = installed.Commands?.Count > 0 || Directory.Exists(Path.Combine(keg, "bin"))
+                && Directory.EnumerateFiles(Path.Combine(keg, "bin")).Any(f => !Path.GetExtension(f).Equals(".dll", StringComparison.OrdinalIgnoreCase));
+            if (installed.Links.Count == 0 && hasCommands)
+                Console.Error.WriteLine($"Warning: {name} {formula.Version} is already installed, it's just not linked.\nTo link this version, run:\n  brew link {name}");
+            else
+                Console.Error.WriteLine($"Warning: {name} {formula.Version} is already installed and up-to-date.\nTo reinstall {formula.Version}, run:\n  brew reinstall {name}");
             return;
         }
         if (Directory.Exists(keg)) throw new IOException($"Incomplete keg already exists: {keg}");
+        foreach (var dependency in formula.Dependencies)
+            if (InstalledKegs(Paths.ValidateName(dependency)).Length == 0) await InstallAsync(dependency);
         var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256);
         var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(build);
@@ -40,14 +57,24 @@ public sealed class PackageManager(Paths paths)
         try
         {
             var filename = Path.GetFileName(new Uri(formula.Url).LocalPath);
-            File.Copy(download, Path.Combine(build, filename));
+            var stagedBuild = await Archive.StageAsync(download, filename, build);
+            var resources = new Dictionary<string, string>();
+            foreach (var resource in formula.Resources)
+            {
+                Paths.ValidateName(resource.Name);
+                var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
+                var resourcePath = Path.Combine(build, ".resources", resource.Name);
+                var stagedResource = await Archive.StageAsync(resourceFile, Path.GetFileName(new Uri(resource.Url).LocalPath), resourcePath);
+                resources.Add(resource.Name, stagedResource);
+            }
             Console.WriteLine($"==> Installing {name}");
             Directory.CreateDirectory(keg);
             createdKeg = true;
-            formula.Install(new InstallContext(keg, build));
-            links = linker.Link(keg);
-            File.WriteAllText(Path.Combine(keg, ReceiptName), JsonSerializer.Serialize(
-                new Receipt(name, formula.Version, formula.Url, formula.Sha256, links), new JsonSerializerOptions { WriteIndented = true }));
+            var context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
+            formula.Install(context);
+            links = linker.Link(keg, context.Commands);
+            ReceiptFile.Write(Path.Combine(keg, ReceiptName),
+                new Receipt(name, formula.Version, formula.Url, formula.Sha256, links, context.Commands, formula.Dependencies));
             Console.WriteLine($"{keg}: {Abbreviation(keg)}");
         }
         catch
@@ -81,10 +108,19 @@ public sealed class PackageManager(Paths paths)
         }
     }
 
-    public void Uninstall(string name, bool force)
+    public void Uninstall(string name, bool force, bool ignoreDependencies = false)
     {
         var kegs = InstalledKegs(name);
         if (kegs.Length == 0 && !force) throw new InvalidOperationException($"No such keg: {paths.Rack(name)}");
+        if (kegs.Length > 0 && !ignoreDependencies)
+        {
+            var dependents = Directory.EnumerateFiles(paths.Cellar, ReceiptName, SearchOption.AllDirectories)
+                .Select(f => JsonSerializer.Deserialize<Receipt>(File.ReadAllText(f)))
+                .Where(r => r.Name != name && r.Dependencies?.Contains(name) == true)
+                .Select(r => r.Name).Distinct().Order(StringComparer.Ordinal).ToArray();
+            if (dependents.Length > 0)
+                throw new InvalidOperationException($"Refusing to uninstall {paths.Rack(name)}\nbecause it is required by {string.Join(", ", dependents)}, which {(dependents.Length == 1 ? "is" : "are")} currently installed.\nYou can override this and force removal with:\n  brew uninstall --ignore-dependencies {name}");
+        }
         foreach (var keg in kegs)
         {
             var receipt = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)))
@@ -104,17 +140,20 @@ public sealed class PackageManager(Paths paths)
             var receipt = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receiptPath));
             if (unlink)
             {
+                // Refuse a locked/read-only receipt before removing any links.
+                using (var writable = new FileStream(receiptPath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read)) { }
                 linker.Unlink(receipt.Links);
+                ReceiptFile.Write(receiptPath, receipt with { Links = [] });
                 Console.WriteLine($"Unlinking {keg}... {receipt.Links.Count} symlinks removed.");
-                receipt = receipt with { Links = [] };
             }
             else
             {
                 if (receipt.Links.Count > 0) { Console.Error.WriteLine($"Warning: Already linked: {keg}"); continue; }
-                receipt = receipt with { Links = linker.Link(keg) };
-                Console.WriteLine($"Linking {keg}... {receipt.Links.Count} symlinks created.");
+                var links = linker.Link(keg, receipt.Commands);
+                try { ReceiptFile.Write(receiptPath, receipt with { Links = links }); }
+                catch { linker.Unlink(links); throw; }
+                Console.WriteLine($"Linking {keg}... {links.Count} symlinks created.");
             }
-            File.WriteAllText(receiptPath, JsonSerializer.Serialize(receipt));
         }
     }
 

@@ -54,3 +54,51 @@ bin and buildpath to this context. Path methods can delegate to System.IO.
 The CLI discovers FormulaLoader through its exact fully-qualified type name to
 allow the initial non-Ruby code to compile while Claude implements the loader.
 Once present, the loader is always used; there is no alternate formula parser.
+
+## Windows package extension (Codex, package conversion batch)
+
+The jq API remains compatible. Add these Ruby bindings in FormulaLoader:
+
+- `depends_on "node"`: append name to FormulaDefinition.Dependencies (List<string>).
+- `resource "name" do; url "..."; sha256 "..."; end`: append
+  `new FormulaResource(name, url, sha256)` to FormulaDefinition.Resources.
+- `install_tree` / `install_tree "source", "destination"`: context.InstallTree(source=".", destination="libexec").
+- `install_resource "name", "destination"`: context.InstallResource(name, destination).
+- `windows_exe "libexec/bin/tool.exe", "tool"`: context.WindowsExe(source, name, params string[] arguments).
+  Extra positional arguments are fixed arguments before user arguments.
+- `node_script "libexec/bin/tool.js", "tool"`: context.NodeScript(script, name); requires depends_on "node".
+- `msys2_install`: context.Msys2Install(); copies main and resource archives into an isolated libexec MSYS2 root.
+- `msys2_bin "usr/bin/tool.exe", "tool"`: context.Msys2Bin(source, name).
+  A source without .exe is run using that isolated root's bash.exe.
+
+Resources are checksum-verified and staged by the installer; each resource gets
+its own directory. Archive staging supports zip, nupkg, msix, tar.gz, tar.xz,
+tar.bz2 and pkg.tar.zst via Windows bsdtar. Single enclosing directories are
+stripped for upstream release archives, but NOT for MSYS2 package archives.
+InstallTree recursively copies from buildpath to the keg, preserving layout.
+WindowsExe records an exported command; the prefix launcher invokes the real
+executable in its original directory. It does not copy that executable to bin.
+NodeScript uses the installed node dependency. No installer or GUI is launched.
+Resources and Dependencies default to empty lists. Existing jq loaders need only
+add these bindings to support the additional formulae; Codex owns the C# types.
+- `windows_cmd "libexec/bin/tool.cmd", "tool"`: context.WindowsCmd(source, name).
+  Creates a batch wrapper calling the original script, preserving its %~dp0.
+  Optional environment variable name and prefix-relative path arguments (e.g.
+  "JAVA_HOME", "libexec/jdk") are scoped to that wrapper's child process.
+MSI archives are also supported using a read-only Windows Installer database and
+embedded cabinet extraction. No MSI actions, registry writes or installers run.
+
+### Bindings added by the 22-package catalog
+
+- `install_library` / `install_library "libexec/ucrt64"`:
+  context.InstallLibrary(source="libexec/ucrt64"); installs native headers,
+  libraries and DLLs at the keg root for readline and libyaml.
+- `msys2_install "opt/rbenv"`: pass optional subdirectory to
+  context.Msys2Install(subdirectory=""). Needed to keep rbenv's own bin separate
+  from the MSYS2 /bin -> /usr/bin alias.
+- `windows_cmd` binding above is required by node, maven and heroku.
+- `windows_exe "libexec/**/aws.exe", "aws"` uses a unique recursive match in the
+  native context; the Ruby loader passes the string through unchanged.
+
+Integration status: real jq EndToEnd.ps1 passes with Claude's loader. The package
+catalog exercises the extension bindings above. Codex does not edit Ruby files.

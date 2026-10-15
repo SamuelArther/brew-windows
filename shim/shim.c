@@ -16,9 +16,28 @@ int wmain(void) {
     BOOL read = ReadFile(file, bytes, sizeof(bytes), &count, NULL);
     CloseHandle(file);
     if (!read || !count || count >= sizeof(bytes)) return 126;
-    int chars = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, bytes, count, target, 32767);
+    char *newline = memchr(bytes, '\n', count);
+    DWORD targetCount = newline ? (DWORD)(newline - bytes) : count;
+    int chars = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, bytes, targetCount, target, 32767);
     if (!chars) return 126;
     target[chars] = 0;
+    wchar_t prefixArgs[32768] = L"";
+    if (newline) {
+        int remaining = (int)(count - targetCount - 1);
+        int n = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, newline + 1, remaining, prefixArgs, 32767);
+        if (!n && remaining) return 126;
+        prefixArgs[n] = 0;
+    }
+    // DLL resolution and script subprocesses also need their package's bin directory.
+    wchar_t environmentPath[32768], oldPath[32768] = L"", targetDir[32768];
+    wcscpy(targetDir, target);
+    wchar_t *separator = wcsrchr(targetDir, L'\\');
+    if (separator) *separator = 0;
+    GetEnvironmentVariableW(L"PATH", oldPath, 32768);
+    if (wcslen(targetDir) + wcslen(oldPath) + 2 < 32768) {
+        swprintf(environmentPath, 32768, L"%ls;%ls", targetDir, oldPath);
+        SetEnvironmentVariableW(L"PATH", environmentPath);
+    }
     // Keep the original argument text, including quoting and backslashes.
     wchar_t *args = GetCommandLineW();
     BOOL quoted = FALSE;
@@ -27,10 +46,10 @@ int wmain(void) {
         else if (!quoted && (*args == L' ' || *args == L'\t')) break;
         args++;
     }
-    size_t size = wcslen(target) + wcslen(args) + 4;
+    size_t size = wcslen(target) + wcslen(prefixArgs) + wcslen(args) + 5;
     wchar_t *command = HeapAlloc(GetProcessHeap(), 0, size * sizeof(wchar_t));
     if (!command) return 126;
-    swprintf(command, size, L"\"%ls\"%ls", target, args);
+    swprintf(command, size, L"\"%ls\" %ls%ls", target, prefixArgs, args);
     STARTUPINFOW startup = {0}; startup.cb = sizeof(startup);
     PROCESS_INFORMATION process = {0};
     SetConsoleCtrlHandler(ignore_ctrl, TRUE);

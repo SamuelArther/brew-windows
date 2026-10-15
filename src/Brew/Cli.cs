@@ -15,6 +15,16 @@ public static class Cli
             if (args[0] is "--version" or "-v") { Console.WriteLine("Homebrew 7.0.9 (Windows port)"); return 0; }
             if (args[0] is "--prefix" or "--cellar" or "--repository")
             {
+                if (args[0] == "--prefix" && args.Length == 2)
+                {
+                    var rack = paths.Rack(args[1]);
+                    var keg = Directory.Exists(rack) ? Directory.GetDirectories(rack)
+                        .Where(k => File.Exists(Path.Combine(k, "INSTALL_RECEIPT.json"))).Order(StringComparer.Ordinal).LastOrDefault() : null;
+                    if (keg == null) throw new InvalidOperationException($"No such keg: {rack}");
+                    Console.WriteLine(keg);
+                    return 0;
+                }
+                if (args.Length != 1) throw new InvalidOperationException($"Invalid usage: brew {args[0]}");
                 Console.WriteLine(args[0] == "--prefix" ? paths.Prefix : args[0] == "--cellar" ? paths.Cellar : paths.Repository);
                 return 0;
             }
@@ -22,7 +32,7 @@ public static class Cli
             var allowed = command switch
             {
                 "list" or "ls" => new[] { "--formula", "--formulae", "--versions", "-1" },
-                "uninstall" or "remove" or "rm" => new[] { "--formula", "--force", "-f" },
+                "uninstall" or "remove" or "rm" => new[] { "--formula", "--force", "-f", "--ignore-dependencies" },
                 _ => new[] { "--formula" }
             };
             var unknown = args.Skip(1).FirstOrDefault(a => a.StartsWith('-') && !allowed.Contains(a));
@@ -41,7 +51,7 @@ public static class Cli
                 case "list": case "ls": manager.List(names, args.Contains("--versions")); break;
                 case "uninstall": case "remove": case "rm":
                     RequireNames(names, command);
-                    foreach (var name in names) manager.Uninstall(name, args.Contains("--force") || args.Contains("-f"));
+                    foreach (var name in names) manager.Uninstall(name, args.Contains("--force") || args.Contains("-f"), args.Contains("--ignore-dependencies"));
                     break;
                 case "link": case "unlink":
                     RequireNames(names, command);
