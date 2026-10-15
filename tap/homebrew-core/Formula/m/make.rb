@@ -50,6 +50,7 @@ class Make < Formula
 
   test do
     (testpath/"Makefile").write("default:\n\t@echo Homebrew\n")
-    assert_equal "Homebrew\n", shell_output("#{bin}/make -C #{testpath}")
+    assert_equal "Homebrew\n", shell_output("#{bin}/gmake")
+    assert_equal "Homebrew\n", shell_output("#{bin}/make")
   end
 end
