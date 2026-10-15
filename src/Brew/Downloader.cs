@@ -44,6 +44,9 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
         if (string.IsNullOrEmpty(name)) throw new InvalidOperationException("Download URL has no filename.");
         Directory.CreateDirectory(cache);
         var destination = Path.Combine(cache, sha256.ToLowerInvariant() + "--" + name);
+        using var downloadLock = await DownloadLock.Acquire(cache, Path.GetFileName(destination));
+        var temporary = destination + ".incomplete";
+        File.Delete(temporary); // A previous writer may have exited before publishing its download.
         if (File.Exists(destination))
         {
             await VerifyAsync(destination, sha256);
@@ -53,7 +56,6 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
         for (var i = 0; i < urls.Count; i++)
         {
             Console.WriteLine($"==> Downloading {urls[i]}");
-            var temporary = destination + "." + Guid.NewGuid().ToString("N") + ".incomplete";
             try
             {
                 var actual = urls[i];
@@ -69,7 +71,7 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
                 await using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                     await response.Content.CopyToAsync(output);
                 await VerifyAsync(temporary, sha256);
-                File.Move(temporary, destination, overwrite: true);
+                File.Move(temporary, destination);
                 return destination;
             }
             catch (Exception ex) when (i < urls.Count - 1 && ex is HttpRequestException or TaskCanceledException or IOException or ChecksumMismatch)

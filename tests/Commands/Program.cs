@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using Brew;
 
+if (args.FirstOrDefault() == "--download-worker") { await ConcurrentDownloads.Worker(args); return; }
 var workspace = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../"));
 var root = Path.Combine(workspace, ".test-work", "commands-" + Guid.NewGuid().ToString("N"));
 var repo = Path.Combine(root, "repository"); var prefix = Path.Combine(root, "prefix"); var cache = Path.Combine(root, "cache");
@@ -17,6 +18,7 @@ int assertions = 0;
 try
 {
     assertions += await DownloadTests.Run(root);
+    assertions += await ConcurrentDownloads.Run(root);
     await Formula("leaf", "1.0"); await Formula("probe", "1.0", dependency: "leaf");
     await Formula("terraform", "1.0", tap: "hashicorp-tap");
     await Formula("libfixture", "1.0");

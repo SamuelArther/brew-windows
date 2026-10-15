@@ -48,6 +48,10 @@ public sealed class MaintenanceCommands(Paths paths)
             foreach (var file in Directory.EnumerateFiles(paths.Cache))
             {
                 if (selectedCache != null && !selectedCache.Contains(Path.GetFileName(file))) continue;
+                var filename = Path.GetFileName(file);
+                var key = filename.EndsWith(".incomplete", StringComparison.OrdinalIgnoreCase) ? filename[..^11] : filename;
+                using var cacheLock = DownloadLock.TryAcquire(paths.Cache, key);
+                if (cacheLock == null || !File.Exists(file)) continue;
                 if (File.GetLastWriteTimeUtc(file) > DateTime.UtcNow.AddDays(-age)) continue;
                 bytes += new FileInfo(file).Length;
                 Console.WriteLine($"{(args.Has("--dry-run", "-n") ? "Would remove" : "Removing")}: {file}... ({CommandOutput.Size(new FileInfo(file).Length)})");
