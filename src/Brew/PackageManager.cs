@@ -1,54 +1,69 @@
-using System.Reflection;
 using System.Text.Json;
 using Brew.Formulae;
 
 namespace Brew;
 
 public sealed record Receipt(string Name, string Version, string Url, string Sha256, List<BinLink> Links,
-    List<CommandSpec> Commands = null, List<string> Dependencies = null);
+    List<CommandSpec> Commands = null, List<string> Dependencies = null,
+    bool InstalledOnRequest = true, long InstalledAt = 0, string SourcePath = null);
 
 public sealed class PackageManager(Paths paths)
 {
     const string ReceiptName = "INSTALL_RECEIPT.json";
     readonly Linker linker = new(paths);
     readonly HashSet<string> installing = new(StringComparer.OrdinalIgnoreCase);
+    readonly FormulaRepository repository = new(paths);
+    readonly InstallationStore store = new(paths);
+    readonly OptLinks opt = new(paths);
 
-    public async Task InstallAsync(string name)
+    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false)
     {
         if (!installing.Add(name)) throw new InvalidOperationException($"Circular dependency: {name}");
-        try { await InstallCoreAsync(name); }
+        try { await InstallCoreAsync(name, requested, force, ignoreDependencies); }
         finally { installing.Remove(name); }
     }
 
-    async Task InstallCoreAsync(string name)
+    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies)
     {
-        var file = paths.Formula(name);
-        if (!File.Exists(file)) throw new InvalidOperationException($"No available formula with the name \"{name}\".");
-        var type = typeof(FormulaDefinition).Assembly.GetType("Brew.Ruby.FormulaLoader")
-            ?? throw new InvalidOperationException("Ruby FormulaLoader is not available; see docs/FORMULA_API.md.");
-        FormulaDefinition formula;
-        try { formula = (FormulaDefinition)type.GetMethod("Load", [typeof(string)]).Invoke(null, [file]); }
-        catch (TargetInvocationException ex) { throw ex.InnerException ?? ex; }
-        if (formula == null || formula.Name != name || formula.Install == null)
+        var file = repository.Find(name);
+        var formula = repository.LoadFile(file);
+        name = Paths.ValidateName(formula.Name);
+        if (formula.Install == null)
             throw new InvalidOperationException("Invalid formula definition; see docs/FORMULA_API.md.");
+        var deprecation = Metadata.Call(formula, "DeprecationMessage")?.ToString();
+        if (Metadata.Bool(formula, "Disabled") && !force) throw new InvalidOperationException($"{name} has been {deprecation}");
+        if (Metadata.Bool(formula, "Deprecated") || Metadata.Bool(formula, "Disabled")) CommandOutput.Warning($"{name} has been {deprecation}");
         if (string.IsNullOrEmpty(formula.Version) || formula.Version.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
             || formula.Version is "." or "..") throw new InvalidOperationException("Invalid formula version.");
         var rack = paths.Rack(name);
-        var keg = Path.Combine(rack, formula.Version);
+        var keg = Path.Combine(rack, Metadata.Version(formula));
         if (File.Exists(Path.Combine(keg, ReceiptName)))
         {
             var installed = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)));
+            if (requested && !installed.InstalledOnRequest)
+                ReceiptFile.Write(Path.Combine(keg, ReceiptName), installed with { InstalledOnRequest = true });
             var hasCommands = installed.Commands?.Count > 0 || Directory.Exists(Path.Combine(keg, "bin"))
                 && Directory.EnumerateFiles(Path.Combine(keg, "bin")).Any(f => !Path.GetExtension(f).Equals(".dll", StringComparison.OrdinalIgnoreCase));
-            if (installed.Links.Count == 0 && hasCommands)
-                Console.Error.WriteLine($"Warning: {name} {formula.Version} is already installed, it's just not linked.\nTo link this version, run:\n  brew link {name}");
+            if (installed.Links.Count == 0 && hasCommands && !Metadata.Bool(formula, "KegOnly"))
+                CommandOutput.Warning($"{name} {Metadata.Version(formula)} is already installed, it's just not linked.\nTo link this version, run:\n  brew link {name}");
             else
-                Console.Error.WriteLine($"Warning: {name} {formula.Version} is already installed and up-to-date.\nTo reinstall {formula.Version}, run:\n  brew reinstall {name}");
+                CommandOutput.Warning($"{name} {Metadata.Version(formula)} is already installed and up-to-date.\nTo reinstall {Metadata.Version(formula)}, run:\n  brew reinstall {name}");
             return;
         }
         if (Directory.Exists(keg)) throw new IOException($"Incomplete keg already exists: {keg}");
-        foreach (var dependency in formula.Dependencies)
-            if (InstalledKegs(Paths.ValidateName(dependency)).Length == 0) await InstallAsync(dependency);
+        if (!force && Metadata.Get(formula, "Conflicts") is System.Collections.IEnumerable declared)
+        {
+            var conflicts = declared.Cast<object>().Where(c => store.Kegs(Metadata.Text(c, "Name")).Any(k => k.Receipt.Links.Count > 0)).ToArray();
+            if (conflicts.Length > 0)
+            {
+                var names = conflicts.Select(c => Metadata.Text(c, "Name")).ToArray();
+                var lines = conflicts.Select(c => "  " + Metadata.Text(c, "Name") + (Metadata.Text(c, "Because", "Reason") is string reason ? ": because " + reason : ""));
+                throw new InvalidOperationException($"Cannot install {name} because conflicting formulae are installed.\n{string.Join("\n", lines)}\n\nPlease `brew unlink {string.Join(" ", names)}` before continuing.\n\nUnlinking removes a formula's symlinks from {paths.Prefix}. You can\nlink the formula again after the install finishes. You can `--force` this\ninstall, but the build may fail or cause obscure side effects in the\nresulting software.\n");
+            }
+        }
+        var runtimeDependencies = QueryCommands.Dependencies(formula).Where(d => d.Runtime).Select(d => d.Name).ToList();
+        foreach (var dependency in ignoreDependencies ? [] : runtimeDependencies)
+            if (store.Latest(dependency) == null) await InstallAsync(dependency, requested: false);
         var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256);
         var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(build);
@@ -67,19 +82,26 @@ public sealed class PackageManager(Paths paths)
                 var stagedResource = await Archive.StageAsync(resourceFile, Path.GetFileName(new Uri(resource.Url).LocalPath), resourcePath);
                 resources.Add(resource.Name, stagedResource);
             }
-            Console.WriteLine($"==> Installing {name}");
+            CommandOutput.Header($"Installing {name}");
             Directory.CreateDirectory(keg);
             createdKeg = true;
             var context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
             formula.Install(context);
-            links = linker.Link(keg, context.Commands);
+            linker.MaterializeCommands(keg, context.Commands);
+            links = Metadata.Bool(formula, "KegOnly", "IsKegOnly") ? [] : linker.Link(keg, context.Commands);
+            opt.Set(name, keg);
+            Metadata.Call(formula, "RunPostInstall", keg, paths.Prefix);
             ReceiptFile.Write(Path.Combine(keg, ReceiptName),
-                new Receipt(name, formula.Version, formula.Url, formula.Sha256, links, context.Commands, formula.Dependencies));
-            Console.WriteLine($"{keg}: {Abbreviation(keg)}");
+                new Receipt(name, Metadata.Version(formula), formula.Url, formula.Sha256, links, context.Commands, runtimeDependencies,
+                    requested, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), file));
+            var caveats = FormulaCaveats(formula, context);
+            if (!string.IsNullOrWhiteSpace(caveats)) { CommandOutput.Header("Caveats"); Console.WriteLine(caveats.TrimEnd()); CommandOutput.Header("Summary"); }
+            if (!CommandOutput.Quiet) Console.WriteLine($"{CommandOutput.Badge}{keg}: {Abbreviation(keg)}");
         }
         catch
         {
             linker.Unlink(links);
+            opt.Remove(name, keg);
             if (createdKeg) Directory.Delete(keg, true);
             RemoveEmptyRack(rack);
             throw;
@@ -110,8 +132,10 @@ public sealed class PackageManager(Paths paths)
 
     public void Uninstall(string name, bool force, bool ignoreDependencies = false)
     {
+        name = Paths.ValidateName(name.Split('/')[^1]);
         var kegs = InstalledKegs(name);
         if (kegs.Length == 0 && !force) throw new InvalidOperationException($"No such keg: {paths.Rack(name)}");
+        if (!force && store.IsPinned(name)) throw new InvalidOperationException($"{name} is pinned. You must unpin it to uninstall.");
         if (kegs.Length > 0 && !ignoreDependencies)
         {
             var dependents = Directory.EnumerateFiles(paths.Cellar, ReceiptName, SearchOption.AllDirectories)
@@ -127,9 +151,12 @@ public sealed class PackageManager(Paths paths)
                 ?? throw new IOException($"Invalid install receipt: {keg}");
             Console.WriteLine($"Uninstalling {keg}... ({Abbreviation(keg)})");
             linker.Unlink(receipt.Links);
+            opt.Remove(name, keg);
             Directory.Delete(keg, true);
         }
         RemoveEmptyRack(paths.Rack(name));
+        var pin = Path.Combine(store.PinDirectory, name);
+        if (File.Exists(pin)) File.Delete(pin);
     }
 
     public void Link(string name, bool unlink)
@@ -164,15 +191,78 @@ public sealed class PackageManager(Paths paths)
         return kegs;
     }
 
-    string[] InstalledKegs(string name) => Directory.Exists(paths.Rack(name))
-        ? Directory.GetDirectories(paths.Rack(name)).Where(k => File.Exists(Path.Combine(k, ReceiptName))).Order(StringComparer.Ordinal).ToArray() : [];
+    public string[] InstalledKegs(string name) => store.Kegs(name).Select(k => k.Path).ToArray();
+
+    public async Task FetchAsync(string name)
+    {
+        var formula = repository.Load(name);
+        await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256);
+        foreach (var resource in formula.Resources) await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
+    }
+
+    public async Task ReinstallAsync(string name)
+    {
+        var formula = repository.Load(name); name = formula.Name;
+        if (store.IsPinned(name)) throw new InvalidOperationException($"{name} is pinned. You must unpin it to reinstall.");
+        var previous = store.Kegs(name);
+        CommandOutput.Header($"Reinstalling {name}");
+        await ReplaceAsync(name, previous);
+    }
+
+    public async Task UpgradeAsync(string name)
+    {
+        var formula = repository.Load(name); name = formula.Name;
+        var previous = store.Kegs(name);
+        if (previous.Length == 0) throw new InvalidOperationException($"{name} not installed");
+        if (store.IsPinned(name)) { CommandOutput.Warning($"{name} is pinned. Skipping upgrade."); return; }
+        if (VersionOrder.Instance.Compare(previous[^1].Receipt.Version, Metadata.Version(formula)) >= 0)
+        { CommandOutput.Warning($"{name} {previous[^1].Receipt.Version} already installed"); return; }
+        CommandOutput.Header($"Upgrading {name}\n  {previous[^1].Receipt.Version} -> {Metadata.Version(formula)}");
+        await ReplaceAsync(name, previous);
+    }
+
+    async Task ReplaceAsync(string name, InstalledKeg[] previous)
+    {
+        var moved = new List<(InstalledKeg Keg, string Backup)>();
+        try
+        {
+            foreach (var keg in previous)
+            {
+                linker.Unlink(keg.Receipt.Links);
+                var backup = Path.Combine(paths.Rack(name), ".backup-" + Guid.NewGuid().ToString("N"));
+                try { Directory.Move(keg.Path, backup); }
+                catch { if (keg.Receipt.Links.Count > 0) InstallationStore.Save(keg, keg.Receipt with { Links = linker.Link(keg.Path, keg.Receipt.Commands) }); throw; }
+                moved.Add((keg, backup));
+            }
+            await InstallAsync(name, previous.Length == 0 || previous.Any(k => k.Receipt.InstalledOnRequest));
+        }
+        catch
+        {
+            foreach (var (keg, backup) in moved)
+            {
+                Directory.Move(backup, keg.Path);
+                var links = keg.Receipt.Links.Count == 0 ? [] : linker.Link(keg.Path, keg.Receipt.Commands);
+                InstallationStore.Save(keg, keg.Receipt with { Links = links });
+            }
+            if (previous.Length > 0) opt.Set(name, previous[^1].Path);
+            throw;
+        }
+        foreach (var (_, backup) in moved) Directory.Delete(backup, true);
+    }
+
+    public static string FormulaCaveats(FormulaDefinition formula, InstallContext context)
+    {
+        if (Metadata.Spec(formula) != null) return Metadata.Call(formula, "Caveats", context.Prefix, context.BrewPrefix)?.ToString() ?? "";
+        var value = Metadata.Get(formula, "Caveats", "CaveatsRenderer");
+        return value switch { string text => text, Func<InstallContext, string> render => render(context), _ => "" };
+    }
 
     static void RemoveEmptyRack(string rack)
     {
         if (Directory.Exists(rack) && !Directory.EnumerateFileSystemEntries(rack).Any()) Directory.Delete(rack);
     }
 
-    static string Abbreviation(string keg)
+    public static string Abbreviation(string keg)
     {
         var files = Directory.GetFiles(keg, "*", SearchOption.AllDirectories);
         double bytes = files.Sum(f => new FileInfo(f).Length);
