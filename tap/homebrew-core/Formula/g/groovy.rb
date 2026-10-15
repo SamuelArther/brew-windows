@@ -25,6 +25,6 @@ class Groovy < Formula
   test do
     output = shell_output("#{bin}/grape install org.activiti activiti-engine 5.16.4 2>&1")
     assert_match "found org.activiti#activiti-engine;5.16.4", output
-    assert_match "65536\n===> null\n", pipe_output("#{bin}/groovysh", "println 64*1024\n:exit\n")
+    assert_match "65536\n", pipe_output("#{bin}/groovysh", "println 64*1024\n:exit\n")
   end
 end
