@@ -143,7 +143,10 @@ FormulaSpec members:
 - Name, Path, ClassName, Desc, Homepage, Url, Sha256, Version, PkgVersion, Revision,
   VersionScheme, License (SPDX text as `brew info` prints it), HeadUrl, Mirrors.
   Install/fetch try Url then Mirrors on download failure. Every candidate uses the
-  same Sha256 and primary URL cache filename; checksum mismatches fail immediately.
+  same Sha256 and primary artifact cache filename. Downloaded checksum mismatches
+  try remaining mirrors, failing if none match. Apache closer.lua/closer.cgi URLs
+  resolve through asjson=1 (including backup/attic handling); cache and staging use
+  the artifact filename from the path/filename query parameter, not closer.lua.
 - Dependencies / UsesFromMacos: `List<Dependency>`; Dependency(Name, Tags) with
   Build, Test, Optional, Recommended, Runtime. FormulaDefinition.Dependencies excludes
   test and optional deps.

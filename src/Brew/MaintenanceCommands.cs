@@ -13,7 +13,7 @@ public sealed class MaintenanceCommands(Paths paths)
             void IncludeDownload(string url, string sha)
             {
                 if (sha != null && Uri.TryCreate(url, UriKind.Absolute, out var uri))
-                    selectedCache.Add(sha.ToLowerInvariant() + "--" + Path.GetFileName(uri.LocalPath));
+                    selectedCache.Add(sha.ToLowerInvariant() + "--" + Downloader.FileName(url));
             }
             var repository = new FormulaRepository(paths);
             foreach (var input in args.Names)

@@ -7,6 +7,11 @@ public static class Archive
 {
     public static async Task<string> StageAsync(string file, string filename, string destination)
     {
+        // Callers using the URL basename still need the resolved Apache artifact's extension.
+        var cachedName = Path.GetFileName(file);
+        if (filename is "closer.lua" or "closer.cgi" && cachedName.Length > 66
+            && cachedName.Substring(64, 2) == "--" && cachedName[..64].All(Uri.IsHexDigit))
+            filename = cachedName[66..];
         Directory.CreateDirectory(destination);
         if (filename.EndsWith(".msi", StringComparison.OrdinalIgnoreCase))
             await MsiArchive.ExtractAsync(file, destination);

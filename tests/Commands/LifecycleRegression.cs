@@ -65,6 +65,8 @@ static class LifecycleRegression
             File.WriteAllText(isolatedFile, File.ReadAllText(isolatedFile).Replace("keg_only :versioned_formula", "keg_only \"conflicts with another package\""));
             var refused = await Brew("link", "isolated");
             Check(refused.Error == "Warning: isolated is keg-only and must be linked with `--force`.\n", "keg-only force warning matches Homebrew");
+            Check(refused.Output == "\nIf you need to have this software first in your PATH instead consider running:\n"
+                + $"  $env:PATH = '{Path.Combine(prefix, "opt", "isolated", "bin")};' + $env:PATH\n", "keg-only warning includes PowerShell opt-bin PATH guidance");
             Check(!File.Exists(Path.Combine(prefix, "bin", "isolated.exe")), "keg-only refusal leaves global bin untouched");
             Check((await Brew("link", "--force", "isolated")).Code == 0, "explicit force permits keg-only linking");
             Check(File.Exists(Path.Combine(prefix, "bin", "isolated.exe")), "forced link creates executable");

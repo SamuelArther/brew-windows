@@ -79,7 +79,7 @@ public sealed class PackageManager(Paths paths)
         List<BinLink> links = [];
         try
         {
-            var filename = Path.GetFileName(new Uri(formula.Url).LocalPath);
+            var filename = Downloader.FileName(formula.Url);
             var stagedBuild = await Archive.StageAsync(download, filename, build);
             var resources = new Dictionary<string, string>();
             foreach (var resource in formula.Resources)
@@ -87,7 +87,7 @@ public sealed class PackageManager(Paths paths)
                 Paths.ValidateName(resource.Name);
                 var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
                 var resourcePath = Path.Combine(build, ".resources", resource.Name);
-                var stagedResource = await Archive.StageAsync(resourceFile, Path.GetFileName(new Uri(resource.Url).LocalPath), resourcePath);
+                var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);
                 resources.Add(resource.Name, stagedResource);
             }
             CommandOutput.Header($"Installing {name}");
@@ -203,6 +203,13 @@ public sealed class PackageManager(Paths paths)
                     && Metadata.Text(Metadata.Get(formula, "KegOnlyReason"), "Name") != "versioned_formula")
                 {
                     CommandOutput.Warning($"{name} is keg-only and must be linked with `--force`.");
+                    var bins = new[] { "bin", "sbin" }.Where(dir => Directory.Exists(Path.Combine(keg, dir))).ToArray();
+                    if (bins.Length > 0)
+                    {
+                        Console.WriteLine("\nIf you need to have this software first in your PATH instead consider running:");
+                        foreach (var dir in bins)
+                            Console.WriteLine($"  $env:PATH = '{Path.Combine(opt.PathFor(name), dir).Replace("'", "''")};' + $env:PATH");
+                    }
                     continue;
                 }
                 var links = linker.Link(keg, receipt.Commands);

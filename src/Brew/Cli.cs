@@ -183,7 +183,7 @@ public static class Cli
             {
                 "--prefix" => Path.Combine(paths.Prefix, "opt", formula.Name),
                 "--cellar" => paths.Rack(formula.Name),
-                _ => Path.Combine(paths.Cache, formula.Sha256 + "--" + Path.GetFileName(new Uri(formula.Url).LocalPath))
+                _ => Path.Combine(paths.Cache, formula.Sha256 + "--" + Downloader.FileName(formula.Url))
             });
         }
         return 0;
