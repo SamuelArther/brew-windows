@@ -23,6 +23,7 @@
     <EmbeddedResource Include="..\..\shim\shim.exe" LogicalName="shim.exe" />
     <EmbeddedResource Include="Content\command-help.json" LogicalName="command-help.json" />
     <None Include="..\..\tap\**\*.rb" Link="tap\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\tap\**\*.json" Link="tap\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\THIRD_PARTY_NOTICES.txt" Link="THIRD_PARTY_NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
