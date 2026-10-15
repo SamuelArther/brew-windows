@@ -33,10 +33,24 @@ try
     Equal(new Paths().Formula("libfixture"), libraryPath, "lib formula canonical shard");
     Equal(new FormulaRepository(new Paths()).Find("libfixture"), libraryPath, "core lib shard takes precedence over another tap");
     Equal((await Run("install", "libfixture@1")).Code, 0, "install text alias to lib-sharded formula");
-    Equal((await Run("uninstall", "libfixture")).Code, 0, "uninstall lib-sharded formula");
+    Equal((await Run("uninstal", "libfixture")).Code, 0, "uninstal command alias");
     Equal((await Run("--version")).Output, "Homebrew 7.0.9\n", "version");
     Equal((await Run("--help")).Output, Normalize(CommandHelp.General) + "\n", "generic Homebrew help");
     Equal((await Run()).Code, 1, "no-arguments exit status");
+    var unknown = await Run("frobnicate");
+    Equal(unknown.Code, 1, "unknown command exit status");
+    Equal(unknown.Error, Normalize(CommandHelp.General) + "\n\nError: Invalid usage: Unknown command: brew frobnicate\n", "Homebrew unknown command help and error");
+    Equal((await Run("doctro")).Error, Normalize(CommandHelp.General) + "\n\nError: Invalid usage: Unknown command: brew doctro\nDid you mean doctor?\n", "unknown command suggestion");
+    var commandNames = (await Run("commands", "--quiet", "--include-aliases")).Output.Split('\n');
+    foreach (var alias in new[] { "ls", "homepage", "-S", "up", "ln", "instal", "uninstal", "post_install", "rm", "remove", "abv", "dr", "--repo", "environment", "--config", "-v", "lc", "tc", "x" })
+        Equal(commandNames.Contains(alias), true, "Homebrew alias table includes " + alias);
+    var unknownFormula = await Run("install", "proeb");
+    Equal(unknownFormula.Code, 1, "unknown install exits unsuccessfully");
+    Equal(unknownFormula.Error, "Warning: No available formula or cask with the name \"proeb\". Did you mean probe?\n", "unknown install warning and suggestion");
+    Equal(unknownFormula.Output, "==> Searching for similarly named formulae and casks...\n==> Formulae\nprobe\n\nTo install probe, run:\n  brew install probe\n", "unknown install search results");
+    var noMatch = await Run("install", "zzzzzzzzzz");
+    Equal(noMatch.Code, 1, "unknown install with no matches exits unsuccessfully");
+    Equal(noMatch.Error, "Warning: No available formula or cask with the name \"zzzzzzzzzz\".\nError: No formulae or casks found for zzzzzzzzzz.\n", "unknown install with no matches diagnostics");
     Equal((await Run("search", "probe")).Output, "probe\n", "search");
     Equal((await Run("desc", "probe")).Output, "probe: probe fixture\n", "description");
     Equal((await Run("deps", "probe")).Output, "leaf\n", "dependencies");
@@ -53,7 +67,14 @@ try
     Equal((await ProcessRunner.Capture(kegBin, ["cmd.exe"])).Code, 0, "keg-only executable runs");
     var isolatedRemoval = await Run("uninstall", "isolated");
     Equal(isolatedRemoval.Code, 0, "keg-only uninstall: " + isolatedRemoval.Error);
-    Equal((await Run("install", "probe@1")).Code, 0, "install through symlink alias");
+    var dependencyInstall = await Run("instal", "probe@1");
+    Equal(dependencyInstall.Code, 0, "instal through symlink alias");
+    Equal(dependencyInstall.Output.Contains("==> Installing probe dependency: leaf (1.0)\n"), true, "Homebrew dependency installation header");
+    Equal((await Run("missing")).Output, "", "satisfied dependencies produce no missing output");
+    var hidden = await Run("missing", "--hide=leaf");
+    Equal(hidden.Code, 1, "missing hidden dependency exit status");
+    Equal(hidden.Output, "probe: leaf\n", "missing prefixes names when checking multiple kegs");
+    Equal((await Run("missing", "probe", "--hide=leaf")).Output, "leaf\n", "missing omits name when checking one keg");
     await Formula("rival", "1.0", conflict: "probe");
     var conflict = await Run("install", "rival");
     Equal(conflict.Code, 1, "declared conflict prevents installation");
@@ -124,6 +145,11 @@ try
     var cycle = await Run("deps", "--tree", "cyclea");
     Equal(cycle.Code, 1, "circular dependency tree exit status");
     Equal(cycle.Output, "cyclea\n└── cycleb\n    └── cyclea (CIRCULAR DEPENDENCY)\n\n", "Homebrew circular dependency marker");
+    var multipleDependencies = await Run("install", "diamond");
+    Equal(multipleDependencies.Code, 0, "install multiple dependency fixture");
+    Equal(multipleDependencies.Output.StartsWith("==> Installing dependencies for diamond: branch and probe\n"), true, "Homebrew multiple dependency summary");
+    Equal((await Run("uninstall", "--ignore-dependencies", "leaf")).Code, 0, "remove dependency for missing check");
+    Equal((await Run("missing", "diamond")).Output, "leaf\n", "missing detects transitive absent dependencies");
     Console.WriteLine($"PASS: {assertions} command assertions; no GUI or GitHub writes. Fixtures: {root}");
 }
 finally { foreach (var pair in saved) Environment.SetEnvironmentVariable(pair.Key, pair.Value); }

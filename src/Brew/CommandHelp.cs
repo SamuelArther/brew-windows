@@ -33,10 +33,20 @@ public static class CommandHelp
           https://docs.brew.sh
         """;
 
-    public static readonly string[] UserCommands = "install uninstall reinstall upgrade outdated list info search deps uses leaves autoremove link unlink pin unpin cleanup fetch update doctor config shellenv commands help home desc options tap untap tap-info log".Split(' ');
+    public static readonly string[] UserCommands = "install uninstall reinstall upgrade outdated list info search deps uses leaves missing autoremove link unlink pin unpin cleanup fetch update doctor config shellenv commands help home desc options tap untap tap-info log".Split(' ');
     public static readonly HashSet<string> RubyCommands = "create edit cat formula audit style livecheck test bump bump-formula-pr bump-revision extract unpack linkage irb ruby sh readall options".Split(' ').ToHashSet();
     public static readonly string[] NativeDevCommands = "tap-new pr-pull pr-publish pr-upload bottle dispatch-build-bottle release contributions lgtm generate-formula-api generate-cask-api generate-internal-api generate-advisories-api generate-analytics-api update-maintainers update-sponsors update-license-data update-python-resources update-perl-resources update-portable-ruby update-test vendor-gems test-bot determine-test-runners".Split(' ');
     public static IEnumerable<string> All => UserCommands.Concat(RubyCommands).Concat(NativeDevCommands).Distinct().Order(StringComparer.Ordinal);
+
+    public static int Unknown(string command, IEnumerable<string> aliases = null)
+    {
+        Console.Error.WriteLine(General);
+        Console.Error.WriteLine();
+        var suggestions = Suggestions.Correct(command, All.Concat(aliases ?? []));
+        CommandOutput.Error($"Invalid usage: Unknown command: brew {command}"
+            + (suggestions.Length == 0 ? "" : "\nDid you mean " + Suggestions.Sentence(suggestions, "or") + "?"));
+        return 1;
+    }
 
     public static async Task<int> Print(string command, string[] args)
     {
@@ -56,7 +66,7 @@ public static class CommandHelp
                 return 0;
             }
         }
-        if (!All.Contains(command)) throw new InvalidOperationException($"Unknown command: brew {command}");
+        if (!All.Contains(command)) return Unknown(command);
         Console.WriteLine($"Usage: brew {command} [options]");
         return 0;
     }

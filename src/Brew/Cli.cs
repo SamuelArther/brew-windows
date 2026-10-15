@@ -5,7 +5,10 @@ public static class Cli
     static readonly Dictionary<string, string> Aliases = new()
     {
         ["ls"] = "list", ["rm"] = "uninstall", ["remove"] = "uninstall", ["up"] = "update",
-        ["homepage"] = "home", ["--config"] = "config", ["--repo"] = "--repository", ["abv"] = "info"
+        ["homepage"] = "home", ["--config"] = "config", ["--repo"] = "--repository", ["abv"] = "info",
+        ["-S"] = "search", ["ln"] = "link", ["instal"] = "install", ["uninstal"] = "uninstall",
+        ["post_install"] = "postinstall", ["dr"] = "doctor", ["environment"] = "--env",
+        ["-v"] = "--version", ["lc"] = "livecheck", ["tc"] = "typecheck", ["x"] = "exec"
     };
     static readonly Dictionary<string, string[]> Options = new()
     {
@@ -18,6 +21,7 @@ public static class Cli
         ["deps"] = ["--direct", "--tree", "--installed", "--eval-all", "--include-build", "--include-test", "--include-optional", "--skip-recommended", "--union", "--topological"],
         ["uses"] = ["--installed", "--eval-all", "--recursive", "--include-build", "--include-test", "--include-optional", "--skip-recommended"],
         ["leaves"] = ["--installed-on-request", "--installed-as-dependency"],
+        ["missing"] = ["--hide"],
         ["outdated"] = ["--json", "--fetch-HEAD", "--greedy", "--greedy-latest", "--greedy-auto-updates"],
         ["autoremove"] = ["--dry-run", "-n"], ["cleanup"] = ["--dry-run", "-n", "--prune", "--prune-prefix", "-s"],
         ["link"] = ["--overwrite", "--dry-run", "-n"], ["unlink"] = ["--dry-run", "-n"],
@@ -43,10 +47,12 @@ public static class Cli
             if (command is "--version" or "-v") { Console.WriteLine("Homebrew 7.0.9"); return 0; }
             if (command is "--prefix" or "--cellar" or "--repository" or "--cache") return PathsCommand(paths, command, raw);
             if (command == "--env") { new SystemCommands(paths).Env(); return 0; }
-            if (CommandHelp.RubyCommands.Contains(command)) return await DevBridge.Run(command, raw);
+            if (CommandHelp.RubyCommands.Contains(command)
+                || typeof(Cli).Assembly.GetType("Brew.Ruby.DevCommands")?.GetMethod("Handles")?.Invoke(null, [command]) is true)
+                return await DevBridge.Run(command, raw);
             if (raw.Contains("--help") || raw.Contains("-h")) return await CommandHelp.Print(command, raw);
             if (CommandHelp.NativeDevCommands.Contains(command)) return await new GitDeveloperCommands(paths).Run(command, raw);
-            if (!Options.TryGetValue(command, out var allowed)) throw new InvalidOperationException($"Unknown command: brew {command}");
+            if (!Options.TryGetValue(command, out var allowed)) return CommandHelp.Unknown(command, Aliases.Keys);
             var helpType = typeof(Cli).Assembly.GetType("Brew.Ruby.UserCommandHelp");
             var sharedParser = helpType?.GetMethod("Parser")?.Invoke(null, [command]);
             CommandArguments args;
@@ -74,7 +80,11 @@ public static class Cli
                         if (args.Has("--HEAD", "--build-from-source", "-s")) throw new InvalidOperationException("Building from source is not supported by this Windows installer.");
                         if (args.Has("--only-dependencies"))
                             foreach (var dependency in repository.Load(name).Dependencies) await manager.InstallAsync(dependency, requested: false);
-                        else await manager.InstallAsync(name, force: args.Has("--force", "-f"), ignoreDependencies: args.Has("--ignore-dependencies"));
+                        else
+                        {
+                            try { await manager.InstallAsync(name, force: args.Has("--force", "-f"), ignoreDependencies: args.Has("--ignore-dependencies")); }
+                            catch (FormulaUnavailableException ex) { return query.SuggestInstall(ex.Name, args.Has("--formula", "--formulae")); }
+                        }
                     }
                     break;
                 case "uninstall":
@@ -109,6 +119,7 @@ public static class Cli
                 case "search": query.Search(args); break;
                 case "desc": query.Desc(args); break;
                 case "deps": return query.Deps(args);
+                case "missing": return query.Missing(args);
                 case "uses": query.Uses(args); break;
                 case "leaves": foreach (var name in query.Leaves(args)) Console.WriteLine(name); break;
                 case "outdated": return query.Outdated(args);

@@ -192,6 +192,55 @@ public sealed class QueryCommands(Paths paths)
         }
     }
 
+    public int Missing(CommandArguments args)
+    {
+        if (!Directory.Exists(paths.Cellar)) return 0;
+        var installed = store.All.GroupBy(k => k.Receipt.Name).ToDictionary(g => g.Key, g => g.Last());
+        var names = args.Names.Count == 0 ? installed.Keys.Order(StringComparer.Ordinal).ToArray()
+            : args.Names.Select(n => repository.Load(n).Name).Distinct().Order(StringComparer.Ordinal).ToArray();
+        var hidden = args.Array("--hide").ToHashSet(StringComparer.Ordinal);
+        var failed = false;
+        foreach (var name in names)
+        {
+            var seen = new HashSet<string>(); var missing = new List<string>();
+            void Visit(string current)
+            {
+                if (!seen.Add(current) || !installed.TryGetValue(current, out var keg)) return;
+                foreach (var dependency in keg.Receipt.Dependencies ?? [])
+                {
+                    var baseName = dependency.Split('/')[^1];
+                    if (hidden.Contains(baseName) || !Directory.Exists(paths.Rack(baseName))
+                        && !Directory.Exists(Path.Combine(paths.Prefix, "opt", baseName))) missing.Add(dependency);
+                    else Visit(baseName);
+                }
+            }
+            Visit(name);
+            if (missing.Count == 0) continue;
+            Console.WriteLine((names.Length > 1 ? name + ": " : "") + string.Join(" ", missing.Distinct()));
+            failed = true;
+        }
+        return failed ? 1 : 0;
+    }
+
+    public int SuggestInstall(string name, bool formulaOnly)
+    {
+        if (name == "updog") { CommandOutput.Error("What's updog?"); return 1; }
+        var fuzzy = Suggestions.Correct(name, repository.Names);
+        CommandOutput.Warning($"No available formula or cask with the name \"{name}\"."
+            + (fuzzy.Length == 0 ? "" : " Did you mean " + Suggestions.Sentence(fuzzy, "or") + "?"));
+        if (name.Contains('/')) return 1;
+        var types = formulaOnly ? "formulae" : "formulae and casks";
+        CommandOutput.Header($"Searching for similarly named {types}...");
+        static string Simplify(string value) => Regex.Replace(value.ToLowerInvariant(), "[^a-z0-9@+]", "");
+        var simplified = Simplify(name);
+        var matches = repository.Names.Where(n => Simplify(n).Contains(simplified)).Concat(fuzzy).Distinct().ToArray();
+        if (matches.Length == 0) { CommandOutput.Error($"No {(formulaOnly ? "formulae" : "formulae or casks")} found for {name}."); return 1; }
+        CommandOutput.Header("Formulae");
+        foreach (var match in matches) Console.WriteLine(match);
+        Console.WriteLine($"\nTo install {matches[0]}, run:\n  brew install {matches[0]}");
+        return 1;
+    }
+
     public string[] Leaves(CommandArguments args)
     {
         var all = store.All.GroupBy(k => k.Receipt.Name).Select(g => g.Last()).ToArray();

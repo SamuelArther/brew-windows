@@ -62,8 +62,16 @@ public sealed class PackageManager(Paths paths)
             }
         }
         var runtimeDependencies = QueryCommands.Dependencies(formula).Where(d => d.Runtime).Select(d => d.Name).ToList();
-        foreach (var dependency in ignoreDependencies ? [] : runtimeDependencies)
-            if (store.Latest(dependency) == null) await InstallAsync(dependency, requested: false);
+        var pending = (ignoreDependencies ? [] : runtimeDependencies).Where(d => store.Latest(d) == null).ToArray();
+        if (pending.Length > 1)
+            CommandOutput.Header($"Installing dependencies for {name}:" + (CommandOutput.Color ? "\u001b[0m" : "")
+                + " " + Suggestions.Sentence(pending.Select(CommandOutput.Identifier)), green: true);
+        foreach (var dependency in pending)
+        {
+            var definition = repository.Load(dependency);
+            CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency)} ({Metadata.Version(definition)})", green: true);
+            await InstallAsync(dependency, requested: false);
+        }
         var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256);
         var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(build);

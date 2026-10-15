@@ -7,6 +7,11 @@ using Brew.Formulae;
 
 namespace Brew;
 
+public sealed class FormulaUnavailableException(string name) : InvalidOperationException($"No available formula with the name \"{name}\".")
+{
+    public string Name { get; } = name;
+}
+
 public sealed class FormulaRepository(Paths paths)
 {
     readonly Dictionary<string, (long Stamp, FormulaDefinition Formula)> loaded = new(StringComparer.OrdinalIgnoreCase);
@@ -39,7 +44,7 @@ public sealed class FormulaRepository(Paths paths)
         // Resolve aliases through the interpreter, rather than parsing Ruby text separately.
         foreach (var file in Files)
             if (Metadata.Strings(LoadFile(file), "Aliases").Contains(name)) return file;
-        throw new InvalidOperationException($"No available formula with the name \"{input}\".");
+        throw new FormulaUnavailableException(input);
     }
 
     static string AliasTarget(string tap, string name)

@@ -10,6 +10,8 @@ public sealed class CommandArguments
     public string Value(string name, string fallback = null) => shared != null ? shared.GetType().GetMethod("Flag").Invoke(shared, [name])?.ToString() ?? fallback
         : flags.TryGetValue(name, out var value) && value != null ? value : fallback;
     public IEnumerable<string> Flags => flags.Keys;
+    public string[] Array(string name) => shared == null ? (Value(name)?.Split(',') ?? [])
+        : ((IEnumerable<string>)shared.GetType().GetMethod("Array").Invoke(shared, [name]))?.ToArray() ?? [];
 
     public CommandArguments(object parsed)
     {
