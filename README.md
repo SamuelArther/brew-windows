@@ -97,3 +97,5 @@ run real jq and check rollback and native shims; move or remove their
 Verify the exact published executable and its bundled tap before distribution.
 
 Interpreter contract: [FORMULA_API.md](docs/FORMULA_API.md).
+Parallel cache use, large-tap benchmarks, installer extraction and optional MSYS2
+DLL deduplication: [Scaling notes](docs/SCALING.md).
