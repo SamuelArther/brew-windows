@@ -27,14 +27,34 @@ public sealed class FormulaRepository(Paths paths)
         else throw new InvalidOperationException($"Invalid formula name: {input}");
         var core = paths.Formula(name);
         if (components.Length == 1 && File.Exists(core)) return core;
+        if (components.Length == 1 && AliasTarget(Path.Combine(paths.Taps, "homebrew-core"), name) is string coreAlias) return coreAlias;
         var matches = Directory.Exists(directory) ? Directory.GetFiles(directory, name + ".rb", SearchOption.AllDirectories)
             .Where(f => f.Split(Path.DirectorySeparatorChar).Contains("Formula")).ToArray() : [];
+        var taps = components.Length == 3 ? new[] { directory }
+            : Directory.Exists(directory) ? Directory.GetDirectories(directory) : [];
+        matches = matches.Concat(taps.Select(tap => AliasTarget(tap, name)).Where(f => f != null))
+            .Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
         if (matches.Length == 1) return matches[0];
         if (matches.Length > 1) throw new InvalidOperationException($"Formulae found in multiple taps: {input}\nPlease use a fully-qualified name.");
         // Resolve aliases through the interpreter, rather than parsing Ruby text separately.
         foreach (var file in Files)
             if (Metadata.Strings(LoadFile(file), "Aliases").Contains(name)) return file;
         throw new InvalidOperationException($"No available formula with the name \"{input}\".");
+    }
+
+    static string AliasTarget(string tap, string name)
+    {
+        var alias = Path.Combine(tap, "Aliases", name);
+        var link = new FileInfo(alias).LinkTarget;
+        if (link == null && !File.Exists(alias)) return null;
+        // Git with core.symlinks=false checks out a symlink as its relative target text.
+        var relative = link ?? File.ReadAllText(alias).Trim();
+        var target = Path.GetFullPath(relative, Path.GetDirectoryName(alias));
+        var formulaDir = Path.GetFullPath(Path.Combine(tap, "Formula")) + Path.DirectorySeparatorChar;
+        if (!target.StartsWith(formulaDir, StringComparison.OrdinalIgnoreCase)
+            || !target.EndsWith(".rb", StringComparison.OrdinalIgnoreCase) || !File.Exists(target))
+            throw new InvalidOperationException($"Invalid formula alias: {alias}");
+        return target;
     }
 
     public FormulaDefinition Load(string name) => LoadFile(Find(name));

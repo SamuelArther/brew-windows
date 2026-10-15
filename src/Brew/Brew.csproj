@@ -30,4 +30,11 @@
     <Exec Command="clang -Os -s -municode -o &quot;$(MSBuildProjectDirectory)\..\..\shim\shim.exe&quot; &quot;$(MSBuildProjectDirectory)\..\..\shim\shim.c&quot;" />
   </Target>
 
+  <Target Name="CopyFormulaAliasesToBuild" AfterTargets="Build">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\tools\Copy-FormulaAliases.ps1&quot; -Source &quot;$(MSBuildProjectDirectory)\..\..\tap&quot; -Destination &quot;$(TargetDir)tap&quot;" />
+  </Target>
+  <Target Name="CopyFormulaAliasesToPublish" AfterTargets="Publish">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\tools\Copy-FormulaAliases.ps1&quot; -Source &quot;$(MSBuildProjectDirectory)\..\..\tap&quot; -Destination &quot;$(PublishDir)tap&quot;" />
+  </Target>
+
 </Project>
