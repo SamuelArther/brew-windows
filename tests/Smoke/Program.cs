@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using Brew;
+using Brew.Formulae;
 
 var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.test-work/smoke"));
 if (Directory.Exists(root)) throw new Exception($"Remove previous test workspace before running: {root}");
@@ -17,8 +19,33 @@ await RunJq(jq);
 Check(await Cli.RunAsync(["list"]) == 0, "list");
 Check(await Cli.RunAsync(["list", "jq"]) == 0, "list jq");
 await manager.InstallAsync("jq");
+var receiptPath = Path.Combine(paths.Rack("jq"), "1.8.2", "INSTALL_RECEIPT.json");
+var beforeUnlink = File.ReadAllText(receiptPath);
+using (var locked = new FileStream(receiptPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+    MustFailIo(() => manager.Link("jq", true));
+Check(File.ReadAllText(receiptPath) == beforeUnlink && File.Exists(jq), "locked receipt leaves linked package intact");
 manager.Link("jq", true);
 Check(!File.Exists(jq), "unlink");
+var errors = new StringWriter();
+var previousError = Console.Error;
+try
+{
+    Console.SetError(errors);
+    await manager.InstallAsync("jq");
+}
+finally { Console.SetError(previousError); }
+Check(errors.ToString() == "Warning: jq 1.8.2 is already installed, it's just not linked.\nTo link this version, run:\n  brew link jq" + Environment.NewLine,
+    "Homebrew warning for an unlinked installation");
+Check(!File.Exists(jq), "install does not silently relink");
+
+// A locked receipt makes atomic replacement fail after link creation.
+// Relinking must undo its links, preserve the old receipt, and remove its temp file.
+var unlinkedReceipt = File.ReadAllText(receiptPath);
+using (var locked = new FileStream(receiptPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+    MustFailIo(() => manager.Link("jq", false));
+Check(!File.Exists(jq), "relink failure rolls back new links");
+Check(File.ReadAllText(receiptPath) == unlinkedReceipt, "failed replacement preserves receipt bytes");
+Check(!Directory.EnumerateFiles(Path.GetDirectoryName(receiptPath), "*.tmp").Any(), "receipt temporary cleanup");
 manager.Link("jq", false);
 await RunJq(jq);
 manager.Uninstall("jq", false);
@@ -30,6 +57,17 @@ File.WriteAllText(jq, "keep me");
 await MustFail(() => manager.InstallAsync("jq"), "link conflict");
 Check(File.ReadAllText(jq) == "keep me" && !Directory.Exists(paths.Rack("jq")), "conflict rollback");
 File.Delete(jq);
+
+// A formula error after copying files must roll back its keg and build directory.
+Brew.Ruby.FormulaLoader.InstallOverride = context =>
+{
+    context.InstallBin("jq-windows-amd64.exe", "jq.exe");
+    throw new InvalidOperationException("fixture install failure");
+};
+try { await MustFail(() => manager.InstallAsync("jq"), "fixture install failure"); }
+finally { Brew.Ruby.FormulaLoader.InstallOverride = null; }
+Check(!Directory.Exists(paths.Rack("jq")) && !File.Exists(jq), "formula error rollback");
+Check(!Directory.EnumerateFileSystemEntries(Path.Combine(root, "var", "homebrew", "build")).Any(), "build directory cleanup");
 
 // Corruption of a cached download must fail before creating a keg.
 File.WriteAllText(download, "corrupted");
@@ -51,7 +89,43 @@ Check(result.Output.Contains("hello world") && result.Output.Contains("embedded\
     && result.Output.Contains(@"C:\path with spaces\") && result.Output.Contains("stdin works"), "shim forwards arguments/stdin/stdout");
 linker.Unlink(links);
 Check(!File.Exists(links[0].Path) && !File.Exists(links[0].Path + ".brew-shim"), "shim unlink");
-Console.WriteLine("PASS: package lifecycle, SHA256, collision rollback, symlinks, native shim.");
+
+// Unlink must preserve files or links which a user has replaced after installation.
+links = linker.Link(shimKeg);
+File.WriteAllText(links[0].Path, "user replacement");
+linker.Unlink(links);
+Check(File.ReadAllText(links[0].Path) == "user replacement", "preserve replaced shim executable");
+File.Delete(links[0].Path);
+File.Delete(links[0].Path + ".brew-shim");
+File.Delete(Path.Combine(shimKeg, "bin", "fixture.dll"));
+links = linker.Link(shimKeg);
+File.Delete(links[0].Path);
+File.WriteAllText(links[0].Path, "user replacement");
+linker.Unlink(links);
+Check(File.ReadAllText(links[0].Path) == "user replacement", "preserve replaced symlink");
+File.Delete(links[0].Path);
+
+// Fixed launcher arguments must preserve quotes/backslashes before user arguments.
+File.Copy(Path.Combine(AppContext.BaseDirectory, "fixture.dll"), Path.Combine(shimKeg, "bin", "fixture.dll"));
+links = linker.Link(shimKeg, [new CommandSpec("prefixed.exe", Path.Combine(shimKeg, "bin", "fixture.exe"), ["fixed with spaces", "fixed\"quote", @"trailing\"])]);
+result = await Run(Path.Combine(paths.Bin, "prefixed.exe"), ["user argument"]);
+Check(result.Code == 37 && result.Output.Contains("fixed with spaces") && result.Output.Contains("fixed\"quote")
+    && result.Output.Contains(@"trailing\") && result.Output.Contains("user argument"), "fixed launcher argument quoting");
+linker.Unlink(links);
+
+// Reject archive traversal, and expose an archive's single enclosing directory as buildpath.
+var zip = Path.Combine(root, "normal.zip");
+using (var archive = ZipFile.Open(zip, ZipArchiveMode.Create))
+using (var writer = new StreamWriter(archive.CreateEntry("package/payload.txt").Open())) writer.Write("payload");
+var staged = await Archive.StageAsync(zip, "normal.zip", Path.Combine(root, "archive-stage"));
+Check(File.ReadAllText(Path.Combine(staged, "payload.txt")) == "payload", "archive enclosing directory");
+var malicious = Path.Combine(root, "malicious.zip");
+using (var archive = ZipFile.Open(malicious, ZipArchiveMode.Create))
+using (var writer = new StreamWriter(archive.CreateEntry("../escaped.txt").Open())) writer.Write("bad");
+try { await Archive.StageAsync(malicious, "malicious.zip", Path.Combine(root, "unsafe-stage")); throw new Exception("Traversal accepted."); }
+catch (IOException) { }
+Check(!File.Exists(Path.Combine(root, "escaped.txt")), "archive traversal rejected");
+Console.WriteLine("PASS: lifecycle, SHA256, rollback, atomic receipts, launchers, archives, symlinks and native shim.");
 
 static void Check(bool condition, string message)
 {
@@ -63,6 +137,12 @@ static async Task MustFail(Func<Task> action, string message)
     catch (Exception ex) when (ex.Message.Contains(message, StringComparison.OrdinalIgnoreCase)
         || message == "link conflict" && ex.Message.Contains("already exists")) { return; }
     throw new Exception("Expected failure: " + message);
+}
+static void MustFailIo(Action action)
+{
+    try { action(); }
+    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { return; }
+    throw new Exception("Expected filesystem failure.");
 }
 static async Task RunJq(string path)
 {
