@@ -53,9 +53,9 @@ public static partial class FormulaLoader
                 var result = a.Length > 1 ? a[1] : 0L;
                 i.Invoke(self, "ohai", new object[] { Interp.S(i.ToS(cmd)) }, null);
                 var line = CommandLine(i, self, cmd, assertion);
-                var (output, _, code) = Exec(i, ShellPsi(i, line), Sink.Capture, Sink.Err, null, false);
+                var (output, _, code) = Exec(i, ShellPsi(i, line), Sink.Capture, Sink.Err, null, false, false, out var binary);
                 if (result != null) AssertExit(i, self, assertion, result, code, output);
-                return Interp.S(output);
+                return new RString(output) { Binary = binary };
             });
 
             // Homebrew::Assertions#pipe_output
@@ -67,9 +67,10 @@ public static partial class FormulaLoader
                 var result = a.Length > 2 ? a[2] : null;
                 i.Invoke(self, "ohai", new object[] { Interp.S(i.ToS(cmd)) }, null);
                 var line = CommandLine(i, self, cmd, assertion);
-                var (output, _, code) = Exec(i, ShellPsi(i, line), Sink.Capture, Sink.Err, input, true);
+                var (output, _, code) = Exec(i, ShellPsi(i, line), Sink.Capture, Sink.Err, input, true,
+                    a.Length > 1 && a[1] is RString { Binary: true }, out var binary);
                 if (result != null) AssertExit(i, self, assertion, result, code, output);
-                return Interp.S(output);
+                return new RString(output) { Binary = binary };
             });
 
             // Kernel#quiet_system: like system, with stdout and stderr discarded
@@ -638,7 +639,13 @@ public static partial class FormulaLoader
             i.Globals["$CHILD_STATUS"] = (long)code;
         }
 
-        static (string Out, string Err, int Code) Exec(Interp i, ProcessStartInfo psi, Sink outMode, Sink errMode, string input, bool redirectIn)
+        static (string Out, string Err, int Code) Exec(Interp i, ProcessStartInfo psi, Sink outMode, Sink errMode, string input, bool redirectIn) =>
+            Exec(i, psi, outMode, errMode, input, redirectIn, false, out _);
+
+        // Captured output is UTF-8 text with CRLFs folded, unless it isn't valid UTF-8: then it's kept byte for
+        // byte (Latin-1, binary = true), so compressed or image data can be piped back in unchanged.
+        static (string Out, string Err, int Code) Exec(Interp i, ProcessStartInfo psi, Sink outMode, Sink errMode, string input, bool redirectIn,
+            bool inputBinary, out bool binary)
         {
             if (errMode == Sink.Err && ReferenceEquals(i.Err, Console.Error)) errMode = Sink.Inherit;
             if (outMode == Sink.Err && ReferenceEquals(i.Out, Console.Out)) outMode = Sink.Inherit;
@@ -658,19 +665,23 @@ public static partial class FormulaLoader
             }
             using (proc)
             {
-                StringBuilder outBuf = new(), errBuf = new();
-                Task Pump(StreamReader r, Sink mode, StringBuilder own, TextWriter w) => Task.Run(() =>
+                MemoryStream outBuf = new(), errBuf = new();
+                Task Pump(StreamReader r, Sink mode, MemoryStream own, TextWriter w) => Task.Run(() =>
                 {
-                    var buf = new char[4096];
-                    int got;
-                    while ((got = r.Read(buf, 0, buf.Length)) > 0)
+                    if (mode == Sink.Err)
                     {
-                        if (mode == Sink.Err) lock (w) w.Write(buf, 0, got);
-                        else if (mode != Sink.Discard)
-                        {
-                            var target = mode == Sink.Merge ? outBuf : own;
-                            lock (target) target.Append(buf, 0, got);
-                        }
+                        var chars = new char[4096];
+                        int n;
+                        while ((n = r.Read(chars, 0, chars.Length)) > 0) lock (w) w.Write(chars, 0, n);
+                        return;
+                    }
+                    var buf = new byte[4096];
+                    int got;
+                    while ((got = r.BaseStream.Read(buf, 0, buf.Length)) > 0)
+                    {
+                        if (mode == Sink.Discard) continue;
+                        var target = mode == Sink.Merge ? outBuf : own;
+                        lock (target) target.Write(buf, 0, got);
                     }
                 });
                 var pumps = new List<Task>();
@@ -680,7 +691,11 @@ public static partial class FormulaLoader
                 {
                     try
                     {
-                        if (input != null) proc.StandardInput.Write(input);
+                        if (input != null)
+                        {
+                            var bytes = inputBinary ? Encoding.Latin1.GetBytes(input) : new UTF8Encoding(false).GetBytes(input);
+                            proc.StandardInput.BaseStream.Write(bytes, 0, bytes.Length);
+                        }
                         proc.StandardInput.Close();
                     }
                     catch (IOException) { }
@@ -689,8 +704,16 @@ public static partial class FormulaLoader
                 Task.WaitAll(pumps.ToArray());
                 if (errMode == Sink.Err) i.Err.Flush();
                 SetStatus(i, proc.ExitCode);
-                return (outBuf.ToString().Replace("\r\n", "\n"), errBuf.ToString().Replace("\r\n", "\n"), proc.ExitCode);
+                var output = Decode(outBuf.ToArray(), out binary);
+                return (output, Decode(errBuf.ToArray(), out _), proc.ExitCode);
             }
+        }
+
+        static string Decode(byte[] bytes, out bool binary)
+        {
+            binary = false;
+            try { return new UTF8Encoding(false, true).GetString(bytes).Replace("\r\n", "\n"); }
+            catch (DecoderFallbackException) { binary = true; return Encoding.Latin1.GetString(bytes); }
         }
 
         // Kernel#which/#with_env/#free_port/#spawn, Process, Open3: only what the interpreter doesn't already provide.

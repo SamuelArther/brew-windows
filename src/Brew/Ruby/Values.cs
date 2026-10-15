@@ -26,6 +26,8 @@ public sealed class RString
 {
     public string V;
     public bool Frozen;
+    // Bytes that aren't UTF-8 (a child's binary output), one char per byte (Latin-1).
+    public bool Binary;
     public RString(string v) { V = v; }
     public override string ToString() => V;
     public override bool Equals(object o) => o is RString s && s.V == V;
