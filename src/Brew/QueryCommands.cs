@@ -244,7 +244,7 @@ public sealed class QueryCommands(Paths paths)
     public string[] Leaves(CommandArguments args)
     {
         var all = store.All.GroupBy(k => k.Receipt.Name).Select(g => g.Last()).ToArray();
-        var dependencies = all.SelectMany(k => k.Receipt.Dependencies ?? []).ToHashSet();
+        var dependencies = all.SelectMany(k => k.Receipt.Dependencies ?? []).Select(Paths.FormulaName).ToHashSet();
         return all.Where(k => !dependencies.Contains(k.Receipt.Name)
             && (!args.Has("--installed-on-request") || k.Receipt.InstalledOnRequest)
             && (!args.Has("--installed-as-dependency") || !k.Receipt.InstalledOnRequest)).Select(k => k.Receipt.Name).Order(StringComparer.Ordinal).ToArray();

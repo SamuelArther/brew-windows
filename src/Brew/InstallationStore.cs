@@ -13,12 +13,20 @@ public sealed class InstallationStore(Paths paths)
             .Where(k => File.Exists(System.IO.Path.Combine(k, "INSTALL_RECEIPT.json")))
             .Select(k => new InstalledKeg(k, JsonSerializer.Deserialize<Receipt>(File.ReadAllText(System.IO.Path.Combine(k, "INSTALL_RECEIPT.json")))))
             .OrderBy(k => k.Receipt.Name, StringComparer.Ordinal).ThenBy(k => k.Receipt.Version, VersionOrder.Instance).ToArray() : [];
-    public InstalledKeg[] Kegs(string name) => All.Where(k => k.Receipt.Name == Paths.ValidateName(name.Split('/')[^1])).ToArray();
+    public InstalledKeg[] Kegs(string name) => All.Where(k => k.Receipt.Name == Paths.FormulaName(name)).ToArray();
+    public string ResolveName(string input)
+    {
+        var name = Paths.FormulaName(input);
+        if (Directory.Exists(paths.Rack(name))) return name;
+        try { return Path.GetFileNameWithoutExtension(new FormulaRepository(paths).Find(input)); }
+        catch (FormulaUnavailableException) { return name; }
+    }
     public InstalledKeg Latest(string name) => Kegs(name).LastOrDefault();
     public string PinDirectory => System.IO.Path.Combine(paths.Prefix, "var", "homebrew", "pinned");
     public bool IsPinned(string name) => File.Exists(System.IO.Path.Combine(PinDirectory, Paths.ValidateName(name)));
     public void Pin(string name, bool unpin)
     {
+        name = ResolveName(name);
         var keg = Latest(name);
         if (keg == null) throw new InvalidOperationException($"{name} not installed");
         var file = System.IO.Path.Combine(PinDirectory, name);

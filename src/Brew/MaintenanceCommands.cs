@@ -6,7 +6,30 @@ public sealed class MaintenanceCommands(Paths paths)
 
     public void Cleanup(CommandArguments args)
     {
-        var selected = args.Names.Count == 0 ? null : args.Names.ToHashSet();
+        var selected = args.Names.Count == 0 ? null : args.Names.Select(store.ResolveName).ToHashSet();
+        var selectedCache = selected == null ? null : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        if (selectedCache != null)
+        {
+            void IncludeDownload(string url, string sha)
+            {
+                if (sha != null && Uri.TryCreate(url, UriKind.Absolute, out var uri))
+                    selectedCache.Add(sha.ToLowerInvariant() + "--" + Path.GetFileName(uri.LocalPath));
+            }
+            var repository = new FormulaRepository(paths);
+            foreach (var input in args.Names)
+            {
+                var kegs = store.Kegs(store.ResolveName(input));
+                foreach (var keg in kegs) IncludeDownload(keg.Receipt.Url, keg.Receipt.Sha256);
+                try
+                {
+                    var file = kegs.LastOrDefault()?.Receipt.SourcePath;
+                    var formula = file != null && File.Exists(file) ? repository.LoadFile(file) : repository.Load(input);
+                    IncludeDownload(formula.Url, formula.Sha256);
+                    foreach (var resource in formula.Resources) IncludeDownload(resource.Url, resource.Sha256);
+                }
+                catch (FormulaUnavailableException) when (kegs.Length > 0) { }
+            }
+        }
         long bytes = 0;
         foreach (var group in store.All.GroupBy(k => k.Receipt.Name))
         {
@@ -24,6 +47,7 @@ public sealed class MaintenanceCommands(Paths paths)
             var age = int.TryParse(args.Value("--prune"), out var days) ? days : args.Value("--prune") == "all" ? 0 : 120;
             foreach (var file in Directory.EnumerateFiles(paths.Cache))
             {
+                if (selectedCache != null && !selectedCache.Contains(Path.GetFileName(file))) continue;
                 if (File.GetLastWriteTimeUtc(file) > DateTime.UtcNow.AddDays(-age)) continue;
                 bytes += new FileInfo(file).Length;
                 Console.WriteLine($"{(args.Has("--dry-run", "-n") ? "Would remove" : "Removing")}: {file}... ({CommandOutput.Size(new FileInfo(file).Length)})");
@@ -39,6 +63,7 @@ public sealed class MaintenanceCommands(Paths paths)
         var keep = new HashSet<string>();
         void Retain(string name)
         {
+            name = Paths.FormulaName(name);
             if (!keep.Add(name) || !all.TryGetValue(name, out var keg)) return;
             foreach (var dependency in keg.Receipt.Dependencies ?? []) Retain(dependency);
         }
