@@ -277,7 +277,8 @@ sealed class FormulaAuditor
         if (coreTap && Versioned)
         {
             var unversioned = Regex.Replace(f.Name, "@.*$", "");
-            if (DevCommands.FormulaPath(unversioned) == null)
+            // Formulary.factory also resolves aliases (e.g. openssl -> openssl@3)
+            if (DevCommands.FormulaPath(unversioned) == null && !DevCommands.Aliases(f.Name).Contains(unversioned))
                 Problem($"{f.Name} is versioned but no {unversioned} formula exists");
         }
         else if (!Versioned)
@@ -295,7 +296,9 @@ sealed class FormulaAuditor
                 var major = $"{f.Name}@{parts[0]}";
                 var majorMinor = parts.Length > 1 ? $"{f.Name}@{parts[0]}.{parts[1]}" : major;
                 var aliasName = lastAliasVersion.Split('.').Length == 1 ? major : majorMinor;
-                if (aliasName != versions[0].name)
+                var versionedAliases = DevCommands.Aliases(f.Name).Where(x => System.Text.RegularExpressions.Regex.IsMatch(x, @".@\d")).ToList();
+                var validAliases = versionedAliases.Intersect(new[] { major, majorMinor }).ToList();
+                if (validAliases.Count == 0 && aliasName != versions[0].name)
                 {
                     var aliasDir = Path.Combine(StyleCheck.TapDir, "Aliases");
                     var rel = f.Path.Replace(StyleCheck.TapDir, "..");
@@ -513,11 +516,26 @@ sealed class FormulaAuditor
         }
     }
 
+    // Tap#audit_exception: tap/<tap>/audit_exceptions/<list>.json is a JSON array or object of formula names.
+    static bool AuditException(string list, string name)
+    {
+        var file = Path.Combine(StyleCheck.TapDir, "audit_exceptions", list + ".json");
+        if (!File.Exists(file)) return false;
+        using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(file));
+        return doc.RootElement.ValueKind switch
+        {
+            System.Text.Json.JsonValueKind.Array => doc.RootElement.EnumerateArray().Any(e => e.GetString() == name),
+            System.Text.Json.JsonValueKind.Object => doc.RootElement.TryGetProperty(name, out _),
+            _ => false,
+        };
+    }
+
     void AuditVersionedKegOnly()
     {
         if (!Versioned || !coreTap) return;
         if (f.KegOnlyReason is RSymbol { Name: "versioned_formula" }) return;
         if (f.KegOnly && (f.Name.StartsWith("openssl") || f.Name.StartsWith("libressl")) && f.KegOnlyReason is RSymbol { Name: "provided_by_macos" or "shadowed_by_macos" }) return;
+        if (AuditException("versioned_keg_only_allowlist", f.Name)) return;
         Problem("Versioned formulae in homebrew/core should use `keg_only :versioned_formula`");
     }
 

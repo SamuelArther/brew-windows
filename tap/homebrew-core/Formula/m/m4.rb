@@ -1,7 +1,6 @@
 class M4 < Formula
   desc "Macro processing language"
   homepage "https://www.gnu.org/software/m4/"
-  version "1.4.21"
   url "https://repo.msys2.org/msys/x86_64/m4-1.4.21-1-x86_64.pkg.tar.zst"
   sha256 "b561e8871c7599502d9fae7196ee965b3fed3d7af09154eb8d2f5e4d9e5e5106"
   license "GPL-3.0-or-later"

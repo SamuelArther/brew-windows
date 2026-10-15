@@ -1,7 +1,6 @@
 class Bison < Formula
   desc "Parser generator"
   homepage "https://www.gnu.org/software/bison/"
-  version "3.8.2"
   url "https://repo.msys2.org/msys/x86_64/bison-3.8.2-5-x86_64.pkg.tar.zst"
   sha256 "7439ca784a9909e0730a513d3aff15852c3b292ac85053fa2dd7a2a19c1ce04c"
   license "GPL-3.0-or-later"

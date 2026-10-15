@@ -1,9 +1,9 @@
 class Dotnet < Formula
   desc ".NET Core"
   homepage "https://dotnet.microsoft.com/"
-  url "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.401/dotnet-sdk-10.0.401-win-x64.zip"
-  version "10.0.401"
-  sha256 "c1b96dea223e1ab2af8a51187e0cc96338d14c68834be1656136be18953cea09"
+  url "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.402/dotnet-sdk-10.0.402-win-x64.zip"
+  version "10.0.402"
+  sha256 "24d057ab968986a9d7c7a01606b2a0192cbe6485221ba38e9c685522e93d8798"
   license "MIT"
 
   livecheck do

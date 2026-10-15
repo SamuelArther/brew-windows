@@ -1,7 +1,6 @@
 class Gpatch < Formula
   desc "Apply a diff file to an original"
   homepage "https://savannah.gnu.org/projects/patch/"
-  version "2.8"
   url "https://repo.msys2.org/msys/x86_64/patch-2.8-2-x86_64.pkg.tar.zst"
   sha256 "df34ebf345d607cabf0b2cbad60f562f775f07985647b84035b40702f62ee9b1"
   license "GPL-3.0-or-later"
@@ -22,7 +21,13 @@ class Gpatch < Formula
   test do
     testfile = testpath/"test"
     testfile.write "homebrew\n"
-    patch = "--- test\t2008-12-31 00:00:00.000000000 +0000\n+++ test\t2008-12-31 00:00:00.000000000 +0000\n@@ -1 +1 @@\n-homebrew\n+hello\n"
+    patch = <<~EOS
+      --- test	2008-12-31 00:00:00.000000000 +0000
+      +++ test	2008-12-31 00:00:00.000000000 +0000
+      @@ -1 +1 @@
+      -homebrew
+      +hello
+    EOS
     pipe_output("#{bin}/gpatch", patch)
     assert_equal "hello", testfile.read.chomp
   end

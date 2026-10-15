@@ -1,10 +1,9 @@
 class Gettext < Formula
   desc "GNU internationalization (i18n) and localization (l10n) library"
   homepage "https://www.gnu.org/software/gettext/"
-  version "1.0"
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gettext-tools-1.0-1-any.pkg.tar.zst"
   sha256 "e2b017e98dfed1ff026b6d5fc26b228d05d8a0ffc00077727018109f694eee5b"
-  license "GPL-3.0-or-later AND LGPL-2.1-or-later"
+  license all_of: ["GPL-3.0-or-later", "LGPL-2.1-or-later"]
 
   # Native UCRT64 gettext tools and runtime commands.
 

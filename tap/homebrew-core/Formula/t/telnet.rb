@@ -1,10 +1,9 @@
 class Telnet < Formula
   desc "User interface to the TELNET protocol"
   homepage "https://opensource.apple.com/"
-  version "2.8"
   url "https://repo.msys2.org/msys/x86_64/inetutils-2.8-1-x86_64.pkg.tar.zst"
   sha256 "b0a00adbdc549b54292db23530caf58bb0f150fc39359b99d074d6dee9aed677"
-  license "BSD-4-Clause-UC AND APSL-1.0"
+  license "GPL-3.0-or-later"
 
   # Homebrew's telnet is Apple's (macOS-only); this is the GNU inetutils telnet client from MSYS2.
   # The version is that of inetutils.

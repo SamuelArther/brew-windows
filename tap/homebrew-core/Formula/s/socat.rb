@@ -1,7 +1,6 @@
 class Socat < Formula
   desc "SOcket CAT: netcat on steroids"
   homepage "http://www.dest-unreach.org/socat/"
-  version "1.8.1.3"
   url "https://repo.msys2.org/msys/x86_64/socat-1.8.1.3-1-x86_64.pkg.tar.zst"
   sha256 "ad145b4dfc669c9833601dd277bad550f64f469eed01d9fdea048f6f9a361190"
   license "GPL-2.0-only"

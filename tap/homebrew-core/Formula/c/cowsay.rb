@@ -1,7 +1,6 @@
 class Cowsay < Formula
   desc "Apjanke's fork of the classic cowsay project"
   homepage "https://cowsay.diamonds"
-  version "3.8.4"
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cowsay-3.8.4-2-any.pkg.tar.zst"
   sha256 "2eaab1adc80268eeaeb0a3c4b2c3e838efc3e565ff583b7108d78165b7520e1b"
   license "GPL-3.0-only"

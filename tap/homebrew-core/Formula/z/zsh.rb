@@ -3,7 +3,7 @@ class Zsh < Formula
   homepage "https://www.zsh.org/"
   url "https://repo.msys2.org/msys/x86_64/zsh-5.9.2-1-x86_64.pkg.tar.zst"
   sha256 "9a134200a152d90a0f1820d6aa74c3369d8539c068b523852549d74b16739fa8"
-  license "MIT-Modern-Variant AND GPL-2.0-only AND GPL-2.0-or-later AND ISC"
+  license all_of: ["MIT-Modern-Variant", "GPL-2.0-only", "GPL-2.0-or-later", "ISC"]
 
   # zsh via MSYS2.
 

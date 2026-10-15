@@ -1,7 +1,6 @@
 class Gdb < Formula
   desc "GNU debugger"
   homepage "https://www.gnu.org/software/gdb/"
-  version "18.1"
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gdb-18.1-3-any.pkg.tar.zst"
   sha256 "8c8616dd4dbb2573d598b5bd6ec68387c15fd6e729ea44556bb20e60d3712461"
   license "GPL-3.0-or-later"

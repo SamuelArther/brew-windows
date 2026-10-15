@@ -1,7 +1,6 @@
 class Whois < Formula
   desc "Lookup tool for domain names and other internet resources"
   homepage "https://github.com/rfc1036/whois"
-  version "5.6.6"
   url "https://repo.msys2.org/msys/x86_64/whois-5.6.6-1-x86_64.pkg.tar.zst"
   sha256 "ba45d068c3948388d586b3e865992b61ec016d85628ba13c40ae9f7a008d8074"
   license "GPL-2.0-or-later"

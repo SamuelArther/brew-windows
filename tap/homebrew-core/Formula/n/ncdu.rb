@@ -1,7 +1,6 @@
 class Ncdu < Formula
   desc "NCurses Disk Usage"
   homepage "https://dev.yorhel.nl/ncdu"
-  version "1.23.0"
   url "https://repo.msys2.org/msys/x86_64/ncdu-1.23.0-1-x86_64.pkg.tar.zst"
   sha256 "7452a6ca97969f860081f5106fb00817b1472b83785be3bfe2147fdce8669b26"
   license "MIT"

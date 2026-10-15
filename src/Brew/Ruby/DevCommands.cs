@@ -168,6 +168,23 @@ public static class DevCommands
         return Path.Combine(CoreTapFormulaDir, Shard(name), name + ".rb");
     }
 
+    // Formula#aliases: entries in the tap's Aliases dir (symlinks, or git's plain-text symlink files) pointing at the formula.
+    public static List<string> Aliases(string formulaName)
+    {
+        var dir = Path.Combine(Paths.Repository, "tap", "homebrew-core", "Aliases");
+        var result = new List<string>();
+        if (!Directory.Exists(dir)) return result;
+        foreach (var entry in Directory.EnumerateFileSystemEntries(dir).Order(StringComparer.Ordinal))
+        {
+            string target;
+            try { target = new FileInfo(entry).LinkTarget ?? File.ReadAllText(entry).Trim(); }
+            catch (IOException) { continue; }
+            if (Path.GetFileNameWithoutExtension(target.Replace('\\', '/').Split('/')[^1]) == formulaName)
+                result.Add(Path.GetFileName(entry));
+        }
+        return result;
+    }
+
     // CoreTap#new_formula_subdirectory
     public static string Shard(string name) => name.StartsWith("lib") ? "lib" : name[..1];
 

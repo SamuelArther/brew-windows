@@ -7,6 +7,8 @@ class PostgresqlAT17 < Formula
 
   # EDB's official PostgreSQL Windows binaries zip (linked from postgresql.org). No service is registered or started.
 
+  keg_only :versioned_formula
+
   def install
     install_tree
     %w[clusterdb createdb createuser dropdb dropuser ecpg initdb pg_amcheck pg_archivecleanup

@@ -1,13 +1,14 @@
 class Gcc < Formula
   desc "GNU compiler collection"
   homepage "https://gcc.gnu.org/"
-  version "16.2.0"
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gcc-16.2.0-6-any.pkg.tar.zst"
   sha256 "0290e91f5a9a8a3699bcea6221a899403bb9bd5d6f7dbd98c883d74e2ef36338"
-  license "GPL-3.0-or-later WITH GCC-exception-3.1"
+  license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   # Native UCRT64 GCC toolchain (mingw-w64 targeting x86_64-w64-mingw32) with binutils.
   # Commands are exposed unversioned and with Homebrew's -16 suffix.
+  # Programs linked to libstdc++/libgcc DLLs need -static (or libexec/ucrt64/bin on PATH) to run.
+  # Very deep BREW_PREFIX paths can push C++ headers past Windows' 260-character MAX_PATH.
 
   resource "mingw-w64-ucrt-x86_64-binutils" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-binutils-2.47-4-any.pkg.tar.zst"

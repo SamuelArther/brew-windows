@@ -1,7 +1,6 @@
 class Netcat < Formula
   desc "Utility for managing network connections"
   homepage "https://netcat.sourceforge.net/"
-  version "0.7.1"
   url "https://repo.msys2.org/msys/x86_64/gnu-netcat-0.7.1-3-x86_64.pkg.tar.zst"
   sha256 "77be9830c90a925a20ae4db15548d05ec65efc7f69ef5104ce7fc82db5f4ce20"
   license "GPL-2.0-or-later"

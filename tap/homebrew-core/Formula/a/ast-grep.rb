@@ -1,8 +1,8 @@
 class AstGrep < Formula
   desc "Code searching, linting, rewriting"
   homepage "https://ast-grep.github.io/"
-  url "https://github.com/ast-grep/ast-grep/releases/download/0.50.0/app-x86_64-pc-windows-msvc.zip"
-  sha256 "e332ce9b10731c6d9bf142ed5ce2ab3795a8715e434dcca77de18e3e0f86e3f5"
+  url "https://github.com/ast-grep/ast-grep/releases/download/0.51.0/app-x86_64-pc-windows-msvc.zip"
+  sha256 "1a5b7824c5925ac34257f806488e54860817cefd855fd308d13df7550d068908"
   license "MIT"
 
   livecheck do

@@ -1,7 +1,6 @@
 class Tmux < Formula
   desc "Terminal multiplexer"
   homepage "https://tmux.github.io/"
-  version "3.8"
   url "https://repo.msys2.org/msys/x86_64/tmux-3.8-1-x86_64.pkg.tar.zst"
   sha256 "8ccd83d29f0f29aa5ed283f00c4770e55731a0f36e488ed05d7a5226034c2560"
   license "ISC"

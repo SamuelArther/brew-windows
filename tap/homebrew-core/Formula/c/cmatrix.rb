@@ -1,7 +1,6 @@
 class Cmatrix < Formula
   desc "Console Matrix"
   homepage "https://github.com/abishekvashok/cmatrix/"
-  version "2.0"
   url "https://repo.msys2.org/msys/x86_64/cmatrix-2.0-1-x86_64.pkg.tar.zst"
   sha256 "dfc06cba10e120a9b936f06b835efd6d12ba9df2d75bc2bee3319105940446a7"
   license "GPL-3.0-or-later"
