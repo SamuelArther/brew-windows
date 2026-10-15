@@ -79,12 +79,27 @@ static class LifecycleRegression
             var unrelatedCache = Path.Combine(cache, leaf.Sha256 + "--" + Path.GetFileName(new Uri(leaf.Url).LocalPath));
             File.SetLastWriteTimeUtc(selectedCache, DateTime.UtcNow.AddDays(-130));
             File.SetLastWriteTimeUtc(unrelatedCache, DateTime.UtcNow.AddDays(-130));
+            var partial = selectedCache + ".incomplete";
+            var unrelatedPartial = unrelatedCache + ".incomplete";
+            File.WriteAllText(partial, "abandoned download"); File.WriteAllText(unrelatedPartial, "unrelated download");
+            File.SetLastWriteTimeUtc(partial, DateTime.UtcNow.AddDays(-130));
+            File.SetLastWriteTimeUtc(unrelatedPartial, DateTime.UtcNow.AddDays(-130));
+            var lockKey = Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(
+                System.Text.Encoding.UTF8.GetBytes(Path.GetFileName(selectedCache).ToUpperInvariant())));
+            using (var activeDownload = new FileStream(Path.Combine(cache, ".locks", lockKey + ".lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
+            {
+                Check((await Brew("cleanup", "--prune=all", "probe@1")).Code == 0, "cleanup skips active download lock");
+                Check(File.Exists(selectedCache) && File.Exists(partial), "cleanup preserves active download and partial");
+            }
             var dry = await Brew("cleanup", "--dry-run", "probe@1");
             Check(dry.Output.Contains(selectedCache) && !dry.Output.Contains(unrelatedCache), "named cleanup dry run selects only matching cache");
+            Check(dry.Output.Contains(partial) && File.Exists(partial), "named cleanup dry run includes abandoned partial without deleting it");
             Check(File.Exists(selectedCache), "cleanup dry run keeps selected download");
             Check((await Brew("cleanup", "probe@1")).Code == 0, "named cleanup resolves alias");
             Check(!File.Exists(selectedCache), "named cleanup removes old matching download");
+            Check(!File.Exists(partial), "named cleanup removes abandoned matching partial");
             Check(File.Exists(unrelatedCache), "named cleanup preserves unrelated old download");
+            Check(File.Exists(unrelatedPartial), "named cleanup preserves unrelated partial");
             File.Copy(Path.Combine(fixtureRoot, "cache", Path.GetFileName(selectedCache)), selectedCache);
             Check((await Brew("uninstall", "probe@1")).Code == 0, "uninstall resolves alias");
             Check(!Directory.Exists(paths.Rack("probe")), "alias uninstall removes canonical rack");

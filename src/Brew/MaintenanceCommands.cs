@@ -47,9 +47,9 @@ public sealed class MaintenanceCommands(Paths paths)
             var age = int.TryParse(args.Value("--prune"), out var days) ? days : args.Value("--prune") == "all" ? 0 : 120;
             foreach (var file in Directory.EnumerateFiles(paths.Cache))
             {
-                if (selectedCache != null && !selectedCache.Contains(Path.GetFileName(file))) continue;
                 var filename = Path.GetFileName(file);
                 var key = filename.EndsWith(".incomplete", StringComparison.OrdinalIgnoreCase) ? filename[..^11] : filename;
+                if (selectedCache != null && !selectedCache.Contains(key)) continue;
                 using var cacheLock = DownloadLock.TryAcquire(paths.Cache, key);
                 if (cacheLock == null || !File.Exists(file)) continue;
                 if (File.GetLastWriteTimeUtc(file) > DateTime.UtcNow.AddDays(-age)) continue;
