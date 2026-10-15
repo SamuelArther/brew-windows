@@ -50,7 +50,7 @@ internal static class MsiArchive
                 if (!target.StartsWith(Path.GetFullPath(destination) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                     throw new IOException("Unsafe path in MSI archive.");
                 Directory.CreateDirectory(Path.GetDirectoryName(target));
-                File.Copy(Path.Combine(work, row[0]), target);
+                File.Copy(Path.Combine(work, row[0]), target, overwrite: true);
             }
         }
         finally { MsiCloseHandle(database); Directory.Delete(work, true); }

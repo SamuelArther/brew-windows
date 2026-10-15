@@ -1,10 +1,30 @@
 using System.Security.Cryptography;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Brew;
 
 public sealed class Downloader(string cache)
 {
-    static readonly HttpClient Client = new() { Timeout = TimeSpan.FromMinutes(15) };
+    static readonly HttpClient Client = CreateClient();
+
+    static HttpClient CreateClient()
+    {
+        var client = new HttpClient { Timeout = TimeSpan.FromMinutes(15) };
+        var backend = $".NET/{Environment.Version}";
+        var curl = Path.Combine(Environment.SystemDirectory, "curl.exe");
+        if (File.Exists(curl))
+        {
+            using var process = Process.Start(new ProcessStartInfo(curl, "--version")
+                { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true });
+            var output = process.StandardOutput.ReadToEnd(); process.WaitForExit();
+            var version = Regex.Match(output, @"\Acurl ([\w.]+)");
+            if (version.Success) backend = "curl/" + version.Groups[1].Value;
+        }
+        client.DefaultRequestHeaders.UserAgent.ParseAdd($"Homebrew/7.0.9 (Windows; {RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant()}) {backend}");
+        return client;
+    }
 
     public async Task<string> FetchAsync(string url, string sha256)
     {

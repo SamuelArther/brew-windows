@@ -12,7 +12,8 @@ public static class Archive
             await MsiArchive.ExtractAsync(file, destination);
         else if (new[] { ".zip", ".nupkg", ".msix" }.Any(e => filename.EndsWith(e, StringComparison.OrdinalIgnoreCase)))
             ZipFile.ExtractToDirectory(file, destination);
-        else if (filename.Contains(".tar.", StringComparison.OrdinalIgnoreCase) || filename.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase))
+        else if (filename.Contains(".tar.", StringComparison.OrdinalIgnoreCase) || filename.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase)
+            || filename.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
         {
             // Windows bsdtar supports gzip, xz, bzip2 and zstd, and rejects unsafe archive paths.
             var start = new ProcessStartInfo("tar.exe") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardError = true };
