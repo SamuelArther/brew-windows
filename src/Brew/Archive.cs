@@ -28,7 +28,8 @@ public static class Archive
             await process.WaitForExitAsync();
             if (process.ExitCode != 0) throw new IOException($"Could not extract {filename}: {error.Trim()}");
         }
-        else { File.Copy(file, Path.Combine(destination, filename)); return destination; }
+        else if (!filename.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || !await InstallerArchive.Extract(file, destination))
+        { File.Copy(file, Path.Combine(destination, filename)); return destination; }
 
         // Homebrew stages the contents of a single top-level archive directory.
         var entries = Directory.GetFileSystemEntries(destination);
