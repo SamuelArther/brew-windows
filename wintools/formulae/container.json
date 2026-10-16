@@ -1,0 +1,7 @@
+{
+  "formula": "container",
+  "desc": "Create and run Linux containers using lightweight virtual machines (WSL2)",
+  "commands": ["container"],
+  "test": "assert_match version.to_s, shell_output(\"#{bin}/container --version\")\nwith_env(CONTAINER_ROOT: (testpath/\"store\").to_s) do\n  assert_match(/ID\\s+IMAGE\\s+OS\\s+ARCH\\s+STATE/, shell_output(\"#{bin}/container list --all\"))\n  assert_match \"NAME\", shell_output(\"#{bin}/container image list\")\n  assert_match \"missing expected argument '<image>'\", shell_output(\"#{bin}/container run 2>&1\", 2)\n  system bin/\"container\", \"volume\", \"create\", \"data\"\n  assert_path_exists testpath/\"store/volumes/data\"\n  assert_match \"data\", shell_output(\"#{bin}/container volume list --quiet\")\n  assert_match \"not found\", shell_output(\"#{bin}/container inspect nope 2>&1\", 1)\nend",
+  "caveats": "Containers are WSL2 distributions named container-<id>, so WSL must be installed (wsl --install).\nImages and containers are stored in %LOCALAPPDATA%\\container (or $CONTAINER_ROOT)."
+}
