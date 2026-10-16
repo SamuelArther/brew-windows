@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Windows-native rewrites of macOS/Linux-only Homebrew formulae (one multi-call exe:
        `wintools <command> ...`; brew links each command name to it). Released as wintools-<Version>. -->
@@ -8,7 +8,7 @@
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <AssemblyName>wintools</AssemblyName>
     <RootNamespace>WinTools</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
