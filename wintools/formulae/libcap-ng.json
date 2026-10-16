@@ -1,0 +1,7 @@
+{
+  "formula": "libcap-ng",
+  "desc": "Capability reporting tools for Windows token privileges",
+  "commands": ["pscap", "netcap", "filecap", "captest"],
+  "caveats": "Capabilities are Windows token privileges; Windows files carry none, so filecap reports\nnothing. There is no libcap-ng C library or Python module on Windows.",
+  "test": "assert_match \"capabilities\", shell_output(\"#{bin}/pscap -a\")\nassert_match \"Current capabilities\", shell_output(\"#{bin}/captest\")\nassert_match \"Child capabilities: none\", shell_output(\"#{bin}/captest --drop-all\")\nassert_equal \"\", shell_output(\"#{bin}/filecap #{testpath}\")\nshell_output(\"#{bin}/netcap\")"
+}
