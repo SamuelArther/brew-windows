@@ -389,6 +389,7 @@ static partial class Container
         {
             if (!o.Quiet) Console.Error.WriteLine($"Unpacking {image.Reference}");
             string passwd = null, fstab = null;
+            var passwdMode = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead;
             using (var file = File.Create(rootfs))
             using (var writer = new TarWriter(file, TarEntryFormat.Pax))
             {
@@ -398,13 +399,14 @@ static partial class Container
                     if (name == "etc/wsl.conf") return false;
                     if (name is "etc/fstab" or "etc/passwd" && entry.DataStream != null)
                     {
+                        // Read here (the reader moves on after this entry); both are written again below.
                         var text = new StreamReader(entry.DataStream).ReadToEnd();
-                        if (name == "etc/fstab") { fstab = text; return false; }
-                        passwd = text;
-                        entry.DataStream = new MemoryStream(Encoding.UTF8.GetBytes(text));
+                        if (name == "etc/fstab") fstab = text; else { passwd = text; passwdMode = entry.Mode; }
+                        return false;
                     }
                     return true;
                 });
+                if (passwd != null) AddFile(writer, "etc/passwd", passwd, passwdMode);
                 AddFile(writer, "etc/wsl.conf", WslConf(box));
                 var mounts = new StringBuilder(fstab ?? "");
                 foreach (var v in box.Volumes)
@@ -450,11 +452,12 @@ static partial class Container
 
         """.Replace("\r\n", "\n");
 
-    static void AddFile(TarWriter writer, string name, string text)
+    static void AddFile(TarWriter writer, string name, string text,
+        UnixFileMode mode = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead)
     {
         var entry = new PaxTarEntry(TarEntryType.RegularFile, name)
         {
-            Mode = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead,
+            Mode = mode,
             DataStream = new MemoryStream(Encoding.UTF8.GetBytes(text)),
         };
         writer.WriteEntry(entry);

@@ -330,7 +330,8 @@ static partial class Container
     // Writes the union of the image's layers to writer: an entry survives unless a higher layer has the
     // same path, deletes it (.wh.<name>), makes a parent opaque (.wh..wh..opq) or replaces a parent with a
     // non-directory. Pass one walks the layers top-down to decide; pass two writes them bottom-up so hard
-    // links always follow their targets. visit sees each surviving entry and may return false to drop it.
+    // links always follow their targets. visit sees each surviving entry (reading its data if it
+    // needs to) and returns false to drop it.
     internal static void Flatten(IList<string> layers, TarWriter writer, Func<string, TarEntry, bool> visit)
     {
         var keep = new List<bool>[layers.Count];
