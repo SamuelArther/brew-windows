@@ -44,7 +44,6 @@ coffeescript
 commitlint
 contentful-cli
 context7-mcp
-corepack
 cspell
 ctx7
 cubejs-cli

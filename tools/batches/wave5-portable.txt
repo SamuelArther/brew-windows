@@ -1,11 +1,9 @@
-argp-standalone
 asccli
 fits
 git-url-sub
 icbirc
 juise
 lazycut
-libelf
 libiconv
 libslax
 nfd2nfc

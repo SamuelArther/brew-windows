@@ -1,10 +1,8 @@
 aarch64-elf-binutils
 abcm2ps
 abook
-abseil
 ack
 acl2
-adwaita-icon-theme
 age-plugin-se
 aide
 airspyhf
@@ -41,7 +39,6 @@ avro-cpp
 backlog-md
 backupninja
 ballerburg
-bamtools
 bandicoot
 bash-completion@2
 bashdb
@@ -74,7 +71,6 @@ bmon
 bnfc
 bochs
 boost-bcp
-bowtie2
 boxes
 braid
 bsdiff
@@ -86,13 +82,11 @@ busted
 bwa
 c-blosc2
 c10t
-cabal-install
 cadaver
 cahute
 cake
 calc
 calcurse
-camlp-streams
 camlpdf
 carton
 cask
@@ -133,7 +127,6 @@ cpdf
 cpm
 cpp-httplib
 cpp-lazy
-cppzmq
 cracklib
 credo
 crowdin
@@ -170,7 +163,6 @@ dnscrypt-wrapper
 dockcheck
 dooit
 dory
-doxygen
 dpcmd
 dpkg
 dpp
@@ -179,7 +171,6 @@ dscanner
 dtools
 dug
 dumpling
-dune
 dungeon
 duo_unix
 dvdauthor
@@ -208,7 +199,6 @@ erofs-utils
 etl
 exif
 exodriver
-extra-cmake-modules
 exult
 ezstream
 fastk
@@ -229,9 +219,7 @@ flang
 flite
 flow-cli
 flow-control
-fluid-synth
 fnlfmt
-font-util
 fonts-encodings
 foreman
 forgit
@@ -243,7 +231,6 @@ fracturedjson
 freediameter
 freesasa
 freexl
-fstrm
 ftnchek
 fuego
 funcoeszz
@@ -255,9 +242,7 @@ gdrive-downloader
 geogram
 get_iplayer
 gforth
-ghc
 ghc@9.10
-ghc@9.12
 ghcid
 ghcup
 gifcap
@@ -275,7 +260,6 @@ git-subrepo
 gitlab-gem
 gitwatch
 glassfish
-glib
 gloox
 glulxe
 gnu-chess
@@ -291,7 +275,6 @@ gpgmepy
 gpsd
 gqlplus
 gradle-profiler
-gradle@8
 grails
 groestlcoin
 gtl
@@ -299,7 +282,6 @@ gws
 hadoop
 hamlib
 haskell-language-server
-haskell-stack
 hatari
 haxe
 hbase
@@ -314,7 +296,6 @@ hivex
 hledger
 hlint
 hopenpgp-tools
-hpack
 hqx
 hss
 hstr
@@ -351,7 +332,6 @@ ktoblzcheck
 kube-ps1
 latexindent
 lcdproc
-ldc
 ldid
 ldid-procursus
 lesspipe
@@ -377,7 +357,6 @@ libextractor
 libfaketime
 libff
 libfishsound
-libfontenc
 libfreenect
 libfs
 libgetdata
@@ -397,20 +376,14 @@ libmapper
 libmarpa
 libmatio
 libmonome
-libmpc
 libmtp
 libmusicbrainz
-libnet
-libnfc
 libnsbmp
 libnsgif
-libosmium
-libparserutils
 libpthread-stubs
 libquicktime
 librcsc
 librealsense
-librtlsdr
 libsepol
 libtatsu
 libtensorflow
@@ -419,11 +392,7 @@ libupnpp
 libuvc
 libvatek
 libvisual
-libwapcaplet
 libwbxml
-libxau
-libxdmcp
-libxml++
 libxml++@3
 libxml++@4
 libxo
@@ -443,22 +412,15 @@ llvm@14
 llvm@15
 llvm@17
 llvm@18
-llvm@19
-llvm@20
-llvm@21
-llvm@22
 lm4tools
 logrotate
 logstash
 logswan
 lolcat
-lowdown
-lpeg
 lsdvd
 lsix
 lsr
 luacheck
-luarocks
 luaver
 lunarml
 lunasvg
@@ -474,7 +436,6 @@ mdds
 mdless
 mdt
 mdxmini
-mecab-ipadic
 mecab-jumandic
 mecab-unidic
 mecab-unidic-extended
@@ -498,7 +459,6 @@ mipsel-linux-gnu-binutils
 mkp224o
 mle
 mlkit
-mlton
 mm-common
 mmix
 modflow6
@@ -554,12 +514,10 @@ nudoku
 num-utils
 numcpp
 numdiff
-numpy
 nutcracker
 nvc
 nvimpager
 nylon
-ocaml-findlib
 ocaml-num
 ocaml-zarith
 ocamlbuild
@@ -594,7 +552,6 @@ opensearch-dashboards
 openvi
 orcania
 ormolu
-osi
 osinfo-db
 osmium-tool
 osrm-backend
@@ -606,7 +563,6 @@ packmol
 pandoc-plot
 paperjam
 papilo
-pari
 pastebinit
 patat
 pbc
@@ -655,11 +611,8 @@ proper
 ps2eps
 psalm
 psysh
-purescript
 purr
 puzzles
-py3cairo
-pybind11
 pypy3.12
 python@3.11
 python@3.12
@@ -708,7 +661,6 @@ ruby-build
 ruby-install
 ruby-lsp
 rvvm
-s-lang
 s-nail
 saldl
 sambamba
@@ -716,12 +668,9 @@ scala-cli
 scale2x
 scrcpy
 sdl2_gfx
-sdl2_net
 sdl2_sound
-sdl2_ttf
 sdl3_net
 sdl3_sound
-sdl3_ttf
 sdl_gfx
 seexpr
 semtag
@@ -770,7 +719,6 @@ subnetcalc
 sugarjar
 sv2v
 svlang
-swift
 swift-protobuf
 synscan
 syntaxerl
@@ -781,7 +729,6 @@ taoup
 taskopen
 tasksh
 tbox
-tcl-tk
 technitium-library
 teem
 temporal_tables
@@ -793,7 +740,6 @@ texmath
 tfel
 tfenv
 the_silver_searcher
-theora
 timewarrior
 timidity
 tin
@@ -846,7 +792,6 @@ vapoursynth-subtext
 vcftools
 vcpkg
 vcprompt
-vectorscan
 vimtutor-sequel
 virtuoso
 vmdktool
@@ -863,12 +808,10 @@ wasi-libc
 wasi-runtimes
 watch
 wb32-dfu-updater_cli
-wcslib
 wdiff
 webdis
 wemux
 wgetpaste
-whisper.cpp
 winetricks
 wiredtiger
 with-readline
@@ -887,7 +830,6 @@ xmp
 xorgrgb
 xqilla
 xroar
-xtrans
 xwpe
 yarn-completion
 yash

@@ -18,6 +18,9 @@ on:
       from_run:
         description: Only publish the bottles a previous run built (its run id)
         default: ""
+      formula_timeout:
+        description: Minutes one formula may build (LLVM, Qt, GHC... need hours; use chunk_size 1)
+        default: "45"
 
 permissions:
   contents: write
@@ -69,7 +72,7 @@ jobs:
           $names = "${{ matrix.chunk.names }}".Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
           python tools/import_upstream.py "$env:RUNNER_TEMP/homebrew-core" @names
           dotnet build src/Brew -c Release --nologo -v q
-          ./tools/ci/Build-Bottles.ps1 -Names $names -Out bottles
+          ./tools/ci/Build-Bottles.ps1 -Names $names -Out bottles -TimeoutMinutes ${{ inputs.formula_timeout }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -88,7 +91,9 @@ jobs:
 
   publish:
     needs: build
-    if: always() && needs.build.result != 'cancelled' && (needs.build.result != 'skipped' || inputs.from_run != '')
+    # A chunk that runs out of time ends "cancelled"; the other chunks' bottles still publish. Only a run
+    # someone cancels skips this.
+    if: always() && !cancelled() && (needs.build.result != 'skipped' || inputs.from_run != '')
     runs-on: windows-latest
     timeout-minutes: 360
     steps:

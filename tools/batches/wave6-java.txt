@@ -3,8 +3,6 @@ activemq
 alloy-analyzer
 allure
 amy
-ant
-antlr
 apache-geode
 apache-opennlp
 apache-polaris
@@ -87,7 +85,6 @@ ipopt
 ivy
 jadx
 jasmin
-java-service-wrapper
 javacc
 jbake
 jbang

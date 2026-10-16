@@ -172,7 +172,6 @@ lexido
 libart
 libbitcoin-consensus
 libcpuid
-libfuse@2
 libgadu
 liboil
 libpcl
@@ -220,13 +219,11 @@ nvtop
 nyx
 odo-dev
 opencv@4
-openjdk@11
 openjdk@8
 openslp
 openssl@3.0
 osc-cli
 pcb2gcode
-pcre
 perceptualdiff
 percona-server@8.0
 percona-xtrabackup@8.0
@@ -245,7 +242,6 @@ proctools
 protobuf@29
 pypy
 pypy3.11
-pyqt@5
 python-tk@3.10
 python-tk@3.11
 python@3.10
@@ -253,7 +249,6 @@ qdbm
 qjson
 qodem
 qsoas
-qt@5
 qtads
 qwt-qt5
 rain
@@ -288,7 +283,6 @@ sylpheed
 talhelper
 tarsnap-gui
 tartufo
-tcl-tk@8
 terraform-lsp
 terraformer
 terramaid
