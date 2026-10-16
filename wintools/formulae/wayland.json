@@ -1,0 +1,7 @@
+{
+  "formula": "wayland",
+  "desc": "Wayland protocol code generator (wayland-scanner)",
+  "commands": ["wayland-scanner"],
+  "caveats": "wayland-scanner generates the same C headers and marshalling code as on Linux. The\nlibwayland client/server libraries need a Wayland compositor, which Windows runs inside\nWSL (WSLg); build and run Wayland programs there.",
+  "test": "(testpath/\"demo.xml\").write <<~XML\n  <protocol name=\"demo\">\n    <interface name=\"demo_thing\" version=\"2\">\n      <request name=\"destroy\" type=\"destructor\"/>\n      <request name=\"poke\" since=\"2\"><arg name=\"count\" type=\"uint\"/></request>\n      <event name=\"done\"><arg name=\"serial\" type=\"uint\"/></event>\n    </interface>\n  </protocol>\nXML\nsystem bin/\"wayland-scanner\", \"client-header\", testpath/\"demo.xml\", testpath/\"demo-client.h\"\nsystem bin/\"wayland-scanner\", \"private-code\", testpath/\"demo.xml\", testpath/\"demo.c\"\nassert_match \"demo_thing_add_listener\", (testpath/\"demo-client.h\").read\nassert_match \"{ \\\"poke\\\", \\\"2u\\\", demo_types + 0 }\", (testpath/\"demo.c\").read\nassert_match \"wayland-scanner\", shell_output(\"#{bin}/wayland-scanner --version 2>&1\")"
+}
