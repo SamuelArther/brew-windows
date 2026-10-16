@@ -499,7 +499,20 @@ public sealed partial class Interp
 
     public object CallMethod(RMethod m, object self, object[] args, RProc blk)
     {
-        if (m.Fn != null) return m.Fn(this, self, args, blk);
+        if (m.Fn != null)
+        {
+            // A native's .NET failure (a missing argument, a wrong type) becomes the Ruby error it stands
+            // for, so `rescue` sees it and a test run reports it instead of dying on an unhandled exception.
+            try { return m.Fn(this, self, args, blk); }
+            catch (Exception e) when (e is IndexOutOfRangeException or ArgumentException or FormatException or OverflowException)
+            {
+                throw Error(ArgumentError, e is IndexOutOfRangeException ? $"wrong number of arguments for '{m.Name}' (given {args.Length})" : $"{m.Name}: {e.Message}");
+            }
+            catch (Exception e) when (e is InvalidCastException or NullReferenceException or KeyNotFoundException)
+            {
+                throw Error(TypeError, $"{m.Name}: {e.Message}");
+            }
+        }
         if (m.Body != null) return CallProc(m.Body, args, blk, self, m.Owner, m);
         if (++depth > 10000) { depth = 0; throw Error(SystemStackError, "stack level too deep"); }
         var f = new Frame { Self = self, DefTarget = m.Cref?[0] ?? m.Owner, Block = blk, Method = m, Args = args, Cref = m.Cref };
