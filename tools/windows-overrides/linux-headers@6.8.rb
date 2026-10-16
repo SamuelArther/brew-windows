@@ -75,7 +75,8 @@ class LinuxHeadersAT68 < Formula
       number = offset.empty? ? fields[0] : "(#{offset}#{fields[0]})"
       defines << "#define __NR_#{fields[2]} #{number}"
     end
-    (include/"asm"/name).write "#ifndef #{guard}\n#define #{guard} 1\n\n#{defines.join("\n")}\n\n#endif /* #{guard} */\n"
+    text = "#ifndef #{guard}\n#define #{guard} 1\n\n#{defines.join("\n")}\n\n"
+    (include/"asm"/name).write "#{text}#endif /* #{guard} */\n"
   end
 
   def caveats
