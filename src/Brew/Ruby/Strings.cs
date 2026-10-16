@@ -6,12 +6,58 @@ namespace Brew.Ruby;
 
 public sealed partial class Interp
 {
+    // Strings are UTF-8 or binary (ASCII-8BIT); Encoding is just enough of Ruby's to name the two.
+    const string EncodingPrelude = """
+        class Encoding
+          attr_reader :name
+          def initialize(name, *names)
+            @name = name
+            @names = [name, *names]
+          end
+          def to_s = @name
+          def names = @names
+          def inspect = "#<Encoding:#{@name}>"
+          def ==(other) = other.is_a?(Encoding) ? @name == other.name : @names.include?(other.to_s)
+          UTF_8 = new("UTF-8")
+          BINARY = ASCII_8BIT = new("ASCII-8BIT", "BINARY")
+          US_ASCII = new("US-ASCII")
+          def self.default_external = UTF_8
+          def self.default_internal = nil
+          def self.default_external=(value); end
+          def self.default_internal=(value); end
+          def self.find(name) = [UTF_8, BINARY, US_ASCII].find { |e| e == name.to_s.upcase } || UTF_8
+          class CompatibilityError < StandardError; end
+          class UndefinedConversionError < StandardError; end
+          class InvalidByteSequenceError < StandardError; end
+        end
+
+        class String
+          def encoding = __binary? ? Encoding::BINARY : Encoding::UTF_8
+        end
+        """;
+
     void InitStrings()
     {
         var St = StringClass;
         RString Self(object o) => (RString)o;
         // A binary (ASCII-8BIT) string holds one byte per char; others are UTF-8.
         static byte[] RawBytes(RString s) => s.Binary ? Encoding.Latin1.GetBytes(s.V) : Encoding.UTF8.GetBytes(s.V);
+        // Ruby's encoding rules for joining strings: binary (ASCII-8BIT) data stays binary, with the other
+        // side's UTF-8 bytes appended byte for byte, unless the binary side is plain ASCII.
+        static void Append(RString target, object value, Interp it)
+        {
+            if (value is long l) { target.V += target.Binary && l is >= 0 and < 256 ? ((char)l).ToString() : char.ConvertFromUtf32((int)l); return; }
+            var text = it.Str(value);
+            bool otherBinary = value is RString { Binary: true };
+            if (target.Binary == otherBinary) { target.V += text; return; }
+            if (target.Binary ? IsAscii(target.V) && !IsAscii(text) : IsAscii(text) && !IsAscii(target.V))
+            {   // ASCII-only binary data adopts the UTF-8 side's encoding
+                target.V += text; target.Binary = false; return;
+            }
+            if (target.Binary) target.V += Encoding.Latin1.GetString(Encoding.UTF8.GetBytes(text));
+            else { target.V = Encoding.Latin1.GetString(Encoding.UTF8.GetBytes(target.V)) + text; target.Binary = true; }
+        }
+        static bool IsAscii(string s) => s.All(c => c < 0x80);
         RString Mut(Interp it, object o)
         {
             var s = (RString)o;
@@ -33,7 +79,13 @@ public sealed partial class Interp
         }
 
         Def(St, "initialize", (it, self, a, b) => { Self(self).V = a.Length > 0 && a[0] is RString s ? s.V : ""; return null; });
-        Def(St, "+", (it, self, a, b) => S(Self(self).V + it.Str(a[0])));
+        Def(St, "+", (it, self, a, b) =>
+        {
+            var left = Self(self);
+            var result = new RString(left.V) { Binary = left.Binary };
+            Append(result, a[0], it);
+            return result;
+        });
         Def(St, "*", (it, self, a, b) =>
         {
             long n = it.Int(a[0]);
@@ -159,7 +211,7 @@ public sealed partial class Interp
         Def(St, "<< concat", (it, self, a, b) =>
         {
             var s = Mut(it, self);
-            foreach (var x in a) s.V += x is long l ? char.ConvertFromUtf32((int)l) : it.Str(x);
+            foreach (var x in a) Append(s, x, it);
             return s;
         });
         Def(St, "prepend", (it, self, a, b) => { var s = Mut(it, self); s.V = string.Concat(a.Select(it.Str)) + s.V; return s; });
@@ -257,8 +309,21 @@ public sealed partial class Interp
         });
         Def(St, "casecmp", (it, self, a, b) => a[0] is RString o ? (long)Math.Sign(string.Compare(Self(self).V, o.V, StringComparison.OrdinalIgnoreCase)) : null);
         Def(St, "casecmp?", (it, self, a, b) => a[0] is RString o ? string.Equals(Self(self).V, o.V, StringComparison.OrdinalIgnoreCase) : null);
-        Def(St, "encoding", (it, self, a, b) => S("UTF-8"));
-        Def(St, "force_encoding encode unicode_normalize scrub b", (it, self, a, b) => self);
+        Def(St, "__binary?", (it, self, a, b) => Self(self).Binary);   // String#encoding is in the Encoding prelude
+        Def(St, "encode unicode_normalize scrub", (it, self, a, b) => self);
+        Def(St, "b", (it, self, a, b) => new RString(Encoding.Latin1.GetString(RawBytes(Self(self)))) { Binary = true });
+        Def(St, "force_encoding", (it, self, a, b) =>
+        {
+            var s = Self(self);
+            bool binary = it.ToS(a[0]).ToUpperInvariant() is "BINARY" or "ASCII-8BIT";
+            if (binary != s.Binary)
+            {
+                var bytes = RawBytes(s);
+                s.V = binary ? Encoding.Latin1.GetString(bytes) : Encoding.UTF8.GetString(bytes);
+                s.Binary = binary;
+            }
+            return s;
+        });
         Def(St, "valid_encoding?", (it, self, a, b) => true);
         Def(St, "ascii_only?", (it, self, a, b) => Self(self).V.All(c => c < 128));
         Def(St, "each_byte", (it, self, a, b) => { foreach (var x in RawBytes(Self(self))) it.Yield(b, (long)x); return self; });

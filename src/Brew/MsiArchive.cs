@@ -51,9 +51,11 @@ internal static class MsiArchive
                     throw new IOException("Unsafe path in MSI archive.");
                 Directory.CreateDirectory(Path.GetDirectoryName(target));
                 File.Copy(Path.Combine(work, row[0]), target, overwrite: true);
+                // Cabinets keep the read-only attribute some installers set (Gauche's), which the keg mustn't inherit.
+                File.SetAttributes(target, File.GetAttributes(target) & ~FileAttributes.ReadOnly);
             }
         }
-        finally { MsiCloseHandle(database); Directory.Delete(work, true); }
+        finally { MsiCloseHandle(database); PackageManager.DeleteTree(work); }
     }
 
     static List<string[]> Rows(uint database, string sql, int columns)

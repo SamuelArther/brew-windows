@@ -66,7 +66,7 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
                     foreach (var backup in resolved.Backups) if (!urls.Contains(backup)) urls.Add(backup);
                     Console.WriteLine($"==> Downloading from {actual}");
                 }
-                using var response = await (httpClient ?? Client).GetAsync(actual, HttpCompletionOption.ResponseHeadersRead);
+                using var response = await GetFollowingRedirectsAsync(httpClient ?? Client, actual);
                 response.EnsureSuccessStatusCode();
                 await using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                     await response.Content.CopyToAsync(output);
@@ -81,6 +81,20 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
             finally { File.Delete(temporary); }
         }
         throw new InvalidOperationException("No download URL is available.");
+    }
+
+    // HttpClient won't follow an https -> http redirect (www.x.org sends every download to http://);
+    // curl, and so Homebrew, does. The SHA-256 check still guards what arrives.
+    static async Task<HttpResponseMessage> GetFollowingRedirectsAsync(HttpClient client, Uri uri)
+    {
+        for (var hops = 0; ; hops++)
+        {
+            var response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+            var status = (int)response.StatusCode;
+            if (status is < 300 or > 399 || response.Headers.Location is not { } location || hops == 10) return response;
+            uri = location.IsAbsoluteUri ? location : new Uri(uri, location);
+            response.Dispose();
+        }
     }
 
     static async Task VerifyAsync(string file, string expected)

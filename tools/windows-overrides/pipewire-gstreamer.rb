@@ -48,13 +48,16 @@ class PipewireGstreamer < Formula
   def caveats
     <<~EOS
       The elements are wasapi2src and wasapi2sink (and wasapisrc/wasapisink), Windows' counterparts
-      of pipewiresrc and pipewiresink. For GStreamer to find the plugins:
+      of pipewiresrc and pipewiresink. For GStreamer to find the plugins and the libraries they use:
         set GST_PLUGIN_PATH=#{opt_lib}/gstreamer-1.0
+        set PATH=#{opt_bin};%PATH%
     EOS
   end
 
   test do
     ENV["GST_PLUGIN_PATH"] = (opt_lib/"gstreamer-1.0").to_s
+    # GLib loads plugins with LoadLibrary, which finds their imports on PATH, not beside the plugin.
+    ENV.prepend_path "PATH", opt_bin
     assert_path_exists lib/"gstreamer-1.0/libgstwasapi2.dll"
     assert_match "wasapi2sink", shell_output("#{formula_opt_bin("gstreamer")}/gst-inspect-1.0 wasapi2")
   end

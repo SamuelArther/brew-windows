@@ -30,6 +30,11 @@ static class RubyLibrary
         Expect("""[233].pack("U").bytes.inspect""", "[195, 169]");
         var file = Path.Combine(root, "binwrite.bin").Replace('\\', '/');
         Expect($"""File.binwrite("{file}", [0x89, 0x50].pack("C*")); File.binread("{file}").bytes.inspect""", "[137, 80]");
+        // Joining binary data keeps it binary (apptainer's SIF fixture: 713 packs to 0xC9 0x02).
+        Expect("""([713].pack("q<") + "x\n").bytesize.to_s""", "10");
+        Expect("""s = "".b; s << 200 << "ab"; [s.bytesize, s.encoding.to_s].inspect""", """[3, "ASCII-8BIT"]""");
+        Expect("""[("a".b + "é").encoding.to_s, "é".b.bytesize, "é".b.force_encoding(Encoding::UTF_8) == "é"].inspect""", """["UTF-8", 2, true]""");
+        Expect($"""[File.size?("{file}"), File.size?("{file}.missing")].inspect""", "[2, nil]");
         // Formula-level preludes (blank?/present?, post_install_steps) load with the Formula class.
         var formulaIt = Brew.Ruby.FormulaLoader.NewInterpreterForTests();
         foreach (var (code, expected) in new[] { ("[nil.present?, \" \".blank?, [1].present?, {}.blank?].inspect", "[false, true, true, true]"),

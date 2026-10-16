@@ -38,6 +38,7 @@ public sealed partial class Interp
         InitCollections();
         InitFiles();
         InitJson();
+        Run(EncodingPrelude, "<encoding>");
     }
 
     public object Run(string source, string file)

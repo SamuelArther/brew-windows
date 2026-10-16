@@ -127,6 +127,7 @@ public sealed partial class Interp
             return File.Exists(p) && new FileInfo(p).Length == 0;
         });
         Def(P, "size", (it, self, a, b) => new FileInfo(it.Abs(Me(self))).Length);
+        Def(P, "size?", (it, self, a, b) => SizeOrNil(it.Abs(Me(self))));
         Def(P, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(Me(self))).Replace("\r\n", "\n")));
         Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))) { Binary = true });
         Def(P, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(Me(self)))).Select(l => (object)S(l))));
@@ -276,6 +277,7 @@ public sealed partial class Interp
         DefS(F, "readable? writable?", (it, self, a, b) => File.Exists(it.Abs(it.PathStr(a[0]))));
         DefS(F, "zero? empty?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && new FileInfo(p).Length == 0; });
         DefS(F, "size", (it, self, a, b) => new FileInfo(it.Abs(it.PathStr(a[0]))).Length);
+        DefS(F, "size?", (it, self, a, b) => SizeOrNil(it.Abs(it.PathStr(a[0]))));
         DefS(F, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(it.PathStr(a[0]))).Replace("\r\n", "\n")));
         DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))))) { Binary = true });
         DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
@@ -511,6 +513,9 @@ public sealed partial class Interp
         public bool Closed;
         public bool Binary;   // binary strings were written: save their bytes as-is
     }
+
+    // File.size? / Pathname#size?: nil for a missing or empty file, otherwise its size.
+    static object SizeOrNil(string p) => File.Exists(p) && new FileInfo(p).Length is var n and > 0 ? n : null;
 
     static bool IsSymlink(string p)
     {

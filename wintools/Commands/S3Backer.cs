@@ -95,7 +95,8 @@ static class S3Backer
             }
         }
         if (positional.Count == 0) { Console.Error.WriteLine("s3backer: no S3 bucket specified"); return 1; }
-        var bucketParts = positional[0].Split('/', 2);
+        // With --test the bucket is a local directory, so a path like C:/x/bucket isn't split into bucket/subdir.
+        var bucketParts = o.Test ? [positional[0]] : positional[0].Split('/', 2);
         o.Bucket = bucketParts[0];
         if (bucketParts.Length > 1) o.Subdir = bucketParts[1].TrimEnd('/') + "/";
         o.Mountpoint = positional.Count > 1 ? positional[1] : null;
