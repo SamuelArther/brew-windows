@@ -193,9 +193,17 @@ public sealed partial class Interp
             var p = Me(self);
             var abs = it.Abs(p);
             var items = new List<object> { it.NewPath(p) };
-            if (Directory.Exists(abs))
-                items.AddRange(Directory.EnumerateFileSystemEntries(abs, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal)
-                    .Select(x => (object)it.NewPath(JoinPath(p, Path.GetRelativePath(abs, x).Replace('\\', '/')))));
+            // Ruby's Find: depth first, sorted, and a symlinked directory is listed but not entered.
+            void Walk(string dir, string shown)
+            {
+                foreach (var x in Directory.EnumerateFileSystemEntries(dir).Order(StringComparer.Ordinal).ToList())
+                {
+                    var child = JoinPath(shown, Path.GetFileName(x));
+                    items.Add(it.NewPath(child));
+                    if (Directory.Exists(x) && !IsSymlink(x)) Walk(x, child);
+                }
+            }
+            if (Directory.Exists(abs) && !IsSymlink(abs)) Walk(abs, p);
             if (b == null) return new RArray(items);
             foreach (var x in items) it.Y1(b, x);
             return null;
@@ -485,6 +493,7 @@ public sealed partial class Interp
             throw it.Error(it.KeyError, $"key not found: {it.Inspect(a[0])}");
         });
         Def(E, "key? has_key? include? member?", (it, self, a, b) => it.Env.ContainsKey(it.Str(a[0])));
+        Def(E, "exclude?", (it, self, a, b) => !it.Env.ContainsKey(it.Str(a[0])));   // ActiveSupport
         Def(E, "delete", (it, self, a, b) => it.Env.Remove(it.Str(a[0]), out var v) ? S(v) : null);
         Def(E, "to_h to_hash", (it, self, a, b) => { var h = new RHash(); foreach (var kv in it.Env) h.D[S(kv.Key)] = S(kv.Value); return h; });
         Def(E, "keys", (it, self, a, b) => new RArray(it.Env.Keys.Select(k => (object)S(k))));
@@ -553,17 +562,32 @@ public sealed partial class Interp
 
     public void RemoveTree(string p) => DeleteTree(p);
 
-    // rm -rf that also removes read-only files (git objects, chmod 0444).
+    // rm -rf that also removes read-only files (git objects, chmod 0444). Symlinks are removed, never
+    // followed: a link to a directory elsewhere (or a link loop) mustn't be walked into.
     public static void DeleteTree(string p)
     {
         if (IsSymlink(p)) { if (Directory.Exists(p)) Directory.Delete(p); else File.Delete(p); return; }
         if (Directory.Exists(p))
         {
-            foreach (var f in new DirectoryInfo(p).EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
-                if (f is FileInfo fi && fi.IsReadOnly) fi.IsReadOnly = false;
+            ClearReadOnly(p);
             Directory.Delete(p, true);
         }
-        else if (File.Exists(p)) File.Delete(p);
+        else if (File.Exists(p))
+        {
+            var fi = new FileInfo(p);
+            if (fi.IsReadOnly) fi.IsReadOnly = false;
+            fi.Delete();
+        }
+    }
+
+    static void ClearReadOnly(string dir)
+    {
+        foreach (var e in new DirectoryInfo(dir).EnumerateFileSystemInfos("*", new EnumerationOptions { AttributesToSkip = 0 }))
+        {
+            if (e.Attributes.HasFlag(FileAttributes.ReparsePoint)) continue;
+            if (e is DirectoryInfo) ClearReadOnly(e.FullName);
+            else if (e.Attributes.HasFlag(FileAttributes.ReadOnly)) e.Attributes &= ~FileAttributes.ReadOnly;
+        }
     }
 
     void MovePath(string from, string to)
@@ -582,11 +606,21 @@ public sealed partial class Interp
         else throw Error(ENOENT, $"No such file or directory @ rb_file_s_rename - ({from}, {to})");
     }
 
+    // cp_r: symlinks are copied as symlinks (FileUtils' default), so a link loop can't recurse forever.
     static void CopyDir(string from, string to)
     {
         Directory.CreateDirectory(to);
-        foreach (var f in Directory.EnumerateFiles(from)) File.Copy(f, Path.Combine(to, Path.GetFileName(f)), true);
-        foreach (var d in Directory.EnumerateDirectories(from)) CopyDir(d, Path.Combine(to, Path.GetFileName(d)));
+        foreach (var e in new DirectoryInfo(from).EnumerateFileSystemInfos("*", new EnumerationOptions { AttributesToSkip = 0 }))
+        {
+            var dest = Path.Combine(to, e.Name);
+            if (e.LinkTarget is { } target)
+            {
+                if (IsSymlink(dest) || File.Exists(dest)) { if (Directory.Exists(dest)) Directory.Delete(dest); else File.Delete(dest); }
+                if (e is DirectoryInfo) Directory.CreateSymbolicLink(dest, target); else File.CreateSymbolicLink(dest, target);
+            }
+            else if (e is DirectoryInfo) CopyDir(e.FullName, dest);
+            else File.Copy(e.FullName, dest, true);
+        }
     }
 
     void MakeSymlink(string target, string link)
@@ -686,7 +720,7 @@ public sealed partial class Interp
             foreach (var d in Directory.EnumerateDirectories(absDir).Order(StringComparer.Ordinal))
             {
                 var name = Path.GetFileName(d);
-                if (name.StartsWith('.')) continue;
+                if (name.StartsWith('.') || IsSymlink(d)) continue;   // like Ruby, ** doesn't follow symlinked directories
                 GlobWalk(d, Join(prefix, name), segs, i, results);
             }
             return;
