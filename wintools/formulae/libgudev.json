@@ -1,0 +1,7 @@
+{
+  "formula": "libgudev",
+  "desc": "Device queries and uevent monitoring on the Windows device tree (gudev-query)",
+  "commands": ["gudev-query"],
+  "caveats": "gudev-query lists and monitors the Windows Plug and Play devices the way GUdevClient\ndoes, as udev devices: subsystem, sysfs-style path, driver, udev properties and sysfs-style\nattributes, filtered with g_udev_client_query_by_subsystem's SUBSYSTEM[/DEVTYPE] syntax.\nThere is no libgudev C library: Windows programs enumerate devices with SetupAPI/CfgMgr32.",
+  "test": "devices = shell_output(\"#{bin}/gudev-query --brief\")\nassert_match \"/sys/devices/\", devices\nassert_match \"Subsystem: \", shell_output(\"#{bin}/gudev-query\")\nassert_equal \"\", shell_output(\"#{bin}/gudev-query --subsystem no_such_subsystem\")\nassert_match \"libgudev 238\", shell_output(\"#{bin}/gudev-query --version\")\nshell_output(\"#{bin}/gudev-query --bogus 2>&1\", 2)"
+}

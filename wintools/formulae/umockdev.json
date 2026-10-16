@@ -1,0 +1,7 @@
+{
+  "formula": "umockdev",
+  "desc": "Record device descriptions and run programs under device testbeds",
+  "commands": ["umockdev-record", "umockdev-run", "umockdev-wrapper"],
+  "caveats": "umockdev-record describes the Windows Plug and Play devices in umockdev's (udev/sysfs) format,\nfor bug reports and test fixtures. umockdev-run and umockdev-wrapper build the testbed directory\nfrom recordings and pass it as UMOCKDEV_DIR; Windows has no LD_PRELOAD, so only programs that\nread the testbed through UMOCKDEV_DIR see the mocked devices. There is no libumockdev C library.",
+  "test": "recording = shell_output(\"#{bin}/umockdev-record --all\")\nassert_match \"P: /devices/\", recording\nassert_match \"E: SUBSYSTEM=\", recording\n(testpath/\"kbd.umockdev\").write \"P: /devices/extkeyboard1\\nE: SUBSYSTEM=usb\\nA: idVendor=0815\\nA: idProduct=AFFE\\n\"\nassert_match \"UMOCKDEV_DIR=\", shell_output(\"#{bin}/umockdev-run -d #{testpath}/kbd.umockdev -- cmd /c set UMOCKDEV_DIR\")\nassert_match \"UMOCKDEV_DIR=\", shell_output(\"#{bin}/umockdev-wrapper cmd /c set UMOCKDEV_DIR\")\nassert_match \"0.19.9\", shell_output(\"#{bin}/umockdev-record --version\")"
+}
