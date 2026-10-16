@@ -1,0 +1,6 @@
+{
+  "formula": "m-cli",
+  "desc": "Swiss Army Knife of system commands (network, disk, display, battery)",
+  "commands": ["m"],
+  "test": "assert_match \"Swiss Army Knife\", shell_output(\"#{bin}/m --help\")\nassert_match \"m-cli version\", shell_output(\"#{bin}/m --version\")\nassert_match \"Processor\", shell_output(\"#{bin}/m info\")\nassert_match(/Fixed|Removable/, shell_output(\"#{bin}/m disk list\"))\nrefute_match(/No such file|command not found/, shell_output(\"#{bin}/m info\"))"
+}
