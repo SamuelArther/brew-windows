@@ -91,7 +91,7 @@ public sealed class QueryCommands(Paths paths)
             name = formula.Name, full_name = formula.Name, tap = TapFor(formula.Name),
             oldnames = Array.Empty<string>(), aliases = Metadata.Strings(formula, "Aliases"),
             desc = formula.Description, license = formula.License, homepage = formula.Homepage,
-            versions = new { stable = Metadata.StableVersion(formula), head = Metadata.Text(formula, "HeadUrl"), bottle = false },
+            versions = new { stable = Metadata.StableVersion(formula), head = Metadata.Text(formula, "HeadUrl"), bottle = Bottles.For(formula) != null },
             urls = new { stable = new Dictionary<string, object> { ["url"] = formula.Url, ["tag"] = null, ["revision"] = null, ["using"] = null, ["checksum"] = formula.Sha256 } },
             revision = Metadata.Get(formula, "Revision") ?? 0, version_scheme = Metadata.Get(formula, "VersionScheme") ?? 0,
             dependencies = deps.Where(d => d.Runtime).Select(d => d.Name).ToArray(),
@@ -102,7 +102,7 @@ public sealed class QueryCommands(Paths paths)
             keg_only = Metadata.Bool(formula, "KegOnly"), deprecated = Metadata.Bool(formula, "Deprecated"), disabled = Metadata.Bool(formula, "Disabled"),
             pinned = store.IsPinned(formula.Name), outdated = store.Latest(formula.Name) is InstalledKeg latest && VersionOrder.Instance.Compare(latest.Receipt.Version, Metadata.Version(formula)) < 0,
             installed = store.Kegs(formula.Name).Select(k => new { version = k.Receipt.Version, installed_on_request = k.Receipt.InstalledOnRequest,
-                installed_as_dependency = !k.Receipt.InstalledOnRequest, poured_from_bottle = false,
+                installed_as_dependency = !k.Receipt.InstalledOnRequest, poured_from_bottle = k.Receipt.PouredFromBottle,
                 time = k.Receipt.InstalledAt, runtime_dependencies = (k.Receipt.Dependencies ?? []).Select(n => new { full_name = n }).ToArray() }).ToArray()
         };
     }

@@ -1,0 +1,30 @@
+name: Set up brew-windows
+description: .NET 10, LLVM-MinGW (for the shim), and homebrew-core at tools/upstream-commit.txt
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: "10.0.x"
+    - name: LLVM-MinGW
+      shell: pwsh
+      run: |
+        $zip = "$env:RUNNER_TEMP\llvm-mingw.zip"
+        Invoke-WebRequest https://github.com/mstorsjo/llvm-mingw/releases/download/20260616/llvm-mingw-20260616-ucrt-x86_64.zip -OutFile $zip
+        Expand-Archive $zip "$env:RUNNER_TEMP" -Force
+        "$env:RUNNER_TEMP\llvm-mingw-20260616-ucrt-x86_64\bin" | Add-Content $env:GITHUB_PATH
+    - name: homebrew-core
+      shell: pwsh
+      run: |
+        $core = "$env:RUNNER_TEMP\homebrew-core"
+        $commit = (Get-Content tools/upstream-commit.txt).Trim()
+        git init -q $core
+        git -C $core remote add origin https://github.com/Homebrew/homebrew-core.git
+        git -C $core sparse-checkout set Formula
+        git -C $core fetch -q --depth 1 --filter=blob:none origin $commit
+        git -C $core checkout -q FETCH_HEAD
+    - name: Brew environment
+      shell: pwsh
+      run: |
+        "BREW_REPOSITORY=$env:GITHUB_WORKSPACE" | Add-Content $env:GITHUB_ENV
+        "HOMEBREW_PREFIX=$env:LOCALAPPDATA\Homebrew" | Add-Content $env:GITHUB_ENV

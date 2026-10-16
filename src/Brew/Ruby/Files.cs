@@ -590,6 +590,12 @@ public sealed partial class Interp
     void InstallOne(string dir, string src, string newName)
     {
         var absSrc = Abs(src);
+        // Built executables carry .exe on Windows; formulae name them without it.
+        if (!File.Exists(absSrc) && !Directory.Exists(absSrc) && !IsSymlink(absSrc) && File.Exists(absSrc + ".exe"))
+        {
+            absSrc += ".exe";
+            if (!Path.HasExtension(newName)) newName += ".exe";
+        }
         if (!File.Exists(absSrc) && !Directory.Exists(absSrc) && !IsSymlink(absSrc))
             throw Error(ENOENT, $"No such file or directory - {src}");
         var absDir = Abs(dir);

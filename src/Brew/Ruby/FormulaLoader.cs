@@ -85,6 +85,7 @@ public static partial class FormulaLoader
         f.SetIvar("@name", Interp.S(spec.Name));
         f.SetIvar("@version", Interp.S(spec.Version));
         it.Cwd = ctx.BuildPath;
+        foreach (var kv in ctx.BuildEnvironment) it.Env[kv.Key] = kv.Value;
         if (ctx.BrewPrefix != null)
         {
             it.ObjectClass.Consts["HOMEBREW_PREFIX"] = it.NewPath(ctx.BrewPrefix);
@@ -104,8 +105,16 @@ public static partial class FormulaLoader
         catch (RubySyntaxError e) { throw new InvalidOperationException($"{spec.Name}: {e.Message}", e); }
     });
 
+    // Homebrew runs a formula's own `def fetch` (network allowed) before `def install`.
     internal static void RunInstall(FormulaSpec spec, InstallContext ctx) =>
-        WithInstance(spec, ctx, (it, f) => it.Invoke(f, "install", Array.Empty<object>(), null));
+        WithInstance(spec, ctx, (it, f) =>
+        {
+            if (DefinesFetch(spec)) it.Invoke(f, "fetch", Array.Empty<object>(), null);
+            return it.Invoke(f, "install", Array.Empty<object>(), null);
+        });
+
+    internal static bool DefinesFetch(FormulaSpec spec) =>
+        spec.Interp.FindMethod(spec.Class, "fetch") is { } m && m.Owner != spec.Interp.ObjectClass.Consts["Formula"];
 
     internal static void RunPostInstall(FormulaSpec spec, string prefix, string brewPrefix)
     {
@@ -258,7 +267,7 @@ public static partial class FormulaLoader
         it.DefS(F, arm ? "on_arm" : "on_intel", (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>(), null, self, i.SingletonOf((RClass)self)));
         it.DefS(F, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_tahoe on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
             (i, self, a, b) => null);
-        it.DefS(F, "bottle deprecated_option patch skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
+        it.DefS(F, "deprecated_option patch skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
                    "compatibility_version no_autobump! pypi_packages env allow_network_access! deny_network_access!",
             (i, self, a, b) => null);
 
@@ -297,7 +306,7 @@ public static partial class FormulaLoader
         it.Def(F, "opt_libexec", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "libexec")));
         it.Def(F, "caveats post_install plist", (i, self, a, b) => null);
         it.Def(F, "build", (i, self, a, b) => i.Main);
-        it.Def(F, "head? bottle?", (i, self, a, b) => false);
+        it.Def(F, "head?", (i, self, a, b) => false);
         it.Def(F, "stable?", (i, self, a, b) => true);
         it.Def(F, "std_cmake_args", (i, self, a, b) => StrArray($"-DCMAKE_INSTALL_PREFIX={Prefix(i, self)}", "-DCMAKE_BUILD_TYPE=Release", "-DBUILD_TESTING=OFF", "-Wno-dev"));
         it.Def(F, "std_configure_args", (i, self, a, b) => StrArray($"--prefix={Prefix(i, self)}", "--disable-debug", "--disable-dependency-tracking"));
@@ -342,6 +351,7 @@ public static partial class FormulaLoader
         it.Def(it.KernelModule, "odebug", (i, self, a, b) => null);
         it.Def(it.KernelModule, "quiet_system", (i, self, a, b) => i.RunSystem(a));
         DefineTestHelpers(it, F);
+        DefineBuildDsl(it, F);
         return F;
     }
 

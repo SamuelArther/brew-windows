@@ -12,7 +12,7 @@ public static class Cli
     };
     static readonly Dictionary<string, string[]> Options = new()
     {
-        ["install"] = ["--ignore-dependencies", "--only-dependencies", "--build-from-source", "-s", "--HEAD", "--overwrite"],
+        ["install"] = ["--ignore-dependencies", "--only-dependencies", "--build-from-source", "-s", "--build-bottle", "--HEAD", "--overwrite"],
         ["uninstall"] = ["--ignore-dependencies", "--zap"], ["reinstall"] = ["--build-from-source", "-s"],
         ["upgrade"] = ["--dry-run", "-n", "--ignore-pinned"],
         ["list"] = ["--versions", "--pinned", "--installed-on-request", "--installed-as-dependency", "--full-name", "--multiple", "-1", "-l", "-r", "-t"],
@@ -77,12 +77,12 @@ public static class Cli
                     args.RequireNames(command);
                     foreach (var name in args.Names)
                     {
-                        if (args.Has("--HEAD", "--build-from-source", "-s")) throw new InvalidOperationException("Building from source is not supported by this Windows installer.");
+                        if (args.Has("--HEAD")) throw new InvalidOperationException("HEAD builds are not supported by this Windows installer.");
                         if (args.Has("--only-dependencies"))
                             foreach (var dependency in repository.Load(name).Dependencies) await manager.InstallAsync(dependency, requested: false);
                         else
                         {
-                            try { await manager.InstallAsync(name, force: args.Has("--force", "-f"), ignoreDependencies: args.Has("--ignore-dependencies")); }
+                            try { await manager.InstallAsync(name, force: args.Has("--force", "-f"), ignoreDependencies: args.Has("--ignore-dependencies"), fromSource: args.Has("--build-from-source", "-s", "--build-bottle")); }
                             catch (FormulaUnavailableException ex) { return query.SuggestInstall(ex.Name, args.Has("--formula", "--formulae")); }
                         }
                     }

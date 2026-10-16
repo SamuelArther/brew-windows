@@ -5,7 +5,7 @@ namespace Brew;
 
 public sealed record Receipt(string Name, string Version, string Url, string Sha256, List<BinLink> Links,
     List<CommandSpec> Commands = null, List<string> Dependencies = null,
-    bool InstalledOnRequest = true, long InstalledAt = 0, string SourcePath = null);
+    bool InstalledOnRequest = true, long InstalledAt = 0, string SourcePath = null, bool PouredFromBottle = false);
 
 public sealed class PackageManager(Paths paths)
 {
@@ -16,14 +16,14 @@ public sealed class PackageManager(Paths paths)
     readonly InstallationStore store = new(paths);
     readonly OptLinks opt = new(paths);
 
-    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false, bool? linkKeg = null)
+    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false, bool? linkKeg = null, bool fromSource = false)
     {
         if (!installing.Add(name)) throw new InvalidOperationException($"Circular dependency: {name}");
-        try { await InstallCoreAsync(name, requested, force, ignoreDependencies, linkKeg); }
+        try { await InstallCoreAsync(name, requested, force, ignoreDependencies, linkKeg, fromSource); }
         finally { installing.Remove(name); }
     }
 
-    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies, bool? linkKeg)
+    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies, bool? linkKeg, bool fromSource)
     {
         var file = repository.Find(name);
         var formula = repository.LoadFile(file);
@@ -72,37 +72,61 @@ public sealed class PackageManager(Paths paths)
             CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency)} ({Metadata.Version(definition)})", green: true);
             await InstallAsync(dependency, requested: false);
         }
-        var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
+        var bottle = fromSource || Environment.GetEnvironmentVariable("HOMEBREW_BUILD_FROM_SOURCE") == "1" ? null : Bottles.For(formula);
+        var buildDependencies = QueryCommands.Dependencies(formula).Where(d => d.Tags.Contains("build")).Select(d => d.Name).ToList();
+        if (bottle == null && !ignoreDependencies)
+            foreach (var dependency in buildDependencies.Where(d => store.Latest(d) == null))
+            {
+                var definition = repository.Load(dependency);
+                CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency)} ({Metadata.Version(definition)})", green: true);
+                await InstallAsync(dependency, requested: false);
+            }
         var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(build);
         var createdKeg = false;
         List<BinLink> links = [];
         try
         {
-            var filename = Downloader.FileName(formula.Url);
-            var stagedBuild = await Archive.StageAsync(download, filename, build);
-            var resources = new Dictionary<string, string>();
-            foreach (var resource in formula.Resources)
+            InstallContext context;
+            if (bottle != null)
             {
-                Paths.ValidateResourceName(resource.Name);
-                var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
-                var resourcePath = Path.Combine(build, ".resources", resource.Name);
-                var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);
-                resources.Add(resource.Name, stagedResource);
+                var archive = await new Downloader(paths.Cache).FetchAsync(bottle.Url, bottle.Sha256);
+                CommandOutput.Header($"Pouring {bottle.FileName}");
+                createdKeg = true;
+                await Bottles.PourAsync(paths, archive, keg, bottle.Cellar);
+                var poured = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)));
+                context = new InstallContext(keg, build, null, paths.Prefix) { PouredFromBottle = true };
+                context.Commands.AddRange(poured.Commands ?? []);
             }
-            CommandOutput.Header($"Installing {name}");
-            Directory.CreateDirectory(keg);
-            createdKeg = true;
-            var context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
-            formula.Install(context);
-            if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
-            linker.MaterializeCommands(keg, context.Commands);
+            else
+            {
+                var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
+                var filename = Downloader.FileName(formula.Url);
+                var stagedBuild = await Archive.StageAsync(download, filename, build);
+                var resources = new Dictionary<string, string>();
+                foreach (var resource in formula.Resources)
+                {
+                    Paths.ValidateResourceName(resource.Name);
+                    var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
+                    var resourcePath = Path.Combine(build, ".resources", resource.Name);
+                    var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);
+                    resources.Add(resource.Name, stagedResource);
+                }
+                CommandOutput.Header($"Installing {name}");
+                Directory.CreateDirectory(keg);
+                createdKeg = true;
+                context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
+                BuildEnvironment.Apply(paths, context, runtimeDependencies.Concat(buildDependencies));
+                formula.Install(context);
+                if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
+                linker.MaterializeCommands(keg, context.Commands);
+            }
             links = (linkKeg ?? !Metadata.Bool(formula, "KegOnly", "IsKegOnly")) ? linker.Link(keg, context.Commands) : [];
             opt.Set(name, keg);
             Metadata.Call(formula, "RunPostInstall", keg, paths.Prefix);
             ReceiptFile.Write(Path.Combine(keg, ReceiptName),
                 new Receipt(name, Metadata.Version(formula), formula.Url, formula.Sha256, links, context.Commands, runtimeDependencies,
-                    requested, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), file));
+                    requested, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), file, bottle != null));
             var caveats = FormulaCaveats(formula, context);
             if (!string.IsNullOrWhiteSpace(caveats)) { CommandOutput.Header("Caveats"); Console.WriteLine(caveats.TrimEnd()); CommandOutput.Header("Summary"); }
             if (!CommandOutput.Quiet) Console.WriteLine($"{CommandOutput.Badge}{keg}: {Abbreviation(keg)}");
@@ -111,11 +135,11 @@ public sealed class PackageManager(Paths paths)
         {
             linker.Unlink(links);
             opt.Remove(name, keg);
-            if (createdKeg) Directory.Delete(keg, true);
+            if (createdKeg && Directory.Exists(keg)) Directory.Delete(keg, true);
             RemoveEmptyRack(rack);
             throw;
         }
-        finally { Directory.Delete(build, true); }
+        finally { if (Directory.Exists(build)) Directory.Delete(build, true); }
     }
 
     public void List(string[] names, bool versions)

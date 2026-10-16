@@ -1,5 +1,7 @@
 brew-windows follows Homebrew 7.0.9 command behavior and output.
 Upstream: https://github.com/Homebrew/brew
+Formulae imported by tools/import_upstream.py are adapted from
+https://github.com/Homebrew/homebrew-core under the same license.
 The following license applies to material derived from Homebrew:
 
 BSD 2-Clause License

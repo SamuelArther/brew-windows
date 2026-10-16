@@ -47,6 +47,7 @@ public sealed class FormulaSpec
     public object DeprecationReason, DisableReason;   // RSymbol or string
     public string DeprecationReplacement, DisableReplacement;
     public LivecheckSpec Livecheck;
+    public BottleSpec Bottle;
     public bool HasLivecheck => Livecheck != null;
     public bool HasCaveats;
     public bool HasTest => TestBlock != null;
@@ -149,6 +150,7 @@ public sealed class FormulaSpec
         License = License,
         Dependencies = Dependencies.Where(d => !d.Test && !d.Optional).Select(d => d.Name).ToList(),
         Resources = Resources.ToList(),
+        Bottle = Bottle,
         Install = ctx => FormulaLoader.RunInstall(this, ctx),
     };
 }

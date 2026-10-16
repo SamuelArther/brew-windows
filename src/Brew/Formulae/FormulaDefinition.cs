@@ -12,6 +12,15 @@ public sealed class FormulaDefinition
     public Action<InstallContext> Install { get; set; }
     public List<FormulaResource> Resources { get; set; } = [];
     public List<string> Dependencies { get; set; } = [];
+    public BottleSpec Bottle { get; set; }
+}
+
+// `bottle do ... end`: root_url, rebuild, and sha256 per tag (cellar, checksum).
+public sealed class BottleSpec
+{
+    public string RootUrl;
+    public int Rebuild;
+    public readonly Dictionary<string, (string Cellar, string Sha256)> Files = new();
 }
 
 public sealed record FormulaResource(string Name, string Url, string Sha256);
@@ -25,6 +34,9 @@ public sealed class InstallContext
     public List<CommandSpec> Commands { get; } = [];
     public IReadOnlyDictionary<string, string> Resources { get; }
     public string BrewPrefix { get; }
+    public bool PouredFromBottle { get; init; }
+    // Extra environment for `def install` (build dependencies on PATH, Go/Cargo caches).
+    public Dictionary<string, string> BuildEnvironment { get; } = new(StringComparer.OrdinalIgnoreCase);
 
     public InstallContext(string prefix, string buildPath, IReadOnlyDictionary<string, string> resources = null, string brewPrefix = null)
     {

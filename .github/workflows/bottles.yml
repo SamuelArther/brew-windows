@@ -1,0 +1,111 @@
+name: bottles
+
+# Builds Windows bottles for a batch of upstream homebrew-core formulae. Only formulae that
+# build, pass `brew test` and bottle cleanly are added to the tap; the rest are reported.
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: Names file under tools/batches (without .txt)
+        required: true
+      chunk_size:
+        description: Formulae per build machine
+        default: "25"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bottles-publish
+  cancel-in-progress: false
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  HOMEBREW_NO_ANALYTICS: "1"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      chunks: ${{ steps.split.outputs.chunks }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: split
+        shell: python
+        run: |
+          import json, os
+          names = open(f"tools/batches/${{ inputs.batch }}.txt").read().split()
+          size = int("${{ inputs.chunk_size }}")
+          chunks = [{"id": i, "names": " ".join(names[s:s + size])} for i, s in enumerate(range(0, len(names), size))]
+          assert len(chunks) <= 256, "split the batch: at most 256 chunks per run"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("chunks=" + json.dumps(chunks) + "\n")
+
+  build:
+    needs: plan
+    runs-on: windows-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        chunk: ${{ fromJson(needs.plan.outputs.chunks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-brew
+      - name: Build, test and bottle
+        shell: pwsh
+        run: |
+          $names = "${{ matrix.chunk.names }}".Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
+          python tools/import_upstream.py "$env:RUNNER_TEMP/homebrew-core" @names
+          dotnet build src/Brew -c Release --nologo -v q
+          ./tools/ci/Build-Bottles.ps1 -Names $names -Out bottles
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bottles-${{ matrix.chunk.id }}
+          path: bottles
+          retention-days: 7
+
+  publish:
+    needs: build
+    if: always() && needs.build.result != 'cancelled'
+    runs-on: windows-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-brew
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bottles-*
+          path: bottles
+          merge-multiple: true
+      - name: Report
+        shell: pwsh
+        run: |
+          $report = Get-ChildItem bottles -Filter 'report-*.json' | ForEach-Object { Get-Content $_ -Raw | ConvertFrom-Json } | Sort-Object name
+          New-Item -ItemType Directory -Force tools/batches/results | Out-Null
+          $report | ConvertTo-Json -AsArray | Set-Content "tools/batches/results/${{ inputs.batch }}.json"
+          $report | Group-Object status | ForEach-Object { "{0}: {1}" -f $_.Name, $_.Count } | Tee-Object -Variable summary
+          "### ${{ inputs.batch }}`n" + ($summary -join "`n") | Add-Content $env:GITHUB_STEP_SUMMARY
+          $ok = ($report | Where-Object status -eq 'ok').name
+          if ($ok) { python tools/import_upstream.py "$env:RUNNER_TEMP/homebrew-core" @ok }
+      - name: Publish bottles
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          dotnet build src/Brew -c Release --nologo -v q
+          ./tools/ci/Publish-Bottles.ps1 -Dir bottles -Repo "${{ github.repository }}"
+      - name: Commit
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tap tools/batches/results
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { "nothing to commit"; exit 0 }
+          $count = (git diff --cached --name-only -- tap | Measure-Object).Count
+          git commit -q -m "${{ inputs.batch }}: add Windows bottles ($count formulae)"
+          for ($i = 0; $i -lt 5; $i++) { git pull -q --rebase; git push -q; if ($LASTEXITCODE -eq 0) { exit 0 }; Start-Sleep 10 }
+          exit 1

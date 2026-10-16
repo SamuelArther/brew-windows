@@ -119,30 +119,104 @@ public sealed class GitDeveloperCommands(Paths paths)
     async Task Bottle(CommandArguments args)
     {
         args.RequireNames("bottle");
-        if (args.Has("--merge")) throw new InvalidOperationException("Bottle DSL merging belongs to the formula developer runtime; use brew bump-revision for formula edits.");
+        if (args.Has("--merge")) { MergeBottles(args); return; }
         foreach (var name in args.Names)
         {
             var keg = store.Latest(name) ?? throw new InvalidOperationException($"{name} is not installed");
-            var filename = $"{keg.Receipt.Name}--{keg.Receipt.Version}.x86_64_windows.bottle.tar.gz";
+            var formula = repository.Load(keg.Receipt.Name);
+            var rebuild = args.Has("--no-rebuild") || formula.Bottle == null ? 0 : formula.Bottle.Rebuild;
+            var filename = Bottles.FileName(keg.Receipt.Name, keg.Receipt.Version, rebuild);
             if (args.Has("--dry-run")) { Console.WriteLine(filename); continue; }
             var file = Path.GetFullPath(filename);
-            if (File.Exists(file) && !args.Has("--force", "-f")) throw new IOException($"File already exists: {file}");
-            CommandOutput.Header($"Bottling {name}");
-            var status = await ProcessRunner.Run("tar.exe", ["-czf", file, "-C", paths.Cellar, keg.Receipt.Name + "/" + keg.Receipt.Version]);
-            if (status != 0) throw new IOException("Bottle archive creation failed.");
-            await using var stream = File.OpenRead(file); var checksum = Convert.ToHexStringLower(await SHA256.HashDataAsync(stream));
-            Console.WriteLine("./" + filename); Console.WriteLine($"sha256 cellar: {JsonSerializer.Serialize(paths.Cellar)}, x86_64_windows: \"{checksum}\"");
-            if (args.Has("--json"))
+            CommandOutput.Header($"Bottling {filename}...");
+            var cellar = await Bottles.CreateAsync(paths, keg.Path, file);
+            if (args.Has("--skip-relocation")) cellar = "any_skip_relocation";
+            var checksum = await Bottles.Sha256Async(file);
+            Console.WriteLine("./" + filename);
+            Console.WriteLine("  bottle do");
+            if (rebuild > 0) Console.WriteLine($"    rebuild {rebuild}");
+            Console.WriteLine($"    {Sha256Line(cellar, checksum)}");
+            Console.WriteLine("  end");
+            if (!args.Has("--json")) continue;
+            var rootUrl = args.Value("--root-url") ?? $"{Bottles.Domain}/{Bottles.ReleaseTag(keg.Receipt.Name, keg.Receipt.Version)}";
+            var data = new Dictionary<string, object>
             {
-                var data = new Dictionary<string, object> { [keg.Receipt.Name] = new
+                [keg.Receipt.Name] = new Dictionary<string, object>
                 {
-                    formula = new { pkg_version = keg.Receipt.Version, path = keg.Receipt.SourcePath, name = keg.Receipt.Name },
-                    bottle = new { root_url = args.Value("--root-url"), prefix = paths.Prefix, cellar = paths.Cellar, rebuild = 0,
-                        tags = new Dictionary<string, object> { ["x86_64_windows"] = new { filename, local_filename = filename, sha256 = checksum, cellar = paths.Cellar } } }
-                } };
-                File.WriteAllText(keg.Receipt.Name + ".bottle.json", JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+                    ["formula"] = new Dictionary<string, object>
+                    {
+                        ["name"] = keg.Receipt.Name, ["pkg_version"] = keg.Receipt.Version,
+                        ["path"] = Path.GetRelativePath(paths.Repository, keg.Receipt.SourcePath ?? repository.Find(keg.Receipt.Name)).Replace(Path.DirectorySeparatorChar, '/'),
+                        ["desc"] = formula.Description, ["license"] = formula.License, ["homepage"] = formula.Homepage,
+                    },
+                    ["bottle"] = new Dictionary<string, object>
+                    {
+                        ["root_url"] = rootUrl, ["cellar"] = cellar, ["rebuild"] = rebuild,
+                        ["date"] = File.GetLastWriteTimeUtc(file).ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        ["tags"] = new Dictionary<string, object>
+                        {
+                            [Bottles.Tag] = new Dictionary<string, object>
+                            {
+                                ["filename"] = Uri.EscapeDataString(filename), ["local_filename"] = filename, ["sha256"] = checksum,
+                                ["installed_size"] = Directory.EnumerateFiles(keg.Path, "*", SearchOption.AllDirectories).Sum(f => new FileInfo(f).Length),
+                            },
+                        },
+                    },
+                },
+            };
+            File.WriteAllText(Path.ChangeExtension(Path.ChangeExtension(file, null), ".json"),
+                JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+        }
+    }
+
+    static string Sha256Line(string cellar, string checksum) =>
+        cellar is "any" or "any_skip_relocation" ? $"sha256 cellar: :{cellar}, {Bottles.Tag}: \"{checksum}\""
+            : $"sha256 {Bottles.Tag}: \"{checksum}\"";
+
+    // brew bottle --merge [--write [--no-commit]] *.bottle.json
+    void MergeBottles(CommandArguments args)
+    {
+        foreach (var json in args.Names)
+        {
+            using var doc = JsonDocument.Parse(File.ReadAllText(json));
+            foreach (var entry in doc.RootElement.EnumerateObject())
+            {
+                var bottle = entry.Value.GetProperty("bottle");
+                var tag = bottle.GetProperty("tags").GetProperty(Bottles.Tag);
+                var rebuild = bottle.GetProperty("rebuild").GetInt32();
+                var root = bottle.GetProperty("root_url").GetString();
+                var pkgVersion = entry.Value.GetProperty("formula").GetProperty("pkg_version").GetString();
+                var lines = new List<string> { "  bottle do" };
+                if (root != $"{Bottles.Domain}/{Bottles.ReleaseTag(entry.Name, pkgVersion)}") lines.Add($"    root_url \"{root}\"");
+                if (rebuild > 0) lines.Add($"    rebuild {rebuild}");
+                lines.Add("    " + Sha256Line(bottle.GetProperty("cellar").GetString(), tag.GetProperty("sha256").GetString()));
+                lines.Add("  end");
+                CommandOutput.Header(entry.Name);
+                Console.WriteLine(string.Join("\n", lines));
+                if (!args.Has("--write")) continue;
+                var path = repository.Find(entry.Name);
+                var source = File.ReadAllText(path).Replace("\r\n", "\n");
+                var existing = new Regex(@"^  bottle do\n.*?^  end\n", RegexOptions.Multiline | RegexOptions.Singleline);
+                var updated = existing.IsMatch(source);
+                source = updated ? existing.Replace(source, string.Join("\n", lines) + "\n", 1) : InsertBottle(source, string.Join("\n", lines));
+                File.WriteAllText(path, source);
+                if (args.Has("--no-commit")) continue;
+                ProcessRunner.Git(Path.GetDirectoryName(path), "add", path).GetAwaiter().GetResult();
+                ProcessRunner.Git(Path.GetDirectoryName(path), "commit", "--no-edit", "--quiet",
+                    $"--message={entry.Name}: {(updated ? "update" : "add")} {pkgVersion} bottle.", "--", path).GetAwaiter().GetResult();
             }
         }
+    }
+
+    // Homebrew's component order: the bottle block follows livecheck, else the url/version stanza.
+    static string InsertBottle(string source, string block)
+    {
+        var livecheck = Regex.Match(source, @"^  livecheck do\n.*?^  end\n", RegexOptions.Multiline | RegexOptions.Singleline);
+        if (livecheck.Success) return source.Insert(livecheck.Index + livecheck.Length, "\n" + block + "\n");
+        var next = Regex.Match(source, @"^\n(?=  (?:head|depends_on|uses_from_macos|on_\w+|resource|conflicts_with|keg_only|deprecate!|disable!|option|patch|fails_with|link_overwrite|skip_clean|def |service|test do|pypi_packages|no_autobump!)\b)", RegexOptions.Multiline);
+        if (next.Success) return source.Insert(next.Index, "\n" + block + "\n");
+        var end = source.LastIndexOf("\nend", StringComparison.Ordinal);
+        return source.Insert(end, "\n\n" + block);
     }
 
     int Generate(string command, CommandArguments args)
