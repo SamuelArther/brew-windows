@@ -41,6 +41,11 @@ public static class BuildEnvironment
         var rustflags = Environment.GetEnvironmentVariable("RUSTFLAGS");
         env["RUSTFLAGS"] = string.IsNullOrEmpty(rustflags) ? "-C target-feature=+crt-static" : rustflags + " -C target-feature=+crt-static";
 
+        // MSVC (setuptools/Cython extensions, cc-rs): setuptools may pick the 32-bit-hosted cl.exe, which
+        // runs out of address space compiling huge generated sources with /GL ("C1083: Cannot open
+        // compiler generated file: ''"). _CL_ options apply after the command line, so this turns /GL off.
+        env["_CL_"] = "/GL-";
+
         ApplyToolchain(paths, env, dependencies, context.BuildPath);
     }
 
