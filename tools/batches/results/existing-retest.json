@@ -2,7 +2,7 @@
   {
     "name": "a52dec",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aalib",
@@ -42,7 +42,7 @@
   {
     "name": "adios2",
     "status": "ok",
-    "seconds": 61
+    "seconds": 78
   },
   {
     "name": "adrs",
@@ -52,7 +52,7 @@
   {
     "name": "advancecomp",
     "status": "ok",
-    "seconds": 9
+    "seconds": 19
   },
   {
     "name": "age",
@@ -62,7 +62,7 @@
   {
     "name": "age-plugin-yubikey",
     "status": "ok",
-    "seconds": 9
+    "seconds": 14
   },
   {
     "name": "agent-manager",
@@ -72,7 +72,7 @@
   {
     "name": "agg",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "ahoy",
@@ -102,17 +102,17 @@
   {
     "name": "akamai",
     "status": "ok",
-    "seconds": 49
+    "seconds": 76
   },
   {
     "name": "alembic",
     "status": "ok",
-    "seconds": 32
+    "seconds": 55
   },
   {
     "name": "algernon",
     "status": "ok",
-    "seconds": 24
+    "seconds": 25
   },
   {
     "name": "algolia",
@@ -132,12 +132,12 @@
   {
     "name": "aliddns",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "aliyunpan",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "all-smi",
@@ -147,27 +147,27 @@
   {
     "name": "allegro",
     "status": "ok",
-    "seconds": 5
+    "seconds": 14
   },
   {
     "name": "alp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "amass",
     "status": "ok",
-    "seconds": 19
+    "seconds": 17
   },
   {
     "name": "amqp-cpp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "ansifilter",
     "status": "ok",
-    "seconds": 9
+    "seconds": 16
   },
   {
     "name": "anyzig",
@@ -177,7 +177,7 @@
   {
     "name": "aom",
     "status": "ok",
-    "seconds": 9
+    "seconds": 20
   },
   {
     "name": "api-linter",
@@ -187,27 +187,27 @@
   {
     "name": "appstream",
     "status": "ok",
-    "seconds": 136
+    "seconds": 183
   },
   {
     "name": "apr",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "apr-util",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aqua",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aravis",
     "status": "ok",
-    "seconds": 105
+    "seconds": 167
   },
   {
     "name": "arelo",
@@ -247,12 +247,12 @@
   {
     "name": "arm-none-eabi-binutils",
     "status": "ok",
-    "seconds": 12
+    "seconds": 17
   },
   {
     "name": "arm-none-eabi-gcc",
     "status": "ok",
-    "seconds": 43
+    "seconds": 40
   },
   {
     "name": "armadillo",
@@ -267,17 +267,17 @@
   {
     "name": "arturo",
     "status": "ok",
-    "seconds": 33
+    "seconds": 47
   },
   {
     "name": "asciidoctor",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "asm-lsp",
     "status": "ok",
-    "seconds": 9
+    "seconds": 11
   },
   {
     "name": "asmfmt",
@@ -287,7 +287,7 @@
   {
     "name": "aspell",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "assh",
@@ -297,12 +297,12 @@
   {
     "name": "assimp",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "ast-grep",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "astroterm",
@@ -312,7 +312,7 @@
   {
     "name": "astyle",
     "status": "ok",
-    "seconds": 9
+    "seconds": 10
   },
   {
     "name": "ata",
@@ -322,17 +322,17 @@
   {
     "name": "atkmm",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "atkmm@2.28",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "atomicparsley",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "atuin",
@@ -342,7 +342,7 @@
   {
     "name": "atuin-server",
     "status": "ok",
-    "seconds": 11
+    "seconds": 12
   },
   {
     "name": "aurora",
@@ -357,27 +357,27 @@
   {
     "name": "autoconf",
     "status": "ok",
-    "seconds": 38
+    "seconds": 41
   },
   {
     "name": "autoconf-archive",
     "status": "ok",
-    "seconds": 7
+    "seconds": 14
   },
   {
     "name": "autogen",
     "status": "ok",
-    "seconds": 25
+    "seconds": 35
   },
   {
     "name": "automake",
     "status": "ok",
-    "seconds": 41
+    "seconds": 51
   },
   {
     "name": "avrdude",
     "status": "ok",
-    "seconds": 29
+    "seconds": 31
   },
   {
     "name": "aws-c-auth",
@@ -407,42 +407,42 @@
   {
     "name": "aws-c-http",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aws-c-io",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aws-c-mqtt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "aws-c-s3",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "aws-c-sdkutils",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aws-checksums",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aws-crt-cpp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "aws-es-proxy",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "aws-rotate-key",
@@ -452,7 +452,7 @@
   {
     "name": "aws-sdk-cpp",
     "status": "ok",
-    "seconds": 16
+    "seconds": 18
   },
   {
     "name": "aws-spiffe-workload-helper",
@@ -462,7 +462,7 @@
   {
     "name": "awscli",
     "status": "ok",
-    "seconds": 40
+    "seconds": 54
   },
   {
     "name": "awsdac",
@@ -472,17 +472,17 @@
   {
     "name": "axel",
     "status": "ok",
-    "seconds": 7
+    "seconds": 8
   },
   {
     "name": "azqr",
     "status": "ok",
-    "seconds": 11
+    "seconds": 17
   },
   {
     "name": "b3sum",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "b4n",
@@ -492,7 +492,7 @@
   {
     "name": "babl",
     "status": "ok",
-    "seconds": 15
+    "seconds": 16
   },
   {
     "name": "bacon-ls",
@@ -522,7 +522,7 @@
   {
     "name": "bash",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "bat",
@@ -537,12 +537,12 @@
   {
     "name": "bc",
     "status": "ok",
-    "seconds": 10
+    "seconds": 9
   },
   {
     "name": "bcftools",
     "status": "ok",
-    "seconds": 52
+    "seconds": 40
   },
   {
     "name": "beancount-language-server",
@@ -567,12 +567,12 @@
   {
     "name": "biber",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "binaryen",
     "status": "ok",
-    "seconds": 14
+    "seconds": 10
   },
   {
     "name": "binocle",
@@ -587,12 +587,12 @@
   {
     "name": "binutils",
     "status": "ok",
-    "seconds": 13
+    "seconds": 12
   },
   {
     "name": "binwalk",
     "status": "ok",
-    "seconds": 110
+    "seconds": 95
   },
   {
     "name": "biodiff",
@@ -602,7 +602,7 @@
   {
     "name": "bison",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "bit-git",
@@ -617,7 +617,7 @@
   {
     "name": "bitwise",
     "status": "ok",
-    "seconds": 37
+    "seconds": 29
   },
   {
     "name": "bkcrack",
@@ -627,7 +627,7 @@
   {
     "name": "bkt",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "blink1",
@@ -637,7 +637,7 @@
   {
     "name": "blis",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "blisp",
@@ -657,7 +657,7 @@
   {
     "name": "boost",
     "status": "ok",
-    "seconds": 138
+    "seconds": 122
   },
   {
     "name": "bootloadhid",
@@ -677,12 +677,12 @@
   {
     "name": "box2d",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "breezy",
     "status": "ok",
-    "seconds": 84
+    "seconds": 87
   },
   {
     "name": "brename",
@@ -722,7 +722,7 @@
   {
     "name": "buf",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "buffa",
@@ -777,7 +777,7 @@
   {
     "name": "c3c",
     "status": "ok",
-    "seconds": 15
+    "seconds": 17
   },
   {
     "name": "c4core",
@@ -802,7 +802,7 @@
   {
     "name": "caesiumclt",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "caire",
@@ -812,7 +812,7 @@
   {
     "name": "cairo",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "cairomm",
@@ -832,27 +832,27 @@
   {
     "name": "capstone",
     "status": "ok",
-    "seconds": 9
+    "seconds": 21
   },
   {
     "name": "cargo-auditable",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "cargo-careful",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cargo-cyclonedx",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cargo-deny",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cargo-dist",
@@ -862,12 +862,12 @@
   {
     "name": "cargo-fuzz",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cargo-hack",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cargo-insta",
@@ -887,7 +887,7 @@
   {
     "name": "cargo-mutants",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cargo-release",
@@ -917,7 +917,7 @@
   {
     "name": "cascadia",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "cassowary",
@@ -932,12 +932,12 @@
   {
     "name": "cava",
     "status": "ok",
-    "seconds": 11
+    "seconds": 13
   },
   {
     "name": "cbfmt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "cbindgen",
@@ -947,7 +947,7 @@
   {
     "name": "ccache",
     "status": "ok",
-    "seconds": 30
+    "seconds": 29
   },
   {
     "name": "ccat",
@@ -957,12 +957,12 @@
   {
     "name": "cddlib",
     "status": "ok",
-    "seconds": 23
+    "seconds": 9
   },
   {
     "name": "cdecl",
     "status": "ok",
-    "seconds": 19
+    "seconds": 21
   },
   {
     "name": "cdncheck",
@@ -987,7 +987,7 @@
   {
     "name": "cfitsio",
     "status": "ok",
-    "seconds": 41
+    "seconds": 51
   },
   {
     "name": "cflow",
@@ -1002,32 +1002,32 @@
   {
     "name": "cfssl",
     "status": "ok",
-    "seconds": 7
+    "seconds": 11
   },
   {
     "name": "cgdb",
     "status": "ok",
-    "seconds": 58
+    "seconds": 149
   },
   {
     "name": "cgl",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "cglm",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "cgns",
     "status": "ok",
-    "seconds": 32
+    "seconds": 72
   },
   {
     "name": "chainsaw",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "changie",
@@ -1037,7 +1037,7 @@
   {
     "name": "chaos-client",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "charls",
@@ -1047,7 +1047,7 @@
   {
     "name": "chart-testing",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "cheat",
@@ -1062,7 +1062,7 @@
   {
     "name": "checkmake",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "chezmoi",
@@ -1072,7 +1072,7 @@
   {
     "name": "chicken",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "chiko",
@@ -1087,7 +1087,7 @@
   {
     "name": "choose-rust",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "chromaprint",
@@ -1097,17 +1097,17 @@
   {
     "name": "chsrc",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "cidr",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "civetweb",
     "status": "ok",
-    "seconds": 23
+    "seconds": 84
   },
   {
     "name": "cjson",
@@ -1127,22 +1127,22 @@
   {
     "name": "clblast",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "click",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "clinfo",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "clipboard",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "clipper2",
@@ -1157,12 +1157,12 @@
   {
     "name": "cloudflare-speed-cli",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "cloudflared",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "cloudformation-guard",
@@ -1172,17 +1172,17 @@
   {
     "name": "clp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 8
   },
   {
     "name": "cmake",
     "status": "ok",
-    "seconds": 27
+    "seconds": 55
   },
   {
     "name": "cmake-docs",
     "status": "ok",
-    "seconds": 39
+    "seconds": 61
   },
   {
     "name": "cmark",
@@ -1192,7 +1192,7 @@
   {
     "name": "cmatrix",
     "status": "ok",
-    "seconds": 29
+    "seconds": 47
   },
   {
     "name": "cmocka",
@@ -1207,7 +1207,7 @@
   {
     "name": "cobalt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "cocogitto",
@@ -1217,22 +1217,22 @@
   {
     "name": "code-minimap",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "code2prompt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "codebook-lsp",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "codec2",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "codesnap",
@@ -1242,12 +1242,12 @@
   {
     "name": "coinutils",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "committed",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "comrak",
@@ -1287,7 +1287,7 @@
   {
     "name": "coreutils",
     "status": "ok",
-    "seconds": 39
+    "seconds": 43
   },
   {
     "name": "corrosion",
@@ -1302,12 +1302,12 @@
   {
     "name": "cotp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "cowsay",
     "status": "ok",
-    "seconds": 14
+    "seconds": 18
   },
   {
     "name": "cpi",
@@ -1317,22 +1317,22 @@
   {
     "name": "cpio",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "cppcheck",
     "status": "ok",
-    "seconds": 11
+    "seconds": 13
   },
   {
     "name": "cppunit",
     "status": "ok",
-    "seconds": 9
+    "seconds": 11
   },
   {
     "name": "cpputest",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "cpr",
@@ -1357,7 +1357,7 @@
   {
     "name": "crosstool-ng",
     "status": "ok",
-    "seconds": 18
+    "seconds": 31
   },
   {
     "name": "cryptominisat",
@@ -1367,12 +1367,12 @@
   {
     "name": "cscope",
     "status": "ok",
-    "seconds": 21
+    "seconds": 33
   },
   {
     "name": "csfml",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "csprecon",
@@ -1412,7 +1412,7 @@
   {
     "name": "curl",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "curlie",
@@ -1422,7 +1422,7 @@
   {
     "name": "cvs",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "cxgo",
@@ -1447,17 +1447,17 @@
   {
     "name": "cyrus-sasl",
     "status": "ok",
-    "seconds": 36
+    "seconds": 42
   },
   {
     "name": "cython",
     "status": "ok",
-    "seconds": 107
+    "seconds": 167
   },
   {
     "name": "dalfox",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "darklua",
@@ -1477,22 +1477,22 @@
   {
     "name": "dav1d",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dbcsr",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dbus",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dbus-glib",
     "status": "ok",
-    "seconds": 134
+    "seconds": 111
   },
   {
     "name": "dbxcli",
@@ -1512,12 +1512,12 @@
   {
     "name": "dcmtk",
     "status": "ok",
-    "seconds": 40
+    "seconds": 44
   },
   {
     "name": "dcraw",
     "status": "ok",
-    "seconds": 14
+    "seconds": 15
   },
   {
     "name": "ddh",
@@ -1547,7 +1547,7 @@
   {
     "name": "deja-vu",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dekit",
@@ -1567,7 +1567,7 @@
   {
     "name": "dep-tree",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dependabot",
@@ -1582,17 +1582,17 @@
   {
     "name": "desktop-file-utils",
     "status": "ok",
-    "seconds": 93
+    "seconds": 86
   },
   {
     "name": "devil",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dfu-programmer",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dfu-util",
@@ -1602,7 +1602,7 @@
   {
     "name": "dialog",
     "status": "ok",
-    "seconds": 28
+    "seconds": 21
   },
   {
     "name": "diamond",
@@ -1617,12 +1617,12 @@
   {
     "name": "diffstat",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "difftastic",
-    "status": "test",
-    "seconds": 4
+    "status": "ok",
+    "seconds": 5
   },
   {
     "name": "diffutils",
@@ -1632,12 +1632,12 @@
   {
     "name": "difi",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "directx-headers",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "direnv",
@@ -1667,12 +1667,12 @@
   {
     "name": "djvulibre",
     "status": "ok",
-    "seconds": 15
+    "seconds": 21
   },
   {
     "name": "dlib",
     "status": "ok",
-    "seconds": 22
+    "seconds": 11
   },
   {
     "name": "dnglab",
@@ -1682,12 +1682,12 @@
   {
     "name": "dnote",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "dnscrypt-proxy",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "dnsglobe",
@@ -1697,7 +1697,7 @@
   {
     "name": "docbook-xsl",
     "status": "ok",
-    "seconds": 19
+    "seconds": 18
   },
   {
     "name": "docker-buildx",
@@ -1707,7 +1707,7 @@
   {
     "name": "docker-compose",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "docker-credential-helper",
@@ -1737,22 +1737,22 @@
   {
     "name": "doggo",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "doppler",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "dos2unix",
     "status": "ok",
-    "seconds": 6
+    "seconds": 10
   },
   {
     "name": "dosfstools",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "dotbot",
@@ -1767,12 +1767,12 @@
   {
     "name": "dotnet",
     "status": "ok",
-    "seconds": 34
+    "seconds": 37
   },
   {
     "name": "dotslash",
     "status": "ok",
-    "seconds": 9
+    "seconds": 10
   },
   {
     "name": "dotter",
@@ -1797,12 +1797,12 @@
   {
     "name": "dra",
     "status": "ok",
-    "seconds": 9
+    "seconds": 8
   },
   {
     "name": "draco",
     "status": "ok",
-    "seconds": 12
+    "seconds": 10
   },
   {
     "name": "dragonbox",
@@ -1917,12 +1917,12 @@
   {
     "name": "ebook-tools",
     "status": "ok",
-    "seconds": 20
+    "seconds": 19
   },
   {
     "name": "eccodes",
     "status": "ok",
-    "seconds": 139
+    "seconds": 137
   },
   {
     "name": "ed",
@@ -1957,7 +1957,7 @@
   {
     "name": "elixir",
     "status": "ok",
-    "seconds": 24
+    "seconds": 25
   },
   {
     "name": "elm-format",
@@ -1967,32 +1967,32 @@
   {
     "name": "emacs",
     "status": "ok",
-    "seconds": 96
+    "seconds": 37
   },
   {
     "name": "embree",
     "status": "ok",
-    "seconds": 6
+    "seconds": 10
   },
   {
     "name": "enca",
     "status": "ok",
-    "seconds": 12
+    "seconds": 25
   },
   {
     "name": "enchant",
     "status": "ok",
-    "seconds": 117
+    "seconds": 101
   },
   {
     "name": "energy",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "enet",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "enpass-cli",
@@ -2012,7 +2012,7 @@
   {
     "name": "epstool",
     "status": "ok",
-    "seconds": 141
+    "seconds": 122
   },
   {
     "name": "erdtree",
@@ -2022,7 +2022,7 @@
   {
     "name": "erlang",
     "status": "ok",
-    "seconds": 30
+    "seconds": 31
   },
   {
     "name": "esbuild",
@@ -2047,12 +2047,12 @@
   {
     "name": "exiftool",
     "status": "ok",
-    "seconds": 29
+    "seconds": 6
   },
   {
     "name": "exiv2",
     "status": "ok",
-    "seconds": 48
+    "seconds": 56
   },
   {
     "name": "expat",
@@ -2061,7 +2061,7 @@
   },
   {
     "name": "eza",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -2072,7 +2072,7 @@
   {
     "name": "faad2",
     "status": "ok",
-    "seconds": 12
+    "seconds": 10
   },
   {
     "name": "fake-gcs-server",
@@ -2092,7 +2092,7 @@
   {
     "name": "fastjar",
     "status": "ok",
-    "seconds": 12
+    "seconds": 18
   },
   {
     "name": "favirecon",
@@ -2152,17 +2152,17 @@
   {
     "name": "ffmpeg",
     "status": "ok",
-    "seconds": 7
+    "seconds": 8
   },
   {
     "name": "fftw",
     "status": "ok",
-    "seconds": 12
+    "seconds": 16
   },
   {
     "name": "file-formula",
     "status": "ok",
-    "seconds": 12
+    "seconds": 11
   },
   {
     "name": "fileql",
@@ -2172,12 +2172,12 @@
   {
     "name": "findutils",
     "status": "ok",
-    "seconds": 13
+    "seconds": 19
   },
   {
     "name": "fish",
     "status": "ok",
-    "seconds": 44
+    "seconds": 57
   },
   {
     "name": "fjira",
@@ -2187,7 +2187,7 @@
   {
     "name": "flac",
     "status": "ok",
-    "seconds": 11
+    "seconds": 10
   },
   {
     "name": "flann",
@@ -2197,12 +2197,12 @@
   {
     "name": "flashrom",
     "status": "ok",
-    "seconds": 36
+    "seconds": 33
   },
   {
     "name": "flatbuffers",
     "status": "ok",
-    "seconds": 13
+    "seconds": 11
   },
   {
     "name": "flawz",
@@ -2212,7 +2212,7 @@
   {
     "name": "flecs",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "flex",
@@ -2222,12 +2222,12 @@
   {
     "name": "flickcurl",
     "status": "ok",
-    "seconds": 51
+    "seconds": 61
   },
   {
     "name": "flint",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "flint-checker",
@@ -2251,8 +2251,8 @@
   },
   {
     "name": "flyctl",
-    "status": "test",
-    "seconds": 5
+    "status": "ok",
+    "seconds": 6
   },
   {
     "name": "fmt",
@@ -2267,12 +2267,12 @@
   {
     "name": "folly",
     "status": "ok",
-    "seconds": 14
+    "seconds": 23
   },
   {
     "name": "fontconfig",
     "status": "ok",
-    "seconds": 97
+    "seconds": 173
   },
   {
     "name": "fortitude",
@@ -2282,27 +2282,27 @@
   {
     "name": "fortran-stdlib",
     "status": "ok",
-    "seconds": 7
+    "seconds": 17
   },
   {
     "name": "fossil",
     "status": "ok",
-    "seconds": 36
+    "seconds": 85
   },
   {
     "name": "fox",
     "status": "ok",
-    "seconds": 17
+    "seconds": 26
   },
   {
     "name": "foxglove-cli",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "fpm",
     "status": "ok",
-    "seconds": 11
+    "seconds": 26
   },
   {
     "name": "fq",
@@ -2327,7 +2327,7 @@
   {
     "name": "freetds",
     "status": "ok",
-    "seconds": 32
+    "seconds": 58
   },
   {
     "name": "freetype",
@@ -2337,7 +2337,7 @@
   {
     "name": "fresh-editor",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "fribidi",
@@ -2362,17 +2362,17 @@
   {
     "name": "fswatch",
     "status": "ok",
-    "seconds": 11
+    "seconds": 21
   },
   {
     "name": "ftgl",
     "status": "ok",
-    "seconds": 17
+    "seconds": 5
   },
   {
     "name": "ftxui",
     "status": "ok",
-    "seconds": 8
+    "seconds": 5
   },
   {
     "name": "fuc",
@@ -2397,7 +2397,7 @@
   {
     "name": "fzy",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "g-ls",
@@ -2417,12 +2417,12 @@
   {
     "name": "gammu",
     "status": "ok",
-    "seconds": 7
+    "seconds": 13
   },
   {
     "name": "gau",
     "status": "ok",
-    "seconds": 5
+    "seconds": 9
   },
   {
     "name": "gauth",
@@ -2432,7 +2432,7 @@
   {
     "name": "gawk",
     "status": "ok",
-    "seconds": 31
+    "seconds": 44
   },
   {
     "name": "gaze",
@@ -2442,47 +2442,47 @@
   {
     "name": "gcab",
     "status": "ok",
-    "seconds": 117
+    "seconds": 158
   },
   {
     "name": "gcc",
     "status": "ok",
-    "seconds": 33
+    "seconds": 57
   },
   {
     "name": "gcovr",
     "status": "ok",
-    "seconds": 116
+    "seconds": 188
   },
   {
     "name": "gdb",
     "status": "ok",
-    "seconds": 102
+    "seconds": 173
   },
   {
     "name": "gdbm",
     "status": "ok",
-    "seconds": 12
+    "seconds": 17
   },
   {
     "name": "gdcm",
     "status": "ok",
-    "seconds": 122
+    "seconds": 222
   },
   {
     "name": "gdrive",
-    "status": "ok",
+    "status": "test",
     "seconds": 4
   },
   {
     "name": "gdu",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "gebug",
     "status": "ok",
-    "seconds": 11
+    "seconds": 12
   },
   {
     "name": "geckodriver",
@@ -2512,12 +2512,12 @@
   {
     "name": "geographiclib",
     "status": "ok",
-    "seconds": 13
+    "seconds": 23
   },
   {
     "name": "geos",
     "status": "ok",
-    "seconds": 11
+    "seconds": 13
   },
   {
     "name": "getparty",
@@ -2527,12 +2527,12 @@
   {
     "name": "gettext",
     "status": "ok",
-    "seconds": 17
+    "seconds": 20
   },
   {
     "name": "gexiv2",
     "status": "ok",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "gflags",
@@ -2572,7 +2572,7 @@
   {
     "name": "ghostscript",
     "status": "ok",
-    "seconds": 95
+    "seconds": 112
   },
   {
     "name": "ghq",
@@ -2587,17 +2587,17 @@
   {
     "name": "gi-docgen",
     "status": "ok",
-    "seconds": 102
+    "seconds": 111
   },
   {
     "name": "gibo",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "giflib",
     "status": "ok",
-    "seconds": 10
+    "seconds": 9
   },
   {
     "name": "gifski",
@@ -2607,7 +2607,7 @@
   {
     "name": "ginkgo",
     "status": "ok",
-    "seconds": 7
+    "seconds": 10
   },
   {
     "name": "git",
@@ -2617,22 +2617,22 @@
   {
     "name": "git-absorb",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "git-branchless",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "git-bug",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "git-cinnabar",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "git-cliff",
@@ -2647,7 +2647,7 @@
   {
     "name": "git-crypt",
     "status": "ok",
-    "seconds": 81
+    "seconds": 78
   },
   {
     "name": "git-delta",
@@ -2657,7 +2657,7 @@
   {
     "name": "git-flow-next",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "git-get",
@@ -2702,12 +2702,12 @@
   {
     "name": "git-svn",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "git-trim",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "git-who",
@@ -2762,12 +2762,12 @@
   {
     "name": "gittype",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "gitu",
     "status": "ok",
-    "seconds": 41
+    "seconds": 49
   },
   {
     "name": "gitui",
@@ -2777,7 +2777,7 @@
   {
     "name": "gjs",
     "status": "ok",
-    "seconds": 107
+    "seconds": 198
   },
   {
     "name": "gl2ps",
@@ -2787,12 +2787,12 @@
   {
     "name": "glab",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "glbinding",
     "status": "ok",
-    "seconds": 7
+    "seconds": 43
   },
   {
     "name": "gleam",
@@ -2802,12 +2802,12 @@
   {
     "name": "glew",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "glfw",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "glib-networking",
@@ -2817,12 +2817,12 @@
   {
     "name": "glibmm",
     "status": "ok",
-    "seconds": 11
+    "seconds": 9
   },
   {
     "name": "glibmm@2.66",
     "status": "ok",
-    "seconds": 7
+    "seconds": 10
   },
   {
     "name": "glider",
@@ -2832,12 +2832,12 @@
   {
     "name": "glm",
     "status": "ok",
-    "seconds": 11
+    "seconds": 24
   },
   {
     "name": "global",
     "status": "ok",
-    "seconds": 28
+    "seconds": 45
   },
   {
     "name": "glog",
@@ -2852,17 +2852,17 @@
   {
     "name": "glpk",
     "status": "ok",
-    "seconds": 15
+    "seconds": 20
   },
   {
     "name": "glslang",
     "status": "ok",
-    "seconds": 21
+    "seconds": 26
   },
   {
     "name": "glslviewer",
     "status": "ok",
-    "seconds": 12
+    "seconds": 16
   },
   {
     "name": "gmime",
@@ -2877,7 +2877,7 @@
   {
     "name": "gmp-ecm",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "gmssl",
@@ -2892,12 +2892,12 @@
   {
     "name": "gnu-sed",
     "status": "ok",
-    "seconds": 25
+    "seconds": 27
   },
   {
     "name": "gnu-tar",
     "status": "ok",
-    "seconds": 25
+    "seconds": 42
   },
   {
     "name": "gnu-which",
@@ -2907,32 +2907,32 @@
   {
     "name": "gnucobol",
     "status": "ok",
-    "seconds": 98
+    "seconds": 95
   },
   {
     "name": "gnupg",
     "status": "ok",
-    "seconds": 51
+    "seconds": 65
   },
   {
     "name": "gnustep-base",
     "status": "ok",
-    "seconds": 22
+    "seconds": 36
   },
   {
     "name": "gnustep-make",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "gnutls",
     "status": "ok",
-    "seconds": 18
+    "seconds": 29
   },
   {
     "name": "go",
     "status": "ok",
-    "seconds": 67
+    "seconds": 87
   },
   {
     "name": "go-air",
@@ -2982,7 +2982,7 @@
   {
     "name": "gobject-introspection",
     "status": "ok",
-    "seconds": 98
+    "seconds": 153
   },
   {
     "name": "gobuster",
@@ -3002,7 +3002,7 @@
   {
     "name": "godns",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "goffice",
@@ -3017,7 +3017,7 @@
   {
     "name": "gojq",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "golangci-lint",
@@ -3052,7 +3052,7 @@
   {
     "name": "goreleaser",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "goreman",
@@ -3072,7 +3072,7 @@
   {
     "name": "gotop",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "gotpm",
@@ -3092,12 +3092,12 @@
   {
     "name": "gperf",
     "status": "ok",
-    "seconds": 9
+    "seconds": 10
   },
   {
     "name": "gpgme",
     "status": "ok",
-    "seconds": 96
+    "seconds": 127
   },
   {
     "name": "gping",
@@ -3107,12 +3107,12 @@
   {
     "name": "gptfdisk",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "gputils",
     "status": "ok",
-    "seconds": 9
+    "seconds": 10
   },
   {
     "name": "gpx",
@@ -3127,22 +3127,22 @@
   {
     "name": "gradle",
     "status": "ok",
-    "seconds": 22
+    "seconds": 27
   },
   {
     "name": "graphene",
     "status": "ok",
-    "seconds": 4
+    "seconds": 9
   },
   {
     "name": "graphicsmagick",
     "status": "ok",
-    "seconds": 107
+    "seconds": 109
   },
   {
     "name": "graphite2",
     "status": "ok",
-    "seconds": 11
+    "seconds": 10
   },
   {
     "name": "graphqlite",
@@ -3152,12 +3152,12 @@
   {
     "name": "graphviz",
     "status": "ok",
-    "seconds": 8
+    "seconds": 9
   },
   {
     "name": "grep",
     "status": "ok",
-    "seconds": 12
+    "seconds": 13
   },
   {
     "name": "grex",
@@ -3167,7 +3167,7 @@
   {
     "name": "grin",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "grin-wallet",
@@ -3177,7 +3177,7 @@
   {
     "name": "groff",
     "status": "ok",
-    "seconds": 40
+    "seconds": 60
   },
   {
     "name": "grokj2k",
@@ -3187,7 +3187,7 @@
   {
     "name": "gromacs",
     "status": "ok",
-    "seconds": 15
+    "seconds": 18
   },
   {
     "name": "gron",
@@ -3197,12 +3197,12 @@
   {
     "name": "groovy",
     "status": "ok",
-    "seconds": 45
+    "seconds": 38
   },
   {
     "name": "grpc",
     "status": "ok",
-    "seconds": 34
+    "seconds": 41
   },
   {
     "name": "grpcui",
@@ -3222,37 +3222,37 @@
   {
     "name": "gsasl",
     "status": "ok",
-    "seconds": 21
+    "seconds": 41
   },
   {
     "name": "gsettings-desktop-schemas",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "gsl",
     "status": "ok",
-    "seconds": 9
+    "seconds": 6
   },
   {
     "name": "gsoap",
     "status": "ok",
-    "seconds": 30
+    "seconds": 33
   },
   {
     "name": "gssdp",
     "status": "ok",
-    "seconds": 111
+    "seconds": 114
   },
   {
     "name": "gstreamer",
     "status": "ok",
-    "seconds": 96
+    "seconds": 103
   },
   {
     "name": "gtk-doc",
     "status": "ok",
-    "seconds": 106
+    "seconds": 103
   },
   {
     "name": "gtkdatabox",
@@ -3267,17 +3267,17 @@
   {
     "name": "gtksourceview3",
     "status": "ok",
-    "seconds": 13
+    "seconds": 7
   },
   {
     "name": "gtksourceview4",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "gtksourceview5",
     "status": "ok",
-    "seconds": 6
+    "seconds": 15
   },
   {
     "name": "gtksourceviewmm3",
@@ -3297,7 +3297,7 @@
   {
     "name": "gts",
     "status": "ok",
-    "seconds": 119
+    "seconds": 101
   },
   {
     "name": "guile",
@@ -3307,12 +3307,12 @@
   {
     "name": "gum",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "gumbo-parser",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "gup",
@@ -3327,16 +3327,16 @@
   {
     "name": "gzip",
     "status": "ok",
-    "seconds": 32
+    "seconds": 33
   },
   {
     "name": "hackrf",
     "status": "ok",
-    "seconds": 13
+    "seconds": 12
   },
   {
     "name": "hadolint",
-    "status": "test",
+    "status": "ok",
     "seconds": 5
   },
   {
@@ -3357,7 +3357,7 @@
   {
     "name": "harper",
     "status": "ok",
-    "seconds": 13
+    "seconds": 14
   },
   {
     "name": "harsh",
@@ -3377,7 +3377,7 @@
   {
     "name": "hayagriva",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "hcl2json",
@@ -3392,12 +3392,12 @@
   {
     "name": "hcloud",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "hdf5",
     "status": "ok",
-    "seconds": 34
+    "seconds": 40
   },
   {
     "name": "hdr10plus_tool",
@@ -3422,12 +3422,12 @@
   {
     "name": "helix",
     "status": "ok",
-    "seconds": 10
+    "seconds": 9
   },
   {
     "name": "helm",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "helm-docs",
@@ -3452,7 +3452,7 @@
   {
     "name": "hexcurse",
     "status": "ok",
-    "seconds": 24
+    "seconds": 25
   },
   {
     "name": "hexyl",
@@ -3472,17 +3472,17 @@
   {
     "name": "hidapi",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "hidapitester",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "highlight",
     "status": "ok",
-    "seconds": 13
+    "seconds": 14
   },
   {
     "name": "highs",
@@ -3497,7 +3497,7 @@
   {
     "name": "himalaya",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "hiredis",
@@ -3512,7 +3512,7 @@
   {
     "name": "hl",
     "status": "ok",
-    "seconds": 11
+    "seconds": 12
   },
   {
     "name": "hookdeck",
@@ -3532,7 +3532,7 @@
   {
     "name": "htmldoc",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "htmlq",
@@ -3547,7 +3547,7 @@
   {
     "name": "htslib",
     "status": "ok",
-    "seconds": 41
+    "seconds": 82
   },
   {
     "name": "hub",
@@ -3557,17 +3557,17 @@
   {
     "name": "hugo",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "hunspell",
     "status": "ok",
-    "seconds": 10
+    "seconds": 15
   },
   {
     "name": "hurl",
     "status": "ok",
-    "seconds": 34
+    "seconds": 85
   },
   {
     "name": "hwatch",
@@ -3577,17 +3577,17 @@
   {
     "name": "hwloc",
     "status": "ok",
-    "seconds": 12
+    "seconds": 34
   },
   {
     "name": "hyperfine",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "i2pd",
     "status": "ok",
-    "seconds": 40
+    "seconds": 73
   },
   {
     "name": "ibazel",
@@ -3602,27 +3602,27 @@
   {
     "name": "icoutils",
     "status": "ok",
-    "seconds": 10
+    "seconds": 14
   },
   {
     "name": "id3lib",
     "status": "ok",
-    "seconds": 10
+    "seconds": 12
   },
   {
     "name": "ideviceinstaller",
     "status": "ok",
-    "seconds": 46
+    "seconds": 71
   },
   {
     "name": "idutils",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "igraph",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "igrep",
@@ -3632,12 +3632,12 @@
   {
     "name": "imagemagick",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "imath",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "imessage-exporter",
@@ -3647,7 +3647,7 @@
   {
     "name": "img2pdf",
     "status": "ok",
-    "seconds": 135
+    "seconds": 209
   },
   {
     "name": "imgdiff",
@@ -3657,17 +3657,17 @@
   {
     "name": "immich-go",
     "status": "ok",
-    "seconds": 7
+    "seconds": 8
   },
   {
     "name": "inetutils",
     "status": "ok",
-    "seconds": 22
+    "seconds": 31
   },
   {
     "name": "innoextract",
     "status": "ok",
-    "seconds": 15
+    "seconds": 18
   },
   {
     "name": "install-nothing",
@@ -3702,7 +3702,7 @@
   {
     "name": "iperf3",
     "status": "ok",
-    "seconds": 9
+    "seconds": 8
   },
   {
     "name": "ipinfo-cli",
@@ -3717,7 +3717,7 @@
   {
     "name": "irssi",
     "status": "ok",
-    "seconds": 37
+    "seconds": 48
   },
   {
     "name": "is-fast",
@@ -3737,7 +3737,7 @@
   {
     "name": "itstool",
     "status": "ok",
-    "seconds": 93
+    "seconds": 130
   },
   {
     "name": "jabba",
@@ -3747,12 +3747,12 @@
   {
     "name": "jansson",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "jaq",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "jarl",
@@ -3762,7 +3762,7 @@
   {
     "name": "jasper",
     "status": "ok",
-    "seconds": 12
+    "seconds": 11
   },
   {
     "name": "jbig2dec",
@@ -3777,7 +3777,7 @@
   {
     "name": "jemalloc",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "jid",
@@ -3787,12 +3787,12 @@
   {
     "name": "jikken",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "jj",
     "status": "ok",
-    "seconds": 9
+    "seconds": 8
   },
   {
     "name": "jnv",
@@ -3857,17 +3857,17 @@
   {
     "name": "json-c",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "json-fortran",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "json-glib",
     "status": "ok",
-    "seconds": 106
+    "seconds": 84
   },
   {
     "name": "jsoncpp",
@@ -3882,12 +3882,12 @@
   {
     "name": "jsonnet",
     "status": "ok",
-    "seconds": 10
+    "seconds": 17
   },
   {
     "name": "jsonnet-bundler",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "jsonrpc-glib",
@@ -3902,7 +3902,7 @@
   {
     "name": "julia",
     "status": "ok",
-    "seconds": 50
+    "seconds": 44
   },
   {
     "name": "juliaup",
@@ -3952,17 +3952,17 @@
   {
     "name": "k9s",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "kafkactl-azure-plugin",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "karchive",
     "status": "ok",
-    "seconds": 7
+    "seconds": 5
   },
   {
     "name": "kbt",
@@ -3992,12 +3992,12 @@
   {
     "name": "keystone",
     "status": "ok",
-    "seconds": 10
+    "seconds": 16
   },
   {
     "name": "ki18n",
     "status": "ok",
-    "seconds": 6
+    "seconds": 9
   },
   {
     "name": "kibi",
@@ -4017,7 +4017,7 @@
   {
     "name": "kimi-code",
     "status": "ok",
-    "seconds": 15
+    "seconds": 16
   },
   {
     "name": "kind",
@@ -4046,8 +4046,8 @@
   },
   {
     "name": "kotlin",
-    "status": "test",
-    "seconds": 20
+    "status": "ok",
+    "seconds": 23
   },
   {
     "name": "kotofetch",
@@ -4087,7 +4087,7 @@
   {
     "name": "kvazaar",
     "status": "ok",
-    "seconds": 10
+    "seconds": 12
   },
   {
     "name": "ladspa-sdk",
@@ -4102,7 +4102,7 @@
   {
     "name": "languagetool-rust",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "lapack",
@@ -4152,7 +4152,7 @@
   {
     "name": "ldns",
     "status": "ok",
-    "seconds": 22
+    "seconds": 28
   },
   {
     "name": "leaf-markdown-viewer",
@@ -4167,7 +4167,7 @@
   {
     "name": "ledger",
     "status": "ok",
-    "seconds": 17
+    "seconds": 26
   },
   {
     "name": "leela-zero",
@@ -4202,17 +4202,17 @@
   {
     "name": "lensfun",
     "status": "ok",
-    "seconds": 91
+    "seconds": 114
   },
   {
     "name": "leptonica",
     "status": "ok",
-    "seconds": 15
+    "seconds": 28
   },
   {
     "name": "less",
     "status": "ok",
-    "seconds": 28
+    "seconds": 21
   },
   {
     "name": "leveldb",
@@ -4232,32 +4232,32 @@
   {
     "name": "lftp",
     "status": "ok",
-    "seconds": 39
+    "seconds": 32
   },
   {
     "name": "libaacs",
     "status": "ok",
-    "seconds": 11
+    "seconds": 23
   },
   {
     "name": "libabw",
     "status": "ok",
-    "seconds": 16
+    "seconds": 11
   },
   {
     "name": "libaec",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "libao",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libarchive",
     "status": "ok",
-    "seconds": 25
+    "seconds": 42
   },
   {
     "name": "libaribcaption",
@@ -4277,17 +4277,17 @@
   {
     "name": "libatomic_ops",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libavif",
     "status": "ok",
-    "seconds": 14
+    "seconds": 17
   },
   {
     "name": "libb2",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "libb64",
@@ -4302,12 +4302,12 @@
   {
     "name": "libbluray",
     "status": "ok",
-    "seconds": 70
+    "seconds": 87
   },
   {
     "name": "libbs2b",
     "status": "ok",
-    "seconds": 9
+    "seconds": 12
   },
   {
     "name": "libbsd",
@@ -4317,7 +4317,7 @@
   {
     "name": "libcaca",
     "status": "ok",
-    "seconds": 65
+    "seconds": 102
   },
   {
     "name": "libcbor",
@@ -4327,22 +4327,22 @@
   {
     "name": "libcddb",
     "status": "ok",
-    "seconds": 9
+    "seconds": 11
   },
   {
     "name": "libcdio",
     "status": "ok",
-    "seconds": 9
+    "seconds": 11
   },
   {
     "name": "libcdio-paranoia",
     "status": "ok",
-    "seconds": 9
+    "seconds": 19
   },
   {
     "name": "libcdr",
     "status": "ok",
-    "seconds": 16
+    "seconds": 19
   },
   {
     "name": "libcello",
@@ -4357,7 +4357,7 @@
   {
     "name": "libclc",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libconfig",
@@ -4367,7 +4367,7 @@
   {
     "name": "libconfini",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libcue",
@@ -4377,12 +4377,12 @@
   {
     "name": "libdatrie",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "libdazzle",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libdca",
@@ -4392,7 +4392,7 @@
   {
     "name": "libde265",
     "status": "ok",
-    "seconds": 8
+    "seconds": 10
   },
   {
     "name": "libdeflate",
@@ -4407,12 +4407,12 @@
   {
     "name": "libdicom",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libdiscid",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "libdmtx",
@@ -4422,7 +4422,7 @@
   {
     "name": "libdvbpsi",
     "status": "ok",
-    "seconds": 8
+    "seconds": 6
   },
   {
     "name": "libdvdcss",
@@ -4432,77 +4432,77 @@
   {
     "name": "libdvdnav",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libdvdread",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "libebur128",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "libedit",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libepoxy",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libetonyek",
     "status": "ok",
-    "seconds": 84
+    "seconds": 102
   },
   {
     "name": "libevent",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libexif",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "libffi",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "libfido2",
     "status": "ok",
-    "seconds": 5
+    "seconds": 8
   },
   {
     "name": "libfreehand",
     "status": "ok",
-    "seconds": 21
+    "seconds": 18
   },
   {
     "name": "libftdi",
     "status": "ok",
-    "seconds": 30
+    "seconds": 11
   },
   {
     "name": "libfyaml",
     "status": "ok",
-    "seconds": 8
+    "seconds": 11
   },
   {
     "name": "libgccjit",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "libgcrypt",
     "status": "ok",
-    "seconds": 12
+    "seconds": 11
   },
   {
     "name": "libgedit-amtk",
@@ -4517,7 +4517,7 @@
   {
     "name": "libgedit-gtksourceview",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "libgedit-tepl",
@@ -4532,17 +4532,17 @@
   {
     "name": "libgeotiff",
     "status": "ok",
-    "seconds": 53
+    "seconds": 45
   },
   {
     "name": "libgig",
     "status": "ok",
-    "seconds": 12
+    "seconds": 11
   },
   {
     "name": "libgit2",
     "status": "ok",
-    "seconds": 40
+    "seconds": 30
   },
   {
     "name": "libgit2-glib",
@@ -4557,32 +4557,32 @@
   {
     "name": "libgphoto2",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "libgsf",
     "status": "ok",
-    "seconds": 101
+    "seconds": 85
   },
   {
     "name": "libgusb",
     "status": "ok",
-    "seconds": 133
+    "seconds": 95
   },
   {
     "name": "libgweather",
     "status": "ok",
-    "seconds": 17
+    "seconds": 7
   },
   {
     "name": "libgxps",
     "status": "ok",
-    "seconds": 119
+    "seconds": 138
   },
   {
     "name": "libhandy",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "libharu",
@@ -4592,7 +4592,7 @@
   {
     "name": "libical",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "libid3tag",
@@ -4602,17 +4602,17 @@
   {
     "name": "libidn",
     "status": "ok",
-    "seconds": 12
+    "seconds": 10
   },
   {
     "name": "libidn2",
     "status": "ok",
-    "seconds": 12
+    "seconds": 21
   },
   {
     "name": "libilbc",
     "status": "ok",
-    "seconds": 10
+    "seconds": 9
   },
   {
     "name": "libimagequant",
@@ -4622,7 +4622,7 @@
   {
     "name": "libimobiledevice",
     "status": "ok",
-    "seconds": 30
+    "seconds": 42
   },
   {
     "name": "libimobiledevice-glue",
@@ -4647,7 +4647,7 @@
   {
     "name": "libkml",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "libksba",
@@ -4657,12 +4657,12 @@
   {
     "name": "liblc3",
     "status": "ok",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "liblcf",
     "status": "ok",
-    "seconds": 14
+    "seconds": 16
   },
   {
     "name": "liblo",
@@ -4717,7 +4717,7 @@
   {
     "name": "libmowgli",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libmpeg2",
@@ -4727,12 +4727,12 @@
   {
     "name": "libmspub",
     "status": "ok",
-    "seconds": 16
+    "seconds": 15
   },
   {
     "name": "libmwaw",
     "status": "ok",
-    "seconds": 13
+    "seconds": 11
   },
   {
     "name": "libmypaint",
@@ -4742,7 +4742,7 @@
   {
     "name": "libmysofa",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libnfs",
@@ -4752,7 +4752,7 @@
   {
     "name": "libnghttp2",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libnghttp3",
@@ -4767,12 +4767,12 @@
   {
     "name": "libnice",
     "status": "ok",
-    "seconds": 155
+    "seconds": 120
   },
   {
     "name": "libnotify",
     "status": "ok",
-    "seconds": 164
+    "seconds": 121
   },
   {
     "name": "libnova",
@@ -4817,27 +4817,27 @@
   {
     "name": "libopenmpt",
     "status": "ok",
-    "seconds": 14
+    "seconds": 16
   },
   {
     "name": "libopusenc",
     "status": "ok",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "liboqs",
     "status": "ok",
-    "seconds": 7
+    "seconds": 5
   },
   {
     "name": "liborigin",
     "status": "ok",
-    "seconds": 56
+    "seconds": 11
   },
   {
     "name": "libotr",
     "status": "ok",
-    "seconds": 15
+    "seconds": 11
   },
   {
     "name": "libp11",
@@ -4847,12 +4847,12 @@
   {
     "name": "libpagemaker",
     "status": "ok",
-    "seconds": 20
+    "seconds": 12
   },
   {
     "name": "libpanel",
     "status": "ok",
-    "seconds": 7
+    "seconds": 5
   },
   {
     "name": "libpaper",
@@ -4862,47 +4862,47 @@
   {
     "name": "libpcap",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "libpipeline",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libplacebo",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libplist",
     "status": "ok",
-    "seconds": 11
+    "seconds": 19
   },
   {
     "name": "libpng",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libpqxx",
     "status": "ok",
-    "seconds": 10
+    "seconds": 5
   },
   {
     "name": "libproxy",
     "status": "ok",
-    "seconds": 146
+    "seconds": 112
   },
   {
     "name": "libpsl",
     "status": "ok",
-    "seconds": 20
+    "seconds": 11
   },
   {
     "name": "libqalculate",
     "status": "ok",
-    "seconds": 59
+    "seconds": 57
   },
   {
     "name": "libraqm",
@@ -4912,12 +4912,12 @@
   {
     "name": "librasterlite2",
     "status": "ok",
-    "seconds": 196
+    "seconds": 110
   },
   {
     "name": "libraw",
     "status": "ok",
-    "seconds": 19
+    "seconds": 15
   },
   {
     "name": "librdkafka",
@@ -4932,7 +4932,7 @@
   {
     "name": "libressl",
     "status": "ok",
-    "seconds": 8
+    "seconds": 6
   },
   {
     "name": "librest",
@@ -4942,27 +4942,27 @@
   {
     "name": "librevenge",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "librime",
     "status": "ok",
-    "seconds": 49
+    "seconds": 30
   },
   {
     "name": "librist",
     "status": "ok",
-    "seconds": 17
+    "seconds": 11
   },
   {
     "name": "librsvg",
     "status": "ok",
-    "seconds": 160
+    "seconds": 100
   },
   {
     "name": "librsync",
     "status": "ok",
-    "seconds": 18
+    "seconds": 11
   },
   {
     "name": "librttopo",
@@ -4977,7 +4977,7 @@
   {
     "name": "libsecret",
     "status": "ok",
-    "seconds": 143
+    "seconds": 102
   },
   {
     "name": "libserdes",
@@ -4992,7 +4992,7 @@
   {
     "name": "libshout",
     "status": "ok",
-    "seconds": 32
+    "seconds": 25
   },
   {
     "name": "libshumate",
@@ -5002,7 +5002,7 @@
   {
     "name": "libsidplayfp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libsigc++",
@@ -5027,17 +5027,17 @@
   {
     "name": "libsmi",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "libsndfile",
     "status": "ok",
-    "seconds": 10
+    "seconds": 17
   },
   {
     "name": "libsodium",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libsoundio",
@@ -5057,27 +5057,27 @@
   {
     "name": "libspectre",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "libspelling",
     "status": "ok",
-    "seconds": 4
+    "seconds": 13
   },
   {
     "name": "libspiro",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "libspng",
     "status": "ok",
-    "seconds": 4
+    "seconds": 9
   },
   {
     "name": "libsquish",
     "status": "ok",
-    "seconds": 9
+    "seconds": 57
   },
   {
     "name": "libssh",
@@ -5092,7 +5092,7 @@
   {
     "name": "libtasn1",
     "status": "ok",
-    "seconds": 8
+    "seconds": 15
   },
   {
     "name": "libtermkey",
@@ -5107,7 +5107,7 @@
   {
     "name": "libtiff",
     "status": "ok",
-    "seconds": 12
+    "seconds": 29
   },
   {
     "name": "libtirpc",
@@ -5117,7 +5117,7 @@
   {
     "name": "libtomcrypt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libtommath",
@@ -5127,17 +5127,17 @@
   {
     "name": "libtool",
     "status": "ok",
-    "seconds": 43
+    "seconds": 72
   },
   {
     "name": "libtorrent-rasterbar",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "libultrahdr",
     "status": "ok",
-    "seconds": 14
+    "seconds": 20
   },
   {
     "name": "libunibreak",
@@ -5147,17 +5147,17 @@
   {
     "name": "libunicode",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "libunistring",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "libusb",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libusb-compat",
@@ -5167,7 +5167,7 @@
   {
     "name": "libusbmuxd",
     "status": "ok",
-    "seconds": 9
+    "seconds": 11
   },
   {
     "name": "libuv",
@@ -5177,22 +5177,22 @@
   {
     "name": "libva",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libvirt",
     "status": "ok",
-    "seconds": 98
+    "seconds": 147
   },
   {
     "name": "libvirt-glib",
     "status": "ok",
-    "seconds": 5
+    "seconds": 8
   },
   {
     "name": "libvisio",
     "status": "ok",
-    "seconds": 13
+    "seconds": 33
   },
   {
     "name": "libvncserver",
@@ -5202,17 +5202,17 @@
   {
     "name": "libvoikko",
     "status": "ok",
-    "seconds": 15
+    "seconds": 14
   },
   {
     "name": "libvorbis",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "libvpx",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libvterm",
@@ -5227,27 +5227,27 @@
   {
     "name": "libwmf",
     "status": "ok",
-    "seconds": 91
+    "seconds": 164
   },
   {
     "name": "libwpd",
     "status": "ok",
-    "seconds": 41
+    "seconds": 17
   },
   {
     "name": "libwpg",
     "status": "ok",
-    "seconds": 10
+    "seconds": 18
   },
   {
     "name": "libwps",
     "status": "ok",
-    "seconds": 12
+    "seconds": 20
   },
   {
     "name": "libxc",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "libxcrypt",
@@ -5262,12 +5262,12 @@
   {
     "name": "libxml2",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libxmlb",
     "status": "ok",
-    "seconds": 58
+    "seconds": 89
   },
   {
     "name": "libxmp",
@@ -5277,7 +5277,7 @@
   {
     "name": "libxslt",
     "status": "ok",
-    "seconds": 8
+    "seconds": 10
   },
   {
     "name": "libyaml",
@@ -5292,17 +5292,17 @@
   {
     "name": "libzip",
     "status": "ok",
-    "seconds": 20
+    "seconds": 19
   },
   {
     "name": "licensor",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "lilv",
     "status": "ok",
-    "seconds": 12
+    "seconds": 14
   },
   {
     "name": "lisette",
@@ -5312,7 +5312,7 @@
   {
     "name": "litehtml",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "litra",
@@ -5322,17 +5322,17 @@
   {
     "name": "llama.cpp",
     "status": "ok",
-    "seconds": 67
+    "seconds": 102
   },
   {
     "name": "lld",
     "status": "ok",
-    "seconds": 11
+    "seconds": 14
   },
   {
     "name": "lldb",
     "status": "ok",
-    "seconds": 15
+    "seconds": 26
   },
   {
     "name": "llmfit",
@@ -5342,7 +5342,7 @@
   {
     "name": "llvm",
     "status": "ok",
-    "seconds": 93
+    "seconds": 140
   },
   {
     "name": "lmdb",
@@ -5352,12 +5352,12 @@
   {
     "name": "lndir",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "lnk",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "log4cpp",
@@ -5367,12 +5367,12 @@
   {
     "name": "log4cxx",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "lolcrab",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "lrdf",
@@ -5382,12 +5382,12 @@
   {
     "name": "ls-lint",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "lsd",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "lstr",
@@ -5402,7 +5402,7 @@
   {
     "name": "lua-language-server",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "luajit",
@@ -5412,7 +5412,7 @@
   {
     "name": "luau",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "luit",
@@ -5422,7 +5422,7 @@
   {
     "name": "lune",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "lux",
@@ -5432,12 +5432,12 @@
   {
     "name": "lychee",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "lynx",
     "status": "ok",
-    "seconds": 18
+    "seconds": 29
   },
   {
     "name": "lz4",
@@ -5452,7 +5452,7 @@
   {
     "name": "lzop",
     "status": "ok",
-    "seconds": 7
+    "seconds": 5
   },
   {
     "name": "lzsa",
@@ -5462,27 +5462,27 @@
   {
     "name": "m4",
     "status": "ok",
-    "seconds": 9
+    "seconds": 6
   },
   {
     "name": "m4ri",
     "status": "ok",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "m4rie",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "macchina",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "mado",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "maeparser",
@@ -5492,7 +5492,7 @@
   {
     "name": "mage",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "magika",
@@ -5502,11 +5502,11 @@
   {
     "name": "mago",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "mail-deduplicate",
-    "status": "test",
+    "status": "ok",
     "seconds": 6
   },
   {
@@ -5517,7 +5517,7 @@
   {
     "name": "man-db",
     "status": "ok",
-    "seconds": 52
+    "seconds": 39
   },
   {
     "name": "man2html",
@@ -5527,27 +5527,27 @@
   {
     "name": "mani",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "manifold",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "mariadb",
     "status": "ok",
-    "seconds": 13
+    "seconds": 10
   },
   {
     "name": "marisa",
     "status": "ok",
-    "seconds": 11
+    "seconds": 7
   },
   {
     "name": "markdown-oxide",
     "status": "ok",
-    "seconds": 10
+    "seconds": 8
   },
   {
     "name": "marksman",
@@ -5562,27 +5562,27 @@
   {
     "name": "maturin",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "maven",
     "status": "ok",
-    "seconds": 55
+    "seconds": 21
   },
   {
     "name": "mbedtls",
     "status": "ok",
-    "seconds": 12
+    "seconds": 7
   },
   {
     "name": "mbedtls@3",
     "status": "ok",
-    "seconds": 11
+    "seconds": 8
   },
   {
     "name": "mbt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "mcat",
@@ -5592,12 +5592,12 @@
   {
     "name": "mcfly",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "mcpp",
     "status": "ok",
-    "seconds": 23
+    "seconds": 7
   },
   {
     "name": "mcpsnoop",
@@ -5612,42 +5612,42 @@
   {
     "name": "mdbook",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "mdcat",
     "status": "ok",
-    "seconds": 54
+    "seconds": 31
   },
   {
     "name": "mdq",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "mecab",
     "status": "ok",
-    "seconds": 11
+    "seconds": 15
   },
   {
     "name": "megacmd",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "meilisearch",
     "status": "ok",
-    "seconds": 21
+    "seconds": 16
   },
   {
     "name": "melt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "mercurial",
     "status": "ok",
-    "seconds": 17
+    "seconds": 12
   },
   {
     "name": "mercury-cli",
@@ -5662,17 +5662,17 @@
   {
     "name": "meson",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "metis",
     "status": "ok",
-    "seconds": 10
+    "seconds": 7
   },
   {
     "name": "mfem",
     "status": "ok",
-    "seconds": 8
+    "seconds": 6
   },
   {
     "name": "miasma",
@@ -5682,7 +5682,7 @@
   {
     "name": "micro",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "miller",
@@ -5702,12 +5702,12 @@
   {
     "name": "minify",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "minijinja-cli",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "minikube",
@@ -5717,41 +5717,41 @@
   {
     "name": "miniserve",
     "status": "ok",
-    "seconds": 11
+    "seconds": 9
   },
   {
     "name": "minisign",
     "status": "ok",
-    "seconds": 14
+    "seconds": 8
   },
   {
     "name": "miniupnpc",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "minizip",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "minizip-ng",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "mise",
     "status": "ok",
-    "seconds": 6
+    "seconds": 14
   },
   {
     "name": "mkcert",
     "status": "ok",
-    "seconds": 5
+    "seconds": 8
   },
   {
     "name": "mklittlefs",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -5762,7 +5762,7 @@
   {
     "name": "mlt",
     "status": "ok",
-    "seconds": 12
+    "seconds": 13
   },
   {
     "name": "mmark",
@@ -5797,7 +5797,7 @@
   {
     "name": "mold",
     "status": "ok",
-    "seconds": 11
+    "seconds": 10
   },
   {
     "name": "mongo-c-driver",
@@ -5807,12 +5807,12 @@
   {
     "name": "mongocli",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "moor",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "moreutils",
@@ -5827,12 +5827,12 @@
   {
     "name": "mosh",
     "status": "ok",
-    "seconds": 46
+    "seconds": 44
   },
   {
     "name": "mosquitto",
     "status": "ok",
-    "seconds": 35
+    "seconds": 27
   },
   {
     "name": "mpdecimal",
@@ -5852,7 +5852,7 @@
   {
     "name": "mpg123",
     "status": "ok",
-    "seconds": 10
+    "seconds": 9
   },
   {
     "name": "mqttui",
@@ -5867,7 +5867,7 @@
   {
     "name": "mruby",
     "status": "ok",
-    "seconds": 12
+    "seconds": 9
   },
   {
     "name": "msdf-atlas-gen",
@@ -5877,7 +5877,7 @@
   {
     "name": "msdfgen",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "msedit",
@@ -5887,22 +5887,22 @@
   {
     "name": "msitools",
     "status": "ok",
-    "seconds": 137
+    "seconds": 97
   },
   {
     "name": "msmtp",
     "status": "ok",
-    "seconds": 112
+    "seconds": 107
   },
   {
     "name": "msolve",
     "status": "ok",
-    "seconds": 16
+    "seconds": 28
   },
   {
     "name": "mtools",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "mufetch",
@@ -5932,7 +5932,7 @@
   {
     "name": "muon",
     "status": "ok",
-    "seconds": 45
+    "seconds": 41
   },
   {
     "name": "muparser",
@@ -5947,22 +5947,22 @@
   {
     "name": "mutt",
     "status": "ok",
-    "seconds": 40
+    "seconds": 37
   },
   {
     "name": "mypy",
     "status": "ok",
-    "seconds": 97
+    "seconds": 102
   },
   {
     "name": "mysql",
     "status": "ok",
-    "seconds": 60
+    "seconds": 25
   },
   {
     "name": "naabu",
     "status": "ok",
-    "seconds": 7
+    "seconds": 8
   },
   {
     "name": "nali",
@@ -5972,7 +5972,7 @@
   {
     "name": "nano",
     "status": "ok",
-    "seconds": 28
+    "seconds": 27
   },
   {
     "name": "nanoarrow",
@@ -5981,7 +5981,7 @@
   },
   {
     "name": "nasm",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -6012,7 +6012,7 @@
   {
     "name": "ncdu",
     "status": "ok",
-    "seconds": 33
+    "seconds": 22
   },
   {
     "name": "ncnn",
@@ -6032,7 +6032,7 @@
   {
     "name": "ncurses",
     "status": "ok",
-    "seconds": 46
+    "seconds": 34
   },
   {
     "name": "neko",
@@ -6042,22 +6042,22 @@
   {
     "name": "neocmakelsp",
     "status": "ok",
-    "seconds": 109
+    "seconds": 73
   },
   {
     "name": "neomutt",
-    "status": "ok",
-    "seconds": 62
+    "status": "test",
+    "seconds": 42
   },
   {
     "name": "neon",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "neovim",
     "status": "ok",
-    "seconds": 18
+    "seconds": 20
   },
   {
     "name": "nerdfix",
@@ -6072,27 +6072,27 @@
   {
     "name": "netcat",
     "status": "ok",
-    "seconds": 37
+    "seconds": 29
   },
   {
     "name": "netcdf",
     "status": "ok",
-    "seconds": 108
+    "seconds": 77
   },
   {
     "name": "netcdf-cxx",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "netcdf-fortran",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "nettle",
     "status": "ok",
-    "seconds": 13
+    "seconds": 10
   },
   {
     "name": "network-doctor",
@@ -6117,12 +6117,12 @@
   {
     "name": "nghttp2",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "nginx",
-    "status": "test",
-    "seconds": 7
+    "status": "ok",
+    "seconds": 8
   },
   {
     "name": "ngrep",
@@ -6132,17 +6132,17 @@
   {
     "name": "ngspice",
     "status": "ok",
-    "seconds": 28
+    "seconds": 30
   },
   {
     "name": "nift",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "nim",
     "status": "ok",
-    "seconds": 23
+    "seconds": 11
   },
   {
     "name": "ninja",
@@ -6157,17 +6157,17 @@
   {
     "name": "nng",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "nnn",
     "status": "ok",
-    "seconds": 38
+    "seconds": 23
   },
   {
     "name": "node",
     "status": "ok",
-    "seconds": 106
+    "seconds": 75
   },
   {
     "name": "node-sass",
@@ -6177,7 +6177,7 @@
   {
     "name": "node@22",
     "status": "ok",
-    "seconds": 17
+    "seconds": 11
   },
   {
     "name": "nom",
@@ -6207,7 +6207,7 @@
   {
     "name": "nspr",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "nss",
@@ -6222,7 +6222,7 @@
   {
     "name": "ntl",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "nullclaw",
@@ -6247,7 +6247,7 @@
   {
     "name": "nuspell",
     "status": "ok",
-    "seconds": 16
+    "seconds": 13
   },
   {
     "name": "nyan",
@@ -6267,17 +6267,17 @@
   {
     "name": "oauth2c",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "observerward",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "ocaml",
     "status": "ok",
-    "seconds": 15
+    "seconds": 17
   },
   {
     "name": "octosql",
@@ -6292,7 +6292,7 @@
   {
     "name": "ode",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "odiff",
@@ -6307,7 +6307,7 @@
   {
     "name": "odt2txt",
     "status": "ok",
-    "seconds": 21
+    "seconds": 27
   },
   {
     "name": "oh-my-posh",
@@ -6317,22 +6317,22 @@
   {
     "name": "ollama",
     "status": "ok",
-    "seconds": 63
+    "seconds": 69
   },
   {
     "name": "omekasy",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "onednn",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "onefetch",
     "status": "ok",
-    "seconds": 12
+    "seconds": 9
   },
   {
     "name": "oniguruma",
@@ -6342,7 +6342,7 @@
   {
     "name": "onioncat",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "onnx",
@@ -6352,12 +6352,12 @@
   {
     "name": "onnxruntime",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "opam",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "open-tyrian",
@@ -6367,17 +6367,17 @@
   {
     "name": "open62541",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "openapi-tui",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "openapv",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "openblas",
@@ -6387,17 +6387,17 @@
   {
     "name": "openblas64",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "opencc",
     "status": "ok",
-    "seconds": 22
+    "seconds": 8
   },
   {
     "name": "opencolorio",
     "status": "ok",
-    "seconds": 37
+    "seconds": 69
   },
   {
     "name": "opencore-amr",
@@ -6422,7 +6422,7 @@
   {
     "name": "openfpgaloader",
     "status": "ok",
-    "seconds": 5
+    "seconds": 8
   },
   {
     "name": "openh264",
@@ -6437,27 +6437,27 @@
   {
     "name": "openjazz",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "openjdk",
     "status": "ok",
-    "seconds": 12
+    "seconds": 7
   },
   {
     "name": "openjpeg",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "openjph",
     "status": "ok",
-    "seconds": 18
+    "seconds": 38
   },
   {
     "name": "openldap",
     "status": "ok",
-    "seconds": 61
+    "seconds": 47
   },
   {
     "name": "openlibm",
@@ -6472,27 +6472,27 @@
   {
     "name": "openslide",
     "status": "ok",
-    "seconds": 107
+    "seconds": 143
   },
   {
     "name": "openssh",
     "status": "ok",
-    "seconds": 30
+    "seconds": 37
   },
   {
     "name": "openssl@3",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "openssl@3.6",
     "status": "ok",
-    "seconds": 20
+    "seconds": 14
   },
   {
     "name": "opensubdiv",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "opentofu",
@@ -6502,27 +6502,27 @@
   {
     "name": "openturns",
     "status": "ok",
-    "seconds": 21
+    "seconds": 22
   },
   {
     "name": "openvdb",
     "status": "ok",
-    "seconds": 18
+    "seconds": 17
   },
   {
     "name": "optipng",
     "status": "ok",
-    "seconds": 11
+    "seconds": 10
   },
   {
     "name": "opus",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "opus-tools",
     "status": "ok",
-    "seconds": 35
+    "seconds": 30
   },
   {
     "name": "opusfile",
@@ -6542,7 +6542,7 @@
   {
     "name": "orc",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "ord",
@@ -6562,7 +6562,7 @@
   {
     "name": "osslsigncode",
     "status": "ok",
-    "seconds": 43
+    "seconds": 40
   },
   {
     "name": "otree",
@@ -6607,7 +6607,7 @@
   {
     "name": "p11-kit",
     "status": "ok",
-    "seconds": 21
+    "seconds": 11
   },
   {
     "name": "p7zip",
@@ -6647,22 +6647,22 @@
   {
     "name": "pango",
     "status": "ok",
-    "seconds": 106
+    "seconds": 113
   },
   {
     "name": "pangomm",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "pangomm@2.46",
     "status": "ok",
-    "seconds": 9
+    "seconds": 4
   },
   {
     "name": "papeer",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "par2",
@@ -6682,7 +6682,7 @@
   {
     "name": "partio",
     "status": "ok",
-    "seconds": 20
+    "seconds": 19
   },
   {
     "name": "pass",
@@ -6702,7 +6702,7 @@
   {
     "name": "patchutils",
     "status": "ok",
-    "seconds": 30
+    "seconds": 41
   },
   {
     "name": "pax",
@@ -6722,7 +6722,7 @@
   {
     "name": "pcre2",
     "status": "ok",
-    "seconds": 6
+    "seconds": 10
   },
   {
     "name": "pdf-diff",
@@ -6732,7 +6732,7 @@
   {
     "name": "pdf2svg",
     "status": "ok",
-    "seconds": 134
+    "seconds": 121
   },
   {
     "name": "pdfcpu",
@@ -6752,12 +6752,12 @@
   {
     "name": "pelican",
     "status": "ok",
-    "seconds": 109
+    "seconds": 99
   },
   {
     "name": "perl",
     "status": "ok",
-    "seconds": 69
+    "seconds": 67
   },
   {
     "name": "perl-xml-parser",
@@ -6782,7 +6782,7 @@
   {
     "name": "phodav",
     "status": "ok",
-    "seconds": 107
+    "seconds": 132
   },
   {
     "name": "php",
@@ -6797,7 +6797,7 @@
   {
     "name": "picotool",
     "status": "ok",
-    "seconds": 9
+    "seconds": 10
   },
   {
     "name": "piknik",
@@ -6807,7 +6807,7 @@
   {
     "name": "pinact",
     "status": "ok",
-    "seconds": 6
+    "seconds": 10
   },
   {
     "name": "pint",
@@ -6827,7 +6827,7 @@
   {
     "name": "pixi",
     "status": "ok",
-    "seconds": 12
+    "seconds": 28
   },
   {
     "name": "pixivbiu",
@@ -6837,12 +6837,12 @@
   {
     "name": "pixman",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "pixtuoid",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "pkcs11-helper",
@@ -6867,7 +6867,7 @@
   {
     "name": "plutovg",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "pngcrush",
@@ -6882,27 +6882,27 @@
   {
     "name": "pngquant",
     "status": "ok",
-    "seconds": 16
+    "seconds": 14
   },
   {
     "name": "pnpm",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "po4a",
     "status": "ok",
-    "seconds": 9
+    "seconds": 8
   },
   {
     "name": "pocketbase",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "poco",
     "status": "ok",
-    "seconds": 84
+    "seconds": 66
   },
   {
     "name": "podlet",
@@ -6912,7 +6912,7 @@
   {
     "name": "podman-compose",
     "status": "ok",
-    "seconds": 108
+    "seconds": 113
   },
   {
     "name": "podofo",
@@ -6932,7 +6932,7 @@
   {
     "name": "poppler",
     "status": "ok",
-    "seconds": 111
+    "seconds": 117
   },
   {
     "name": "poppler-qt6",
@@ -6947,12 +6947,12 @@
   {
     "name": "portal",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "portaudio",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "portmidi",
@@ -6962,12 +6962,12 @@
   {
     "name": "postgresql@17",
     "status": "ok",
-    "seconds": 104
+    "seconds": 95
   },
   {
     "name": "postgresql@18",
     "status": "ok",
-    "seconds": 44
+    "seconds": 42
   },
   {
     "name": "potrace",
@@ -6982,7 +6982,7 @@
   {
     "name": "ppl",
     "status": "ok",
-    "seconds": 25
+    "seconds": 17
   },
   {
     "name": "precious",
@@ -6997,42 +6997,42 @@
   {
     "name": "premake",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "presenterm",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "primecount",
     "status": "ok",
-    "seconds": 9
+    "seconds": 12
   },
   {
     "name": "primesieve",
     "status": "ok",
-    "seconds": 7
+    "seconds": 12
   },
   {
     "name": "privatebin-cli",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "prjtrellis",
     "status": "ok",
-    "seconds": 72
+    "seconds": 121
   },
   {
     "name": "procps",
     "status": "ok",
-    "seconds": 16
+    "seconds": 25
   },
   {
     "name": "procs",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "prodigal",
@@ -7042,62 +7042,62 @@
   {
     "name": "proj",
     "status": "ok",
-    "seconds": 36
+    "seconds": 62
   },
   {
     "name": "projectable",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "protobuf",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "protobuf-c",
     "status": "ok",
-    "seconds": 11
+    "seconds": 16
   },
   {
     "name": "protoc-gen-doc",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "protoc-gen-go",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "protoc-gen-grpc-web",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "protoc-gen-js",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "proxelar",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "proxyfor",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "proxytunnel",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "prqlc",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "psc-package",
@@ -7107,17 +7107,17 @@
   {
     "name": "ptex",
     "status": "ok",
-    "seconds": 8
+    "seconds": 11
   },
   {
     "name": "pueue",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "pug",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "pugixml",
@@ -7127,7 +7127,7 @@
   {
     "name": "pulseaudio",
     "status": "ok",
-    "seconds": 65
+    "seconds": 125
   },
   {
     "name": "pulumi",
@@ -7142,17 +7142,17 @@
   {
     "name": "putty",
     "status": "ok",
-    "seconds": 8
+    "seconds": 10
   },
   {
     "name": "pv",
     "status": "ok",
-    "seconds": 8
+    "seconds": 6
   },
   {
     "name": "pvetui",
     "status": "ok",
-    "seconds": 9
+    "seconds": 4
   },
   {
     "name": "pwgen",
@@ -7162,12 +7162,12 @@
   {
     "name": "pyinstaller",
     "status": "ok",
-    "seconds": 103
+    "seconds": 139
   },
   {
     "name": "pymol",
     "status": "ok",
-    "seconds": 18
+    "seconds": 13
   },
   {
     "name": "pystring",
@@ -7177,22 +7177,22 @@
   {
     "name": "python-lsp-server",
     "status": "ok",
-    "seconds": 120
+    "seconds": 129
   },
   {
     "name": "python-matplotlib",
     "status": "ok",
-    "seconds": 9
+    "seconds": 14
   },
   {
     "name": "python@3.14",
     "status": "ok",
-    "seconds": 75
+    "seconds": 105
   },
   {
     "name": "python@3.15",
     "status": "ok",
-    "seconds": 14
+    "seconds": 18
   },
   {
     "name": "qdl",
@@ -7211,18 +7211,18 @@
   },
   {
     "name": "qobine-web",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
     "name": "qpdf",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "qrcp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "qrencode",
@@ -7232,37 +7232,37 @@
   {
     "name": "qrkey",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "qrtool",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "qrupdate",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "qsv",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "qtkeychain",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "quantlib",
     "status": "ok",
-    "seconds": 15
+    "seconds": 14
   },
   {
     "name": "quazip",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "quickjs",
@@ -7287,7 +7287,7 @@
   {
     "name": "qwen-code",
     "status": "ok",
-    "seconds": 17
+    "seconds": 16
   },
   {
     "name": "qxmpp",
@@ -7297,17 +7297,17 @@
   {
     "name": "r",
     "status": "ok",
-    "seconds": 25
+    "seconds": 33
   },
   {
     "name": "rabbitmq-c",
     "status": "ok",
-    "seconds": 29
+    "seconds": 39
   },
   {
     "name": "rad",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "rage",
@@ -7327,12 +7327,12 @@
   {
     "name": "raptor",
     "status": "ok",
-    "seconds": 46
+    "seconds": 51
   },
   {
     "name": "rasqal",
     "status": "ok",
-    "seconds": 46
+    "seconds": 54
   },
   {
     "name": "ratchet",
@@ -7347,12 +7347,12 @@
   {
     "name": "raylib",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "rbenv",
     "status": "ok",
-    "seconds": 51
+    "seconds": 61
   },
   {
     "name": "rbspy",
@@ -7367,7 +7367,7 @@
   {
     "name": "rcs",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "rdap",
@@ -7382,12 +7382,12 @@
   {
     "name": "re2c",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "readline",
     "status": "ok",
-    "seconds": 23
+    "seconds": 21
   },
   {
     "name": "readosm",
@@ -7397,7 +7397,7 @@
   {
     "name": "recode",
     "status": "ok",
-    "seconds": 14
+    "seconds": 12
   },
   {
     "name": "recur",
@@ -7406,18 +7406,18 @@
   },
   {
     "name": "red-tldr",
-    "status": "ok",
-    "seconds": 5
+    "status": "test",
+    "seconds": 4
   },
   {
     "name": "redis",
     "status": "ok",
-    "seconds": 22
+    "seconds": 21
   },
   {
     "name": "redland",
     "status": "ok",
-    "seconds": 72
+    "seconds": 62
   },
   {
     "name": "redli",
@@ -7437,7 +7437,7 @@
   {
     "name": "remake",
     "status": "ok",
-    "seconds": 28
+    "seconds": 30
   },
   {
     "name": "restic",
@@ -7452,12 +7452,12 @@
   {
     "name": "restish",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "resvg",
     "status": "ok",
-    "seconds": 11
+    "seconds": 12
   },
   {
     "name": "rgbds",
@@ -7467,7 +7467,7 @@
   {
     "name": "rhash",
     "status": "ok",
-    "seconds": 17
+    "seconds": 12
   },
   {
     "name": "richgo",
@@ -7487,7 +7487,7 @@
   {
     "name": "ripgrep",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "ripgrep-all",
@@ -7502,12 +7502,12 @@
   {
     "name": "rizin",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "rlwrap",
     "status": "ok",
-    "seconds": 24
+    "seconds": 20
   },
   {
     "name": "rmrfrs",
@@ -7537,7 +7537,7 @@
   {
     "name": "roswell",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "rpcsvc-proto",
@@ -7547,7 +7547,7 @@
   {
     "name": "rrdtool",
     "status": "ok",
-    "seconds": 96
+    "seconds": 111
   },
   {
     "name": "rsgain",
@@ -7557,7 +7557,7 @@
   {
     "name": "rsync",
     "status": "ok",
-    "seconds": 8
+    "seconds": 7
   },
   {
     "name": "rsyncy",
@@ -7567,12 +7567,12 @@
   {
     "name": "rtaudio",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "rtl_433",
     "status": "ok",
-    "seconds": 12
+    "seconds": 10
   },
   {
     "name": "rtmidi",
@@ -7582,17 +7582,17 @@
   {
     "name": "rtmpdump",
     "status": "ok",
-    "seconds": 18
+    "seconds": 23
   },
   {
     "name": "rubberband",
     "status": "ok",
-    "seconds": 15
+    "seconds": 16
   },
   {
     "name": "ruby",
-    "status": "build",
-    "seconds": 40
+    "status": "ok",
+    "seconds": 77
   },
   {
     "name": "ruff",
@@ -7622,7 +7622,7 @@
   {
     "name": "rust",
     "status": "ok",
-    "seconds": 147
+    "seconds": 156
   },
   {
     "name": "rust-analyzer",
@@ -7632,7 +7632,7 @@
   {
     "name": "rust-parallel",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "rust-script",
@@ -7642,7 +7642,7 @@
   {
     "name": "rust-wasm",
     "status": "ok",
-    "seconds": 11
+    "seconds": 14
   },
   {
     "name": "rustcat",
@@ -7651,7 +7651,7 @@
   },
   {
     "name": "rustic",
-    "status": "ok",
+    "status": "test",
     "seconds": 6
   },
   {
@@ -7662,12 +7662,12 @@
   {
     "name": "rustscan",
     "status": "ok",
-    "seconds": 51
+    "seconds": 46
   },
   {
     "name": "rustup",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "rustypaste-cli",
@@ -7692,7 +7692,7 @@
   {
     "name": "s2geometry",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "s5cmd",
@@ -7707,7 +7707,7 @@
   {
     "name": "sad",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "saml2aws",
@@ -7722,12 +7722,12 @@
   {
     "name": "samply",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "samtools",
     "status": "ok",
-    "seconds": 79
+    "seconds": 72
   },
   {
     "name": "satellite-tracker",
@@ -7747,11 +7747,11 @@
   {
     "name": "sbt",
     "status": "ok",
-    "seconds": 11
+    "seconds": 15
   },
   {
     "name": "scala",
-    "status": "test",
+    "status": "ok",
     "seconds": 28
   },
   {
@@ -7762,7 +7762,7 @@
   {
     "name": "scc",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "scdoc",
@@ -7772,7 +7772,7 @@
   {
     "name": "schroedinger",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "scmpuff",
@@ -7782,7 +7782,7 @@
   {
     "name": "scnlib",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "scooter",
@@ -7792,7 +7792,7 @@
   {
     "name": "scotch",
     "status": "ok",
-    "seconds": 12
+    "seconds": 18
   },
   {
     "name": "screenfetch",
@@ -7807,17 +7807,17 @@
   {
     "name": "sd",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sdcc",
     "status": "ok",
-    "seconds": 24
+    "seconds": 32
   },
   {
     "name": "sdcv",
     "status": "ok",
-    "seconds": 92
+    "seconds": 157
   },
   {
     "name": "sdl12-compat",
@@ -7827,12 +7827,12 @@
   {
     "name": "sdl2-compat",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "sdl3",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "selene",
@@ -7842,7 +7842,7 @@
   {
     "name": "sendme",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "sentencepiece",
@@ -7857,12 +7857,12 @@
   {
     "name": "sequin",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sequoia-sq",
     "status": "ok",
-    "seconds": 33
+    "seconds": 58
   },
   {
     "name": "serd",
@@ -7872,17 +7872,17 @@
   {
     "name": "serpl",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sesh",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sevenzip",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "sfcgal",
@@ -7892,72 +7892,72 @@
   {
     "name": "sfml",
     "status": "ok",
-    "seconds": 8
+    "seconds": 5
   },
   {
     "name": "shaderc",
     "status": "ok",
-    "seconds": 14
+    "seconds": 13
   },
   {
     "name": "shapelib",
     "status": "ok",
-    "seconds": 9
+    "seconds": 11
   },
   {
     "name": "shared-mime-info",
     "status": "ok",
-    "seconds": 94
+    "seconds": 171
   },
   {
     "name": "sheets",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "shell2http",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "shellcheck",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "shellharden",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sherif",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "shfmt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "shuffledns",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "sidekick",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sift",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "simdjson",
     "status": "ok",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "sk",
@@ -7972,7 +7972,7 @@
   {
     "name": "sl",
     "status": "ok",
-    "seconds": 48
+    "seconds": 50
   },
   {
     "name": "slack-mcp-server",
@@ -7982,12 +7982,12 @@
   {
     "name": "slacknimate",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sleef",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "slepc",
@@ -8007,12 +8007,12 @@
   {
     "name": "smpeg2",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "smug",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "snappy",
@@ -8022,17 +8022,17 @@
   {
     "name": "snapraid",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "snowball",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "snzip",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "soapyhackrf",
@@ -8042,27 +8042,27 @@
   {
     "name": "soapyrtlsdr",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "soapysdr",
     "status": "ok",
-    "seconds": 10
+    "seconds": 7
   },
   {
     "name": "socat",
     "status": "ok",
-    "seconds": 24
+    "seconds": 16
   },
   {
     "name": "soci",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "sofka",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "soft-serve",
@@ -8072,22 +8072,22 @@
   {
     "name": "solidity",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sops",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "sord",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "source-highlight",
     "status": "ok",
-    "seconds": 14
+    "seconds": 10
   },
   {
     "name": "sox",
@@ -8097,27 +8097,27 @@
   {
     "name": "spacer",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "spandsp",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "spatialindex",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "spatialite-tools",
     "status": "ok",
-    "seconds": 55
+    "seconds": 40
   },
   {
     "name": "spdlog",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "speedbump",
@@ -8127,7 +8127,7 @@
   {
     "name": "speedtest-go",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "speex",
@@ -8142,7 +8142,7 @@
   {
     "name": "spglib",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "spicetify-cli",
@@ -8152,17 +8152,17 @@
   {
     "name": "spirv-cross",
     "status": "ok",
-    "seconds": 10
+    "seconds": 15
   },
   {
     "name": "spirv-llvm-translator",
     "status": "ok",
-    "seconds": 15
+    "seconds": 12
   },
   {
     "name": "spirv-tools",
     "status": "ok",
-    "seconds": 10
+    "seconds": 8
   },
   {
     "name": "spotify_player",
@@ -8172,17 +8172,17 @@
   {
     "name": "sqlbench",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sqlcipher",
     "status": "ok",
-    "seconds": 40
+    "seconds": 27
   },
   {
     "name": "sqlfmt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sqlite",
@@ -8197,37 +8197,37 @@
   {
     "name": "sqsmover",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sratom",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "srecord",
     "status": "ok",
-    "seconds": 25
+    "seconds": 13
   },
   {
     "name": "srt",
     "status": "ok",
-    "seconds": 28
+    "seconds": 19
   },
   {
     "name": "ssh-vault",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "ssh3",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "sshpass",
     "status": "ok",
-    "seconds": 40
+    "seconds": 23
   },
   {
     "name": "sshs",
@@ -8242,7 +8242,7 @@
   {
     "name": "starship",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "static-web-server",
@@ -8272,17 +8272,17 @@
   {
     "name": "stk",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "stlink",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "stoken",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "stormy",
@@ -8292,12 +8292,12 @@
   {
     "name": "stow",
     "status": "ok",
-    "seconds": 8
+    "seconds": 4
   },
   {
     "name": "streamlink",
     "status": "ok",
-    "seconds": 109
+    "seconds": 107
   },
   {
     "name": "stripe-mock",
@@ -8307,22 +8307,22 @@
   {
     "name": "sttr",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "stylua",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "subversion",
     "status": "ok",
-    "seconds": 23
+    "seconds": 26
   },
   {
     "name": "sundials",
     "status": "ok",
-    "seconds": 16
+    "seconds": 9
   },
   {
     "name": "superhtml",
@@ -8332,7 +8332,7 @@
   {
     "name": "superlu",
     "status": "ok",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "supermodel",
@@ -8347,32 +8347,32 @@
   {
     "name": "svlint",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "svt-av1",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "svu",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "swig",
     "status": "ok",
-    "seconds": 12
+    "seconds": 13
   },
   {
     "name": "switch-lan-play",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "syft",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "symengine",
@@ -8382,12 +8382,12 @@
   {
     "name": "symfony-cli",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "syncthing",
     "status": "ok",
-    "seconds": 3
+    "seconds": 7
   },
   {
     "name": "systemc",
@@ -8407,32 +8407,32 @@
   {
     "name": "tagref",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tailcat",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tailspin",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "talisman",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "task",
     "status": "ok",
-    "seconds": 36
+    "seconds": 33
   },
   {
     "name": "taskwarrior-tui",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tbb",
@@ -8442,17 +8442,17 @@
   {
     "name": "tcsh",
     "status": "ok",
-    "seconds": 19
+    "seconds": 22
   },
   {
     "name": "td",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tdlib",
     "status": "ok",
-    "seconds": 24
+    "seconds": 45
   },
   {
     "name": "tea",
@@ -8462,7 +8462,7 @@
   {
     "name": "tealdeer",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "television",
@@ -8477,12 +8477,12 @@
   {
     "name": "telnet",
     "status": "ok",
-    "seconds": 18
+    "seconds": 25
   },
   {
     "name": "templ",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "template-glib",
@@ -8492,12 +8492,12 @@
   {
     "name": "tendermint",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tenere",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tengo",
@@ -8532,7 +8532,7 @@
   {
     "name": "terraform-module-versions",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "terraform-provider-libvirt",
@@ -8557,17 +8557,17 @@
   {
     "name": "tex-fmt",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "texinfo",
     "status": "ok",
-    "seconds": 30
+    "seconds": 16
   },
   {
     "name": "texlab",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "tf-profile",
@@ -8577,7 +8577,7 @@
   {
     "name": "tf-summarize",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "tfautomv",
@@ -8612,7 +8612,7 @@
   {
     "name": "tfschema",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "tfsort",
@@ -8622,7 +8622,7 @@
   {
     "name": "tfswitch",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "tftp-now",
@@ -8632,7 +8632,7 @@
   {
     "name": "tgui",
     "status": "ok",
-    "seconds": 22
+    "seconds": 10
   },
   {
     "name": "the_platinum_searcher",
@@ -8642,7 +8642,7 @@
   {
     "name": "thorvg",
     "status": "ok",
-    "seconds": 17
+    "seconds": 12
   },
   {
     "name": "threadweaver",
@@ -8657,7 +8657,7 @@
   {
     "name": "thrift",
     "status": "ok",
-    "seconds": 34
+    "seconds": 21
   },
   {
     "name": "tidy-html5",
@@ -8672,7 +8672,7 @@
   {
     "name": "tig",
     "status": "ok",
-    "seconds": 107
+    "seconds": 55
   },
   {
     "name": "tiledb",
@@ -8687,7 +8687,7 @@
   {
     "name": "tinysearch",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "tinyxml2",
@@ -8696,23 +8696,23 @@
   },
   {
     "name": "tio",
-    "status": "ok",
-    "seconds": 8
+    "status": "test",
+    "seconds": 2706
   },
   {
     "name": "tkey-ssh-agent",
     "status": "ok",
-    "seconds": 10
+    "seconds": 4
   },
   {
     "name": "tlrc",
     "status": "ok",
-    "seconds": 13
+    "seconds": 7
   },
   {
     "name": "tmux",
     "status": "ok",
-    "seconds": 42
+    "seconds": 17
   },
   {
     "name": "toast",
@@ -8747,12 +8747,12 @@
   {
     "name": "topiary",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tor",
     "status": "ok",
-    "seconds": 49
+    "seconds": 31
   },
   {
     "name": "totp-cli",
@@ -8777,7 +8777,7 @@
   {
     "name": "transmission-cli",
     "status": "ok",
-    "seconds": 47
+    "seconds": 38
   },
   {
     "name": "trdsql",
@@ -8826,13 +8826,13 @@
   },
   {
     "name": "trippy",
-    "status": "test",
-    "seconds": 2704
+    "status": "ok",
+    "seconds": 5
   },
   {
     "name": "trivy",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "try-rs",
@@ -8857,7 +8857,7 @@
   {
     "name": "ttyd",
     "status": "ok",
-    "seconds": 38
+    "seconds": 28
   },
   {
     "name": "tuc",
@@ -8882,12 +8882,12 @@
   {
     "name": "twine",
     "status": "ok",
-    "seconds": 107
+    "seconds": 125
   },
   {
     "name": "ty",
     "status": "ok",
-    "seconds": 94
+    "seconds": 106
   },
   {
     "name": "tygo",
@@ -8902,7 +8902,7 @@
   {
     "name": "typescript",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "typeshare",
@@ -8947,17 +8947,17 @@
   {
     "name": "u-boot-tools",
     "status": "ok",
-    "seconds": 7
+    "seconds": 6
   },
   {
     "name": "ubi",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "uchardet",
     "status": "ok",
-    "seconds": 10
+    "seconds": 17
   },
   {
     "name": "ucl",
@@ -8997,7 +8997,7 @@
   {
     "name": "unbound",
     "status": "ok",
-    "seconds": 23
+    "seconds": 24
   },
   {
     "name": "uncover",
@@ -9027,12 +9027,12 @@
   {
     "name": "unittest-cpp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "universal-ctags",
     "status": "ok",
-    "seconds": 21
+    "seconds": 13
   },
   {
     "name": "unixodbc",
@@ -9062,17 +9062,17 @@
   {
     "name": "uriparser",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "urlfinder",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "urx",
     "status": "ok",
-    "seconds": 9
+    "seconds": 40
   },
   {
     "name": "usage",
@@ -9082,7 +9082,7 @@
   {
     "name": "usbredir",
     "status": "ok",
-    "seconds": 109
+    "seconds": 101
   },
   {
     "name": "usbtree",
@@ -9092,12 +9092,12 @@
   {
     "name": "util-linux",
     "status": "ok",
-    "seconds": 25
+    "seconds": 56
   },
   {
     "name": "uutils-coreutils",
     "status": "ok",
-    "seconds": 27
+    "seconds": 30
   },
   {
     "name": "uutils-diffutils",
@@ -9107,22 +9107,22 @@
   {
     "name": "uutils-findutils",
     "status": "ok",
-    "seconds": 7
+    "seconds": 5
   },
   {
     "name": "uv",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "uvicorn",
     "status": "ok",
-    "seconds": 95
+    "seconds": 100
   },
   {
     "name": "v8",
     "status": "ok",
-    "seconds": 25
+    "seconds": 21
   },
   {
     "name": "vale",
@@ -9132,17 +9132,17 @@
   {
     "name": "vamp-plugin-sdk",
     "status": "ok",
-    "seconds": 17
+    "seconds": 13
   },
   {
     "name": "vapoursynth",
     "status": "ok",
-    "seconds": 101
+    "seconds": 113
   },
   {
     "name": "vcdimager",
     "status": "ok",
-    "seconds": 25
+    "seconds": 16
   },
   {
     "name": "vedic",
@@ -9197,7 +9197,7 @@
   {
     "name": "vim",
     "status": "ok",
-    "seconds": 12
+    "seconds": 11
   },
   {
     "name": "vimpager",
@@ -9222,7 +9222,7 @@
   {
     "name": "vite-plus",
     "status": "ok",
-    "seconds": 23
+    "seconds": 22
   },
   {
     "name": "viu",
@@ -9257,7 +9257,7 @@
   {
     "name": "vrpn",
     "status": "ok",
-    "seconds": 80
+    "seconds": 93
   },
   {
     "name": "vscli",
@@ -9272,7 +9272,7 @@
   {
     "name": "vulcain",
     "status": "test",
-    "seconds": 6
+    "seconds": 4
   },
   {
     "name": "vulkan-headers",
@@ -9287,7 +9287,7 @@
   {
     "name": "vulkan-utility-libraries",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "vulkan-volk",
@@ -9312,7 +9312,7 @@
   {
     "name": "w3m",
     "status": "ok",
-    "seconds": 23
+    "seconds": 25
   },
   {
     "name": "wabt",
@@ -9332,7 +9332,7 @@
   {
     "name": "wasm-tools",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "wasmedge",
@@ -9352,7 +9352,7 @@
   {
     "name": "wavpack",
     "status": "ok",
-    "seconds": 11
+    "seconds": 9
   },
   {
     "name": "wayback",
@@ -9367,7 +9367,7 @@
   {
     "name": "webify",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "webp-pixbuf-loader",
@@ -9387,12 +9387,12 @@
   {
     "name": "wget",
     "status": "ok",
-    "seconds": 38
+    "seconds": 45
   },
   {
     "name": "wget2",
     "status": "ok",
-    "seconds": 107
+    "seconds": 98
   },
   {
     "name": "wgo",
@@ -9412,7 +9412,7 @@
   {
     "name": "whois",
     "status": "ok",
-    "seconds": 12
+    "seconds": 7
   },
   {
     "name": "wiiuse",
@@ -9456,7 +9456,7 @@
   },
   {
     "name": "wrkflw",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -9467,12 +9467,12 @@
   {
     "name": "wskdeploy",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "wslay",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "wstunnel",
@@ -9487,7 +9487,7 @@
   {
     "name": "wv",
     "status": "ok",
-    "seconds": 103
+    "seconds": 96
   },
   {
     "name": "wxmaxima",
@@ -9502,7 +9502,7 @@
   {
     "name": "x265",
     "status": "ok",
-    "seconds": 15
+    "seconds": 13
   },
   {
     "name": "xc",
@@ -9517,7 +9517,7 @@
   {
     "name": "xerces-c",
     "status": "ok",
-    "seconds": 15
+    "seconds": 24
   },
   {
     "name": "xevd",
@@ -9527,7 +9527,7 @@
   {
     "name": "xeve",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "xh",
@@ -9547,22 +9547,22 @@
   {
     "name": "xlsxio",
     "status": "ok",
-    "seconds": 19
+    "seconds": 30
   },
   {
     "name": "xmake",
     "status": "ok",
-    "seconds": 16
+    "seconds": 21
   },
   {
     "name": "xmlstarlet",
     "status": "ok",
-    "seconds": 11
+    "seconds": 21
   },
   {
     "name": "xmlto",
     "status": "ok",
-    "seconds": 11
+    "seconds": 13
   },
   {
     "name": "xmrig",
@@ -9577,7 +9577,7 @@
   {
     "name": "xorriso",
     "status": "ok",
-    "seconds": 22
+    "seconds": 27
   },
   {
     "name": "xq",
@@ -9602,7 +9602,7 @@
   {
     "name": "xz",
     "status": "ok",
-    "seconds": 11
+    "seconds": 31
   },
   {
     "name": "yajl",
@@ -9612,7 +9612,7 @@
   {
     "name": "yaml-cpp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 8
   },
   {
     "name": "yaml2json",
@@ -9627,17 +9627,17 @@
   {
     "name": "yarn",
     "status": "ok",
-    "seconds": 22
+    "seconds": 20
   },
   {
     "name": "yasm",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "yazi",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "yelp-tools",
@@ -9656,7 +9656,7 @@
   },
   {
     "name": "yq",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -9667,7 +9667,7 @@
   {
     "name": "z3",
     "status": "ok",
-    "seconds": 19
+    "seconds": 32
   },
   {
     "name": "zapp",
@@ -9682,7 +9682,7 @@
   {
     "name": "zeromq",
     "status": "ok",
-    "seconds": 10
+    "seconds": 11
   },
   {
     "name": "zet",
@@ -9692,22 +9692,22 @@
   {
     "name": "zig",
     "status": "ok",
-    "seconds": 92
+    "seconds": 105
   },
   {
     "name": "zimg",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "zint",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "zip",
     "status": "ok",
-    "seconds": 8
+    "seconds": 6
   },
   {
     "name": "zix",
@@ -9747,7 +9747,7 @@
   {
     "name": "znc",
     "status": "ok",
-    "seconds": 7
+    "seconds": 8
   },
   {
     "name": "zns",
@@ -9757,7 +9757,7 @@
   {
     "name": "zola",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "zoxide",
@@ -9767,7 +9767,7 @@
   {
     "name": "zsh",
     "status": "ok",
-    "seconds": 26
+    "seconds": 42
   },
   {
     "name": "zsign",
@@ -9777,7 +9777,7 @@
   {
     "name": "zstd",
     "status": "ok",
-    "seconds": 11
+    "seconds": 12
   },
   {
     "name": "zsv",
@@ -9787,7 +9787,7 @@
   {
     "name": "zvbi",
     "status": "ok",
-    "seconds": 11
+    "seconds": 14
   },
   {
     "name": "zxc",
@@ -9797,7 +9797,7 @@
   {
     "name": "zxing-cpp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "zycore-c",
@@ -9807,6 +9807,6 @@
   {
     "name": "zydis",
     "status": "ok",
-    "seconds": 5
+    "seconds": 9
   }
 ]
