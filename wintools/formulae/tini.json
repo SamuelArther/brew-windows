@@ -1,0 +1,6 @@
+{
+  "formula": "tini",
+  "desc": "Tiny but valid init for containers",
+  "commands": ["tini", "tini-static", "docker-init"],
+  "test": "assert_match version.to_s, shell_output(\"#{bin}/tini --version\")\nassert_match \"hello\", shell_output(\"#{bin}/tini -- cmd /c echo hello\")\nshell_output(\"#{bin}/tini -- cmd /c exit 1\", 1)\nshell_output(\"#{bin}/tini -e 3 -- cmd /c exit 3\")\nassert_match \"hello\", shell_output(\"#{bin}/tini-static -- cmd /c echo hello\")\nassert_match \"hello\", shell_output(\"#{bin}/docker-init -- cmd /c echo hello\")"
+}

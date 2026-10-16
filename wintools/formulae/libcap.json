@@ -1,0 +1,7 @@
+{
+  "formula": "libcap",
+  "desc": "Capability tools for Windows token privileges",
+  "commands": ["capsh", "getpcaps", "getcap", "setcap"],
+  "caveats": "Capabilities are Windows token privileges (SeDebugPrivilege, SeShutdownPrivilege, ...).\nWindows files cannot carry capabilities, so getcap reports none and setcap refuses.\nThere is no libcap C library: programs use AdjustTokenPrivileges and CreateRestrictedToken.",
+  "test": "assert_match \"usage\", shell_output(\"#{bin}/getcap 2>&1\", 2)\nassert_match \"SeChangeNotifyPrivilege\", shell_output(\"#{bin}/capsh --print\")\nassert_match \"=cap_chown,cap_dac_override\", shell_output(\"#{bin}/capsh --decode=3\")\nassert_match \"dropped\", shell_output(\"#{bin}/capsh --drop=SeShutdownPrivilege -- -c \\\"echo dropped\\\"\")\nshell_output(\"#{bin}/capsh --has-p=SeChangeNotifyPrivilege\")\nshell_output(\"#{bin}/setcap cap_net_raw+ep #{bin}/capsh 2>&1\", 1)"
+}

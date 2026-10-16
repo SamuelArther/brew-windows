@@ -1,0 +1,7 @@
+{
+  "formula": "libnl",
+  "desc": "Netlink Library Suite tools on the Windows IP Helper API",
+  "commands": ["nl-link-list", "nl-addr-list", "nl-route-list", "nl-neigh-list", "nl-monitor"],
+  "caveats": "The tools read links, addresses, routes and neighbours from the IP Helper API, Windows'\ncounterpart of rtnetlink. There is no libnl C library: Windows programs use iphlpapi.",
+  "test": "assert_match \"inet 127.0.0.1\", shell_output(\"#{bin}/nl-route-list\")\nassert_match \"loopback\", shell_output(\"#{bin}/nl-link-list\")\nassert_match \"127.0.0.1/8 inet dev\", shell_output(\"#{bin}/nl-addr-list --family=inet\")\nshell_output(\"#{bin}/nl-neigh-list\")\nshell_output(\"#{bin}/nl-route-list --no-such-option 2>&1\", 2)"
+}
