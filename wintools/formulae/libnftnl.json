@@ -1,0 +1,7 @@
+{
+  "formula": "libnftnl",
+  "desc": "Windows Firewall shown as an nftables ruleset (nft-*-get)",
+  "commands": ["nft-ruleset-get", "nft-table-get", "nft-chain-get", "nft-rule-get"],
+  "caveats": "The nft-*-get tools print Windows Firewall as nftables: table inet windows_firewall with\ninput/output chains (policies from the profiles' default actions) and the enabled rules.\nRules matching programs or services keep those as meta program/service. There is no libnftnl\nC library: Windows programs use the Windows Filtering Platform.",
+  "test": "assert_match \"table inet windows_firewall {\", shell_output(\"#{bin}/nft-ruleset-get\")\nassert_match \"type filter hook input\", shell_output(\"#{bin}/nft-chain-get\")\nassert_match \"\\\"nftables\\\"\", shell_output(\"#{bin}/nft-rule-get json\")\nassert_match \"table inet windows_firewall\", shell_output(\"#{bin}/nft-table-get\")\nshell_output(\"#{bin}/nft-rule-get bogus 2>&1\", 2)"
+}

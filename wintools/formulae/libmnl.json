@@ -1,0 +1,7 @@
+{
+  "formula": "libmnl",
+  "desc": "Rtnetlink-style link, address, route and neighbour dumps on IP Helper",
+  "commands": ["rtnl-link-dump", "rtnl-addr-dump", "rtnl-route-dump", "rtnl-neigh-dump", "rtnl-link-event"],
+  "caveats": "These are libmnl's rtnetlink example tools, reading Windows' IP Helper tables (the counterpart\nof rtnetlink) in their output format. There is no libmnl C library or netlink socket on\nWindows: programs use iphlpapi.",
+  "test": "assert_match \"index=\", shell_output(\"#{bin}/rtnl-link-dump\")\nassert_match \"addr=127.0.0.1/8\", shell_output(\"#{bin}/rtnl-addr-dump inet\")\nassert_match \"dst=127.0.0.0/8\", shell_output(\"#{bin}/rtnl-route-dump inet\")\nsystem bin/\"rtnl-neigh-dump\", \"inet\"\nshell_output(\"#{bin}/rtnl-route-dump ipx 2>&1\", 2)"
+}

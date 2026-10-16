@@ -1,0 +1,7 @@
+{
+  "formula": "libnetfilter-queue",
+  "desc": "Live view of packets passing the network stack (nf-queue on Packet Monitor)",
+  "commands": ["nf-queue"],
+  "caveats": "nf-queue prints each packet passing the network adapters as it arrives, through Windows'\nPacket Monitor (pktmon, administrator), until Ctrl+C. Windows only lets user space observe\npackets, so there are no verdicts or rewritten payloads; holding packets needs a WFP callout\ndriver. There is no libnetfilter_queue C library.",
+  "test": "assert_match \"Usage: nf-queue\", shell_output(\"#{bin}/nf-queue --help\")\nassert_match \"NF_ACCEPT\", shell_output(\"#{bin}/nf-queue --help\")\nshell_output(\"#{bin}/nf-queue not-a-number 2>&1\", 2)"
+}

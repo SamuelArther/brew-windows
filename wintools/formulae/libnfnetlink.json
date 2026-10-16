@@ -1,0 +1,7 @@
+{
+  "formula": "libnfnetlink",
+  "desc": "Interface index table tool on IP Helper (nfnl-iftest)",
+  "commands": ["nfnl-iftest"],
+  "caveats": "nfnl-iftest is libnfnetlink's iftest: it prints the interface index table nfnetlink keeps\n(index, name, up/down) and, with -m, its changes. There is no libnfnetlink C library on Windows:\nprograms use iphlpapi and the Windows Filtering Platform.",
+  "test": "assert_match(/index \\(\\d+\\) is .* \\((up|down)\\)/, shell_output(\"#{bin}/nfnl-iftest\"))\nassert_match \"Usage: nfnl-iftest\", shell_output(\"#{bin}/nfnl-iftest --help\")\nshell_output(\"#{bin}/nfnl-iftest --bogus 2>&1\", 2)"
+}

@@ -1,0 +1,7 @@
+{
+  "formula": "libnetfilter_conntrack",
+  "desc": "Connection tracking tool on the Windows TCP connection table (conntrack)",
+  "commands": ["conntrack"],
+  "caveats": "conntrack lists, counts and watches (-E, polled) the TCP connections Windows tracks, in\nconntrack's format; -D resets matching IPv4 connections (administrator). Windows keeps no UDP\nflows or NAT state. There is no libnetfilter_conntrack C library: programs use iphlpapi.",
+  "test": "system bin/\"conntrack\", \"-L\"\nassert_match(/^\\d+$/, shell_output(\"#{bin}/conntrack -C\").strip)\nassert_equal \"0\", shell_output(\"#{bin}/conntrack -C -p udp\").strip\nassert_match \"cpu=0\", shell_output(\"#{bin}/conntrack -S\")\nassert_match \"conntrack v1.4.8\", shell_output(\"#{bin}/conntrack --version\")\nassert_match \"NAT\", shell_output(\"#{bin}/conntrack -L --src-nat 2>&1\", 2)"
+}
