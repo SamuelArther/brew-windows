@@ -17,6 +17,9 @@ TAP = REPO / "tap" / "homebrew-core" / "Formula"
 OVERRIDES = REPO / "tools" / "windows-overrides"
 PATCHES = REPO / "tools" / "windows-patches"
 LOCAL_PATCH = re.compile(r'^\s*file "(Patches/[^"]+)"', re.M)
+# Formulae upstream limits to macOS or Linux that are portable to Windows (tools/platform-portable.txt).
+PORTABLE = set((REPO / "tools" / "platform-portable.txt").read_text().split()) if (REPO / "tools" / "platform-portable.txt").exists() else set()
+PLATFORM_ONLY = re.compile(r"^  depends_on :(macos|linux)\b.*\n", re.M)
 BOTTLE = re.compile(r"^  bottle do\n.*?^  end\n\n?", re.M | re.S)
 
 
@@ -47,6 +50,8 @@ def main():
         existing = target.read_text(encoding="utf-8") if target.exists() else ""
         text = source.read_text(encoding="utf-8")
         text = text if source == override else convert(text)
+        if name in PORTABLE and source != override:
+            text = PLATFORM_ONLY.sub("", text)
         # Keep a bottle block we already built for this exact formula version.
         kept = BOTTLE.search(existing)
         if kept and source != override and same_version(existing, text):
