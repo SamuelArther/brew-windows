@@ -59,20 +59,66 @@ public sealed class Linker(Paths paths)
                     links.Add(new(destination, source, false));
                 }
             }
+            foreach (var top in TreeDirectories)
+                if (Directory.Exists(Path.Combine(keg, top))) LinkTree(keg, Path.Combine(keg, top), links);
             return links;
         }
         catch { Unlink(links); throw; }
     }
 
+    // Homebrew links etc, include, lib, sbin, share and Frameworks into the prefix. Here every
+    // file gets its own symlink (directories are always created, never linked).
+    static readonly string[] TreeDirectories = ["etc", "include", "lib", "sbin", "share", "Frameworks"];
+
+    static bool SkipFile(string relative) =>
+        relative is "lib/charset.alias" or "share/locale/locale.alias" or "share/info/dir"
+        || System.Text.RegularExpressions.Regex.IsMatch(relative, @"^share/icons/.*/icon-theme\.cache$");
+
+    void LinkTree(string keg, string directory, List<BinLink> links)
+    {
+        foreach (var entry in Directory.EnumerateFileSystemEntries(directory).Order(StringComparer.Ordinal))
+        {
+            var info = new FileInfo(entry);
+            if (Directory.Exists(entry) && info.LinkTarget == null) { LinkTree(keg, entry, links); continue; }
+            var relative = Path.GetRelativePath(keg, entry).Replace(Path.DirectorySeparatorChar, '/');
+            if (SkipFile(relative)) continue;
+            var destination = Path.Combine(paths.Prefix, relative.Replace('/', Path.DirectorySeparatorChar));
+            if (Exists(destination)) throw new IOException(ConflictMessage(keg, entry, destination));
+            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+            if (Directory.Exists(entry)) Directory.CreateSymbolicLink(destination, entry);
+            else File.CreateSymbolicLink(destination, entry);
+            links.Add(new(destination, entry, false));
+        }
+    }
+
+    // Receipts are data: a link path must sit in prefix/bin or under one of the linked trees.
+    bool IsLinkPath(string path)
+    {
+        var full = Path.GetFullPath(path);
+        if (string.Equals(Path.GetDirectoryName(full), paths.Bin, StringComparison.OrdinalIgnoreCase)) return true;
+        return TreeDirectories.Any(top => full.StartsWith(Path.Combine(paths.Prefix, top) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase));
+    }
+
+    void RemoveEmptyParents(string path)
+    {
+        var stop = TreeDirectories.Select(top => Path.Combine(paths.Prefix, top)).Append(paths.Bin).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        for (var dir = Path.GetDirectoryName(Path.GetFullPath(path)); dir != null && !stop.Contains(dir); dir = Path.GetDirectoryName(dir))
+        {
+            if (!Directory.Exists(dir) || Directory.EnumerateFileSystemEntries(dir).Any()) break;
+            Directory.Delete(dir);
+        }
+    }
+
     string ConflictMessage(string keg, string source, string destination)
     {
         var target = new FileInfo(destination).LinkTarget;
+        var linkDirectory = Path.GetDirectoryName(destination);
         var sidecar = destination + ".brew-shim";
         var contents = File.Exists(sidecar) ? File.ReadAllText(sidecar) : null;
         var owner = new InstallationStore(paths).All.FirstOrDefault(k => k.Receipt.Links.Any(l =>
             string.Equals(l.Path, destination, StringComparison.OrdinalIgnoreCase)
             && (l.Shim ? IsOurShim(destination) && contents == l.Target + (l.Arguments.Length == 0 ? "" : "\n" + l.Arguments)
-                : target != null && string.Equals(Path.GetFullPath(target, paths.Bin), l.Target, StringComparison.OrdinalIgnoreCase))))?.Receipt.Name;
+                : target != null && string.Equals(Path.GetFullPath(target, linkDirectory), l.Target, StringComparison.OrdinalIgnoreCase))))?.Receipt.Name;
         var suggestion = owner == null ? $"already exists. You may want to remove it:\n  rm '{destination}'\n"
             : $"is a symlink belonging to {owner}. You can unlink it:\n  brew unlink {owner}\n";
         return $"Could not symlink {Path.GetRelativePath(keg, source)}\nTarget {destination}\n{suggestion}\n"
@@ -92,8 +138,7 @@ public sealed class Linker(Paths paths)
     {
         foreach (var link in links)
         {
-            if (!string.Equals(Path.GetDirectoryName(Path.GetFullPath(link.Path)), paths.Bin, StringComparison.OrdinalIgnoreCase))
-                throw new IOException("Invalid link path in install receipt.");
+            if (!IsLinkPath(link.Path)) throw new IOException("Invalid link path in install receipt.");
             if (link.Shim)
             {
                 var sidecar = link.Path + ".brew-shim";
@@ -105,7 +150,7 @@ public sealed class Linker(Paths paths)
                 }
             }
             else if (new FileInfo(link.Path).LinkTarget is string target
-                && string.Equals(Path.GetFullPath(target, paths.Bin), link.Target, StringComparison.OrdinalIgnoreCase))
+                && string.Equals(Path.GetFullPath(target, Path.GetDirectoryName(Path.GetFullPath(link.Path))), link.Target, StringComparison.OrdinalIgnoreCase))
                 RemovalPreflight.Check(link.Path);
         }
     }
@@ -114,9 +159,8 @@ public sealed class Linker(Paths paths)
     {
         foreach (var link in links)
         {
-            // Receipts are data: never allow one to delete outside prefix/bin or replace user files.
-            if (!string.Equals(Path.GetDirectoryName(Path.GetFullPath(link.Path)), paths.Bin, StringComparison.OrdinalIgnoreCase))
-                throw new IOException("Invalid link path in install receipt.");
+            // Receipts are data: never allow one to delete outside the linked directories or replace user files.
+            if (!IsLinkPath(link.Path)) throw new IOException("Invalid link path in install receipt.");
             if (link.Shim)
             {
                 var sidecar = link.Path + ".brew-shim";
@@ -136,8 +180,11 @@ public sealed class Linker(Paths paths)
                 }
             }
             else if (new FileInfo(link.Path).LinkTarget is string target &&
-                string.Equals(Path.GetFullPath(target, paths.Bin), link.Target, StringComparison.OrdinalIgnoreCase))
-                File.Delete(link.Path);
+                string.Equals(Path.GetFullPath(target, Path.GetDirectoryName(Path.GetFullPath(link.Path))), link.Target, StringComparison.OrdinalIgnoreCase))
+            {
+                if (Directory.Exists(link.Path)) Directory.Delete(link.Path); else File.Delete(link.Path);
+                RemoveEmptyParents(link.Path);
+            }
         }
     }
 

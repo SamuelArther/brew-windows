@@ -29,7 +29,7 @@ jobs:
     outputs:
       chunks: ${{ steps.split.outputs.chunks }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: split
         shell: python
         run: |
@@ -51,7 +51,7 @@ jobs:
       matrix:
         chunk: ${{ fromJson(needs.plan.outputs.chunks) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-brew
       - name: Build, test and bottle
         shell: pwsh
@@ -73,7 +73,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 360
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-brew
       - uses: actions/download-artifact@v4
         with:
