@@ -1,0 +1,7 @@
+{
+  "formula": "wireplumber",
+  "desc": "Audio session control for Windows Core Audio (wpctl)",
+  "commands": ["wpctl", "wireplumber"],
+  "caveats": "wpctl works on the Windows audio endpoints: status lists adapters, sinks and sources with\ntheir ids, and get-volume/set-volume/set-mute/set-default act on an id or on\n@DEFAULT_AUDIO_SINK@ / @DEFAULT_AUDIO_SOURCE@. The session manager itself is the Windows\nAudio Endpoint Builder service; there are no Lua scripts (wpexec).",
+  "test": "assert_match \"Compiled with libwireplumber\", shell_output(\"#{bin}/wireplumber --version\")\nstatus = shell_output(\"#{bin}/wpctl status\")\nassert_match \"Audio\", status\nassert_match \"Sinks:\", status\nassert_match \"set-volume ID VOL\", shell_output(\"#{bin}/wpctl --help\")\nassert_match \"not found\", shell_output(\"#{bin}/wpctl get-volume 99999 2>&1\", 1)\nshell_output(\"#{bin}/wpctl bogus 2>&1\", 2)"
+}

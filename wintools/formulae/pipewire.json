@@ -1,0 +1,7 @@
+{
+  "formula": "pipewire",
+  "desc": "Audio graph tools for Windows Core Audio (pw-cli, pw-dump, pw-cat, pw-metadata)",
+  "commands": ["pipewire", "pw-cli", "pw-dump", "pw-cat", "pw-play", "pw-record", "pw-link", "pw-metadata"],
+  "caveats": "The audio server is the Windows Audio service: endpoints are PipeWire nodes (render =\nAudio/Sink, capture = Audio/Source), adapters are devices, and the default metadata is\nWindows' default devices. pw-cat/pw-play/pw-record stream WAV files through WASAPI.\nThere is no libpipewire C library on Windows; programs use WASAPI directly.",
+  "test": "assert_match \"Compiled with libpipewire\", shell_output(\"#{bin}/pipewire --version\")\nassert_match \"PipeWire:Interface:Core\", shell_output(\"#{bin}/pw-cli ls Core\")\nassert_match \"\\\"type\\\": \\\"PipeWire:Interface:Core\\\"\", shell_output(\"#{bin}/pw-dump\")\nassert_match \"Found \\\"default\\\" metadata\", shell_output(\"#{bin}/pw-metadata\")\nshell_output(\"#{bin}/pw-link -o\")\n(testpath/\"t.wav\").write \"RIFF\"\nassert_match \"no playback target\", shell_output(\"#{bin}/pw-play --target 99999 #{testpath}/t.wav 2>&1\", 1)\nshell_output(\"#{bin}/pw-cat #{testpath}/t.wav 2>&1\", 2)"
+}
