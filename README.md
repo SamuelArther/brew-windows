@@ -46,7 +46,7 @@ through `git`), downloads the latest `brew.exe` release next to it, and adds bre
 `%LOCALAPPDATA%\Homebrew\bin` to your user `PATH`. Open a new terminal afterwards.
 
 Packages live under `%LOCALAPPDATA%\Homebrew` (`Cellar\<name>\<version>`, linked into `bin`,
-`lib`, `share` ...), just like on macOS. To upgrade brew itself, run the installer again.
+`lib`, `share` ...), just like on macOS. `brew update` updates the formulae and brew itself.
 
 ## How it works
 

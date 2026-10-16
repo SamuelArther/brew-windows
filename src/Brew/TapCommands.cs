@@ -89,7 +89,63 @@ public sealed class TapCommands(Paths paths)
             await ProcessRunner.Git(directory, "merge", "--ff-only", upstream);
             changed |= before != await ProcessRunner.Git(directory, "rev-parse", "HEAD");
         }
+        changed |= await UpdateBrewExe();
         if (!changed) Console.WriteLine("Already up-to-date.");
+    }
+
+    // brew.exe isn't in git: an installed brew (<repository>\bin\brew.exe, from install.ps1) replaces
+    // itself with the newest brew-windows-<version> release of the repository it was cloned from.
+    async Task<bool> UpdateBrewExe()
+    {
+        var exe = Environment.ProcessPath;
+        if (exe == null || Environment.GetEnvironmentVariable("BREW_NO_SELF_UPDATE") is { Length: > 0 }
+            || !string.Equals(Path.GetDirectoryName(exe), Path.Combine(paths.Repository, "bin"), StringComparison.OrdinalIgnoreCase))
+            return false;
+        var remote = await ProcessRunner.Capture("git", ["-C", paths.Repository, "remote", "get-url", "origin"]);
+        var match = System.Text.RegularExpressions.Regex.Match(remote.Output ?? "", @"github\.com[/:]([^/\s]+)/([^/\s]+?)(?:\.git)?\s*$");
+        if (remote.Code != 0 || !match.Success) return false;
+        var current = typeof(TapCommands).Assembly.GetName().Version;
+        try
+        {
+            using var http = new HttpClient { Timeout = TimeSpan.FromMinutes(5) };
+            http.DefaultRequestHeaders.UserAgent.ParseAdd("brew-windows");
+            var releases = JsonDocument.Parse(await http.GetStringAsync(
+                $"https://api.github.com/repos/{match.Groups[1].Value}/{match.Groups[2].Value}/releases?per_page=30")).RootElement;
+            foreach (var release in releases.EnumerateArray())
+            {
+                var tag = release.GetProperty("tag_name").GetString() ?? "";
+                if (!tag.StartsWith("brew-windows-") || release.GetProperty("prerelease").GetBoolean()) continue;
+                if (!Version.TryParse(tag["brew-windows-".Length..], out var latest) || current == null
+                    || latest.CompareTo(new Version(current.Major, current.Minor, Math.Max(current.Build, 0))) <= 0)
+                    return false;
+                var asset = release.GetProperty("assets").EnumerateArray().FirstOrDefault(a => a.GetProperty("name").GetString()?.EndsWith(".zip") == true);
+                if (asset.ValueKind != JsonValueKind.Object) return false;
+                var zip = Path.Combine(Path.GetTempPath(), $"brew-windows-{Guid.NewGuid():N}.zip");
+                await File.WriteAllBytesAsync(zip, await http.GetByteArrayAsync(asset.GetProperty("browser_download_url").GetString()));
+                // GitHub publishes each asset's SHA-256 as its digest; refuse a download that doesn't match.
+                if (asset.TryGetProperty("digest", out var digest) && digest.GetString() is { } expected && expected.StartsWith("sha256:"))
+                {
+                    var actual = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(zip))).ToLowerInvariant();
+                    if (actual != expected["sha256:".Length..]) { File.Delete(zip); throw new InvalidOperationException($"{tag}: checksum mismatch"); }
+                }
+                var staging = Path.Combine(Path.GetTempPath(), $"brew-windows-{Guid.NewGuid():N}");
+                System.IO.Compression.ZipFile.ExtractToDirectory(zip, staging);
+                File.Delete(zip);
+                // A running exe can be renamed but not overwritten; the old one is removed next time.
+                var old = exe + ".old";
+                if (File.Exists(old)) File.Delete(old);
+                File.Move(exe, old);
+                foreach (var file in Directory.GetFiles(staging)) File.Copy(file, Path.Combine(Path.GetDirectoryName(exe)!, Path.GetFileName(file)), true);
+                PackageManager.DeleteTree(staging);
+                CommandOutput.Header($"Updated brew-windows from {current.ToString(3)} to {latest}.");
+                return true;
+            }
+        }
+        catch (Exception e) when (e is HttpRequestException or IOException or JsonException or TaskCanceledException or KeyNotFoundException)
+        {
+            CommandOutput.Warning($"Could not check for a newer brew-windows: {e.Message}");
+        }
+        return false;
     }
 
     static int FormulaCount(string directory) => Directory.GetFiles(directory, "*.rb", SearchOption.AllDirectories).Count(f => f.Split(Path.DirectorySeparatorChar).Contains("Formula"));
