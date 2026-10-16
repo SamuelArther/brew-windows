@@ -1,0 +1,7 @@
+{
+  "formula": "kmod",
+  "desc": "Kernel module handling for Windows kernel drivers",
+  "commands": ["kmod", "lsmod", "modinfo", "insmod", "rmmod", "modprobe", "depmod"],
+  "caveats": "Modules are Windows kernel drivers (.sys). insmod/modprobe load them as driver services\nand rmmod stops them; those need an elevated (Administrator) prompt.",
+  "test": "system bin/\"kmod\", \"help\"\nassert_match \"Module\", shell_output(\"#{bin}/kmod list\")\nassert_match \"Used by\", shell_output(\"#{bin}/lsmod\")\nassert_match(/filename:.*ntfs\\.sys/i, shell_output(\"#{bin}/modinfo ntfs\"))\nassert_match \"tcpip.sys\", shell_output(\"#{bin}/modprobe --show-depends tcpip\")\nassert_match \"drivers/tcpip.sys:\", shell_output(\"#{bin}/depmod -n\")\nshell_output(\"#{bin}/modinfo no_such_module 2>&1\", 1)"
+}
