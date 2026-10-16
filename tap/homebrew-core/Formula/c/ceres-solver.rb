@@ -4,6 +4,7 @@ class CeresSolver < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-ceres-solver-2.2.0-11-any.pkg.tar.zst"
   sha256 "4c2a81d2706012abe0d5a70d64a8df6812c1e31dc049bbe4daca142bafe5e2d7"
   license "BSD-3-Clause"
+  revision 6
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

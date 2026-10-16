@@ -4,6 +4,7 @@ class Unbound < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-unbound-1.26.1-1-any.pkg.tar.zst"
   sha256 "a04080b54fc7c209f7037c41a3ce7433b1b7d2998d5c39e78a53108c27d1369a"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

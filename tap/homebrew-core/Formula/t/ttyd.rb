@@ -4,6 +4,7 @@ class Ttyd < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-ttyd-1.7.7-1-any.pkg.tar.zst"
   sha256 "181c9d32c29be451a3c856fb187cc005458c5e0b42259b06c5968960042d9e42"
   license "MIT"
+  revision 14
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

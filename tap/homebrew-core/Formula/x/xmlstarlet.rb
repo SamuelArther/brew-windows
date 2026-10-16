@@ -4,6 +4,7 @@ class Xmlstarlet < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-xmlstarlet-1.6.1-5-any.pkg.tar.zst"
   sha256 "6a448a207eff2f341074e770d729610ca60e15a1961e0b1195f003fa13f83743"
   license "MIT"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

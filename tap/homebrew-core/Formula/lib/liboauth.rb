@@ -4,6 +4,7 @@ class Liboauth < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-liboauth-1.0.3-7-any.pkg.tar.zst"
   sha256 "f1182f95b9cc2b108d0e57f275cfb23c796154e930c68465b80f70f507f76257"
   license "MIT"
+  revision 4
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

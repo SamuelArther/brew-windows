@@ -12,6 +12,8 @@ class Jsonnet < Formula
     strategy :github_latest
   end
 
+  conflicts_with "go-jsonnet", because: "both install binaries with the same name"
+
   resource "mingw-w64-ucrt-x86_64-cc-libs" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cc-libs-16.2.0-6-any.pkg.tar.zst"
     sha256 "d8fff9e62443168bcda8ce746697243519c4f090ea607357ce94feac0bd10a50"

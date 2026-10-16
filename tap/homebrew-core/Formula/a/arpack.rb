@@ -4,6 +4,7 @@ class Arpack < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-arpack-3.9.1-9-any.pkg.tar.zst"
   sha256 "82ae1ae5696556faea65d36fb782c270d2e17db34eea8f33bc2c7f90ff0b0d03"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

@@ -4,6 +4,7 @@ class Muparser < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-muparser-2.3.5-2-any.pkg.tar.zst"
   sha256 "cae79ce67b3c03b4f3ff94c7b2d1d3313e5138b9ed588ea95a6ae567dc8db2ac"
   license "BSD-2-Clause"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

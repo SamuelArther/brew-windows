@@ -5,6 +5,7 @@ class Argon2 < Formula
   version "20190702"
   sha256 "6ba6498f06f78768c83b9378df2fc75346f5654386b3c323104e0bec0c5eaa70"
   license any_of: ["CC0-1.0", "Apache-2.0"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

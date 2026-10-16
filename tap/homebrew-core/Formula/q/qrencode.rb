@@ -4,6 +4,7 @@ class Qrencode < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-qrencode-4.1.1-4-any.pkg.tar.zst"
   sha256 "b23e78dfd1d7d8c2265bd561d2328c833dcde4f38c40fdc91bc3003b46e8fe2f"
   license "LGPL-2.1-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

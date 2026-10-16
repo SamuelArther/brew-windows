@@ -4,6 +4,7 @@ class Premake < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-premake-5.0beta6-2-any.pkg.tar.zst"
   sha256 "c8a455f2fbf175f13e336010cfde6089db27c96738f2b3bb251a66cff30a6cdb"
   license "BSD-3-Clause"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

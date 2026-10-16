@@ -5,6 +5,7 @@ class Re2 < Formula
   version "20251105"
   sha256 "42b02745d0725a58a0bd442ebc7bf82b28b42257e28c5459bd02ee80b2a2fa92"
   license "BSD-3-Clause"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

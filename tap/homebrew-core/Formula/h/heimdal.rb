@@ -9,6 +9,7 @@ class Heimdal < Formula
     "HPND-export2-US", # kdc/announce.c
     :public_domain,    # lib/hcrypto/libtommath/
   ]
+  revision 2
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

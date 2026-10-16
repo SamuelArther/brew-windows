@@ -4,6 +4,7 @@ class SourceHighlight < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-source-highlight-3.1.9-6-any.pkg.tar.zst"
   sha256 "feba663a74b6f20a2674fe818c37c3731c1cf01c40dee80cad32cef9b07f7370"
   license "GPL-3.0-or-later"
+  revision 6
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

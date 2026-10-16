@@ -12,6 +12,7 @@ class Mtools < Formula
   end
 
   conflicts_with "multimarkdown", because: "both install `mmd` binaries"
+  conflicts_with "mcat", because: "both install `mcat` binaries"
 
   resource "mingw-w64-ucrt-x86_64-libiconv" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libiconv-1.19-1-any.pkg.tar.zst"

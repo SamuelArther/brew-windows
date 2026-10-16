@@ -5,6 +5,7 @@ class LibcdioParanoia < Formula
   version "10.2-2.0.2"
   sha256 "2ea5cae8fd178a6df14b22cd4cf7aa489ac83b4aaf9229ed103e6248fa5ba278"
   license "GPL-3.0-only"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

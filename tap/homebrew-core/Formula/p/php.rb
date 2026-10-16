@@ -23,6 +23,7 @@ class Php < Formula
     "TCL",
     "Zlib",
   ]
+  revision 1
 
   livecheck do
     url "https://windows.php.net/downloads/releases/"

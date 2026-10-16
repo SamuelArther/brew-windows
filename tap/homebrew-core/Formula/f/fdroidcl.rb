@@ -12,10 +12,10 @@ class Fdroidcl < Formula
   end
 
   def install
-    bin.install "fdroidcl_v0.8.1_windows_amd64.exe"
+    bin.install "fdroidcl_v0.8.1_windows_amd64.exe" => "fdroidcl.exe"
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/fdroidcl_v0.8.1_windows_amd64 version 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/fdroidcl version 2>&1")
   end
 end

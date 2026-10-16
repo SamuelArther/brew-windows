@@ -4,6 +4,7 @@ class Aalib < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-aalib-1.4rc5-3-any.pkg.tar.zst"
   sha256 "d3b59c0f4974baa6fa85b3b5be5360fde8797ec30ce027c1d823ad414515f9c2"
   license "LGPL-2.0-or-later"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -4,6 +4,7 @@ class OpusTools < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-opus-tools-0.2-6-any.pkg.tar.zst"
   sha256 "cc9bb67515cd59ff8fe55b33ab6f5a378199cf6da7c66b8958cb2afb8eba9e45"
   license "BSD-2-Clause"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -4,6 +4,7 @@ class Irrlicht < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-irrlicht-1.8.5-4-any.pkg.tar.zst"
   sha256 "5a5f44a1bc9fdfb99b2f9abc806311f29a6d8f6c6491a7408bb6378ed79b0f4e"
   license "Zlib"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

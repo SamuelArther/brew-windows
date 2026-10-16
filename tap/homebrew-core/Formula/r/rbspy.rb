@@ -12,10 +12,10 @@ class Rbspy < Formula
   end
 
   def install
-    bin.install "rbspy-x86_64-pc-windows-msvc.exe"
+    bin.install "rbspy-x86_64-pc-windows-msvc.exe" => "rbspy.exe"
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/rbspy-x86_64-pc-windows-msvc --version 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/rbspy --version 2>&1")
   end
 end

@@ -4,6 +4,7 @@ class Handbrake < Formula
   url "https://github.com/HandBrake/HandBrake/releases/download/1.11.2/HandBrakeCLI-1.11.2-win-x86_64.zip"
   sha256 "80bfe8d5f5d11cc3ef76b834add3ed4e82dee6523ffeb435c283f88b1a21f09d"
   license "GPL-2.0-only"
+  revision 1
 
   livecheck do
     url :stable

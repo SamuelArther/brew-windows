@@ -7,6 +7,7 @@ class Xz < Formula
     "0BSD",
     "GPL-2.0-or-later",
   ]
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -4,6 +4,7 @@ class Civetweb < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-civetweb-1.16-4-any.pkg.tar.zst"
   sha256 "580bb7b9cd1a708172081b8b1ab74c80e148a658ac00491ac81fb8f82a825366"
   license "MIT"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -4,6 +4,7 @@ class Znc < Formula
   url "https://repo.msys2.org/msys/x86_64/znc-1.10.3-1-x86_64.pkg.tar.zst"
   sha256 "cf41ff39803fe1c19cf75bce171a7a19ec711f5624991ce8b728ce3862432db5"
   license "Apache-2.0"
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

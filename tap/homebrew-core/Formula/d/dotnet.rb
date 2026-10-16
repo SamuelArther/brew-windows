@@ -5,6 +5,7 @@ class Dotnet < Formula
   version "10.0.402"
   sha256 "24d057ab968986a9d7c7a01606b2a0192cbe6485221ba38e9c685522e93d8798"
   license "MIT"
+  version_scheme 1
 
   livecheck do
     url "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json"

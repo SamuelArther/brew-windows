@@ -4,6 +4,7 @@ class Po4a < Formula
   url "https://repo.msys2.org/msys/x86_64/po4a-0.74-2-any.pkg.tar.zst"
   sha256 "ca4243f644eec9894cda0d41facbc82c164418741c2179df38593f1ffc01bf5c"
   license "GPL-2.0-or-later"
+  revision 2
 
   # Prebuilt package from MSYS2; headers and import libraries go in the keg.
 

@@ -3,12 +3,12 @@ class Telnet < Formula
   homepage "https://opensource.apple.com/"
   url "https://repo.msys2.org/msys/x86_64/inetutils-2.8-1-x86_64.pkg.tar.zst"
   sha256 "b0a00adbdc549b54292db23530caf58bb0f150fc39359b99d074d6dee9aed677"
-  license "GPL-3.0-or-later"
+  license all_of: ["BSD-4-Clause-UC", "APSL-1.0"]
 
   # Homebrew's telnet is Apple's (macOS-only); this is the GNU inetutils telnet client from MSYS2.
   # The version is that of inetutils.
 
-  conflicts_with "inetutils", because: "both install `telnet` binaries"
+  conflicts_with "inetutils", because: "both install 'telnet' binaries"
 
   resource "gcc-libs" do
     url "https://repo.msys2.org/msys/x86_64/gcc-libs-15.3.0-1-x86_64.pkg.tar.zst"

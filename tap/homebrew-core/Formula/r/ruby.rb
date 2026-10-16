@@ -5,6 +5,7 @@ class Ruby < Formula
   version "4.0.7"
   sha256 "7a9be96d3448ecbd9a81eccae1f619131dfcc761f2c98dded03ece6c05d0474f"
   license "Ruby"
+  revision 1
 
   livecheck do
     url :stable

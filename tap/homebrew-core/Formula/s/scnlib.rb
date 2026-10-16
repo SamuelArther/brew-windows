@@ -4,6 +4,7 @@ class Scnlib < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-scnlib-4.0.1-1-any.pkg.tar.zst"
   sha256 "14c7f9724ab061891e1e9c78f0f1fa79b4cca09d1def8a45fe43b42c8d592f73"
   license "Apache-2.0"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

@@ -4,6 +4,7 @@ class Idutils < Formula
   url "https://repo.msys2.org/msys/x86_64/idutils-4.6-3-x86_64.pkg.tar.zst"
   sha256 "71b5bce5ece22e20ec34b7e0d44806f5aab9569f3dc8e87e46086a7cd93d5bf5"
   license "GPL-3.0-or-later"
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

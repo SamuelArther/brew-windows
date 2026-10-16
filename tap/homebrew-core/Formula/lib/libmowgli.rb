@@ -4,6 +4,7 @@ class Libmowgli < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libmowgli-2.1.3-7-any.pkg.tar.zst"
   sha256 "17836a9ae2a44766dbdafc167c321486fc9b4a9c5e094b0b047391bf7946e5b4"
   license "ISC"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

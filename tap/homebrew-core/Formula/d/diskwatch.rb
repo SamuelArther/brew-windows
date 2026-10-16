@@ -12,10 +12,10 @@ class Diskwatch < Formula
   end
 
   def install
-    bin.install "diskwatch-windows-x86_64.exe"
+    bin.install "diskwatch-windows-x86_64.exe" => "diskwatch.exe"
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/diskwatch-windows-x86_64 --version 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/diskwatch --version 2>&1")
   end
 end

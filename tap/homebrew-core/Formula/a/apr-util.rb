@@ -4,6 +4,7 @@ class AprUtil < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-apr-util-1.6.5-1-any.pkg.tar.zst"
   sha256 "c9d5d02cc8511d1b130e5f9356c738814389bfe7670ee6b81102c47bc5d4f390"
   license "Apache-2.0"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

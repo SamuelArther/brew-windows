@@ -10,6 +10,7 @@ class SpirvCross < Formula
     "CC-BY-4.0",
     "MIT-Khronos-old",
   ]
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

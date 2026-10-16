@@ -4,6 +4,7 @@ class W3m < Formula
   url "https://repo.msys2.org/msys/x86_64/w3m-0.5.6-1-x86_64.pkg.tar.zst"
   sha256 "7b963f1a1b97fefa61187c2027981f9531c967de5675b7dafdbff540859c5ed6"
   license "w3m"
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

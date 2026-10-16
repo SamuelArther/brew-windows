@@ -4,6 +4,7 @@ class Libgweather < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libgweather-4.4.4-1-any.pkg.tar.zst"
   sha256 "2007fc5a0bf4fb57a553eb131427e5bd5926a81b21d21caa44ea5487898c8058"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.1-or-later"]
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

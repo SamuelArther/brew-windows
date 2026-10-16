@@ -4,6 +4,7 @@ class Spandsp < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-spandsp-0.0.6-6-any.pkg.tar.zst"
   sha256 "ddd9cca98e7ad05e9cb83f3ca404db8eba601d20825dbbbc4605e21e8cbe430b"
   license "LGPL-2.1-only"
+  revision 3
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

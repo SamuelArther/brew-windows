@@ -11,8 +11,6 @@ class P7zip < Formula
     url "https://github.com/p7zip-project/p7zip/archive/refs/tags/v17.06.tar.gz"
   end
 
-  conflicts_with "sevenzip", because: "both install `7z` binaries"
-
   def install
     install_tree
     install_library "libexec/usr"

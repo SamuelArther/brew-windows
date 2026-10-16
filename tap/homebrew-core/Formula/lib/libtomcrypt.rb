@@ -4,6 +4,7 @@ class Libtomcrypt < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libtomcrypt-1.18.2-5-any.pkg.tar.zst"
   sha256 "0fff21d06556d57a3410d9cd02065bbfb7b2dadd6be1dae4d7dc07f10686b03a"
   license "Unlicense"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

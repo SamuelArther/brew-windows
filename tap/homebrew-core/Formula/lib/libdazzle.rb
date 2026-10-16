@@ -4,6 +4,7 @@ class Libdazzle < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libdazzle-3.44.0-3-any.pkg.tar.zst"
   sha256 "88ee76237a44d53fc42344422c3acdec6cf811fdcb35e5cc20a4c590d4a140f0"
   license "GPL-3.0-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

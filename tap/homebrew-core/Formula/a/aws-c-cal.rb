@@ -4,6 +4,7 @@ class AwsCCal < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-aws-c-cal-1.0.0-1-any.pkg.tar.zst"
   sha256 "07f61cf307c232ef7bef0a132fec05711c8d1facfecb161d6f570a243aeb91c9"
   license "Apache-2.0"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

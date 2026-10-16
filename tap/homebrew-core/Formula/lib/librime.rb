@@ -4,6 +4,7 @@ class Librime < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-librime-1.17.0-2-any.pkg.tar.zst"
   sha256 "221c70b768c30da620789e1951c8571187ea4da269a666eed36bafa5ecab6b1c"
   license "BSD-3-Clause"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

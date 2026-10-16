@@ -3,8 +3,24 @@
 Formulae are Ruby files in `tap/homebrew-core/Formula/<shard>/<name>.rb`, written the
 same way as homebrew-core's and evaluated by brew's own Ruby interpreter
 (`src/Brew/Ruby`). The shard is the first letter of the name, or `lib` for names
-starting with `lib` (Homebrew's CoreTap rule). Each formula is hand-written; there is
-no generator.
+starting with `lib` (Homebrew's CoreTap rule).
+
+About 210 formulae are hand-written. The rest were bootstrapped from homebrew-core's
+metadata onto prebuilt Windows packages (MSYS2's UCRT64/MSYS repositories, or a project's
+own Windows x64 GitHub release asset). A generated formula was kept only if `brew install`,
+`brew test` and `brew uninstall` all passed with no files left behind. Test strength
+varies, from strongest to weakest: homebrew-core's own `test do` block; the version printed
+by `--version` (or a similar flag); the command running with `--version`/`--help` and
+exiting 0; or, for programs that can't run headless, only checking that the command is
+installed. Libraries get file checks instead.
+
+Metadata must match `brew info --json=v2` from real Homebrew: `desc`, `homepage`,
+`license`, `keg_only`, `conflicts_with` (homebrew-core's own list, never inferred),
+`version_scheme`, and `revision` when the version is the same. Aliases match homebrew-core's
+`Aliases` entries, and `formula_renames.json` holds its renames, for formulae present here.
+Versions, URLs and dependencies follow the Windows build. Command names follow Homebrew's
+executables, never the release asset's file name. Formulae whose tests change system state
+(services, drivers, DNS) or that Microsoft Defender flags are left out.
 
 ## Rules
 

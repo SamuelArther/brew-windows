@@ -4,6 +4,7 @@ class Libssh < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libssh-0.12.2-1-any.pkg.tar.zst"
   sha256 "1be494f5fad8bf1210a1eeaccdd07d3e8319f4d13cd79a9302ae196fcc96da8b"
   license "LGPL-2.1-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

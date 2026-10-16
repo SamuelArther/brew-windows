@@ -4,6 +4,7 @@ class Typst < Formula
   url "https://github.com/typst/typst/releases/download/v0.15.1/typst-x86_64-pc-windows-msvc.zip"
   sha256 "19ce3551153c2fe7ee9fa2f95208310c8f4d3209fedb699e0333faf8913f6736"
   license "Apache-2.0"
+  version_scheme 1
 
   livecheck do
     url :stable

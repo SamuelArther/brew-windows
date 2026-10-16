@@ -4,6 +4,7 @@ class Unzip < Formula
   url "https://repo.msys2.org/msys/x86_64/unzip-6.0-3-x86_64.pkg.tar.zst"
   sha256 "c98ebac31ea92a63cf61c6190ed3e8284ccc0c29c43973f1b2c0de2874e5acfe"
   license "Info-ZIP"
+  revision 8
 
   # Info-ZIP UnZip via MSYS2.
 

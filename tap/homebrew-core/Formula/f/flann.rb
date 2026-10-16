@@ -4,6 +4,7 @@ class Flann < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-flann-1.9.2-2-any.pkg.tar.zst"
   sha256 "a830eb60870d755ee66add38dfcb5e629d39a3bc2dc8b7cf00a46b696024947f"
   license "BSD-3-Clause"
+  revision 4
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

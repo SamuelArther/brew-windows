@@ -4,6 +4,7 @@ class Libass < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libass-0.17.5-1-any.pkg.tar.zst"
   sha256 "4385fd47a77784478878f0f03f2d9afa59a5ac71facb7cad1dfe19c555e75762"
   license "ISC"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

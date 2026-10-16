@@ -4,6 +4,7 @@ class Typescript < Formula
   url "https://registry.npmjs.org/@typescript/typescript-win32-x64/-/typescript-win32-x64-7.0.2.tgz"
   sha256 "61fc4e141d2bc687db580e71bbfa63b9c209f0310645d82ca1b457eb3a24fd19"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url "https://registry.npmjs.org/typescript/latest"

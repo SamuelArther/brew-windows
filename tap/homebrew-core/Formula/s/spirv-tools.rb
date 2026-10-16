@@ -5,6 +5,7 @@ class SpirvTools < Formula
   version "1.4.363.0"
   sha256 "d31d67fe918aeee21d1e930fd96360856a60146d23094e4ae8baf071a4049aaa"
   license "Apache-2.0"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

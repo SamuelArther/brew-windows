@@ -4,6 +4,7 @@ class Libfido2 < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libfido2-1.17.0-3-any.pkg.tar.zst"
   sha256 "f90a6189334a9653585eec66aa91d28b73fbd4d84095a2a241a78340540eff1d"
   license "BSD-2-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

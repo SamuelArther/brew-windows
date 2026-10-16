@@ -4,6 +4,7 @@ class Emacs < Formula
   url "https://ftpmirror.gnu.org/gnu/emacs/windows/emacs-31/emacs-31.1.zip"
   sha256 "96a1018e9de877e77768ca884007f1a9df44889e9ae81ae3ca3d904b5681b8b6"
   license "GPL-3.0-or-later"
+  revision 1
 
   # Official GNU Emacs Windows x64 build (fetched through the GNU mirror redirector).
 

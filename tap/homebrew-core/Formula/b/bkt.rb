@@ -11,6 +11,8 @@ class Bkt < Formula
     url "https://github.com/dimo414/bkt/archive/refs/tags/0.8.2.tar.gz"
   end
 
+  conflicts_with "bitbucket-cli", because: "both install `bkt` binaries"
+
   def install
     bin.install "bkt.exe"
   end

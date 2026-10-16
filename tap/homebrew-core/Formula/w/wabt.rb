@@ -4,6 +4,7 @@ class Wabt < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-wabt-1.0.42-1-any.pkg.tar.zst"
   sha256 "42b6e65db0b580aa6c2aba1aaffb2bdc762d6831a3e41e7c6435d20d5bd09469"
   license "Apache-2.0"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

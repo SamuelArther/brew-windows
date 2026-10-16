@@ -4,6 +4,7 @@ class Cddlib < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cddlib-0.94n-3-any.pkg.tar.zst"
   sha256 "332f3ba7f41df9bd76143830d4370282015c833fddd2ca465b5c61f06571e78c"
   license "GPL-2.0-or-later"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

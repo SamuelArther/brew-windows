@@ -1,9 +1,9 @@
 class Libtool < Formula
   desc "Generic library support script"
-  homepage "https://www.gnu.org/software/libtool"
+  homepage "https://www.gnu.org/software/libtool/"
   url "https://repo.msys2.org/msys/x86_64/libtool-2.6.2-1-x86_64.pkg.tar.zst"
   sha256 "ed51a0790d6cd59d24f2f76c826ed0e8d85f81bc1ac2807736400ea5e178fc5a"
-  license "LGPL-2.0-or-later" => { with: "Libtool-exception" }
+  license "GPL-2.0-or-later"
 
   # Track the MSYS2 package this formula installs (upstream releases reach MSYS2 later).
   livecheck do

@@ -4,6 +4,7 @@ class Libvterm < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libvterm-0.3.3-1-any.pkg.tar.zst"
   sha256 "c93cf6c76a08326b85952255c6c7331f3accc556ee905a3d78501a73d1d00621"
   license "MIT"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

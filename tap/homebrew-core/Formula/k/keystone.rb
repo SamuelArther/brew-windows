@@ -4,6 +4,7 @@ class Keystone < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-keystone-0.9.2-9-any.pkg.tar.zst"
   sha256 "6855a31d41470cd9a9113fd78d6282f51e024a54f840b95dc5807f68bf11f523"
   license "GPL-2.0-only" # with FOSS License Exception (non-SPDX, see EXCEPTIONS-CLIENT)
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

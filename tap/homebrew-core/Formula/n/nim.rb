@@ -4,6 +4,7 @@ class Nim < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-nim-2.2.12-1-any.pkg.tar.zst"
   sha256 "ab572586d631608384c049d65cea4d23eea6b3d8ecf42e38c464b7ab37a34ab0"
   license "MIT"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

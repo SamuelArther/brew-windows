@@ -4,6 +4,7 @@ class Lapack < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-lapack-3.12.1-2-any.pkg.tar.zst"
   sha256 "bca8b281ca69101f8718ff4b87f9fc93e9913ac2e804e1a5289fccdaf4aae025"
   license all_of: ["BSD-3-Clause-Open-MPI", "BSD-3-Clause"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 
@@ -11,6 +12,8 @@ class Lapack < Formula
     url "https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.12.1.tar.gz"
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
+
+  keg_only "it conflicts with openblas"
 
   def install
     install_tree

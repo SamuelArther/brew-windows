@@ -4,6 +4,7 @@ class Nauty < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-nauty-2.9.3-1-any.pkg.tar.zst"
   sha256 "22e049c343759ed77a5159cae7aeee8a487bde95f0c906fcd467e81012710d8f"
   license "Apache-2.0"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

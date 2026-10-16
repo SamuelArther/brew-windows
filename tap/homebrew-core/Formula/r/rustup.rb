@@ -4,6 +4,7 @@ class Rustup < Formula
   url "https://static.rust-lang.org/rustup/archive/1.29.1/x86_64-pc-windows-msvc/rustup-init.exe"
   sha256 "6f4bef66261261fcb43131be8720bab817d403a09edec7455c371974b90bdb7e"
   license any_of: ["Apache-2.0", "MIT"]
+  revision 1
 
   livecheck do
     url "https://static.rust-lang.org/rustup/release-stable.toml"

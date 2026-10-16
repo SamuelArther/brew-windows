@@ -4,6 +4,7 @@ class Tio < Formula
   url "https://repo.msys2.org/msys/x86_64/tio-3.9-2-x86_64.pkg.tar.zst"
   sha256 "3c35690560e51dd0d770c460349711b660c99a20f76bc42dd82150fdccc7df6c"
   license "GPL-2.0-or-later"
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

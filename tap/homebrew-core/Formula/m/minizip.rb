@@ -4,6 +4,7 @@ class Minizip < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-minizip-1.3.2-2-any.pkg.tar.zst"
   sha256 "607cfd490cd9c47db7381663963d8c7b0152d7b487a391fb3bbc3f09b6e50967"
   license "Zlib"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

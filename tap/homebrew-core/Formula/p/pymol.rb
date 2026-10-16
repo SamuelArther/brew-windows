@@ -4,6 +4,7 @@ class Pymol < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-pymol-3.1.0-5-any.pkg.tar.zst"
   sha256 "8a0450e783ca8df4b05ffaa46305078cd5de97e0304bbe685d89d64914a98dcf"
   license :cannot_represent
+  revision 3
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

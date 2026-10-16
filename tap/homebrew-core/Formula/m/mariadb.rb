@@ -5,10 +5,11 @@ class Mariadb < Formula
   version "13.0.2"
   sha256 "ba9cefd6674b3f2f7bc67334c05305dc7c919643d76836e10767e70db0b5fb74"
   license "GPL-2.0-only"
+  revision 1
 
   # Official MariaDB Windows x64 ZIP package. No service is registered or started.
 
-  conflicts_with "mysql", because: "mariadb and mysql install the same binaries"
+  conflicts_with "mysql", because: "mariadb, mysql, and percona install the same binaries"
 
   def install
     install_tree

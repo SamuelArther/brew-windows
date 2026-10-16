@@ -436,23 +436,39 @@ public static partial class FormulaLoader
         _ => false,
     };
 
-    // SPDX-ish rendering, as `brew info` shows it.
-    static string LicenseString(Interp it, object v) => v switch
+    // SPDX.license_expression_to_string (utils/spdx.rb), as `brew info` and its JSON show it.
+    static string LicenseString(Interp it, object v, bool bracket = false, object hashType = null)
     {
-        RString s => s.V,
-        RSymbol { Name: "public_domain" } => "Public Domain",
-        RSymbol { Name: "cannot_represent" } => "Cannot Represent",
-        RSymbol s => s.Name,
-        RHash h when h.D.TryGetValue(Interp.Sym("any_of"), out var any) => string.Join(" or ", ((RArray)any).L.Select(x => Wrap(it, x))),
-        RHash h when h.D.TryGetValue(Interp.Sym("all_of"), out var all) => string.Join(" and ", ((RArray)all).L.Select(x => Wrap(it, x))),
-        RHash h => string.Join(" ", h.D.Select(kv => $"{LicenseString(it, kv.Key)} with {it.ToS(((RHash)kv.Value).D.Values.FirstOrDefault())}")),
-        null => null,
-        _ => it.ToS(v),
-    };
-
-    static string Wrap(Interp it, object v) => v is RHash h && h.D.Keys.Any(k => k is RSymbol { Name: "any_of" or "all_of" })
-        ? "(" + LicenseString(it, v) + ")"
-        : LicenseString(it, v);
+        switch (v)
+        {
+            case RString s: return s.V;
+            case RSymbol s: return "LicenseRef-Homebrew-" + s.Name.Replace('_', '-');
+            case RHash h:
+                var expressions = new List<string>();
+                if (h.D.Count == 1)
+                {
+                    var (key, value) = h.D.First();
+                    hashType = key;
+                    if (key is RString ks)
+                        expressions.Add($"{ks.V} WITH {it.ToS(value is RHash w && w.D.TryGetValue(Interp.Sym("with"), out var with) ? with : null)}");
+                    else
+                        expressions.AddRange(((RArray)value).L.Select(x => LicenseString(it, x, true, hashType)));
+                }
+                else
+                {
+                    bracket = false;
+                    foreach (var kv in h.D)
+                    {
+                        var single = new RHash(); single.D[kv.Key] = kv.Value;
+                        expressions.Add(LicenseString(it, single, true));
+                    }
+                }
+                var joined = string.Join(hashType is RSymbol { Name: "any_of" } ? " OR " : " AND ", expressions);
+                return bracket ? $"({joined})" : joined;
+            case null: return null;
+            default: return it.ToS(v);
+        }
+    }
 
     // Utils::Inreplace.inreplace
     static void Inreplace(Interp it, object[] a, RProc b)

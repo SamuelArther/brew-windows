@@ -4,6 +4,7 @@ class Pngnq < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-pngnq-1.1-5-any.pkg.tar.zst"
   sha256 "4ac6ffa613f8c3164278f64c885058f72f14ad5e13862ff6f85a39bda82a5125"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

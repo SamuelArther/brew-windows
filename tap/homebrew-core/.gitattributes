@@ -1,0 +1,2 @@
+# Formulae are Ruby source read byte-for-byte (style/audit flag CR); keep LF on every platform.
+* text=auto eol=lf

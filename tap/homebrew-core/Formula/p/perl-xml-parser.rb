@@ -4,6 +4,7 @@ class PerlXmlParser < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-perl-xml-parser-2.59-1-any.pkg.tar.zst"
   sha256 "dae8ba470b1f23dc0107272e50a0a22aa98ad4ec0240e718be2cd7759d238ae3"
   license "Artistic-2.0"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

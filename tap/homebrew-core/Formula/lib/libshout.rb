@@ -4,6 +4,7 @@ class Libshout < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libshout-2.4.6-6-any.pkg.tar.zst"
   sha256 "21a175c3d3a7d5538015218771c6680ac2846d48c13ff194d33dac8dc921bdee"
   license "LGPL-2.0-or-later"
+  revision 4
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

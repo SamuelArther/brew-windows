@@ -4,6 +4,7 @@ class Llvm < Formula
   url "https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.3/clang+llvm-23.1.3-x86_64-pc-windows-msvc.tar.xz"
   sha256 "9ee6a2192fbb30c776415af529927f76ca6b5d1d55699bb1315f9878e610b5b8"
   license "Apache-2.0" => { with: "LLVM-exception" }
+  revision 1
 
   livecheck do
     url :stable

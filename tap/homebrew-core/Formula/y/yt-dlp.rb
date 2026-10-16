@@ -5,6 +5,7 @@ class YtDlp < Formula
   version "2026.8.19"
   sha256 "66674953fe251b89f4d08c5f0e35e0728679bd67ab3d7d05c0562af101dd3e7a"
   license "Unlicense"
+  revision 2
 
   livecheck do
     url :stable

@@ -12,10 +12,10 @@ class Doge < Formula
   end
 
   def install
-    bin.install "doge-v0.2.9-x86_64-pc-windows-msvc.exe"
+    bin.install "doge-v0.2.9-x86_64-pc-windows-msvc.exe" => "doge.exe"
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/doge-v0.2.9-x86_64-pc-windows-msvc --version 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/doge --version 2>&1")
   end
 end

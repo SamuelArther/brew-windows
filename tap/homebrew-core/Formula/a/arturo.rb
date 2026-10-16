@@ -4,6 +4,7 @@ class Arturo < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-arturo-0.10.0-5-any.pkg.tar.zst"
   sha256 "1af67a1f1b76dc22dddf34a37c380eda8665ead4b3d87b04f79300b582ef8cb4"
   license "MIT"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

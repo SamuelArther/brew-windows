@@ -5,10 +5,11 @@ class Mysql < Formula
   version "26.7.0"
   sha256 "e8d5b08f0d430555497679fa713a9649953ea067f952708a74cdcdf34f8e4b7d"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
+  revision 4
 
   # Official Oracle MySQL Windows x64 ZIP archive. No service is registered or started.
 
-  conflicts_with "mariadb", because: "mariadb and mysql install the same binaries"
+  conflicts_with "mariadb", because: "both install the same binaries"
 
   def install
     install_tree

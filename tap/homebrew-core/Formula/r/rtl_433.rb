@@ -4,6 +4,7 @@ class Rtl433 < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-rtl_433-25.12-3-any.pkg.tar.zst"
   sha256 "f56c789ee941619ad2829af3a3de2dc0eb11163b5fa53258316401e91f9b7c7c"
   license "GPL-2.0-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -5,6 +5,7 @@ class Cryptominisat < Formula
   version "5.17.0"
   sha256 "51ac3edfbe46e44d2a7623ac1fcb2d05a429aa8c212c60085c45b7bb9217588d"
   license "MIT"
+  revision 1
 
   # Official Windows x64 release binary from the project's GitHub releases.
 

@@ -4,6 +4,7 @@ class Ldns < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-ldns-1.9.2-1-any.pkg.tar.zst"
   sha256 "48a7a6761b0326e79751db4ec71507f6e889106c324833dc0ed2f450377ea65a"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

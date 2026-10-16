@@ -4,6 +4,7 @@ class ProtobufC < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-protobuf-c-1.5.2-10-any.pkg.tar.zst"
   sha256 "3b3a2954f3ac4642a36cab80cb45685434e2500ab81a5353ce7a20c0d22dcef1"
   license "BSD-2-Clause"
+  revision 20
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

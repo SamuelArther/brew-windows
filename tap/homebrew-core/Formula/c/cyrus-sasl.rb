@@ -4,6 +4,7 @@ class CyrusSasl < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cyrus-sasl-2.1.28-6-any.pkg.tar.zst"
   sha256 "d2fe22da2bde3ec7e2e7d60a58d3056314c2519de23cc70580e7fa217d1f772f"
   license "BSD-3-Clause-Attribution"
+  revision 4
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

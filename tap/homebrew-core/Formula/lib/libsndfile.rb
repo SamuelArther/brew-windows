@@ -4,6 +4,7 @@ class Libsndfile < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libsndfile-1.2.2-1-any.pkg.tar.zst"
   sha256 "a882301af8cb1f645c45b1dcbf9634a9bf5a92af47f0cef95a88e83d3a3f444b"
   license "LGPL-2.1-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

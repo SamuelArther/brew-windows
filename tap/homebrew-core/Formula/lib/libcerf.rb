@@ -5,6 +5,7 @@ class Libcerf < Formula
   version "3.3"
   sha256 "cd0e76994e69d7579aa55828fd5a7c12bf8f900ae585a80c5e228c934c98d9ff"
   license "MIT"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

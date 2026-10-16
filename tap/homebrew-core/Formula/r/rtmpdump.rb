@@ -4,6 +4,7 @@ class Rtmpdump < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-rtmpdump-2.6-2-any.pkg.tar.zst"
   sha256 "a62df12a96f6a7c5945bd2e3c437af6c04503475e897d437e772ff153fe4acba"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.1-or-later"]
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

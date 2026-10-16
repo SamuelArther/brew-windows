@@ -8,6 +8,7 @@ class Zstd < Formula
     "BSD-2-Clause", # programs/zstdgrep, lib/libzstd.pc.in
     "MIT", # lib/dictBuilder/divsufsort.c
   ]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

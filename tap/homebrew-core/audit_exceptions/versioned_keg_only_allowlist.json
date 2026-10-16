@@ -5,5 +5,7 @@
   "libsigc++@2",
   "libxml++@3",
   "openssl@3",
-  "pangomm@2.46"
+  "pangomm@2.46",
+  "python@3.14",
+  "python@3.15"
 ]

@@ -4,6 +4,7 @@ class Gnutls < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gnutls-3.8.13-3-any.pkg.tar.zst"
   sha256 "303da3babd11f545fcac647439298e8559951ce6a1086666faf8ad2a1f708be6"
   license all_of: ["LGPL-2.1-or-later", "GPL-3.0-only"]
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -4,6 +4,7 @@ class Vcdimager < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-vcdimager-2.0.1-8-any.pkg.tar.zst"
   sha256 "738be8f9b862206b6ee42b5873e11cd063044330b87b436f6805d46297793ea2"
   license "GPL-2.0-or-later"
+  revision 3
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

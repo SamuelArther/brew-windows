@@ -4,6 +4,7 @@ class Litehtml < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-litehtml-0.10-2-any.pkg.tar.zst"
   sha256 "7843f5e7d87fc4149ef6b7ad09162a01c48adbc427ffedbf72c1cf2afaf98697"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

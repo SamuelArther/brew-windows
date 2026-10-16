@@ -4,6 +4,7 @@ class Libftdi < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libftdi-1.5-13-any.pkg.tar.zst"
   sha256 "d939da4dcee7f6e9c2658b293746aeefd757c10bbe39c181deff85368aa64368"
   license "LGPL-2.1-only"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

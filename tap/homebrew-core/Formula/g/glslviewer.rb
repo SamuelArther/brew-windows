@@ -4,6 +4,7 @@ class Glslviewer < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-glslviewer-1.6.1-2-any.pkg.tar.zst"
   sha256 "5fe9e90ba5c76c2c67a715476ae592f6e36c32da98fc1d03ce4057f4d183a6b5"
   license "BSD-3-Clause"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

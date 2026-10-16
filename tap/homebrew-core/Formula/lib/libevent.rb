@@ -4,6 +4,7 @@ class Libevent < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libevent-2.1.13-1-any.pkg.tar.zst"
   sha256 "7b2de9a16231f33a4d949a698a1aa8ca5d2bd5eb3eee64f497024bcbcee7b064"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

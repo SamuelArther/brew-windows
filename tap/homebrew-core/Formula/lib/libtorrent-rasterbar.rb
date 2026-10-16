@@ -4,6 +4,7 @@ class LibtorrentRasterbar < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libtorrent-rasterbar-2.1.2-1-any.pkg.tar.zst"
   sha256 "57bd3304b3178fd58a52ecb516eaa6e99087622401047ace2e37d2630efea233"
   license "BSD-3-Clause"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

@@ -4,6 +4,7 @@ class Libsquish < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libsquish-1.15-5-any.pkg.tar.zst"
   sha256 "3c0c0749cde8313527f53895741143d80d0e0f2c06bb1e79a0c41aa94ac10c7d"
   license "MIT"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

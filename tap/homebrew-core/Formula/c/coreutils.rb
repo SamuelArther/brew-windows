@@ -1,6 +1,6 @@
 class Coreutils < Formula
   desc "GNU File, Shell, and Text utilities"
-  homepage "https://www.gnu.org/software/coreutils"
+  homepage "https://www.gnu.org/software/coreutils/"
   url "https://repo.msys2.org/msys/x86_64/coreutils-8.32-5-x86_64.pkg.tar.zst"
   sha256 "62dfee1c39fd15f99c39802b35e82643bc14fffc16d6c76d4001caa385ec77e3"
   license "GPL-3.0-or-later"

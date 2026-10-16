@@ -4,6 +4,7 @@ class Id3lib < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-id3lib-3.8.3-5-any.pkg.tar.zst"
   sha256 "a7b57c54e3c449e0239259d7ea44cd220c9eeb1a6d33e0b245cdc669b4703053"
   license "LGPL-2.0-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

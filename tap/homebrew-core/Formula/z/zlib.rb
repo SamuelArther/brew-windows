@@ -12,6 +12,8 @@ class Zlib < Formula
     regex(/href=.*?zlib[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  keg_only "it conflicts with zlib-ng-compat"
+
   def install
     install_tree
     install_library

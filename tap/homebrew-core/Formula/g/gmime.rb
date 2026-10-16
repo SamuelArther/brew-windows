@@ -4,6 +4,7 @@ class Gmime < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gmime-3.2.15-2-any.pkg.tar.zst"
   sha256 "55491697164cea6e4c9ea739d9378259b62df0b93207bba802a933743d098e44"
   license "LGPL-2.1-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

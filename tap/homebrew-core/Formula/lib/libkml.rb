@@ -4,6 +4,7 @@ class Libkml < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libkml-1.3.0-12-any.pkg.tar.zst"
   sha256 "662675af055f8990175cad54ebca009f04c4162f738dd172d988181e23cfe81a"
   license "BSD-3-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

@@ -4,6 +4,7 @@ class PostgresqlAT17 < Formula
   url "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip"
   sha256 "6eabdf00d2893713b75db4336a23c3fdf505f056e217ec6e2e95d901750cfea3"
   license "PostgreSQL"
+  revision 1
 
   # EDB's official PostgreSQL Windows binaries zip (linked from postgresql.org). No service is registered or started.
 

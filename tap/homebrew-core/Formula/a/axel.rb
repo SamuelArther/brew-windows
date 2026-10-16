@@ -4,6 +4,7 @@ class Axel < Formula
   url "https://repo.msys2.org/msys/x86_64/axel-2.17.14-1-x86_64.pkg.tar.zst"
   sha256 "5febccab31e4edd5bf2a87b0be61405cfe394842d266584dc4c27710811d071b"
   license "GPL-2.0-or-later" => { with: "cryptsetup-OpenSSL-exception" }
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

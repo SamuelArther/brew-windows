@@ -4,6 +4,7 @@ class AwsCEventStream < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-aws-c-event-stream-1.0.0-1-any.pkg.tar.zst"
   sha256 "546d1f36e78c90b02e90f953f42dbb063f4674bead2dddc7615b07b40980c549"
   license "Apache-2.0"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

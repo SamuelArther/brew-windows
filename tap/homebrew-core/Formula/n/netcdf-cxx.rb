@@ -4,6 +4,7 @@ class NetcdfCxx < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-netcdf-cxx-4.3.1-7-any.pkg.tar.zst"
   sha256 "09a31890e355638eb9b33f57e21f39701761c9cbffffc2569d07974878fc5a92"
   license "NetCDF"
+  revision 3
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

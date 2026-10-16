@@ -4,6 +4,7 @@ class Maturin < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-maturin-1.15.0-1-any.pkg.tar.zst"
   sha256 "d5f2c3f70a6a3ef6060707a103e9e0022ea997f881490d7d5ddc781464e4dc75"
   license any_of: ["Apache-2.0", "MIT"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

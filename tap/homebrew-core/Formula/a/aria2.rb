@@ -5,6 +5,7 @@ class Aria2 < Formula
   version "1.37.0"
   sha256 "67d015301eef0b612191212d564c5bb0a14b5b9c4796b76454276a4d28d9b288"
   license "GPL-2.0-or-later"
+  revision 3
 
   livecheck do
     url :stable

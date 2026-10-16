@@ -13,8 +13,6 @@ class Pkgconf < Formula
     regex(/href=.*?pkgconf[._-]v?(\d+\.\d+(?:\.[1-8]?\d(?:\.\d+)*)?)\.t/i)
   end
 
-  conflicts_with "pkg-config", because: "both install the same binaries"
-
   def install
     msys2_install
     msys2_bin "ucrt64/bin/bomtool.exe", "bomtool"

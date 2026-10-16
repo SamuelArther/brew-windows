@@ -4,6 +4,7 @@ class Libgit2 < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libgit2-1.9.7-2-any.pkg.tar.zst"
   sha256 "cab5079ccbe0a9c953f758cd95441f48669bdf17eb523a45175a8361eae16855"
   license "GPL-2.0-only" => { with: "GCC-exception-2.0" }
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

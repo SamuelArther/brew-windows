@@ -4,6 +4,7 @@ class Flex < Formula
   url "https://repo.msys2.org/msys/x86_64/flex-2.6.4-4-x86_64.pkg.tar.zst"
   sha256 "d70fbf25d0dea3cb8ae42670b79a8ba65a48daa140137367b5ebaf37eb48df26"
   license "BSD-2-Clause"
+  revision 2
 
   # flex via MSYS2.
 

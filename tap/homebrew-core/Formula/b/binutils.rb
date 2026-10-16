@@ -11,8 +11,6 @@ class Binutils < Formula
     url "https://ftpmirror.gnu.org/binutils/binutils-2.47.tar.bz2"
   end
 
-  conflicts_with "gcc", because: "both install the same binaries"
-
   resource "mingw-w64-ucrt-x86_64-cc-libs" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cc-libs-16.2.0-6-any.pkg.tar.zst"
     sha256 "d8fff9e62443168bcda8ce746697243519c4f090ea607357ce94feac0bd10a50"

@@ -5,6 +5,7 @@ class Portaudio < Formula
   version "19.7.0"
   sha256 "085e0ba89a659e6f66379552f7fb736b182ecaa7caf710d611e481f557e20c38"
   license "MIT"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

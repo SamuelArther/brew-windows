@@ -4,6 +4,7 @@ class LibvirtGlib < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libvirt-glib-5.0.0-6-any.pkg.tar.zst"
   sha256 "69397d63afdd0cd29e2cfb50e10e49965fc805b68228c995ee43bd92cd114824"
   license "LGPL-2.1-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

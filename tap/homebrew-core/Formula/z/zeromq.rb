@@ -4,6 +4,7 @@ class Zeromq < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-zeromq-4.3.5-5-any.pkg.tar.zst"
   sha256 "f2473638276d2f437dd736734e78793a3f5088d49c522765a938d1af1eded86f"
   license "MPL-2.0"
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

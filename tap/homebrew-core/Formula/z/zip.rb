@@ -4,6 +4,7 @@ class Zip < Formula
   url "https://repo.msys2.org/msys/x86_64/zip-3.0-5-x86_64.pkg.tar.zst"
   sha256 "874e20bf625fbe577949444faf30ab9a725dbd4886ec9bff26459152da7f831c"
   license "Info-ZIP"
+  revision 1
 
   # Info-ZIP Zip via MSYS2.
 

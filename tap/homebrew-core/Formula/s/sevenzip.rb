@@ -8,8 +8,6 @@ class Sevenzip < Formula
 
   # Official 7-Zip x64 MSI from 7-zip.org, read as an archive (no installer runs).
 
-  conflicts_with "p7zip", because: "both install `7z` binaries"
-
   def install
     install_tree
     windows_exe "libexec/**/7z.exe", "7z"

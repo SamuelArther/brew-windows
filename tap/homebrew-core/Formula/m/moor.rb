@@ -11,6 +11,8 @@ class Moor < Formula
     url "https://github.com/walles/moor/archive/refs/tags/v2.19.4.tar.gz"
   end
 
+  conflicts_with "moarvm", because: "both install `moar` binaries"
+
   def install
     msys2_install
     msys2_bin "ucrt64/bin/moor.exe", "moor"

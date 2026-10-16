@@ -4,6 +4,7 @@ class Libmng < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libmng-2.0.3-7-any.pkg.tar.zst"
   sha256 "140a618c256624d86d01207e769e44bce5cfe6150492ae04bf4e3e9e258499c8"
   license "Zlib"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

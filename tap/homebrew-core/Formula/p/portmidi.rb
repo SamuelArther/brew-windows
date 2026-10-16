@@ -5,6 +5,7 @@ class Portmidi < Formula
   version "2.0.8"
   sha256 "7e5eb4f1e7971aa88cbfa629c9d83f072c32ebf56eee9712b89efa717fe0f74b"
   license "MIT"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

@@ -1,10 +1,13 @@
 class Autoconf < Formula
   desc "Automatic configure script builder"
-  homepage "https://gitweb.gentoo.org/proj/autotools-wrappers.git/"
+  homepage "https://www.gnu.org/software/autoconf/"
   url "https://repo.msys2.org/msys/x86_64/autoconf-wrapper-20260320-2-any.pkg.tar.zst"
   version "2.73"
   sha256 "40781b015533fe25492ec64706532ec84b803f1c86fc6e4fda832da49582cc59"
-  license "GPL-2.0-only"
+  license all_of: [
+    "GPL-3.0-or-later",
+    "GPL-3.0-or-later" => { with: "Autoconf-exception-3.0" },
+  ]
 
   # Track the MSYS2 package this formula installs (upstream releases reach MSYS2 later).
   livecheck do

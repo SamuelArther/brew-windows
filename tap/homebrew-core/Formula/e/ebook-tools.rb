@@ -4,6 +4,7 @@ class EbookTools < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-ebook-tools-0.2.2-4-any.pkg.tar.zst"
   sha256 "bf1189d0dba12be14d4ce78782ffa6c0c4f4b2dcd86992f4d04cddf4b626582f"
   license "MIT"
+  revision 4
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

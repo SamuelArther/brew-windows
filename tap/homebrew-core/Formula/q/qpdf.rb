@@ -4,6 +4,7 @@ class Qpdf < Formula
   url "https://github.com/qpdf/qpdf/releases/download/v12.4.2/qpdf-12.4.2-msvc64.zip"
   sha256 "db87077e683630c1217e0e8f9a20a9749d952ab676e881c3689187763a5de25d"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url :stable

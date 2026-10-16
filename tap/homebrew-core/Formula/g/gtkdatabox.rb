@@ -4,6 +4,7 @@ class Gtkdatabox < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gtkdatabox-1.0.0-2-any.pkg.tar.zst"
   sha256 "f9c6d2f50f3b72d89412dabce5af75b5c66f3510e2d53b6521e50202bcd84acc"
   license "LGPL-2.1-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

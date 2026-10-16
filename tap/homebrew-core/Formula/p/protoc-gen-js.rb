@@ -4,6 +4,7 @@ class ProtocGenJs < Formula
   url "https://github.com/protocolbuffers/protobuf-javascript/releases/download/v4.0.3/protobuf-javascript-4.0.3-win64.zip"
   sha256 "81be2b9a4016c9d2079c9c53d068b7d3c2a5fee4c958538b0214503b8aa1b4ae"
   license "BSD-3-Clause"
+  revision 1
 
   # Official Windows x64 release binary from the project's GitHub releases.
 

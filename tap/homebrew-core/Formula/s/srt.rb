@@ -4,6 +4,7 @@ class Srt < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-srt-1.5.7-1-any.pkg.tar.zst"
   sha256 "f68cd966e8e7cba30a7884accc280fee82d508bddb0544f3c88f69872b783076"
   license "MPL-2.0"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

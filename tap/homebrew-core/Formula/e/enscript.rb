@@ -4,6 +4,7 @@ class Enscript < Formula
   url "https://repo.msys2.org/msys/x86_64/enscript-1.6.6-2-x86_64.pkg.tar.zst"
   sha256 "46a6c85f31ba075c316eec590a72ea3df0099acd7d21aa60c44a8848baf9c4bd"
   license "GPL-3.0-or-later"
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

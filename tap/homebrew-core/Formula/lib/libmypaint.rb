@@ -4,6 +4,7 @@ class Libmypaint < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libmypaint-1.6.1-5-any.pkg.tar.zst"
   sha256 "d57648965eaba901deee3bd596c150162085b396ced6530bedcff836897bd258"
   license "ISC"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

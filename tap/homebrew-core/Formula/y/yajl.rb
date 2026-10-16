@@ -4,6 +4,7 @@ class Yajl < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-yajl-2.1.0-3-any.pkg.tar.zst"
   sha256 "a43570865e93cd9dd3fdb152234364ea3c8ed4b63e0abb42a7667239d70371b0"
   license "ISC"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

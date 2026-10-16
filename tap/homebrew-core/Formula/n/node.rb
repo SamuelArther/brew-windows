@@ -1,5 +1,5 @@
 class Node < Formula
-  desc "JavaScript runtime built on V8"
+  desc "Open-source, cross-platform JavaScript runtime environment"
   homepage "https://nodejs.org/"
   url "https://nodejs.org/dist/v26.12.0/node-v26.12.0-win-x64.zip"
   version "26.12.0"

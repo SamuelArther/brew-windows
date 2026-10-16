@@ -12,10 +12,10 @@ class OsctrlCli < Formula
   end
 
   def install
-    bin.install "osctrl-cli-windows-amd64.exe"
+    bin.install "osctrl-cli-windows-amd64.exe" => "osctrl-cli.exe"
   end
 
   test do
-    assert_path_exists bin/"osctrl-cli-windows-amd64.exe"
+    assert_path_exists bin/"osctrl-cli.exe"
   end
 end

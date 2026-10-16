@@ -4,9 +4,12 @@ class OpensslAT3 < Formula
   url "https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-3.5.9.zip"
   sha256 "76da391395be029b44794857b9ff380255e02a0960a98314cd3f6a6816d82696"
   license "Apache-2.0"
+  version_scheme 1
 
   # OpenSSL publishes no Windows binaries. This is FireDaemon's widely used build, listed on the
   # OpenSSL wiki's third-party binaries page (not an official OpenSSL build).
+
+  keg_only :versioned_formula
 
   def install
     install_tree

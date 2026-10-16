@@ -4,6 +4,7 @@ class GnuTar < Formula
   url "https://repo.msys2.org/msys/x86_64/tar-1.35-3-x86_64.pkg.tar.zst"
   sha256 "71983bed200c4026cdec157837d989728d3de65e8cf644e03876df41a0f1b7c4"
   license "GPL-3.0-or-later"
+  revision 1
 
   # GNU tar via MSYS2, exposed as tar and gtar (Windows ships bsdtar as tar.exe).
   # gzip, bzip2, xz and zstd are bundled for -z/-j/-J/--zstd.

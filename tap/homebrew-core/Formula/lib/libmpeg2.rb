@@ -4,6 +4,7 @@ class Libmpeg2 < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libmpeg2-0.5.1-2-any.pkg.tar.zst"
   sha256 "8aeacbf87c7e8430d50d4dd9cadeca41651908d7edd3419dd596de8c4d11a46a"
   license "GPL-2.0-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

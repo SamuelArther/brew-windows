@@ -4,6 +4,7 @@ class VampPluginSdk < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-vamp-plugin-sdk-2.10.0-4-any.pkg.tar.zst"
   sha256 "1110f709e259d8609ea00fcc839909a1f72c32fed3eac8b470b0d64b7f6e5af8"
   license all_of: ["X11", "BSD-3-Clause"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

@@ -4,6 +4,7 @@ class Libusbmuxd < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libusbmuxd-2.1.1-1-any.pkg.tar.zst"
   sha256 "27c86acc00eda349947fa0fde05cfca805ab1aee6da4cc4e4a6486aedf054f1c"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.1-or-later"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

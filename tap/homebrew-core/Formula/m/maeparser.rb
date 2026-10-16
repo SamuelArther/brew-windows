@@ -4,6 +4,7 @@ class Maeparser < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-maeparser-1.3.3-1-any.pkg.tar.zst"
   sha256 "83402ade3415381a097303e1d9de7997f909e4972a6ac155dccae58441700825"
   license "MIT"
+  revision 3
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

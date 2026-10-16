@@ -5,6 +5,7 @@ class Libspiro < Formula
   version "20240903"
   sha256 "308f9b83ec62e81f8b13e4c5b23fd7f3d363f3e3349b329212d7d9af22f89ae4"
   license "GPL-3.0-or-later"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

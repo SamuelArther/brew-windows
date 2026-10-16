@@ -4,6 +4,7 @@ class Fossil < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-fossil-2.28-1-any.pkg.tar.zst"
   sha256 "afc80bb79232050f52e79945be85a7bfa3ac19a08d0daf8bb2c1751d7b15f9ff"
   license "BSD-2-Clause"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

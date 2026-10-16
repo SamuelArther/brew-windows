@@ -4,6 +4,7 @@ class Help2man < Formula
   url "https://repo.msys2.org/msys/x86_64/help2man-1.49.3-2-x86_64.pkg.tar.zst"
   sha256 "5fdc4366dddf7c5bcc39b5c01fcc076e811324987acf6b82f278ad8c5bf41d01"
   license "GPL-3.0-or-later"
+  revision 5
 
   # Prebuilt package from MSYS2; headers and import libraries go in the keg.
 

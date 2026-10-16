@@ -4,6 +4,7 @@ class Dbus < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-dbus-1.16.2-4-any.pkg.tar.zst"
   sha256 "0fbb10a269563db51c7227e9dd909dbf0fdd9ca7f5c99a827ab7e1abf501ac9a"
   license any_of: ["AFL-2.1", "GPL-2.0-or-later"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

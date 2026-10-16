@@ -4,6 +4,7 @@ class AdaUrl < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-ada-url-4.0.0-1-any.pkg.tar.zst"
   sha256 "15a7957f8e1fa12d5f051dce7a34c3c8f9b5894a08390495ec53d595abf86766"
   license any_of: ["Apache-2.0", "MIT"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

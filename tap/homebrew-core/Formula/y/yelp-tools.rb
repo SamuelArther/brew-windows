@@ -4,6 +4,7 @@ class YelpTools < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-yelp-tools-42.1-2-any.pkg.tar.zst"
   sha256 "a7d699e35818298891a3fd21d2c247f39776cdb3c7cfcfcc560f81ae2e53d608"
   license "GPL-2.0-or-later"
+  revision 3
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

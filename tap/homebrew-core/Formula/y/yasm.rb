@@ -9,6 +9,7 @@ class Yasm < Formula
     :public_domain,
     any_of: ["Artistic-1.0-Perl", "GPL-2.0-or-later", "LGPL-2.0-or-later"], # libyasm/bitvect.c
   ]
+  revision 2
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

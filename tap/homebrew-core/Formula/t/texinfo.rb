@@ -4,6 +4,7 @@ class Texinfo < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-texinfo-7.3-2-any.pkg.tar.zst"
   sha256 "1266e56fc6c3cc5c8f29290131d0690b785ddb65fa73d0cf075a31f237553fbf"
   license "GPL-3.0-or-later"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

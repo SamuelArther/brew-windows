@@ -4,6 +4,7 @@ class Libcddb < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libcddb-1.3.2-6-any.pkg.tar.zst"
   sha256 "8d6227451e95c6c3b69823c520686f856db98d7c4072ab41d1983025b08a5aeb"
   license "LGPL-2.0-or-later"
+  revision 5
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

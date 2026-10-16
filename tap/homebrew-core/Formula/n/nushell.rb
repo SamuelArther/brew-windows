@@ -4,6 +4,7 @@ class Nushell < Formula
   url "https://github.com/nushell/nushell/releases/download/0.116.1/nu-0.116.1-x86_64-pc-windows-msvc.zip"
   sha256 "6658c9e61fe42c88326c1caa99e8dc9ad99bec6c0bc353e6ecb7c5d3f79feed7"
   license "MIT"
+  revision 1
 
   livecheck do
     url :stable

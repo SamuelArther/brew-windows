@@ -9,6 +9,7 @@ class Sdcc < Formula
     :public_domain,     # packihx
     "Zlib",             # makebin
   ]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

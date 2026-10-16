@@ -4,6 +4,7 @@ class Gtksourceview3 < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gtksourceview3-3.24.11-7-any.pkg.tar.zst"
   sha256 "94afa142732b32cd8976eb62f97ed540af79f55c6593f82a3733de2f4ada4c93"
   license "LGPL-2.1-or-later"
+  revision 5
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

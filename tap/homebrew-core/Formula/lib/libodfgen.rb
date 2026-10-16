@@ -4,6 +4,7 @@ class Libodfgen < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libodfgen-0.1.8-8-any.pkg.tar.zst"
   sha256 "e0b7a2e03ec7dd77f31ea35fb53414d5fd7c695386b053cded4cc392d7094df9"
   license any_of: ["MPL-2.0", "LGPL-2.1-or-later"]
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

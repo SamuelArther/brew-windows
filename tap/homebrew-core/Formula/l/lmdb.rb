@@ -4,6 +4,7 @@ class Lmdb < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-lmdb-0.9.33-1-any.pkg.tar.zst"
   sha256 "4258380243d9530bf7754c7e2ad1a0e7a291f595be6beef26429757b5c8e7764"
   license "OLDAP-2.8"
+  version_scheme 1
 
   # Prebuilt UCRT64 package from MSYS2; its runtime packages are pinned as resources.
 

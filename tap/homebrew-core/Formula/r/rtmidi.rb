@@ -4,6 +4,7 @@ class Rtmidi < Formula
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-rtmidi-6.0.0-4-any.pkg.tar.zst"
   sha256 "a1b821cc99e37fb4131331b08aecd9ee54673728affd51adc824673a3cfe7fe3"
   license "MIT"
+  revision 1
 
   # Prebuilt UCRT64 package from MSYS2; headers and import libraries go in the keg.
 

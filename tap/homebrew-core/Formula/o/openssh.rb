@@ -4,6 +4,7 @@ class Openssh < Formula
   url "https://repo.msys2.org/msys/x86_64/openssh-10.6p1-1-x86_64.pkg.tar.zst"
   sha256 "40694d9506e733f55262c4123cf6107dd28d27457a2b320f2866cdbde454c448"
   license "SSH-OpenSSH"
+  revision 1
 
   # Prebuilt package from MSYS2 (an isolated root per keg; MSYS2 path rules apply).
 

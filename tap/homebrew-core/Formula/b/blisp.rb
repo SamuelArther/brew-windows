@@ -4,6 +4,7 @@ class Blisp < Formula
   url "https://github.com/pine64/blisp/releases/download/v0.0.5/blisp-windows-x86_64.zip"
   sha256 "b30dbec2052018f6731c538d25df9e41c356870cd7bf244956ba81f42a39980b"
   license "MIT"
+  revision 1
 
   # Official Windows x64 release binary from the project's GitHub releases.
 
