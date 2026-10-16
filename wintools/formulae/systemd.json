@@ -1,0 +1,6 @@
+{
+  "formula": "systemd",
+  "desc": "Service manager tools (systemctl, journalctl) for Windows services and the Event Log",
+  "commands": ["systemctl", "journalctl", "systemd-path", "hostnamectl", "timedatectl", "loginctl"],
+  "test": "assert_match \"temporary: \", shell_output(bin/\"systemd-path\")\nassert_match \"EventLog.service\", shell_output(\"#{bin}/systemctl list-units --all --no-legend\")\nassert_equal \"active\\n\", shell_output(\"#{bin}/systemctl is-active EventLog\")\nassert_match \"could not be found\", shell_output(\"#{bin}/systemctl status no-such-unit 2>&1\", 4)\nassert_match \"Static hostname\", shell_output(bin/\"hostnamectl\")\nassert_match \"Time zone\", shell_output(bin/\"timedatectl\")\nsystem bin/\"journalctl\", \"-n\", \"1\", \"--no-pager\"\nassert_match \"systemd\", shell_output(\"#{bin}/journalctl --version\")"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "maclaunch",
+  "desc": "Manage Windows startup items",
+  "commands": ["maclaunch"],
+  "test": "system bin/\"maclaunch\", \"list\"\nassert_match \"startup items\", shell_output(\"#{bin}/maclaunch --help\")\nassert_match \"no startup item named\", shell_output(\"#{bin}/maclaunch disable no-such-item-brew-test 2>&1\", 1)"
+}
