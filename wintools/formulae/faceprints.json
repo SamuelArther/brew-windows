@@ -1,0 +1,6 @@
+{
+  "formula": "faceprints",
+  "desc": "Detect and label faces in images using Windows' face detector",
+  "commands": ["faceprints"],
+  "test": "assert_match(/faceprints \\d+\\.\\d+/, shell_output(\"#{bin}/faceprints --version\"))\nassert_match \"\\\"labels\\\"\", shell_output(\"#{bin}/faceprints list\")\noutput = shell_output(\"#{bin}/faceprints extract #{test_fixtures(\"test.png\")} 2>&1\", 1)\nassert_match(/no faces detected|not available/, output)\nassert_match \"No such file\", shell_output(\"#{bin}/faceprints add someone #{testpath}/missing.jpg 2>&1\", 1)"
+}
