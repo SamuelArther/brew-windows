@@ -1,0 +1,8 @@
+{
+  "formula": "socket_vmnet",
+  "desc": "Daemon to provide vmnet-style networking for rootless QEMU",
+  "commands": [
+    "socket_vmnet"
+  ],
+  "test": "assert_match \"socket_vmnet version\", shell_output(\"#{bin}/socket_vmnet --version\")\n# The switch and gateway (ARP, DHCP, ICMP) on synthetic frames, without sockets.\nassert_match \"ok: DHCP OFFER\", shell_output(\"#{bin}/socket_vmnet --self-test\")\n# Binding the UNIX socket over an existing file fails like upstream's /dev/null test.\n(testpath/\"taken\").write \"\"\nassert_match \"bind: Address already in use\", shell_output(\"#{bin}/socket_vmnet #{testpath}/taken 2>&1\", 1)"
+}
