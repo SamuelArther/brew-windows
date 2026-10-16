@@ -84,7 +84,10 @@ sealed class RubyCmd : DevCommand
         FormulaLoader.OnBigStack(() =>
         {
             try { it.Run(code, file); }
-            catch (RubyError err) when (err.ClassName == "SystemExit") { }
+            catch (RubyError err) when (err.ClassName == "SystemExit")
+            {
+                if (err.Exc.GetIvar("@status") is long status && status != 0) DevCommands.Failed = true;
+            }
             catch (RubyError err)
             {
                 Console.Error.WriteLine($"{file}:{it.CurLine}: {err.Message} ({err.ClassName})");

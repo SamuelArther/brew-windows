@@ -336,16 +336,31 @@ public sealed partial class Interp
         if (double.IsNaN(d)) return "NaN";
         if (double.IsPositiveInfinity(d)) return "Infinity";
         if (double.IsNegativeInfinity(d)) return "-Infinity";
-        if (d == Math.Floor(d) && Math.Abs(d) < 1e16) return ((long)d).ToString(CultureInfo.InvariantCulture) + ".0";
+        if (d == 0) return double.IsNegative(d) ? "-0.0" : "0.0";
+        // Ruby's flo_to_s: the shortest round-trip digits, plain notation for 1e-4 <= |d| < 1e16, else d.ddde+XX.
         var s = d.ToString("R", CultureInfo.InvariantCulture);
-        if (s.Contains('E'))
-        {
-            var parts = s.Split('E');
-            var mant = parts[0].Contains('.') ? parts[0] : parts[0] + ".0";
-            var exp = parts[1].StartsWith('-') ? "-" + parts[1][1..].PadLeft(2, '0') : "+" + parts[1].TrimStart('+').PadLeft(2, '0');
-            return mant + "e" + exp;
-        }
-        return s;
+        bool neg = s[0] == '-';
+        if (neg) s = s[1..];
+        int e = s.IndexOf('E');
+        var mant = e < 0 ? s : s[..e];
+        int exp10 = e < 0 ? 0 : int.Parse(s[(e + 1)..], CultureInfo.InvariantCulture);
+        int dot = mant.IndexOf('.');
+        var intPart = dot < 0 ? mant : mant[..dot];
+        var digits = intPart + (dot < 0 ? "" : mant[(dot + 1)..]);
+        int decpt = intPart.Length + exp10;
+        int lead = 0;
+        while (lead < digits.Length - 1 && digits[lead] == '0') lead++;
+        digits = digits[lead..].TrimEnd('0');
+        decpt -= lead;
+        if (digits.Length == 0) digits = "0";
+        string body;
+        if (decpt < -3 || decpt > 16)
+            body = digits[0] + "." + (digits.Length > 1 ? digits[1..] : "0") + "e" + (decpt - 1 < 0 ? "-" : "+")
+                + Math.Abs(decpt - 1).ToString("00", CultureInfo.InvariantCulture);
+        else if (decpt <= 0) body = "0." + new string('0', -decpt) + digits;
+        else if (decpt >= digits.Length) body = digits + new string('0', decpt - digits.Length) + ".0";
+        else body = digits[..decpt] + "." + digits[decpt..];
+        return (neg ? "-" : "") + body;
     }
 
     public string Inspect(object o)
@@ -403,10 +418,15 @@ public sealed partial class Interp
                 case '\t': sb.Append("\\t"); break;
                 case '\r': sb.Append("\\r"); break;
                 case '\u001b': sb.Append("\\e"); break;
-                case '\0': sb.Append("\\0"); break;
+                case '\a': sb.Append("\\a"); break;
+                case '\b': sb.Append("\\b"); break;
+                case '\v': sb.Append("\\v"); break;
+                case '\f': sb.Append("\\f"); break;
                 case '#' when i + 1 < s.Length && s[i + 1] is '{' or '$' or '@': sb.Append("\\#"); break;
                 default:
-                    if (c < 0x20 || c == 0x7f) sb.Append($"\\x{(int)c:X2}");
+                    // Ruby's UTF-8 String#inspect: other controls as \uXXXX, bytes that aren't UTF-8 as \xXX.
+                    if (c < 0x20 || c == 0x7f) sb.Append($"\\u{(int)c:X4}");
+                    else if (RString.IsRawByte(c)) sb.Append($"\\x{c - RString.RawByteBase:X2}");
                     else sb.Append(c);
                     break;
             }
@@ -479,7 +499,20 @@ public sealed partial class Interp
 
     public object CallMethod(RMethod m, object self, object[] args, RProc blk)
     {
-        if (m.Fn != null) return m.Fn(this, self, args, blk);
+        if (m.Fn != null)
+        {
+            // A native's .NET failure (a missing argument, a wrong type) becomes the Ruby error it stands
+            // for, so `rescue` sees it and a test run reports it instead of dying on an unhandled exception.
+            try { return m.Fn(this, self, args, blk); }
+            catch (Exception e) when (e is IndexOutOfRangeException or ArgumentException or FormatException or OverflowException)
+            {
+                throw Error(ArgumentError, e is IndexOutOfRangeException ? $"wrong number of arguments for '{m.Name}' (given {args.Length})" : $"{m.Name}: {e.Message}");
+            }
+            catch (Exception e) when (e is InvalidCastException or NullReferenceException or KeyNotFoundException)
+            {
+                throw Error(TypeError, $"{m.Name}: {e.Message}");
+            }
+        }
         if (m.Body != null) return CallProc(m.Body, args, blk, self, m.Owner, m);
         if (++depth > 10000) { depth = 0; throw Error(SystemStackError, "stack level too deep"); }
         var f = new Frame { Self = self, DefTarget = m.Cref?[0] ?? m.Owner, Block = blk, Method = m, Args = args, Cref = m.Cref };
@@ -496,6 +529,7 @@ public sealed partial class Interp
     public object CallProc(RProc proc, object[] args, RProc blk = null, object self = null, RClass defTarget = null, RMethod asMethod = null)
     {
         if (proc.Fn != null) return proc.Fn(this, self ?? proc.Self, args, blk);
+        CheckDeadline();
         var pf = proc.Frame;
         bool lambda = proc.Lambda || asMethod != null;
         var f = new Frame
@@ -815,7 +849,7 @@ public sealed partial class Interp
     {
         var m = f.Method ?? throw Error(RuntimeError, "super called outside of method");
         RProc bp = null;
-        var args = s.Args == null ? f.Args : EvalArgs(s.Args, f, out bp);
+        var args = s.Args == null ? ZsuperArgs(m, f) : EvalArgs(s.Args, f, out bp);
         var blk = s.Block != null ? new RProc { Block = s.Block, Frame = f, Self = f.Self } : bp ?? f.Block;
         bool past = false;
         foreach (var a in Ancestors(DispatchClass(f.Self)))
@@ -824,6 +858,27 @@ public sealed partial class Interp
             if (a.Methods.TryGetValue(m.Name, out var sm)) return CallMethod(sm, f.Self, args, blk);
         }
         throw Error(NoMethodError, $"super: no superclass method '{m.Name}' for {Describe(f.Self)}");
+    }
+
+    // Bare `super` passes the method's parameters as they are now (`def initialize(msg = "x") = super`
+    // passes "x"), not the arguments the method was called with.
+    object[] ZsuperArgs(RMethod m, Frame f)
+    {
+        if (m.Def == null) return f.Args;
+        var list = new List<object>();
+        RHash kw = null;
+        foreach (var p in m.Def.Params)
+        {
+            if (p.Block) continue;
+            if (p.Name == null || p.Name == "..." || p.Destructure != null) return f.Args;
+            f.TryGet(p.Name, out var v);
+            if (p.Splat) list.AddRange(SplatToList(v));
+            else if (p.DoubleSplat) { if (v is RHash h) foreach (var kv in h.D) (kw ??= new RHash()).D[kv.Key] = kv.Value; }
+            else if (p.Keyword) (kw ??= new RHash()).D[Sym(p.Name)] = v;
+            else list.Add(v);
+        }
+        if (kw != null) list.Add(kw);
+        return list.ToArray();
     }
 
     object EvalDef(DefNode d, Frame f)
@@ -874,6 +929,7 @@ public sealed partial class Interp
     {
         while (Truthy(Eval(w.Cond, f)) != w.Until)
         {
+            CheckDeadline();
             try { Eval(w.Body, f); }
             catch (NextSignal) { }
             catch (BreakSignal b) when (b.Proc == f.Proc) { return b.Value; }
@@ -927,9 +983,10 @@ public sealed partial class Interp
 
     object EvalBegin(BeginNode b, Frame f)
     {
-        while (true)
+        // `retry` restarts the body; `ensure` runs once, when the whole begin/end is left.
+        try
         {
-            try
+            while (true)
             {
                 object r;
                 try { r = Eval(b.Body, f); }
@@ -948,10 +1005,10 @@ public sealed partial class Interp
                 if (b.ElseBody != null) r = Eval(b.ElseBody, f);
                 return r;
             }
-            finally
-            {
-                if (b.Ensure != null) Eval(b.Ensure, f);
-            }
+        }
+        finally
+        {
+            if (b.Ensure != null) Eval(b.Ensure, f);
         }
     }
 
@@ -1003,6 +1060,11 @@ public sealed partial class Interp
             if (Globals.GetValueOrDefault("$~") is not RMatch m) return null;
             var g = m.M.Groups[name[1] - '0'];
             return g.Success ? S(g.Value) : null;
+        }
+        if (name is "$&" or "$`" or "$'")
+        {
+            if (Globals.GetValueOrDefault("$~") is not RMatch m) return null;
+            return S(name == "$&" ? m.M.Value : name == "$`" ? m.Input[..m.M.Index] : m.Input[(m.M.Index + m.M.Length)..]);
         }
         return Globals.GetValueOrDefault(name);
     }
@@ -1179,15 +1241,52 @@ public sealed partial class Interp
         if (flags.Contains('i')) opts |= RegexOptions.IgnoreCase;
         if (flags.Contains('m')) opts |= RegexOptions.Singleline;
         if (flags.Contains('x')) opts |= RegexOptions.IgnorePatternWhitespace;
-        var net = Regex.Replace(src, @"\\\\|\\h|\\H|\[:(\^?)(\w+):\]", m => m.Value switch
-        {
-            "\\\\" => "\\\\",
-            "\\h" => "[0-9a-fA-F]",
-            "\\H" => "[^0-9a-fA-F]",
-            _ => PosixClasses.TryGetValue(m.Groups[2].Value, out var cls) ? (m.Groups[1].Value == "^" ? "^" + cls : cls) : m.Value,
-        });
+        var net = ToNetRegex(src, out bool named);
+        // Ruby: once a regexp has named groups, plain (...) groups don't capture and $1 is the first name.
+        if (named) opts |= RegexOptions.ExplicitCapture;
         try { return new RRegex { R = new Regex(net, opts), Source = src, Flags = flags.Replace("o", "") }; }
         catch (ArgumentException e) { throw Error(SyntaxErrorClass, $"invalid regex /{src}/: {e.Message}"); }
+    }
+
+    // Ruby regexp syntax .NET lacks: \h / \H, and POSIX bracket classes ([[:alpha:]]), which inside a
+    // character class have to become ranges rather than nested classes ([\h_] is [0-9a-fA-F_]).
+    static string ToNetRegex(string src, out bool named)
+    {
+        var sb = new StringBuilder(src.Length + 16);
+        int depth = 0;
+        named = false;
+        for (int i = 0; i < src.Length; i++)
+        {
+            char c = src[i];
+            if (c == '\\' && i + 1 < src.Length)
+            {
+                char n = src[++i];
+                if (n == 'h') sb.Append(depth > 0 ? "0-9a-fA-F" : "[0-9a-fA-F]");
+                else if (n == 'H' && depth == 0) sb.Append("[^0-9a-fA-F]");
+                else sb.Append(c).Append(n);
+                continue;
+            }
+            if (c == '[')
+            {
+                if (depth > 0 && Regex.Match(src[i..], @"^\[:(\^?)(\w+):\]") is { Success: true } pm && PosixClasses.TryGetValue(pm.Groups[2].Value, out var cls))
+                {
+                    sb.Append(pm.Groups[1].Value == "^" ? "^" + cls : cls);
+                    i += pm.Length - 1;
+                    continue;
+                }
+                depth++;
+                sb.Append(c);
+                if (i + 1 < src.Length && src[i + 1] == '^') { sb.Append('^'); i++; }
+                if (i + 1 < src.Length && src[i + 1] == ']') { sb.Append("\\]"); i++; }   // a leading ] is literal
+                continue;
+            }
+            if (c == ']' && depth > 0) depth--;
+            else if (c == '(' && depth == 0 && i + 3 < src.Length && src[i + 1] == '?'
+                && ((src[i + 2] == '<' && src[i + 3] is not ('=' or '!')) || src[i + 2] == '\''))
+                named = true;
+            sb.Append(c);
+        }
+        return sb.ToString();
     }
 
     public RMatch RegexMatch(RRegex r, string s, int start)
@@ -1200,14 +1299,14 @@ public sealed partial class Interp
         return rm;
     }
 
+    // `cmd` / %x(cmd): like Ruby, the line goes to /bin/sh (MSYS2's or Git's bash), cmd.exe only without one.
     public object Backtick(string cmd)
     {
-        var psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + cmd + "\"")
-        {
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            WorkingDirectory = Cwd,
-        };
+        var psi = ShellLine(cmd);
+        psi.RedirectStandardOutput = true;
+        psi.StandardOutputEncoding = new UTF8Encoding(false);
+        psi.UseShellExecute = false;
+        psi.WorkingDirectory = Cwd;
         ApplyEnv(psi);
         using var proc = System.Diagnostics.Process.Start(psi)!;
         var output = proc.StandardOutput.ReadToEnd();

@@ -128,10 +128,10 @@ public sealed partial class Interp
         });
         Def(P, "size", (it, self, a, b) => new FileInfo(it.Abs(Me(self))).Length);
         Def(P, "size?", (it, self, a, b) => SizeOrNil(it.Abs(Me(self))));
-        Def(P, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(Me(self))).Replace("\r\n", "\n")));
+        Def(P, "read", (it, self, a, b) => S(ReadText(it.Abs(Me(self)))));
         Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))) { Binary = true });
-        Def(P, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(Me(self)))).Select(l => (object)S(l))));
-        Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
+        Def(P, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(Me(self)))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
+        Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
         // Homebrew's WriteMkpathExtension: refuses to overwrite, creates parent directories.
         Def(P, "write binwrite", (it, self, a, b) =>
         {
@@ -193,9 +193,17 @@ public sealed partial class Interp
             var p = Me(self);
             var abs = it.Abs(p);
             var items = new List<object> { it.NewPath(p) };
-            if (Directory.Exists(abs))
-                items.AddRange(Directory.EnumerateFileSystemEntries(abs, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal)
-                    .Select(x => (object)it.NewPath(JoinPath(p, Path.GetRelativePath(abs, x).Replace('\\', '/')))));
+            // Ruby's Find: depth first, sorted, and a symlinked directory is listed but not entered.
+            void Walk(string dir, string shown)
+            {
+                foreach (var x in Directory.EnumerateFileSystemEntries(dir).Order(StringComparer.Ordinal).ToList())
+                {
+                    var child = JoinPath(shown, Path.GetFileName(x));
+                    items.Add(it.NewPath(child));
+                    if (Directory.Exists(x) && !IsSymlink(x)) Walk(x, child);
+                }
+            }
+            if (Directory.Exists(abs) && !IsSymlink(abs)) Walk(abs, p);
             if (b == null) return new RArray(items);
             foreach (var x in items) it.Y1(b, x);
             return null;
@@ -278,10 +286,10 @@ public sealed partial class Interp
         DefS(F, "zero? empty?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && new FileInfo(p).Length == 0; });
         DefS(F, "size", (it, self, a, b) => new FileInfo(it.Abs(it.PathStr(a[0]))).Length);
         DefS(F, "size?", (it, self, a, b) => SizeOrNil(it.Abs(it.PathStr(a[0]))));
-        DefS(F, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(it.PathStr(a[0]))).Replace("\r\n", "\n")));
+        DefS(F, "read", (it, self, a, b) => S(ReadText(it.Abs(it.PathStr(a[0])))));
         DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))))) { Binary = true });
-        DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
-        DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
+        DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
+        DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
         DefS(F, "write binwrite", (it, self, a, b) =>
         {
             var data = Bytes(a[1], it.ToS(a[1]));
@@ -319,7 +327,7 @@ public sealed partial class Interp
             var path = it.Abs(it.PathStr(a[0]));
             var mode = a.Length > 1 && a[1] is RString m ? m.V : "r";
             var f = new RObject { Class = it.FileClass, Host = new FileHandle { Path = path, Mode = mode } };
-            if (mode.StartsWith('r')) ((FileHandle)f.Host).Buffer.Append(File.ReadAllText(path).Replace("\r\n", "\n"));
+            if (mode.StartsWith('r')) ((FileHandle)f.Host).Buffer.Append(ReadText(path));
             if (b == null) return f;
             try { return it.Y1(b, f); }
             finally { it.Invoke(f, "close", NoArgs, null); }
@@ -465,6 +473,28 @@ public sealed partial class Interp
         // `include FileUtils` gets the same functions as instance methods
         foreach (var kv in SingletonOf(FU).Methods) FU.Methods[kv.Key] = kv.Value;
 
+        // ---- $stdout / $stderr ----
+        // Without these, `$stderr.puts` resolved to Kernel#puts on nil and wrote to stdout.
+        foreach (var (name, fd) in new[] { ("stdout", 1L), ("stderr", 2L) })
+        {
+            var io = new RObject { Class = IOClass };
+            TextWriter W(Interp it) => fd == 1 ? it.Out : it.Err;
+            var sc = SingletonOf(io);
+            Def(sc, "puts", (it, self, a, b) => { it.Puts(W(it), a); return null; });
+            Def(sc, "print", (it, self, a, b) => { foreach (var x in a) W(it).Write(it.ToS(x)); return null; });
+            Def(sc, "write", (it, self, a, b) => { long n = 0; foreach (var x in a) { var t = it.ToS(x); W(it).Write(t); n += Encoding.UTF8.GetByteCount(t); } return n; });
+            Def(sc, "<<", (it, self, a, b) => { W(it).Write(it.ToS(a[0])); return self; });
+            Def(sc, "printf", (it, self, a, b) => { W(it).Write(it.Format(it.Str(a[0]), a[1..])); return null; });
+            Def(sc, "flush fsync", (it, self, a, b) => { W(it).Flush(); return self; });
+            Def(sc, "sync", (it, self, a, b) => true);
+            Def(sc, "sync=", (it, self, a, b) => a[0]);
+            Def(sc, "tty? isatty", (it, self, a, b) => false);
+            Def(sc, "fileno to_i", (it, self, a, b) => fd);
+            Def(sc, "inspect to_s", (it, self, a, b) => S($"#<IO:<{name.ToUpperInvariant()}>>"));
+            Globals["$" + name] = io;
+            ObjectClass.Consts[name.ToUpperInvariant()] = io;
+        }
+
         // ---- ENV ----
         EnvObject = new RObject { Class = ObjectClass };
         ObjectClass.Consts["ENV"] = EnvObject;
@@ -485,6 +515,7 @@ public sealed partial class Interp
             throw it.Error(it.KeyError, $"key not found: {it.Inspect(a[0])}");
         });
         Def(E, "key? has_key? include? member?", (it, self, a, b) => it.Env.ContainsKey(it.Str(a[0])));
+        Def(E, "exclude?", (it, self, a, b) => !it.Env.ContainsKey(it.Str(a[0])));   // ActiveSupport
         Def(E, "delete", (it, self, a, b) => it.Env.Remove(it.Str(a[0]), out var v) ? S(v) : null);
         Def(E, "to_h to_hash", (it, self, a, b) => { var h = new RHash(); foreach (var kv in it.Env) h.D[S(kv.Key)] = S(kv.Value); return h; });
         Def(E, "keys", (it, self, a, b) => new RArray(it.Env.Keys.Select(k => (object)S(k))));
@@ -495,6 +526,31 @@ public sealed partial class Interp
         Def(E, "prepend", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.ToS(a[1]), a.Length > 2 ? it.Str(a[2]) : " ", true); return null; });
         Def(E, "append", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.ToS(a[1]), a.Length > 2 ? it.Str(a[2]) : " ", false); return null; });
         Def(E, "deparallelize permit_arch_flags runtime_cpu_detection cxx11 libcxx O0 O1 O2 O3 Os refurbish_args", (it, self, a, b) => null);
+    }
+
+    // File.read: text mode (CRLF -> LF, a UTF-8 BOM dropped); bytes that aren't UTF-8 stay raw bytes, as in
+    // Ruby, instead of turning into U+FFFD (Digest of a read binary file, "\x89PNG" comparisons).
+    public static string ReadText(string path)
+    {
+        var bytes = File.ReadAllBytes(path);
+        var span = bytes.AsSpan();
+        if (span.StartsWith(new byte[] { 0xEF, 0xBB, 0xBF })) span = span[3..];
+        return DecodeUtf8(span).Replace("\r\n", "\n");
+    }
+
+    public static string DecodeUtf8(ReadOnlySpan<byte> bytes)
+    {
+        var sb = new StringBuilder(bytes.Length);
+        while (bytes.Length > 0)
+        {
+            if (System.Text.Rune.DecodeFromUtf8(bytes, out var rune, out var used) == System.Buffers.OperationStatus.Done)
+            {
+                if (rune.IsBmp) sb.Append((char)rune.Value); else sb.Append(rune.ToString());
+            }
+            else { sb.Append((char)(RString.RawByteBase + bytes[0])); used = 1; }
+            bytes = bytes[used..];
+        }
+        return sb.ToString();
     }
 
     bool Truthy2(object[] a, string kw) => a.Length > 0 && a[^1] is RHash h && h.D.TryGetValue(Sym(kw), out var v) && Truthy(v);
@@ -553,17 +609,32 @@ public sealed partial class Interp
 
     public void RemoveTree(string p) => DeleteTree(p);
 
-    // rm -rf that also removes read-only files (git objects, chmod 0444).
+    // rm -rf that also removes read-only files (git objects, chmod 0444). Symlinks are removed, never
+    // followed: a link to a directory elsewhere (or a link loop) mustn't be walked into.
     public static void DeleteTree(string p)
     {
         if (IsSymlink(p)) { if (Directory.Exists(p)) Directory.Delete(p); else File.Delete(p); return; }
         if (Directory.Exists(p))
         {
-            foreach (var f in new DirectoryInfo(p).EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
-                if (f is FileInfo fi && fi.IsReadOnly) fi.IsReadOnly = false;
+            ClearReadOnly(p);
             Directory.Delete(p, true);
         }
-        else if (File.Exists(p)) File.Delete(p);
+        else if (File.Exists(p))
+        {
+            var fi = new FileInfo(p);
+            if (fi.IsReadOnly) fi.IsReadOnly = false;
+            fi.Delete();
+        }
+    }
+
+    static void ClearReadOnly(string dir)
+    {
+        foreach (var e in new DirectoryInfo(dir).EnumerateFileSystemInfos("*", new EnumerationOptions { AttributesToSkip = 0 }))
+        {
+            if (e.Attributes.HasFlag(FileAttributes.ReparsePoint)) continue;
+            if (e is DirectoryInfo) ClearReadOnly(e.FullName);
+            else if (e.Attributes.HasFlag(FileAttributes.ReadOnly)) e.Attributes &= ~FileAttributes.ReadOnly;
+        }
     }
 
     void MovePath(string from, string to)
@@ -582,11 +653,21 @@ public sealed partial class Interp
         else throw Error(ENOENT, $"No such file or directory @ rb_file_s_rename - ({from}, {to})");
     }
 
+    // cp_r: symlinks are copied as symlinks (FileUtils' default), so a link loop can't recurse forever.
     static void CopyDir(string from, string to)
     {
         Directory.CreateDirectory(to);
-        foreach (var f in Directory.EnumerateFiles(from)) File.Copy(f, Path.Combine(to, Path.GetFileName(f)), true);
-        foreach (var d in Directory.EnumerateDirectories(from)) CopyDir(d, Path.Combine(to, Path.GetFileName(d)));
+        foreach (var e in new DirectoryInfo(from).EnumerateFileSystemInfos("*", new EnumerationOptions { AttributesToSkip = 0 }))
+        {
+            var dest = Path.Combine(to, e.Name);
+            if (e.LinkTarget is { } target)
+            {
+                if (IsSymlink(dest) || File.Exists(dest)) { if (Directory.Exists(dest)) Directory.Delete(dest); else File.Delete(dest); }
+                if (e is DirectoryInfo) Directory.CreateSymbolicLink(dest, target); else File.CreateSymbolicLink(dest, target);
+            }
+            else if (e is DirectoryInfo) CopyDir(e.FullName, dest);
+            else File.Copy(e.FullName, dest, true);
+        }
     }
 
     void MakeSymlink(string target, string link)
@@ -686,7 +767,7 @@ public sealed partial class Interp
             foreach (var d in Directory.EnumerateDirectories(absDir).Order(StringComparer.Ordinal))
             {
                 var name = Path.GetFileName(d);
-                if (name.StartsWith('.')) continue;
+                if (name.StartsWith('.') || IsSymlink(d)) continue;   // like Ruby, ** doesn't follow symlinked directories
                 GlobWalk(d, Join(prefix, name), segs, i, results);
             }
             return;

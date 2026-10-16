@@ -113,6 +113,7 @@ public sealed partial class Interp
             return i < 0 ? null : (long)i;
         });
         Def(En, "include? member?", (it, self, a, b) => it.ToList(self).Any(x => it.Equal(x, a[0])));
+        Def(En, "exclude?", (it, self, a, b) => !Truthy(it.Invoke(self, "include?", a, null)));   // ActiveSupport
         Def(En, "any?", (it, self, a, b) => it.ToList(self).Any(it.Pred(a, b)));
         Def(En, "all?", (it, self, a, b) => it.ToList(self).All(it.Pred(a, b)));
         Def(En, "none?", (it, self, a, b) => !it.ToList(self).Any(it.Pred(a, b)));
@@ -227,7 +228,12 @@ public sealed partial class Interp
         Def(En, "drop_while", (it, self, a, b) => new RArray(it.ToList(self).SkipWhile(x => Truthy(it.Y1(b, x)))));
         Def(En, "chunk_while", (it, self, a, b) => it.ChunkWhile(self, b, false));
         Def(En, "slice_when", (it, self, a, b) => it.ChunkWhile(self, b, true));
-        Def(En, "reverse_each", (it, self, a, b) => { foreach (var x in Enumerable.Reverse(it.ToList(self))) it.Y1(b, x); return self; });
+        Def(En, "reverse_each", (it, self, a, b) =>
+        {
+            if (b == null) return new RArray(Enumerable.Reverse(it.ToList(self)));
+            foreach (var x in Enumerable.Reverse(it.ToList(self))) it.Y1(b, x);
+            return self;
+        });
         Def(En, "lazy each_entry to_enum enum_for", (it, self, a, b) => new RArray(it.ToList(self)));
         Def(En, "cycle", (it, self, a, b) =>
         {
@@ -607,11 +613,12 @@ public sealed partial class Interp
         Def(H, "empty?", (it, self, a, b) => Self(self).D.Count == 0);
         Def(H, "each each_pair", (it, self, a, b) =>
         {
+            if (b == null) return new RArray(Self(self).D.Select(kv => (object)PairOf(kv)));
             foreach (var kv in Self(self).D.ToList()) it.Y1(b, PairOf(kv));
             return self;
         });
-        Def(H, "each_key", (it, self, a, b) => { foreach (var k in Self(self).D.Keys.ToList()) it.Y1(b, k); return self; });
-        Def(H, "each_value", (it, self, a, b) => { foreach (var v in Self(self).D.Values.ToList()) it.Y1(b, v); return self; });
+        Def(H, "each_key", (it, self, a, b) => { if (b == null) return new RArray(Self(self).D.Keys); foreach (var k in Self(self).D.Keys.ToList()) it.Y1(b, k); return self; });
+        Def(H, "each_value", (it, self, a, b) => { if (b == null) return new RArray(Self(self).D.Values); foreach (var v in Self(self).D.Values.ToList()) it.Y1(b, v); return self; });
         Def(H, "delete", (it, self, a, b) => Mut(it, self).D.Remove(a[0], out var v) ? v : b != null ? it.Y1(b, a[0]) : null);
         Def(H, "delete_if reject!", (it, self, a, b) =>
         {

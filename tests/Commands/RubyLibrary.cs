@@ -39,6 +39,53 @@ static class RubyLibrary
         Expect("""["{{a}}/x".gsub(/\{\{(\w+)\}\}/) { Regexp.last_match(1).upcase }, "ab".match(/a/) == "a"].inspect""", """["A/x", false]""");
         // "\x89" is one raw byte (imageoptim-cli compares PNG magic); valid UTF-8 escapes decode.
         Expect($"""File.binwrite("{file}", "\x89PNG"); ["\x89PNG".b == File.binread("{file}")[0, 4], File.binread("{file}")[0, 2].bytesize, "\x89".bytesize, "\xC3\xA9" == "é"].inspect""", "[true, 2, 1, true]");
+        // Core semantics: octal escapes (sshs writes "\003"), retry (cataclysm), bare super, float/%g spelling.
+        Expect("""("\016\263\0\f\v").bytes.inspect""", "[14, 179, 0, 12, 11]");
+        Expect("""n = 0; out = []; begin; n += 1; raise "x" if n < 3; out << n; rescue; retry; ensure; out << :e; end; out.inspect""", "[3, :e]");
+        Expect("""class E1 < StandardError; def initialize(msg = "d") = super; end; begin; raise E1; rescue => e; e.message; end""", "d");
+        Expect("""[1e16, 1e15, -0.0, 1.0e-5, 0.0001].inspect""", "[1.0e+16, 1000000000000000.0, -0.0, 1.0e-05, 0.0001]");
+        Expect("""[format("%g", 1234567.0), format("%g", 100.0), format("%.3g", 3.14159)].inspect""", """["1.23457e+06", "100", "3.14"]""");
+        Expect("""begin; "a" =~ "a"; rescue TypeError; "raised"; end""", "raised");
+        Expect("""["\0".inspect, "abc".each_char.to_a.size, ENV.exclude?("BREW_SURELY_UNSET_VAR")].inspect""", """["\"\\u0000\"", 3, true]""");
+        // Ruby regexp: \h inside a class, and named groups make plain groups non-capturing.
+        Expect("""["ab_f9 z"[/[\h_]+/], "v1.2".match(/v(?<maj>\d+)\.(\d+)/).captures, "x y"[/[^[:space:]]+/]].inspect""", """["ab_f9", ["1"], "x"]""");
+        Expect("""[(begin; "a".center; rescue ArgumentError; :arg; end), (begin; {}.merge(1); rescue TypeError; :type; end)].inspect""", "[:arg, :type]");
+        Expect("""[Digest::SHA256.hexdigest("abc")[0, 8], (begin; Timeout.timeout(0.2) { loop { } }; rescue Timeout::Error; :expired; end)].inspect""", """["ba7816bf", :expired]""");
+        Expect($"""File.binwrite("{file}", [0x89, 0xff, 0x0d, 0x0a].pack("C*")); File.read("{file}").bytes.inspect""", "[137, 255, 10]");
+        Expect("""["a\nb\r\n".lines(chomp: true), "a\nb".lines].inspect""", """[["a", "b"], ["a\n", "b"]]""");
+        Expect("""[$stdout.fileno, STDERR.fileno, $stdout.tty?].inspect""", "[1, 2, false]");
+        // Backticks run through /bin/sh (bash) like Ruby, when there is one.
+        if (PosixShell.FindShell(Environment.GetEnvironmentVariable) != null)
+            Expect("""`echo 'a  b' "c"`""", "a  b c\n");
+        // rm_rf, find, ** and cp_r don't walk into symlinked directories (a link loop used to hang them).
+        var tree = Path.Combine(root, "link-loop");
+        Directory.CreateDirectory(Path.Combine(tree, "sub"));
+        var symlinks = true;
+        try { Directory.CreateSymbolicLink(Path.Combine(tree, "sub", "loop"), tree); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { symlinks = false; }
+        if (symlinks)
+        {
+            var t = tree.Replace('\\', '/');
+            Expect($"""[Pathname("{t}").find.count, Dir["{t}/**/*"].size, (FileUtils.cp_r("{t}", "{t}-copy"); File.symlink?("{t}-copy/sub/loop"))].inspect""", "[3, 2, true]");
+            Expect($"""FileUtils.rm_rf ["{t}", "{t}-copy"]; [Dir.exist?("{t}"), Dir.exist?("{t}-copy")].inspect""", "[false, false]");
+        }
+        // `return` in a test block leaves the test (Homebrew defines it with define_method).
+        var formula = Path.Combine(root, "returner.rb");
+        File.WriteAllText(formula, """
+            class Returner < Formula
+              url "https://example.com/returner-1.0.tar.gz"
+              version "1.0"
+              test do
+                (testpath/"before").write "x"
+                [1].each { return if true }
+                (testpath/"after").write "y"
+              end
+            end
+            """);
+        var testPath = Path.Combine(root, "returner-test");
+        Brew.Ruby.FormulaLoader.LoadSpec(formula).RunTest(Path.Combine(root, "returner-prefix"), null, testPath);
+        if (!File.Exists(Path.Combine(testPath, "before")) || File.Exists(Path.Combine(testPath, "after"))) throw new Exception("return in test do");
+        count++;
         // Formula-level preludes (blank?/present?, post_install_steps) load with the Formula class.
         var formulaIt = Brew.Ruby.FormulaLoader.NewInterpreterForTests();
         foreach (var (code, expected) in new[] { ("[nil.present?, \" \".blank?, [1].present?, {}.blank?].inspect", "[false, true, true, true]"),

@@ -69,16 +69,65 @@ public sealed partial class Interp
             catch (ThrowSignal t) when (it.Equal(t.Tag, tag)) { return t.Value; }
         });
         Def(K, "throw", (it, self, a, b) => throw new ThrowSignal { Tag = a[0], Value = a.Length > 1 ? a[1] : null });
-        Def(K, "sleep", (it, self, a, b) => { Thread.Sleep((int)(it.Num(a.Length > 0 ? a[0] : 0L) * 1000)); return 0L; });
+        // `retry` in a rescue clause: EvalBegin restarts the begin body.
+        Def(K, "retry", (it, self, a, b) => throw new RetrySignal());
+        Def(K, "sleep", (it, self, a, b) =>
+        {
+            var ms = it.Num(a.Length > 0 ? a[0] : 0L) * 1000;
+            if (it.timeouts.Count > 0) ms = Math.Min(ms, Math.Max(0, (it.timeouts.Min(t => t.Deadline) - DateTime.UtcNow).TotalMilliseconds) + 1);
+            Thread.Sleep((int)ms);
+            it.CheckDeadline();
+            return (long)Math.Round(ms / 1000);
+        });
+        // Timeout.timeout(n) { ... }: the block is stopped at its next loop iteration or sleep after n seconds.
+        var timeout = DefineModule("Timeout");
+        var timeoutError = DefineClass("Error", RuntimeError, timeout);
+        DefS(timeout, "timeout", (it, self, a, b) =>
+        {
+            var secs = a.Length > 0 && a[0] != null ? it.Num(a[0]) : 0;
+            if (secs <= 0) return it.CallProc(b, new[] { a.Length > 0 ? a[0] : null });
+            it.timeouts.Add((DateTime.UtcNow.AddSeconds(secs), a.Length > 1 && a[1] is RClass k ? k : timeoutError));
+            int mark = it.timeouts.Count;
+            try { return it.CallProc(b, new[] { a[0] }); }
+            finally { it.timeouts.RemoveRange(mark - 1, it.timeouts.Count - mark + 1); }
+        });
+        // Digest::SHA256.hexdigest(data) and friends, over the string's bytes.
+        var digest = DefineModule("Digest");
+        foreach (var (name, hash) in new (string, Func<byte[], byte[]>)[]
+                 { ("MD5", System.Security.Cryptography.MD5.HashData), ("SHA1", System.Security.Cryptography.SHA1.HashData),
+                   ("SHA256", System.Security.Cryptography.SHA256.HashData), ("SHA384", System.Security.Cryptography.SHA384.HashData),
+                   ("SHA512", System.Security.Cryptography.SHA512.HashData) })
+        {
+            var cls = DefineClass(name, ObjectClass, digest);
+            byte[] Data(Interp it, object o) => o is RString s ? RString.Bytes(s) : RString.Utf8(it.ToS(o));
+            DefS(cls, "hexdigest", (it, self, a, b) => S(Convert.ToHexStringLower(hash(Data(it, a[0])))));
+            DefS(cls, "base64digest", (it, self, a, b) => S(Convert.ToBase64String(hash(Data(it, a[0])))));
+            DefS(cls, "digest", (it, self, a, b) => new RString(Encoding.Latin1.GetString(hash(Data(it, a[0])))) { Binary = true });
+            DefS(cls, "file", (it, self, a, b) =>
+            {
+                var sum = hash(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))));
+                var o = new RObject { Class = cls };
+                var sc = it.SingletonOf(o);
+                it.Def(sc, "hexdigest to_s", (i2, s2, a2, b2) => S(Convert.ToHexStringLower(sum)));
+                return o;
+            });
+        }
         Def(K, "rand", (it, self, a, b) => a.Length == 0 ? Random.Shared.NextDouble() : (object)Random.Shared.NextInt64(it.Int(a[0])));
         Def(K, "at_exit autoload trap", (it, self, a, b) => null);
         Def(K, "binding", (it, self, a, b) => self);
         Def(K, "abort", (it, self, a, b) =>
         {
             if (a.Length > 0) it.Err.WriteLine(it.Str(a[0]));
-            throw new RubyError(it.NewException(it.SystemExit, a.Length > 0 ? it.Str(a[0]) : "exit"));
+            var abort = it.NewException(it.SystemExit, a.Length > 0 ? it.Str(a[0]) : "exit");
+            abort.SetIvar("@status", 1L);
+            throw new RubyError(abort);
         });
-        Def(K, "exit exit!", (it, self, a, b) => throw new RubyError(it.NewException(it.SystemExit, "exit")));
+        Def(K, "exit exit!", (it, self, a, b) =>
+        {
+            var exit = it.NewException(it.SystemExit, "exit");
+            exit.SetIvar("@status", a.Length == 0 || a[0] is true ? 0L : a[0] is false ? 1L : it.Int(a[0]));
+            throw new RubyError(exit);
+        });
         Def(K, "freeze", (it, self, a, b) =>
         {
             switch (self)
@@ -381,8 +430,20 @@ public sealed partial class Interp
         });
         Def(E, "==", (it, self, a, b) => a[0] is RObject o && o.Class == ((RObject)self).Class && it.Equal(((RObject)self).GetIvar("@message"), o.GetIvar("@message")));
         DefS(E, "exception", (it, self, a, b) => it.Invoke(self, "new", a, b));
-        Def(SystemExit, "status", (it, self, a, b) => 0L);
-        Def(SystemExit, "success?", (it, self, a, b) => true);
+        Def(SystemExit, "status", (it, self, a, b) => ((RObject)self).GetIvar("@status") ?? 0L);
+        Def(SystemExit, "success?", (it, self, a, b) => ((RObject)self).GetIvar("@status") is null or 0L);
+    }
+
+    // Active Timeout.timeout blocks, innermost last.
+    readonly List<(DateTime Deadline, RClass Error)> timeouts = new();
+
+    // Called from loops and sleep: raises the error of the first Timeout.timeout block whose time is up.
+    public void CheckDeadline()
+    {
+        if (timeouts.Count == 0) return;
+        var now = DateTime.UtcNow;
+        foreach (var (deadline, error) in timeouts)
+            if (now >= deadline) throw Error(error, "execution expired");
     }
 
     public object Allocate(RClass cls)
@@ -788,8 +849,24 @@ public sealed partial class Interp
                     break;
                 }
                 case 'g': case 'G':
-                    body = Num(arg).ToString("G" + (prec < 0 ? 6 : prec), CultureInfo.InvariantCulture);
+                {
+                    // C's %g: %e when the exponent is < -4 or >= the precision, else %f; trailing zeros dropped.
+                    double v = Num(arg);
+                    int p = prec < 0 ? 6 : Math.Max(prec, 1);
+                    var abs = Math.Abs(v);
+                    var es = abs.ToString("E" + (p - 1), CultureInfo.InvariantCulture);
+                    int x = int.Parse(es[(es.IndexOf('E') + 1)..], CultureInfo.InvariantCulture);
+                    string Trim(string t) => flags.Contains('#') || !t.Contains('.') ? t : t.TrimEnd('0').TrimEnd('.');
+                    if (double.IsNaN(v) || double.IsInfinity(v)) body = double.IsNaN(v) ? "NaN" : "Inf";
+                    else if (x < -4 || x >= p)
+                    {
+                        var mantissa = Trim(es[..es.IndexOf('E')]);
+                        body = mantissa + (conv == 'g' ? "e" : "E") + (x < 0 ? "-" : "+") + Math.Abs(x).ToString("00", CultureInfo.InvariantCulture);
+                    }
+                    else body = Trim(abs.ToString("F" + (p - 1 - x), CultureInfo.InvariantCulture));
+                    body = (v < 0 || (v == 0 && double.IsNegative(v)) ? "-" : flags.Contains('+') ? "+" : flags.Contains(' ') ? " " : "") + body;
                     break;
+                }
                 case 'x': case 'X': case 'o': case 'b': case 'B':
                 {
                     long v = Int(arg);
@@ -833,22 +910,7 @@ public sealed partial class Interp
         var parts = a.Where(x => x is not RHash).Select(ToS).ToList();
         if (parts.Count == 0) throw ArgCount(a, 1, -1);
         System.Diagnostics.ProcessStartInfo psi;
-        if (parts.Count == 1 && Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var msys))
-        {
-            // Ruby runs a single command string with /bin/sh; in the build toolchain that is MSYS2's bash.
-            psi = new System.Diagnostics.ProcessStartInfo(Path.Combine(msys, "usr", "bin", "bash.exe"));
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add(PosixArgument(parts[0]));
-        }
-        else if (parts.Count == 1 && PosixShell.FindShell(k => Env.GetValueOrDefault(k)) is { } shell)
-        {
-            // No toolchain: Git for Windows' bash still gives /bin/sh semantics.
-            psi = new System.Diagnostics.ProcessStartInfo(shell);
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add(PosixArgument(parts[0]));
-        }
-        else if (parts.Count == 1)
-            psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + parts[0] + "\"");
+        if (parts.Count == 1) psi = ShellLine(parts[0]);
         else
         {
             var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), parts.Skip(1).ToList());
@@ -877,6 +939,19 @@ public sealed partial class Interp
             SetStatus(127, 0);
             return null;
         }
+    }
+
+    // Ruby runs a single command string with /bin/sh: in the build toolchain that is MSYS2's bash, otherwise
+    // Git for Windows' bash; cmd.exe only when there is neither.
+    System.Diagnostics.ProcessStartInfo ShellLine(string line)
+    {
+        var shell = Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var msys) ? Path.Combine(msys, "usr", "bin", "bash.exe")
+            : PosixShell.FindShell(k => Env.GetValueOrDefault(k));
+        if (shell == null) return new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + line + "\"");
+        var psi = new System.Diagnostics.ProcessStartInfo(shell);
+        psi.ArgumentList.Add("-c");
+        psi.ArgumentList.Add(PosixArgument(line));
+        return psi;
     }
 
     // In the MSYS2 build toolchain: scripts (./configure, autoreconf) run through bash, which honours their

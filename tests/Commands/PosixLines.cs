@@ -33,6 +33,12 @@ static class PosixLines
 
         var c = Parse("FOO=bar tool -v 2>&1");
         if (c.Assignments["FOO"] != "bar" || c.Stderr.Kind != PosixShell.Target.Out || c.Argv.Count != 2) throw new Exception("NAME=value 2>&1");
+        c = Parse("FOO=\"a b\" BAR='$x' EMPTY= tool $UNSET_VAR x");
+        if (c.Assignments["FOO"] != "a b" || c.Assignments["BAR"] != "$x" || c.Assignments["EMPTY"] != "" || !c.Argv.SequenceEqual(["tool", "x"]))
+            throw new Exception("quoted NAME=value / empty $VAR");
+        count++;
+        env["FLAGS"] = "-a -b";
+        Shell("tool $FLAGS");   // field splitting is a real shell's job
         c = Parse("tool >/dev/null 2>&1");
         if (c.Stdout.Kind != PosixShell.Target.Null || c.Stderr.Kind != PosixShell.Target.Null) throw new Exception(">/dev/null 2>&1");
         c = Parse("tool 2>&1 >out.txt");
