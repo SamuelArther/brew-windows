@@ -40,6 +40,8 @@ public static class Cli
         {
             var paths = new Paths();
             if (input.Length == 0) { Console.Error.WriteLine(CommandHelp.General); return 1; }
+            // brew.sh: a leading -v moves to the end, so `brew -v install jq` is a verbose install.
+            if (input[0] == "-v" && input.Length > 1) input = [.. input.Skip(1), "-v"];
             var command = Aliases.GetValueOrDefault(input[0], input[0]);
             var raw = input.Skip(1).ToArray();
             if (command is "--help" or "-h" or "--usage" or "-?" or "help")
@@ -141,7 +143,7 @@ public static class Cli
                 case "tap": return await taps.Tap(args);
                 case "untap": taps.Untap(args); break;
                 case "tap-info": await taps.Info(args); break;
-                case "update": await taps.Update(); break;
+                case "update": return await taps.Update();
                 case "home":
                     foreach (var url in args.Names.Count == 0 ? new[] { "https://brew.sh" } : args.Names.Select(n => repository.Load(n).Homepage))
                     {
@@ -184,7 +186,7 @@ public static class Cli
             {
                 "--prefix" => Path.Combine(paths.Prefix, "opt", formula.Name),
                 "--cellar" => paths.Rack(formula.Name),
-                _ => Path.Combine(paths.Cache, formula.Sha256 + "--" + Downloader.FileName(formula.Url))
+                _ => Path.Combine(paths.Cache, formula.Sha256?.ToLowerInvariant() + "--" + Downloader.FileName(formula.Url))
             });
         }
         return 0;

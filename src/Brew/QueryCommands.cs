@@ -14,20 +14,39 @@ public sealed class QueryCommands(Paths paths)
     {
         args.RequireNames("search");
         var query = string.Join(" ", args.Names);
-        var pattern = Pattern(query);
-        var names = repository.Names.Where(name => pattern.IsMatch(name)
-            || args.Has("--desc", "--description") && pattern.IsMatch(repository.Load(name).Description ?? "")).ToArray();
-        if (names.Length == 0) throw new InvalidOperationException($"No formulae or casks found for {JsonSerializer.Serialize(query)}.");
+        var matches = Matcher(query);
+        // Homebrew Search.search_descriptions: --desc matches descriptions only and prints "name: desc".
+        if (args.Has("--desc", "--description"))
+        {
+            CommandOutput.Header("Formulae");
+            foreach (var name in repository.Names)
+                if (repository.Load(name).Description is { } description && matches(description)) Console.WriteLine($"{name}: {description}");
+            return;
+        }
+        // Homebrew Search.search_formulae: unversioned names sort before name@version, then fuzzy matches.
+        var names = repository.Names.Where(matches)
+            .OrderBy(n => n.Split('@', 2)[0], StringComparer.Ordinal).ThenBy(n => n.Split('@', 2) is [_, var v] ? v : "0", VersionOrder.Instance).ToList();
+        if (!IsRegex(query)) names = names.Union(Suggestions.Correct(query, repository.Names)).ToList();
+        if (names.Count == 0) throw new InvalidOperationException($"No formulae or casks found for {Inspect(query)}.");
         if (!Console.IsOutputRedirected) CommandOutput.Header("Formulae");
         foreach (var name in names) Console.WriteLine(name);
     }
 
     public void Desc(CommandArguments args)
     {
-        var names = args.Has("--search", "-s", "--name", "-n", "--description", "-d")
-            ? repository.Names.Where(n => Pattern(string.Join(" ", args.Names)).IsMatch(args.Has("--description", "-d") ? repository.Load(n).Description ?? "" : n))
-            : args.Names.Count == 0 ? repository.Names : args.Names;
-        foreach (var name in names) { var formula = repository.Load(name); Console.WriteLine($"{formula.Name}: {formula.Description}"); }
+        if (args.Has("--search", "-s", "--name", "-n", "--description", "-d"))
+        {
+            var matches = Matcher(string.Join(" ", args.Names));
+            foreach (var name in repository.Names)
+            {
+                var description = repository.Load(name).Description;
+                var hit = args.Has("--name", "-n") ? matches(name) : args.Has("--description", "-d") ? description != null && matches(description)
+                    : matches(name) || description != null && matches(description);
+                if (hit) Console.WriteLine($"{name}: {description}");
+            }
+            return;
+        }
+        foreach (var name in args.Names.Count == 0 ? repository.Names : args.Names) { var formula = repository.Load(name); Console.WriteLine($"{formula.Name}: {formula.Description}"); }
     }
 
     public void Info(CommandArguments args)
@@ -119,7 +138,8 @@ public sealed class QueryCommands(Paths paths)
                 current_version = Metadata.Version(repository.Load(n)), pinned = store.IsPinned(n) }), casks = Array.Empty<object>() }, new JsonSerializerOptions { WriteIndented = true }));
         else foreach (var name in names)
         {
-            if (args.Has("--verbose", "-v") || !Console.IsOutputRedirected)
+            // Homebrew: verbose on a terminal or with --verbose, but --quiet always wins.
+            if ((args.Has("--verbose", "-v") || !Console.IsOutputRedirected) && !args.Has("--quiet", "-q"))
                 Console.WriteLine($"{name} ({string.Join(", ", store.Kegs(name).Select(k => k.Receipt.Version))}) < {Metadata.Version(repository.Load(name))}" + (store.IsPinned(name) ? $" [pinned at {store.Latest(name).Receipt.Version}]" : ""));
             else Console.WriteLine(name);
         }
@@ -257,7 +277,19 @@ public sealed class QueryCommands(Paths paths)
         return separator < 0 ? directory : directory[..separator] + "/" + directory[(separator + 1)..];
     }
     string Source(string name) => Path.GetFullPath(repository.Find(name));
-    static Regex Pattern(string query) => new(query.Length > 1 && query.StartsWith('/') && query.EndsWith('/') ? query[1..^1] : Regex.Escape(query), RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+    // Homebrew Search: /text/ is a (case-sensitive) regex; plain text matches after simplify_string
+    // (lowercase, only letters, digits, @ and +), so `py-yaml` finds pyyaml.
+    static bool IsRegex(string query) => query.Length > 1 && query.StartsWith('/') && query.EndsWith('/');
+    static string Simplify(string value) => Regex.Replace(value.ToLowerInvariant(), "[^a-z0-9@+]", "");
+    static string Inspect(string value) => "\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+    static Func<string, bool> Matcher(string query)
+    {
+        if (!IsRegex(query)) { var simplified = Simplify(query); return text => Simplify(text).Contains(simplified); }
+        Regex regex;
+        try { regex = new Regex(query[1..^1], RegexOptions.None, TimeSpan.FromSeconds(1)); }
+        catch (ArgumentException) { throw new InvalidOperationException($"{query} is not a valid regex."); }
+        return regex.IsMatch;
+    }
     public sealed record DependencyView(string Name, string[] Tags) { public bool Runtime => !Tags.Intersect(new[] { "build", "test", "optional" }).Any(); }
     public static IEnumerable<DependencyView> Dependencies(FormulaDefinition formula)
     {

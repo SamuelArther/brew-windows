@@ -25,6 +25,7 @@ try
     assertions += RubyLibrary.Run(root);
     assertions += Patches.Run(root);
     assertions += BottleRelocation.Run(root);
+    assertions += await TapUpdate.Run(root);
     await Formula("resources", "1.0", resourceNames: ["mingw-w64-ucrt-x86_64-SDL2", "PyYAML", "MarkupSafe"]);
     Equal((await Run("install", "resources")).Code, 0, "uppercase resource names install end to end");
     Equal((await Run("uninstall", "resources")).Code, 0, "uppercase resource fixture uninstalls");
@@ -72,6 +73,9 @@ try
     Equal(noMatch.Code, 1, "unknown install with no matches exits unsuccessfully");
     Equal(noMatch.Error, "Warning: No available formula or cask with the name \"zzzzzzzzzz\".\nError: No formulae or casks found for zzzzzzzzzz.\n", "unknown install with no matches diagnostics");
     Equal((await Run("search", "probe")).Output, "probe\n", "search");
+    Equal((await Run("search", "PRO-be")).Output, "probe\n", "search matches Homebrew's simplified names");
+    Equal((await Run("search", "--desc", "probe fix")).Output, "==> Formulae\nprobe: probe fixture\n", "search --desc prints descriptions");
+    Equal((await Run("-v", "commands")).Output.Contains("install\n"), true, "leading -v is --verbose for the command that follows");
     Equal((await Run("desc", "probe")).Output, "probe: probe fixture\n", "description");
     Equal((await Run("deps", "probe")).Output, "leaf\n", "dependencies");
     Equal((await Run("uses", "leaf")).Output, "probe\n", "reverse dependencies");

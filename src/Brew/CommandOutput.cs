@@ -9,9 +9,9 @@ public static class CommandOutput
         && (!Console.IsOutputRedirected || Environment.GetEnvironmentVariable("HOMEBREW_COLOR") != null);
     public static string Bold(string value) => Color ? $"\u001b[1m{value}\u001b[0m" : value;
     public static string Identifier(string value) => Color ? $"\u001b[32m{value}\u001b[39m" : value;
-    public static void Header(string value, bool green = false)
+    public static void Header(string value, bool green = false, bool error = false)
     {
-        if (!Quiet) Console.WriteLine(Color ? $"\u001b[{(green ? 32 : 34)}m==>\u001b[0m \u001b[1m{value}\u001b[0m" : "==> " + value);
+        if (!Quiet) (error ? Console.Error : Console.Out).WriteLine(Color ? $"\u001b[{(green ? 32 : 34)}m==>\u001b[0m \u001b[1m{value}\u001b[0m" : "==> " + value);
     }
     public static void Warning(string value) => Console.Error.WriteLine((Color ? "\u001b[33mWarning:\u001b[0m " : "Warning: ") + value);
     public static void Error(string value) => Console.Error.WriteLine((Color ? "\u001b[31mError:\u001b[0m " : "Error: ") + value);
