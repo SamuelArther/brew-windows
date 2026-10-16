@@ -15,7 +15,8 @@ foreach ($json in Get-ChildItem $Dir -Filter '*.bottle.json') {
         $version = $entry.Value.formula.pkg_version
         $file = Join-Path $Dir $entry.Value.bottle.tags.x86_64_windows.local_filename
         $tag = "$name-$version"
-        gh release view $tag --repo $Repo *> $null
+        $assets = gh release view $tag --repo $Repo --json assets --jq '.assets[].name' 2> $null
+        if ($LASTEXITCODE -eq 0 -and $assets -contains (Split-Path $file -Leaf)) { $published += $json.FullName; continue }
         if ($LASTEXITCODE -eq 0) { gh release upload $tag $file --repo $Repo --clobber }
         else {
             gh release create $tag $file --repo $Repo --title "$name $version" `
@@ -26,8 +27,10 @@ foreach ($json in Get-ChildItem $Dir -Filter '*.bottle.json') {
         Start-Sleep -Seconds $DelaySeconds
     }
 }
-if ($published.Count -gt 0) {
-    & $Brew bottle --merge --write --no-commit @published
+# Merge in slices: one command line holding every JSON path overflows Windows' 32K limit.
+for ($i = 0; $i -lt $published.Count; $i += 50) {
+    $slice = $published[$i..([Math]::Min($i + 50, $published.Count) - 1)]
+    & $Brew bottle --merge --write --no-commit @slice
     if ($LASTEXITCODE -ne 0) { throw 'bottle merge failed' }
 }
 Write-Host "published $($published.Count) bottles"

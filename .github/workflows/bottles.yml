@@ -15,6 +15,9 @@ on:
         description: Install the MSYS2 C/C++ toolchain on build machines
         type: boolean
         default: false
+      from_run:
+        description: Only publish the bottles a previous run built (its run id)
+        default: ""
 
 permissions:
   contents: write
@@ -29,6 +32,7 @@ env:
 
 jobs:
   plan:
+    if: inputs.from_run == ''
     runs-on: ubuntu-latest
     outputs:
       chunks: ${{ steps.split.outputs.chunks }}
@@ -75,7 +79,7 @@ jobs:
 
   publish:
     needs: build
-    if: always() && needs.build.result != 'cancelled'
+    if: always() && needs.build.result != 'cancelled' && (needs.build.result != 'skipped' || inputs.from_run != '')
     runs-on: windows-latest
     timeout-minutes: 360
     steps:
@@ -86,6 +90,8 @@ jobs:
           pattern: bottles-*
           path: bottles
           merge-multiple: true
+          run-id: ${{ inputs.from_run || github.run_id }}
+          github-token: ${{ github.token }}
       - name: Report
         shell: pwsh
         run: |
