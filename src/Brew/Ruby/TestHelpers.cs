@@ -193,7 +193,9 @@ public static partial class FormulaLoader
                 });
 
                 i.Cwd = home;
-                return i.CallProc(block, None, null, self, null);
+                // Homebrew's `test do` is define_method(:test): `return if OS.mac?` leaves the test.
+                var test = new RMethod { Name = "test", Owner = i.ClassOf(self) };
+                return i.CallProc(block, None, null, self, null, test);
             }
             finally
             {
