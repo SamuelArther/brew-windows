@@ -11,6 +11,14 @@ on:
       chunk_size:
         description: Formulae per machine
         default: "50"
+      clean_path:
+        description: Run tests with a stock-PC PATH (Windows, brew, toolchain only)
+        type: boolean
+        default: false
+      toolchain:
+        description: Install the MSYS2 toolchain (tests that compile C need it)
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -53,8 +61,12 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-brew
+        with:
+          toolchain: ${{ inputs.toolchain }}
       - name: Install, test, uninstall
         shell: pwsh
+        env:
+          HOMEBREW_TEST_CLEAN_PATH: ${{ inputs.clean_path && '1' || '' }}
         run: |
           $names = "${{ matrix.chunk.names }}".Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
           dotnet build src/Brew -c Release --nologo -v q

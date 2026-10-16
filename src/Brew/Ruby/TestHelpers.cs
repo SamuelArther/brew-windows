@@ -143,6 +143,15 @@ public static partial class FormulaLoader
                     var path = i.Env.GetValueOrDefault("PATH", "");
                     if (!path.Split(';').Any(p => string.Equals(Path.TrimEndingDirectorySeparator(p), brewBin, StringComparison.OrdinalIgnoreCase)))
                         i.Env["PATH"] = path.Length == 0 ? brewBin : path.TrimEnd(';') + ";" + brewBin;
+                    // HOMEBREW_TEST_CLEAN_PATH=1: a stock PC's PATH (Windows, brew, the build toolchain), so a
+                    // test can't pass on a CI machine's extra Python/Node/Git and fail for users.
+                    if (i.Env.GetValueOrDefault("HOMEBREW_TEST_CLEAN_PATH") == "1")
+                    {
+                        var windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+                        string[] keep = [brewPrefix, windows, i.Env.GetValueOrDefault("HOMEBREW_MSYS2_ROOT") ?? "\0"];
+                        i.Env["PATH"] = string.Join(";", i.Env["PATH"].Split(';', StringSplitOptions.RemoveEmptyEntries)
+                            .Where(p => keep.Any(k => p.StartsWith(k, StringComparison.OrdinalIgnoreCase))));
+                    }
                 }
                 // Formula#common_sandbox_env / #test_sandbox_env
                 i.Env["HOME"] = home;
