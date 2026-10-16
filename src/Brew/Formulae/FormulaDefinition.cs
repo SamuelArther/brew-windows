@@ -6,6 +6,10 @@ public sealed class FormulaDefinition
     public string Version { get; set; }
     public string Url { get; set; }
     public string Sha256 { get; set; }
+    // Git sources (url "...git", tag:, revision:): GitBranch is non-null ("" for the default branch).
+    public string GitTag { get; set; }
+    public string GitRevision { get; set; }
+    public string GitBranch { get; set; }
     public string Description { get; set; }
     public string Homepage { get; set; }
     public string License { get; set; }
@@ -32,7 +36,10 @@ public sealed class BottleSpec
     public readonly Dictionary<string, (string Cellar, string Sha256)> Files = new();
 }
 
-public sealed record FormulaResource(string Name, string Url, string Sha256);
+public sealed record FormulaResource(string Name, string Url, string Sha256, string Tag = null, string Revision = null, string Branch = null, string Using = null)
+{
+    public bool Git => GitSources.IsGit(Url, Using, Revision ?? Tag);
+}
 public sealed record CommandSpec(string Name, string Target, string[] Arguments);
 
 public sealed class InstallContext

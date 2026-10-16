@@ -32,6 +32,7 @@ public sealed class FormulaSpec
 {
     public string Name, Path, ClassName;
     public string Desc, Homepage, Url, Sha256, Version, License, HeadUrl;
+    public string UrlTag, UrlRevision, UrlBranch, UrlUsing;   // url "...git", tag:, revision:, branch:, using:
     public readonly List<string> Mirrors = new();
     public bool VersionFromUrl;   // no explicit `version`
     public int Revision, VersionScheme;
@@ -152,12 +153,17 @@ public sealed class FormulaSpec
         return resolved;
     }
 
-    public FormulaDefinition ToDefinition() => Sha256 == null ? throw new InvalidOperationException($"{Name}: formula requires a sha256") : new()
+    public bool GitSource => GitSources.IsGit(Url, UrlUsing, UrlRevision ?? UrlTag);
+
+    public FormulaDefinition ToDefinition() => Sha256 == null && !GitSource ? throw new InvalidOperationException($"{Name}: formula requires a sha256") : new()
     {
         Name = Name,
         Version = PkgVersion,
         Url = Url,
         Sha256 = Sha256,
+        GitTag = GitSource ? UrlTag : null,
+        GitRevision = GitSource ? UrlRevision : null,
+        GitBranch = GitSource ? UrlBranch ?? "" : null,
         Description = Desc,
         Homepage = Homepage,
         License = License,

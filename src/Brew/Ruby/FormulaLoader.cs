@@ -71,7 +71,8 @@ public static partial class FormulaLoader
         if (spec.Url == null) throw new InvalidOperationException($"{name}: formula requires at least a URL");
         if (spec.Version == null)
         {
-            spec.Version = Versions.Parse(spec.Url);
+            // Homebrew's Version.detect: a git source's version comes from its tag.
+            spec.Version = spec.UrlTag != null && GitSources.VersionFromTag(spec.UrlTag) is { } tagged ? tagged : Versions.Parse(spec.Url);
             spec.VersionFromUrl = true;
         }
         if (spec.Version == null) throw new InvalidOperationException($"{name}: version could not be detected from URL: {spec.Url}");
@@ -242,7 +243,17 @@ public static partial class FormulaLoader
             });
         Field("desc", (s, v) => s.Desc = v);
         Field("homepage", (s, v) => s.Homepage = v);
-        Field("url", (s, v) => s.Url = v);
+        it.DefS(F, "url", (i, self, a, b) =>
+        {
+            var spec = Sp(self);
+            spec.Url = i.ToS(a[0]);
+            string Opt(string key) => Kw(i, a, key) is { } v ? (v is RSymbol sym ? sym.Name : i.ToS(v)) : null;
+            spec.UrlTag = Opt("tag");
+            spec.UrlRevision = Opt("revision");
+            spec.UrlBranch = Opt("branch");
+            spec.UrlUsing = Opt("using");
+            return null;
+        });
         Field("version", (s, v) => s.Version = v);
         Field("sha256", (s, v) => s.Sha256 = v.ToLowerInvariant());
         Field("mirror", (s, v) => s.Mirrors.Add(v));
@@ -311,7 +322,7 @@ public static partial class FormulaLoader
             i.Def(i.SingletonOf(holder), "livecheck", (_, _, _, _) => null);
             if (b != null) i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             var r = (FormulaSpec)holder.Host;
-            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256));
+            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing));
             return null;
         });
         it.DefS(F, "patch", (i, self, a, b) =>

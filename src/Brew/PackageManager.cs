@@ -118,15 +118,28 @@ public sealed class PackageManager(Paths paths)
             }
             else
             {
-                var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
-                var filename = Downloader.FileName(formula.Url);
-                var stagedBuild = await Archive.StageAsync(download, filename, build);
+                string stagedBuild;
+                if (formula.GitBranch != null)
+                {
+                    CommandOutput.Header($"Cloning {formula.Url}");
+                    stagedBuild = await GitSources.StageAsync(formula.Url, formula.GitTag, formula.GitRevision, formula.GitBranch, Path.Combine(build, "src"));
+                }
+                else
+                {
+                    var download = await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
+                    stagedBuild = await Archive.StageAsync(download, Downloader.FileName(formula.Url), build);
+                }
                 var resources = new Dictionary<string, string>();
                 foreach (var resource in formula.Resources)
                 {
                     Paths.ValidateResourceName(resource.Name);
-                    var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
                     var resourcePath = Path.Combine(build, ".resources", resource.Name);
+                    if (resource.Git)
+                    {
+                        resources.Add(resource.Name, await GitSources.StageAsync(resource.Url, resource.Tag, resource.Revision, resource.Branch ?? "", resourcePath));
+                        continue;
+                    }
+                    var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
                     var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);
                     resources.Add(resource.Name, stagedResource);
                 }
@@ -316,8 +329,14 @@ public sealed class PackageManager(Paths paths)
     public async Task FetchAsync(string name)
     {
         var formula = repository.Load(name);
-        await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
-        foreach (var resource in formula.Resources) await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
+        if (formula.GitBranch != null)
+        {
+            var clone = Path.Combine(paths.Cache, Paths.FormulaName(formula.Name) + "--git");
+            DeleteTree(clone);
+            await GitSources.StageAsync(formula.Url, formula.GitTag, formula.GitRevision, formula.GitBranch, clone);
+        }
+        else await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
+        foreach (var resource in formula.Resources.Where(r => !r.Git)) await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
     }
 
     public async Task ReinstallAsync(string name)
