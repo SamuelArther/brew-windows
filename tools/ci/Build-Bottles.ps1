@@ -6,6 +6,7 @@ param(
     [Parameter(Mandatory)] [string] $Out,
     [string] $Brew = (Join-Path $PSScriptRoot '..\..\src\Brew\bin\Release\net10.0\win-x64\brew.exe'),
     [int] $TimeoutMinutes = 45,
+    [int] $TestTimeoutMinutes = 10,
     [switch] $TestOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -36,14 +37,14 @@ public static class KillJob {
 }
 '@
 
-function Invoke-Brew([string[]] $Arguments, [string] $Log, [string] $Directory = $Out) {
+function Invoke-Brew([string[]] $Arguments, [string] $Log, [string] $Directory = $Out, [int] $Minutes = $TimeoutMinutes) {
     $quoted = $Arguments | ForEach-Object { '"' + ($_ -replace '"', '\"') + '"' }
     $stdout = "$Log.out"; $stderr = "$Log.err"
     $p = Start-Process -FilePath $Brew -ArgumentList $quoted -WorkingDirectory $Directory -NoNewWindow -PassThru `
         -RedirectStandardOutput $stdout -RedirectStandardError $stderr
     $null = $p.Handle
     $job = [KillJob]::Create($p.Handle)
-    $finished = $p.WaitForExit($TimeoutMinutes * 60 * 1000)
+    $finished = $p.WaitForExit($Minutes * 60 * 1000)
     $code = if ($finished) { $p.ExitCode } else { 124 }
     [KillJob]::CloseHandle($job) | Out-Null   # kills anything the run left behind
     Start-Sleep -Milliseconds 500
@@ -88,7 +89,7 @@ $results = foreach ($name in $Names) {
     }
     if (-not $built) { $status = 'build' }
     elseif (-not (Install-TestDependencies $name $log)) { $status = 'test-deps' }
-    elseif ((Invoke-Brew @('test', $name) $log) -ne 0) { $status = 'test' }
+    elseif ((Invoke-Brew @('test', $name) $log -Minutes $TestTimeoutMinutes) -ne 0) { $status = 'test' }   # a hung test (TUI, server) shouldn't hold a machine for 45 minutes
     elseif (-not $TestOnly -and (Invoke-Brew @('bottle', '--json', $name) $log) -ne 0) { $status = 'bottle' }
     Invoke-Brew @('uninstall', '--force', '--ignore-dependencies', $name) $log | Out-Null
     Invoke-Brew @('cleanup', '--prune=all') $log | Out-Null
