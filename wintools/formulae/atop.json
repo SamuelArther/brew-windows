@@ -1,0 +1,6 @@
+{
+  "formula": "atop",
+  "desc": "Advanced system and process monitor using Windows performance counters",
+  "commands": ["atop"],
+  "test": "assert_match \"Version:\", shell_output(\"#{bin}/atop -V\")\nsystem bin/\"atop\", \"1\", \"1\"\nsystem bin/\"atop\", \"-w\", \"atop.raw\", \"1\", \"1\"\nassert_match \"SEP\", shell_output(\"#{bin}/atop -r atop.raw -PCPU,DSK\")"
+}

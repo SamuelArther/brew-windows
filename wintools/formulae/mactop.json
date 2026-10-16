@@ -1,0 +1,6 @@
+{
+  "formula": "mactop",
+  "desc": "System monitor top for CPU tiers, GPU, power, network and disk",
+  "commands": ["mactop"],
+  "test": "test_input = \"This is a test input for brew\"\nassert_match \"Test input received: #{test_input}\", shell_output(\"#{bin}/mactop --test '#{test_input}'\")\nassert_match \"cpu_usage\", shell_output(\"#{bin}/mactop --headless --count 1\")"
+}
