@@ -173,7 +173,71 @@ public static partial class FormulaLoader
         }
 
         RObject VenvObject(Interp i, string root) => new() { Class = V, Host = root };
+
+        // Formula#python3: the executable of this formula's one python@3.x dependency.
+        it.Def(F, "python3", (i, self, a, b) =>
+        {
+            var spec = SpecOf(((RObject)self).Class);
+            var pythons = spec.Dependencies.Select(d => d.Name).Where(n => System.Text.RegularExpressions.Regex.IsMatch(n, @"^python@3\.\d+$")).Distinct().ToList();
+            if (pythons.Count != 1)
+                throw i.Error(i.RuntimeError, $"{spec.Name} must have exactly one python@3.x dependency to use python3; found {(pythons.Count == 0 ? "none" : string.Join(", ", pythons))}.");
+            var brewPrefix = Ctx(i, self).BrewPrefix ?? "";
+            return i.NewPath(Path.Combine(brewPrefix, "opt", pythons[0], "bin", "python" + pythons[0]["python@".Length..]));
+        });
+
+        it.Run(PythonPrelude, "<language/python>");
     }
+
+    // Formula#python3, Language::Python::Shebang and Utils::Shebang, as upstream writes them.
+    const string PythonPrelude = """
+        module Utils
+          module Shebang
+            class RewriteInfo
+              attr_reader :regex, :max_length, :replacement
+
+              def initialize(regex, max_length, replacement)
+                @regex = regex
+                @max_length = max_length
+                @replacement = replacement
+              end
+            end
+
+            def rewrite_shebang(rewrite_info, *paths)
+              return if rewrite_info.nil?
+
+              paths.each do |f|
+                f = Pathname(f)
+                next unless f.file?
+                next unless rewrite_info.regex.match?(f.read)
+
+                inreplace f.to_s, rewrite_info.regex, "#!#{rewrite_info.replacement}"
+              end
+            end
+          end
+        end
+
+        module Language
+          module Python
+            module Shebang
+              PYTHON_SHEBANG_REGEX = %r{\A#! ?(?:/usr/bin/(?:env )?)?python(?:[23](?:\.\d{1,2})?)?( |$)}
+              PYTHON_SHEBANG_MAX_LENGTH = 28
+
+              def python_shebang_rewrite_info(python_path)
+                Utils::Shebang::RewriteInfo.new(PYTHON_SHEBANG_REGEX, PYTHON_SHEBANG_MAX_LENGTH, "#{python_path}\\1")
+              end
+
+              def detected_python_shebang(formula = self, use_python_from_path: false)
+                python_shebang_rewrite_info(use_python_from_path ? "/usr/bin/env python3" : formula.python3)
+              end
+            end
+          end
+        end
+
+        class Formula
+          include Utils::Shebang
+        end
+        """;
+
 
     static List<string> PipTargets(Interp i, object targets) => targets switch
     {

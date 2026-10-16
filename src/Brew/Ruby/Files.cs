@@ -11,10 +11,14 @@ public sealed partial class Interp
 
     // Called by Pathname#install: (destination dir, absolute source, destination name) -> handled?
     public Func<string, string, string, bool> InstallHook;
+    // Directories whose installs follow InstallRenamed (HOMEBREW_PREFIX/etc).
+    public List<string> InstallRenamedRoots = new();
 
     public string Abs(string p) => Path.GetFullPath(Path.IsPathRooted(p) ? p : Path.Combine(Cwd, p));
 
-    public RObject NewPath(string p) => new() { Class = PathnameClass, Host = p };
+    // Ruby on Windows spells paths with "/" (Dir.pwd, File.expand_path): formulae splice them into
+    // source code, configs and regexp replacements where a backslash is an escape.
+    public RObject NewPath(string p) => new() { Class = PathnameClass, Host = p?.Replace('\\', '/') };
 
     // bin/"tool" on Windows means tool.exe / tool.cmd: the existing PATHEXT variant, if any.
     public string WithExe(string p)
@@ -439,7 +443,7 @@ public sealed partial class Interp
         DefS(FU, "chmod", (it, self, a, b) => { foreach (var p in Paths(it, a[1])) Chmod(p, a[0] is long l ? l : 0b110100100, false); return null; });
         DefS(FU, "chmod_R", (it, self, a, b) => { foreach (var p in Paths(it, a[1])) Chmod(p, a[0] is long l ? l : 0b110100100, true); return null; });
         DefS(FU, "chown chown_R", (it, self, a, b) => null);
-        DefS(FU, "pwd", (it, self, a, b) => S(it.Cwd));
+        DefS(FU, "pwd", (it, self, a, b) => S(it.Cwd.Replace('\\', '/')));
         DefS(FU, "cd chdir", (it, self, a, b) => it.Invoke(it.DirClass, "chdir", new[] { a[0] }, b));
         DefS(FU, "compare_file identical? cmp", (it, self, a, b) =>
             File.ReadAllBytes(it.Abs(it.PathStr(a[0]))).AsSpan().SequenceEqual(File.ReadAllBytes(it.Abs(it.PathStr(a[1])))));
@@ -603,6 +607,21 @@ public sealed partial class Interp
         if (InstallHook != null && InstallHook(absDir, absSrc, newName)) return;
         Directory.CreateDirectory(absDir);
         var dest = Path.Combine(absDir, newName);
+        // InstallRenamed (etc.install): never clobber a user's config; a changed default lands beside it.
+        if (InstallRenamedRoots.Any(r => (absDir + "\\").StartsWith(r + "\\", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (Directory.Exists(absSrc) && !IsSymlink(absSrc))
+            {
+                foreach (var child in Directory.GetFileSystemEntries(absSrc)) InstallOne(dest, child, Path.GetFileName(child));
+                Directory.Delete(absSrc, true);
+                return;
+            }
+            if (File.Exists(dest))
+            {
+                if (File.ReadAllBytes(dest).AsSpan().SequenceEqual(File.ReadAllBytes(absSrc))) { File.Delete(absSrc); return; }
+                dest += ".default";
+            }
+        }
         if (File.Exists(dest) || IsSymlink(dest)) File.Delete(dest);
         MovePath(absSrc, dest);
     }

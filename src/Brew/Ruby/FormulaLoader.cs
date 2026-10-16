@@ -90,6 +90,7 @@ public static partial class FormulaLoader
         {
             it.ObjectClass.Consts["HOMEBREW_PREFIX"] = it.NewPath(ctx.BrewPrefix);
             it.ObjectClass.Consts["HOMEBREW_CELLAR"] = it.NewPath(Path.Combine(ctx.BrewPrefix, "Cellar"));
+            it.InstallRenamedRoots.Add(Path.GetFullPath(Path.Combine(ctx.BrewPrefix, "etc")));
         }
         var buildRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(ctx.BuildPath)) + Path.DirectorySeparatorChar;
         it.InstallHook = (dir, src, newName) =>
@@ -342,9 +343,22 @@ public static partial class FormulaLoader
         }
         it.Def(F, "pkgshare", (i, self, a, b) => Under(i, self, "share/" + Nm(self)));
         it.Def(F, "doc", (i, self, a, b) => Under(i, self, "share/doc/" + Nm(self)));
-        it.Def(F, "etc", (i, self, a, b) => Under(i, self, "etc"));
-        it.Def(F, "var", (i, self, a, b) => Under(i, self, "var"));
+        // Shared, not per keg: config and state outlive upgrades (EtcVar carries them in bottles).
+        it.Def(F, "etc", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? Prefix(i, self), "etc")));
+        it.Def(F, "var", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? Prefix(i, self), "var")));
         it.Def(F, "buildpath", (i, self, a, b) => i.NewPath(Ctx(i, self).BuildPath));
+        // Utils::Path::FormulaHelpers: another formula's stable opt paths by name.
+        foreach (var (method, sub) in new[] { ("formula_opt_prefix", ""), ("formula_opt_bin", "bin"), ("formula_opt_lib", "lib"),
+                     ("formula_opt_libexec", "libexec"), ("formula_opt_include", "include") })
+        {
+            var subdir = sub;
+            it.Def(F, method, (i, self, a, b) =>
+            {
+                var name = i.ToS(a[0]).Split('/')[^1];
+                var brewPrefix = i.ConstGet(i.ObjectClass, "HOMEBREW_PREFIX") is RObject { Host: string hp } ? hp : (self as RObject)?.Host is InstallContext c ? c.BrewPrefix : "";
+                return i.NewPath(Path.Combine(brewPrefix ?? "", "opt", name, subdir).TrimEnd('\\'));
+            });
+        }
         it.Def(F, "opt_prefix", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self))));
         it.Def(F, "opt_bin", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "bin")));
         it.Def(F, "opt_lib", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "lib")));

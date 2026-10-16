@@ -867,14 +867,31 @@ public sealed partial class Interp
     // shebangs, and MSYS2's own tools get C:/forward/slash paths (backslashes are escapes to them).
     (string Program, List<string> Arguments) ToolchainInvocation(string program, List<string> arguments)
     {
-        if (!Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var root)) return (program, arguments);
         var extension = Path.GetExtension(program).ToLowerInvariant();
+        if (!Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var root))
+        {
+            // No toolchain: a shell script (./install.sh) still needs a POSIX shell, e.g. Git for Windows' bash.
+            if (extension is not (".exe" or ".com" or ".cmd" or ".bat") && File.Exists(program) && IsScript(program)
+                && PosixShell.FindShell(k => Env.GetValueOrDefault(k)) is { } bash)
+                return (bash, ["-c", "exec \"$0\" \"$@\"", program.Replace('\\', '/'), .. arguments.Select(PosixArgument)]);
+            return (program, arguments);
+        }
         if (extension is not (".exe" or ".com" or ".cmd" or ".bat") && File.Exists(program))
             return (Path.Combine(root, "usr", "bin", "bash.exe"),
                 ["-c", "exec \"$0\" \"$@\"", program.Replace('\\', '/'), .. arguments.Select(PosixArgument)]);
         var msysBin = Path.Combine(root, "usr", "bin") + Path.DirectorySeparatorChar;
         return program.StartsWith(msysBin, StringComparison.OrdinalIgnoreCase)
             ? (program, arguments.Select(PosixArgument).ToList()) : (program, arguments);
+    }
+
+    static bool IsScript(string file)
+    {
+        try
+        {
+            using var s = File.OpenRead(file);
+            return s.ReadByte() == '#' && s.ReadByte() == '!';
+        }
+        catch (IOException) { return false; }
     }
 
     static readonly System.Text.RegularExpressions.Regex WindowsPath = new(@"[A-Za-z]:\\", System.Text.RegularExpressions.RegexOptions.Compiled);

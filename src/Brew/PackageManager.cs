@@ -95,6 +95,7 @@ public sealed class PackageManager(Paths paths)
                 CommandOutput.Header($"Pouring {bottle.FileName}");
                 createdKeg = true;
                 await Bottles.PourAsync(paths, archive, keg, bottle.Cellar);
+                EtcVar.Restore(paths.Prefix, keg);
                 var poured = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)));
                 context = new InstallContext(keg, build, null, paths.Prefix) { PouredFromBottle = true };
                 context.Commands.AddRange(poured.Commands ?? []);
@@ -119,7 +120,10 @@ public sealed class PackageManager(Paths paths)
                 createdKeg = true;
                 context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
                 BuildEnvironment.Apply(paths, context, runtimeDependencies.Concat(buildDependencies));
+                var etcVar = EtcVar.Snapshot(paths.Prefix);
                 formula.Install(context);
+                EtcVar.Preserve(paths.Prefix, keg, etcVar);
+                Linker.WriteScriptLaunchers(keg);
                 BuildEnvironment.BundleToolchainDlls(keg);
                 if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
                 linker.MaterializeCommands(keg, context.Commands);

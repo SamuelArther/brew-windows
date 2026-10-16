@@ -22,6 +22,59 @@ public sealed class Linker(Paths paths)
         }
     }
 
+    // Windows can't run a `#!` script by name, so each script in bin/ and sbin/ gets a name.cmd that
+    // starts its interpreter. Paths are absolute (a linked .cmd's %~dp0 is the link's directory) and
+    // bottle relocation rewrites them like any other text file.
+    public static void WriteScriptLaunchers(string keg)
+    {
+        foreach (var dir in new[] { "bin", "sbin" }.Select(d => Path.Combine(keg, d)).Where(Directory.Exists))
+            foreach (var script in Directory.GetFiles(dir).Where(f => Path.GetExtension(f).Length == 0 || !Path.GetExtension(f)[1..].All(char.IsLetter)))
+            {
+                if (new FileInfo(script).LinkTarget != null) continue;
+                if (new[] { ".cmd", ".exe", ".bat" }.Any(e => File.Exists(script + e))) continue;
+                string first;
+                try
+                {
+                    using var reader = new StreamReader(script);
+                    var head = new char[2];
+                    if (reader.Read(head, 0, 2) != 2 || head[0] != '#' || head[1] != '!') continue;
+                    first = reader.ReadLine()?.Trim() ?? "";
+                }
+                catch (IOException) { continue; }
+                if (Launcher(first, script) is { } text) File.WriteAllText(script + ".cmd", text);
+            }
+    }
+
+    static string Launcher(string shebang, string script)
+    {
+        var words = shebang.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+        if (words.Count == 0) return null;
+        if (words[0].EndsWith("/env", StringComparison.Ordinal))
+        {
+            words.RemoveAt(0);
+            words.RemoveAll(w => w.StartsWith('-'));
+            if (words.Count == 0) return null;
+        }
+        var interpreter = words[0];
+        var extra = string.Join(" ", words.Skip(1).Select(w => "\"" + w + "\""));
+        var name = Path.GetFileNameWithoutExtension(interpreter.Replace('\\', '/').Split('/')[^1]).ToLowerInvariant();
+        // A brewed interpreter named by absolute path (rewrite_shebang): use it directly.
+        if (System.Text.RegularExpressions.Regex.IsMatch(interpreter, @"^[A-Za-z]:[\\/]"))
+        {
+            var native = interpreter.Replace('/', '\\');
+            var found = new[] { "", ".exe", ".cmd", ".bat" }.Select(e => native + e).FirstOrDefault(File.Exists) ?? native + ".exe";
+            return $"@\"{found}\" {extra} \"{script}\" %*\r\n".Replace("  ", " ");
+        }
+        if (name is "sh" or "bash" or "dash" or "ksh")
+            return "@echo off\r\nsetlocal\r\n"
+                + "set \"BREW_SH=%HOMEBREW_MSYS2_ROOT%\\usr\\bin\\bash.exe\"\r\n"
+                + "if not exist \"%BREW_SH%\" set \"BREW_SH=%ProgramFiles%\\Git\\bin\\bash.exe\"\r\n"
+                + "if not exist \"%BREW_SH%\" set \"BREW_SH=bash\"\r\n"
+                + $"\"%BREW_SH%\" {extra} \"{script}\" %*\r\n".Replace("  ", " ");
+        if (name.StartsWith("python", StringComparison.Ordinal)) name = "python";
+        return $"@{name} {extra} \"{script}\" %*\r\n".Replace("  ", " ");
+    }
+
     public List<BinLink> Link(string keg, IEnumerable<CommandSpec> commands = null)
     {
         Directory.CreateDirectory(paths.Bin);

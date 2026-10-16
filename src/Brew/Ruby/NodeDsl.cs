@@ -32,9 +32,9 @@ public static partial class FormulaLoader
             StrArray(GlobalNpmArgs(i, i.Abs(i.PathStr(a[0])), Kw(i, a, "ignore_scripts") is not false).ToArray()));
         it.DefS(node, "local_npm_install_args", (i, s, a, b) =>
             StrArray(LocalNpmArgs(i, Kw(i, a, "ignore_scripts") is not false).ToArray()));
-        // Shebangs do not select interpreters on Windows; the .cmd launchers call brewed node directly.
+        // Shebangs do not select interpreters on Windows; the .cmd launchers call brewed node directly
+        // (rewrite_shebang skips a nil rewrite).
         it.Def(shebang, "detected_node_shebang", (i, s, a, b) => null);
-        it.Def(F, "rewrite_shebang", (i, s, a, b) => null);
     }
 
     static List<string> SecurityArgs(Interp i, bool ignoreScripts)
