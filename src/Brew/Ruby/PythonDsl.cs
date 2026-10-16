@@ -279,7 +279,18 @@ public static partial class FormulaLoader
         {
             // Entry points: launchers (.exe) become commands; the -script.py/.pya companions stay in the venv.
             if (!script.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) continue;
-            Ctx(i, formula).WindowsExe(Path.GetRelativePath(prefix, script), Path.GetFileNameWithoutExtension(script));
+            var name = Path.GetFileNameWithoutExtension(script);
+            // pip's launcher runs a zipped __main__.py, which Python 3.14's argparse names "python.exe <path>".
+            // Run that code as a plain script called after the command instead, as Homebrew's bin/ scripts are,
+            // so `usage: <name>` and sys.argv[0] read the same as on macOS.
+            var main = LauncherScript(i, bin, script);
+            if (main != null)
+            {
+                var plain = Path.Combine(bin, name);
+                File.WriteAllText(plain, main, new System.Text.UTF8Encoding(false));
+                Ctx(i, formula).WindowsExe(Path.GetRelativePath(prefix, Path.Combine(bin, "python.exe")), name, plain);
+            }
+            else Ctx(i, formula).WindowsExe(Path.GetRelativePath(prefix, script), name);
         }
         if (!linkManpages || !Directory.Exists(man)) return;
         foreach (var page in Directory.GetFiles(man, "*", SearchOption.AllDirectories).Where(f => !manBefore.Contains(f)))
@@ -288,6 +299,36 @@ public static partial class FormulaLoader
             Directory.CreateDirectory(Path.GetDirectoryName(target)!);
             File.CreateSymbolicLink(target, page);
         }
+    }
+
+    // The __main__.py zipped into a pip/distlib console-script launcher, or null for anything else
+    // (GUI launchers keep their .exe, which starts pythonw without a console).
+    static string LauncherScript(Interp i, string bin, string launcher)
+    {
+        if (!IsConsoleExe(launcher)) return null;
+        const string read = "import sys, zipfile\n" +
+                            "try: z = zipfile.ZipFile(sys.argv[1])\nexcept zipfile.BadZipFile: sys.exit(0)\n" +
+                            "names = z.namelist()\n" +
+                            "if '__main__.py' in names: sys.stdout.write(z.read('__main__.py').decode('utf-8'))\n";
+        try
+        {
+            var text = Capture(i, [Path.Combine(bin, "python.exe"), "-c", read, launcher], []);
+            return text.Contains("sys.exit(") ? text : null;
+        }
+        catch (RubyError) { return null; }
+    }
+
+    // PE optional header Subsystem: 3 is a console program, 2 a GUI one.
+    static bool IsConsoleExe(string path)
+    {
+        try
+        {
+            using var reader = new BinaryReader(File.OpenRead(path));
+            reader.BaseStream.Position = 0x3C;
+            reader.BaseStream.Position = reader.ReadInt32() + 4 + 20 + 68;
+            return reader.ReadUInt16() == 3;
+        }
+        catch (Exception e) when (e is IOException or EndOfStreamException or ArgumentOutOfRangeException) { return false; }
     }
 
     static string VenvBin(string venv) =>
