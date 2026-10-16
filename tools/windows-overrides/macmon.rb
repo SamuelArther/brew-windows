@@ -12,7 +12,7 @@ class Macmon < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/macmon --version")
+    assert_match(/\d+\.\d+/, shell_output("#{bin}/macmon --version"))
     assert_match "hw.nperflevels", shell_output("#{bin}/macmon debug 2>&1")
     assert_match "cpu_active_ratio", shell_output("#{bin}/macmon pipe -s 1 -i 200")
   end

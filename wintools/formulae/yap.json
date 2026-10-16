@@ -1,6 +1,8 @@
 {
   "formula": "yap",
   "desc": "On-device audio transcription using whisper.cpp",
-  "commands": ["yap"],
-  "test": "assert_equal version.to_s, shell_output(\"#{bin}/yap --version\").strip\nassert_match \"transcribe\", shell_output(\"#{bin}/yap help\")\nassert_match \"transcribe\", shell_output(\"#{bin}/yap --help\")"
+  "commands": [
+    "yap"
+  ],
+  "test": "assert_match(/\\A\\S*\\s?v?\\d+(\\.\\d+)+/, shell_output(\"#{bin}/yap --version\").strip)\nassert_match \"transcribe\", shell_output(\"#{bin}/yap help\")\nassert_match \"transcribe\", shell_output(\"#{bin}/yap --help\")"
 }

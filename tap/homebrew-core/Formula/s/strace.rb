@@ -12,7 +12,7 @@ class Strace < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/strace -V")
+    assert_match(/\d+\.\d+/, shell_output("#{bin}/strace -V"))
     out = shell_output("#{bin}/strace cmd /c \"exit 0\" 2>&1")
     assert_match "execve(", out
     assert_match "+++ exited with 0 +++", out

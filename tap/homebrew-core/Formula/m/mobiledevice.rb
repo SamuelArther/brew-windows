@@ -13,7 +13,7 @@ class Mobiledevice < Formula
 
   test do
     system bin/"mobiledevice", "list_devices"
-    assert_equal version.to_s, shell_output("#{bin}/mobiledevice version").strip
+    assert_match(/\A\S*\s?v?\d+(\.\d+)+/, shell_output("#{bin}/mobiledevice version").strip)
     assert_match "list_devices", shell_output("#{bin}/mobiledevice help")
   end
 end

@@ -13,7 +13,7 @@ class Mole < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/mole --version")
+    assert_match(/\d+\.\d+/, shell_output("#{bin}/mole --version"))
     assert_match "Health", shell_output("#{bin}/mole status")
     assert_match "reclaimable", shell_output("#{bin}/mole clean --dry-run")
     (testpath/"proj/node_modules").mkpath

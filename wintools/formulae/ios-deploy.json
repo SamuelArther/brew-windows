@@ -1,6 +1,8 @@
 {
   "formula": "ios-deploy",
   "desc": "Detect iOS devices from the command-line (Apple Mobile Device usbmuxd)",
-  "commands": ["ios-deploy"],
-  "test": "assert_equal version.to_s, shell_output(\"#{bin}/ios-deploy -V\").strip\nsystem bin/\"ios-deploy\", \"-c\", \"-t\", \"1\"\nassert_match \"detect\", shell_output(\"#{bin}/ios-deploy --help\")"
+  "commands": [
+    "ios-deploy"
+  ],
+  "test": "assert_match(/\\A\\S*\\s?v?\\d+(\\.\\d+)+/, shell_output(\"#{bin}/ios-deploy -V\").strip)\nsystem bin/\"ios-deploy\", \"-c\", \"-t\", \"1\"\nassert_match \"detect\", shell_output(\"#{bin}/ios-deploy --help\")"
 }

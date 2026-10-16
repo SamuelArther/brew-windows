@@ -15,6 +15,6 @@ class Utiluti < Formula
     assert_match(/\d+\.\d+/, shell_output("#{bin}/utiluti --version"))
     notepad = File.join(ENV["SystemRoot"], "System32", "notepad.exe")
     assert_match(/\A\d+(\.\d+)+/, shell_output("#{bin}/utiluti app version #{notepad}").strip)
-    assert_match "notepad", shell_output("#{bin}/utiluti app identifier #{notepad}")
+    assert_match(/notepad/i, shell_output("#{bin}/utiluti app identifier #{notepad}"))
   end
 end

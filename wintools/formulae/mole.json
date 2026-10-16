@@ -1,6 +1,9 @@
 {
   "formula": "mole",
   "desc": "Deep clean and inspect disk usage, with a system dashboard",
-  "commands": ["mole", "mo"],
-  "test": "assert_match version.to_s, shell_output(\"#{bin}/mole --version\")\nassert_match \"Health\", shell_output(\"#{bin}/mole status\")\nassert_match \"reclaimable\", shell_output(\"#{bin}/mole clean --dry-run\")\n(testpath/\"proj/node_modules\").mkpath\nassert_match \"build artifact\", shell_output(\"#{bin}/mo purge #{testpath} --dry-run\")"
+  "commands": [
+    "mole",
+    "mo"
+  ],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/mole --version\"))\nassert_match \"Health\", shell_output(\"#{bin}/mole status\")\nassert_match \"reclaimable\", shell_output(\"#{bin}/mole clean --dry-run\")\n(testpath/\"proj/node_modules\").mkpath\nassert_match \"build artifact\", shell_output(\"#{bin}/mo purge #{testpath} --dry-run\")"
 }

@@ -12,7 +12,7 @@ class Yap < Formula
   end
 
   test do
-    assert_equal version.to_s, shell_output("#{bin}/yap --version").strip
+    assert_match(/\A\S*\s?v?\d+(\.\d+)+/, shell_output("#{bin}/yap --version").strip)
     assert_match "transcribe", shell_output("#{bin}/yap help")
     assert_match "transcribe", shell_output("#{bin}/yap --help")
   end

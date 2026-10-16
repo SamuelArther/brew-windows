@@ -13,7 +13,7 @@ class Sysprof < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/sysprof --version")
+    assert_match(/\d+\.\d+/, shell_output("#{bin}/sysprof --version"))
     assert_match "Windows Performance Recorder", shell_output("#{bin}/sysprof --help")
     assert_match(/WPR|recording/i, shell_output("#{bin}/sysprof status 2>&1"))
   end

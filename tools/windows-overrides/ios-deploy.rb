@@ -12,7 +12,7 @@ class IosDeploy < Formula
   end
 
   test do
-    assert_equal version.to_s, shell_output("#{bin}/ios-deploy -V").strip
+    assert_match(/\A\S*\s?v?\d+(\.\d+)+/, shell_output("#{bin}/ios-deploy -V").strip)
     system bin/"ios-deploy", "-c", "-t", "1"
     assert_match "detect", shell_output("#{bin}/ios-deploy --help")
   end

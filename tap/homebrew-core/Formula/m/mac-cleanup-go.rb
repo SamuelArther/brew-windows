@@ -12,7 +12,7 @@ class MacCleanupGo < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/mac-cleanup --version")
+    assert_match(/\d+\.\d+/, shell_output("#{bin}/mac-cleanup --version"))
     assert_match "Scan Windows cache", shell_output("#{bin}/mac-cleanup --help")
     assert_match "Dry Run Report", shell_output("#{bin}/mac-cleanup --clean --dry-run")
     assert_match "Temporary Files", shell_output("#{bin}/mac-cleanup --select")

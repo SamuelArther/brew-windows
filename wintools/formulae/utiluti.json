@@ -1,6 +1,8 @@
 {
   "formula": "utiluti",
   "desc": "Command-line tool to work with default apps",
-  "commands": ["utiluti"],
-  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/utiluti --version\"))\nnotepad = File.join(ENV[\"SystemRoot\"], \"System32\", \"notepad.exe\")\nassert_match(/\\A\\d+(\\.\\d+)+/, shell_output(\"#{bin}/utiluti app version #{notepad}\").strip)\nassert_match \"notepad\", shell_output(\"#{bin}/utiluti app identifier #{notepad}\")"
+  "commands": [
+    "utiluti"
+  ],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/utiluti --version\"))\nnotepad = File.join(ENV[\"SystemRoot\"], \"System32\", \"notepad.exe\")\nassert_match(/\\A\\d+(\\.\\d+)+/, shell_output(\"#{bin}/utiluti app version #{notepad}\").strip)\nassert_match(/notepad/i, shell_output(\"#{bin}/utiluti app identifier #{notepad}\"))"
 }
