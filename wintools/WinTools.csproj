@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Windows-native rewrites of macOS/Linux-only Homebrew formulae (one multi-call exe:
        `wintools <command> ...`; brew links each command name to it). Released as wintools-<Version>. -->
