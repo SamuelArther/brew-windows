@@ -49,9 +49,14 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
         File.Delete(temporary); // A previous writer may have exited before publishing its download.
         if (File.Exists(destination))
         {
-            await VerifyAsync(destination, sha256);
-            Console.WriteLine($"Already downloaded: {destination}");
-            return destination;
+            try
+            {
+                await VerifyAsync(destination, sha256);
+                Console.WriteLine($"Already downloaded: {destination}");
+                return destination;
+            }
+            // Like Homebrew, a known-bad download is removed so it can't be reused; fetch it again.
+            catch (ChecksumMismatch ex) { CommandOutput.Warning(ex.Message.Split('\n')[0] + $" for cached {destination}; downloading it again."); File.Delete(destination); }
         }
         for (var i = 0; i < urls.Count; i++)
         {

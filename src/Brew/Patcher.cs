@@ -6,15 +6,21 @@ namespace Brew;
 // Applies unified diffs the way `patch -f -pN` does (GNU patch is not part of Windows):
 // exact placement first, then nearby offsets, then up to two lines of context fuzz.
 // Every target must stay inside the staged source tree. Line endings of patched files are kept.
+// Like GNU patch it works on bytes: text is handled as Latin-1 (one char per byte), so a file in
+// any encoding (Latin-1 sources, a UTF-8 BOM) keeps every byte the hunks don't change.
 public static class Patcher
 {
+    static readonly Encoding Bytes = Encoding.Latin1;
+
     sealed record Hunk(int OldStart, List<string> Old, List<string> New, bool OldNoEol, bool NewNoEol);
     sealed record FilePatch(string OldName, string NewName, List<Hunk> Hunks);
 
-    public static void Apply(string diff, int strip, string baseDirectory)
+    public static void Apply(string diff, int strip, string baseDirectory) => Apply(Encoding.UTF8.GetBytes(diff), strip, baseDirectory);
+
+    public static void Apply(byte[] diff, int strip, string baseDirectory)
     {
         var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(baseDirectory));
-        var files = Parse(diff);
+        var files = Parse(Bytes.GetString(diff));
         if (files.Count == 0) throw new InvalidOperationException("Unsupported patch format: no target paths to verify.");
         foreach (var file in files)
         {
@@ -35,9 +41,10 @@ public static class Patcher
         }
     }
 
+    // Names arrive as bytes (Latin-1 chars); file names are UTF-8.
     static string Target(string name, int strip)
     {
-        name = name.Replace('\\', '/');
+        name = Encoding.UTF8.GetString(Bytes.GetBytes(name)).Replace('\\', '/');
         var parts = name.Split('/', StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length <= strip) throw new InvalidOperationException($"Cannot strip {strip} components from {name}");
         return string.Join('/', parts.Skip(strip));
@@ -47,7 +54,7 @@ public static class Patcher
     {
         var existed = File.Exists(path);
         if (!existed && !creating) throw new InvalidOperationException($"can't find file to patch: {path}");
-        var text = existed ? File.ReadAllText(path) : "";
+        var text = existed ? Bytes.GetString(File.ReadAllBytes(path)) : "";
         var crlf = text.Contains("\r\n");
         var endsWithNewline = text.Length == 0 || text.EndsWith('\n');
         var lines = text.Length == 0 ? new List<string>() : text.Replace("\r\n", "\n").Split('\n').ToList();
@@ -77,7 +84,7 @@ public static class Patcher
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         var eol = crlf ? "\r\n" : "\n";
         var output = string.Join(eol, lines) + (lines.Count > 0 && endsWithNewline ? eol : "");
-        File.WriteAllText(path, output, new UTF8Encoding(false));
+        File.WriteAllBytes(path, Bytes.GetBytes(output));
     }
 
     // Exact match at or near the expected line, then GNU-style fuzz (ignore outer context lines).

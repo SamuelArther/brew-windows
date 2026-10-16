@@ -11,8 +11,9 @@ public static class EtcVar
     static bool Ours(string prefix, string file) =>
         file.StartsWith(Path.Combine(prefix, "var", "homebrew") + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 
+    // var/homebrew (every build tree, including the one being installed) isn't walked at all.
     static IEnumerable<string> Files(string prefix) => Roots(prefix)
-        .SelectMany(r => Directory.EnumerateFiles(r, "*", new EnumerationOptions { RecurseSubdirectories = true, AttributesToSkip = 0 }))
+        .SelectMany(r => Paths.TreeFiles(r, prune: d => Ours(prefix, d + Path.DirectorySeparatorChar)))
         .Where(f => !Ours(prefix, f));
 
     public static HashSet<string> Snapshot(string prefix) => new(Files(prefix), StringComparer.OrdinalIgnoreCase);
@@ -31,7 +32,7 @@ public static class EtcVar
     {
         var saved = Path.Combine(keg, ".bottle");
         if (!Directory.Exists(saved)) return;
-        foreach (var file in Directory.EnumerateFiles(saved, "*", SearchOption.AllDirectories))
+        foreach (var file in Paths.TreeFiles(saved))
         {
             var target = Path.Combine(prefix, Path.GetRelativePath(saved, file));
             Directory.CreateDirectory(Path.GetDirectoryName(target)!);

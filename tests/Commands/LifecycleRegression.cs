@@ -64,6 +64,24 @@ static class LifecycleRegression
             Check((await Brew("list", "--versions", "probe")).Output == "probe 4.0\n", "outdated install leaves only the new version");
             Check(File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "outdated install keeps the formula linked");
 
+            // An upgrade killed after moving its old keg aside: the next command restores it, and it links again.
+            var current = new InstallationStore(new Paths()).Latest("probe");
+            new Linker(new Paths()).Unlink(current.Receipt.Links);
+            Directory.Move(current.Path, Path.Combine(Path.GetDirectoryName(current.Path), ".backup-interrupted"));
+            var restored = await Brew("link", "probe");
+            Check(restored.Code == 0 && File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "keg restored from an interrupted upgrade links again: " + restored.Error);
+            var relink = await Brew("link", "probe");
+            Check(relink.Output == "To relink, run:\n  brew unlink probe && brew link probe\n", "Homebrew relink hint: " + relink.Output);
+            // Two versions installed: `brew link` links only the latest.
+            Check((await Brew("unlink", "probe")).Code == 0, "unlink before two-version link");
+            var olderKeg = Path.Combine(Path.GetDirectoryName(current.Path), "3.0");
+            Directory.CreateDirectory(Path.Combine(olderKeg, "bin"));
+            File.Copy(Path.Combine(current.Path, "bin", "probe.cmd"), Path.Combine(olderKeg, "bin", "probe.cmd"));
+            File.WriteAllText(Path.Combine(olderKeg, "INSTALL_RECEIPT.json"), JsonSerializer.Serialize(current.Receipt with { Version = "3.0", Links = [] }));
+            var linkLatest = await Brew("link", "probe");
+            Check(linkLatest.Code == 0 && linkLatest.Output.Contains(current.Path) && !linkLatest.Output.Contains(olderKeg), "link picks the latest of two kegs: " + linkLatest.Output + linkLatest.Error);
+            Directory.Delete(olderKeg, true);
+
             Check((await Brew("install", "isolated")).Code == 0, "install keg-only fixture");
             Check((await Brew("link", "isolated")).Code == 0, "versioned keg-only link allowed without force");
             Check(File.Exists(Path.Combine(prefix, "bin", "isolated.exe")), "versioned exception creates link");
@@ -108,7 +126,19 @@ static class LifecycleRegression
             Check(File.Exists(unrelatedCache), "named cleanup preserves unrelated old download");
             Check(File.Exists(unrelatedPartial), "named cleanup preserves unrelated partial");
             File.Copy(Path.Combine(fixtureRoot, "cache", Path.GetFileName(selectedCache)), selectedCache);
+            // Directory links in a keg are removed, never walked: a cycle, and a link to a read-only file elsewhere.
+            var probeKeg = new InstallationStore(paths).Latest("probe").Path;
+            var outside = Path.Combine(root, "outside-keg"); Directory.CreateDirectory(outside);
+            var protectedFile = Path.Combine(outside, "keep.txt"); File.WriteAllText(protectedFile, "x");
+            File.SetAttributes(protectedFile, FileAttributes.ReadOnly);
+            Directory.CreateDirectory(Path.Combine(probeKeg, "libexec"));
+            Directory.CreateSymbolicLink(Path.Combine(probeKeg, "libexec", "loop"), "..");
+            Directory.CreateSymbolicLink(Path.Combine(probeKeg, "libexec", "elsewhere"), outside);
+            var sized = await Brew("list", "probe");
+            Check(sized.Code == 0 && !sized.Output.Contains("keep.txt"), "list doesn't walk keg directory links");
             Check((await Brew("uninstall", "probe@1")).Code == 0, "uninstall resolves alias");
+            Check(File.Exists(protectedFile) && File.GetAttributes(protectedFile).HasFlag(FileAttributes.ReadOnly), "uninstall leaves linked-to files and attributes alone");
+            File.SetAttributes(protectedFile, FileAttributes.Normal);
             Check(!Directory.Exists(paths.Rack("probe")), "alias uninstall removes canonical rack");
             await Brew("uninstall", "isolated"); await Brew("uninstall", "leaf");
 

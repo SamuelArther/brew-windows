@@ -24,7 +24,7 @@ try
     assertions += PosixLines.Run(root);
     assertions += RubyLibrary.Run(root);
     assertions += Patches.Run(root);
-    assertions += BottleRelocation.Run(root);
+    assertions += await BottleRelocation.Run(root);
     await Formula("resources", "1.0", resourceNames: ["mingw-w64-ucrt-x86_64-SDL2", "PyYAML", "MarkupSafe"]);
     Equal((await Run("install", "resources")).Code, 0, "uppercase resource names install end to end");
     Equal((await Run("uninstall", "resources")).Code, 0, "uppercase resource fixture uninstalls");
