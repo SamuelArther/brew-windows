@@ -1,0 +1,6 @@
+{
+  "formula": "nef",
+  "desc": "Steroids for Xcode Playgrounds",
+  "commands": ["nef"],
+  "test": "assert_match \"markdown\", shell_output(\"#{bin}/nef --help\")\n(testpath/\"Docs.playground\").mkpath\n(testpath/\"Docs.playground/Contents.swift\").write <<~SWIFT\n  // nef:begin:hidden\n  import Secret\n  // nef:end\n  //: # Hello\n  let answer = 42\nSWIFT\nsystem bin/\"nef\", \"markdown\", \"--project\", testpath, \"--output\", testpath/\"out\"\nmd = (testpath/\"out/Docs/Docs.md\").read\nassert_match \"# Hello\", md\nassert_match \"```swift\\nlet answer = 42\\n```\", md\nrefute_match \"Secret\", md"
+}
