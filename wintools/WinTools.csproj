@@ -8,7 +8,7 @@
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <AssemblyName>wintools</AssemblyName>
     <RootNamespace>WinTools</RootNamespace>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

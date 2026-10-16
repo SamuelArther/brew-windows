@@ -1,8 +1,10 @@
 class Libpathrs < Formula
   desc "C-friendly API to make path resolution safer on Linux"
   homepage "https://github.com/cyphar/libpathrs"
-  url "https://github.com/cyphar/libpathrs/archive/refs/tags/v0.2.6.tar.gz"
-  sha256 "6aac480634e9b1dd8a74db4022dbb2ae70208fe5335f4d25345513ac53dbf3e9"
+  # The v0.2.6 archive GitHub serves no longer matches upstream's checksum, so pin the signed tag's commit.
+  url "https://github.com/cyphar/libpathrs.git",
+      tag:      "v0.2.6",
+      revision: "941f5488a93811bc6c00f6aa4f8c29095252f33b"
   license any_of: ["MPL-2.0", "LGPL-3.0-or-later"]
 
   # libpathrs resolves paths inside a root directory so that symlinks, ".." and concurrent renames
