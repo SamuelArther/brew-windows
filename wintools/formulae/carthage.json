@@ -1,0 +1,7 @@
+{
+  "formula": "carthage",
+  "desc": "Decentralized dependency manager for Cocoa",
+  "commands": ["carthage"],
+  "caveats": "Dependencies resolve, check out and install prebuilt frameworks on Windows.\nBuilding Xcode framework schemes needs xcodebuild, which only runs on macOS.",
+  "test": "(testpath/\"Cartfile\").write 'github \"jspahrsummers/xcconfigs\"'\nsystem bin/\"carthage\", \"update\"\nassert_match 'github \"jspahrsummers/xcconfigs\"', (testpath/\"Cartfile.resolved\").read\nassert_path_exists testpath/\"Carthage/Checkouts/xcconfigs/README.md\"\nassert_match \"No incompatibilities\", shell_output(\"#{bin}/carthage validate\")\nassert_match \"bootstrap\", shell_output(\"#{bin}/carthage help\")\nassert_match \"Unrecognized command\", shell_output(\"#{bin}/carthage frobnicate 2>&1\", 2)"
+}
