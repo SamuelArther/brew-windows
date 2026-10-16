@@ -29,7 +29,7 @@ static class PosixLines
         Argv("tool \"a $NAME\" ${NAME}s 'lit $NAME' \\$x", "tool", "a cat", "cats", "lit $NAME", "$x");
         Argv("tool ~/x a\\ b \"q\\\"q\"", "tool", "C:/home/x", "a b", "q\"q");
         Argv("tool *.txt '*.txt' none*", "tool", "a.txt", "b.txt", "*.txt", "none*");
-        Argv("tool /dev/null # comment", "tool", "NUL");
+        Argv("tool /dev/null # comment", "tool", "/dev/null");
 
         var c = Parse("FOO=bar tool -v 2>&1");
         if (c.Assignments["FOO"] != "bar" || c.Stderr.Kind != PosixShell.Target.Out || c.Argv.Count != 2) throw new Exception("NAME=value 2>&1");

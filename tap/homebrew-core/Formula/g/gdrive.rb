@@ -17,7 +17,7 @@ class Gdrive < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/gdrive version")
-    assert_match "Usage: gdrive <COMMAND>", shell_output("#{bin}/gdrive 2>&1", 2)
+    assert_match(/Usage: gdrive(\.exe)? <COMMAND>/, shell_output("#{bin}/gdrive 2>&1", 2))
     assert_match "Error: No accounts found", shell_output("#{bin}/gdrive account list 2>&1", 1)
   end
 end

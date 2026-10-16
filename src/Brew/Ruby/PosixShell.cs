@@ -84,7 +84,8 @@ public static class PosixShell
                 else words.Add(word);
             }
             if (words.Count == 0) throw new Unsupported();
-            command.Argv = words.Select(w => w == "/dev/null" ? "NUL" : w).ToList();
+            // Arguments stay as written: MSYS programs (neomutt, tio) understand /dev/null themselves.
+            command.Argv = words;
             return command;
         }
 

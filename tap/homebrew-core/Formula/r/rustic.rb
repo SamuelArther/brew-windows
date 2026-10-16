@@ -18,7 +18,8 @@ class Rustic < Formula
 
   test do
     mkdir testpath/"rustic_repo"
-    ENV["RUSTIC_REPOSITORY"] = testpath/"rustic_repo"
+    # rustic reads "C:/..." as a "C:" backend URL; a backslashed path is a local repository.
+    ENV["RUSTIC_REPOSITORY"] = (testpath/"rustic_repo").to_s.tr("/", "\\")
     ENV["RUSTIC_PASSWORD"] = "test"
 
     (testpath/"testfile").write("test test test")
