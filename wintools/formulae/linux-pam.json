@@ -1,0 +1,7 @@
+{
+  "formula": "linux-pam",
+  "desc": "Authentication helpers (PAM) on Windows accounts",
+  "commands": ["unix_chkpwd", "faillock", "mkhomedir_helper"],
+  "caveats": "These are Linux-PAM's helper programs on Windows' own authentication: unix_chkpwd checks\npasswords with LogonUser, faillock reads failed logons from the Security log (elevated\nprompt) and unlocks accounts, mkhomedir_helper creates user profiles. Windows has no PAM\nmodule stack; programs authenticate through SSPI or LogonUser.",
+  "test": "assert_match \"Usage: mkhomedir_helper <username>\", shell_output(\"#{bin}/mkhomedir_helper 2>&1\", 14)\nshell_output(\"#{bin}/mkhomedir_helper no_such_user_brew 2>&1\", 10)\npipe_output(\"#{bin}/unix_chkpwd no_such_user_brew nullok\", \"secret\", 10)\nassert_match \"When\", shell_output(\"#{bin}/faillock --user #{ENV[\"USERNAME\"]}\")"
+}
