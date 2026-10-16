@@ -1,0 +1,8 @@
+{
+  "formula": "btfs",
+  "desc": "BitTorrent filesystem on the Windows Projected File System",
+  "commands": [
+    "btfs"
+  ],
+  "test": "system bin/\"btfs\", \"--help\"\nassert_match \"btfs version\", shell_output(\"#{bin}/btfs --version\")\n(testpath/\"bad.torrent\").write \"not a torrent\"\nassert_match \"Failed to parse metadata\", shell_output(\"#{bin}/btfs #{testpath}/bad.torrent #{testpath}/mnt 2>&1\", 1)\nassert_match \"info hash\", shell_output(\"#{bin}/btfs 'magnet:?dn=nothing' #{testpath}/mnt 2>&1\", 1)"
+}
