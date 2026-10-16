@@ -1,0 +1,7 @@
+{
+  "formula": "lazycontainer",
+  "desc": "Terminal UI for WSL2 containers and images",
+  "commands": ["lazycontainer"],
+  "test": "assert_match \"lazycontainer version #{version}\", shell_output(\"#{bin}/lazycontainer --version\")\nwith_env(CONTAINER_ROOT: (testpath/\"store\").to_s) do\n  output = shell_output(\"#{bin}/lazycontainer\")\n  assert_match \"Containers (0)\", output\n  assert_match \"Images (0)\", output\nend\nassert_match \"unknown option\", shell_output(\"#{bin}/lazycontainer --bogus 2>&1\", 2)",
+  "caveats": "lazycontainer shows the containers and images of the container formula (WSL2)."
+}

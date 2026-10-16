@@ -1,0 +1,6 @@
+{
+  "formula": "fcitx-remote-for-osx",
+  "desc": "Handle input method in command-line",
+  "commands": ["fcitx-remote"],
+  "test": "system bin/\"fcitx-remote\", \"-n\"\nassert_match(/^\\h{8}$/, shell_output(\"#{bin}/fcitx-remote -n\"))\nassert_match(/^[12]$/, shell_output(\"#{bin}/fcitx-remote\"))\nassert_match \"no installed input source\", shell_output(\"#{bin}/fcitx-remote -s xx-NOPE 2>&1\", 1)"
+}

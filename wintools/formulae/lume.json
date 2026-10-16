@@ -1,0 +1,7 @@
+{
+  "formula": "lume",
+  "desc": "Create and manage virtual machines on Hyper-V",
+  "commands": ["lume"],
+  "test": "output = shell_output(\"#{bin}/lume setup does-not-exist --unattended tahoe 2>&1\", 1)\nassert_match(/Virtual machine not found|Hyper-V/, output)\nassert_match(/No virtual machines found|name\\s+os\\s+cpu|Hyper-V/, shell_output(\"#{bin}/lume ls 2>&1\", nil))\nassert_match \"invalid size '8XB'\", shell_output(\"#{bin}/lume create vm --memory 8XB 2>&1\", 2)\nassert_match \"Apple silicon\", shell_output(\"#{bin}/lume ipsw 2>&1\", 1)\nport = free_port\npid = spawn bin/\"lume\", \"serve\", \"--port\", port.to_s\nsleep 5\nbegin\n  assert_match %r{^HTTP/\\d(.\\d)? (200|404)}, shell_output(\"curl -si localhost:#{port}/lume\").lines.first\nensure\n  Process.kill \"TERM\", pid\nend",
+  "caveats": "lume drives Hyper-V, so it needs Windows Pro, Enterprise or Education with the Microsoft-Hyper-V\nfeature, and an administrator prompt (or membership in Hyper-V Administrators).\nGuests are Linux or Windows installed from an ISO: lume run <name> --mount <iso>."
+}

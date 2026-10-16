@@ -1,0 +1,7 @@
+{
+  "formula": "betterglobekey",
+  "desc": "Globe-key style input language switching on a single key tap",
+  "commands": ["betterglobekey"],
+  "caveats": "betterglobekey runs in the background while you are signed in. To start it at login,\nput a shortcut to it in your Startup folder (Win+R, shell:startup).\nConfigure the key and favourite input sources in %APPDATA%\\betterglobekey\\config.yaml\n(see betterglobekey --help).",
+  "test": "list = shell_output(\"#{bin}/betterglobekey list\")\nassert_match(/^\\h{8}\\t[a-z]{2,3}(-\\w+)*\\t/, list)\nassert_match \"betterglobekey\", shell_output(\"#{bin}/betterglobekey version\")\nassert_match \"unknown key\", shell_output(\"#{bin}/betterglobekey --key nokey 2>&1\", 2)"
+}

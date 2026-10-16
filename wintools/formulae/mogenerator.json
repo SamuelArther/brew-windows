@@ -1,0 +1,6 @@
+{
+  "formula": "mogenerator",
+  "desc": "Generate Objective-C & Swift classes from your Core Data model",
+  "commands": ["mogenerator"],
+  "test": "assert_match \"mogenerator 1.32\", shell_output(\"#{bin}/mogenerator --version\")\n(testpath/\"Model.xcdatamodel\").mkpath\n(testpath/\"Model.xcdatamodel/contents\").write <<~XML\n  <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n  <model type=\"com.apple.IDECoreDataModeler.DataModel\" documentVersion=\"1.0\">\n    <entity name=\"Person\" representedClassName=\"Person\" syncable=\"YES\">\n      <attribute name=\"name\" optional=\"YES\" attributeType=\"String\"/>\n      <attribute name=\"age\" optional=\"YES\" attributeType=\"Integer 16\" usesScalarValueType=\"YES\"/>\n    </entity>\n  </model>\nXML\nsystem bin/\"mogenerator\", \"--model\", testpath/\"Model.xcdatamodel\", \"--output-dir\", testpath/\"out\"\nassert_match \"@interface _Person : NSManagedObject\", (testpath/\"out/_Person.h\").read\nassert_match \"- (int16_t)ageValue\", (testpath/\"out/_Person.m\").read\nassert_path_exists testpath/\"out/Person.m\"\nsystem bin/\"mogenerator\", \"--swift\", \"--model\", testpath/\"Model.xcdatamodel\", \"--output-dir\", testpath/\"swift\"\nassert_match \"var name: String?\", (testpath/\"swift/_Person.swift\").read"
+}

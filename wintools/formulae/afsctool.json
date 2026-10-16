@@ -1,0 +1,6 @@
+{
+  "formula": "afsctool",
+  "desc": "Utility for manipulating NTFS and Windows Overlay Filter compressed files",
+  "commands": ["afsctool"],
+  "test": "path = testpath/\"foo\"\nsample = \"A\" * 1024 * 1024\npath.write sample\n\n[[], [\"-T\", \"LZX\"], [\"-T\", \"LZNT1\"]].each do |x|\n  system bin/\"afsctool\", \"-c\", *x, path\n  assert_match \"File is compressed\", shell_output(\"#{bin}/afsctool -v #{path}\")\n  system bin/\"afsctool\", \"-d\", path\n  assert_match \"File is not compressed\", shell_output(\"#{bin}/afsctool #{path}\")\n  assert_equal sample, path.read\nend"
+}

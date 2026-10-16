@@ -1,0 +1,6 @@
+{
+  "formula": "gfxutil",
+  "desc": "Device Properties conversion tool",
+  "commands": ["gfxutil"],
+  "test": "assert_equal \"02010c00d041030a000000000101060000007fff0400\",\n  shell_output(\"#{bin}/gfxutil -o hex -c \\\"PciRoot(0x0)/Pci(0x0,0x0)\\\"\")\nassert_match \"PciRoot(0x0)/Pci(0x1f,0x3)\",\n  shell_output(\"#{bin}/gfxutil -c 02010c00d041030a0000000001010600031f7fff0400\")\n\n(testpath/\"props.plist\").write <<~XML\n  <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <plist version=\"1.0\">\n  <dict>\n    <key>PciRoot(0x0)/Pci(0x2,0x0)</key>\n    <dict>\n      <key>AAPL,ig-platform-id</key>\n      <data>AwBmAQ==</data>\n      <key>model</key>\n      <string>Intel HD 4000</string>\n    </dict>\n  </dict>\n  </plist>\nXML\nsystem bin/\"gfxutil\", \"-i\", \"xml\", \"-o\", \"hex\", testpath/\"props.plist\", testpath/\"props.hex\"\nassert_match(/\\A[0-9a-f]+\\z/, (testpath/\"props.hex\").read)\nxml = shell_output(\"#{bin}/gfxutil #{testpath}/props.hex\")\nassert_match \"<data>AwBmAQ==</data>\", xml\nassert_match \"<string>Intel HD 4000</string>\", xml"
+}

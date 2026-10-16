@@ -1,0 +1,7 @@
+{
+  "formula": "ical-buddy",
+  "desc": "Get events and tasks from the Windows calendar database",
+  "commands": ["icalBuddy"],
+  "caveats": "icalBuddy reads the calendars and task lists of the accounts added to Windows\n(Settings > Accounts > Email & accounts). If access is refused, allow it in\nSettings > Privacy & security > Calendar (and Tasks).",
+  "test": "assert_match \"Non-lossy ASCII\", shell_output(\"#{bin}/icalBuddy strEncodings\")\nassert_match version.to_s, shell_output(\"#{bin}/icalBuddy -V\")\nassert_match \"unknown command\", shell_output(\"#{bin}/icalBuddy notACommand 2>&1\", 2)\nassert_match \"cannot parse date\", shell_output(\"#{bin}/icalBuddy eventsFrom:2026-13-45 to:today 2>&1\", 2)"
+}

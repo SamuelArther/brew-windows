@@ -1,0 +1,6 @@
+{
+  "formula": "licenseplist",
+  "desc": "License list generator of all your dependencies for iOS applications",
+  "commands": ["license-plist"],
+  "test": "(testpath/\"Cartfile.resolved\").write <<~EOS\n  github \"realm/realm-swift\" \"v10.20.2\"\nEOS\nassert_match \"None\", shell_output(\"#{bin}/license-plist --suppress-opening-directory\")\n(testpath/\"license_plist.yml\").write <<~YAML\n  manual:\n    - name: FooLib\n      body: 'Copyright (c) Foo'\nYAML\nsystem bin/\"license-plist\", \"--suppress-opening-directory\", \"--force\", \"--cartfile-path\", \"none\"\nassert_match \"com.mono0926.LicensePlist/FooLib\", (testpath/\"com.mono0926.LicensePlist.Output/com.mono0926.LicensePlist.plist\").read\nassert_match \"Copyright (c) Foo\", (testpath/\"com.mono0926.LicensePlist.Output/com.mono0926.LicensePlist/FooLib.plist\").read"
+}

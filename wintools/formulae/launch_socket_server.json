@@ -1,0 +1,7 @@
+{
+  "formula": "launch_socket_server",
+  "desc": "Proxy a public port to a server that doesn't bind it itself",
+  "commands": ["launch_socket_server"],
+  "test": "assert_includes shell_output(\"#{bin}/launch_socket_server 2>&1; true\"), \"usage: launch_socket_server\"\nassert_match \"LAUNCH_PROGRAM_TCP_ADDRESS must be set\", shell_output(\"#{bin}/launch_socket_server - 2>&1\", 2)\nwith_env(LAUNCH_PROGRAM_TCP_ADDRESS: \"127.0.0.1:#{free_port}\") do\n  assert_match \"invalid address 'nonsense'\", shell_output(\"#{bin}/launch_socket_server -l nonsense - 2>&1\", 2)\nend",
+  "caveats": "Windows has no privileged ports, so launch_socket_server binds LAUNCH_SOCKET_ADDRESS\n(default 127.0.0.1:80) itself and proxies to LAUNCH_PROGRAM_TCP_ADDRESS."
+}

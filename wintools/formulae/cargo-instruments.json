@@ -1,0 +1,6 @@
+{
+  "formula": "cargo-instruments",
+  "desc": "Easily generate Windows Performance Recorder traces for your rust crate",
+  "commands": ["cargo-instruments"],
+  "test": "output = shell_output(\"#{bin}/cargo-instruments instruments --template sys 2>&1\", 1)\nassert_match \"could not find `Cargo.toml`\", output\nassert_match \"Time Profiler\", shell_output(\"#{bin}/cargo-instruments instruments --list-templates\")\nassert_match \"--template\", shell_output(\"#{bin}/cargo-instruments instruments --help\")\nassert_match \"unknown template\", shell_output(\"#{bin}/cargo-instruments instruments -t nope 2>&1\", 2)"
+}

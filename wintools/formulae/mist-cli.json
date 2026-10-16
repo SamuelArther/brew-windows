@@ -1,0 +1,7 @@
+{
+  "formula": "mist-cli",
+  "desc": "Command-line tool that downloads macOS firmwares and installers",
+  "commands": ["mist"],
+  "test": "assert_match \"-h, --help\", shell_output(\"#{bin}/mist\").strip\nout = testpath/\"out.json\"\nsystem bin/\"mist\", \"list\", \"firmware\", \"--quiet\", \"--export=#{out}\", \"--output-type=json\"\nassert_path_exists out\nparsed = JSON.parse(File.read(out))\nassert_kind_of Array, parsed\nassert_match \"unknown platform type\", shell_output(\"#{bin}/mist list nonsense 2>&1\", 2)",
+  "caveats": "On Windows the installer \"package\" output (InstallAssistant.pkg) and firmware .ipsw downloads work;\nbuilding an .app, disk image, ISO or bootable installer needs a Mac."
+}

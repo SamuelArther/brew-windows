@@ -1,0 +1,6 @@
+{
+  "formula": "kdoctor",
+  "desc": "Environment diagnostics for Kotlin Multiplatform development",
+  "commands": ["kdoctor"],
+  "test": "output = shell_output(\"#{bin}/kdoctor --team-ids\")\nassert_match \"Certificates are not found\", output\noutput = shell_output(bin/\"kdoctor\")\nassert_match \"System\", output\nassert_match \"Java\", output\nassert_match \"Android Studio\", output\nassert_match \"Xcode\", output\nassert_match \"CocoaPods\", output\nassert_match \"Conclusion\", output\nassert_match version.to_s, shell_output(\"#{bin}/kdoctor --version\")\nassert_match \"no such option\", shell_output(\"#{bin}/kdoctor --bogus 2>&1\", 2)"
+}
