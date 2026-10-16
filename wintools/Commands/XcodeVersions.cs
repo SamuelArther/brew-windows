@@ -163,7 +163,7 @@ static unsafe class XcodeVersions
     // ---- selection (shared by xcodes and xcenv) ----------------------------------------------------
 
     static string XcenvRoot => Environment.GetEnvironmentVariable("XCENV_ROOT") is { Length: > 0 } r
-        ? r : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".xcenv");
+        ? r : Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE") is { Length: > 0 } p ? p : Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".xcenv");
     static string GlobalVersionFile => Path.Combine(XcenvRoot, "version");
 
     static string ReadVersionFile(string path)
