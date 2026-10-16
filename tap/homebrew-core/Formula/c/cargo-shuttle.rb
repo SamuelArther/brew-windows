@@ -1,0 +1,45 @@
+class CargoShuttle < Formula
+  desc "Build & ship backends without writing any infrastructure files"
+  homepage "https://shuttle.dev"
+  url "https://github.com/shuttle-hq/shuttle/archive/refs/tags/v0.57.3.tar.gz"
+  sha256 "f6726ccc4e0885d76b55751a252570459ac8a6a42503c6c1e09ed2b2aea44412"
+  license "Apache-2.0"
+  head "https://github.com/shuttle-hq/shuttle.git", branch: "main"
+
+  # shuttle.dev is shutdown, https://docs.shuttle.dev/docs/shuttle-shutdown
+  # currently, there is no self-hosting option, https://github.com/shuttle-hq/shuttle/issues/2136
+  disable! date: "2026-02-06", because: :unmaintained
+
+  depends_on "pkgconf" => :build
+  depends_on "rust" => :build
+  depends_on "libgit2"
+
+  uses_from_macos "bzip2"
+
+  conflicts_with "shuttle-cli", because: "both install `shuttle` binaries"
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
+
+  def install
+    ENV["LIBGIT2_NO_VENDOR"] = "1"
+    system "cargo", "install", *std_cargo_args(path: "cargo-shuttle")
+
+    # cargo-shuttle is for old platform, while shuttle is for new platform
+    # see discussion in https://github.com/shuttle-hq/shuttle/pull/1878/#issuecomment-2557487417
+    %w[shuttle cargo-shuttle].each do |bin_name|
+      generate_completions_from_executable(bin/bin_name, "generate", "shell")
+      (man1/"#{bin_name}.1").write Utils.safe_popen_read(bin/bin_name, "generate", "manpage")
+    end
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/shuttle --version")
+    assert_match "Unauthorized", shell_output("#{bin}/shuttle account 2>&1", 1)
+    output = shell_output("#{bin}/shuttle deployment status 2>&1", 1)
+    assert_match "Failed to find a Rust project", output
+  end
+end

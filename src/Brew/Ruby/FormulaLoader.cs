@@ -365,6 +365,10 @@ public static partial class FormulaLoader
         it.DefS(F, arm ? "on_arm" : "on_intel", (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>(), null, self, i.SingletonOf((RClass)self)));
         it.DefS(F, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_tahoe on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
             (i, self, a, b) => null);
+        // The same branches inside other DSL blocks (patch, resource) and inside methods (def install).
+        it.Def(it.ObjectClass, "on_windows " + (arm ? "on_arm" : "on_intel"), (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>()));
+        it.Def(it.ObjectClass, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_tahoe on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
+            (i, self, a, b) => null);
         it.DefS(F, "deprecated_option skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
                    "compatibility_version no_autobump! pypi_packages env allow_network_access! deny_network_access!",
             (i, self, a, b) => null);
@@ -411,6 +415,64 @@ public static partial class FormulaLoader
                 return i.NewPath(Path.Combine(brewPrefix ?? "", "opt", name, subdir).TrimEnd('\\'));
             });
         }
+        // Service file locations (Formula#plist_name, #launchd_service_path, #systemd_service_path).
+        it.Def(F, "plist_name service_name", (i, self, a, b) => Interp.S("homebrew.mxcl." + Nm(self)));
+        it.Def(F, "launchd_service_path", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), $"homebrew.mxcl.{Nm(self)}.plist")));
+        it.Def(F, "systemd_service_path", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), $"homebrew.{Nm(self)}.service")));
+        // Formula#stable: the SoftwareSpec (url, version, checksum, specs; stage fetches and unpacks it).
+        it.Def(F, "stable", (i, self, a, b) =>
+        {
+            var spec = SpecOf(((RObject)self).Class);
+            var cls = i.ConstGet(i.ObjectClass, "SoftwareSpec") as RClass;
+            if (cls == null)
+            {
+                cls = i.DefineClass("SoftwareSpec");
+                FormulaSpec Sw(object o) => (FormulaSpec)((RObject)o).Host;
+                i.Def(cls, "url", (ii, s, _, _) => Interp.S(Sw(s).Url));
+                i.Def(cls, "version", (ii, s, _, _) => VersionObject(ii, Sw(s).Version));
+                i.Def(cls, "mirrors", (ii, s, _, _) => new RArray(Sw(s).Mirrors.Select(m => (object)Interp.S(m))));
+                i.Def(cls, "checksum", (ii, s, _, _) => Sw(s).Sha256 == null ? null : Interp.S(Sw(s).Sha256));
+                i.Def(cls, "specs", (ii, s, _, _) =>
+                {
+                    var h = new RHash();
+                    if (Sw(s).UrlTag != null) h.D[Interp.Sym("tag")] = Interp.S(Sw(s).UrlTag);
+                    if (Sw(s).UrlRevision != null) h.D[Interp.Sym("revision")] = Interp.S(Sw(s).UrlRevision);
+                    return h;
+                });
+                i.Def(cls, "stage", (ii, s, args, blk) =>
+                {
+                    var sw = Sw(s);
+                    var into = args.Length > 0 && args[0] is not RHash ? ii.Abs(ii.PathStr(args[0])) : Path.Combine(ii.Cwd, "stable-" + Guid.NewGuid().ToString("N")[..8]);
+                    string staged;
+                    if (sw.GitSource) staged = GitSources.StageAsync(sw.Url, sw.UrlTag, sw.UrlRevision, sw.UrlBranch ?? "", into).GetAwaiter().GetResult();
+                    else
+                    {
+                        var file = new Downloader(new Paths().Cache).FetchAsync(sw.Url, sw.Sha256, sw.Mirrors).GetAwaiter().GetResult();
+                        staged = Archive.StageAsync(file, Downloader.FileName(sw.Url), into).GetAwaiter().GetResult();
+                    }
+                    return blk == null ? ii.NewPath(staged) : ii.Invoke(ii.DirClass, "chdir", new object[] { ii.NewPath(staged) }, blk);
+                });
+            }
+            return new RObject { Class = cls, Host = spec };
+        });
+        // Formula#deps: Dependency objects (name, tags, to_formula).
+        it.Def(F, "deps", (i, self, a, b) =>
+        {
+            var depClass = i.ConstGet(i.ObjectClass, "Dependency") as RClass;
+            if (depClass == null)
+            {
+                depClass = i.DefineClass("Dependency");
+                string N(object o) => ((Dependency)((RObject)o).Host).Name;
+                i.Def(depClass, "name to_s", (ii, s, _, _) => Interp.S(N(s)));
+                i.Def(depClass, "to_formula", (ii, s, _, _) => OtherFormula(ii, N(s)));
+                i.Def(depClass, "tags", (ii, s, _, _) => new RArray(((Dependency)((RObject)s).Host).Tags.Select(t => (object)Interp.Sym(t))));
+                i.Def(depClass, "build?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("build"));
+                i.Def(depClass, "test?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("test"));
+                i.Def(depClass, "optional?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("optional"));
+                i.Def(depClass, "recommended?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("recommended"));
+            }
+            return new RArray(SpecOf(((RObject)self).Class).Dependencies.Select(d => (object)new RObject { Class = depClass, Host = d }));
+        });
         it.Def(F, "opt_prefix", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self))));
         it.Def(F, "opt_bin", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "bin")));
         it.Def(F, "opt_lib", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "lib")));
