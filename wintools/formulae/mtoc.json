@@ -1,0 +1,8 @@
+{
+  "formula": "mtoc",
+  "desc": "Mach-O to PE/COFF binary converter",
+  "commands": [
+    "mtoc"
+  ],
+  "test": "# A minimal x86_64 MH_PRELOAD image like clang -nostdlib -Wl,-preload builds: __TEXT at 0x1000,\n# one __text section at 0x1200 (xor eax,eax; ret) and an LC_UNIXTHREAD entry point there.\nmacho = [0xfeedfacf, 0x01000007, 3, 5, 2, 336, 0, 0,\n         0x19, 152, \"__TEXT\", 0x1000, 0x1000, 0, 0x204, 5, 5, 1, 0,\n         \"__text\", \"__TEXT\", 0x1200, 4, 0x200, 4, 0, 0, 0x80000400, 0, 0, 0,\n         5, 184, 4, 42, 0x1200, 0x90c3c031]\n(testpath/\"test\").binwrite macho.pack(\"V8V2a16Q<4V4a16a16Q<2V8V4x128Q<x32x144V\")\nsystem bin/\"mtoc\", \"-subsystem\", \"UEFI_APPLICATION\", testpath/\"test\", testpath/\"test.pe\"\npe = (testpath/\"test.pe\").binread\nassert_equal \"MZ\", pe[0, 2]\nassert_equal \"PE\\0\\0\", pe[0x40, 4]\nassert_match \"MH_PRELOAD -> PE32+\", shell_output(\"#{bin}/mtoc -v #{testpath}/test #{testpath}/test2.pe\")\nassert_match \"Usage: mtoc\", shell_output(\"#{bin}/mtoc -h\")"
+}
