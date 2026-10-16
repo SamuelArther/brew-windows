@@ -1,0 +1,6 @@
+{
+  "formula": "net-tools",
+  "desc": "Linux networking base tools (ifconfig, netstat, route, arp) for Windows",
+  "commands": ["ifconfig", "netstat", "route", "arp"],
+  "test": "assert_match \"Kernel Interface table\", shell_output(\"#{bin}/netstat -i\")\nassert_match \"Kernel IP routing table\", shell_output(\"#{bin}/route -n\")\nassert_match \"Active Internet connections\", shell_output(\"#{bin}/netstat -tan\")\nassert_match \"inet 127.0.0.1  netmask 255.0.0.0\", shell_output(\"#{bin}/ifconfig -a\")\nassert_match \"HWaddress\", shell_output(\"#{bin}/arp -n\")"
+}

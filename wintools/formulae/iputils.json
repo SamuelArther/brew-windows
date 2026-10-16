@@ -1,0 +1,6 @@
+{
+  "formula": "iputils",
+  "desc": "Set of small useful utilities for networking (ping, tracepath, arping)",
+  "commands": ["ping", "tracepath", "arping"],
+  "test": "assert_match \"iputils\", shell_output(\"#{bin}/ping -V\")\nassert_match \"1 received\", shell_output(\"#{bin}/ping -c 1 127.0.0.1\")\nassert_match \"reached\", shell_output(\"#{bin}/tracepath -n 127.0.0.1\")\nassert_match \"iputils\", shell_output(\"#{bin}/arping -V\")\nassert_match \"Name or service not known\", shell_output(\"#{bin}/ping -c 1 nonexistent.invalid 2>&1\", 2)"
+}

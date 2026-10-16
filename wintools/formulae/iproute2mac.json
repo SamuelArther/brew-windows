@@ -1,0 +1,6 @@
+{
+  "formula": "iproute2mac",
+  "desc": "CLI for basic network utilities on Windows - ip command",
+  "commands": ["ip", "ss", "bridge"],
+  "test": "system bin/\"ip\", \"route\"\nsystem bin/\"ip\", \"address\"\nsystem bin/\"ip\", \"neigh\"\nsystem bin/\"bridge\", \"link\"\nsystem bin/\"ss\"\nassert_match \"link/loopback\", shell_output(\"#{bin}/ip link\")"
+}

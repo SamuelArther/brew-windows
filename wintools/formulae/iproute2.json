@@ -1,0 +1,6 @@
+{
+  "formula": "iproute2",
+  "desc": "Linux routing utilities (ip, ss, bridge) for Windows networking",
+  "commands": ["ip", "ss", "bridge"],
+  "test": "output = shell_output(\"#{bin}/ip addr\").strip\nassert_match \"link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\", output\nassert_match \"inet 127.0.0.1/8\", output\nsystem bin/\"ip\", \"route\"\nsystem bin/\"ip\", \"neigh\"\nassert_match \"Usage: ip\", shell_output(\"#{bin}/ip -help\")\nassert_match \"Local Address:Port\", shell_output(\"#{bin}/ss -tln\")\nassert_match \"bridge utility\", shell_output(\"#{bin}/bridge -V\")\nassert_match \"does not exist\", shell_output(\"#{bin}/ip link show nosuch0 2>&1\", 1)"
+}
