@@ -1,0 +1,6 @@
+{
+  "formula": "strace",
+  "desc": "Trace a program's process, thread, DLL and exception events",
+  "commands": ["strace"],
+  "test": "assert_match version.to_s, shell_output(\"#{bin}/strace -V\")\nout = shell_output(\"#{bin}/strace cmd /c \\\"exit 0\\\" 2>&1\")\nassert_match \"execve(\", out\nassert_match \"+++ exited with 0 +++\", out\nassert_match \"total\", shell_output(\"#{bin}/strace -c cmd /c \\\"exit 0\\\" 2>&1\")"
+}

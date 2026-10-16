@@ -1,0 +1,6 @@
+{
+  "formula": "mobiledevice",
+  "desc": "CLI to list connected iOS devices via the Apple Mobile Device service",
+  "commands": ["mobiledevice"],
+  "test": "system bin/\"mobiledevice\", \"list_devices\"\nassert_equal version.to_s, shell_output(\"#{bin}/mobiledevice version\").strip\nassert_match \"list_devices\", shell_output(\"#{bin}/mobiledevice help\")"
+}

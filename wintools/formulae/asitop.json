@@ -1,0 +1,6 @@
+{
+  "formula": "asitop",
+  "desc": "Perf monitoring CLI tool for CPU tiers, GPU, power and memory",
+  "commands": ["asitop"],
+  "test": "assert_match \"Performance monitoring CLI tool\", shell_output(\"#{bin}/asitop --help\")\nassert_match \"RAM Usage\", shell_output(\"#{bin}/asitop --max_count 1\")"
+}

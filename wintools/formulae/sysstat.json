@@ -1,0 +1,6 @@
+{
+  "formula": "sysstat",
+  "desc": "Performance monitoring tools (iostat, mpstat, pidstat, sar)",
+  "commands": ["iostat", "mpstat", "pidstat", "sar"],
+  "test": "assert_match \"PID\", shell_output(\"#{bin}/pidstat\")\nassert_match \"avg-cpu\", shell_output(\"#{bin}/iostat\")\nassert_match \"%idle\", shell_output(\"#{bin}/mpstat\")\nsystem bin/\"sar\", \"-o\", testpath/\"sa\", \"1\", \"2\"\nassert_match \"Average:\", shell_output(\"#{bin}/sar -f #{testpath}/sa -u\")"
+}

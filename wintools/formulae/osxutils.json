@@ -1,0 +1,6 @@
+{
+  "formula": "osxutils",
+  "desc": "Collection of command-line file and system utilities",
+  "commands": ["osxutils", "cpath", "finfo", "lsmac", "rcmac", "mkalias", "setsuffix", "getfcomment", "setfcomment", "google", "wikipedia", "wsupdate"],
+  "test": "assert_match \"osxutils\", shell_output(\"#{bin}/osxutils\")\n(testpath/\"a.txt\").write \"hi\"\nassert_match \"Modified\", shell_output(\"#{bin}/lsmac #{testpath}\")\nassert_match \"Kind:\", shell_output(\"#{bin}/finfo #{testpath}/a.txt\")\nsystem bin/\"setfcomment\", testpath/\"a.txt\", \"note\"\nassert_match \"note\", shell_output(\"#{bin}/getfcomment #{testpath}/a.txt\")\nsystem bin/\"mkalias\", testpath/\"a.txt\", testpath/\"a.lnk\"\nassert_path_exists testpath/\"a.lnk\""
+}
