@@ -8,7 +8,8 @@ namespace WinTools;
 // marshalling tables, the way the C scanner from the wayland formula does. It is the piece of
 // Wayland every protocol consumer needs at build time, and it is pure text processing, so the
 // output is the same C as on Linux. libwayland itself needs a compositor (on Windows: WSLg).
-static class WaylandScanner
+// QtWaylandScanner.cs adds Qt's qtwaylandscanner on the same protocol parser.
+static partial class WaylandScanner
 {
     const string Version = "1.26.0";
 
