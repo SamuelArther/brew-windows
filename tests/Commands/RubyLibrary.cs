@@ -45,6 +45,11 @@ static class RubyLibrary
         Expect("""[format("%g", 1234567.0), format("%g", 100.0), format("%.3g", 3.14159)].inspect""", """["1.23457e+06", "100", "3.14"]""");
         Expect("""begin; "a" =~ "a"; rescue TypeError; "raised"; end""", "raised");
         Expect("""["\0".inspect, "abc".each_char.to_a.size, ENV.exclude?("BREW_SURELY_UNSET_VAR")].inspect""", """["\"\\u0000\"", 3, true]""");
+        // Ruby regexp: \h inside a class, and named groups make plain groups non-capturing.
+        Expect("""["ab_f9 z"[/[\h_]+/], "v1.2".match(/v(?<maj>\d+)\.(\d+)/).captures, "x y"[/[^[:space:]]+/]].inspect""", """["ab_f9", ["1"], "x"]""");
+        // Backticks run through /bin/sh (bash) like Ruby, when there is one.
+        if (PosixShell.FindShell(Environment.GetEnvironmentVariable) != null)
+            Expect("""`echo 'a  b' "c"`""", "a  b c\n");
         // rm_rf, find, ** and cp_r don't walk into symlinked directories (a link loop used to hang them).
         var tree = Path.Combine(root, "link-loop");
         Directory.CreateDirectory(Path.Combine(tree, "sub"));

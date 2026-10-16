@@ -856,22 +856,7 @@ public sealed partial class Interp
         var parts = a.Where(x => x is not RHash).Select(ToS).ToList();
         if (parts.Count == 0) throw ArgCount(a, 1, -1);
         System.Diagnostics.ProcessStartInfo psi;
-        if (parts.Count == 1 && Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var msys))
-        {
-            // Ruby runs a single command string with /bin/sh; in the build toolchain that is MSYS2's bash.
-            psi = new System.Diagnostics.ProcessStartInfo(Path.Combine(msys, "usr", "bin", "bash.exe"));
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add(PosixArgument(parts[0]));
-        }
-        else if (parts.Count == 1 && PosixShell.FindShell(k => Env.GetValueOrDefault(k)) is { } shell)
-        {
-            // No toolchain: Git for Windows' bash still gives /bin/sh semantics.
-            psi = new System.Diagnostics.ProcessStartInfo(shell);
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add(PosixArgument(parts[0]));
-        }
-        else if (parts.Count == 1)
-            psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + parts[0] + "\"");
+        if (parts.Count == 1) psi = ShellLine(parts[0]);
         else
         {
             var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), parts.Skip(1).ToList());
@@ -900,6 +885,19 @@ public sealed partial class Interp
             SetStatus(127, 0);
             return null;
         }
+    }
+
+    // Ruby runs a single command string with /bin/sh: in the build toolchain that is MSYS2's bash, otherwise
+    // Git for Windows' bash; cmd.exe only when there is neither.
+    System.Diagnostics.ProcessStartInfo ShellLine(string line)
+    {
+        var shell = Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var msys) ? Path.Combine(msys, "usr", "bin", "bash.exe")
+            : PosixShell.FindShell(k => Env.GetValueOrDefault(k));
+        if (shell == null) return new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + line + "\"");
+        var psi = new System.Diagnostics.ProcessStartInfo(shell);
+        psi.ArgumentList.Add("-c");
+        psi.ArgumentList.Add(PosixArgument(line));
+        return psi;
     }
 
     // In the MSYS2 build toolchain: scripts (./configure, autoreconf) run through bash, which honours their

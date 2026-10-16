@@ -1226,15 +1226,52 @@ public sealed partial class Interp
         if (flags.Contains('i')) opts |= RegexOptions.IgnoreCase;
         if (flags.Contains('m')) opts |= RegexOptions.Singleline;
         if (flags.Contains('x')) opts |= RegexOptions.IgnorePatternWhitespace;
-        var net = Regex.Replace(src, @"\\\\|\\h|\\H|\[:(\^?)(\w+):\]", m => m.Value switch
-        {
-            "\\\\" => "\\\\",
-            "\\h" => "[0-9a-fA-F]",
-            "\\H" => "[^0-9a-fA-F]",
-            _ => PosixClasses.TryGetValue(m.Groups[2].Value, out var cls) ? (m.Groups[1].Value == "^" ? "^" + cls : cls) : m.Value,
-        });
+        var net = ToNetRegex(src, out bool named);
+        // Ruby: once a regexp has named groups, plain (...) groups don't capture and $1 is the first name.
+        if (named) opts |= RegexOptions.ExplicitCapture;
         try { return new RRegex { R = new Regex(net, opts), Source = src, Flags = flags.Replace("o", "") }; }
         catch (ArgumentException e) { throw Error(SyntaxErrorClass, $"invalid regex /{src}/: {e.Message}"); }
+    }
+
+    // Ruby regexp syntax .NET lacks: \h / \H, and POSIX bracket classes ([[:alpha:]]), which inside a
+    // character class have to become ranges rather than nested classes ([\h_] is [0-9a-fA-F_]).
+    static string ToNetRegex(string src, out bool named)
+    {
+        var sb = new StringBuilder(src.Length + 16);
+        int depth = 0;
+        named = false;
+        for (int i = 0; i < src.Length; i++)
+        {
+            char c = src[i];
+            if (c == '\\' && i + 1 < src.Length)
+            {
+                char n = src[++i];
+                if (n == 'h') sb.Append(depth > 0 ? "0-9a-fA-F" : "[0-9a-fA-F]");
+                else if (n == 'H' && depth == 0) sb.Append("[^0-9a-fA-F]");
+                else sb.Append(c).Append(n);
+                continue;
+            }
+            if (c == '[')
+            {
+                if (depth > 0 && Regex.Match(src[i..], @"^\[:(\^?)(\w+):\]") is { Success: true } pm && PosixClasses.TryGetValue(pm.Groups[2].Value, out var cls))
+                {
+                    sb.Append(pm.Groups[1].Value == "^" ? "^" + cls : cls);
+                    i += pm.Length - 1;
+                    continue;
+                }
+                depth++;
+                sb.Append(c);
+                if (i + 1 < src.Length && src[i + 1] == '^') { sb.Append('^'); i++; }
+                if (i + 1 < src.Length && src[i + 1] == ']') { sb.Append("\\]"); i++; }   // a leading ] is literal
+                continue;
+            }
+            if (c == ']' && depth > 0) depth--;
+            else if (c == '(' && depth == 0 && i + 3 < src.Length && src[i + 1] == '?'
+                && ((src[i + 2] == '<' && src[i + 3] is not ('=' or '!')) || src[i + 2] == '\''))
+                named = true;
+            sb.Append(c);
+        }
+        return sb.ToString();
     }
 
     public RMatch RegexMatch(RRegex r, string s, int start)
@@ -1247,14 +1284,14 @@ public sealed partial class Interp
         return rm;
     }
 
+    // `cmd` / %x(cmd): like Ruby, the line goes to /bin/sh (MSYS2's or Git's bash), cmd.exe only without one.
     public object Backtick(string cmd)
     {
-        var psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + cmd + "\"")
-        {
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            WorkingDirectory = Cwd,
-        };
+        var psi = ShellLine(cmd);
+        psi.RedirectStandardOutput = true;
+        psi.StandardOutputEncoding = new UTF8Encoding(false);
+        psi.UseShellExecute = false;
+        psi.WorkingDirectory = Cwd;
         ApplyEnv(psi);
         using var proc = System.Diagnostics.Process.Start(psi)!;
         var output = proc.StandardOutput.ReadToEnd();
