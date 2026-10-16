@@ -1,0 +1,112 @@
+[
+  {
+    "name": "apptainer",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "aws2-wrap",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "botan@2",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "condure",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "csvtomd",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "folderify",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "gorilla-cli",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "keepkey-agent",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "libaio",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "libpciaccess",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "lispkit",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "mentat",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "mlx-lm",
+    "status": "test",
+    "seconds": 106
+  },
+  {
+    "name": "omnara",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "pipewire-gstreamer",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "python-argcomplete",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "python@3.14",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "ruff-lsp",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "sgr",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "touca",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "unoconv",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "vineyard",
+    "status": "build",
+    "seconds": 2
+  }
+]
