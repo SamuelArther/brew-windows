@@ -1,8 +1,9 @@
 # Bottle build queue
 
 `bottles.yml` runs share one concurrency group, and GitHub keeps only one *pending* run in it:
-dispatching another cancels the one waiting. Dispatch the next batch only after the previous one
-has started running.
+dispatching another cancels the one waiting. So batches wait in `queue.txt`, and every bottles run
+starts the first queued batch when it finishes (unless another run is already waiting). The daily
+upstream sync appends its batch there while a bottles run is active. To queue more, add lines.
 
 | Order | Batch | Inputs | Notes |
 |---|---|---|---|

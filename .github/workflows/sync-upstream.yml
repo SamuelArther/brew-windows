@@ -53,5 +53,21 @@ jobs:
             sleep 10
           done
           if [ "${{ steps.diff.outputs.count }}" != "0" ]; then
-            gh workflow run bottles.yml -f batch=${{ steps.diff.outputs.batch }} -f chunk_size=15 -f toolchain=true
+            # While a bottles run is going, join the queue it starts from (tools/batches/queue.txt)
+            # rather than queue a run GitHub would cancel when that one queues the next batch.
+            active=$(gh run list --workflow bottles.yml --json status --jq '[.[] | select(.status != "completed")] | length')
+            if [ "$active" = "0" ]; then
+              gh workflow run bottles.yml -f batch=${{ steps.diff.outputs.batch }} -f chunk_size=15 -f toolchain=true
+            else
+              for i in 1 2 3 4 5; do
+                git pull -q --rebase
+                echo "${{ steps.diff.outputs.batch }} chunk_size=15 toolchain=true" >> tools/batches/queue.txt
+                git add tools/batches/queue.txt
+                git commit -q -m "queue: ${{ steps.diff.outputs.batch }}"
+                git push -q && break
+                [ "$i" = 5 ] && exit 1
+                git reset -q --hard origin/main
+                sleep 10
+              done
+            fi
           fi
