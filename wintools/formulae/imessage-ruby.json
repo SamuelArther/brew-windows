@@ -1,0 +1,7 @@
+{
+  "formula": "imessage-ruby",
+  "desc": "Command-line tool to send text through the phone paired with Phone Link",
+  "commands": ["imessage"],
+  "caveats": "Messages go out from the phone paired with Phone Link: each one opens in Phone Link\nready to send. Pair your phone in Phone Link first.",
+  "test": "assert_match \"imessage v#{version}\", shell_output(\"#{bin}/imessage --version\")\nassert_match \"at least one contact\", shell_output(\"#{bin}/imessage -t hello 2>&1\", 2)\nassert_match \"attachments\", shell_output(\"#{bin}/imessage -t hi -c +15550100 -a x.png 2>&1\", 1)"
+}
