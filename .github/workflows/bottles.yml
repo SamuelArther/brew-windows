@@ -95,7 +95,14 @@ jobs:
       - name: Report
         shell: pwsh
         run: |
-          $report = Get-ChildItem bottles -Filter 'report-*.json' | ForEach-Object { Get-Content $_ -Raw | ConvertFrom-Json } | Sort-Object name
+          $report = @(Get-ChildItem bottles -Filter 'report-*.json' | ForEach-Object { Get-Content $_ -Raw | ConvertFrom-Json } | ForEach-Object { $_ })
+          # A bottle only exists once build and test passed; count it even if its chunk died before reporting.
+          foreach ($json in Get-ChildItem bottles -Filter '*.bottle.json') {
+            foreach ($bottled in (Get-Content $json.FullName -Raw | ConvertFrom-Json).PSObject.Properties.Name) {
+              if ($report.name -notcontains $bottled) { $report += [pscustomobject]@{ name = $bottled; status = 'ok'; seconds = 0 } }
+            }
+          }
+          $report = $report | Sort-Object name
           New-Item -ItemType Directory -Force tools/batches/results | Out-Null
           $report | ConvertTo-Json -AsArray | Set-Content "tools/batches/results/${{ inputs.batch }}.json"
           $report | Group-Object status | ForEach-Object { "{0}: {1}" -f $_.Name, $_.Count } | Tee-Object -Variable summary

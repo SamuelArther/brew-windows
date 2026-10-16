@@ -78,6 +78,8 @@ $results = foreach ($name in $Names) {
     Invoke-Brew @('cleanup', '--prune=all') $log | Out-Null
     $seconds = [int]((Get-Date) - $started).TotalSeconds
     Write-Host "$name`t$status`t${seconds}s"
-    [pscustomobject]@{ name = $name; status = $status; seconds = $seconds }
+    # One report per formula, written as it finishes, so a chunk that times out still reports.
+    $result = [pscustomobject]@{ name = $name; status = $status; seconds = $seconds }
+    @($result) | ConvertTo-Json -AsArray | Set-Content (Join-Path $Out "report-$name.json")
+    $result
 }
-$results | ConvertTo-Json -AsArray | Set-Content (Join-Path $Out "report-$([guid]::NewGuid().ToString('N')).json")
