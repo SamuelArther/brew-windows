@@ -395,6 +395,7 @@ public static partial class FormulaLoader
         DefineBuildDsl(it, F);
         DefinePythonDsl(it, F);
         DefineNodeDsl(it, F);
+        DefineJavaDsl(it, F);
         return F;
     }
 

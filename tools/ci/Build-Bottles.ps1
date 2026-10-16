@@ -1,10 +1,12 @@
 # Builds, tests and bottles formulae from source, one at a time (brew test-bot, Windows edition).
 # Every formula ends uninstalled with its downloads removed; build dependencies stay for the next one.
+# -TestOnly: regression run for formulae already in the tap (normal install, brew test, no bottle).
 param(
     [Parameter(Mandatory)] [string[]] $Names,
     [Parameter(Mandatory)] [string] $Out,
     [string] $Brew = (Join-Path $PSScriptRoot '..\..\src\Brew\bin\Release\net10.0\win-x64\brew.exe'),
-    [int] $TimeoutMinutes = 45
+    [int] $TimeoutMinutes = 45,
+    [switch] $TestOnly
 )
 $ErrorActionPreference = 'Stop'
 $Brew = (Resolve-Path $Brew).Path
@@ -67,10 +69,11 @@ $results = foreach ($name in $Names) {
     $log = Join-Path $logs "$name.log"
     $started = Get-Date
     $status = 'ok'
-    if ((Invoke-Brew @('install', '--build-bottle', $name) $log) -ne 0) { $status = 'build' }
+    $install = if ($TestOnly) { @('install', $name) } else { @('install', '--build-bottle', $name) }
+    if ((Invoke-Brew $install $log) -ne 0) { $status = 'build' }
     elseif (-not (Install-TestDependencies $name $log)) { $status = 'test-deps' }
     elseif ((Invoke-Brew @('test', $name) $log) -ne 0) { $status = 'test' }
-    elseif ((Invoke-Brew @('bottle', '--json', $name) $log) -ne 0) { $status = 'bottle' }
+    elseif (-not $TestOnly -and (Invoke-Brew @('bottle', '--json', $name) $log) -ne 0) { $status = 'bottle' }
     Invoke-Brew @('uninstall', '--force', '--ignore-dependencies', $name) $log | Out-Null
     Invoke-Brew @('cleanup', '--prune=all') $log | Out-Null
     $seconds = [int]((Get-Date) - $started).TotalSeconds

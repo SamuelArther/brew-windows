@@ -39,6 +39,12 @@ public sealed partial class Interp
         if (Path.IsPathRooted(b) && (b.StartsWith('/') || b.StartsWith('\\') || (b.Length > 1 && b[1] == ':'))) return b;
         if (a.Length == 0 || a == ".") return b;
         if (b == ".") return a;
+        // Native Windows paths stay native: programs print C:\x\y, and tests compare against that.
+        if (a.Contains('\\'))
+        {
+            b = b.Replace('/', '\\');
+            return a.EndsWith('\\') || a.EndsWith('/') ? a + b : a + "\\" + b;
+        }
         return a.EndsWith('/') || a.EndsWith('\\') ? a + b : a + "/" + b;
     }
 

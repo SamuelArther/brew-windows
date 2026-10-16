@@ -1,0 +1,97 @@
+name: retest
+
+# Regression run: install, `brew test` and uninstall formulae already in the tap (no bottles).
+# Used after interpreter/installer changes; results land in tools/batches/results/<batch>-retest.json.
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: Names file under tools/batches (without .txt)
+        required: true
+      chunk_size:
+        description: Formulae per machine
+        default: "50"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: retest
+  cancel-in-progress: false
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  HOMEBREW_NO_ANALYTICS: "1"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      chunks: ${{ steps.split.outputs.chunks }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: split
+        shell: python
+        run: |
+          import json, os
+          names = open(f"tools/batches/${{ inputs.batch }}.txt").read().split()
+          size = int("${{ inputs.chunk_size }}")
+          chunks = [{"id": i, "names": " ".join(names[s:s + size])} for i, s in enumerate(range(0, len(names), size))]
+          assert len(chunks) <= 256
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("chunks=" + json.dumps(chunks) + "\n")
+
+  test:
+    needs: plan
+    runs-on: windows-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        chunk: ${{ fromJson(needs.plan.outputs.chunks) }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup-brew
+      - name: Install, test, uninstall
+        shell: pwsh
+        run: |
+          $names = "${{ matrix.chunk.names }}".Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
+          dotnet build src/Brew -c Release --nologo -v q
+          ./tools/ci/Build-Bottles.ps1 -Names $names -Out results -TestOnly
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retest-${{ matrix.chunk.id }}
+          path: results
+          retention-days: 7
+
+  report:
+    needs: test
+    if: always() && needs.test.result != 'cancelled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: retest-*
+          path: results
+          merge-multiple: true
+      - name: Commit report
+        shell: python
+        run: |
+          import glob, json, collections, os, subprocess
+          rows = sorted((r for f in glob.glob("results/report-*.json") for r in json.load(open(f))), key=lambda r: r["name"])
+          os.makedirs("tools/batches/results", exist_ok=True)
+          json.dump(rows, open("tools/batches/results/${{ inputs.batch }}-retest.json", "w"), indent=2)
+          counts = collections.Counter(r["status"] for r in rows)
+          open(os.environ["GITHUB_STEP_SUMMARY"], "a").write("### ${{ inputs.batch }} retest\n" + "\n".join(f"{k}: {v}" for k, v in counts.items()) + "\n")
+          git = lambda *a: subprocess.run(["git", *a], check=True)
+          git("config", "user.name", "github-actions[bot]")
+          git("config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com")
+          git("add", "tools/batches/results")
+          if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode:
+              git("commit", "-q", "-m", "${{ inputs.batch }}: retest report")
+              for _ in range(5):
+                  if subprocess.run(["git", "pull", "-q", "--rebase"]).returncode == 0 and subprocess.run(["git", "push", "-q"]).returncode == 0:
+                      break
