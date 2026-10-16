@@ -16,14 +16,14 @@ public sealed class PackageManager(Paths paths)
     readonly InstallationStore store = new(paths);
     readonly OptLinks opt = new(paths);
 
-    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false, bool? linkKeg = null, bool fromSource = false)
+    public async Task InstallAsync(string name, bool requested = true, bool force = false, bool ignoreDependencies = false, bool? linkKeg = null, bool fromSource = false, bool overwrite = false)
     {
         if (!installing.Add(name)) throw new InvalidOperationException($"Circular dependency: {name}");
-        try { await InstallCoreAsync(name, requested, force, ignoreDependencies, linkKeg, fromSource); }
+        try { await InstallCoreAsync(name, requested, force, ignoreDependencies, linkKeg, fromSource, overwrite); }
         finally { installing.Remove(name); }
     }
 
-    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies, bool? linkKeg, bool fromSource)
+    async Task InstallCoreAsync(string name, bool requested, bool force, bool ignoreDependencies, bool? linkKeg, bool fromSource, bool overwrite)
     {
         var file = repository.Find(name);
         var formula = repository.LoadFile(file);
@@ -64,7 +64,7 @@ public sealed class PackageManager(Paths paths)
             }
             Console.WriteLine($"{message} but outdated (so it will be upgraded).");
             await ReplaceAsync(name, older, () => InstallCoreAsync(name, true, force, ignoreDependencies,
-                older.Any(k => k.Receipt.Links.Count > 0), fromSource));
+                older.Any(k => k.Receipt.Links.Count > 0), fromSource, overwrite));
             return;
         }
         if (!force && Metadata.Get(formula, "Conflicts") is System.Collections.IEnumerable declared)
@@ -78,15 +78,28 @@ public sealed class PackageManager(Paths paths)
             }
         }
         var runtimeDependencies = QueryCommands.Dependencies(formula).Where(d => d.Runtime).Select(d => d.Name).ToList();
-        var pending = (ignoreDependencies ? [] : runtimeDependencies).Where(d => store.Latest(d) == null).ToArray();
-        if (pending.Length > 1)
+        var pending = ignoreDependencies ? [] : UnsatisfiedDependencies(formula);
+        // FormulaInstaller#check_install_sanity: a pinned dependency can't be upgraded for this.
+        var pinned = pending.Where(d => d.Installed != null && store.IsPinned(Paths.FormulaName(d.Name))).Select(d => d.Name).ToArray();
+        if (pinned.Length > 0)
+            throw new InvalidOperationException($"You must `brew unpin {string.Join(" ", pinned)}` as installing {name} requires the latest version of pinned dependencies.");
+        if (pending.Count > 1)
             CommandOutput.Header($"Installing dependencies for {name}:" + (CommandOutput.Color ? "\u001b[0m" : "")
-                + " " + Suggestions.Sentence(pending.Select(CommandOutput.Identifier)), green: true);
+                + " " + Suggestions.Sentence(pending.Select(d => Upgradable(CommandOutput.Identifier(d.Name), d.Installed != null))), green: true);
         foreach (var dependency in pending)
         {
-            var definition = repository.Load(dependency);
-            CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency)} ({Metadata.Version(definition)})", green: true);
-            await InstallAsync(dependency, requested: false);
+            if (dependency.Installed == null)
+            {
+                CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency.Name)} ({Metadata.Version(dependency.Formula)})", green: true);
+                await InstallAsync(dependency.Name, requested: false);
+                continue;
+            }
+            // FormulaInstaller#install_dependency: an outdated dependency is upgraded first, keeping
+            // its linked and installed-on-request state.
+            var dependencyName = Paths.FormulaName(dependency.Name);
+            var from = new DirectoryInfo(opt.PathFor(dependencyName)).LinkTarget is string optTarget ? Path.GetFileName(Path.TrimEndingDirectorySeparator(optTarget)) + " -> " : "";
+            CommandOutput.Header($"Upgrading {name} dependency: {CommandOutput.Identifier(dependency.Name)} ({from}{Metadata.Version(dependency.Formula)})", green: true);
+            await ReplaceAsync(dependencyName, store.Kegs(dependencyName));
         }
         var bottle = fromSource || Environment.GetEnvironmentVariable("HOMEBREW_BUILD_FROM_SOURCE") == "1" ? null : Bottles.For(formula);
         var buildDependencies = QueryCommands.Dependencies(formula).Where(d => d.Tags.Contains("build")).Select(d => d.Name)
@@ -102,19 +115,25 @@ public sealed class PackageManager(Paths paths)
         Directory.CreateDirectory(build);
         var createdKeg = false;
         List<BinLink> links = [];
+        // Cellar/<name>/.incomplete-<version> marks a keg this install is still filling: if brew dies
+        // before the receipt (written last) exists, RecoverBackups removes what it left.
+        var incomplete = IncompleteMarker(rack, Metadata.Version(formula));
+        InstallContext context;
         try
         {
-            InstallContext context;
             if (bottle != null)
             {
                 var archive = await new Downloader(paths.Cache).FetchAsync(bottle.Url, bottle.Sha256);
                 CommandOutput.Header($"Pouring {bottle.FileName}");
+                MarkIncomplete(incomplete);
                 createdKeg = true;
                 await Bottles.PourAsync(paths, archive, keg, bottle.Cellar);
                 EtcVar.Restore(paths.Prefix, keg);
-                var poured = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(Path.Combine(keg, ReceiptName)));
+                // The bottle's own receipt is kept aside by PourAsync, so the keg doesn't look installed yet.
+                var bottled = Path.Combine(keg, Bottles.PouredReceiptName);
+                var poured = File.Exists(bottled) ? JsonSerializer.Deserialize<Receipt>(File.ReadAllText(bottled)) : null;
                 context = new InstallContext(keg, build, null, paths.Prefix) { PouredFromBottle = true };
-                context.Commands.AddRange(poured.Commands ?? []);
+                context.Commands.AddRange(poured?.Commands ?? []);
             }
             else
             {
@@ -145,6 +164,7 @@ public sealed class PackageManager(Paths paths)
                 }
                 await ApplyPatchesAsync(formula, stagedBuild, build, file);
                 CommandOutput.Header($"Installing {name}");
+                MarkIncomplete(incomplete);
                 Directory.CreateDirectory(keg);
                 createdKeg = true;
                 context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
@@ -161,26 +181,100 @@ public sealed class PackageManager(Paths paths)
                 if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
                 linker.MaterializeCommands(keg, context.Commands);
             }
-            links = (linkKeg ?? !Metadata.Bool(formula, "KegOnly", "IsKegOnly")) ? linker.Link(keg, context.Commands) : [];
+            links = (linkKeg ?? !Metadata.Bool(formula, "KegOnly", "IsKegOnly")) ? linker.Link(keg, context.Commands, overwrite) : [];
             opt.Set(name, keg);
             Metadata.Call(formula, "RunPostInstall", keg, paths.Prefix);
             ReceiptFile.Write(Path.Combine(keg, ReceiptName),
                 new Receipt(name, Metadata.Version(formula), formula.Url, formula.Sha256, links, context.Commands, runtimeDependencies,
                     requested, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), file, bottle != null));
-            var caveats = FormulaCaveats(formula, context);
-            if (!string.IsNullOrWhiteSpace(caveats)) { CommandOutput.Header("Caveats"); Console.WriteLine(caveats.TrimEnd()); CommandOutput.Header("Summary"); }
-            if (!CommandOutput.Quiet) Console.WriteLine($"{CommandOutput.Badge}{keg}: {Abbreviation(keg)}");
         }
         catch
         {
             linker.Unlink(links);
             opt.Remove(name, keg);
             if (createdKeg && Directory.Exists(keg)) DeleteTree(keg);
+            if (File.Exists(incomplete)) File.Delete(incomplete);
             RemoveEmptyRack(rack);
             throw;
         }
         finally { try { DeleteTree(build); } catch (Exception e) when (e is IOException or UnauthorizedAccessException) { CommandOutput.Warning($"Could not remove {build}: {e.Message}"); } }
+        // Installed: nothing from here on may roll the keg back.
+        try { File.Delete(Path.Combine(keg, Bottles.PouredReceiptName)); File.Delete(incomplete); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { CommandOutput.Warning($"Could not finish {keg}: {e.Message}"); }
+        try
+        {
+            var caveats = FormulaCaveats(formula, context);
+            if (!string.IsNullOrWhiteSpace(caveats)) { CommandOutput.Header("Caveats"); Console.WriteLine(caveats.TrimEnd()); CommandOutput.Header("Summary"); }
+        }
+        catch (Exception e) { CommandOutput.Warning($"Could not show the caveats for {name}: {e.Message}"); }
+        try { if (!CommandOutput.Quiet) Console.WriteLine($"{CommandOutput.Badge}{keg}: {Abbreviation(keg)}"); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { CommandOutput.Warning($"Could not measure {keg}: {e.Message}"); }
     }
+
+    static string IncompleteMarker(string rack, string version) => Path.Combine(rack, ".incomplete-" + version);
+
+    static void MarkIncomplete(string marker)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(marker)!);
+        File.WriteAllText(marker, "");
+    }
+
+    // Upgrade::formula_installers sorts the formulae topologically: dependencies upgrade before
+    // their dependents (cycles are ignored).
+    public string[] DependencyOrder(IEnumerable<string> names)
+    {
+        var wanted = names.ToList();
+        var keys = wanted.Select(Paths.FormulaName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var order = new List<string>();
+        void Visit(string name)
+        {
+            var key = Paths.FormulaName(name);
+            if (!visited.Add(key)) return;
+            try { foreach (var dependency in QueryCommands.Dependencies(repository.Load(name)).Where(d => d.Runtime)) Visit(dependency.Name); }
+            catch (FormulaUnavailableException) { }
+            if (keys.Contains(key)) order.Add(key);
+        }
+        foreach (var name in wanted) Visit(name);
+        return wanted.OrderBy(n => order.IndexOf(Paths.FormulaName(n))).ToArray();
+    }
+
+    sealed record PendingDependency(string Name, FormulaDefinition Formula, InstalledKeg Installed);
+
+    // FormulaInstaller#expand_dependencies (Dependency.expand): every recursive runtime dependency,
+    // deepest first. One whose latest version is installed is skipped, but its own dependencies are
+    // still checked; a missing one is installed and an outdated one upgraded.
+    List<PendingDependency> UnsatisfiedDependencies(FormulaDefinition formula)
+    {
+        var pending = new List<PendingDependency>();
+        var expanded = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var stack = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { formula.Name };
+        void Expand(FormulaDefinition dependent)
+        {
+            foreach (var dependency in QueryCommands.Dependencies(dependent).Where(d => d.Runtime).Select(d => d.Name).Distinct())
+            {
+                var key = Paths.FormulaName(dependency);
+                if (stack.Contains(key) || !expanded.Add(key)) continue;
+                FormulaDefinition definition;
+                // An installed dependency whose formula is gone can't be checked further; it stays as it is.
+                try { definition = repository.Load(dependency); }
+                catch (FormulaUnavailableException) when (store.Latest(key) != null) { continue; }
+                stack.Add(key);
+                try { Expand(definition); }
+                finally { stack.Remove(key); }
+                var installed = store.Latest(key);
+                if (installed == null || VersionOrder.Instance.Compare(installed.Receipt.Version, Metadata.Version(definition)) < 0)
+                    pending.Add(new(dependency, definition, installed));
+            }
+        }
+        Expand(formula);
+        return pending;
+    }
+
+    // Utils::Output#pretty_upgradable, for an installed but outdated dependency on a terminal.
+    static string Upgradable(string name, bool outdated) => !outdated || Console.IsOutputRedirected ? name
+        : Environment.GetEnvironmentVariable("HOMEBREW_NO_EMOJI") != null ? name + " (upgradable)"
+        : name + " " + (CommandOutput.Color ? "\u001b[32m↑\u001b[0m" : "↑");
 
     // Homebrew's Formula#patch: inline/DATA diffs, downloaded diffs, and `apply` files inside patch archives.
     async Task ApplyPatchesAsync(FormulaDefinition formula, string source, string build, string formulaFile)
@@ -241,6 +335,8 @@ public sealed class PackageManager(Paths paths)
         var kegs = InstalledKegs(name);
         if (kegs.Length == 0 && !force) throw new InvalidOperationException($"No such keg: {paths.Rack(name)}");
         if (!force && store.IsPinned(name)) throw new InvalidOperationException($"{name} is pinned. You must unpin it to uninstall.");
+        // Without --force only the default keg goes (cmd/uninstall.rb's :default_kegs); --force takes them all.
+        if (!force && kegs.Length > 1) kegs = [DefaultKeg(name, kegs)];
         if (kegs.Length > 0 && !ignoreDependencies)
         {
             // Only Cellar/<rack>/<version>/INSTALL_RECEIPT.json: a recursive search would also read files
@@ -264,20 +360,49 @@ public sealed class PackageManager(Paths paths)
                 && string.Equals(Path.GetFullPath(target, Path.GetDirectoryName(optLink)), removal.Path, StringComparison.OrdinalIgnoreCase))
                 RemovalPreflight.Check(optLink);
         }
+        var rack = paths.Rack(name);
+        if (force && Directory.Exists(rack)) Console.WriteLine($"Uninstalling {name}... ({Abbreviation(rack)})");
         foreach (var removal in removals)
         {
             var keg = removal.Path; var receipt = removal.Receipt;
-            Console.WriteLine($"Uninstalling {keg}... ({Abbreviation(keg)})");
+            if (!force) Console.WriteLine($"Uninstalling {keg}... ({Abbreviation(keg)})");
             linker.Unlink(receipt.Links);
             opt.Remove(name, keg);
             DeleteTree(keg);
         }
-        RemoveEmptyRack(paths.Rack(name));
+        RemoveEmptyRack(rack);
         var pin = Path.Combine(store.PinDirectory, name);
         if (File.Exists(pin)) File.Delete(pin);
+        if (!force && Directory.Exists(rack))
+        {
+            var versions = Directory.GetDirectories(rack).Select(Path.GetFileName).Where(v => !v.StartsWith('.')).Order(VersionOrder.Instance).ToArray();
+            if (versions.Length > 0)
+                Console.WriteLine($"{name} {Suggestions.Sentence(versions)} {(versions.Length == 1 ? "is" : "are")} still installed.\n"
+                    + $"To remove all versions, run:\n  brew uninstall --force {name}");
+        }
     }
 
-    public void Link(string name, bool unlink, bool force = false)
+    // NamedArgs#resolve_default_keg: the keg opt/<name> points at, the only keg, or the formula's version.
+    string DefaultKeg(string name, string[] kegs)
+    {
+        var optLink = opt.PathFor(name);
+        if (new DirectoryInfo(optLink).LinkTarget is string target
+            && kegs.FirstOrDefault(k => string.Equals(k, Path.GetFullPath(target, Path.GetDirectoryName(optLink)!), StringComparison.OrdinalIgnoreCase)) is { } linked)
+            return linked;
+        if (kegs.Length == 1) return kegs[0];
+        try
+        {
+            var current = Path.Combine(paths.Rack(name), Metadata.Version(repository.Load(name)));
+            return kegs.FirstOrDefault(k => string.Equals(k, current, StringComparison.OrdinalIgnoreCase))
+                ?? throw new InvalidOperationException($"{name} has multiple installed versions\nRun `brew uninstall --force {name}` to remove all versions.");
+        }
+        catch (FormulaUnavailableException)
+        {
+            throw new InvalidOperationException($"Multiple kegs installed to {paths.Rack(name)}\nHowever we don't know which one you refer to.\nPlease delete (with `rm -rf`!) all but one and then try again.");
+        }
+    }
+
+    public void Link(string name, bool unlink, bool force = false, bool overwrite = false, bool dryRun = false)
     {
         name = store.ResolveName(name);
         // `brew link` links the latest keg only (to_latest_kegs); linking every version would collide.
@@ -286,7 +411,12 @@ public sealed class PackageManager(Paths paths)
         {
             var receiptPath = Path.Combine(keg, ReceiptName);
             var receipt = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receiptPath));
-            if (unlink)
+            if (unlink && dryRun)
+            {
+                Console.WriteLine("Would remove:");
+                foreach (var path in linker.Present(receipt.Links)) Console.WriteLine(path);
+            }
+            else if (unlink)
             {
                 // Refuse a locked/read-only receipt before removing any links.
                 using (var writable = new FileStream(receiptPath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read)) { }
@@ -308,23 +438,38 @@ public sealed class PackageManager(Paths paths)
                     Console.WriteLine($"To relink, run:\n  brew unlink {name} && brew link {(strict ? "--force " : "")}{name}");
                     continue;
                 }
-                var formula = Formula();
-                if (!force && StrictKegOnly(formula))
+                void PathMessage()
                 {
-                    CommandOutput.Warning($"{name} is keg-only and must be linked with `--force`.");
                     var bins = new[] { "bin", "sbin" }.Where(dir => Directory.Exists(Path.Combine(keg, dir))).ToArray();
-                    if (bins.Length > 0)
-                    {
-                        Console.WriteLine("\nIf you need to have this software first in your PATH instead consider running:");
-                        foreach (var dir in bins)
-                            Console.WriteLine($"  $env:PATH = '{Path.Combine(opt.PathFor(name), dir).Replace("'", "''")};' + $env:PATH");
-                    }
+                    if (bins.Length == 0) return;
+                    Console.WriteLine("\nIf you need to have this software first in your PATH instead consider running:");
+                    foreach (var dir in bins)
+                        Console.WriteLine($"  $env:PATH = '{Path.Combine(opt.PathFor(name), dir).Replace("'", "''")};' + $env:PATH");
+                }
+                bool kegOnly;
+                try { kegOnly = StrictKegOnly(Formula()); } catch (FormulaUnavailableException) { kegOnly = false; }
+                // cmd/link.rb: a dry run lists before the keg-only refusal.
+                if (dryRun)
+                {
+                    Console.WriteLine(overwrite ? "Would remove:" : "Would link:");
+                    linker.Link(keg, receipt.Commands, overwrite, dryRun: true);
+                    if (kegOnly) PathMessage();
                     continue;
                 }
-                var links = linker.Link(keg, receipt.Commands);
+                if (!force && kegOnly)
+                {
+                    CommandOutput.Warning($"{name} is keg-only and must be linked with `--force`.");
+                    PathMessage();
+                    continue;
+                }
+                Console.Write($"Linking {keg}... ");
+                List<BinLink> links;
+                try { links = linker.Link(keg, receipt.Commands, overwrite); }
+                catch { Console.WriteLine(); throw; }
                 try { ReceiptFile.Write(receiptPath, receipt with { Links = links }); }
                 catch { linker.Unlink(links); throw; }
-                Console.WriteLine($"Linking {keg}... {links.Count} symlinks created.");
+                Console.WriteLine($"{links.Count} symlinks created.");
+                if (kegOnly) PathMessage();
             }
         }
     }
@@ -434,35 +579,63 @@ public sealed class PackageManager(Paths paths)
     {
         if (!Directory.Exists(paths.Cellar)) return;
         foreach (var rack in Directory.GetDirectories(paths.Cellar))
-            foreach (var backup in Directory.GetDirectories(rack, ".backup-*"))
-            {
+        {
+            // An install that died before writing its receipt: drop the partial keg and its links.
+            var markers = Directory.GetFiles(rack, ".incomplete-*");
+            foreach (var marker in markers)
                 try
                 {
-                    var receipt = Path.Combine(backup, ReceiptName);
-                    var saved = File.Exists(receipt) ? JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receipt)) : null;
-                    var keg = saved?.Version == null ? null : Path.Combine(rack, saved.Version);
-                    if (keg != null && !Directory.Exists(keg))
+                    var keg = Path.Combine(rack, Path.GetFileName(marker)[".incomplete-".Length..]);
+                    if (File.Exists(Path.Combine(keg, ReceiptName))) File.Delete(Path.Combine(keg, Bottles.PouredReceiptName));
+                    else if (Directory.Exists(keg))
                     {
-                        Directory.Move(backup, keg);
-                        // ReplaceAsync unlinked the keg before moving it, so the receipt's links are gone:
-                        // record that, or `brew link` would answer "Already linked".
-                        if (saved.Links.Count > 0) ReceiptFile.Write(Path.Combine(keg, ReceiptName), saved with { Links = [] });
-                        try
-                        {
-                            // opt/<name> may still name the replacement that never finished.
-                            var optTarget = new DirectoryInfo(opt.PathFor(Path.GetFileName(rack))).LinkTarget;
-                            if (optTarget == null || !File.Exists(Path.Combine(Path.GetFullPath(optTarget, Path.Combine(paths.Prefix, "opt")), ReceiptName)))
-                                opt.Set(Path.GetFileName(rack), keg);
-                        }
-                        catch (Exception e) when (e is IOException or InvalidOperationException)
-                        { CommandOutput.Warning($"Could not point opt at {keg}: {e.Message}"); }
-                        CommandOutput.Warning($"Restored {keg} from an interrupted upgrade; run `brew link {Path.GetFileName(rack)}` if needed.");
+                        linker.UnlinkInto(keg);
+                        opt.Remove(Path.GetFileName(rack), keg);
+                        DeleteTree(keg);
+                        CommandOutput.Warning($"Removed {keg} left by an interrupted install.");
                     }
-                    else DeleteTree(backup);
+                    File.Delete(marker);
                 }
-                catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
-                { CommandOutput.Warning($"Could not recover {backup}: {e.Message}"); }
+                catch (Exception e) when (e is IOException or UnauthorizedAccessException or InvalidOperationException)
+                { CommandOutput.Warning($"Could not remove the interrupted install {marker}: {e.Message}"); }
+            RecoverRack(rack);
+            if (markers.Length > 0)
+                try { RemoveEmptyRack(rack); }
+                catch (Exception e) when (e is IOException or UnauthorizedAccessException) { CommandOutput.Warning($"Could not remove {rack}: {e.Message}"); }
+        }
+    }
+
+    void RecoverRack(string rack)
+    {
+        foreach (var backup in Directory.GetDirectories(rack, ".backup-*"))
+        {
+            try
+            {
+                var receipt = Path.Combine(backup, ReceiptName);
+                var saved = File.Exists(receipt) ? JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receipt)) : null;
+                var keg = saved?.Version == null ? null : Path.Combine(rack, saved.Version);
+                if (keg != null && !Directory.Exists(keg))
+                {
+                    Directory.Move(backup, keg);
+                    // ReplaceAsync unlinked the keg before moving it, so the receipt's links are gone:
+                    // record that, or `brew link` would answer "Already linked".
+                    if (saved.Links.Count > 0) ReceiptFile.Write(Path.Combine(keg, ReceiptName), saved with { Links = [] });
+                    try
+                    {
+                        // opt/<name> may still name the replacement that never finished.
+                        var optTarget = new DirectoryInfo(opt.PathFor(Path.GetFileName(rack))).LinkTarget;
+                        if (optTarget == null || !File.Exists(Path.Combine(Path.GetFullPath(optTarget, Path.Combine(paths.Prefix, "opt")), ReceiptName)))
+                            opt.Set(Path.GetFileName(rack), keg);
+                    }
+                    catch (Exception e) when (e is IOException or InvalidOperationException)
+                    { CommandOutput.Warning($"Could not point opt at {keg}: {e.Message}"); }
+                    CommandOutput.Warning($"Restored {keg} from an interrupted upgrade; run `brew link {Path.GetFileName(rack)}` if needed.");
+                }
+                else DeleteTree(backup);
             }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+            { CommandOutput.Warning($"Could not recover {backup}: {e.Message}"); }
+        }
     }
 
     public static string FormulaCaveats(FormulaDefinition formula, InstallContext context)

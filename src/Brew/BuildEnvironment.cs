@@ -220,7 +220,7 @@ public static class BuildEnvironment
             .Where(Directory.Exists).ToList();
         if (Msys2Root is { } root) sources.Add(Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin"));
         if (sources.Count == 0) return;
-        foreach (var binary in Directory.EnumerateFiles(keg, "*.*", SearchOption.AllDirectories)
+        foreach (var binary in Paths.TreeFiles(keg)
                      .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList())
         {
             var directory = Path.GetDirectoryName(binary)!;

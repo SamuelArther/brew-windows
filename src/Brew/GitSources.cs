@@ -25,6 +25,10 @@ public static class GitSources
 
     public static async Task<string> StageAsync(string url, string tag, string revision, string branch, string destination)
     {
+        // The revision stands in for a checksum: a full commit id, or an abbreviation git itself
+        // would print (at least 7 hex digits). "" or "a" would match any HEAD.
+        if (revision != null && !Regex.IsMatch(revision, @"\A[0-9a-fA-F]{7,64}\z"))
+            throw new InvalidOperationException($"Invalid git revision: \"{revision}\"");
         Directory.CreateDirectory(Path.GetDirectoryName(Path.TrimEndingDirectorySeparator(destination))!);
         var reference = tag ?? (string.IsNullOrEmpty(branch) ? null : branch);
         if (reference != null)
@@ -40,11 +44,17 @@ public static class GitSources
         if (revision != null)
         {
             var head = (await Git(destination, ["rev-parse", "HEAD"])).Trim();
-            if (!head.Equals(revision, StringComparison.OrdinalIgnoreCase) && !head.StartsWith(revision, StringComparison.OrdinalIgnoreCase))
-                throw new InvalidOperationException($"{tag ?? url} checked out {head}, but the formula pins revision {revision}");
+            if (!RevisionMatches(head, revision))
+                throw new InvalidOperationException(tag != null ? $"{tag} tag should be {revision}\nbut is actually {head}"
+                    : $"{url} checked out {head}, but the formula pins revision {revision}");
         }
         return destination;
     }
+
+    // Homebrew compares the whole revision; an abbreviated one must still be 7+ hex digits.
+    public static bool RevisionMatches(string head, string revision) =>
+        revision != null && Regex.IsMatch(revision, @"\A[0-9a-fA-F]{7,64}\z") && Regex.IsMatch(head ?? "", @"\A[0-9a-fA-F]{40,64}\z")
+        && (head.Equals(revision, StringComparison.OrdinalIgnoreCase) || head.StartsWith(revision, StringComparison.OrdinalIgnoreCase));
 
     static async Task<string> Git(string directory, IEnumerable<string> args)
     {

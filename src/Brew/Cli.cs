@@ -44,6 +44,7 @@ public static class Cli
             if (input[0] == "-v" && input.Length > 1) input = [.. input.Skip(1), "-v"];
             var command = Aliases.GetValueOrDefault(input[0], input[0]);
             var raw = input.Skip(1).ToArray();
+            runningCommand = $"brew {command} {string.Join(" ", raw)}".Trim();
             if (command is "--help" or "-h" or "--usage" or "-?" or "help")
                 return await CommandHelp.Print(raw.FirstOrDefault(), raw.Skip(1).ToArray());
             if (command is "--version" or "-v") { Console.WriteLine("Homebrew 7.0.9"); return 0; }
@@ -85,7 +86,7 @@ public static class Cli
                             foreach (var dependency in repository.Load(name).Dependencies) await manager.InstallAsync(dependency, requested: false);
                         else
                         {
-                            try { await manager.InstallAsync(name, force: args.Has("--force", "-f"), ignoreDependencies: args.Has("--ignore-dependencies"), fromSource: args.Has("--build-from-source", "-s", "--build-bottle")); }
+                            try { await manager.InstallAsync(name, force: args.Has("--force", "-f"), ignoreDependencies: args.Has("--ignore-dependencies"), fromSource: args.Has("--build-from-source", "-s", "--build-bottle"), overwrite: args.Has("--overwrite")); }
                             catch (FormulaUnavailableException ex) { return query.SuggestInstall(ex.Name, args.Has("--formula", "--formulae")); }
                         }
                     }
@@ -96,7 +97,7 @@ public static class Cli
                     break;
                 case "reinstall": args.RequireNames(command); foreach (var name in args.Names) await manager.ReinstallAsync(name); break;
                 case "upgrade":
-                    var upgrades = args.Names.Count > 0 ? args.Names.ToArray() : query.OutdatedNames().Where(n => !store.IsPinned(n)).ToArray();
+                    var upgrades = manager.DependencyOrder(args.Names.Count > 0 ? args.Names.ToArray() : query.OutdatedNames().Where(n => !store.IsPinned(n)).ToArray());
                     if (args.Has("--dry-run", "-n")) foreach (var name in upgrades) Console.WriteLine($"Would upgrade {name} {store.Latest(name)?.Receipt.Version} -> {Metadata.Version(repository.Load(name))}");
                     else foreach (var name in upgrades) await manager.UpgradeAsync(name);
                     break;
@@ -130,9 +131,8 @@ public static class Cli
                 case "link": case "unlink":
                     args.RequireNames(command);
                     foreach (var name in args.Names)
-                        if (args.Has("--dry-run", "-n")) Console.WriteLine($"Would {command}: {store.Latest(store.ResolveName(name))?.Path ?? throw new InvalidOperationException($"No such keg: {paths.Rack(Paths.FormulaName(name))}")}");
-                        else if (args.Has("--overwrite")) throw new InvalidOperationException("Use brew unlink to remove the existing formula's links before linking a replacement.");
-                        else manager.Link(name, command == "unlink", force: args.Has("--force", "-f"));
+                        manager.Link(name, command == "unlink", force: args.Has("--force", "-f"),
+                            overwrite: command == "link" && args.Has("--overwrite"), dryRun: args.Has("--dry-run", "-n"));
                     break;
                 case "cleanup": maintenance.Cleanup(args); break;
                 case "autoremove": maintenance.Autoremove(args); break;
@@ -164,10 +164,20 @@ public static class Cli
         catch (Exception ex) { CommandOutput.Error(ex.Message); return 1; }
     }
 
-    static FileStream Lock(Paths paths)
+    static string runningCommand = "brew";
+
+    // One brew at a time changes the prefix. Homebrew's OperationInProgressError names the command
+    // that failed to get the lock (Homebrew.running_command_with_args), plus HOMEBREW_LOCK_CONTEXT.
+    internal static FileStream Lock(Paths paths)
     {
         Directory.CreateDirectory(paths.Prefix);
-        return new FileStream(Path.Combine(paths.Prefix, ".brew.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        try { return new FileStream(Path.Combine(paths.Prefix, ".brew.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None); }
+        catch (IOException ex) when ((ex.HResult & 0xFFFF) is 32 or 33)
+        {
+            var context = Environment.GetEnvironmentVariable("HOMEBREW_LOCK_CONTEXT") is { Length: > 0 } text ? "\n" + text : "";
+            throw new InvalidOperationException($"A `{runningCommand}` process has already locked {paths.Prefix}.{context}\n"
+                + "Please wait for it to finish or terminate it to continue.");
+        }
     }
 
     static int PathsCommand(Paths paths, string command, string[] names)

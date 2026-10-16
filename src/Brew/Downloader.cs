@@ -9,11 +9,19 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
 {
     sealed class ChecksumMismatch(string message) : InvalidOperationException(message);
     static readonly HttpClient Client = CreateClient();
+    // Homebrew's Utils.safe_filename drops control characters and path separators from the unescaped
+    // URL basename; Windows also refuses <>:"|?* (a ':' would even name an NTFS alternate data stream),
+    // and silently drops trailing dots and spaces, so those go too.
     public static string FileName(string url)
     {
         var uri = new Uri(url);
-        return Path.GetFileName(ApacheMirror.IsPicker(uri) ? ApacheMirror.PathInfo(uri) : uri.LocalPath);
+        var name = Path.GetFileName(ApacheMirror.IsPicker(uri) ? ApacheMirror.PathInfo(uri) : uri.LocalPath);
+        return SafeFileName(name);
     }
+
+    public static string SafeFileName(string name) =>
+        new string(name.Where(c => !char.IsControl(c) && Array.IndexOf(Path.GetInvalidFileNameChars(), c) < 0 && c is not (':' or '*' or '?')).ToArray())
+            .TrimEnd('.', ' ');
 
     static HttpClient CreateClient()
     {

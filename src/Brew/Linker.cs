@@ -75,9 +75,11 @@ public sealed class Linker(Paths paths)
         return $"@{name} {extra} \"{script}\" %*\r\n".Replace("  ", " ");
     }
 
-    public List<BinLink> Link(string keg, IEnumerable<CommandSpec> commands = null)
+    // Homebrew's Keg#link. `overwrite` deletes whatever is in the way (brew link --overwrite); `dryRun`
+    // only prints: every link it would make, or with `overwrite` every file it would delete.
+    public List<BinLink> Link(string keg, IEnumerable<CommandSpec> commands = null, bool overwrite = false, bool dryRun = false)
     {
-        Directory.CreateDirectory(paths.Bin);
+        if (!dryRun) Directory.CreateDirectory(paths.Bin);
         var links = new List<BinLink>();
         try
         {
@@ -95,11 +97,27 @@ public sealed class Linker(Paths paths)
                 if (Path.GetFileName(command.Name) != command.Name) throw new IOException("Invalid command name.");
                 var destination = Path.Combine(paths.Bin, command.Name);
                 var sidecar = destination + ".brew-shim";
-                if (Exists(destination) || Exists(sidecar))
-                    throw new IOException(ConflictMessage(keg, source, destination));
                 bool shim = command.Arguments.Length > 0 || !string.Equals(Path.GetDirectoryName(source), bin, StringComparison.OrdinalIgnoreCase)
                     || Path.GetExtension(source).Equals(".exe", StringComparison.OrdinalIgnoreCase)
                     && Directory.EnumerateFiles(bin).Any(f => Path.GetExtension(f).Equals(".dll", StringComparison.OrdinalIgnoreCase));
+                if (!shim && LinksTo(destination, source) && !Exists(sidecar))
+                {
+                    if (CommandOutput.Verbose && !dryRun) Console.WriteLine($"Skipping; link already exists: {destination}");
+                    if (!dryRun) links.Add(new(destination, source, false));
+                    continue;
+                }
+                if (dryRun)
+                {
+                    if (!overwrite) Console.WriteLine(destination);
+                    else foreach (var existing in new[] { destination, sidecar }.Where(Exists)) PrintExisting(existing);
+                    continue;
+                }
+                if (Exists(destination) || Exists(sidecar))
+                {
+                    if (!overwrite && !(IsDanglingLink(destination) && !Exists(sidecar)))
+                        throw new IOException(ConflictMessage(keg, source, destination));
+                    foreach (var existing in new[] { destination, sidecar }.Where(Exists)) Delete(existing);
+                }
                 if (shim)
                 {
                     var arguments = string.Join(" ", command.Arguments.Select(QuoteArgument));
@@ -113,7 +131,7 @@ public sealed class Linker(Paths paths)
                 }
             }
             foreach (var top in TreeDirectories)
-                if (Directory.Exists(Path.Combine(keg, top))) LinkTree(keg, Path.Combine(keg, top), links);
+                if (Directory.Exists(Path.Combine(keg, top))) LinkTree(keg, Path.Combine(keg, top), links, overwrite, dryRun);
             return links;
         }
         catch { Unlink(links); throw; }
@@ -127,21 +145,145 @@ public sealed class Linker(Paths paths)
         relative is "lib/charset.alias" or "share/locale/locale.alias" or "share/info/dir"
         || System.Text.RegularExpressions.Regex.IsMatch(relative, @"^share/icons/.*/icon-theme\.cache$");
 
-    void LinkTree(string keg, string directory, List<BinLink> links)
+    void LinkTree(string keg, string directory, List<BinLink> links, bool overwrite, bool dryRun)
     {
         foreach (var entry in Directory.EnumerateFileSystemEntries(directory).Order(StringComparer.Ordinal))
         {
             var info = new FileInfo(entry);
-            if (Directory.Exists(entry) && info.LinkTarget == null) { LinkTree(keg, entry, links); continue; }
             var relative = Path.GetRelativePath(keg, entry).Replace(Path.DirectorySeparatorChar, '/');
-            if (SkipFile(relative)) continue;
             var destination = Path.Combine(paths.Prefix, relative.Replace('/', Path.DirectorySeparatorChar));
-            if (Exists(destination)) throw new IOException(ConflictMessage(keg, entry, destination));
+            if (Directory.Exists(entry) && info.LinkTarget == null)
+            {
+                // Never walk into a link (or a file) in the prefix: links would land inside whatever it
+                // points at, such as another keg. Homebrew's resolve_any_conflicts, then its conflict.
+                if (Exists(destination) && !(Directory.Exists(destination) && new FileInfo(destination).LinkTarget == null))
+                {
+                    if (IsDanglingLink(destination)) { if (!dryRun) Delete(destination); }
+                    else if (dryRun)
+                    {
+                        if (overwrite) PrintExisting(destination); else Console.WriteLine(destination);
+                        continue;
+                    }
+                    else if (Unbrew(destination)) { }
+                    else if (overwrite) Delete(destination);
+                    else throw new IOException(ConflictMessage(keg, entry, destination));
+                }
+                LinkTree(keg, entry, links, overwrite, dryRun);
+                continue;
+            }
+            if (SkipFile(relative)) continue;
+            if (LinksTo(destination, entry))
+            {
+                if (CommandOutput.Verbose && !dryRun) Console.WriteLine($"Skipping; link already exists: {destination}");
+                if (!dryRun) links.Add(new(destination, entry, false));
+                continue;
+            }
+            if (dryRun)
+            {
+                if (!overwrite) Console.WriteLine(destination);
+                else if (Exists(destination)) PrintExisting(destination);
+                continue;
+            }
+            if (Exists(destination))
+            {
+                if (!overwrite && !IsDanglingLink(destination)) throw new IOException(ConflictMessage(keg, entry, destination));
+                Delete(destination);
+            }
             Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
             if (Directory.Exists(entry)) Directory.CreateSymbolicLink(destination, entry);
             else File.CreateSymbolicLink(destination, entry);
             links.Add(new(destination, entry, false));
         }
+    }
+
+    // A directory link in the prefix to a real directory of another keg (at the same place) becomes
+    // a real directory holding links to that keg's files, so both kegs fit: Homebrew "unbrews" it.
+    // The other keg's receipt records its new links.
+    bool Unbrew(string destination)
+    {
+        var target = new FileInfo(destination).LinkTarget;
+        if (target == null) return false;
+        var source = Path.GetFullPath(target, Path.GetDirectoryName(destination)!);
+        if (!Directory.Exists(source) || new FileInfo(source).LinkTarget != null) return false;
+        var relative = Path.GetRelativePath(paths.Cellar, source).Split(Path.DirectorySeparatorChar);
+        if (relative.Length < 3 || relative[0] == ".." || Path.IsPathRooted(relative[0])) return false;
+        var owner = Path.Combine(paths.Cellar, relative[0], relative[1]);
+        if (!string.Equals(Path.Combine(paths.Prefix, Path.GetRelativePath(owner, source)), destination, StringComparison.OrdinalIgnoreCase)) return false;
+        var record = new InstallationStore(paths).All.FirstOrDefault(k => string.Equals(k.Path, owner, StringComparison.OrdinalIgnoreCase));
+        Directory.Delete(destination);
+        Directory.CreateDirectory(destination);
+        var moved = new List<BinLink>();
+        try { LinkTree(owner, source, moved, overwrite: false, dryRun: false); }
+        catch
+        {
+            Unlink(moved);
+            if (Directory.Exists(destination) && !Directory.EnumerateFileSystemEntries(destination).Any()) Directory.Delete(destination);
+            if (!Exists(destination)) { Directory.CreateDirectory(Path.GetDirectoryName(destination)!); Directory.CreateSymbolicLink(destination, target); }
+            throw;
+        }
+        if (record != null)
+            InstallationStore.Save(record, record.Receipt with { Links = record.Receipt.Links
+                .Where(l => !string.Equals(l.Path, destination, StringComparison.OrdinalIgnoreCase)).Concat(moved).ToList() });
+        return true;
+    }
+
+    static bool LinksTo(string destination, string source) => new FileInfo(destination).LinkTarget is string target
+        && string.Equals(Path.GetFullPath(target, Path.GetDirectoryName(destination)!), source, StringComparison.OrdinalIgnoreCase);
+
+    // Homebrew's dry-run listing for --overwrite: "dst -> target" for a link, the path for anything else.
+    static void PrintExisting(string path)
+    {
+        var target = new FileInfo(path).LinkTarget;
+        Console.WriteLine(target == null ? path : $"{path} -> {Path.GetFullPath(target, Path.GetDirectoryName(path)!)}");
+    }
+
+    // Pathname#delete: a link or file is unlinked; a real directory is removed only if empty.
+    static void Delete(string path)
+    {
+        if (Directory.Exists(path)) { Directory.Delete(path); return; }
+        var attributes = File.GetAttributes(path);
+        if (attributes.HasFlag(FileAttributes.ReadOnly) && !attributes.HasFlag(FileAttributes.ReparsePoint))
+            File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
+        File.Delete(path);
+    }
+
+    // A link whose target is gone: Homebrew replaces it without calling it a conflict.
+    static bool IsDanglingLink(string path)
+    {
+        if (new FileInfo(path).LinkTarget == null) return false;
+        try
+        {
+            var final = (Directory.Exists(path) ? (FileSystemInfo)new DirectoryInfo(path) : new FileInfo(path)).ResolveLinkTarget(returnFinalTarget: true);
+            return final == null || !File.Exists(final.FullName) && !Directory.Exists(final.FullName);
+        }
+        catch (IOException) { return false; }
+    }
+
+    // Every link in the prefix (bin and the linked trees) that points into `keg`, found without a
+    // receipt as Homebrew's Keg#unlink does: what an interrupted install leaves behind.
+    public void UnlinkInto(string keg)
+    {
+        keg = Path.TrimEndingDirectorySeparator(Path.GetFullPath(keg));
+        bool Inside(string target) => target.Equals(keg, StringComparison.OrdinalIgnoreCase)
+            || target.StartsWith(keg + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+        var found = new List<BinLink>();
+        var roots = TreeDirectories.Select(top => Path.Combine(paths.Prefix, top)).Where(Directory.Exists);
+        foreach (var entry in (Directory.Exists(paths.Bin) ? Directory.EnumerateFileSystemEntries(paths.Bin) : [])
+                     .Concat(roots.SelectMany(root => Paths.TreeFiles(root, includeDirectories: true))).ToList())
+        {
+            if (new FileInfo(entry).LinkTarget is string target)
+            {
+                var full = Path.GetFullPath(target, Path.GetDirectoryName(entry)!);
+                if (Inside(full)) found.Add(new(entry, full, false));
+            }
+            else if (entry.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase) && File.Exists(entry))
+            {
+                var lines = File.ReadAllText(entry).Split('\n', 2);
+                if (Path.IsPathRooted(lines[0]) && Inside(Path.GetFullPath(lines[0])))
+                    found.Add(new(entry[..^".brew-shim".Length], lines[0], true, lines.Length > 1 ? lines[1] : ""));
+            }
+        }
+        Unlink(found);
     }
 
     // Receipts are data: a link path must sit in prefix/bin or under one of the linked trees.
@@ -186,6 +328,12 @@ public sealed class Linker(Paths paths)
         using (var output = new FileStream(destination, FileMode.CreateNew)) resource.CopyTo(output);
         File.WriteAllText(destination + ".brew-shim", source + (arguments.Length == 0 ? "" : "\n" + arguments), new UTF8Encoding(false));
     }
+
+    // The receipt's links that are still in place (what `brew unlink --dry-run` lists).
+    public IEnumerable<string> Present(IEnumerable<BinLink> links) => links.Where(link => IsLinkPath(link.Path) && (link.Shim
+        ? IsOurShim(link.Path) && File.Exists(link.Path + ".brew-shim")
+            && File.ReadAllText(link.Path + ".brew-shim") == link.Target + (link.Arguments.Length == 0 ? "" : "\n" + link.Arguments)
+        : LinksTo(Path.GetFullPath(link.Path), link.Target))).Select(link => link.Path);
 
     public void PreflightUnlink(IEnumerable<BinLink> links)
     {

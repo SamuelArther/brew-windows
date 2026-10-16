@@ -68,6 +68,7 @@ static class BottleRelocation
             var keg = Path.Combine(buildPrefix, "Cellar", "fixture", "1.0");
             var usrBin = Path.Combine(keg, "libexec", "usr", "bin");
             Directory.CreateDirectory(usrBin); Directory.CreateDirectory(Path.Combine(keg, "share"));
+            File.WriteAllText(Path.Combine(keg, "INSTALL_RECEIPT.json"), System.Text.Json.JsonSerializer.Serialize(new Receipt("fixture", "1.0", "", "", [])));
             var script = Path.Combine(usrBin, "tool.sh");
             File.WriteAllText(script, "#!/bin/sh\necho " + buildPrefix + "\n");
             Directory.CreateSymbolicLink(Path.Combine(keg, "libexec", "bin"), usrBin);
@@ -84,9 +85,13 @@ static class BottleRelocation
             if (link == null || Path.IsPathRooted(link)) throw new Exception("Bottled keg link is not relative: " + link);
             if (File.ReadAllText(Path.Combine(poured, "libexec", "bin", "tool.sh")) != "#!/bin/sh\necho " + pourPrefix + "\n")
                 throw new Exception("Poured script not relocated through its keg");
+            // The bottle's receipt is set aside until the install writes its own, last: a keg poured by a
+            // brew that then died must not look installed.
+            if (File.Exists(Path.Combine(poured, "INSTALL_RECEIPT.json")) || !File.Exists(Path.Combine(poured, Bottles.PouredReceiptName)))
+                throw new Exception("Poured keg already looks installed");
         }
         finally { Environment.SetEnvironmentVariable("BREW_PREFIX", savedPrefix); }
-        return 9;
+        return 10;
     }
 
     static string JsonEscape(string value) => System.Text.Json.JsonSerializer.Serialize(value)[1..^1];
