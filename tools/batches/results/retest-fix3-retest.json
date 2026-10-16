@@ -1,0 +1,17 @@
+[
+  {
+    "name": "fcft",
+    "status": "ok",
+    "seconds": 89
+  },
+  {
+    "name": "openssl@4",
+    "status": "build",
+    "seconds": 2224
+  },
+  {
+    "name": "ratarmount",
+    "status": "build",
+    "seconds": 164
+  }
+]
