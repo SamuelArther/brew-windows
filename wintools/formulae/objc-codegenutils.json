@@ -1,0 +1,6 @@
+{
+  "formula": "objc-codegenutils",
+  "desc": "Three small tools to help work with Xcode",
+  "commands": ["objc-assetgen", "objc-colordump", "objc-identifierconstants"],
+  "test": "system bin/\"objc-assetgen\", \"-h\"\nsystem bin/\"objc-colordump\", \"-h\"\nsystem bin/\"objc-identifierconstants\", \"-h\"\n(testpath/\"Foo.xcassets/Big Button.imageset\").mkpath\nsystem bin/\"objc-assetgen\", \"-o\", testpath/\"out\", testpath/\"Foo.xcassets\"\nassert_match \"+ (UIImage *)bigButtonImage;\", (testpath/\"out/FooCatalog.h\").read\n(testpath/\"Main.storyboard\").write '<document><scenes><scene><objects><viewController storyboardIdentifier=\"login\" id=\"a\"/></objects></scene></scenes></document>'\nsystem bin/\"objc-identifierconstants\", \"-o\", testpath/\"out\", testpath/\"Main.storyboard\"\nassert_match \"MainStoryboardLoginIdentifier = @\\\"login\\\"\", (testpath/\"out/MainStoryboardIdentifiers.m\").read"
+}
