@@ -1,0 +1,7 @@
+{
+  "formula": "avfs",
+  "desc": "Virtual file system that facilitates looking inside archives (on ProjFS)",
+  "commands": ["avfsd", "mountavfs", "umountavfs"],
+  "caveats": "AVFS needs the Windows Projected File System. Turn it on once (as admin) with:\n  Enable-WindowsOptionalFeature -Online -FeatureName Client-ProjFS -NoRestart\nThen `mountavfs` and browse ~/.avfs/C/path/to/archive.zip#/",
+  "test": "system bin/\"avfsd\", \"--version\"\nassert_match \"AVFS version\", shell_output(\"#{bin}/avfsd --version\")\nassert_match \"missing mountpoint\", shell_output(\"#{bin}/avfsd 2>&1\", 2)\nENV[\"AVFSBASE\"] = (testpath/\"avfs\").to_s\nassert_match \"AVFS not mounted\", shell_output(\"#{bin}/umountavfs\")"
+}
