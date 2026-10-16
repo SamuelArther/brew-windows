@@ -1,0 +1,6 @@
+{
+  "formula": "wallpaper",
+  "desc": "Manage the desktop wallpaper",
+  "commands": ["wallpaper"],
+  "test": "system bin/\"wallpaper\", \"get\"\nassert_match \"set-solid-color\", shell_output(\"#{bin}/wallpaper --help\")\nassert_match \"invalid colour\", shell_output(\"#{bin}/wallpaper set-solid-color nothex 2>&1\", 2)"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "media-control",
+  "desc": "Control and observe media playback from the command-line",
+  "commands": ["media-control"],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/media-control version\"))\n# Nothing plays on CI\nassert_equal \"null\", shell_output(\"#{bin}/media-control get\").strip"
+}

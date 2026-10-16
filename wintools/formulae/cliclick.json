@@ -1,0 +1,6 @@
+{
+  "formula": "cliclick",
+  "desc": "Tool for emulating mouse and keyboard events",
+  "commands": ["cliclick"],
+  "test": "system bin/\"cliclick\", \"p:OK\"\n# test mode only prints what it would do\noutput = shell_output(\"#{bin}/cliclick -m test c:10,20 kp:return t:hi\")\nassert_match \"Click at 10,20\", output\nassert_match \"Press return key\", output"
+}

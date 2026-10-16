@@ -1,0 +1,6 @@
+{
+  "formula": "lsusb-laniksj",
+  "desc": "List USB devices, just like the Linux lsusb command",
+  "commands": ["lsusb"],
+  "test": "# CI virtual machines may have no USB controller, so only require a clean run\nsystem bin/\"lsusb\"\nsystem bin/\"lsusb\", \"-t\"\nassert_match \"lsusb\", shell_output(\"#{bin}/lsusb --version\")"
+}

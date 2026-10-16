@@ -1,0 +1,6 @@
+{
+  "formula": "duti",
+  "desc": "Select default apps for documents and URL schemes",
+  "commands": ["duti"],
+  "test": "assert_match \"no handlers\", shell_output(\"#{bin}/duti -l public.nonexistent-type 2>&1\", 1)\nassert_match(/notepad/i, shell_output(\"#{bin}/duti -x txt\"))"
+}

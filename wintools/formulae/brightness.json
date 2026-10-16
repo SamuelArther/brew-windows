@@ -1,0 +1,6 @@
+{
+  "formula": "brightness",
+  "desc": "Change display brightness from the command-line",
+  "commands": ["brightness"],
+  "test": "assert_match \"usage: brightness\", shell_output(\"#{bin}/brightness --help\")\nassert_match \"between 0 and 1\", shell_output(\"#{bin}/brightness 2 2>&1\", 2)"
+}

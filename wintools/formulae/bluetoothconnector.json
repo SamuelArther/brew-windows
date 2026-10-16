@@ -1,0 +1,6 @@
+{
+  "formula": "bluetoothconnector",
+  "desc": "Connect and disconnect Bluetooth devices",
+  "commands": ["BluetoothConnector"],
+  "test": "assert_match \"BluetoothConnector [--connect\", shell_output(\"#{bin}/BluetoothConnector\", 64)\nassert_match \"Not paired to device\", shell_output(\"#{bin}/BluetoothConnector --connect 00-00-00-00-00-00\", 252)"
+}

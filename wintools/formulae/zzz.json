@@ -1,0 +1,6 @@
+{
+  "formula": "zzz",
+  "desc": "Command-line tool to put the PC to sleep",
+  "commands": ["Zzz"],
+  "test": "assert_match \"Puts the PC to sleep\", shell_output(\"#{bin}/Zzz -h\")\nassert_match \"unknown option\", shell_output(\"#{bin}/Zzz --bogus 2>&1\", 2)"
+}

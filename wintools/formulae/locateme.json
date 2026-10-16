@@ -1,0 +1,6 @@
+{
+  "formula": "locateme",
+  "desc": "Find your location using the Windows Location service",
+  "commands": ["LocateMe"],
+  "test": "system bin/\"LocateMe\", \"-h\"\nassert_match \"{LAT}\", shell_output(\"#{bin}/LocateMe -h\")\nassert_match \"unknown option\", shell_output(\"#{bin}/LocateMe -x 2>&1\", 2)"
+}

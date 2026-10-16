@@ -1,0 +1,6 @@
+{
+  "formula": "peekaboo",
+  "desc": "Screen capture, UI inspection and automation",
+  "commands": ["peekaboo"],
+  "test": "ENV[\"PEEKABOO_CONFIG_DIR\"] = (testpath/\".peekaboo\").to_s\nassert_match(/Peekaboo \\d+\\.\\d+/, shell_output(\"#{bin}/peekaboo --version\"))\nsystem bin/\"peekaboo\", \"config\", \"init\"\nassert_path_exists testpath/\".peekaboo/config.json\"\nassert_match \"Configuration is valid\", shell_output(\"#{bin}/peekaboo config validate\")\nassert_match \"no snapshot found\", shell_output(\"#{bin}/peekaboo click --on B1 2>&1\", 1)"
+}

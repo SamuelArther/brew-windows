@@ -1,0 +1,6 @@
+{
+  "formula": "imagesnap",
+  "desc": "Capture still images from a webcam or other video source",
+  "commands": ["imagesnap"],
+  "test": "assert_match \"imagesnap\", shell_output(\"#{bin}/imagesnap -h\")\nassert_match \"Video Devices:\", shell_output(\"#{bin}/imagesnap -l\")"
+}

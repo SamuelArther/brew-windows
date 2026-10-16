@@ -1,0 +1,6 @@
+{
+  "formula": "switchaudio-osx",
+  "desc": "Change the default audio device from the command-line",
+  "commands": ["SwitchAudioSource"],
+  "test": "assert_match \"device_name\", shell_output(\"#{bin}/SwitchAudioSource -h\")\nassert_match \"invalid device type\", shell_output(\"#{bin}/SwitchAudioSource -t bogus -a 2>&1\", 2)"
+}
