@@ -1,0 +1,8 @@
+{
+  "formula": "webarchiver",
+  "desc": "Create Safari .webarchive files",
+  "commands": [
+    "webarchiver"
+  ],
+  "test": "(testpath/\"page.html\").write <<~HTML\n  <html><head><link rel=\"stylesheet\" href=\"style.css\"></head>\n  <body><img src=\"logo.png\"></body></html>\nHTML\n(testpath/\"style.css\").write \"body { background: url('logo.png'); }\"\n(testpath/\"logo.png\").write \"not really a png\"\nsystem bin/\"webarchiver\", \"-url\", \"file:///#{testpath}/page.html\", \"-output\", \"foo.webarchive\"\narchive = (testpath/\"foo.webarchive\").binread\nassert_equal \"bplist00\", archive[0, 8]\nassert_match \"WebSubresources\", archive\nassert_match \"style.css\", archive\nassert_match \"Usage: webarchiver\", shell_output(\"#{bin}/webarchiver -help\")"
+}
