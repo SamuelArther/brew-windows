@@ -46,7 +46,12 @@ jobs:
           git add tools/upstream-commit.txt tools/batches
           git diff --cached --quiet && exit 0
           git commit -q -m "Sync with homebrew-core ($(cut -c1-12 tools/upstream-commit.txt)): ${{ steps.diff.outputs.count }} formulae to build"
-          git push -q
+          # The bottles, retest and wintools workflows push to the same branch: rebase onto theirs.
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase && git push -q && break
+            [ "$i" = 5 ] && exit 1
+            sleep 10
+          done
           if [ "${{ steps.diff.outputs.count }}" != "0" ]; then
             gh workflow run bottles.yml -f batch=${{ steps.diff.outputs.batch }} -f chunk_size=15 -f toolchain=true
           fi

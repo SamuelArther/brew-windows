@@ -15,8 +15,13 @@ foreach ($json in Get-ChildItem $Dir -Filter '*.bottle.json') {
         $version = $entry.Value.formula.pkg_version
         $file = Join-Path $Dir $entry.Value.bottle.tags.x86_64_windows.local_filename
         $tag = "$name-$version"
-        $assets = gh release view $tag --repo $Repo --json assets --jq '.assets[].name' 2> $null
-        if ($LASTEXITCODE -eq 0 -and $assets -contains (Split-Path $file -Leaf)) { $published += $json.FullName; continue }
+        # Skip only an identical upload (a re-run of the same build). A rebuild of the same version has
+        # different bytes, and the merge below writes its SHA-256, so the release asset must be replaced.
+        $leaf = Split-Path $file -Leaf
+        $sha = (Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()
+        $assets = gh api "repos/$Repo/releases/tags/$tag" --jq '.assets[] | .name + " " + (.digest // "")' 2> $null
+        if ($LASTEXITCODE -eq 0 -and $assets -contains "$leaf sha256:$sha") { $published += $json.FullName; continue }
+        gh release view $tag --repo $Repo *> $null
         if ($LASTEXITCODE -eq 0) { gh release upload $tag $file --repo $Repo --clobber }
         else {
             gh release create $tag $file --repo $Repo --title "$name $version" `

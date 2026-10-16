@@ -92,7 +92,7 @@ jobs:
       - name: Commit report
         shell: python
         run: |
-          import glob, json, collections, os, subprocess
+          import glob, json, collections, os, subprocess, time
           rows = sorted((r for f in glob.glob("results/report-*.json") for r in json.load(open(f))), key=lambda r: r["name"])
           os.makedirs("tools/batches/results", exist_ok=True)
           json.dump(rows, open("tools/batches/results/${{ inputs.batch }}-retest.json", "w"), indent=2)
@@ -107,3 +107,6 @@ jobs:
               for _ in range(5):
                   if subprocess.run(["git", "pull", "-q", "--rebase"]).returncode == 0 and subprocess.run(["git", "push", "-q"]).returncode == 0:
                       break
+                  time.sleep(10)
+              else:
+                  raise SystemExit("could not push the retest report")
