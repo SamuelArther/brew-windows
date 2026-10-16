@@ -141,6 +141,8 @@ public static partial class FormulaLoader
                 i.Env["APPDATA"] = Path.Combine(home, "AppData", "Roaming");
                 Directory.CreateDirectory(i.Env["LOCALAPPDATA"]);
                 Directory.CreateDirectory(i.Env["APPDATA"]);
+                // Shell folders registered as %USERPROFILE%\... resolve inside the test profile; they must exist.
+                foreach (var folder in new[] { "Documents", "Desktop", "Downloads" }) Directory.CreateDirectory(Path.Combine(home, folder));
 
                 // Formula#setup_home and the identity sandboxed `git commit` needs
                 Directory.CreateDirectory(home);
