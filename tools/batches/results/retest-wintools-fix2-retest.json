@@ -1,0 +1,22 @@
+[
+  {
+    "name": "fcft",
+    "status": "build",
+    "seconds": 113
+  },
+  {
+    "name": "mlx",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "mlx-c",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "ratarmount",
+    "status": "build",
+    "seconds": 156
+  }
+]
