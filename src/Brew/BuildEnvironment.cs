@@ -12,10 +12,11 @@ public static class BuildEnvironment
         var home = Path.Combine(context.BuildPath, ".brew_home");
         Directory.CreateDirectory(home);
 
+        // Brewed dependencies first, then the toolchain (if any), then the system.
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "bin"))
             .Where(Directory.Exists);
-        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin)
+        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
 
         env["HOMEBREW_PREFIX"] = paths.Prefix;
@@ -49,11 +50,17 @@ public static class BuildEnvironment
     {
         get
         {
-            foreach (var root in new[] { Environment.GetEnvironmentVariable("HOMEBREW_MSYS2_ROOT"), @"C:\msys64" })
-                if (!string.IsNullOrEmpty(root) && File.Exists(Path.Combine(root, "usr", "bin", "bash.exe"))) return root;
-            return null;
+            if (Environment.GetEnvironmentVariable("HOMEBREW_MSYS2_ROOT") is { Length: > 0 } root
+                && File.Exists(Path.Combine(root, "usr", "bin", "bash.exe"))) return root;
+            // A default install counts only once it has the UCRT64 compiler (CI images ship a bare one).
+            return File.Exists(@"C:\msys64\ucrt64\bin\gcc.exe") ? @"C:\msys64" : null;
         }
     }
+
+    // GCC and friends, then MSYS2's POSIX tools: ahead of the system PATH, where another MSYS runtime
+    // (Git for Windows' usrin) would otherwise supply expr/sed/sh and mangle their arguments.
+    static IEnumerable<string> ToolchainPath() => Msys2Root is { } root
+        ? [Path.Combine(root, "ucrt64", "bin"), Path.Combine(root, "usr", "bin")] : [];
 
     static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
     {
@@ -62,13 +69,6 @@ public static class BuildEnvironment
         var ucrt = Path.Combine(root, "ucrt64");
         var kegs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).Where(Directory.Exists).ToList();
-
-        // Brewed dependencies first, then the toolchain, then MSYS2's POSIX tools, then the system.
-        var path = env["PATH"].Split(';').ToList();
-        var system = path.Count > 0 ? path[^1] : "";
-        path.RemoveAt(path.Count - 1);
-        path.AddRange([Path.Combine(ucrt, "bin"), Path.Combine(root, "usr", "bin"), system]);
-        env["PATH"] = string.Join(";", path);
 
         env["HOMEBREW_MSYS2_ROOT"] = root;
         env["MSYSTEM"] = "UCRT64";
@@ -80,7 +80,11 @@ public static class BuildEnvironment
         env["AR"] = "ar";
         env["RANLIB"] = "ranlib";
         env["CMAKE_GENERATOR"] = "Ninja";
-        env["CFLAGS"] = "-O2 -pipe";
+        // MSYS2 ships GCC 15, which defaults to C23 and turns several old warnings into errors. Upstream
+        // formulae target older compilers (Apple clang, Linux GCC 12), so build C as gnu17 and keep those
+        // diagnostics warnings; a project's own -std flag still comes later and wins.
+        env["CFLAGS"] = "-O2 -pipe -std=gnu17 -Wno-error=incompatible-pointer-types -Wno-error=int-conversion"
+            + " -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error=return-mismatch";
         env["CXXFLAGS"] = "-O2 -pipe";
         env["CPPFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(d => "-I" + Posix(d)));
         env["LDFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(d => "-L" + Posix(d)));

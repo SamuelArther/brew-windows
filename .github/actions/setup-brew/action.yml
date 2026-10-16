@@ -7,12 +7,29 @@ inputs:
 runs:
   using: composite
   steps:
+    # Fully updated: a partial `pacman -Sy` upgrade can leave tools on a mismatched runtime.
     - name: MSYS2 toolchain
+      if: inputs.toolchain == 'true'
+      id: msys2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: UCRT64
+        update: true
+        path-type: inherit
+        install: >-
+          base-devel
+          mingw-w64-ucrt-x86_64-gcc
+          mingw-w64-ucrt-x86_64-cmake
+          mingw-w64-ucrt-x86_64-ninja
+          mingw-w64-ucrt-x86_64-meson
+          mingw-w64-ucrt-x86_64-pkgconf
+    - name: Point brew at MSYS2
       if: inputs.toolchain == 'true'
       shell: pwsh
       run: |
-        C:\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm --needed base-devel mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-meson mingw-w64-ucrt-x86_64-pkgconf"
-        if ($LASTEXITCODE) { exit $LASTEXITCODE }
+        $root = "${{ steps.msys2.outputs.msys2-location }}"
+        if (-not (Test-Path "$root\usr\bin\bash.exe")) { throw "no MSYS2 at $root" }
+        "HOMEBREW_MSYS2_ROOT=$root" | Add-Content $env:GITHUB_ENV
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: "10.0.x"

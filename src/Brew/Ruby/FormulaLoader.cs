@@ -166,6 +166,24 @@ public static partial class FormulaLoader
         it.DefS(cpu, "arch", (i, s, a, b) => Interp.Sym(arm ? "arm64" : "x86_64"));
         it.DefS(cpu, "cores", (i, s, a, b) => (long)Environment.ProcessorCount);
         it.DefS(cpu, "is_64_bit?", (i, s, a, b) => true);
+        // DevelopmentTools: the toolchain is MSYS2's GCC, so there is no Apple clang or ld64 to version.
+        var devTools = it.DefineModule("DevelopmentTools");
+        it.DefS(devTools, "clang_build_version clang_version llvm_clang_build_version ld64_version", (i, s, a, b) => VersionObject(i, "0"));
+        it.DefS(devTools, "default_compiler", (i, s, a, b) => Interp.Sym("gcc"));
+        it.DefS(devTools, "installed?", (i, s, a, b) => BuildEnvironment.Msys2Root != null);
+        it.DefS(devTools, "locate", (i, s, a, b) =>
+        {
+            var found = i.ResolveProgram(i.ToS(a[0]));
+            return File.Exists(found) ? i.NewPath(found) : null;
+        });
+        it.DefS(devTools, "gcc_version", (i, s, a, b) =>
+        {
+            var cc = a.Length > 0 ? i.ToS(a[0]) : "gcc";
+            var found = i.ResolveProgram(cc.StartsWith("gcc") ? "gcc" : cc);
+            if (!File.Exists(found)) return VersionObject(i, "0");
+            var version = i.Backtick(Quote(found) + " -dumpversion").ToString()?.Trim();
+            return VersionObject(i, string.IsNullOrEmpty(version) ? "0" : version);
+        });
         var utils = it.DefineModule("Utils");
         it.DefS(utils, "safe_popen_read popen_read", (i, s, a, b) => i.Backtick(string.Join(" ", a.Select(i.ToS).Select(Quote))));
 

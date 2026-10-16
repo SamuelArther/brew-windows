@@ -77,6 +77,15 @@ public static partial class FormulaLoader
         it.Def(F, "std_npm_args", (i, self, a, b) =>
             StrArray("--loglevel=silly", "--build-from-source", "--cache=" + Path.Combine(Ctx(i, self).BuildPath, ".brew_home", "npm_cache"),
                 "--prefix=" + Path.Combine(Prefix(i, self), "libexec")));
+        // Formula#rpath/#loader_path: Linux's $ORIGIN spelling. PE files have no rpath; the value only
+        // reaches build systems (CMAKE_INSTALL_RPATH, -Wl,-rpath), which ignore it for Windows targets.
+        it.Def(F, "loader_path", (i, self, a, b) => Interp.S("$ORIGIN"));
+        it.Def(F, "rpath", (i, self, a, b) =>
+        {
+            var source = Kw(i, a, "source") is { } s ? i.PathStr(s) : Path.Combine(Prefix(i, self), "bin");
+            var target = Kw(i, a, "target") is { } t ? i.PathStr(t) : Path.Combine(Prefix(i, self), "lib");
+            return Interp.S("$ORIGIN/" + Path.GetRelativePath(source, target).Replace('\\', '/'));
+        });
         it.Def(F, "pwsh_completion", (i, self, a, b) => i.NewPath(Path.Combine(Prefix(i, self), "share", "pwsh", "completions")));
         it.Def(F, "time", (i, self, a, b) => TimeObject(i, BuildTime(i)));
         it.Def(F, "tap", (i, self, a, b) =>
