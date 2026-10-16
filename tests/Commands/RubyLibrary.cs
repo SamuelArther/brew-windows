@@ -25,6 +25,11 @@ static class RubyLibrary
         Expect("""[513].pack("v").unpack1("v").to_s""", "513");
         Expect("""["aGk="].first.unpack1("m")""", "hi");
         Expect("""["hi"].pack("m0")""", "aGk=");
+        Expect("""["89".to_i(8), "102".to_i(2), "zz".to_i(36), "0x1f".to_i(16), "-12abc".to_i].inspect""", "[0, 2, 1295, 31, -12]");
+        Expect("""JSON.generate([1.0, 2.5, 1e20])""", "[1.0,2.5,1.0e+20]");
+        Expect("""[233].pack("U").bytes.inspect""", "[195, 169]");
+        var file = Path.Combine(root, "binwrite.bin").Replace('\\', '/');
+        Expect($"""File.binwrite("{file}", [0x89, 0x50].pack("C*")); File.binread("{file}").bytes.inspect""", "[137, 80]");
         // Formula-level preludes (blank?/present?, post_install_steps) load with the Formula class.
         var formulaIt = Brew.Ruby.FormulaLoader.NewInterpreterForTests();
         foreach (var (code, expected) in new[] { ("[nil.present?, \" \".blank?, [1].present?, {}.blank?].inspect", "[false, true, true, true]"),

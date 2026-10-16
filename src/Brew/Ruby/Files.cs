@@ -143,9 +143,9 @@ public sealed partial class Interp
                 throw it.Error(it.RuntimeError, $"Will not overwrite {Me(self)}");
             var dir = Path.GetDirectoryName(p);
             if (dir != null) Directory.CreateDirectory(dir);
-            if (append) File.AppendAllText(p, s, new UTF8Encoding(false));
-            else File.WriteAllText(p, s, new UTF8Encoding(false));
-            return (long)Encoding.UTF8.GetByteCount(s);
+            var data = Bytes(a[0], s);
+            using (var f = new FileStream(p, append ? FileMode.Append : FileMode.Create)) f.Write(data);
+            return (long)data.Length;
         });
         Def(P, "atomic_write", (it, self, a, b) =>
         {
@@ -282,9 +282,9 @@ public sealed partial class Interp
         DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
         DefS(F, "write binwrite", (it, self, a, b) =>
         {
-            var s = it.ToS(a[1]);
-            File.WriteAllText(it.Abs(it.PathStr(a[0])), s, new UTF8Encoding(false));
-            return (long)Encoding.UTF8.GetByteCount(s);
+            var data = Bytes(a[1], it.ToS(a[1]));
+            File.WriteAllBytes(it.Abs(it.PathStr(a[0])), data);
+            return (long)data.Length;
         });
         DefS(F, "basename", (it, self, a, b) =>
         {
@@ -323,7 +323,11 @@ public sealed partial class Interp
             finally { it.Invoke(f, "close", NoArgs, null); }
         });
         FileHandle FH(object o) => (FileHandle)((RObject)o).Host;
-        Def(F, "write print <<", (it, self, a, b) => { foreach (var x in a) FH(self).Buffer.Append(it.ToS(x)); return self; });
+        Def(F, "write print <<", (it, self, a, b) =>
+        {
+            foreach (var x in a) { FH(self).Buffer.Append(it.ToS(x)); FH(self).Binary |= x is RString { Binary: true }; }
+            return self;
+        });
         Def(F, "puts", (it, self, a, b) => { var sw = new StringWriter(); it.Puts(sw, a); FH(self).Buffer.Append(sw.ToString()); return null; });
         Def(F, "read", (it, self, a, b) => { var s = FH(self).Buffer.ToString(FH(self).Pos, FH(self).Buffer.Length - FH(self).Pos); FH(self).Pos = FH(self).Buffer.Length; return S(s); });
         Def(F, "each_line", (it, self, a, b) => { foreach (var l in Lines(FH(self).Buffer.ToString())) it.Y1(b, S(l)); return self; });
@@ -334,8 +338,9 @@ public sealed partial class Interp
             var h = FH(self);
             if (h.Closed) return null;
             h.Closed = true;
-            if (h.Mode.StartsWith('w')) File.WriteAllText(h.Path, h.Buffer.ToString(), new UTF8Encoding(false));
-            else if (h.Mode.StartsWith('a')) File.AppendAllText(h.Path, h.Buffer.ToString(), new UTF8Encoding(false));
+            Encoding encoding = h.Binary ? Encoding.Latin1 : new UTF8Encoding(false);
+            if (h.Mode.StartsWith('w')) File.WriteAllText(h.Path, h.Buffer.ToString(), encoding);
+            else if (h.Mode.StartsWith('a')) File.AppendAllText(h.Path, h.Buffer.ToString(), encoding);
             return null;
         });
 
@@ -405,6 +410,13 @@ public sealed partial class Interp
         DefS(FU, "cp_r", (it, self, a, b) =>
         {
             var dest = it.Abs(it.PathStr(a[1]));
+            // cp_r "dir/.", dest copies dir's contents into dest (no dest/dir).
+            var raw = (a[0] is RArray ra ? ra.L : new List<object> { a[0] }).Select(it.PathStr).ToList();
+            if (raw.Count == 1 && (raw[0].EndsWith("/.") || raw[0].EndsWith("\\.")) && Directory.Exists(it.Abs(raw[0])))
+            {
+                CopyDir(it.Abs(raw[0]), dest);
+                return null;
+            }
             foreach (var p in Paths(it, a[0]))
             {
                 var target = Directory.Exists(dest) ? Path.Combine(dest, Path.GetFileName(p)) : dest;
@@ -497,6 +509,7 @@ public sealed partial class Interp
         public readonly StringBuilder Buffer = new();
         public int Pos;
         public bool Closed;
+        public bool Binary;   // binary strings were written: save their bytes as-is
     }
 
     static bool IsSymlink(string p)
@@ -552,8 +565,13 @@ public sealed partial class Interp
     {
         if (Directory.Exists(from) && !IsSymlink(from))
         {
-            if (Directory.Exists(to)) RemoveTree(to);
-            Directory.Move(from, to);
+            // Never delete what's already there (make install output, a user's var/ data): merge into it.
+            if (Directory.Exists(to) && !IsSymlink(to))
+            {
+                foreach (var entry in Directory.GetFileSystemEntries(from)) MovePath(entry, Path.Combine(to, Path.GetFileName(entry)));
+                Directory.Delete(from);
+            }
+            else Directory.Move(from, to);
         }
         else if (File.Exists(from) || IsSymlink(from)) File.Move(from, to, true);
         else throw Error(ENOENT, $"No such file or directory @ rb_file_s_rename - ({from}, {to})");
@@ -576,6 +594,10 @@ public sealed partial class Interp
     }
 
     // Homebrew's Pathname#install: moves sources (relative to cwd) into dir.
+    // A binary (ASCII-8BIT) string's bytes are its chars; anything else is written as UTF-8.
+    static byte[] Bytes(object value, string text) =>
+        value is RString { Binary: true } ? Encoding.Latin1.GetBytes(text) : new UTF8Encoding(false).GetBytes(text);
+
     void InstallInto(string dir, object src)
     {
         switch (src)

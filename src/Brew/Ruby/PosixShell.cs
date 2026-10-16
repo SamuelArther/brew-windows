@@ -60,6 +60,7 @@ public static class PosixShell
                     {
                         at++;
                         var both = RedirectOut(command, 1);
+                        command.Stdout = both;
                         command.Stderr = both.Copy();
                         continue;
                     }

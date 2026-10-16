@@ -8,7 +8,7 @@ public static class BuildEnvironment
     public static void Apply(Paths paths, InstallContext context, IEnumerable<string> dependencies)
     {
         var env = context.BuildEnvironment;
-        var cache = Path.GetDirectoryName(Path.TrimEndingDirectorySeparator(paths.Cache))!;
+        var cache = paths.CacheRoot;
         var home = Path.Combine(context.BuildPath, ".brew_home");
         Directory.CreateDirectory(home);
 
@@ -22,7 +22,18 @@ public static class BuildEnvironment
         env["HOMEBREW_PREFIX"] = paths.Prefix;
         env["HOMEBREW_CELLAR"] = paths.Cellar;
         env["HOMEBREW_CACHE"] = cache;
+        // Like Homebrew's HOME, the Windows profile folders point into the build too, so pip, npm and
+        // cargo don't read the user's config or write caches into their profile. rustup still finds
+        // its toolchains in the real profile.
+        var profile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (Environment.GetEnvironmentVariable("RUSTUP_HOME") is not { Length: > 0 } && Directory.Exists(Path.Combine(profile, ".rustup")))
+            env["RUSTUP_HOME"] = Path.Combine(profile, ".rustup");
         env["HOME"] = home;
+        env["USERPROFILE"] = home;
+        env["APPDATA"] = Path.Combine(home, "AppData", "Roaming");
+        env["LOCALAPPDATA"] = Path.Combine(home, "AppData", "Local");
+        Directory.CreateDirectory(env["APPDATA"]);
+        Directory.CreateDirectory(env["LOCALAPPDATA"]);
         if (Environment.GetEnvironmentVariable("HOMEBREW_MAKE_JOBS") is not { Length: > 0 })
             env["HOMEBREW_MAKE_JOBS"] = Environment.ProcessorCount.ToString();
 
@@ -139,8 +150,10 @@ public static class BuildEnvironment
             .SelectMany(k => new[] { Path.Combine(k, "lib", "pkgconfig"), Path.Combine(k, "share", "pkgconfig") })
             .Where(Directory.Exists).Select(Posix));
         env["PKG_CONFIG_LIBDIR"] = Posix(Path.Combine(ucrt, "lib", "pkgconfig"));
+        // aclocal (MSYS perl) splits on ':', so this list always uses /c/x paths.
+        string Msys(string p) => p.Length > 1 && p[1] == ':' ? "/" + char.ToLowerInvariant(p[0]) + p[2..].Replace('\\', '/') : p.Replace('\\', '/');
         env["ACLOCAL_PATH"] = string.Join(":", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "share", "aclocal"))
-            .Where(Directory.Exists).Select(Posix));
+            .Where(Directory.Exists).Select(Msys));
         env["CMAKE_PREFIX_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(Posix));
 
         // Old config.guess scripts don't know MinGW or MSYS; tell configure what it is building on.
@@ -169,7 +182,8 @@ public static class BuildEnvironment
                 if (!seen.Add(dll)) continue;
                 var source = Path.Combine(toolchainBin, dll);
                 var local = Path.Combine(directory, dll);
-                if (!File.Exists(source) || File.Exists(local) || Directory.EnumerateFiles(keg, dll, SearchOption.AllDirectories).Any()) continue;
+                // Each binary's own folder needs the DLL: Windows looks beside the exe, not elsewhere in the keg.
+                if (!File.Exists(source) || File.Exists(local)) continue;
                 File.Copy(source, local);
                 foreach (var next in PortableExecutable.Imports(source)) pending.Enqueue(next);
             }

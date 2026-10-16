@@ -39,6 +39,8 @@ static class PosixLines
         if (c.Stderr.Kind != PosixShell.Target.Out || c.Stdout.Kind != PosixShell.Target.File || !c.Stdout.Path.EndsWith("out.txt")) throw new Exception("2>&1 >file");
         c = Parse("tool >>log 2>err <in.txt");
         if (!c.Stdout.Append || c.Stderr.Kind != PosixShell.Target.File || c.StdinFile != "in.txt") throw new Exception(">> 2> <");
+        c = Parse("tool &>/dev/null");
+        if (c.Stdout.Kind != PosixShell.Target.Null || c.Stderr.Kind != PosixShell.Target.Null) throw new Exception("&>/dev/null");
         c = Parse("tool <<< '(+ 1 2)'");
         if (c.HereString != "(+ 1 2)\n") throw new Exception("<<<");
         count += 5;

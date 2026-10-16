@@ -51,6 +51,22 @@ public sealed class PackageManager(Paths paths)
             return;
         }
         if (Directory.Exists(keg)) throw new IOException($"Incomplete keg already exists: {keg}");
+        // Another version installed: `brew install` upgrades it (install/check.rb), or explains the pin.
+        var older = store.Kegs(name);
+        if (older.Length > 0)
+        {
+            var message = $"{name} {older[^1].Receipt.Version} is already installed";
+            if (!requested) return;   // a dependency that's present at any version is satisfied
+            if (store.IsPinned(name) || Environment.GetEnvironmentVariable("HOMEBREW_NO_INSTALL_UPGRADE") is { Length: > 0 })
+            {
+                var unpin = store.IsPinned(name) ? $"brew unpin {name} && " : "";
+                throw new InvalidOperationException($"{message}\nTo upgrade to {Metadata.Version(formula)}, run:\n  {unpin}brew upgrade {name}");
+            }
+            Console.WriteLine($"{message} but outdated (so it will be upgraded).");
+            await ReplaceAsync(name, older, () => InstallCoreAsync(name, true, force, ignoreDependencies,
+                older.Any(k => k.Receipt.Links.Count > 0), fromSource));
+            return;
+        }
         if (!force && Metadata.Get(formula, "Conflicts") is System.Collections.IEnumerable declared)
         {
             var conflicts = declared.Cast<object>().Where(c => store.Kegs(Metadata.Text(c, "Name")).Any(k => k.Receipt.Links.Count > 0)).ToArray();
@@ -142,11 +158,11 @@ public sealed class PackageManager(Paths paths)
         {
             linker.Unlink(links);
             opt.Remove(name, keg);
-            if (createdKeg && Directory.Exists(keg)) Directory.Delete(keg, true);
+            if (createdKeg && Directory.Exists(keg)) DeleteTree(keg);
             RemoveEmptyRack(rack);
             throw;
         }
-        finally { if (Directory.Exists(build)) Directory.Delete(build, true); }
+        finally { try { DeleteTree(build); } catch (Exception e) when (e is IOException or UnauthorizedAccessException) { CommandOutput.Warning($"Could not remove {build}: {e.Message}"); } }
     }
 
     // Homebrew's Formula#patch: inline/DATA diffs, downloaded diffs, and `apply` files inside patch archives.
@@ -236,7 +252,7 @@ public sealed class PackageManager(Paths paths)
             Console.WriteLine($"Uninstalling {keg}... ({Abbreviation(keg)})");
             linker.Unlink(receipt.Links);
             opt.Remove(name, keg);
-            Directory.Delete(keg, true);
+            DeleteTree(keg);
         }
         RemoveEmptyRack(paths.Rack(name));
         var pin = Path.Combine(store.PinDirectory, name);
@@ -321,7 +337,7 @@ public sealed class PackageManager(Paths paths)
         await ReplaceAsync(name, previous);
     }
 
-    async Task ReplaceAsync(string name, InstalledKeg[] previous)
+    async Task ReplaceAsync(string name, InstalledKeg[] previous, Func<Task> install = null)
     {
         var moved = new List<(InstalledKeg Keg, string Backup)>();
         try
@@ -334,21 +350,62 @@ public sealed class PackageManager(Paths paths)
                 catch { if (keg.Receipt.Links.Count > 0) InstallationStore.Save(keg, keg.Receipt with { Links = linker.Link(keg.Path, keg.Receipt.Commands) }); throw; }
                 moved.Add((keg, backup));
             }
-            await InstallAsync(name, previous.Length == 0 || previous.Any(k => k.Receipt.InstalledOnRequest),
-                linkKeg: previous.Length == 0 ? null : previous.Any(k => k.Receipt.Links.Count > 0));
+            await (install?.Invoke() ?? InstallAsync(name, previous.Length == 0 || previous.Any(k => k.Receipt.InstalledOnRequest),
+                linkKeg: previous.Length == 0 ? null : previous.Any(k => k.Receipt.Links.Count > 0)));
         }
         catch
         {
+            // Put every keg back before relinking any, and keep going past individual failures.
             foreach (var (keg, backup) in moved)
-            {
-                Directory.Move(backup, keg.Path);
-                var links = keg.Receipt.Links.Count == 0 ? [] : linker.Link(keg.Path, keg.Receipt.Commands);
-                InstallationStore.Save(keg, keg.Receipt with { Links = links });
-            }
-            if (previous.Length > 0) opt.Set(name, previous[^1].Path);
+                try { Directory.Move(backup, keg.Path); }
+                catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+                { CommandOutput.Warning($"Could not restore {keg.Path} from {backup}: {e.Message}"); }
+            foreach (var (keg, _) in moved.Where(m => Directory.Exists(m.Keg.Path)))
+                try
+                {
+                    var links = keg.Receipt.Links.Count == 0 ? [] : linker.Link(keg.Path, keg.Receipt.Commands);
+                    InstallationStore.Save(keg, keg.Receipt with { Links = links });
+                }
+                catch (IOException e) { CommandOutput.Warning($"Could not relink {keg.Path}: {e.Message}"); }
+            if (previous.Length > 0 && Directory.Exists(previous[^1].Path)) opt.Set(name, previous[^1].Path);
             throw;
         }
-        foreach (var (_, backup) in moved) Directory.Delete(backup, true);
+        foreach (var (_, backup) in moved) DeleteTree(backup);
+    }
+
+    // Directory.Delete refuses read-only files (chmod 0444, `install -m 444`); clear the attribute first.
+    internal static void DeleteTree(string path)
+    {
+        if (!Directory.Exists(path)) return;
+        foreach (var entry in new DirectoryInfo(path).EnumerateFileSystemInfos("*", new EnumerationOptions { RecurseSubdirectories = true, AttributesToSkip = 0 }))
+            if (entry.Attributes.HasFlag(FileAttributes.ReadOnly) && entry.LinkTarget == null)
+                entry.Attributes &= ~FileAttributes.ReadOnly;
+        Directory.Delete(path, true);
+    }
+
+    // Leftovers of an interrupted upgrade (Cellar/<name>/.backup-*): put the keg back if its version
+    // is missing, otherwise drop the stale copy.
+    public void RecoverBackups()
+    {
+        if (!Directory.Exists(paths.Cellar)) return;
+        foreach (var rack in Directory.GetDirectories(paths.Cellar))
+            foreach (var backup in Directory.GetDirectories(rack, ".backup-*"))
+            {
+                try
+                {
+                    var receipt = Path.Combine(backup, ReceiptName);
+                    var version = File.Exists(receipt) ? JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receipt))?.Version : null;
+                    var keg = version == null ? null : Path.Combine(rack, version);
+                    if (keg != null && !Directory.Exists(keg))
+                    {
+                        Directory.Move(backup, keg);
+                        CommandOutput.Warning($"Restored {keg} from an interrupted upgrade; run `brew link {Path.GetFileName(rack)}` if needed.");
+                    }
+                    else DeleteTree(backup);
+                }
+                catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+                { CommandOutput.Warning($"Could not recover {backup}: {e.Message}"); }
+            }
     }
 
     public static string FormulaCaveats(FormulaDefinition formula, InstallContext context)

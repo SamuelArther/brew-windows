@@ -42,10 +42,12 @@ static class LifecycleRegression
                 Check(File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "failed uninstall preserves global link");
                 Check(File.Exists(Path.Combine(prefix, "opt", "probe", "bin", "probe.cmd")), "failed uninstall preserves opt link");
             }
+            // Read-only files (chmod 0444, install -m 444) don't block removal: brew clears the attribute.
             File.SetAttributes(payload, File.GetAttributes(payload) | FileAttributes.ReadOnly);
-            try { Check((await Brew("uninstall", "probe")).Code == 1, "read-only payload prevents uninstall"); }
-            finally { File.SetAttributes(payload, File.GetAttributes(payload) & ~FileAttributes.ReadOnly); }
-            Check(File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "read-only failure preserves links");
+            Check((await Brew("uninstall", "probe")).Code == 0, "read-only payload uninstalls");
+            Check(!Directory.Exists(keg.Path), "read-only keg removed");
+            Check((await Brew("install", "probe@1")).Code == 0, "reinstall after read-only uninstall");
+            Check(File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "reinstall relinks");
             Check((await Brew("unlink", "probe@1")).Code == 0, "unlink resolves alias");
             Check((await Brew("reinstall", "probe@1")).Code == 0, "reinstall unlinked alias");
             Check(!File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "reinstall preserves unlinked state");
@@ -56,6 +58,11 @@ static class LifecycleRegression
             Check(!File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "upgrade preserves unlinked state");
             Check((await Brew("link", "probe@1")).Code == 0, "link resolves alias");
             Check(File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "alias relinks canonical keg");
+            File.WriteAllText(probeFile, File.ReadAllText(probeFile).Replace("version \"3.0\"", "version \"4.0\""));
+            var outdatedInstall = await Brew("install", "probe");
+            Check(outdatedInstall.Code == 0 && outdatedInstall.Output.Contains("but outdated (so it will be upgraded)"), "install upgrades an outdated keg");
+            Check((await Brew("list", "--versions", "probe")).Output == "probe 4.0\n", "outdated install leaves only the new version");
+            Check(File.Exists(Path.Combine(prefix, "bin", "probe.cmd")), "outdated install keeps the formula linked");
 
             Check((await Brew("install", "isolated")).Code == 0, "install keg-only fixture");
             Check((await Brew("link", "isolated")).Code == 0, "versioned keg-only link allowed without force");

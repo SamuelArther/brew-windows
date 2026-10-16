@@ -66,7 +66,7 @@ public static class Bottles
             if (tar.Code != 0) throw new IOException("Bottle archive creation failed: " + tar.Error.Trim());
             return relocatable ? "any_skip_relocation" : "any";
         }
-        finally { if (Directory.Exists(staging)) Directory.Delete(staging, true); }
+        finally { PackageManager.DeleteTree(staging); }
     }
 
     public static async Task PourAsync(Paths paths, string archive, string keg, string cellar)
@@ -90,7 +90,7 @@ public static class Bottles
             Directory.CreateDirectory(Path.GetDirectoryName(keg)!);
             Directory.Move(extracted, keg);
         }
-        finally { Directory.Delete(staging, true); }
+        finally { PackageManager.DeleteTree(staging); }
     }
 
     public static async Task<string> Sha256Async(string file)
@@ -118,6 +118,7 @@ public static class Bottles
             updated = toPlaceholder ? updated.Replace(path, placeholder, StringComparison.OrdinalIgnoreCase)
                 : updated.Replace(placeholder, path, StringComparison.Ordinal);
         if (updated == text) return false;
+        Writable(file);
         File.WriteAllText(file, updated, new UTF8Encoding(false));
         return true;
     }
@@ -142,6 +143,7 @@ public static class Bottles
         output.Write(data, 0, start);
         output.Write(Encoding.UTF8.GetBytes(updated));
         output.Write(data, zip, data.Length - zip);
+        Writable(file);
         File.WriteAllBytes(file, output.ToArray());
         return true;
     }
@@ -181,5 +183,12 @@ public static class Bottles
             else if (Directory.Exists(entry)) CopyTree(entry, target);
             else File.Copy(entry, target);
         }
+    }
+
+    // A keg file installed read-only (install -m 444) still has to take relocated paths.
+    static void Writable(string file)
+    {
+        var attributes = File.GetAttributes(file);
+        if (attributes.HasFlag(FileAttributes.ReadOnly)) File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
     }
 }

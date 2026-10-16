@@ -29,6 +29,8 @@ public sealed partial class Interp
         Def(ObjectClass, "to_json", (it, self, a, b) => S(it.ToJson(self, null, 0)));
     }
 
+    RClass GeneratorErrorClass() => (ConstGet(ObjectClass, "JSON") as RClass)?.Consts.GetValueOrDefault("GeneratorError") as RClass ?? RuntimeError;
+
     RClass StandardErrorClass() => ConstGet(ObjectClass, "StandardError") as RClass ?? RuntimeError;
 
     object FromJson(JsonElement e, bool symbolize) => e.ValueKind switch
@@ -57,7 +59,7 @@ public sealed partial class Interp
             case null: return "null";
             case bool t: return t ? "true" : "false";
             case long or int or System.Numerics.BigInteger: return Convert.ToString(v, CultureInfo.InvariantCulture);
-            case double d: return d.ToString("R", CultureInfo.InvariantCulture);
+            case double d: return double.IsFinite(d) ? FloatToS(d) : throw Error(GeneratorErrorClass(), $"{FloatToS(d)} not allowed in JSON");
             case RString s: return Quote(s.V);
             case RSymbol sym: return Quote(sym.Name);
             case RArray arr:

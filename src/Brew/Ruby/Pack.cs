@@ -109,6 +109,8 @@ public sealed partial class Interp
                 default: throw ArgError($"unsupported pack directive '{op}'");
             }
         }
+        // Ruby: a format that starts with U packs a UTF-8 string; anything else is binary.
+        if (format.TrimStart().StartsWith('U')) return new RString(Encoding.UTF8.GetString(bytes.ToArray()));
         return new RString(Encoding.Latin1.GetString(bytes.ToArray())) { Binary = true };
     }
 

@@ -6,7 +6,13 @@ public sealed class Paths
         ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Homebrew"));
     public string Cellar => Path.Combine(Prefix, "Cellar");
     public string Bin => Path.Combine(Prefix, "bin");
-    public string Cache => Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_CACHE") ?? Environment.GetEnvironmentVariable("HOMEBREW_CACHE") ?? Path.Combine(Prefix, "cache", "downloads"));
+    // HOMEBREW_CACHE is the cache root (as in Homebrew); downloads go in its downloads folder, and
+    // builds keep their Go/Cargo caches beside it.
+    // (BREW_CACHE, brew-windows' older setting, names the downloads folder itself.)
+    public string CacheRoot => Path.GetFullPath(Environment.GetEnvironmentVariable("HOMEBREW_CACHE")
+        ?? (Environment.GetEnvironmentVariable("BREW_CACHE") is { Length: > 0 } downloads ? Path.Combine(downloads, "..") : Path.Combine(Prefix, "cache")));
+    public string Cache => Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_CACHE") is { Length: > 0 } downloads
+        ? downloads : Path.Combine(CacheRoot, "downloads"));
     public string Taps => Path.Combine(Repository, "tap");
     public string Repository { get; } = FindRepository();
 

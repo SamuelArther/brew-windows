@@ -71,6 +71,7 @@ public static class Cli
             var maintenance = new MaintenanceCommands(paths);
             var mutating = new[] { "install", "uninstall", "reinstall", "upgrade", "link", "unlink", "pin", "unpin", "cleanup", "autoremove" }.Contains(command);
             using var gate = mutating ? Lock(paths) : null;
+            if (mutating) manager.RecoverBackups();
             switch (command)
             {
                 case "install":
@@ -171,7 +172,7 @@ public static class Cli
         if (installedOnly && names.Length == 0) throw new InvalidOperationException("Invalid usage: `--installed` requires a formula argument.");
         if (names.Length == 0)
         {
-            Console.WriteLine(command switch { "--prefix" => paths.Prefix, "--cellar" => paths.Cellar, "--cache" => paths.Cache, _ => paths.Repository }); return 0;
+            Console.WriteLine(command switch { "--prefix" => paths.Prefix, "--cellar" => paths.Cellar, "--cache" => paths.CacheRoot, _ => paths.Repository }); return 0;
         }
         var repository = new FormulaRepository(paths); var store = new InstallationStore(paths);
         foreach (var name in names)

@@ -20,9 +20,7 @@ internal static class RemovalPreflight
 
     public static void Check(string path)
     {
-        var attributes = File.GetAttributes(path);
-        if (!attributes.HasFlag(FileAttributes.Directory) && attributes.HasFlag(FileAttributes.ReadOnly))
-            throw new IOException($"Cannot remove read-only file: {path}");
+        // Read-only files are fine: removal clears the attribute (PackageManager.DeleteTree).
         // Request DELETE access without deleting anything. Open the link itself, never its target.
         using var handle = CreateFile(path, 0x00010000, FileShare.ReadWrite | FileShare.Delete,
             IntPtr.Zero, FileMode.Open, 0x02200000, IntPtr.Zero);

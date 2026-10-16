@@ -175,11 +175,28 @@ public sealed partial class Interp
         Def(St, "to_sym intern", (it, self, a, b) => Sym(Self(self).V));
         Def(St, "to_i", (it, self, a, b) =>
         {
-            var m = Regex.Match(Self(self).V.Replace("_", ""), a.Length > 0 && it.Int(a[0]) == 16 ? @"^\s*([-+]?)(?:0x)?([0-9a-fA-F]+)" : @"^\s*([-+]?)(\d+)");
-            if (!m.Success) return 0L;
             int radix = a.Length > 0 ? (int)it.Int(a[0]) : 10;
-            try { return (m.Groups[1].Value == "-" ? -1 : 1) * Convert.ToInt64(m.Groups[2].Value, radix); }
-            catch (OverflowException) { return long.MaxValue; }
+            if (radix < 2 || radix > 36) throw it.ArgError($"invalid radix {radix}");
+            var text = Self(self).V.TrimStart();
+            var sign = 1L;
+            if (text.StartsWith('-') || text.StartsWith('+')) { if (text[0] == '-') sign = -1; text = text[1..]; }
+            // Ruby accepts the radix's own prefix (0x, 0b, 0o) and digits up to the first invalid one.
+            var prefix = radix switch { 16 => "0x", 2 => "0b", 8 => "0o", _ => null };
+            if (prefix != null && text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) text = text[2..];
+            System.Numerics.BigInteger value = 0;
+            var any = false;
+            for (var k = 0; k < text.Length; k++)
+            {
+                var ch = char.ToLowerInvariant(text[k]);
+                if (ch == '_' && any && k + 1 < text.Length && text[k + 1] != '_') continue;
+                var digit = ch is >= '0' and <= '9' ? ch - '0' : ch is >= 'a' and <= 'z' ? ch - 'a' + 10 : 99;
+                if (digit >= radix) break;
+                value = value * radix + digit;
+                any = true;
+            }
+            value *= sign;
+            // The interpreter has no Bignum; out-of-range values saturate.
+            return value > long.MaxValue ? long.MaxValue : value < long.MinValue ? long.MinValue : (long)value;
         });
         Def(St, "to_f", (it, self, a, b) =>
         {

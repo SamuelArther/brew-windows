@@ -838,6 +838,13 @@ public sealed partial class Interp
             psi.ArgumentList.Add("-c");
             psi.ArgumentList.Add(PosixArgument(parts[0]));
         }
+        else if (parts.Count == 1 && PosixShell.FindShell(k => Env.GetValueOrDefault(k)) is { } shell)
+        {
+            // No toolchain: Git for Windows' bash still gives /bin/sh semantics.
+            psi = new System.Diagnostics.ProcessStartInfo(shell);
+            psi.ArgumentList.Add("-c");
+            psi.ArgumentList.Add(PosixArgument(parts[0]));
+        }
         else if (parts.Count == 1)
             psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + parts[0] + "\"");
         else
@@ -849,6 +856,13 @@ public sealed partial class Interp
         psi.UseShellExecute = false;
         psi.WorkingDirectory = Cwd;
         ApplyEnv(psi);
+        // Kernel#system([env,] command..., [options]): a leading hash sets (nil unsets) variables;
+        // options support chdir:.
+        if (a.Length > 0 && a[0] is RHash env)
+            foreach (var kv in env.D)
+                if (kv.Value == null) psi.Environment.Remove(StrOrSym(kv.Key)); else psi.Environment[StrOrSym(kv.Key)] = ToS(kv.Value);
+        if (a.Length > 1 && a[^1] is RHash options && options.D.TryGetValue(Sym("chdir"), out var chdir) && chdir != null)
+            psi.WorkingDirectory = Abs(PathStr(chdir));
         try
         {
             using var proc = System.Diagnostics.Process.Start(psi)!;
