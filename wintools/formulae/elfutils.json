@@ -1,0 +1,6 @@
+{
+  "formula": "elfutils",
+  "desc": "Utilities for handling ELF objects and their DWARF debug info",
+  "commands": ["eu-readelf", "eu-nm", "eu-size", "eu-strings", "eu-elfclassify", "eu-elfcmp", "eu-addr2line", "eu-srcfiles", "eu-strip"],
+  "test": "cp test_fixtures(\"elf/hello\"), testpath\nassert_match \"puts@GLIBC_2.2.5\", shell_output(\"#{bin}/eu-nm -D hello\")\nassert_match \"AMD x86-64\", shell_output(\"#{bin}/eu-readelf -h hello\")\nassert_match \"Build ID: 38b6fecd1314a6c95646f32024750ffc095298e0\", shell_output(\"#{bin}/eu-readelf -n hello\")\nassert_match \"Shared library: [libc.so.6]\", shell_output(\"#{bin}/eu-readelf -d hello\")\nassert_match \"GLIBC_2.2.5\", shell_output(\"#{bin}/eu-strings hello\")\nassert_match(/\\d+\\s+\\d+\\s+\\d+\\s+\\d+\\s+\\h+\\s+hello/, shell_output(\"#{bin}/eu-size hello\"))\nassert_equal \"hello\\n\", shell_output(\"#{bin}/eu-elfclassify --program --print hello\")\nsystem bin/\"eu-elfcmp\", \"hello\", \"hello\"\nsystem bin/\"eu-strip\", \"-o\", \"hello.stripped\", \"hello\"\nsystem bin/\"eu-elfcmp\", \"hello\", \"hello.stripped\""
+}

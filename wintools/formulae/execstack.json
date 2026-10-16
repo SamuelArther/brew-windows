@@ -1,0 +1,6 @@
+{
+  "formula": "execstack",
+  "desc": "Utility to set/clear/query executable stack bit",
+  "commands": ["execstack"],
+  "test": "cp test_fixtures(\"elf/hello\"), testpath\nassert_match \"- \", shell_output(\"#{bin}/execstack -q #{testpath}/hello\")\nsystem bin/\"execstack\", \"-s\", testpath/\"hello\"\nassert_match \"X \", shell_output(\"#{bin}/execstack -q #{testpath}/hello\")\nsystem bin/\"execstack\", \"-c\", testpath/\"hello\"\nassert_match \"- \", shell_output(\"#{bin}/execstack -q #{testpath}/hello\")\n# Windows PE images: the flag is the inverse of NX_COMPAT (DEP)\ncp libexec/\"wintools.exe\", testpath/\"pe.exe\"\nassert_match \"- \", shell_output(\"#{bin}/execstack -q #{testpath}/pe.exe\")"
+}
