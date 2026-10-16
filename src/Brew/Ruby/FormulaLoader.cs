@@ -37,6 +37,14 @@ public static partial class FormulaLoader
         return new Regex(@"(.)@(\d)").Replace(s, "$1AT$2", 1);
     }
 
+    // An interpreter with the Formula class and its preludes, for tests of the formula API.
+    public static Interp NewInterpreterForTests()
+    {
+        var it = new Interp();
+        DefineFormula(it);
+        return it;
+    }
+
     static FormulaSpec LoadCore(string path)
     {
         var name = Path.GetFileNameWithoutExtension(path);
@@ -135,15 +143,23 @@ public static partial class FormulaLoader
 
     internal static void RunPostInstall(FormulaSpec spec, string prefix, string brewPrefix)
     {
-        if (!spec.HasPostInstall) return;
-        WithInstance(spec, new InstallContext(prefix, prefix, null, brewPrefix), (it, f) => it.Invoke(f, "post_install", Array.Empty<object>(), null));
+        var steps = HasPostInstallSteps(spec);
+        if (!spec.HasPostInstall && !steps) return;
+        WithInstance(spec, new InstallContext(prefix, prefix, null, brewPrefix), (it, f) =>
+        {
+            if (steps) it.Invoke(f, "__run_post_install_steps", Array.Empty<object>(), null);
+            return spec.HasPostInstall ? it.Invoke(f, "post_install", Array.Empty<object>(), null) : null;
+        });
     }
 
     internal static void RunTest(FormulaSpec spec, string prefix, string brewPrefix, string testPath)
     {
         if (spec.TestBlock == null) throw new InvalidOperationException($"{spec.Name} defines no test");
         Directory.CreateDirectory(testPath);
-        WithInstance(spec, new InstallContext(prefix, testPath, null, brewPrefix), (it, f) =>
+        var context = new InstallContext(prefix, testPath, null, brewPrefix);
+        if (brewPrefix != null)
+            BuildEnvironment.ApplyForTest(new Paths(), context, spec.Dependencies.Select(d => d.Name).Append(spec.Name));
+        WithInstance(spec, context, (it, f) =>
         {
             f.SetIvar("@__testpath", Interp.S(testPath));
             it.Env["HOME"] = testPath;
@@ -388,6 +404,13 @@ public static partial class FormulaLoader
         it.Def(F, "opt_bin", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "bin")));
         it.Def(F, "opt_lib", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "lib")));
         it.Def(F, "opt_libexec", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "libexec")));
+        foreach (var (method, rel) in new[] { ("opt_sbin", "sbin"), ("opt_include", "include"), ("opt_share", "share"),
+                     ("opt_frameworks", "Frameworks"), ("opt_elisp", "share/emacs/site-lisp") })
+        {
+            var r = rel;
+            it.Def(F, method, (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), r)));
+        }
+        it.Def(F, "opt_pkgshare", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "share", Nm(self))));
         it.Def(F, "caveats post_install plist", (i, self, a, b) => null);
         // Homebrew's BuildOptions: stable builds, no options; bottle? while building one.
         it.Def(F, "build", (i, self, a, b) =>
@@ -468,6 +491,7 @@ public static partial class FormulaLoader
         DefinePythonDsl(it, F);
         DefineNodeDsl(it, F);
         DefineJavaDsl(it, F);
+        it.Run(InstallStepsPrelude, "<install_steps>");
         return F;
     }
 

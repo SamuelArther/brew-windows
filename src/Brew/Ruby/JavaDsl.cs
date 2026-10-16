@@ -43,6 +43,18 @@ public static partial class FormulaLoader
             WriteCmd(i, i.Abs(i.PathStr(self)), EnvLines(i, env), Invocation(target) + (args.Length > 0 ? " " + args : ""));
             return null;
         });
+        // Pathname#write_exec_script: a launcher per target, named after it (a .cmd here, not a bash script).
+        it.Def(P, "write_exec_script", (i, self, a, b) =>
+        {
+            var dir = i.Abs(i.PathStr(self));
+            Directory.CreateDirectory(dir);
+            foreach (var t in a.SelectMany(x => x is RArray arr ? arr.L : new List<object> { x }))
+            {
+                var target = i.Abs(i.PathStr(t));
+                WriteCmd(i, Path.Combine(dir, Path.GetFileName(target)), [], Invocation(target));
+            }
+            return null;
+        });
         it.Def(P, "write_jar_script", (i, self, a, b) =>
         {
             var jar = i.Abs(i.PathStr(a[0]));

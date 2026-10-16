@@ -44,6 +44,19 @@ public static class BuildEnvironment
         ApplyToolchain(paths, env, dependencies, context.BuildPath);
     }
 
+    // `brew test` gets the compiler half of the build environment (Homebrew's test env is a build env):
+    // tests compile against the keg with ENV.cc and pkg-config.
+    public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies)
+    {
+        if (Msys2Root == null) return;
+        var env = context.BuildEnvironment;
+        var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "bin")).Where(Directory.Exists);
+        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
+            .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
+        ApplyToolchain(paths, env, dependencies, context.BuildPath);
+    }
+
     // MSYS2's UCRT64 environment is the C/C++ toolchain (what Xcode's Command Line Tools are for
     // Homebrew on macOS): GCC, binutils, CMake/Ninja/Meson, pkgconf, and bash + make for autotools.
     public static string Msys2Root
@@ -70,14 +83,24 @@ public static class BuildEnvironment
 
     // GCC and friends, then MSYS2's POSIX tools: ahead of the system PATH, where another MSYS runtime
     // (Git for Windows' usrin) would otherwise supply expr/sed/sh and mangle their arguments.
-    static IEnumerable<string> ToolchainPath() => Msys2Root is { } root
-        ? [Path.Combine(root, "ucrt64", "bin"), Path.Combine(root, "usr", "bin")] : [];
+    static IEnumerable<string> ToolchainPath() => Msys2Root is not { } root ? []
+        : PosixRuntime ? [Path.Combine(root, "usr", "bin")]
+        : [Path.Combine(root, "ucrt64", "bin"), Path.Combine(root, "usr", "bin")];
+
+    // POSIX-runtime builds (HOMEBREW_POSIX_RUNTIME=1) compile with MSYS2's own GCC against msys-2.0.dll,
+    // MSYS2's Cygwin-derived POSIX layer: fork, termios, sockets, signals. For Unix programs MinGW can't
+    // build; the keg carries msys-2.0.dll like Git for Windows does.
+    public static bool PosixRuntime => Environment.GetEnvironmentVariable("HOMEBREW_POSIX_RUNTIME") == "1";
 
     static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath)
     {
         if (Msys2Root is not { } root) return;
-        string Posix(string p) => p.Replace('\\', '/');
-        var ucrt = Path.Combine(root, "ucrt64");
+        var posix = PosixRuntime;
+        // MSYS tools want /c/x paths in ':'-separated lists; UCRT64 tools take C:/x and ';'.
+        string Posix(string p) => posix && p.Length > 1 && p[1] == ':'
+            ? "/" + char.ToLowerInvariant(p[0]) + p[2..].Replace('\\', '/') : p.Replace('\\', '/');
+        var listSeparator = posix ? ":" : ";";
+        var ucrt = posix ? Path.Combine(root, "usr") : Path.Combine(root, "ucrt64");
         var kegs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).Where(Directory.Exists).ToList();
 
@@ -89,7 +112,7 @@ public static class BuildEnvironment
         env["PATH"] = shims + ";" + env["PATH"];
 
         env["HOMEBREW_MSYS2_ROOT"] = root;
-        env["MSYSTEM"] = "UCRT64";
+        env["MSYSTEM"] = posix ? "MSYS" : "UCRT64";
         env["MSYS2_PATH_TYPE"] = "inherit";
         env["CHERE_INVOKING"] = "1";
         env["CC"] = "gcc";
@@ -106,13 +129,19 @@ public static class BuildEnvironment
         env["CXXFLAGS"] = "-O2 -pipe";
         env["CPPFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(d => "-I" + Posix(d)));
         env["LDFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(d => "-L" + Posix(d)));
-        env["PKG_CONFIG_PATH"] = string.Join(";", kegs.Append(paths.Prefix)
+        env["PKG_CONFIG_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix)
             .SelectMany(k => new[] { Path.Combine(k, "lib", "pkgconfig"), Path.Combine(k, "share", "pkgconfig") })
             .Where(Directory.Exists).Select(Posix));
         env["PKG_CONFIG_LIBDIR"] = Posix(Path.Combine(ucrt, "lib", "pkgconfig"));
         env["ACLOCAL_PATH"] = string.Join(":", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "share", "aclocal"))
             .Where(Directory.Exists).Select(Posix));
-        env["CMAKE_PREFIX_PATH"] = string.Join(";", kegs.Append(paths.Prefix).Select(Posix));
+        env["CMAKE_PREFIX_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(Posix));
+
+        // Old config.guess scripts don't know MinGW or MSYS; tell configure what it is building on.
+        var site = Path.Combine(buildPath, ".brew_config.site");
+        var triple = posix ? "x86_64-pc-cygwin" : "x86_64-w64-mingw32";
+        File.WriteAllText(site, "ac_cv_build=${ac_cv_build:-" + triple + "}\n");
+        env["CONFIG_SITE"] = Posix(site);
     }
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.
@@ -120,7 +149,8 @@ public static class BuildEnvironment
     public static void BundleToolchainDlls(string keg)
     {
         if (Msys2Root is not { } root) return;
-        var toolchainBin = Path.Combine(root, "ucrt64", "bin");
+        // UCRT64 runtime DLLs for native builds; msys-*.dll (the POSIX layer) for POSIX-runtime builds.
+        var toolchainBin = Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin");
         foreach (var binary in Directory.EnumerateFiles(keg, "*.*", SearchOption.AllDirectories)
                      .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList())
         {

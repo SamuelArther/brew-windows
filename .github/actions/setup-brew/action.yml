@@ -24,6 +24,28 @@ runs:
           mingw-w64-ucrt-x86_64-ninja
           mingw-w64-ucrt-x86_64-meson
           mingw-w64-ucrt-x86_64-pkgconf
+          gcc
+          cmake
+          ninja
+          meson
+          pkgconf
+          ncurses-devel
+          libreadline-devel
+          libedit-devel
+          openssl-devel
+          zlib-devel
+          libiconv-devel
+          gettext-devel
+          libpcap-devel
+          libevent-devel
+          libxml2-devel
+          libcurl-devel
+          libsqlite-devel
+          pcre2-devel
+          libbz2-devel
+          liblzma-devel
+          libzstd-devel
+          libffi-devel
     - name: Point brew at MSYS2
       if: inputs.toolchain == 'true'
       shell: pwsh

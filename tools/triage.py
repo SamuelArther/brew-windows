@@ -18,8 +18,11 @@ NOISE = re.compile(r"^(Error: Testing requires|Error: No such keg|==> |\s*$)")
 def signature(text):
     """The most telling error line, with paths, versions and numbers blanked out."""
     lines = text.splitlines()
-    picks = [l for l in lines if re.search(r"\berror\b|Error:|not found|No such file|NameError|NoMethodError|undefined", l, re.I)
-             and not NOISE.match(l) and "checking for" not in l]
+    def useful(l):
+        return not NOISE.match(l) and "checking for" not in l and not re.match(r"\s*(gcc|g\+\+|cc|c\+\+|clang)\s", l)
+    # Compiler/linker diagnostics first, then anything error-shaped.
+    picks = [l for l in lines if re.search(r"error:|fatal error|undefined reference|Error:|NameError|NoMethodError", l) and useful(l)]
+    picks += [l for l in lines if re.search(r"\berror\b|not found|No such file|undefined", l, re.I) and useful(l) and l not in picks]
     line = picks[0] if picks else (lines[-1] if lines else "")
     line = re.sub(r"[A-Za-z]:[\\/][^\s'\"]*", "<path>", line)
     line = re.sub(r"\d+(\.\d+)+", "<v>", line)

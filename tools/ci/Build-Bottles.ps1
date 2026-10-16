@@ -65,12 +65,28 @@ function Install-TestDependencies([string] $Name, [string] $Log) {
     return $true
 }
 
+$PosixOnly = @(
+    'fatal error: (termios|pwd|grp|poll|netdb|sysexits|syslog|dlfcn|libgen|langinfo|glob|fnmatch|err|byteswap|features|curses|ncurses)\.h',
+    'fatal error: (sys/(socket|wait|ioctl|mman|resource|select|signal|un|utsname|times|statvfs|endian|termios)|netinet/\w+|arpa/inet)\.h',
+    "undefined reference to ``(getuid|getgid|geteuid|random|srandom|fork|pipe|kill|getpwnam|getpwuid|alarm|readlink|symlink|lstat|socket)'",
+    "'siginfo_t'|'F_UNLCK'|implicit declaration of function '(srandom|random|fork|getuid|lstat|kill|alarm)'",
+    "too many arguments to function 'mkdir'|socket function not found|cannot find library function socket|-rdynamic"
+) -join '|'
+
 $results = foreach ($name in $Names) {
     $log = Join-Path $logs "$name.log"
     $started = Get-Date
     $status = 'ok'
     $install = if ($TestOnly) { @('install', $name) } else { @('install', '--build-bottle', $name) }
-    if ((Invoke-Brew $install $log) -ne 0) { $status = 'build' }
+    $built = (Invoke-Brew $install $log) -eq 0
+    # Unix programs MinGW can't compile (termios, fork, sockets...): retry against MSYS2's POSIX runtime.
+    if (-not $built -and -not $TestOnly -and $env:HOMEBREW_MSYS2_ROOT -and (Select-String -Path $log -Quiet -Pattern $PosixOnly)) {
+        Add-Content $log "`n==> retrying with the POSIX runtime (msys-2.0.dll)"
+        Invoke-Brew @('uninstall', '--force', '--ignore-dependencies', $name) $log | Out-Null
+        $env:HOMEBREW_POSIX_RUNTIME = '1'
+        try { $built = (Invoke-Brew $install $log) -eq 0 } finally { Remove-Item Env:HOMEBREW_POSIX_RUNTIME }
+    }
+    if (-not $built) { $status = 'build' }
     elseif (-not (Install-TestDependencies $name $log)) { $status = 'test-deps' }
     elseif ((Invoke-Brew @('test', $name) $log) -ne 0) { $status = 'test' }
     elseif (-not $TestOnly -and (Invoke-Brew @('bottle', '--json', $name) $log) -ne 0) { $status = 'bottle' }
