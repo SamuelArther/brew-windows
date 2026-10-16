@@ -17,7 +17,9 @@ public sealed partial class Interp
         Def(BasicObjectClass, "initialize", (it, self, a, b) => null);
         Def(BasicObjectClass, "method_missing", (it, self, a, b) => throw it.NoMethod(self, it.StrOrSym(a[0]), false));
         Def(BasicObjectClass, "!", (it, self, a, b) => !Truthy(self));
-        Def(BasicObjectClass, "== equal?", (it, self, a, b) => self is RObject ? ReferenceEquals(self, a[0]) : it.Equal(self, a[0]));
+        // Interp.Equal knows the core values; anything else (MatchData, procs ...) is equal only to itself.
+        Def(BasicObjectClass, "== equal?", (it, self, a, b) => self is null or bool or long or double or RString or RSymbol or RArray or RHash or RRange or RClass
+            ? it.Equal(self, a[0]) : ReferenceEquals(self, a[0]));
         Def(BasicObjectClass, "!=", (it, self, a, b) => !it.Equal(self, a[0]));
         Def(BasicObjectClass, "__send__", (it, self, a, b) => it.Invoke(self, it.StrOrSym(a[0]), a[1..], b));
         Def(BasicObjectClass, "__id__", (it, self, a, b) => (long)RuntimeHelpers.GetHashCode(self));

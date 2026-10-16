@@ -229,6 +229,19 @@ public static partial class FormulaLoader
             return Interp.S(head[..Math.Min(length, head.Length)]);
         });
         it.DefS(utils, "safe_popen_read popen_read",(i, s, a, b) => i.Backtick(string.Join(" ", a.Select(i.ToS).Select(Quote))));
+        // Utils::Gzip.compress(*paths): each file becomes file.gz; returns the .gz paths.
+        var gzip = it.DefineModule("Gzip", utils);
+        it.DefS(gzip, "compress", (i, s, a, b) => new RArray(a.Where(x => x is not RHash).Select(x =>
+        {
+            var source = i.Abs(i.PathStr(x));
+            var target = source + ".gz";
+            using (var input = File.OpenRead(source))
+            using (var output = File.Create(target))
+            using (var stream = new System.IO.Compression.GZipStream(output, System.IO.Compression.CompressionLevel.SmallestSize))
+                input.CopyTo(stream);
+            File.Delete(source);
+            return (object)i.NewPath(target);
+        }).ToList()));
 
         // ---- class-level DSL ----
         FormulaSpec Sp(object self) => SpecOf((RClass)self);
@@ -401,6 +414,7 @@ public static partial class FormulaLoader
         it.Def(F, "doc", (i, self, a, b) => Under(i, self, "share/doc/" + Nm(self)));
         // Shared, not per keg: config and state outlive upgrades (EtcVar carries them in bottles).
         it.Def(F, "etc", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? Prefix(i, self), "etc")));
+        it.Def(F, "pkgetc", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? Prefix(i, self), "etc", Nm(self))));
         it.Def(F, "var", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? Prefix(i, self), "var")));
         it.Def(F, "buildpath", (i, self, a, b) => i.NewPath(Ctx(i, self).BuildPath));
         // Utils::Path::FormulaHelpers: another formula's stable opt paths by name.

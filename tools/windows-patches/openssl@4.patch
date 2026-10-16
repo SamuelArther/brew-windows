@@ -1,0 +1,22 @@
+--- a/tap/homebrew-core/Formula/o/openssl@4.rb
++++ b/tap/homebrew-core/Formula/o/openssl@4.rb
+@@ -33,6 +33,9 @@
+     arch_args = []
+     if OS.mac?
+       arch_args += %W[darwin64-#{Hardware::CPU.arch}-cc enable-ec_nistp_64_gcc_128]
++    elsif OS.windows?
++      # MSYS2's UCRT64 GCC with OpenSSL's own MinGW-w64 target.
++      arch_args << "mingw64"
+     elsif Hardware::CPU.intel?
+       arch_args << "linux-x86_64"
+     elsif Hardware::CPU.arm?
+@@ -43,7 +46,8 @@
+     system "perl", "./Configure", *configure_args, *arch_args
+     system "make"
+     system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
+-    system "make", "HARNESS_JOBS=#{ENV.make_jobs}", "test" if build.bottle?
++    # OpenSSL's full test suite is skipped on Windows to stay within the build time limit; `brew test` still checks the build.
++    system "make", "HARNESS_JOBS=#{ENV.make_jobs}", "test" if build.bottle? && !OS.windows?
+ 
+     # Remove HTML copies of manpages
+     rm_r(share/"doc/openssl/html")

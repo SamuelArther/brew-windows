@@ -354,7 +354,9 @@ public sealed partial class Interp
             var items = a.Length == 1 && a[0] is RArray arr ? arr.L : a.ToList();
             return it.MakeRegex(string.Join("|", items.Select(x => x is RRegex r ? r.Source : RubyEscape(it.Str(x)))), "");
         });
-        DefS(R, "last_match", (it, self, a, b) => it.Globals.GetValueOrDefault("$~"));
+        // Regexp.last_match(n) is the nth group of the last match, like $~[n].
+        DefS(R, "last_match", (it, self, a, b) => a.Length == 0 || it.Globals.GetValueOrDefault("$~") is not RMatch m
+            ? it.Globals.GetValueOrDefault("$~") : it.Invoke(m, "[]", a, null));
         Def(R, "source", (it, self, a, b) => S(((RRegex)self).Source));
         Def(R, "to_s", (it, self, a, b) =>
         {

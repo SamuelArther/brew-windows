@@ -435,7 +435,7 @@ public sealed partial class Interp
             case bool x: return b is bool yb && x == yb;
             case long x: return b is long yl ? x == yl : b is double dy && x == dy;
             case double x: return b is double yd ? x == yd : b is long ly && x == ly;
-            case RString x: return b is RString ys && x.V == ys.V;
+            case RString x: return b is RString ys && x.Equals(ys);
             case RSymbol: return ReferenceEquals(a, b);
             case RArray x: return b is RArray ya && x.L.Count == ya.L.Count && x.L.Zip(ya.L).All(p => Equal(p.First, p.Second));
             case RHash x:

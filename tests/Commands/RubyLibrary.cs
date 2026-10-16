@@ -35,6 +35,8 @@ static class RubyLibrary
         Expect("""s = "".b; s << 200 << "ab"; [s.bytesize, s.encoding.to_s].inspect""", """[3, "ASCII-8BIT"]""");
         Expect("""[("a".b + "é").encoding.to_s, "é".b.bytesize, "é".b.force_encoding(Encoding::UTF_8) == "é"].inspect""", """["UTF-8", 2, true]""");
         Expect($"""[File.size?("{file}"), File.size?("{file}.missing")].inspect""", "[2, nil]");
+        // Regexp.last_match(n) is a group (install_steps' {{token}} expansion); MatchData == compares identity, not recursively.
+        Expect("""["{{a}}/x".gsub(/\{\{(\w+)\}\}/) { Regexp.last_match(1).upcase }, "ab".match(/a/) == "a"].inspect""", """["A/x", false]""");
         // "\x89" is one raw byte (imageoptim-cli compares PNG magic); valid UTF-8 escapes decode.
         Expect($"""File.binwrite("{file}", "\x89PNG"); ["\x89PNG".b == File.binread("{file}")[0, 4], File.binread("{file}")[0, 2].bytesize, "\x89".bytesize, "\xC3\xA9" == "é"].inspect""", "[true, 2, 1, true]");
         // Formula-level preludes (blank?/present?, post_install_steps) load with the Formula class.
