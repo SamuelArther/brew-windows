@@ -1,0 +1,6 @@
+{
+  "formula": "mac-cleanup-go",
+  "desc": "Cleaner that scans caches, logs and temp files and removes what you choose",
+  "commands": ["mac-cleanup"],
+  "test": "assert_match version.to_s, shell_output(\"#{bin}/mac-cleanup --version\")\nassert_match \"Scan Windows cache\", shell_output(\"#{bin}/mac-cleanup --help\")\nassert_match \"Dry Run Report\", shell_output(\"#{bin}/mac-cleanup --clean --dry-run\")\nassert_match \"Temporary Files\", shell_output(\"#{bin}/mac-cleanup --select\")"
+}
