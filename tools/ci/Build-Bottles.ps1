@@ -7,8 +7,10 @@ param(
     [string] $Brew = (Join-Path $PSScriptRoot '..\..\src\Brew\bin\Release\net10.0\win-x64\brew.exe'),
     [int] $TimeoutMinutes = 45,
     [int] $TestTimeoutMinutes = 10,
+    [int] $BudgetMinutes = 240,   # no new formula after this, so the job ends (and uploads) before GitHub's 6-hour limit
     [switch] $TestOnly
 )
+$scriptStarted = Get-Date
 $ErrorActionPreference = 'Stop'
 $Brew = (Resolve-Path $Brew).Path
 New-Item -ItemType Directory -Force $Out | Out-Null
@@ -77,6 +79,13 @@ $PosixOnly = @(
 $results = foreach ($name in $Names) {
     $log = Join-Path $logs "$name.log"
     $started = Get-Date
+    if (($started - $scriptStarted).TotalMinutes -gt $BudgetMinutes) {
+        Write-Host "$name`ttime`t0s"
+        $result = [pscustomobject]@{ name = $name; status = 'time'; seconds = 0 }
+        @($result) | ConvertTo-Json -AsArray | Set-Content (Join-Path $Out "report-$name.json")
+        $result
+        continue
+    }
     $status = 'ok'
     $install = if ($TestOnly) { @('install', $name) } else { @('install', '--build-bottle', $name) }
     $built = (Invoke-Brew $install $log) -eq 0
