@@ -473,6 +473,28 @@ public sealed partial class Interp
         // `include FileUtils` gets the same functions as instance methods
         foreach (var kv in SingletonOf(FU).Methods) FU.Methods[kv.Key] = kv.Value;
 
+        // ---- $stdout / $stderr ----
+        // Without these, `$stderr.puts` resolved to Kernel#puts on nil and wrote to stdout.
+        foreach (var (name, fd) in new[] { ("stdout", 1L), ("stderr", 2L) })
+        {
+            var io = new RObject { Class = IOClass };
+            TextWriter W(Interp it) => fd == 1 ? it.Out : it.Err;
+            var sc = SingletonOf(io);
+            Def(sc, "puts", (it, self, a, b) => { it.Puts(W(it), a); return null; });
+            Def(sc, "print", (it, self, a, b) => { foreach (var x in a) W(it).Write(it.ToS(x)); return null; });
+            Def(sc, "write", (it, self, a, b) => { long n = 0; foreach (var x in a) { var t = it.ToS(x); W(it).Write(t); n += Encoding.UTF8.GetByteCount(t); } return n; });
+            Def(sc, "<<", (it, self, a, b) => { W(it).Write(it.ToS(a[0])); return self; });
+            Def(sc, "printf", (it, self, a, b) => { W(it).Write(it.Format(it.Str(a[0]), a[1..])); return null; });
+            Def(sc, "flush fsync", (it, self, a, b) => { W(it).Flush(); return self; });
+            Def(sc, "sync", (it, self, a, b) => true);
+            Def(sc, "sync=", (it, self, a, b) => a[0]);
+            Def(sc, "tty? isatty", (it, self, a, b) => false);
+            Def(sc, "fileno to_i", (it, self, a, b) => fd);
+            Def(sc, "inspect to_s", (it, self, a, b) => S($"#<IO:<{name.ToUpperInvariant()}>>"));
+            Globals["$" + name] = io;
+            ObjectClass.Consts[name.ToUpperInvariant()] = io;
+        }
+
         // ---- ENV ----
         EnvObject = new RObject { Class = ObjectClass };
         ObjectClass.Consts["ENV"] = EnvObject;

@@ -47,6 +47,7 @@ static class RubyLibrary
         Expect("""["\0".inspect, "abc".each_char.to_a.size, ENV.exclude?("BREW_SURELY_UNSET_VAR")].inspect""", """["\"\\u0000\"", 3, true]""");
         // Ruby regexp: \h inside a class, and named groups make plain groups non-capturing.
         Expect("""["ab_f9 z"[/[\h_]+/], "v1.2".match(/v(?<maj>\d+)\.(\d+)/).captures, "x y"[/[^[:space:]]+/]].inspect""", """["ab_f9", ["1"], "x"]""");
+        Expect("""[$stdout.fileno, STDERR.fileno, $stdout.tty?].inspect""", "[1, 2, false]");
         // Backticks run through /bin/sh (bash) like Ruby, when there is one.
         if (PosixShell.FindShell(Environment.GetEnvironmentVariable) != null)
             Expect("""`echo 'a  b' "c"`""", "a  b c\n");
