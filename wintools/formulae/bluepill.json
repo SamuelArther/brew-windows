@@ -1,0 +1,7 @@
+{
+  "formula": "bluepill",
+  "desc": "Testing tool for iOS that runs UI tests using multiple simulators",
+  "commands": ["bluepill", "bp"],
+  "caveats": "Running tests needs the iOS Simulator, which is part of Xcode and only runs on macOS.\nOn Windows bluepill lists a bundle's tests (-l), plans the simulator bundles from\n--test-time-estimates-json, and merges JUnit reports (--merge-reports DIR).",
+  "test": "assert_match \"Usage:\", shell_output(\"#{bin}/bluepill -h\")\nassert_match \"Usage:\", shell_output(\"#{bin}/bp -h\")\n(testpath/\"r/sim1\").mkpath\n(testpath/\"r/sim1/TEST-a.xml\").write '<testsuite name=\"A\" tests=\"2\" failures=\"0\" errors=\"0\" time=\"1.5\"><testcase classname=\"A\" name=\"testX\" time=\"1.5\"/></testsuite>'\nassert_match \"2 tests\", shell_output(\"#{bin}/bluepill --merge-reports #{testpath}/r\")\nassert_match \"AllTestUnits\", (testpath/\"r/TEST-FinalReport.xml\").read\nassert_match \"invalid option\", shell_output(\"#{bin}/bluepill --bogus 2>&1\", 2)"
+}
