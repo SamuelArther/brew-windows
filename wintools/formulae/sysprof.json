@@ -1,0 +1,6 @@
+{
+  "formula": "sysprof",
+  "desc": "Statistical, system-wide profiler built on the Windows Performance Recorder",
+  "commands": ["sysprof", "sysprof-cli"],
+  "test": "assert_match version.to_s, shell_output(\"#{bin}/sysprof --version\")\nassert_match \"Windows Performance Recorder\", shell_output(\"#{bin}/sysprof --help\")\nassert_match(/WPR|recording/i, shell_output(\"#{bin}/sysprof status 2>&1\"))"
+}
