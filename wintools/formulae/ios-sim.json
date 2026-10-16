@@ -1,0 +1,7 @@
+{
+  "formula": "ios-sim",
+  "desc": "Command-line application launcher for the iOS Simulator",
+  "commands": ["ios-sim"],
+  "caveats": "The iOS Simulator is part of Xcode and only runs on macOS: ios-sim checks app bundles\nand reports that no simulator runtimes exist on Windows.",
+  "test": "system bin/\"ios-sim\", \"--help\"\nassert_match \"showdevicetypes\", shell_output(\"#{bin}/ios-sim --help\")\nassert_match \"only runs on macOS\", shell_output(\"#{bin}/ios-sim showsdks 2>&1\")\n(testpath/\"Demo.app\").mkpath\n(testpath/\"Demo.app/Info.plist\").write <<~XML\n  <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>com.example.demo</string>\n  <key>CFBundleSupportedPlatforms</key><array><string>iPhoneSimulator</string></array></dict></plist>\nXML\nassert_match \"com.example.demo\", shell_output(\"#{bin}/ios-sim launch #{testpath}/Demo.app 2>&1\", 1)\nassert_match \"unknown command\", shell_output(\"#{bin}/ios-sim frobnicate 2>&1\", 2)"
+}
