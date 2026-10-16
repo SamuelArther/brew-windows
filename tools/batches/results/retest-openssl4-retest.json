@@ -1,0 +1,12 @@
+[
+  {
+    "name": "ca-certificates",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "openssl@4",
+    "status": "build",
+    "seconds": 17
+  }
+]
