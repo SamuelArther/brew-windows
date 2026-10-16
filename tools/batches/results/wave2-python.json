@@ -1,0 +1,917 @@
+[
+  {
+    "name": "adb-enhanced",
+    "status": "test",
+    "seconds": 51
+  },
+  {
+    "name": "adr-viewer",
+    "status": "build",
+    "seconds": 67
+  },
+  {
+    "name": "advai-cli",
+    "status": "build",
+    "seconds": 68
+  },
+  {
+    "name": "all-repos",
+    "status": "test",
+    "seconds": 16
+  },
+  {
+    "name": "archey4",
+    "status": "test",
+    "seconds": 23
+  },
+  {
+    "name": "asitop",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "athenacli",
+    "status": "build",
+    "seconds": 143
+  },
+  {
+    "name": "auditwheel",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "autojump",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "autopep8",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "awscli-local",
+    "status": "test",
+    "seconds": 187
+  },
+  {
+    "name": "awslogs",
+    "status": "ok",
+    "seconds": 101
+  },
+  {
+    "name": "bagit",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "bashate",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "beautysh",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "black",
+    "status": "build",
+    "seconds": 223
+  },
+  {
+    "name": "cfv",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "chardet",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "cmake-language-server",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "cmake-lint",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "coconut",
+    "status": "build",
+    "seconds": 76
+  },
+  {
+    "name": "codespell",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "cogapp",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "compiledb",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "cpplint",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "cram",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "csvkit",
+    "status": "build",
+    "seconds": 84
+  },
+  {
+    "name": "cutadapt",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "cxxtest",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "darker",
+    "status": "ok",
+    "seconds": 671
+  },
+  {
+    "name": "diceware",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "djhtml",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "doc8",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "docutils",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "doitlive",
+    "status": "build",
+    "seconds": 38
+  },
+  {
+    "name": "dunamai",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "dynaconf",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "eg-examples",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "epr",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "esbonio",
+    "status": "test",
+    "seconds": 51
+  },
+  {
+    "name": "euler-py",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "eye-d3",
+    "status": "test",
+    "seconds": 14
+  },
+  {
+    "name": "fades",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "faker",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "fierce",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "flake8",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "flawfinder",
+    "status": "build",
+    "seconds": 0
+  },
+  {
+    "name": "fonttools",
+    "status": "build",
+    "seconds": 32
+  },
+  {
+    "name": "fortls",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "fortran-language-server",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "fprettify",
+    "status": "test",
+    "seconds": 75
+  },
+  {
+    "name": "fypp",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "geoip2fast",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "git-delete-merged-branches",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "git-imerge",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "git-machete",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "git-plus",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "git-remote-codecommit",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "git-revise",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "gita",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "gitlint",
+    "status": "build",
+    "seconds": 160
+  },
+  {
+    "name": "gitup",
+    "status": "test",
+    "seconds": 27
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "glom",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "grc",
+    "status": "build",
+    "seconds": 0
+  },
+  {
+    "name": "gruyere",
+    "status": "build",
+    "seconds": 64
+  },
+  {
+    "name": "hapless",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "honcho",
+    "status": "test",
+    "seconds": 14
+  },
+  {
+    "name": "httpx2",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "hy",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "hyfetch",
+    "status": "test",
+    "seconds": 272
+  },
+  {
+    "name": "iproute2mac",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "ipython",
+    "status": "test",
+    "seconds": 158
+  },
+  {
+    "name": "iredis",
+    "status": "build",
+    "seconds": 59
+  },
+  {
+    "name": "isort",
+    "status": "ok",
+    "seconds": 442
+  },
+  {
+    "name": "jailkit",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "jello",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "jsbeautifier",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "jtbl",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "keepassc",
+    "status": "test",
+    "seconds": 137
+  },
+  {
+    "name": "keychain",
+    "status": "test",
+    "seconds": 30
+  },
+  {
+    "name": "keyring",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "khal",
+    "status": "build",
+    "seconds": 104
+  },
+  {
+    "name": "khard",
+    "status": "build",
+    "seconds": 32
+  },
+  {
+    "name": "kin",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "legit",
+    "status": "build",
+    "seconds": 38
+  },
+  {
+    "name": "linecast",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "lit",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "livereload",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "lizard-analyzer",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "ly",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "mackup",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "mdformat",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "mitie",
+    "status": "build",
+    "seconds": 390
+  },
+  {
+    "name": "mpremote",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "mu-repo",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "mysql-to-sqlite3",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "name-that-hash",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "netaddr",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "netshow",
+    "status": "test",
+    "seconds": 77
+  },
+  {
+    "name": "onion-location",
+    "status": "build",
+    "seconds": 83
+  },
+  {
+    "name": "opendoor",
+    "status": "test",
+    "seconds": 27
+  },
+  {
+    "name": "percol",
+    "status": "test",
+    "seconds": 17
+  },
+  {
+    "name": "pgxnclient",
+    "status": "test",
+    "seconds": 18
+  },
+  {
+    "name": "pip-tools",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "pipgrip",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "pipx",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "principalmapper",
+    "status": "ok",
+    "seconds": 101
+  },
+  {
+    "name": "pssh",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "pter",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "ptpython",
+    "status": "ok",
+    "seconds": 226
+  },
+  {
+    "name": "pwncat",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "px",
+    "status": "test",
+    "seconds": 13
+  },
+  {
+    "name": "py7zr",
+    "status": "ok",
+    "seconds": 220
+  },
+  {
+    "name": "pycodestyle",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "pygitup",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "pygments",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "pyinvoke",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "pylint",
+    "status": "build",
+    "seconds": 616
+  },
+  {
+    "name": "pyp",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "pyperformance",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "pyqt-builder",
+    "status": "build",
+    "seconds": 55
+  },
+  {
+    "name": "pytest",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "python-build",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "python-markdown",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "python-tabulate",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "pyupgrade",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "pyvim",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "pywhat",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "ranger",
+    "status": "test",
+    "seconds": 17
+  },
+  {
+    "name": "recoverpy",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "redo",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "regipy",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "remarshal",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "reorder-python-imports",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "repren",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "restview",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "reuse",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "robot-framework-robocop",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "rst-lint",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "s4cmd",
+    "status": "ok",
+    "seconds": 166
+  },
+  {
+    "name": "scons",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "scour",
+    "status": "test",
+    "seconds": 14
+  },
+  {
+    "name": "shallow-backup",
+    "status": "build",
+    "seconds": 555
+  },
+  {
+    "name": "sip",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "snakefmt",
+    "status": "build",
+    "seconds": 294
+  },
+  {
+    "name": "snakeviz",
+    "status": "test",
+    "seconds": 16
+  },
+  {
+    "name": "spoof-mac",
+    "status": "test",
+    "seconds": 14
+  },
+  {
+    "name": "sqlite-utils",
+    "status": "build",
+    "seconds": 34
+  },
+  {
+    "name": "sqlite3-to-mysql",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "sqlmap",
+    "status": "build",
+    "seconds": 0
+  },
+  {
+    "name": "sqlparse",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "ssh-audit",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "sshuttle",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "supervisor",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "tccutil",
+    "status": "build",
+    "seconds": 0
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "terraform-local",
+    "status": "test",
+    "seconds": 102
+  },
+  {
+    "name": "thefuck",
+    "status": "test",
+    "seconds": 54
+  },
+  {
+    "name": "topydo",
+    "status": "test",
+    "seconds": 49
+  },
+  {
+    "name": "torf-cli",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "tox",
+    "status": "test",
+    "seconds": 122
+  },
+  {
+    "name": "trailscraper",
+    "status": "build",
+    "seconds": 136
+  },
+  {
+    "name": "translate-toolkit",
+    "status": "build",
+    "seconds": 192
+  },
+  {
+    "name": "trash-cli",
+    "status": "test",
+    "seconds": 34
+  },
+  {
+    "name": "trzsz",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "twoping",
+    "status": "bottle",
+    "seconds": 15
+  },
+  {
+    "name": "twtxt",
+    "status": "build",
+    "seconds": 71
+  },
+  {
+    "name": "txt2tags",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "ufbt",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "unoserver",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "urlscan",
+    "status": "test",
+    "seconds": 52
+  },
+  {
+    "name": "vermin",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "virtualenv",
+    "status": "test",
+    "seconds": 20
+  },
+  {
+    "name": "virtualenvwrapper",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "visidata",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "vpn-slice",
+    "status": "test",
+    "seconds": 425
+  },
+  {
+    "name": "vulture",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "wllvm",
+    "status": "test",
+    "seconds": 111
+  },
+  {
+    "name": "xonsh",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "yapf",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "ydiff",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "ykdl",
+    "status": "ok",
+    "seconds": 22
+  }
+]
