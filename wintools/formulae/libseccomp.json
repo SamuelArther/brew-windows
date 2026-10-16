@@ -1,0 +1,7 @@
+{
+  "formula": "libseccomp",
+  "desc": "Linux syscall name and number resolver (scmp_sys_resolver)",
+  "commands": ["scmp_sys_resolver"],
+  "caveats": "scmp_sys_resolver resolves Linux system calls for x86_64, x32, x86, aarch64 and riscv64, for\nwriting seccomp profiles on Windows. There is no libseccomp C library: Windows has no\nper-syscall filter; its nearest is process mitigation policies (SetProcessMitigationPolicy).",
+  "test": "assert_equal \"257\", shell_output(\"#{bin}/scmp_sys_resolver -a x86_64 openat\").strip\nassert_equal \"openat\", shell_output(\"#{bin}/scmp_sys_resolver -a aarch64 56\").strip\nassert_equal \"102\", shell_output(\"#{bin}/scmp_sys_resolver -a x86 -t socket\").strip\nassert_equal \"-1\", shell_output(\"#{bin}/scmp_sys_resolver -a x86_64 no_such_call\").strip\nassert_match \"usage: scmp_sys_resolver\", shell_output(\"#{bin}/scmp_sys_resolver --help\")\nshell_output(\"#{bin}/scmp_sys_resolver -a vax read 2>&1\", 2)"
+}
