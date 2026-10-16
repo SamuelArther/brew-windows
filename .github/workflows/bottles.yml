@@ -76,6 +76,15 @@ jobs:
           name: bottles-${{ matrix.chunk.id }}
           path: bottles
           retention-days: 7
+      # Logs and reports on their own, so triage doesn't download the bottles.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs-${{ matrix.chunk.id }}
+          path: |
+            bottles/logs
+            bottles/report-*.json
+          retention-days: 14
 
   publish:
     needs: build
