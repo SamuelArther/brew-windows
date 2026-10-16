@@ -4,3 +4,4 @@
 .test-work/
 shim/shim.exe
 __pycache__/
+.claude/

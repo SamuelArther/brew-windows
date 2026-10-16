@@ -1,0 +1,51 @@
+name: wintools
+
+# Builds wintools (Windows-native rewrites of macOS/Linux-only formulae) with NativeAOT, publishes
+# the wintools-<version> release, writes the tap formulae for it, and runs their tests.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup-brew
+      - name: Build
+        shell: pwsh
+        run: |
+          dotnet publish wintools -c Release -r win-x64 -o out --nologo
+          $version = ([xml](Get-Content wintools/WinTools.csproj)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+          $zip = "wintools-$version.zip"
+          Compress-Archive out/wintools.exe $zip
+          $sha = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "VERSION=$version" | Add-Content $env:GITHUB_ENV
+          "ZIP=$zip" | Add-Content $env:GITHUB_ENV
+          "SHA=$sha" | Add-Content $env:GITHUB_ENV
+          & out/wintools.exe --help
+      - name: Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "wintools-$env:VERSION" *> $null
+          if ($LASTEXITCODE -eq 0) { throw "wintools-$env:VERSION already exists: bump <Version> in wintools/WinTools.csproj" }
+          gh release create "wintools-$env:VERSION" $env:ZIP --title "wintools $env:VERSION" `
+            --notes "Windows-native rewrites of macOS/Linux-only Homebrew formulae, used by the brew-windows tap."
+      - name: Formulae
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/make_wintools_formulae.py $env:VERSION $env:SHA
+          python tools/import_upstream.py "$env:RUNNER_TEMP/homebrew-core" tools/batches/wintools.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tap tools/windows-overrides tools/batches/wintools.txt
+          git commit -q -m "wintools $env:VERSION: tap formulae"
+          for ($i = 0; $i -lt 5; $i++) { git pull -q --rebase; git push -q; if ($LASTEXITCODE -eq 0) { break }; Start-Sleep 10 }
+          gh workflow run retest.yml -f batch=wintools -f chunk_size=30
