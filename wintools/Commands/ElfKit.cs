@@ -406,7 +406,7 @@ static class ElfKit
         243 => "RISC-V",
         247 => "Linux BPF",
         258 => "LoongArch",
-        _ => $"<unknown>: {m:#x}",
+        _ => $"<unknown>: 0x{m:x}",
     };
 
     public static string TypeName(ushort t) => t switch
@@ -451,7 +451,7 @@ static class ElfKit
         0 => "NULL", 1 => "LOAD", 2 => "DYNAMIC", 3 => "INTERP", 4 => "NOTE", 5 => "SHLIB", 6 => "PHDR", 7 => "TLS",
         0x6474e550 => "GNU_EH_FRAME", 0x6474e551 => "GNU_STACK", 0x6474e552 => "GNU_RELRO", 0x6474e553 => "GNU_PROPERTY",
         0x6474e554 => "GNU_SFRAME", 0x65a3dbe6 => "OPENBSD_RANDOMIZE", 0x65a3dbe7 => "OPENBSD_WXNEEDED",
-        _ => t >= 0x60000000 && t < 0x70000000 ? $"LOOS+{t - 0x60000000:x}" : $"<unknown>: {t:#x}",
+        _ => t >= 0x60000000 && t < 0x70000000 ? $"LOOS+{t - 0x60000000:x}" : $"<unknown>: 0x{t:x}",
     };
 
     public static string SymbolTypeName(int t) => t switch
@@ -483,6 +483,6 @@ static class ElfKit
         0x6fffffff => "VERNEEDNUM", 0x6ffffdf5 => "GNU_PRELINKED", 0x6ffffdf6 => "GNU_CONFLICTSZ",
         0x6ffffdf7 => "GNU_LIBLISTSZ", 0x6ffffdf8 => "CHECKSUM", 0x6ffffefe => "GNU_LIBLIST", 0x7ffffffd => "AUXILIARY",
         0x7fffffff => "FILTER",
-        _ => $"<unknown>: {tag:#x}",
+        _ => $"<unknown>: 0x{tag:x}",
     };
 }
