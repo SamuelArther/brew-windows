@@ -17,12 +17,12 @@
   {
     "name": "alsa-lib",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "apfel",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "apptainer",
@@ -57,7 +57,7 @@
   {
     "name": "avahi",
     "status": "ok",
-    "seconds": 9
+    "seconds": 7
   },
   {
     "name": "avfs",
@@ -127,7 +127,7 @@
   {
     "name": "btdu",
     "status": "ok",
-    "seconds": 44
+    "seconds": 56
   },
   {
     "name": "btfs",
@@ -257,7 +257,7 @@
   {
     "name": "dislocker",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "displayplacer",
@@ -272,7 +272,7 @@
   {
     "name": "docker-engine",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "dockutil",
@@ -287,7 +287,7 @@
   {
     "name": "draw-things-cli",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "duti",
@@ -297,7 +297,7 @@
   {
     "name": "elfutils",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "epoll-shim",
@@ -312,12 +312,12 @@
   {
     "name": "faceprints",
     "status": "ok",
-    "seconds": 5
+    "seconds": 16
   },
   {
     "name": "fcft",
     "status": "build",
-    "seconds": 93
+    "seconds": 130
   },
   {
     "name": "fcitx-remote-for-osx",
@@ -342,7 +342,7 @@
   {
     "name": "foot",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
   },
   {
     "name": "fsevent_watch",
@@ -372,27 +372,27 @@
   {
     "name": "glibc",
     "status": "ok",
-    "seconds": 12
+    "seconds": 22
   },
   {
     "name": "glibc@2.13",
     "status": "ok",
-    "seconds": 11
+    "seconds": 20
   },
   {
     "name": "glibc@2.17",
     "status": "ok",
-    "seconds": 11
+    "seconds": 22
   },
   {
     "name": "gss-ntlmssp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "gtk-mac-integration",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "i2c-tools",
@@ -411,7 +411,7 @@
   },
   {
     "name": "imageoptim-cli",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -462,7 +462,7 @@
   {
     "name": "kdoctor",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "keyd",
@@ -482,7 +482,7 @@
   {
     "name": "kmod",
     "status": "ok",
-    "seconds": 6
+    "seconds": 9
   },
   {
     "name": "kqwait",
@@ -511,18 +511,18 @@
   },
   {
     "name": "libaio",
-    "status": "test",
-    "seconds": 4
+    "status": "ok",
+    "seconds": 6
   },
   {
     "name": "libapplewm",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "libbpf",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "libcap",
@@ -537,7 +537,7 @@
   {
     "name": "libdecor",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "libdrm",
@@ -547,12 +547,12 @@
   {
     "name": "libevdev",
     "status": "ok",
-    "seconds": 6
+    "seconds": 9
   },
   {
     "name": "libfuse",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libgudev",
@@ -582,7 +582,7 @@
   {
     "name": "libnftnl",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "libnl",
@@ -592,17 +592,17 @@
   {
     "name": "libnsl",
     "status": "ok",
-    "seconds": 4
+    "seconds": 7
   },
   {
     "name": "libpathrs",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "libpciaccess",
     "status": "ok",
-    "seconds": 5
+    "seconds": 7
   },
   {
     "name": "libseccomp",
@@ -617,17 +617,17 @@
   {
     "name": "libunwind",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "liburing",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "libwpe",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "licenseplist",
@@ -637,17 +637,17 @@
   {
     "name": "linux-headers@4.4",
     "status": "ok",
-    "seconds": 78
+    "seconds": 113
   },
   {
     "name": "linux-headers@5.15",
     "status": "ok",
-    "seconds": 134
+    "seconds": 204
   },
   {
     "name": "linux-headers@6.8",
     "status": "ok",
-    "seconds": 138
+    "seconds": 225
   },
   {
     "name": "linux-pam",
@@ -657,7 +657,7 @@
   {
     "name": "lispkit",
     "status": "ok",
-    "seconds": 8
+    "seconds": 11
   },
   {
     "name": "lm-sensors",
@@ -752,17 +752,17 @@
   {
     "name": "macvim",
     "status": "ok",
-    "seconds": 7
+    "seconds": 30
   },
   {
     "name": "makeicns",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "mas",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "media-control",
@@ -776,23 +776,23 @@
   },
   {
     "name": "mlx",
-    "status": "ok",
-    "seconds": 4
+    "status": "build",
+    "seconds": 2
   },
   {
     "name": "mlx-c",
-    "status": "ok",
-    "seconds": 6
+    "status": "build",
+    "seconds": 4
   },
   {
     "name": "mlx-lm",
     "status": "ok",
-    "seconds": 103
+    "seconds": 136
   },
   {
     "name": "mmtabbarview",
     "status": "ok",
-    "seconds": 4
+    "seconds": 6
   },
   {
     "name": "mobiledevice",
@@ -807,22 +807,22 @@
   {
     "name": "mole",
     "status": "ok",
-    "seconds": 4
+    "seconds": 13
   },
   {
     "name": "molten-vk",
     "status": "ok",
-    "seconds": 8
+    "seconds": 9
   },
   {
     "name": "mplayershell",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "mtoc",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "needle",
@@ -832,7 +832,7 @@
   {
     "name": "nef",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "net-tools",
@@ -867,12 +867,12 @@
   {
     "name": "objc-run",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "ocmtoc",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "onedrive-cli",
@@ -882,7 +882,7 @@
   {
     "name": "open-completion",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "osx-cpu-temp",
@@ -927,17 +927,17 @@
   {
     "name": "pinentry-mac",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "pipewire",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "pipewire-gstreamer",
     "status": "ok",
-    "seconds": 74
+    "seconds": 112
   },
   {
     "name": "pngpaste",
@@ -947,12 +947,12 @@
   {
     "name": "qtwayland",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "quartz-wm",
     "status": "ok",
-    "seconds": 15
+    "seconds": 21
   },
   {
     "name": "quotatool",
@@ -962,27 +962,27 @@
   {
     "name": "rapid-mlx",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "ratarmount",
     "status": "build",
-    "seconds": 97
+    "seconds": 92
   },
   {
     "name": "reattach-to-user-namespace",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "rem",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "rmtrash",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "rpmspectool",
@@ -992,12 +992,12 @@
   {
     "name": "rswift",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "runc",
     "status": "ok",
-    "seconds": 9
+    "seconds": 10
   },
   {
     "name": "s3-backer",
@@ -1012,12 +1012,12 @@
   {
     "name": "sandvault",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "sbjson",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "screenresolution",
@@ -1032,7 +1032,7 @@
   {
     "name": "sf-pwgen",
     "status": "ok",
-    "seconds": 3
+    "seconds": 5
   },
   {
     "name": "sleepwatcher",
@@ -1042,7 +1042,7 @@
   {
     "name": "slirp4netns",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "socket_vmnet",
@@ -1052,7 +1052,7 @@
   {
     "name": "socktainer",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "speech",
@@ -1062,7 +1062,7 @@
   {
     "name": "squashfuse",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "sshfs",
@@ -1097,27 +1097,27 @@
   {
     "name": "sysprof",
     "status": "ok",
-    "seconds": 4
+    "seconds": 9
   },
   {
     "name": "sysstat",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "systemd",
     "status": "ok",
-    "seconds": 5
+    "seconds": 6
   },
   {
     "name": "tag",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tccutil",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "telnetd",
@@ -1127,97 +1127,97 @@
   {
     "name": "terminal-notifier",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "timedog",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "tini",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "trash",
     "status": "ok",
-    "seconds": 3
+    "seconds": 7
   },
   {
     "name": "uftrace",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
     "name": "umockdev",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "utiluti",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "valgrind",
     "status": "ok",
-    "seconds": 7
+    "seconds": 9
   },
   {
     "name": "veclibfort",
     "status": "ok",
-    "seconds": 11
+    "seconds": 7
   },
   {
     "name": "vfkit",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "virtiofsd",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "vtable-dumper",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wait_on",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wallpaper",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "watch-sim",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wavemon",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wayland",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wayland-protocols",
     "status": "ok",
-    "seconds": 6
+    "seconds": 7
   },
   {
     "name": "webarchiver",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "webkitgtk",
@@ -1232,47 +1232,47 @@
   {
     "name": "wifi-password",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wireplumber",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wl-clipboard",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "wpebackend-fdo",
-    "status": "build",
-    "seconds": 8
+    "status": "ok",
+    "seconds": 9
   },
   {
     "name": "wtype",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "xcdiff",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "xcenv",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "xcode-build-server",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "xcode-kotlin",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "xcodegen",
@@ -1287,12 +1287,12 @@
   {
     "name": "xcp",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "xcresultparser",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "xctesthtmlreport",
@@ -1302,12 +1302,12 @@
   {
     "name": "xmount",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "yap",
     "status": "ok",
-    "seconds": 3
+    "seconds": 4
   },
   {
     "name": "zzz",
