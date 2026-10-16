@@ -1,0 +1,6 @@
+{
+  "formula": "reattach-to-user-namespace",
+  "desc": "Reattach process (e.g., tmux) to the user's interactive session",
+  "commands": ["reattach-to-user-namespace"],
+  "test": "assert_match \"Hello World!\", shell_output(\"#{bin}/reattach-to-user-namespace cmd /c echo Hello World!\")\nassert_match \"version 2.9\", shell_output(\"#{bin}/reattach-to-user-namespace -v\")\nassert_match \"usage:\", shell_output(\"#{bin}/reattach-to-user-namespace 2>&1\", 1)"
+}
