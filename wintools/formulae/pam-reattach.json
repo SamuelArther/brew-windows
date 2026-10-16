@@ -1,0 +1,7 @@
+{
+  "formula": "pam-reattach",
+  "desc": "Run programs in the user's interactive logon session (pam_reattach's CLI)",
+  "commands": ["reattach-to-session-namespace"],
+  "caveats": "Windows has no PAM, so the pam_reattach.so module itself has no counterpart;\nreattach-to-session-namespace runs a program in your interactive logon session\n(for example from an SSH login, to reach the clipboard or Windows Hello).",
+  "test": "assert_match \"Windows\", shell_output(\"#{bin}/reattach-to-session-namespace cmd /c ver\")\nassert_match \"Usage:\", shell_output(\"#{bin}/reattach-to-session-namespace 2>&1\", 1)"
+}

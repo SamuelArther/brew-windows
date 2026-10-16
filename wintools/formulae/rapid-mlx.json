@@ -1,0 +1,7 @@
+{
+  "formula": "rapid-mlx",
+  "desc": "Fast local AI engine with an OpenAI-compatible API, using llama.cpp",
+  "commands": ["rapid-mlx"],
+  "caveats": "rapid-mlx serves models with llama.cpp's llama-server. Install the engine with:\n  brew install llama.cpp\nThen start a server on http://127.0.0.1:8000/v1 with:\n  rapid-mlx serve qwen3.5-4b-4bit",
+  "test": "assert_match(/rapid-mlx \\d+\\.\\d+\\.\\d+/, shell_output(\"#{bin}/rapid-mlx --version\"))\nassert_match \"qwen3.5-4b-4bit\", shell_output(\"#{bin}/rapid-mlx info qwen3.5-4b-4bit\")\nassert_match \"gpt-oss-20b-4bit\", shell_output(\"#{bin}/rapid-mlx models\")\nassert_match \"No models downloaded\", shell_output(\"#{bin}/rapid-mlx ls\")\nassert_match \"unknown model\", shell_output(\"#{bin}/rapid-mlx info no-such-model 2>&1\", 2)"
+}

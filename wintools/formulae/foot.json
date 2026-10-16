@@ -1,0 +1,6 @@
+{
+  "formula": "foot",
+  "desc": "Fast, lightweight terminal launcher using Windows Terminal and foot.ini",
+  "commands": ["foot", "footclient"],
+  "test": "config_dir = testpath/\".config/foot\"\nconfig_file = config_dir/\"foot.ini\"\nmkdir_p config_dir\nconfig_file.write <<~INI\n  [cursor]\n  style=blok\nINI\nassert_match(\n  /blok: not one of 'block', 'underline', 'beam'/,\n  shell_output(\"#{bin}/foot --check-config 2>&1\", 230),\n)\nrm(config_file)\nconfig_file.write <<~INI\n  [cursor]\n  style=block\nINI\nassert_empty shell_output(\"#{bin}/foot --check-config\")\nassert_match \"1.28.0\", shell_output(\"#{bin}/footclient --version\")"
+}

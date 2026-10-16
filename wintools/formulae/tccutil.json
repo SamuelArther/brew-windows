@@ -1,0 +1,6 @@
+{
+  "formula": "tccutil",
+  "desc": "Utility to modify the Windows privacy permissions (camera, microphone, ...)",
+  "commands": ["tccutil"],
+  "test": "assert_match \"Unrecognized command \\\"check\\\"\", shell_output(\"#{bin}/tccutil check 2>&1\")\nassert_match \"tccutil 1.5.5\", shell_output(\"#{bin}/tccutil --version\")\nsystem bin/\"tccutil\", \"--list\", \"--service\", \"kTCCServiceMicrophone\"\nassert_match \"no privacy consent\", shell_output(\"#{bin}/tccutil --list 2>&1\", 1)"
+}

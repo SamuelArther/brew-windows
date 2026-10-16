@@ -1,0 +1,7 @@
+{
+  "formula": "open-completion",
+  "desc": "Bash and PowerShell completion for open",
+  "commands": ["open-completion"],
+  "caveats": "Enable the completion with:\n  bash:        eval \"$(open-completion bash)\"\n  PowerShell:  open-completion powershell | Out-String | Invoke-Expression",
+  "test": "assert_match \"complete -o filenames -F _open open\", shell_output(\"#{bin}/open-completion bash\")\nassert_match \"Register-ArgumentCompleter\", shell_output(\"#{bin}/open-completion powershell\")\nsystem bin/\"open-completion\", \"--apps\""
+}

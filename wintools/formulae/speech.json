@@ -1,0 +1,10 @@
+{
+  "formula": "speech",
+  "desc": "On-device speech toolkit: ASR (whisper.cpp), TTS, VAD and an audio API server",
+  "commands": [
+    "speech",
+    "speech-server"
+  ],
+  "caveats": "Speech recognition uses whisper.cpp and a ggml Whisper model:\n  brew install whisperkit-cli\n  set SPEECH_MODEL=<path to ggml-base.en.bin> (or pass --model)\nText-to-speech uses the voices installed in Windows.",
+  "test": "assert_match \"--model\", shell_output(\"#{bin}/speech voice-chat --help\")\noutput = shell_output(\"#{bin}/speech transcribe /nonexistent.wav 2>&1\", 1)\nassert_match \"Error\", output\n# 1.5 s of 8 kHz 8-bit PCM: near-silence, 0.5 s of a loud square wave, near-silence\nheader = \"RIFF\\x24\\x2F\\x00\\x00WAVEfmt \\x10\\x00\\x00\\x00\\x01\\x00\\x01\\x00\" \\\n         \"\\x40\\x1F\\x00\\x00\\x40\\x1F\\x00\\x00\\x01\\x00\\x08\\x00data\\x00\\x2F\\x00\\x00\"\n(testpath/\"tone.wav\").write(header + (\"\\x7F\" * 4000) + (\"\\x00\\x7F\" * 2000) + (\"\\x7F\" * 4032))\nassert_match \"1 segment(s)\", shell_output(\"#{bin}/speech vad #{testpath}/tone.wav\")\nport = free_port\npid = spawn bin/\"speech-server\", \"--host\", \"127.0.0.1\", \"--port\", port.to_s\nbegin\n  sleep 3\n  assert_match \"ok\", shell_output(\"curl -sf --max-time 5 http://127.0.0.1:#{port}/health\")\nensure\n  Process.kill(\"TERM\", pid)\nend"
+}

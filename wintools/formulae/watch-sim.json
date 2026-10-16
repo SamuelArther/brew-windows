@@ -1,0 +1,6 @@
+{
+  "formula": "watch-sim",
+  "desc": "Command-line Wear OS emulator app launcher",
+  "commands": ["watch-sim"],
+  "test": "assert_match(/Usage: watch-sim/, shell_output(\"#{bin}/watch-sim 2>&1\", 1))\nassert_match \"Wear OS\", shell_output(\"#{bin}/watch-sim --help\")\n(testpath/\"notes.txt\").write \"not an app\"\nassert_match \"not an APK\", shell_output(\"#{bin}/watch-sim --info notes.txt 2>&1\", 1)\nassert_match \"No such file\", shell_output(\"#{bin}/watch-sim missing.apk 2>&1\", 1)"
+}

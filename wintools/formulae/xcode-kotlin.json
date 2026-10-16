@@ -1,0 +1,6 @@
+{
+  "formula": "xcode-kotlin",
+  "desc": "Kotlin/Native LLDB formatters and Visual Studio language support",
+  "commands": ["xcode-kotlin"],
+  "test": "output = shell_output(\"#{bin}/xcode-kotlin info --only\")\nassert_match(/Bundled plugin version:\\s*\\d+\\.\\d+\\.\\d+/, output)\nassert_match(/Installed plugin version:\\s*(?:(?:\\d+)\\.(?:\\d+)\\.(?:\\d+)|none)/, output)\nassert_match(/Language spec installed:\\s*(?:Yes|No)/, output)\nassert_match(/LLDB init installed:\\s*(?:Yes|No)/, output)\nassert_match(/LLDB Xcode init sources main LLDB init:\\s*(?:Yes|No)/, output)\n(testpath/\"konan/tools\").mkpath\n(testpath/\"konan/tools/konan_lldb.py\").write \"# Kotlin/Native formatters\\n\"\nsystem bin/\"xcode-kotlin\", \"install\", \"--konan-home\", testpath/\"konan\"\noutput = shell_output(\"#{bin}/xcode-kotlin info --only\")\nassert_match(/LLDB init installed:\\s*Yes/, output)\nassert_match(/Language spec installed:\\s*Yes/, output)\nsystem bin/\"xcode-kotlin\", \"uninstall\"\nassert_match(/Installed plugin version:\\s*none/, shell_output(\"#{bin}/xcode-kotlin info --only\"))"
+}
