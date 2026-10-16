@@ -1,0 +1,7 @@
+{
+  "formula": "fuse-overlayfs",
+  "desc": "Overlay file system on the Windows Projected File System",
+  "commands": ["fuse-overlayfs"],
+  "caveats": "fuse-overlayfs needs the Windows Projected File System. Turn it on once (as admin) with:\n  Enable-WindowsOptionalFeature -Online -FeatureName Client-ProjFS -NoRestart\nUnmount with: fuse-overlayfs -u <mountpoint>",
+  "test": "assert_match \"version 1.18\", shell_output(\"#{bin}/fuse-overlayfs --version\")\nmkdir \"lowerdir/a\"\nmkdir \"up\"\nmkdir \"merged\"\noutput = shell_output(\"#{bin}/fuse-overlayfs -o lowerdir=lowerdir/a:lowerdir/missing,upperdir=up,workdir=workdir merged 2>&1\", 1)\nassert_match \"cannot open lowerdir\", output\noutput = shell_output(\"#{bin}/fuse-overlayfs -o lowerdir=lowerdir/a,upperdir=up merged 2>&1\", 1)\nassert_match \"workdir not specified\", output\nassert_match \"not mounted\", shell_output(\"#{bin}/fuse-overlayfs -u merged 2>&1\", 1)"
+}
