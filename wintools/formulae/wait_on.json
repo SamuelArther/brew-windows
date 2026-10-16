@@ -1,0 +1,6 @@
+{
+  "formula": "wait_on",
+  "desc": "Lets shell scripts wait for files and folders to change",
+  "commands": ["wait_on"],
+  "test": "system bin/\"wait_on\", \"-v\"\n(testpath/\"watched.txt\").write \"x\"\nsystem bin/\"wait_on\", \"-t\", \"0\", testpath/\"watched.txt\"\nassert_match \"can't open\", shell_output(\"#{bin}/wait_on #{testpath}/missing 2>&1\", 66)\nassert_match \"usage: wait_on\", shell_output(\"#{bin}/wait_on 2>&1\", 64)"
+}
