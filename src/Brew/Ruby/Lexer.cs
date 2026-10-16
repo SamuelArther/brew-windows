@@ -273,7 +273,27 @@ public sealed class Lexer
 
     void Push(T type, List<StrPart> parts, bool space, int startLine)
     {
+        foreach (var part in parts)
+            if (part.Text != null && part.Text.Any(RString.IsRawByte)) part.Text = DecodeRawBytes(part.Text);
         tokens.Add(new Token { Type = type, Parts = parts, SpaceBefore = space, Line = startLine });
+    }
+
+    // Runs of \x escapes that form valid UTF-8 become those characters; the rest stay raw bytes.
+    static string DecodeRawBytes(string text)
+    {
+        var sb = new StringBuilder(text.Length);
+        var strict = new UTF8Encoding(false, true);
+        for (int i = 0; i < text.Length;)
+        {
+            if (!RString.IsRawByte(text[i])) { sb.Append(text[i++]); continue; }
+            int end = i;
+            while (end < text.Length && RString.IsRawByte(text[end])) end++;
+            var run = text[i..end].Select(c => (byte)(c - RString.RawByteBase)).ToArray();
+            try { sb.Append(strict.GetString(run)); }
+            catch (DecoderFallbackException) { sb.Append(text, i, end - i); }
+            i = end;
+        }
+        return sb.ToString();
     }
 
     void LexNumber(bool space)
@@ -464,7 +484,9 @@ public sealed class Lexer
             {
                 int s = pos;
                 while (pos - s < 2 && Uri.IsHexDigit(Cur)) pos++;
-                return ((char)Convert.ToInt32(src[s..pos], 16)).ToString();
+                int value = Convert.ToInt32(src[s..pos], 16);
+                // A high byte is raw until Push sees whether it's part of a UTF-8 sequence ("\xC3\xA9" is é).
+                return (value < 0x80 ? (char)value : (char)(RString.RawByteBase + value)).ToString();
             }
             default: return n.ToString();
         }

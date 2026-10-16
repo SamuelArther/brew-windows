@@ -601,7 +601,7 @@ public sealed partial class Interp
     // Homebrew's Pathname#install: moves sources (relative to cwd) into dir.
     // A binary (ASCII-8BIT) string's bytes are its chars; anything else is written as UTF-8.
     static byte[] Bytes(object value, string text) =>
-        value is RString { Binary: true } ? Encoding.Latin1.GetBytes(text) : new UTF8Encoding(false).GetBytes(text);
+        value is RString { Binary: true } ? Encoding.Latin1.GetBytes(text) : RString.Utf8(text);
 
     void InstallInto(string dir, object src)
     {

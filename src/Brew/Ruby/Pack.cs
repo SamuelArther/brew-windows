@@ -62,7 +62,7 @@ public sealed partial class Interp
                     break;
                 case 'a' or 'A' or 'Z':
                 {
-                    var s = Take() is RString rs && rs.Binary ? Encoding.Latin1.GetBytes(rs.V) : Encoding.UTF8.GetBytes(Str(values[next - 1]));
+                    var s = Take() is RString rs && rs.Binary ? Encoding.Latin1.GetBytes(rs.V) : RString.Utf8(Str(values[next - 1]));
                     var len = star ? s.Length + (op == 'Z' ? 1 : 0) : count;
                     for (var k = 0; k < len; k++) bytes.Add(k < s.Length ? s[k] : (byte)(op == 'A' ? ' ' : 0));
                     break;
@@ -93,7 +93,7 @@ public sealed partial class Interp
                 }
                 case 'm':
                 {
-                    var raw = Take() is RString ms && ms.Binary ? Encoding.Latin1.GetBytes(ms.V) : Encoding.UTF8.GetBytes(Str(values[next - 1]));
+                    var raw = Take() is RString ms && ms.Binary ? Encoding.Latin1.GetBytes(ms.V) : RString.Utf8(Str(values[next - 1]));
                     var b64 = Convert.ToBase64String(raw);
                     if (star || count != 0)
                     {
@@ -116,7 +116,7 @@ public sealed partial class Interp
 
     public List<object> Unpack(RString s, string format)
     {
-        var data = s.Binary ? Encoding.Latin1.GetBytes(s.V) : Encoding.UTF8.GetBytes(s.V);
+        var data = RString.Bytes(s);
         var at = 0;
         var result = new List<object>();
         foreach (var (op, count, star, bigFlag) in Directives(format))

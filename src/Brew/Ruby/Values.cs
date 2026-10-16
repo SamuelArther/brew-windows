@@ -30,8 +30,32 @@ public sealed class RString
     public bool Binary;
     public RString(string v) { V = v; }
     public override string ToString() => V;
-    public override bool Equals(object o) => o is RString s && s.V == V;
+    // Like Ruby: the same bytes in the same encoding, or ASCII-only text in either ("\x89PNG" isn't "\x89PNG".b).
+    public override bool Equals(object o) => o is RString s && s.V == V && (s.Binary == Binary || V.All(c => c < 0x80));
     public override int GetHashCode() => V.GetHashCode();
+
+    // A "\x89" escape that isn't part of valid UTF-8 is kept as the raw byte, stored as U+DC89
+    // (Python's surrogateescape), so a UTF-8 string can still carry it.
+    public const char RawByteBase = '\uDC00';
+    public static bool IsRawByte(char c) => c >= '\uDC80' && c <= '\uDCFF';
+    static bool HasRawBytes(string s) => s.Any(IsRawByte);
+
+    public static byte[] Bytes(RString s) => s.Binary ? System.Text.Encoding.Latin1.GetBytes(s.V) : Utf8(s.V);
+
+    public static byte[] Utf8(string s)
+    {
+        if (!HasRawBytes(s)) return System.Text.Encoding.UTF8.GetBytes(s);
+        var bytes = new List<byte>(s.Length + 8);
+        int start = 0;
+        for (int i = 0; i <= s.Length; i++)
+        {
+            if (i < s.Length && !IsRawByte(s[i])) continue;
+            bytes.AddRange(System.Text.Encoding.UTF8.GetBytes(s[start..i]));
+            if (i < s.Length) bytes.Add((byte)(s[i] - RawByteBase));
+            start = i + 1;
+        }
+        return bytes.ToArray();
+    }
 }
 
 public sealed class RArray

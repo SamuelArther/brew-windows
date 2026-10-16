@@ -41,7 +41,7 @@ public sealed partial class Interp
         var St = StringClass;
         RString Self(object o) => (RString)o;
         // A binary (ASCII-8BIT) string holds one byte per char; others are UTF-8.
-        static byte[] RawBytes(RString s) => s.Binary ? Encoding.Latin1.GetBytes(s.V) : Encoding.UTF8.GetBytes(s.V);
+        static byte[] RawBytes(RString s) => RString.Bytes(s);
         // Ruby's encoding rules for joining strings: binary (ASCII-8BIT) data stays binary, with the other
         // side's UTF-8 bytes appended byte for byte, unless the binary side is plain ASCII.
         static void Append(RString target, object value, Interp it)
@@ -54,8 +54,8 @@ public sealed partial class Interp
             {   // ASCII-only binary data adopts the UTF-8 side's encoding
                 target.V += text; target.Binary = false; return;
             }
-            if (target.Binary) target.V += Encoding.Latin1.GetString(Encoding.UTF8.GetBytes(text));
-            else { target.V = Encoding.Latin1.GetString(Encoding.UTF8.GetBytes(target.V)) + text; target.Binary = true; }
+            if (target.Binary) target.V += Encoding.Latin1.GetString(RString.Utf8(text));
+            else { target.V = Encoding.Latin1.GetString(RString.Utf8(target.V)) + text; target.Binary = true; }
         }
         static bool IsAscii(string s) => s.All(c => c < 0x80);
         RString Mut(Interp it, object o)
@@ -93,7 +93,7 @@ public sealed partial class Interp
             return S(string.Concat(Enumerable.Repeat(Self(self).V, (int)n)));
         });
         Def(St, "%", (it, self, a, b) => S(it.Format(Self(self).V, a[0] is RArray arr ? arr.L.ToArray() : new[] { a[0] })));
-        Def(St, "== === eql?", (it, self, a, b) => a[0] is RString o && o.V == Self(self).V);
+        Def(St, "== === eql?", (it, self, a, b) => a[0] is RString o && o.Equals(Self(self)));
         Def(St, "<=>", (it, self, a, b) => a[0] is RString o ? (long)Math.Sign(string.CompareOrdinal(Self(self).V, o.V)) : null);
         Def(St, "=~", (it, self, a, b) => a[0] is RRegex r ? it.RegexMatch(r, Self(self).V, 0) is { } m ? (long)m.M.Index : null : it.Invoke(a[0], "=~", new[] { self }, null));
         Def(St, "match", (it, self, a, b) =>
@@ -409,6 +409,24 @@ public sealed partial class Interp
         Def(Md, "size length", (it, self, a, b) => (long)((RMatch)self).M.Groups.Count);
         Def(Md, "values_at", (it, self, a, b) => new RArray(a.Select(i => { var g = ((RMatch)self).M.Groups[(int)it.Int(i)]; return g.Success ? (object)S(g.Value) : null; })));
         Def(Md, "inspect", (it, self, a, b) => S($"#<MatchData {InspectStr(((RMatch)self).M.Value)}>"));
+
+        // Strings cut from binary data stay binary (binread[0, 4], split, strip ...), as in Ruby.
+        var textResults = new HashSet<string> { "inspect", "dump", "to_json", "b", "force_encoding", "__binary?", "+", "<<", "concat",
+            "encode", "unicode_normalize", "scrub", "to_s", "to_str" };
+        foreach (var m in St.Methods.Values.Where(m => m.Fn != null && !textResults.Contains(m.Name)).ToList())
+        {
+            var fn = m.Fn;
+            m.Fn = (it, self, a, b) =>
+            {
+                var result = fn(it, self, a, b);
+                if (self is RString { Binary: true })
+                {
+                    if (result is RString s && !ReferenceEquals(s, self) && !a.Any(x => ReferenceEquals(x, s))) s.Binary = true;
+                    else if (result is RArray arr) foreach (var x in arr.L) if (x is RString xs) xs.Binary = true;
+                }
+                return result;
+            };
+        }
     }
 
     static RArray Triple(string a, string b, string c) => new(new object[] { S(a), S(b), S(c) });
