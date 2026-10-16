@@ -41,6 +41,10 @@ static class TapUpdate
             Check(blocked.Code == 1 && blocked.Error.Contains("uncommitted changes"), "local edits block that repository's update");
             Check(File.Exists(Path.Combine(repo, "tap", "foo-bar", "Formula", "epsilon.rb")), "other taps still update");
 
+            var log = await Brew("log", "--oneline", "foo/bar/delta");
+            Check(log.Code == 0 && log.Output.Contains(Path.Combine("Formula", "delta.rb")), "log reads a tapped formula's history from its tap: " + log.Output + log.Error);
+            Check((await Brew("info")).Output == "", "info without a Cellar prints nothing");
+
             var untapped = await Brew("untap", "foo/bar");
             Check(untapped.Code == 0 && untapped.Error.StartsWith("Untapping foo/bar...\nUntapped 3 formulae ("), "Homebrew untap messages: " + untapped.Error);
 

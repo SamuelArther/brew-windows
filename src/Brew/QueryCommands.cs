@@ -63,8 +63,10 @@ public sealed class QueryCommands(Paths paths)
         }
         if (names.Length == 0)
         {
-            var all = store.All;
-            Console.WriteLine($"{all.Length} {(all.Length == 1 ? "keg" : "kegs")}, {CommandOutput.Size(all.Sum(k => Directory.EnumerateFiles(k.Path, "*", SearchOption.AllDirectories).Sum(f => new FileInfo(f).Length)))}");
+            // Homebrew: one "keg" per rack, then the whole Cellar's file count and size; nothing without a Cellar.
+            if (!Directory.Exists(paths.Cellar)) return;
+            var racks = Directory.GetDirectories(paths.Cellar).Count(d => !Path.GetFileName(d).StartsWith('.') && Directory.EnumerateDirectories(d).Any());
+            Console.WriteLine($"{racks} {(racks == 1 ? "keg" : "kegs")}, {PackageManager.Abbreviation(paths.Cellar)}");
             return;
         }
         for (int index = 0; index < names.Length; index++)

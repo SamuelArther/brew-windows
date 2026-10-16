@@ -152,9 +152,11 @@ public static class Cli
                     }
                     break;
                 case "log":
-                    var arguments = new List<string> { "-C", paths.Repository, "--no-pager", "log" };
+                    // A formula's history lives in its tap's own clone (tap/<user>-<repo>), not always this repository's.
+                    var files = args.Names.Select(repository.Find).ToArray();
+                    var arguments = new List<string> { "-C", files.Length > 0 ? Path.GetDirectoryName(files[0]) : paths.Repository, "--no-pager", "log" };
                     arguments.AddRange(raw.Where(a => !args.Names.Contains(a)));
-                    if (args.Names.Count > 0) { arguments.Add("--"); arguments.AddRange(args.Names.Select(n => Path.GetRelativePath(paths.Repository, repository.Find(n)))); }
+                    if (files.Length > 0) { arguments.Add("--"); arguments.AddRange(files); }
                     return await ProcessRunner.Run("git", arguments);
             }
             return 0;
