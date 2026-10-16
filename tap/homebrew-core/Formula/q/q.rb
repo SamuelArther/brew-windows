@@ -1,0 +1,33 @@
+class Q < Formula
+  desc "Tiny command-line DNS client with support for UDP, TCP, DoT, DoH, DoQ and ODoH"
+  homepage "https://github.com/natesales/q"
+  url "https://github.com/natesales/q/archive/refs/tags/v0.19.12.tar.gz"
+  sha256 "1f56ebfb93fd380dee734cca9227149de2491c49db7b2c0f21019fd463081e4c"
+  license "GPL-3.0-only"
+
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "fdcddb7bc68eede00f5f9c5ee717acdfeb445a563d3bd298cec64151183e90bb"
+  end
+
+  depends_on "go" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
+  def install
+    ldflags = %W[
+      -X main.version=#{version}
+      -X main.commit=#{tap.user}
+      -X main.date=#{time.iso8601}
+    ]
+    system "go", "build", *std_go_args(ldflags:)
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/q --version")
+    assert_match "ns: ns1.dnsimple-edge.com.", shell_output("#{bin}/q brew.sh NS --format yaml")
+  end
+end

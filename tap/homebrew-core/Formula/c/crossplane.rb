@@ -1,0 +1,54 @@
+class Crossplane < Formula
+  desc "Build control planes without needing to write code"
+  homepage "https://github.com/crossplane/cli"
+  url "https://github.com/crossplane/cli/archive/refs/tags/v2.5.0.tar.gz"
+  sha256 "a88c0068f9d6f5a7589d5a0ef21ddb3268e617d709e68d25863f13b60ce6d5f6"
+  license "Apache-2.0"
+  head "https://github.com/crossplane/cli.git", branch: "main"
+
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4af7796598cde3d93f780d25c68f2e5ae44c43e10051c6fa8b43b157b381b416"
+  end
+
+  depends_on "go" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
+  def install
+    ldflags = %W[-X github.com/crossplane/crossplane-runtime/v#{version.major}/pkg/version.version=v#{version}]
+    system "go", "build", *std_go_args(ldflags:), "./cmd/crossplane"
+  end
+
+  test do
+    assert_match "Client Version: v#{version}", shell_output("#{bin}/crossplane version --client")
+
+    (testpath/"composition.yaml").write <<~YAML
+      apiVersion: apiextensions.crossplane.io/v1
+      kind: Composition
+      metadata:
+        name: example
+      spec:
+        compositeTypeRef:
+          apiVersion: example.org/v1alpha1
+          kind: XExample
+        mode: Pipeline
+        pipeline:
+          - step: example
+            functionRef:
+              name: example-function
+    YAML
+
+    output = shell_output("#{bin}/crossplane composition convert composition-environment " \
+                          "composition.yaml -o converted.yaml 2>&1")
+    assert_match "No changes needed", output
+  end
+end
