@@ -158,7 +158,7 @@ public sealed class GitDeveloperCommands(Paths paths)
                             [Bottles.Tag] = new Dictionary<string, object>
                             {
                                 ["filename"] = Uri.EscapeDataString(filename), ["local_filename"] = filename, ["sha256"] = checksum,
-                                ["installed_size"] = Directory.EnumerateFiles(keg.Path, "*", SearchOption.AllDirectories).Sum(f => new FileInfo(f).Length),
+                                ["installed_size"] = Paths.TreeFiles(keg.Path).Sum(f => new FileInfo(f).Length),
                             },
                         },
                     },
@@ -236,7 +236,7 @@ public sealed class GitDeveloperCommands(Paths paths)
         foreach (var name in names)
         {
             if (args.Has("--dry-run")) { Console.WriteLine($"brew install {name}\nbrew test {name}\nbrew bottle --json {name}"); continue; }
-            await new PackageManager(paths).InstallAsync(name);
+            using (Cli.Lock(paths)) await new PackageManager(paths).InstallAsync(name);
             if (await DevBridge.Run("test", [name]) != 0) return 1;
             await Bottle(new CommandArguments(["--json", name], ["--json"]));
         }

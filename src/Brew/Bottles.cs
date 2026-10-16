@@ -43,6 +43,7 @@ public static class Bottles
         try
         {
             CopyTree(keg, stagedKeg);
+            File.Delete(Path.Combine(stagedKeg, PouredReceiptName));
             var relocatable = true;
             foreach (var file in Paths.TreeFiles(stagedKeg))
             {
@@ -69,6 +70,8 @@ public static class Bottles
         finally { PackageManager.DeleteTree(staging); }
     }
 
+    public const string PouredReceiptName = ".brew-bottle-receipt.json";
+
     public static async Task PourAsync(Paths paths, string archive, string keg, string cellar)
     {
         var name = Path.GetFileName(Path.GetDirectoryName(keg));
@@ -87,6 +90,10 @@ public static class Bottles
                 if (bookkeeping || cellar != "any_skip_relocation")
                     if (!Relocate(file, paths.Prefix, false)) RelocateLauncher(file, paths.Prefix, false);
             }
+            // The bottle's receipt moves aside: a keg only counts as installed once its own receipt is
+            // written, last (a keg without a valid tab isn't installed, as in Homebrew).
+            var receipt = Path.Combine(extracted, "INSTALL_RECEIPT.json");
+            if (File.Exists(receipt)) File.Move(receipt, Path.Combine(extracted, PouredReceiptName));
             Directory.CreateDirectory(Path.GetDirectoryName(keg)!);
             Directory.Move(extracted, keg);
         }

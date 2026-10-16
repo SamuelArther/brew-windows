@@ -37,7 +37,7 @@ public sealed class MaintenanceCommands(Paths paths)
             foreach (var keg in group.SkipLast(1))
             {
                 if (keg.Receipt.Links.Any(l => new FileInfo(l.Path).LinkTarget == l.Target || l.Shim && File.Exists(l.Path + ".brew-shim") && File.ReadAllText(l.Path + ".brew-shim").StartsWith(l.Target))) continue;
-                bytes += Directory.EnumerateFiles(keg.Path, "*", SearchOption.AllDirectories).Sum(f => new FileInfo(f).Length);
+                bytes += Paths.TreeFiles(keg.Path).Sum(f => new FileInfo(f).Length);
                 Console.WriteLine($"{(args.Has("--dry-run", "-n") ? "Would remove" : "Removing")}: {keg.Path}... ({PackageManager.Abbreviation(keg.Path)})");
                 if (!args.Has("--dry-run", "-n")) PackageManager.DeleteTree(keg.Path);
             }
