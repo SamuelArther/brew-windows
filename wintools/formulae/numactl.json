@@ -1,0 +1,7 @@
+{
+  "formula": "numactl",
+  "desc": "NUMA support for Windows: node topology, CPU and memory-node binding",
+  "commands": ["numactl", "numastat", "memhog"],
+  "caveats": "--membind/--preferred set Windows' preferred memory node (a strong preference, not a\nhard bind); CPU binding stays inside one processor group; --interleave is not available.\nThere is no libnuma: C programs use the Windows NUMA API (VirtualAllocExNuma and friends).",
+  "test": "assert_match \"available:\", shell_output(\"#{bin}/numactl --hardware\")\nassert_match \"node 0 cpus:\", shell_output(\"#{bin}/numactl -H\")\nassert_match \"physcpubind:\", shell_output(\"#{bin}/numactl --show\")\nassert_match \"bound\", shell_output(\"#{bin}/numactl --cpunodebind=0 --membind=0 cmd /c echo bound\")\nshell_output(\"#{bin}/numactl -N 0 -- cmd /c exit 3\", 3)\nassert_match \"MemTotal\", shell_output(\"#{bin}/numastat\")\nshell_output(\"#{bin}/memhog -r1 4m --membind 0\")\nshell_output(\"#{bin}/numactl --physcpubind=99999 cmd 2>&1\", 2)"
+}
