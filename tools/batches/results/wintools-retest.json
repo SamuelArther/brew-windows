@@ -1,8 +1,33 @@
 [
   {
+    "name": "abi-dumper",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "acl",
     "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "afsctool",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "alsa-lib",
+    "status": "ok",
     "seconds": 5
+  },
+  {
+    "name": "apfel",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "apptainer",
+    "status": "test",
+    "seconds": 4
   },
   {
     "name": "apt",
@@ -35,7 +60,37 @@
     "seconds": 7
   },
   {
+    "name": "avfs",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "baguette",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "bartycrouch",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "batt",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "betterglobekey",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "bindfs",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "bluepill",
     "status": "ok",
     "seconds": 4
   },
@@ -50,14 +105,44 @@
     "seconds": 4
   },
   {
+    "name": "bluez",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "brightness",
     "status": "ok",
-    "seconds": 5
+    "seconds": 4
+  },
+  {
+    "name": "btdu",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "btfs",
+    "status": "ok",
+    "seconds": 4
   },
   {
     "name": "bubblewrap",
     "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "cargo-instruments",
+    "status": "ok",
     "seconds": 5
+  },
+  {
+    "name": "carthage",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "chisel",
+    "status": "ok",
+    "seconds": 4
   },
   {
     "name": "choose-gui",
@@ -68,6 +153,11 @@
     "name": "chrome-cli",
     "status": "ok",
     "seconds": 6
+  },
+  {
+    "name": "chrpath",
+    "status": "ok",
+    "seconds": 4
   },
   {
     "name": "cliclick",
@@ -85,9 +175,29 @@
     "seconds": 4
   },
   {
-    "name": "dark-mode",
+    "name": "configen",
     "status": "ok",
     "seconds": 4
+  },
+  {
+    "name": "container",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "container-compose",
+    "status": "ok",
+    "seconds": 3
+  },
+  {
+    "name": "create-dmg",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "dark-mode",
+    "status": "ok",
+    "seconds": 3
   },
   {
     "name": "ddcctl",
@@ -97,30 +207,45 @@
   {
     "name": "ddcutil",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "defaultbrowser",
+    "status": "ok",
+    "seconds": 3
+  },
+  {
+    "name": "device-mapper",
     "status": "ok",
     "seconds": 4
   },
   {
     "name": "dislocker",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "displayplacer",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "distrobox",
     "status": "ok",
-    "seconds": 5
+    "seconds": 3
   },
   {
     "name": "dockutil",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "dqlite",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "draw-things-cli",
     "status": "ok",
     "seconds": 4
   },
@@ -130,9 +255,34 @@
     "seconds": 4
   },
   {
-    "name": "fileicon",
+    "name": "elfutils",
     "status": "ok",
     "seconds": 4
+  },
+  {
+    "name": "epoll-shim",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "execstack",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "faceprints",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "fcitx-remote-for-osx",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "fileicon",
+    "status": "ok",
+    "seconds": 3
   },
   {
     "name": "fmdiff",
@@ -140,9 +290,19 @@
     "seconds": 4
   },
   {
-    "name": "fsevent_watch",
+    "name": "folderify",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "foot",
     "status": "ok",
     "seconds": 4
+  },
+  {
+    "name": "fsevent_watch",
+    "status": "ok",
+    "seconds": 3
   },
   {
     "name": "fsevents-tools",
@@ -150,9 +310,54 @@
     "seconds": 6
   },
   {
+    "name": "fuse-overlayfs",
+    "status": "ok",
+    "seconds": 3
+  },
+  {
+    "name": "fx-upscale",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "gfxutil",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "glibc",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "glibc@2.13",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "glibc@2.17",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "gss-ntlmssp",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "gtk-mac-integration",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "ical-buddy",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "ifuse",
     "status": "ok",
-    "seconds": 6
+    "seconds": 5
   },
   {
     "name": "imageoptim-cli",
@@ -165,13 +370,23 @@
     "seconds": 4
   },
   {
+    "name": "imessage-ruby",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "infat",
     "status": "ok",
     "seconds": 4
   },
   {
     "name": "ios-deploy",
-    "status": "test",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "ios-sim",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -195,9 +410,14 @@
     "seconds": 4
   },
   {
+    "name": "kdoctor",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
     "name": "keyd",
     "status": "ok",
-    "seconds": 4
+    "seconds": 3
   },
   {
     "name": "keyutils",
@@ -210,6 +430,11 @@
     "seconds": 4
   },
   {
+    "name": "kmod",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
     "name": "kqwait",
     "status": "ok",
     "seconds": 6
@@ -220,9 +445,149 @@
     "seconds": 4
   },
   {
+    "name": "launch_socket_server",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lazycontainer",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libabigail",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libaio",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "libapplewm",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libcap",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libcap-ng",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libdrm",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "libfuse",
     "status": "ok",
     "seconds": 5
+  },
+  {
+    "name": "libgudev",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "libmnl",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libnetfilter-queue",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libnetfilter_conntrack",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libnfnetlink",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libnftnl",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "libnl",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libnsl",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "libpciaccess",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libseccomp",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libselinux",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libunwind",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "liburing",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "libwpe",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "licenseplist",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "linux-headers@4.4",
+    "status": "ok",
+    "seconds": 239
+  },
+  {
+    "name": "linux-headers@5.15",
+    "status": "ok",
+    "seconds": 282
+  },
+  {
+    "name": "linux-headers@6.8",
+    "status": "ok",
+    "seconds": 295
+  },
+  {
+    "name": "linux-pam",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lispkit",
+    "status": "build",
+    "seconds": 10
   },
   {
     "name": "lm-sensors",
@@ -250,6 +615,11 @@
     "seconds": 4
   },
   {
+    "name": "lume",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
     "name": "lunchy",
     "status": "ok",
     "seconds": 4
@@ -257,7 +627,7 @@
   {
     "name": "lunchy-go",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "m-cli",
@@ -271,23 +641,23 @@
   },
   {
     "name": "mac-cleanup-go",
-    "status": "test",
-    "seconds": 4
+    "status": "ok",
+    "seconds": 5
   },
   {
     "name": "macchanger",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "maclaunch",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "macmon",
-    "status": "test",
-    "seconds": 4
+    "status": "ok",
+    "seconds": 5
   },
   {
     "name": "macos-term-size",
@@ -312,7 +682,7 @@
   {
     "name": "macvim",
     "status": "ok",
-    "seconds": 10
+    "seconds": 16
   },
   {
     "name": "makeicns",
@@ -322,7 +692,7 @@
   {
     "name": "mas",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   },
   {
     "name": "media-control",
@@ -330,13 +700,68 @@
     "seconds": 4
   },
   {
-    "name": "mobiledevice",
-    "status": "test",
+    "name": "mist-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "mlx",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "mlx-c",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "mlx-lm",
+    "status": "build",
+    "seconds": 189
+  },
+  {
+    "name": "mmtabbarview",
+    "status": "ok",
     "seconds": 5
   },
   {
+    "name": "mobiledevice",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "mogenerator",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "mole",
-    "status": "test",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "molten-vk",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "mplayershell",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "mtoc",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "needle",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "nef",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -350,7 +775,37 @@
     "seconds": 4
   },
   {
+    "name": "ntfs-3g",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "numactl",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "objc-codegenutils",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "objc-run",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "ocmtoc",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "onedrive-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "open-completion",
     "status": "ok",
     "seconds": 4
   },
@@ -370,9 +825,19 @@
     "seconds": 4
   },
   {
+    "name": "pam-reattach",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "paneru",
     "status": "ok",
     "seconds": 5
+  },
+  {
+    "name": "passt",
+    "status": "ok",
+    "seconds": 4
   },
   {
     "name": "pciutils",
@@ -390,9 +855,29 @@
     "seconds": 4
   },
   {
+    "name": "pipewire",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "pipewire-gstreamer",
+    "status": "test",
+    "seconds": 195
+  },
+  {
     "name": "pngpaste",
     "status": "ok",
     "seconds": 4
+  },
+  {
+    "name": "qtwayland",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "quartz-wm",
+    "status": "ok",
+    "seconds": 43
   },
   {
     "name": "quotatool",
@@ -400,8 +885,33 @@
     "seconds": 4
   },
   {
+    "name": "rapid-mlx",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "reattach-to-user-namespace",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "rem",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "rmtrash",
     "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "rswift",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "s3-backer",
+    "status": "test",
     "seconds": 4
   },
   {
@@ -425,6 +935,11 @@
     "seconds": 4
   },
   {
+    "name": "setweblocthumb",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "sf-pwgen",
     "status": "ok",
     "seconds": 4
@@ -433,6 +948,26 @@
     "name": "sleepwatcher",
     "status": "ok",
     "seconds": 4
+  },
+  {
+    "name": "slirp4netns",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "socket_vmnet",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "socktainer",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "speech",
+    "status": "ok",
+    "seconds": 7
   },
   {
     "name": "squashfuse",
@@ -446,7 +981,22 @@
   },
   {
     "name": "strace",
-    "status": "test",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "swift-section",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "swiftgen",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "swiftplantuml",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -456,7 +1006,7 @@
   },
   {
     "name": "sysprof",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
@@ -470,6 +1020,16 @@
     "seconds": 6
   },
   {
+    "name": "tag",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "tccutil",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "telnetd",
     "status": "ok",
     "seconds": 9
@@ -480,19 +1040,54 @@
     "seconds": 4
   },
   {
+    "name": "timedog",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "tini",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "trash",
     "status": "ok",
     "seconds": 4
   },
   {
-    "name": "utiluti",
-    "status": "test",
+    "name": "umockdev",
+    "status": "ok",
     "seconds": 4
+  },
+  {
+    "name": "utiluti",
+    "status": "ok",
+    "seconds": 5
   },
   {
     "name": "valgrind",
     "status": "ok",
-    "seconds": 8
+    "seconds": 11
+  },
+  {
+    "name": "veclibfort",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "vfkit",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "vtable-dumper",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "wait_on",
+    "status": "ok",
+    "seconds": 4
   },
   {
     "name": "wallpaper",
@@ -500,7 +1095,32 @@
     "seconds": 4
   },
   {
+    "name": "watch-sim",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
     "name": "wavemon",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "wayland",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "wayland-protocols",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "webarchiver",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "webkitgtk",
     "status": "ok",
     "seconds": 4
   },
@@ -515,12 +1135,67 @@
     "seconds": 4
   },
   {
+    "name": "wireplumber",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
     "name": "wl-clipboard",
     "status": "ok",
     "seconds": 4
   },
   {
+    "name": "wpebackend-fdo",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
     "name": "wtype",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcdiff",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcenv",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcode-build-server",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcode-kotlin",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcodegen",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcodes",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcp",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xcresultparser",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "xctesthtmlreport",
     "status": "ok",
     "seconds": 4
   },
@@ -531,12 +1206,12 @@
   },
   {
     "name": "yap",
-    "status": "test",
+    "status": "ok",
     "seconds": 4
   },
   {
     "name": "zzz",
     "status": "ok",
-    "seconds": 4
+    "seconds": 5
   }
 ]
