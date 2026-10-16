@@ -1,0 +1,8 @@
+{
+  "formula": "btdu",
+  "desc": "Sampling disk usage profiler for NTFS",
+  "commands": [
+    "btdu"
+  ],
+  "test": "assert_match \"Fatal error: No path specified\", shell_output(\"#{bin}/btdu 2>&1\", 1)\nassert_match \"btdu v\", shell_output(\"#{bin}/btdu --version\")\n# Sampling reads the volume, which needs administrator rights (GitHub's runners have them).\noutput = shell_output(\"#{bin}/btdu --headless --max-samples 64 --seed 1 --export #{testpath}/btdu.json C:/\")\nassert_match \"64 samples\", output\nassert_match \"\\\"samples\\\":64\", (testpath/\"btdu.json\").read"
+}

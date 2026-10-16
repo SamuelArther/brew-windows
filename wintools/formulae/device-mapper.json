@@ -1,0 +1,8 @@
+{
+  "formula": "device-mapper",
+  "desc": "Volume-to-disk mapping tools for Windows volumes (dmsetup)",
+  "commands": [
+    "dmsetup"
+  ],
+  "test": "assert_match \"Library version\", shell_output(\"#{bin}/dmsetup version\")\nassert_match \"linear\", shell_output(\"#{bin}/dmsetup targets\")\n# The system volume maps onto a physical disk like a linear target.\nassert_match(/^0 \\d+ linear PhysicalDrive\\d+ \\d+$/, shell_output(\"#{bin}/dmsetup table C:\"))\nassert_match \"dependencies\", shell_output(\"#{bin}/dmsetup deps C:\")\nassert_match \"not found\", shell_output(\"#{bin}/dmsetup info no-such-device 2>&1\", 1)\nassert_match \"volume manager\", shell_output(\"#{bin}/dmsetup create test 2>&1\", 1)"
+}

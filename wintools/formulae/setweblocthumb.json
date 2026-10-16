@@ -1,0 +1,8 @@
+{
+  "formula": "setweblocthumb",
+  "desc": "Assign page thumbnail icons to .webloc and .url web links",
+  "commands": [
+    "setWeblocThumb"
+  ],
+  "test": "ENV[\"LOCALAPPDATA\"] = testpath.to_s\nPathname.new(\"google.webloc\").write('{URL = \"https://google.com\";}')\n# -t draws the icon (a tile with the site's initial) without loading the page.\nassert_match \"thumbnail icon set on google.url\", shell_output(\"#{bin}/setWeblocThumb -t google.webloc\")\nshortcut = (testpath/\"google.url\").read\nassert_match \"URL=https://google.com\", shortcut\nicon = shortcut[/^IconFile=(.+)$/, 1].strip\nassert_equal [0, 0, 1, 0], File.binread(icon).bytes.first(4)\nassert_match \"Usage: setWeblocThumb\", shell_output(\"#{bin}/setWeblocThumb --help\")"
+}

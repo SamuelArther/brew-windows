@@ -1,0 +1,8 @@
+{
+  "formula": "xcodegen",
+  "desc": "Generate your Xcode project from a spec file and your folder structure",
+  "commands": [
+    "xcodegen"
+  ],
+  "test": "(testpath/\"xcodegen.yml\").write <<~YAML\n  name: GeneratedProject\n  options:\n    bundleIdPrefix: com.project\n  targets:\n    TestProject:\n      type: application\n      platform: iOS\n      sources: TestProject\nYAML\n(testpath/\"TestProject\").mkpath\n(testpath/\"TestProject/App.swift\").write \"import SwiftUI\\n\"\nsystem bin/\"xcodegen\", \"--spec\", testpath/\"xcodegen.yml\"\nassert_path_exists testpath/\"GeneratedProject.xcodeproj\"\nassert_path_exists testpath/\"GeneratedProject.xcodeproj/project.pbxproj\"\noutput = (testpath/\"GeneratedProject.xcodeproj/project.pbxproj\").read\nassert_match \"name = TestProject\", output\nassert_match \"isa = PBXNativeTarget\", output\nassert_match \"App.swift in Sources\", output\nassert_match \"Version: \", shell_output(\"#{bin}/xcodegen --version\")"
+}

@@ -1,0 +1,8 @@
+{
+  "formula": "swiftgen",
+  "desc": "Swift code generator for assets, storyboards, Localizable.strings, etc.",
+  "commands": [
+    "swiftgen"
+  ],
+  "test": "system bin/\"swiftgen\", \"--version\"\n(testpath/\"colors.txt\").write \"ArticleBody: #339666\\nCyan: #ff66ccff\\n\"\noutput = shell_output(\"#{bin}/swiftgen run colors --templateName swift5 colors.txt\")\nassert_match \"internal static let articleBody = ColorName(rgbaValue: 0x339666ff)\", output\n(testpath/\"en.lproj\").mkpath\n(testpath/\"en.lproj/Localizable.strings\").write \"\\\"apples.count\\\" = \\\"You have %d apples\\\";\\n\"\n(testpath/\"Assets.xcassets/Logo.imageset\").mkpath\n(testpath/\"swiftgen.yml\").write <<~YAML\n  strings:\n    inputs: en.lproj\n    outputs:\n      - templateName: structured-swift5\n        output: Generated/Strings.swift\n  xcassets:\n    inputs: Assets.xcassets\n    outputs:\n      templateName: swift5\n      output: Generated/Assets.swift\nYAML\nsystem bin/\"swiftgen\", \"config\", \"run\"\nassert_match \"internal static func count(_ p1: Int) -> String\", (testpath/\"Generated/Strings.swift\").read\nassert_match \"internal static let logo = ImageAsset(name: \\\"Logo\\\")\", (testpath/\"Generated/Assets.swift\").read"
+}

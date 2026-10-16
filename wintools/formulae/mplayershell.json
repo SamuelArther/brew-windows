@@ -1,0 +1,8 @@
+{
+  "formula": "mplayershell",
+  "desc": "Improved visual experience for MPlayer on Windows",
+  "commands": [
+    "mps"
+  ],
+  "test": "assert_match \"Usage: mps\", shell_output(\"#{bin}/mps --help\")\n# No player at the given path: mps reports it instead of hanging.\nassert_match \"mps:\", shell_output(\"#{bin}/mps --player #{testpath}/missing/mplayer.exe movie.mkv 2>&1\", 1)"
+}

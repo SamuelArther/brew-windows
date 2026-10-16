@@ -1,0 +1,9 @@
+{
+  "formula": "dqlite",
+  "desc": "Embeddable, replicated and fault-tolerant SQLite-powered engine",
+  "commands": [
+    "dqlite-demo",
+    "dqlite"
+  ],
+  "test": "# Raft over an in-memory network: elections, replication, failover, catch-up and handover.\nassert_match \"ok: the data survives on the new leader\", shell_output(\"#{bin}/dqlite-demo --self-test\")\n\nlo = \"127.0.0.1\"\n# cluster of 2 instances, 1 db and 1 API port each\napi1 = free_port\ndb1 = free_port\napi2 = free_port\ndb2 = free_port\npid1 = spawn bin/\"dqlite-demo\", \"--db\", \"#{lo}:#{db1}\", \"--api\", \"#{lo}:#{api1}\", \"--dir\", testpath/\"n1\"\nsleep 3\npid2 = spawn bin/\"dqlite-demo\", \"--db\", \"#{lo}:#{db2}\", \"--api\", \"#{lo}:#{api2}\",\n             \"--join\", \"#{lo}:#{db1}\", \"--dir\", testpath/\"n2\"\nsleep 3\nbegin\n  assert_match \"done\", shell_output(\"curl -s -X PUT -d my-value http://#{lo}:#{api1}/my-key\")\n  sleep 1\n  assert_match \"my-value\", shell_output(\"curl -s http://#{lo}:#{api2}/my-key\")\n  assert_match \"my-value\", pipe_output(\"#{bin}/dqlite -s #{lo}:#{db2} demo\", \"SELECT value FROM model;\\n\")\nensure\n  Process.kill(\"TERM\", pid1)\n  Process.kill(\"TERM\", pid2)\nend"
+}
