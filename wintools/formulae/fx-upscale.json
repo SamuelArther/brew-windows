@@ -1,0 +1,6 @@
+{
+  "formula": "fx-upscale",
+  "desc": "GPU video upscaling through Media Foundation",
+  "commands": ["fx-upscale"],
+  "test": "cp test_fixtures(\"test.mp4\"), testpath\nassert_match \"--width\", shell_output(\"#{bin}/fx-upscale --help\")\n# Explicit sizes are validated before Media Foundation opens the file (it is optional on Windows Server).\noutput = shell_output(\"#{bin}/fx-upscale --width 20000 #{testpath}/test.mp4 2>&1\", 2)\nassert_match \"Maximum supported width/height: 16384\", output\nassert_match \"ProRes\", shell_output(\"#{bin}/fx-upscale --codec prores #{testpath}/test.mp4 2>&1\", 1)\nassert_match \"No such file\", shell_output(\"#{bin}/fx-upscale #{testpath}/missing.mp4 2>&1\", 1)"
+}
