@@ -1,5 +1,5 @@
 class AlsaLib < Formula
-  desc "Audio I/O library for Windows (PortAudio over WASAPI, WDM-KS, DirectSound and MME)"
+  desc "Audio I/O library for Windows (PortAudio over WASAPI, WDM-KS and MME)"
   homepage "https://www.portaudio.com"
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-portaudio-1~19.7.0-7-any.pkg.tar.zst"
   version "19.7.0"

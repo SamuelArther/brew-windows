@@ -1,5 +1,5 @@
 class Glibc < Formula
-  desc "C library for Windows programs (MinGW-w64 UCRT runtime under glibc's library names)"
+  desc "C runtime for Windows programs (MinGW-w64 UCRT under glibc's library names)"
   homepage "https://www.mingw-w64.org/"
   url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-crt-14.0.0.r426.g4564ee4b5-1-any.pkg.tar.zst"
   version "14.0.0.r426"
@@ -17,12 +17,12 @@ class Glibc < Formula
   #   libpthread, librt -> winpthreads
   #   libdl -> dlfcn-win32
 
-  keg_only "it would shadow the C runtime of the GCC toolchain"
-
   livecheck do
     url "https://repo.msys2.org/mingw/ucrt64/"
     regex(/href=.*?mingw-w64-ucrt-x86_64-crt[._-]v?(\d+(?:\.\d+)+(?:\.r\d+)?)/i)
   end
+
+  keg_only "it would shadow the C runtime of the GCC toolchain"
 
   resource "mingw-w64-ucrt-x86_64-headers" do
     url "https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-headers-14.0.0.r426.g4564ee4b5-1-any.pkg.tar.zst"
