@@ -1,0 +1,6 @@
+{
+  "formula": "xmount",
+  "desc": "Convert between raw, VHD and VMDK disk images",
+  "commands": ["xmount"],
+  "test": "assert_match \"xmount\", shell_output(\"#{bin}/xmount --version\")\n(testpath/\"disk.dd\").write \"a\" * 1_048_576\n(testpath/\"mnt\").mkpath\nsystem bin/\"xmount\", \"--in\", \"raw\", testpath/\"disk.dd\", \"--out\", \"vhd\", testpath/\"mnt\"\nassert_path_exists testpath/\"mnt/disk.vhd\"\nassert_match \"Size: 1048576 bytes\", (testpath/\"mnt/disk.info\").read\nsystem bin/\"xmount\", \"-u\", testpath/\"mnt\"\nrefute_path_exists testpath/\"mnt/disk.vhd\""
+}

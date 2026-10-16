@@ -1,0 +1,6 @@
+{
+  "formula": "wl-clipboard",
+  "desc": "Command-line copy/paste utilities for the Windows clipboard",
+  "commands": ["wl-copy", "wl-paste"],
+  "test": "assert_match \"wl-copy\", shell_output(\"#{bin}/wl-copy --version\")\nassert_match \"--list-types\", shell_output(\"#{bin}/wl-paste --help\")\nassert_match \"no primary selection\", shell_output(\"#{bin}/wl-paste --primary 2>&1\", 1)"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "squashfuse",
+  "desc": "Unpack squashfs archives into folders",
+  "commands": ["squashfuse"],
+  "test": "assert_match \"squashfuse\", shell_output(\"#{bin}/squashfuse --version\")\n(testpath/\"bad.img\").write \"not a squashfs image, just text\"\n(testpath/\"mnt\").mkpath\nassert_match \"not a squashfs image\", shell_output(\"#{bin}/squashfuse #{testpath}/bad.img #{testpath}/mnt 2>&1\", 1)"
+}

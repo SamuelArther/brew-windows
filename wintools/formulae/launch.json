@@ -1,0 +1,6 @@
+{
+  "formula": "launch",
+  "desc": "Command-line launcher for Windows, in the spirit of `open`",
+  "commands": ["launch"],
+  "test": "touch testpath/\"doc.txt\"\nassert_match \"doc.txt\", shell_output(\"#{bin}/launch -n #{testpath}/doc.txt\")\nassert_match \"document\", shell_output(\"#{bin}/launch -f #{testpath}/doc.txt\")\nassert_match \"creator codes\", shell_output(\"#{bin}/launch -c ttxt #{testpath}/doc.txt 2>&1\", 1)"
+}

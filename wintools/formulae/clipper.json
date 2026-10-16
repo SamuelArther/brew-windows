@@ -1,0 +1,6 @@
+{
+  "formula": "clipper",
+  "desc": "Share the Windows clipboard with tmux and other local and remote apps",
+  "commands": ["clipper"],
+  "test": "assert_match \"clipper\", shell_output(\"#{bin}/clipper -v\")\nassert_match \"--port\", shell_output(\"#{bin}/clipper --help\")\nassert_match \"flag provided but not defined\", shell_output(\"#{bin}/clipper --bogus 2>&1\", 2)"
+}

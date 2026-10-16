@@ -1,0 +1,6 @@
+{
+  "formula": "s3fs",
+  "desc": "Mount an S3 bucket as a folder or drive (via rclone and WinFsp)",
+  "commands": ["s3fs"],
+  "test": "assert_match \"Amazon Simple Storage Service File System\", shell_output(\"#{bin}/s3fs --version\")\nassert_match \"passwd-s3fs\", shell_output(\"#{bin}/s3fs --help\")"
+}

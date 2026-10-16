@@ -1,0 +1,6 @@
+{
+  "formula": "kqwait",
+  "desc": "Wait for events on files or directories",
+  "commands": ["kqwait"],
+  "test": "system bin/\"kqwait\", \"-v\"\n(testpath/\"watched\").write \"x\"\noutput = IO.popen(\"#{bin}/kqwait #{testpath}/watched\") do |io|\n  sleep 2\n  (testpath/\"watched\").append_lines \"changed\"\n  io.read\nend\nassert_match \"watched\", output"
+}

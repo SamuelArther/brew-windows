@@ -1,0 +1,6 @@
+{
+  "formula": "attr",
+  "desc": "Manipulate extended attributes (NTFS alternate data streams)",
+  "commands": ["attr", "getfattr", "setfattr"],
+  "test": "(testpath/\"test.txt\").write(\"Hello World!\\n\")\noutput = pipe_output(\"#{bin}/attr -s name test.txt\", \"\", 0)\nassert_match 'Attribute \"name\" set to a 0 byte value for test.txt', output\noutput = shell_output(\"#{bin}/attr -l test.txt\")\nassert_match 'Attribute \"name\" has a 0 byte value for test.txt', output\nsystem bin/\"setfattr\", \"-n\", \"user.comment\", \"-v\", \"hello\", \"test.txt\"\nassert_match 'user.comment=\"hello\"', shell_output(\"#{bin}/getfattr -d test.txt\")\nassert_equal \"Hello World!\\n\", (testpath/\"test.txt\").read"
+}

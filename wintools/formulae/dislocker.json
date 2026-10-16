@@ -1,0 +1,6 @@
+{
+  "formula": "dislocker",
+  "desc": "Unlock and read BitLocker volumes, and inspect BitLocker metadata",
+  "commands": ["dislocker", "dislocker-fuse", "dislocker-file", "dislocker-metadata", "dislocker-find", "dislocker-bek"],
+  "test": "system bin/\"dislocker\", \"-h\"\n(testpath/\"plain.img\").write \"a\" * 4096\nshell_output(\"#{bin}/dislocker-find #{testpath}/plain.img\", 1)\nassert_match \"no BitLocker signature\", shell_output(\"#{bin}/dislocker-metadata -V #{testpath}/plain.img 2>&1\", 1)"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "sbjson",
+  "desc": "JSON CLI parser & reformatter in the style of SBJson v5",
+  "commands": ["sbjson"],
+  "test": "(testpath/\"in.json\").write \"[true,false,\\\"string\\\",42.001e3,[],{}]\\n\"\nassert_equal \"true\\nfalse\\n\\\"string\\\"\\n42001\\n[]\\n{}\\n\", shell_output(\"#{bin}/sbjson --unwrap-root in.json\")"
+}

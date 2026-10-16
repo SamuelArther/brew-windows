@@ -1,0 +1,6 @@
+{
+  "formula": "imageoptim-cli",
+  "desc": "Losslessly optimise PNG, JPEG and GIF images",
+  "commands": ["imageoptim"],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/imageoptim -V\"))\ncp test_fixtures(\"test.png\"), testpath/\"test.png\"\nassert_match \"test.png\", shell_output(\"#{bin}/imageoptim --dry-run --no-color test.png\")\nassert_match \"TOTAL\", shell_output(\"#{bin}/imageoptim --no-color test.png\")\nassert_equal \"\\x89PNG\".b, (testpath/\"test.png\").binread[0, 4]"
+}

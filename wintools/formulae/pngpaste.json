@@ -1,0 +1,6 @@
+{
+  "formula": "pngpaste",
+  "desc": "Paste clipboard images into PNG files",
+  "commands": ["pngpaste"],
+  "test": "assert_match \"pngpaste\", shell_output(\"#{bin}/pngpaste -v\")\n# The CI desktop's clipboard holds no image.\nassert_match \"No image data found on the clipboard\", shell_output(\"#{bin}/pngpaste test.png 2>&1\", 1)"
+}

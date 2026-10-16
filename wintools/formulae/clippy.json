@@ -1,0 +1,6 @@
+{
+  "formula": "clippy",
+  "desc": "Copy files from your terminal that actually paste into GUI apps",
+  "commands": ["clippy", "pasty"],
+  "test": "assert_match \"clippy\", shell_output(\"#{bin}/clippy --version\")\nassert_match \"pasty\", shell_output(\"#{bin}/pasty --version\")\n(testpath/\"test.txt\").write(\"test content\\n\")\njson = \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"initialize\\\",\\\"params\\\":{\\\"protocolVersion\\\":\\\"2025-03-26\\\"}}\\n\" \\\n       \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":2,\\\"method\\\":\\\"tools/call\\\",\\\"params\\\":{\\\"name\\\":\\\"buffer_copy\\\",\\\"arguments\\\":{\\\"file\\\":\\\"test.txt\\\"}}}\\n\"\nassert_match \"Copied 2 lines from test.txt\", pipe_output(\"#{bin}/clippy mcp-server 2>&1\", json, 0)"
+}

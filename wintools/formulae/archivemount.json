@@ -1,0 +1,6 @@
+{
+  "formula": "archivemount",
+  "desc": "Open archives as folders and write changes back",
+  "commands": ["archivemount"],
+  "test": "assert_match \"archivemount\", shell_output(\"#{bin}/archivemount --version\")\n(testpath/\"src\").mkpath\n(testpath/\"src/a.txt\").write \"one\"\nsystem \"C:/Windows/System32/tar.exe\", \"-a\", \"-cf\", testpath/\"arc.zip\", \"-C\", testpath/\"src\", \"a.txt\"\n(testpath/\"mnt\").mkpath\nsystem bin/\"archivemount\", testpath/\"arc.zip\", testpath/\"mnt\"\nassert_equal \"one\", (testpath/\"mnt/a.txt\").read\n(testpath/\"mnt/b.txt\").write \"two\"\nsystem bin/\"archivemount\", \"-u\", testpath/\"mnt\"\nrefute_path_exists testpath/\"mnt/a.txt\"\nassert_path_exists testpath/\"arc.zip.orig\"\nassert_match \"b.txt\", shell_output(\"C:/Windows/System32/tar.exe -tf #{testpath}/arc.zip\")"
+}
