@@ -1,0 +1,36 @@
+name: release
+
+# Publishes brew.exe (self-contained, single file) as the brew-windows-<Version> release that
+# install.ps1 downloads. Bump <Version> in src/Brew/Brew.csproj first.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup-brew
+      - name: Test
+        shell: pwsh
+        run: |
+          dotnet run --project tests/Commands
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Publish
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = ([xml](Get-Content src/Brew/Brew.csproj)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+          dotnet publish src/Brew -c Release -o out --nologo
+          Copy-Item LICENSE, THIRD_PARTY_NOTICES.txt out/
+          $zip = "brew-windows-$version.zip"
+          Compress-Archive out/brew.exe, out/LICENSE, out/THIRD_PARTY_NOTICES.txt $zip
+          & out/brew.exe --version
+          gh release view "brew-windows-$version" *> $null
+          if ($LASTEXITCODE -eq 0) { throw "brew-windows-$version already exists: bump <Version> in src/Brew/Brew.csproj" }
+          gh release create "brew-windows-$version" $zip --title "brew-windows $version" `
+            --notes "Install: irm https://raw.githubusercontent.com/${{ github.repository }}/main/install.ps1 | iex"
