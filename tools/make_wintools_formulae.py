@@ -3,7 +3,8 @@
 Each formula downloads the wintools release zip and links its command names to wintools.exe.
 
 usage: make_wintools_formulae.py <version> <sha256 of wintools-<version>.zip>
-Writes tools/windows-overrides/<formula>.rb and tools/batches/wintools.txt.
+Writes tools/windows-overrides/<formula>.rb and tools/batches/wintools.txt (which also lists the
+hand-written overrides for these formulae, e.g. official Windows builds).
 """
 import json
 import pathlib
@@ -64,6 +65,10 @@ def main():
         OVERRIDES.mkdir(parents=True, exist_ok=True)
         (OVERRIDES / f"{meta['formula']}.rb").write_text(formula(meta, version, sha256), encoding="utf-8", newline="\n")
         names.append(meta["formula"])
+    # Hand-written overrides for the same platform-only formulae (official Windows builds) ride along.
+    for path in sorted(OVERRIDES.glob("*.rb")):
+        if path.stem not in names and "brew-windows' wintools" not in path.read_text(encoding="utf-8"):
+            names.append(path.stem)
     (REPO / "tools" / "batches" / "wintools.txt").write_text("\n".join(names) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {len(names)} formulae")
 
