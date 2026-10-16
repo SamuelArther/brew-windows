@@ -12,16 +12,43 @@ New-Item -ItemType Directory -Force $Out | Out-Null
 $Out = (Resolve-Path $Out).Path
 $logs = New-Item -ItemType Directory -Force (Join-Path $Out 'logs')
 
+# Each brew run gets a job object that kills everything it started (test servers, daemons) when it ends.
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public static class KillJob {
+    [StructLayout(LayoutKind.Sequential)] struct Basic { public long a, b; public uint LimitFlags; public UIntPtr c, d; public uint e; public UIntPtr f; public uint g, h; }
+    [StructLayout(LayoutKind.Sequential)] struct Io { public ulong a, b, c, d, e, f; }
+    [StructLayout(LayoutKind.Sequential)] struct Extended { public Basic Basic; public Io Io; public UIntPtr x, y, z, w; }
+    [DllImport("kernel32.dll", SetLastError = true)] static extern IntPtr CreateJobObject(IntPtr a, string name);
+    [DllImport("kernel32.dll", SetLastError = true)] static extern bool SetInformationJobObject(IntPtr job, int cls, ref Extended info, int len);
+    [DllImport("kernel32.dll", SetLastError = true)] static extern bool AssignProcessToJobObject(IntPtr job, IntPtr process);
+    [DllImport("kernel32.dll", SetLastError = true)] public static extern bool CloseHandle(IntPtr h);
+    public static IntPtr Create(IntPtr process) {
+        var job = CreateJobObject(IntPtr.Zero, null);
+        var info = new Extended(); info.Basic.LimitFlags = 0x2000; // JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+        if (!SetInformationJobObject(job, 9, ref info, Marshal.SizeOf(info))) throw new System.ComponentModel.Win32Exception();
+        if (!AssignProcessToJobObject(job, process)) throw new System.ComponentModel.Win32Exception();
+        return job;
+    }
+}
+'@
+
 function Invoke-Brew([string[]] $Arguments, [string] $Log, [string] $Directory = $Out) {
     $quoted = $Arguments | ForEach-Object { '"' + ($_ -replace '"', '\"') + '"' }
     $stdout = "$Log.out"; $stderr = "$Log.err"
     $p = Start-Process -FilePath $Brew -ArgumentList $quoted -WorkingDirectory $Directory -NoNewWindow -PassThru `
         -RedirectStandardOutput $stdout -RedirectStandardError $stderr
     $null = $p.Handle
+    $job = [KillJob]::Create($p.Handle)
     $finished = $p.WaitForExit($TimeoutMinutes * 60 * 1000)
-    if (-not $finished) { & taskkill /T /F /PID $p.Id | Out-Null; $code = 124 } else { $code = $p.ExitCode }
+    $code = if ($finished) { $p.ExitCode } else { 124 }
+    [KillJob]::CloseHandle($job) | Out-Null   # kills anything the run left behind
+    Start-Sleep -Milliseconds 500
     Add-Content $Log "`n==> brew $($Arguments -join ' ')  (exit $code)"
-    foreach ($f in $stdout, $stderr) { if (Test-Path $f) { Get-Content $f | Add-Content $Log; Remove-Item $f } }
+    foreach ($f in $stdout, $stderr) {
+        if (Test-Path $f) { Get-Content $f -ErrorAction SilentlyContinue | Add-Content $Log; Remove-Item $f -ErrorAction SilentlyContinue }
+    }
     return $code
 }
 
