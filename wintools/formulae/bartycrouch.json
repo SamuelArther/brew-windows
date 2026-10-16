@@ -1,0 +1,6 @@
+{
+  "formula": "bartycrouch",
+  "desc": "Incrementally update/translate your Strings files",
+  "commands": ["bartycrouch"],
+  "test": "(testpath/\"Test.swift\").write <<~SWIFT\n  import Foundation\n\n  class Test {\n    func test() {\n        NSLocalizedString(\"test\", comment: \"\")\n    }\n  }\nSWIFT\n(testpath/\"en.lproj\").mkpath\n(testpath/\"en.lproj/Localizable.strings\").write <<~EOS\n  /* No comment provided by engineer. */\n  \"oldKey\" = \"Some translation\";\nEOS\ncd testpath do\n  system bin/\"bartycrouch\", \"update\"\nend\nassert_match '\"oldKey\" = \"', (testpath/\"en.lproj/Localizable.strings\").read\nassert_match '\"test\" = \"', (testpath/\"en.lproj/Localizable.strings\").read\nassert_match \"Empty Values\", shell_output(\"#{bin}/bartycrouch lint --path #{testpath}\")"
+}
