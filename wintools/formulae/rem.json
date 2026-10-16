@@ -1,0 +1,6 @@
+{
+  "formula": "rem",
+  "desc": "Command-line reminders kept and delivered by Windows Task Scheduler",
+  "commands": ["rem"],
+  "test": "system bin/\"rem\", \"version\"\nassert_match \"rem add\", shell_output(\"#{bin}/rem help\")\nassert_match \"Reminders\", shell_output(\"#{bin}/rem ls\")\nassert_match \"Unknown Reminder List\", shell_output(\"#{bin}/rem ls NoSuchList 2>&1\", 255)"
+}
