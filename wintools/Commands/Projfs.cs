@@ -108,10 +108,17 @@ static unsafe class Projfs
     // Serves `source` at root. With a junction, the mount point is a directory junction to root
     // (fuse-overlayfs's upperdir), made here and removed on unmount.
     public static int Mount(string tool, string mountpoint, string root, bool junction, bool foreground,
-                            string[] childArgs, Func<ProjfsSource> makeSource, Dictionary<string, string> extraState = null)
+                            string[] childArgs, Func<ProjfsSource> makeSource, bool clean = false, int readyTimeout = 60)
     {
         if (Unavailable() is { } why) { Console.Error.WriteLine($"{tool}: {why}"); return 1; }
         if (Load(mountpoint) != null) { Console.Error.WriteLine($"{tool}: {mountpoint} is already mounted (unmount with {tool} -u)"); return 1; }
+        // A mount that empties its folder afterwards takes only an empty one (or its own earlier root).
+        if (clean && Directory.Exists(root) && Directory.EnumerateFileSystemEntries(root).Any()
+            && !File.GetAttributes(root).HasFlag(FileAttributes.ReparsePoint))
+        {
+            Console.Error.WriteLine($"{tool}: mountpoint is not empty: {root}");
+            return 1;
+        }
         if (!foreground)
         {
             // Run the provider in a background copy of this command, and wait until it serves.
@@ -129,10 +136,11 @@ static unsafe class Projfs
             var clock = Stopwatch.StartNew();
             while (!ready.WaitOne(200))
             {
-                if (child.HasExited || clock.Elapsed > TimeSpan.FromSeconds(60))
+                if (child.HasExited || clock.Elapsed > TimeSpan.FromSeconds(readyTimeout))
                 {
+                    if (!child.HasExited) child.Kill();
                     child.WaitForExit(1000);
-                    lock (errors) Console.Error.Write(errors.Length > 0 ? errors.ToString() : $"{tool}: mount failed\n");
+                    lock (errors) Console.Error.Write(errors.Length > 0 ? errors.ToString() : $"{tool}: mount failed (timed out)\n");
                     return 1;
                 }
             }
@@ -146,7 +154,7 @@ static unsafe class Projfs
             if (Directory.Exists(mountpoint)) Directory.Delete(mountpoint);
             CreateJunction(mountpoint, root);
         }
-        var state = new Dictionary<string, string>(extraState ?? [])
+        var state = new Dictionary<string, string>
         {
             ["mountpoint"] = mountpoint, ["root"] = root, ["pid"] = Environment.ProcessId.ToString(),
             ["kind"] = tool, ["junction"] = junction ? "1" : "0",
@@ -172,6 +180,17 @@ static unsafe class Projfs
         PrjStopVirtualizing(context);
         (source as IDisposable)?.Dispose();
         Cleanup(mountpoint, state);
+        // A cache-like mount (avfs, btfs) leaves nothing behind: the projected and hydrated files go.
+        if (clean)
+            try
+            {
+                Directory.Delete(root, recursive: true);
+                Directory.CreateDirectory(root);
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            {
+                Console.Error.WriteLine($"{tool}: could not empty {root}: {e.Message}");
+            }
         return 0;
     }
 

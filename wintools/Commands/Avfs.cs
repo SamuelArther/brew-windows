@@ -76,7 +76,7 @@ static class Avfs
         var mountpoint = Projfs.MountPath(target);
         if (Projfs.Unavailable() is { } why) { Console.Error.WriteLine("avfsd: " + why); return 1; }
         Directory.CreateDirectory(mountpoint);
-        return Projfs.Mount("avfsd", mountpoint, mountpoint, junction: false, foreground, childArgs, () => new Source());
+        return Projfs.Mount("avfsd", mountpoint, mountpoint, junction: false, foreground, childArgs, () => new Source(), clean: true);
     }
 
     static int Mountavfs(string[] args)
