@@ -1,0 +1,6 @@
+{
+  "formula": "xcodes",
+  "desc": "Install and switch between multiple versions of Visual Studio (Windows' Xcode)",
+  "commands": ["xcodes"],
+  "test": "assert_match \"2.1.0\", shell_output(\"#{bin}/xcodes version\")\nlist = shell_output(\"#{bin}/xcodes list --offline\")\nassert_match \"(Visual Studio 2022)\", list\nassert_match \"17.14\", list\nENV[\"XCENV_ROOT\"] = testpath.to_s\nshell_output(\"#{bin}/xcodes installed\")\nassert_match \"Windows SDKs\", shell_output(\"#{bin}/xcodes runtimes\")\nassert_match \"unknown subcommand\", shell_output(\"#{bin}/xcodes frobnicate 2>&1\", 2)"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "xcenv",
+  "desc": "Visual Studio (Windows' Xcode) version manager",
+  "commands": ["xcenv"],
+  "test": "ENV[\"XCENV_ROOT\"] = testpath.to_s\nassert_match \"XCENV_SHELL\", shell_output(\"#{bin}/xcenv init -\")\nshell_output(\"#{bin}/xcenv versions\")\nsystem bin/\"xcenv\", \"global\", \"system\"\nassert_equal \"system\", (testpath/\"version\").read.strip\nassert_match \"system (set by\", shell_output(\"#{bin}/xcenv version\")\nassert_match \"not installed\", shell_output(\"#{bin}/xcenv local 1.0 2>&1\", 1)"
+}
