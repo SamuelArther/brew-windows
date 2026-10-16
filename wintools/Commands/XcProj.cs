@@ -224,7 +224,7 @@ sealed class XcProjFile
                 continue;
             }
             sb.Append('\t').Append(Quote(key)).Append(" = ");
-            WriteValue(sb, value, 1, false);
+            WriteValue(sb, value, 1, false, key);
             sb.Append(";\n");
         }
         sb.Append("}\n");
@@ -238,7 +238,7 @@ sealed class XcProjFile
         {
             case OrderedDictionary<string, object> dict:
                 sb.Append("{\n");
-                foreach (var (k, v) in OrderKeys(dict, isObject))
+                foreach (var (k, v) in OrderKeys(dict, isObject, key))
                 {
                     sb.Append(indent).Append('\t').Append(Quote(k)).Append(" = ");
                     WriteValue(sb, v, depth + 1, false, k);
@@ -262,23 +262,23 @@ sealed class XcProjFile
         }
     }
 
-    void WriteInline(StringBuilder sb, object value, string key = null)
+    void WriteInline(StringBuilder sb, object value, string key = null, bool isObject = true)
     {
         switch (value)
         {
             case OrderedDictionary<string, object> dict:
                 sb.Append('{');
-                foreach (var (k, v) in OrderKeys(dict, true))
+                foreach (var (k, v) in OrderKeys(dict, isObject, key))
                 {
                     sb.Append(Quote(k)).Append(" = ");
-                    WriteInline(sb, v, k);
+                    WriteInline(sb, v, k, false);
                     sb.Append("; ");
                 }
                 sb.Append('}');
                 return;
             case List<object> list:
                 sb.Append('(');
-                foreach (var item in list) { WriteInline(sb, item, key); sb.Append(", "); }
+                foreach (var item in list) { WriteInline(sb, item, key, false); sb.Append(", "); }
                 sb.Append(')');
                 return;
             default:
@@ -287,8 +287,12 @@ sealed class XcProjFile
         }
     }
 
-    static IEnumerable<KeyValuePair<string, object>> OrderKeys(OrderedDictionary<string, object> dict, bool isaFirst) =>
-        dict.OrderBy(kv => isaFirst && kv.Key == "isa" ? 0 : 1).ThenBy(kv => kv.Key, StringComparer.Ordinal);
+    // Objects list isa first and then their keys sorted, as do build settings; other nested
+    // dictionaries (attributes, capabilities) keep their order.
+    static IEnumerable<KeyValuePair<string, object>> OrderKeys(OrderedDictionary<string, object> dict, bool isObject, string key) =>
+        isObject ? dict.OrderBy(kv => kv.Key == "isa" ? 0 : 1).ThenBy(kv => kv.Key, StringComparer.Ordinal)
+        : key == "buildSettings" ? dict.OrderBy(kv => kv.Key, StringComparer.Ordinal)
+        : dict;
 
     static readonly HashSet<string> UncommentedKeys = ["remoteGlobalIDString", "TestTargetID"];
 
@@ -343,11 +347,15 @@ sealed class XcProjFile
                 return $"XCRemoteSwiftPackageReference \"{repo}\"";
             }
             case "XCLocalSwiftPackageReference": return $"XCLocalSwiftPackageReference \"{Str(o, "relativePath") ?? Str(o, "path")}\"";
-            case "XCSwiftPackageProductDependency": return Str(o, "productName");
+            case "XCSwiftPackageProductDependency":
+            {
+                var product = Str(o, "productName");
+                return product != null && product.StartsWith("plugin:") ? product[7..] : product;
+            }
             case "XCBuildConfiguration": return Str(o, "name");
             default:
                 if (isa != null && isa.EndsWith("BuildPhase")) return PhaseName(id);
-                return Str(o, "name") ?? ElementName(id);
+                return Str(o, "name") ?? ElementName(id) ?? (isa is "PBXGroup" or "PBXVariantGroup" ? null : isa);
         }
     }
 
@@ -373,7 +381,7 @@ sealed class XcProjFile
     // Xcode quotes everything but plain identifiers and paths.
     public static string Quote(string s)
     {
-        if (s.Length > 0 && s.All(XcPlist.IsUnquoted) && !s.Contains("//") && !s.Contains("___") && s != "+") return s;
+        if (s.Length > 0 && s.All(c => char.IsAsciiLetterOrDigit(c) || c is '_' or '$' or '/' or '.') && !s.Contains("//") && !s.Contains("___")) return s;
         var sb = new StringBuilder("\"");
         foreach (var c in s)
         {
