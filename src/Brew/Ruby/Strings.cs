@@ -178,11 +178,14 @@ public sealed partial class Interp
             return self;
         });
         Def(St, "bytes", (it, self, a, b) => new RArray(RawBytes(Self(self)).Select(x => (object)(long)x)));
-        Def(St, "lines", (it, self, a, b) => new RArray(Lines(Self(self).V).Select(l => (object)S(l))));
+        // lines / each_line(chomp: true) drop each line's "\n" (or "\r\n").
+        IEnumerable<string> LinesOf(Interp it, object self, object[] a) =>
+            it.Truthy2(a, "chomp") ? Lines(Self(self).V).Select(l => l.EndsWith("\r\n") ? l[..^2] : l.TrimEnd('\n')) : Lines(Self(self).V);
+        Def(St, "lines", (it, self, a, b) => new RArray(LinesOf(it, self, a).Select(l => (object)S(l))));
         Def(St, "each_line", (it, self, a, b) =>
         {
-            if (b == null) return new RArray(Lines(Self(self).V).Select(l => (object)S(l)));
-            foreach (var l in Lines(Self(self).V)) it.CallProc(b, new object[] { S(l) });
+            if (b == null) return new RArray(LinesOf(it, self, a).Select(l => (object)S(l)));
+            foreach (var l in LinesOf(it, self, a)) it.CallProc(b, new object[] { S(l) });
             return self;
         });
         Def(St, "split", (it, self, a, b) => new RArray(it.Split(Self(self).V, a.Length > 0 ? a[0] : null, a.Length > 1 ? (int)it.Int(a[1]) : 0).Select(x => (object)S(x))));

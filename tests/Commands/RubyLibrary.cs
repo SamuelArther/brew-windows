@@ -50,6 +50,7 @@ static class RubyLibrary
         Expect("""[(begin; "a".center; rescue ArgumentError; :arg; end), (begin; {}.merge(1); rescue TypeError; :type; end)].inspect""", "[:arg, :type]");
         Expect("""[Digest::SHA256.hexdigest("abc")[0, 8], (begin; Timeout.timeout(0.2) { loop { } }; rescue Timeout::Error; :expired; end)].inspect""", """["ba7816bf", :expired]""");
         Expect($"""File.binwrite("{file}", [0x89, 0xff, 0x0d, 0x0a].pack("C*")); File.read("{file}").bytes.inspect""", "[137, 255, 10]");
+        Expect("""["a\nb\r\n".lines(chomp: true), "a\nb".lines].inspect""", """[["a", "b"], ["a\n", "b"]]""");
         Expect("""[$stdout.fileno, STDERR.fileno, $stdout.tty?].inspect""", "[1, 2, false]");
         // Backticks run through /bin/sh (bash) like Ruby, when there is one.
         if (PosixShell.FindShell(Environment.GetEnvironmentVariable) != null)
