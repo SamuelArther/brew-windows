@@ -100,6 +100,14 @@ public static partial class FormulaLoader
             return ctx.Commands.LastOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)
                 || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase))?.Target;
         };
+        it.DropPendingCommand = full =>
+        {
+            if (!string.Equals(Path.GetDirectoryName(full), Path.TrimEndingDirectorySeparator(Path.GetFullPath(ctx.Bin)), StringComparison.OrdinalIgnoreCase))
+                return false;
+            var name = Path.GetFileName(full);
+            return ctx.Commands.RemoveAll(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase)) > 0;
+        };
         var buildRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(ctx.BuildPath)) + Path.DirectorySeparatorChar;
         it.InstallHook = (dir, src, newName) =>
         {

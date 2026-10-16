@@ -919,6 +919,7 @@ public sealed partial class Interp
     // During install, bin/<name> for a command registered with windows_exe (written to bin only after
     // install) resolves to the program it will launch.
     public Func<string, string> PendingCommand;
+    public Func<string, bool> DropPendingCommand;
 
     public void SetStatus(int code, int pid)
     {

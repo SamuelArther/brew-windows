@@ -213,6 +213,7 @@ public sealed partial class Interp
             var p = it.Abs(Me(self));
             if (Directory.Exists(p) && !IsSymlink(p)) Directory.Delete(p);
             else if (File.Exists(p) || IsSymlink(p)) File.Delete(p);
+            else if (it.DropPendingCommand?.Invoke(p) == true) { }   // a windows_exe command not yet written to bin
             else throw it.Error(it.ENOENT, "No such file or directory @ apply2files - " + Me(self));
             return 1L;
         });

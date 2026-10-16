@@ -130,12 +130,10 @@ class PythonAT314 < Formula
 
   def install
     msys2_install
-    msys2_bin "ucrt64/bin/python.exe", "python"
+    # Versioned commands only, like upstream's versioned pythons: python/python3 belong to the
+    # default python (python@3.15), so both can be installed and linked together.
     msys2_bin "ucrt64/bin/python3.14.exe", "python3.14"
     msys2_bin "ucrt64/bin/python3.14w.exe", "python3.14w"
-    msys2_bin "ucrt64/bin/python3.exe", "python3"
-    msys2_bin "ucrt64/bin/python3w.exe", "python3w"
-    msys2_bin "ucrt64/bin/pythonw.exe", "pythonw"
   end
 
   # Like upstream's sitecustomize: packages linked into HOMEBREW_PREFIX/lib/python3.14/site-packages
@@ -146,6 +144,6 @@ class PythonAT314 < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/python --version 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/python3.14 --version 2>&1")
   end
 end
