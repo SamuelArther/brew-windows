@@ -264,6 +264,11 @@ public static partial class FormulaLoader
         Ohai(i, string.Join(" ", args));
         // Extensions build with Visual Studio's native x64 compiler when it's installed (see BuildEnvironment.MsvcX64).
         var saved = new Dictionary<string, string>();
+        // MSVC 14.5x fails on Cython's own generated Compiler/Parsing.c (C1083 "Cannot open compiler generated
+        // file: ''"), even 64-bit-hosted without /GL. Cython is a build tool here; its pure-Python install
+        // translates the same code, just more slowly.
+        saved["NO_CYTHON_COMPILE"] = i.Env.GetValueOrDefault("NO_CYTHON_COMPILE");
+        i.Env["NO_CYTHON_COMPILE"] = "true";
         if (BuildEnvironment.MsvcX64 is { } msvc)
             foreach (var (key, value) in msvc)
             {

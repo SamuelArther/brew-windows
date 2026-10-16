@@ -129,6 +129,7 @@ public sealed class InstallContext
         // MSYS2's standard layout aliases /bin to /usr/bin.
         if (Directory.Exists(Path.Combine(root, "usr", "bin")) && !Directory.Exists(Path.Combine(root, "bin")))
             Directory.CreateSymbolicLink(Path.Combine(root, "bin"), Path.Combine(root, "usr", "bin"));
+        RelocatePkgConfig(Path.Combine(root, "ucrt64"));
     }
 
     public void InstallLibrary(string source = "libexec/ucrt64")
@@ -136,6 +137,21 @@ public sealed class InstallContext
         var root = Inside(Prefix, source);
         foreach (var name in new[] { "include", "lib", "bin", "share" })
             if (Directory.Exists(Path.Combine(root, name))) CopyTree(Path.Combine(root, name), Path.Combine(Prefix, name));
+        RelocatePkgConfig(Prefix);
+    }
+
+    // MSYS2's .pc files name /ucrt64 outright (prefix, and often libdir/includedir too); pkgconf would drop
+    // those as system directories or find nothing there. Make each relative to the file's own location.
+    static void RelocatePkgConfig(string root)
+    {
+        foreach (var dir in new[] { Path.Combine(root, "lib", "pkgconfig"), Path.Combine(root, "share", "pkgconfig") }.Where(Directory.Exists))
+            foreach (var pc in Directory.GetFiles(dir, "*.pc"))
+            {
+                var text = File.ReadAllText(pc);
+                var relocated = System.Text.RegularExpressions.Regex.Replace(text, @"(?<=[=\s]|-[IL])/ucrt64(?=/|\s|$)", "$${pcfiledir}/../..",
+                    System.Text.RegularExpressions.RegexOptions.Multiline);
+                if (relocated != text) File.WriteAllText(pc, relocated);
+            }
     }
 
     public void Msys2Bin(string source, string name = null)

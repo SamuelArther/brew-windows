@@ -47,7 +47,9 @@ class Fcft < Formula
     utf8proc = deps/"utf8proc"
     resource("libutf8proc").stage utf8proc
     pc = utf8proc/"ucrt64/lib/pkgconfig/libutf8proc.pc"
-    pc.atomic_write pc.read.sub(/^prefix=.*$/, "prefix=${pcfiledir}/../..")
+    # MSYS2 .pc files name /ucrt64 directly (prefix, and sometimes includedir/libdir too), which pkgconf
+    # would drop as a system directory: point every one at the staged copy.
+    pc.atomic_write pc.read.gsub(%r{=/ucrt64(?=/|$)}, "=${pcfiledir}/../..")
     ENV.prepend_path "PKG_CONFIG_PATH", utf8proc/"ucrt64/lib/pkgconfig"
     ENV.prepend_path "PKG_CONFIG_PATH", deps/"lib/pkgconfig"
     # generate-emoji-data.py reads UTF-8 data files.
