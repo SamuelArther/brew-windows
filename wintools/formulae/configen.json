@@ -1,0 +1,6 @@
+{
+  "formula": "configen",
+  "desc": "Configuration file code generator for use in Xcode projects",
+  "commands": ["configen"],
+  "test": "(testpath/\"test.plist\").write <<~XML\n  <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n  <plist version=\"1.0\">\n  <dict>\n    <key>testURL</key>\n    <string>https://example.com/api</string>\n    <key>retryCount</key>\n    <integer>2</integer>\n  </dict>\n  </plist>\nXML\n(testpath/\"test.map\").write \"testURL : URL\\nretryCount : Int\\n\"\nsystem bin/\"configen\", \"-p\", \"test.plist\", \"-h\", \"test.map\", \"-n\", \"AppConfig\", \"-o\", testpath\nassert_path_exists testpath/\"AppConfig.swift\"\nassert_match \"static let testURL: URL = URL(string: \\\"https://example.com/api\\\")\", (testpath/\"AppConfig.swift\").read\nassert_match \"static let retryCount: Int = 2\", (testpath/\"AppConfig.swift\").read"
+}
