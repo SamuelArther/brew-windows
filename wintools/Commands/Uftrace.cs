@@ -337,6 +337,14 @@ static unsafe class Uftrace
         data.ExitCode = exitCode;
         // -F keeps only calls under (and including) matching functions.
         if (filterRegex.Count > 0) data.Events = FilterEvents(data.Events, filterRegex);
+        // uftrace only sees code built with -pg, so a trace starts at main, not in the C runtime's startup;
+        // do the same for the thread that runs main (other threads keep everything).
+        else if (data.Events.Any(e => e.Function == "main"))
+        {
+            var mainThreads = data.Events.Where(e => e.Function == "main").Select(e => e.Tid).ToHashSet();
+            var fromMain = FilterEvents(data.Events.Where(e => mainThreads.Contains(e.Tid)).ToList(), [new Regex("^main$")]);
+            data.Events = data.Events.Where(e => !mainThreads.Contains(e.Tid)).Concat(fromMain).OrderBy(e => e.Time).ToList();
+        }
         return (data, exitCode);
     }
 

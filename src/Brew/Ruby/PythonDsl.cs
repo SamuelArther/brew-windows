@@ -262,9 +262,26 @@ public static partial class FormulaLoader
         if (!buildIsolation) args.Add("--no-build-isolation");
         args.AddRange(targets);
         Ohai(i, string.Join(" ", args));
-        // Like Formula#system: output streams to the build log; failure is a BuildError.
-        if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
-            throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
+        // Extensions build with Visual Studio's native x64 compiler when it's installed (see BuildEnvironment.MsvcX64).
+        var saved = new Dictionary<string, string>();
+        if (BuildEnvironment.MsvcX64 is { } msvc)
+            foreach (var (key, value) in msvc)
+            {
+                var name = key == "__MSVC_PATH" ? "PATH" : key;
+                saved[name] = i.Env.GetValueOrDefault(name);
+                i.Env[name] = key == "__MSVC_PATH" ? (i.Env.GetValueOrDefault("PATH") ?? Environment.GetEnvironmentVariable("PATH")) + ";" + value : value;
+            }
+        try
+        {
+            // Like Formula#system: output streams to the build log; failure is a BuildError.
+            if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
+                throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
+        }
+        finally
+        {
+            foreach (var (name, value) in saved)
+                if (value == null) i.Env.Remove(name); else i.Env[name] = value;
+        }
     }
 
     static void PipInstallAndLink(Interp i, object formula, string venv, List<string> targets, bool linkManpages)

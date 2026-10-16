@@ -64,14 +64,14 @@ public static class BuildEnvironment
     // tests compile against the keg with ENV.cc and pkg-config.
     public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies)
     {
-        if (Msys2Root == null) return;
         var env = context.BuildEnvironment;
         // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH.
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .SelectMany(d => new[] { "bin", "lib" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
         env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
-        ApplyToolchain(paths, env, dependencies, context.BuildPath);
+        // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
+        if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath);
     }
 
     // MSYS2's UCRT64 environment is the C/C++ toolchain (what Xcode's Command Line Tools are for
@@ -97,6 +97,48 @@ public static class BuildEnvironment
     };
 
     public static bool ProvidesBuildTool(string formula) => Msys2Root != null && ToolchainTools.Contains(formula);
+
+    // Visual Studio's native x64 tools (vcvars64), for Python extension builds. setuptools otherwise always
+    // cross-compiles with the 32-bit-hosted cl.exe, which runs out of address space on huge generated
+    // sources such as Cython's ("C1083: Cannot open compiler generated file: ''"). DISTUTILS_USE_SDK makes
+    // it use the environment it's given. Null when Visual Studio's C++ tools aren't installed.
+    public static IReadOnlyDictionary<string, string> MsvcX64 => msvcX64.Value;
+    static readonly Lazy<IReadOnlyDictionary<string, string>> msvcX64 = new(() =>
+    {
+        try
+        {
+            var vswhere = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Microsoft Visual Studio", "Installer", "vswhere.exe");
+            if (!File.Exists(vswhere)) return null;
+            var install = Run(vswhere, ["-latest", "-products", "*", "-requires", "Microsoft.VisualStudio.Component.VC.Tools.x86.x64", "-property", "installationPath"]).Trim();
+            var vcvars = Path.Combine(install, "VC", "Auxiliary", "Build", "vcvars64.bat");
+            if (install.Length == 0 || !File.Exists(vcvars)) return null;
+            var env = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var line in Run("cmd.exe", ["/d", "/s", "/c", $"\"\"{vcvars}\" >nul && set\""]).Split('\n'))
+                if (line.IndexOf('=') is > 0 and var eq) env[line[..eq]] = line[(eq + 1)..].TrimEnd('\r');
+            if (!env.ContainsKey("INCLUDE") || !env.ContainsKey("LIB")) return null;
+            return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["DISTUTILS_USE_SDK"] = "1", ["MSSdk"] = "1",
+                ["INCLUDE"] = env["INCLUDE"], ["LIB"] = env["LIB"], ["LIBPATH"] = env.GetValueOrDefault("LIBPATH", ""),
+                // Only the directories vcvars adds, appended later so MinGW tools keep their place on PATH.
+                ["__MSVC_PATH"] = string.Join(";", env.GetValueOrDefault("PATH", "").Split(';')
+                    .Except((Environment.GetEnvironmentVariable("PATH") ?? "").Split(';'), StringComparer.OrdinalIgnoreCase)),
+            };
+        }
+        catch (Exception e) when (e is IOException or System.ComponentModel.Win32Exception or InvalidOperationException) { return null; }
+
+        static string Run(string file, string[] args)
+        {
+            var start = new System.Diagnostics.ProcessStartInfo(file) { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+            foreach (var arg in args) start.ArgumentList.Add(arg);
+            if (file == "cmd.exe") { start.ArgumentList.Clear(); start.Arguments = string.Join(" ", args); }
+            using var process = System.Diagnostics.Process.Start(start)!;
+            var output = process.StandardOutput.ReadToEnd();
+            process.StandardError.ReadToEnd();
+            process.WaitForExit();
+            return process.ExitCode == 0 ? output : "";
+        }
+    });
 
     // GCC and friends, then MSYS2's POSIX tools: ahead of the system PATH, where another MSYS runtime
     // (Git for Windows' usrin) would otherwise supply expr/sed/sh and mangle their arguments.

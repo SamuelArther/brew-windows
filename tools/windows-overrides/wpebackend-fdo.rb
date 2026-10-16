@@ -50,9 +50,16 @@ class WpebackendFdo < Formula
 
   def install
     install_tree
-    %w[egl-headers gles-headers jsoncpp libjpeg-turbo libpng zlib].each do |name|
+    %w[egl-headers gles-headers].each do |name|
       install_resource "mingw-w64-ucrt-x86_64-#{name}", "libexec"
     end
+    # Only the DLLs ANGLE loads: these libraries' headers and import libraries belong to the
+    # jsoncpp, jpeg-turbo, libpng and zlib formulae, and would clash with them when linked.
+    %w[jsoncpp libjpeg-turbo libpng zlib].each do |name|
+      install_resource "mingw-w64-ucrt-x86_64-#{name}", "libexec/deps"
+    end
+    (libexec/"ucrt64/bin").install Dir["#{libexec}/deps/ucrt64/bin/*.dll"]
+    rm_r libexec/"deps"
     install_library
   end
 
