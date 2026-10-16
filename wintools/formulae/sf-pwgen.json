@@ -1,0 +1,6 @@
+{
+  "formula": "sf-pwgen",
+  "desc": "Generate memorable or random passwords",
+  "commands": ["sf-pwgen"],
+  "test": "assert_equal 20, shell_output(\"#{bin}/sf-pwgen -a memorable -c 1 -l 20\").chomp.length\nassert_equal 3, shell_output(\"#{bin}/sf-pwgen -a numbers -c 3 -l 8\").split.length"
+}

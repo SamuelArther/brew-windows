@@ -1,0 +1,6 @@
+{
+  "formula": "acl",
+  "desc": "Commands for manipulating NTFS access control lists as POSIX ACLs",
+  "commands": ["getfacl", "setfacl", "chacl"],
+  "test": "assert_match \"getfacl\", shell_output(\"#{bin}/getfacl --version\")\ntouch testpath/\"test.txt\"\nsystem bin/\"chacl\", \"u::rw-,g::r-x,o::r--\", \"test.txt\"\noutput = shell_output(\"#{bin}/getfacl --omit-header test.txt\")\nassert_match \"user::rw-\", output\nassert_match \"other::r--\", output\nsystem bin/\"setfacl\", \"--modify=g:Users:x\", \"test.txt\"\noutput = shell_output(\"#{bin}/getfacl --omit-header test.txt\")\nassert_match \"group:Users:--x\", output\nassert_match \"mask::\", output\nassert_match \"test.txt [u::rw-\", shell_output(\"#{bin}/chacl -l test.txt\")"
+}

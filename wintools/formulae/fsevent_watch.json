@@ -1,0 +1,6 @@
+{
+  "formula": "fsevent_watch",
+  "desc": "File system events client with FSEvents-style output",
+  "commands": ["fsevent_watch"],
+  "test": "system bin/\"fsevent_watch\", \"--version\"\nassert_match \"--file-events\", shell_output(\"#{bin}/fsevent_watch --help\")\nassert_match \"unknown format\", shell_output(\"#{bin}/fsevent_watch --format=bogus 2>&1\", 2)"
+}

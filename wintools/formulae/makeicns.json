@@ -1,0 +1,6 @@
+{
+  "formula": "makeicns",
+  "desc": "Create icns and ico files from the command-line",
+  "commands": ["makeicns"],
+  "test": "system bin/\"makeicns\", \"-in\", test_fixtures(\"test.png\"), \"-out\", testpath/\"test.icns\"\nassert_path_exists testpath/\"test.icns\"\nassert_equal \"icns\", (testpath/\"test.icns\").binread[0, 4]\nsystem bin/\"makeicns\", \"-in\", test_fixtures(\"test.png\"), \"-out\", testpath/\"test.ico\"\nassert_path_exists testpath/\"test.ico\""
+}

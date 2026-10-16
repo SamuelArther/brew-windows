@@ -1,0 +1,6 @@
+{
+  "formula": "bindfs",
+  "desc": "Mirror a folder at another location",
+  "commands": ["bindfs"],
+  "test": "assert_match \"bindfs\", shell_output(\"#{bin}/bindfs -V\")\n(testpath/\"src\").mkpath\n(testpath/\"src/f.txt\").write \"hi\"\nsystem bin/\"bindfs\", testpath/\"src\", testpath/\"mnt\"\nassert_equal \"hi\", (testpath/\"mnt/f.txt\").read\nsystem bin/\"bindfs\", \"-u\", testpath/\"mnt\"\nrefute_path_exists testpath/\"mnt\"\nassert_path_exists testpath/\"src/f.txt\""
+}

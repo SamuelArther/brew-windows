@@ -1,0 +1,6 @@
+{
+  "formula": "choose-gui",
+  "desc": "Fuzzy matcher that uses std{in,out} and a native GUI",
+  "commands": ["choose"],
+  "test": "system bin/\"choose\", \"-h\"\noutput = pipe_output(\"#{bin}/choose -o ba\", \"foo\\nbar\\nbaz\\n\", 0)\nassert_match \"bar\", output\nrefute_match \"foo\", output"
+}

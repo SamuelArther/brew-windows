@@ -1,0 +1,6 @@
+{
+  "formula": "ifuse",
+  "desc": "Find iOS devices to mount (via Apple Mobile Device Service)",
+  "commands": ["ifuse"],
+  "test": "assert_match \"ERROR: No device found!\", shell_output(\"#{bin}/ifuse --list-apps\", 1)"
+}

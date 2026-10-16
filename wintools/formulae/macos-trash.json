@@ -1,0 +1,6 @@
+{
+  "formula": "macos-trash",
+  "desc": "Move files and folders to the Recycle Bin",
+  "commands": ["trash"],
+  "test": "(testpath/\"junk.txt\").write \"x\"\nsystem bin/\"trash\", testpath/\"junk.txt\"\nrefute_path_exists testpath/\"junk.txt\"\nassert_match \"Recycle Bin\", shell_output(\"#{bin}/trash --help\")"
+}

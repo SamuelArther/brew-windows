@@ -1,0 +1,6 @@
+{
+  "formula": "fsevents-tools",
+  "desc": "Command-line utilities for file system change notifications",
+  "commands": ["notifywait", "notifyloop"],
+  "test": "(testpath/\"testfile\").write \"x\"\noutput = IO.popen(\"#{bin}/notifywait #{testpath}/testfile\") do |io|\n  sleep 2\n  (testpath/\"testfile\").append_lines \"changed\"\n  io.read\nend\nassert_match \"Watching\", output\nassert_match \"testfile\", output\nassert_match \"Usage: notifyloop\", shell_output(\"#{bin}/notifyloop --help\")"
+}

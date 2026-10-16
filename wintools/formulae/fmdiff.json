@@ -1,0 +1,6 @@
+{
+  "formula": "fmdiff",
+  "desc": "Use WinMerge as a diff command for Subversion, Mercurial and git",
+  "commands": ["fmdiff", "fmdiff3", "fmresolve", "fmmerge"],
+  "test": "ENV.prepend_path \"PATH\", testpath\n# dummy filemerge script\n(testpath/\"filemerge.bat\").write \"@echo it works\\r\\n\"\ntouch testpath/\"test\"\nassert_match \"it works\", shell_output(\"#{bin}/fmdiff #{testpath}/test #{testpath}/test\")"
+}

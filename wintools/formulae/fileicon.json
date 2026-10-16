@@ -1,0 +1,6 @@
+{
+  "formula": "fileicon",
+  "desc": "CLI for managing custom icons for folders",
+  "commands": ["fileicon"],
+  "test": "icon = test_fixtures \"test.png\"\n(testpath/\"folder\").mkpath\nsystem bin/\"fileicon\", \"set\", testpath/\"folder\", icon\nassert_path_exists testpath/\"folder/desktop.ini\"\nassert_match \"HAS custom icon: folder\", shell_output(\"#{bin}/fileicon test #{testpath}/folder\")\nsystem bin/\"fileicon\", \"get\", testpath/\"folder\", testpath/\"out.ico\"\nassert_path_exists testpath/\"out.ico\"\nsystem bin/\"fileicon\", \"rm\", testpath/\"folder\"\nassert_match \"Has NO custom icon\", shell_output(\"#{bin}/fileicon test #{testpath}/folder\", 1)"
+}

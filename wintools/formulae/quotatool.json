@@ -1,0 +1,6 @@
+{
+  "formula": "quotatool",
+  "desc": "Edit NTFS disk quotas from the command-line",
+  "commands": ["quotatool"],
+  "test": "assert_match \"quotatool version\", shell_output(\"#{bin}/quotatool -V\")\nassert_match \"no group quotas\", shell_output(\"#{bin}/quotatool -g users -q 1 C: 2>&1\", 1)"
+}

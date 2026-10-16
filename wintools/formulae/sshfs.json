@@ -1,0 +1,6 @@
+{
+  "formula": "sshfs",
+  "desc": "File system client based on SSH File Transfer Protocol",
+  "commands": ["sshfs"],
+  "test": "assert_match \"SSHFS version\", shell_output(\"#{bin}/sshfs --version\")\nassert_match \"IdentityFile\", shell_output(\"#{bin}/sshfs --help\")\nassert_match \"missing host\", shell_output(\"#{bin}/sshfs nohost #{testpath}/mnt 2>&1\", 2)"
+}
