@@ -140,7 +140,11 @@ public sealed class PackageManager(Paths paths)
                 formula.Install(context);
                 EtcVar.Preserve(paths.Prefix, keg, etcVar);
                 Linker.WriteScriptLaunchers(keg);
-                BuildEnvironment.BundleToolchainDlls(keg);
+                // Direct dependencies first, then every other installed keg (their own dependencies).
+                var direct = runtimeDependencies.Distinct(StringComparer.OrdinalIgnoreCase).Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).ToList();
+                var installed = Directory.Exists(Path.Combine(paths.Prefix, "opt")) ? Directory.GetDirectories(Path.Combine(paths.Prefix, "opt")) : [];
+                BuildEnvironment.BundleToolchainDlls(keg, direct.Concat(installed.Except(direct, StringComparer.OrdinalIgnoreCase))
+                    .Where(k => !string.Equals(Path.GetFileName(k), name, StringComparison.OrdinalIgnoreCase)));
                 if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
                 linker.MaterializeCommands(keg, context.Commands);
             }

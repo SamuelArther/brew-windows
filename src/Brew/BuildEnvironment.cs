@@ -165,11 +165,14 @@ public static class BuildEnvironment
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.
     // Copy those DLLs next to each binary so the keg (and its bottle) runs without MSYS2.
-    public static void BundleToolchainDlls(string keg)
+    public static void BundleToolchainDlls(string keg, IEnumerable<string> dependencyKegs = null)
     {
-        if (Msys2Root is not { } root) return;
-        // UCRT64 runtime DLLs for native builds; msys-*.dll (the POSIX layer) for POSIX-runtime builds.
-        var toolchainBin = Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin");
+        // Where an imported DLL can come from: the keg's dependencies (their bin and lib), then the
+        // toolchain's runtime (UCRT64 for native builds, msys-*.dll for POSIX-runtime builds). Copies
+        // keep every bottle self-contained; Windows doesn't search other kegs.
+        var sources = (dependencyKegs ?? []).SelectMany(k => new[] { Path.Combine(k, "bin"), Path.Combine(k, "lib") }).Where(Directory.Exists).ToList();
+        if (Msys2Root is { } root) sources.Add(Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin"));
+        if (sources.Count == 0) return;
         foreach (var binary in Directory.EnumerateFiles(keg, "*.*", SearchOption.AllDirectories)
                      .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList())
         {
@@ -180,11 +183,11 @@ public static class BuildEnvironment
             {
                 var dll = pending.Dequeue();
                 if (!seen.Add(dll)) continue;
-                var source = Path.Combine(toolchainBin, dll);
-                var local = Path.Combine(directory, dll);
                 // Each binary's own folder needs the DLL: Windows looks beside the exe, not elsewhere in the keg.
-                if (!File.Exists(source) || File.Exists(local)) continue;
-                File.Copy(source, local);
+                if (File.Exists(Path.Combine(directory, dll))) continue;
+                var source = sources.Select(d => Path.Combine(d, dll)).FirstOrDefault(File.Exists);
+                if (source == null) continue;
+                File.Copy(source, Path.Combine(directory, dll));
                 foreach (var next in PortableExecutable.Imports(source)) pending.Enqueue(next);
             }
         }
