@@ -1,0 +1,6 @@
+{
+  "formula": "m1ddc",
+  "desc": "Control external displays (luminance, contrast, volume, input) using DDC/CI",
+  "commands": ["m1ddc"],
+  "test": "assert_includes shell_output(\"#{bin}/m1ddc help\", 1), \"Controls volume, luminance\"\n# CI has no DDC/CI monitor: either none is found or it doesn't answer\nassert_match(/Could not find a suitable external display\\.|DDC communication failure/,\n             shell_output(\"#{bin}/m1ddc get luminance 2>&1\", 1))"
+}

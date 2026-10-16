@@ -1,0 +1,6 @@
+{
+  "formula": "lsusb",
+  "desc": "List USB devices, just like the Linux lsusb command",
+  "commands": ["lsusb"],
+  "test": "# CI virtual machines may have no USB controller, so only require a clean run\nsystem bin/\"lsusb\"\nassert_match \"lsusb\", shell_output(\"#{bin}/lsusb --version\")\nassert_match \"vendor:[product]\", shell_output(\"#{bin}/lsusb --help\")"
+}

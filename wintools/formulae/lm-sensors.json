@@ -1,0 +1,6 @@
+{
+  "formula": "lm-sensors",
+  "desc": "Tools for monitoring the temperatures and fans",
+  "commands": ["sensors", "sensors-detect"],
+  "test": "assert_match \"Usage\", shell_output(\"#{bin}/sensors --help\")\nassert_match \"sensors-detect version\", shell_output(\"#{bin}/sensors-detect\")\nassert_match \"sensors version\", shell_output(\"#{bin}/sensors -v\")"
+}

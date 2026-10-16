@@ -1,0 +1,6 @@
+{
+  "formula": "dockutil",
+  "desc": "Tool for managing taskbar (Dock) items",
+  "commands": ["dockutil"],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/dockutil --version\"))\nsystem bin/\"dockutil\", \"--list\"\nassert_match \"was not found\", shell_output(\"#{bin}/dockutil --find NoSuchApp\", 1)"
+}

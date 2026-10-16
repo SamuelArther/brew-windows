@@ -1,0 +1,6 @@
+{
+  "formula": "osx-cpu-temp",
+  "desc": "Outputs current CPU temperature",
+  "commands": ["osx-cpu-temp"],
+  "test": "assert_match \"Fahrenheit\", shell_output(\"#{bin}/osx-cpu-temp -h\")\nassert_match(/Num fans: \\d+/, shell_output(\"#{bin}/osx-cpu-temp -f\"))"
+}

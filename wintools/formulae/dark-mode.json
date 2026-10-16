@@ -1,0 +1,6 @@
+{
+  "formula": "dark-mode",
+  "desc": "Control Windows dark mode from the command-line",
+  "commands": ["dark-mode"],
+  "test": "assert_match(/\\A(on|off)\\z/, shell_output(\"#{bin}/dark-mode status\").strip)\nassert_match \"Toggle dark mode\", shell_output(\"#{bin}/dark-mode --help\")"
+}

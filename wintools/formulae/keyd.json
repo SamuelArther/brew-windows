@@ -1,0 +1,6 @@
+{
+  "formula": "keyd",
+  "desc": "Key remapping daemon",
+  "commands": ["keyd"],
+  "test": "assert_match(/keyd v\\d+\\.\\d+/, shell_output(\"#{bin}/keyd --version\"))\n(testpath/\"test.conf\").write <<~CONF\n  [ids]\n  *\n\n  [main]\n  capslock = overload(control, esc)\nCONF\nassert_match \"No errors found\", shell_output(\"#{bin}/keyd check #{testpath}/test.conf\")\n# simulate prints the remapped events without sending any input\nassert_match \"-> esc down\", shell_output(\"#{bin}/keyd simulate #{testpath}/test.conf capslock\")\nassert_match \"-> leftcontrol down\", shell_output(\"#{bin}/keyd simulate #{testpath}/test.conf capslock:down a capslock:up\")"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "wtype",
+  "desc": "Type text and keys via synthesized keyboard input",
+  "commands": ["wtype"],
+  "test": "assert_match \"Usage: wtype\", shell_output(\"#{bin}/wtype --help\")\nassert_match \"Unknown key\", shell_output(\"#{bin}/wtype -k NoSuchKey 2>&1\", 2)\nassert_match \"Invalid modifier\", shell_output(\"#{bin}/wtype -M hyper x 2>&1\", 2)"
+}

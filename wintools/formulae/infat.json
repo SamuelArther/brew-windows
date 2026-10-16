@@ -1,0 +1,6 @@
+{
+  "formula": "infat",
+  "desc": "Tool to set default openers for file formats and url schemes",
+  "commands": ["infat"],
+  "test": "# set would open Settings to confirm, so only read\nassert_match(/Default for \\.txt: .*notepad/i, shell_output(\"#{bin}/infat info --ext txt\"))\nassert_match(/infat \\d+\\.\\d+/, shell_output(\"#{bin}/infat --version\"))"
+}

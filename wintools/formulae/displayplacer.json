@@ -1,0 +1,6 @@
+{
+  "formula": "displayplacer",
+  "desc": "Utility to configure multi-display resolutions and arrangements",
+  "commands": ["displayplacer"],
+  "test": "assert_match \"Execute the command below\", shell_output(\"#{bin}/displayplacer list\")\nassert_match(/displayplacer v\\d+\\.\\d+/, shell_output(\"#{bin}/displayplacer --version\"))\nassert_match \"bad res\", shell_output(\"#{bin}/displayplacer \\\"id:1 res:axb\\\" 2>&1\", 2)"
+}

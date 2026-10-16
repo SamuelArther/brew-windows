@@ -1,0 +1,6 @@
+{
+  "formula": "blueutil",
+  "desc": "Get/set Bluetooth power and list, pair and connect devices",
+  "commands": ["blueutil"],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/blueutil --version\"))\nassert_match \"--paired\", shell_output(\"#{bin}/blueutil --help\")\nassert_match \"discoverable\", shell_output(\"#{bin}/blueutil --discoverable 1 2>&1\", 1)"
+}

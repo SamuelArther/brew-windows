@@ -1,0 +1,6 @@
+{
+  "formula": "screenresolution",
+  "desc": "Get, set, and list display resolution",
+  "commands": ["screenresolution"],
+  "test": "assert_match \"screenresolution get\", shell_output(\"#{bin}/screenresolution --help\")\nassert_match(/version \\d+\\.\\d+/, shell_output(\"#{bin}/screenresolution -version\"))\nassert_match \"bad mode\", shell_output(\"#{bin}/screenresolution set 12x 2>&1\", 2)"
+}

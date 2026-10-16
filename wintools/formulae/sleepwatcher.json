@@ -1,0 +1,6 @@
+{
+  "formula": "sleepwatcher",
+  "desc": "Monitors sleep, wakeup, and idleness of the PC",
+  "commands": ["sleepwatcher"],
+  "test": "assert_match(/sleepwatcher \\d+\\.\\d+/, shell_output(\"#{bin}/sleepwatcher -v\", 2))\nassert_match(/\\A\\d+\\z/, shell_output(\"#{bin}/sleepwatcher -g\").strip)"
+}

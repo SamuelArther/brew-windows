@@ -1,0 +1,6 @@
+{
+  "formula": "terminal-notifier",
+  "desc": "Send Windows toast notifications from the command-line",
+  "commands": ["terminal-notifier"],
+  "test": "assert_match \"terminal-notifier\", shell_output(\"#{bin}/terminal-notifier -help\")\nassert_match(/terminal-notifier \\d+\\.\\d+/, shell_output(\"#{bin}/terminal-notifier -version\"))\nassert_match \"unknown option\", shell_output(\"#{bin}/terminal-notifier -bogus 2>&1\", 2)"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "defaultbrowser",
+  "desc": "Command-line tool for getting & setting the default browser",
+  "commands": ["defaultbrowser"],
+  "test": "# Microsoft Edge is registered as a browser on every Windows install\nassert_match \"msedge\", shell_output(bin/\"defaultbrowser\")\nassert_match \"not available\", shell_output(\"#{bin}/defaultbrowser nosuchbrowser 2>&1\", 1)"
+}

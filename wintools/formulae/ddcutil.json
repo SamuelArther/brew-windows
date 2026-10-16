@@ -1,0 +1,6 @@
+{
+  "formula": "ddcutil",
+  "desc": "Control monitor settings using DDC/CI",
+  "commands": ["ddcutil"],
+  "test": "assert_match \"The following tests probe the runtime environment using multiple overlapping methods.\",\n             shell_output(\"#{bin}/ddcutil environment\")\nassert_match \"VCP code 10: Brightness\", shell_output(\"#{bin}/ddcutil vcpinfo 10\")\nassert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/ddcutil --version\"))"
+}

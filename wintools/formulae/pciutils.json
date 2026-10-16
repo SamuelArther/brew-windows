@@ -1,0 +1,6 @@
+{
+  "formula": "pciutils",
+  "desc": "PCI utilities",
+  "commands": ["lspci", "setpci", "update-pciids"],
+  "test": "assert_match \"lspci version\", shell_output(\"#{bin}/lspci --version\")\n# Hyper-V CI machines may expose no PCI bus, so only require a clean run\nsystem bin/\"lspci\", \"-nn\"\nassert_match \"ID registers\", shell_output(\"#{bin}/setpci --help\")\nassert_match \"no device selected\", shell_output(\"#{bin}/setpci VENDOR_ID 2>&1\", 2)"
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "nowplaying-cli",
+  "desc": "Retrieves currently playing media, and simulates media actions",
+  "commands": ["nowplaying-cli"],
+  "test": "assert_match \"{\", shell_output(\"#{bin}/nowplaying-cli get-raw\")\nassert_equal \"null\", shell_output(\"#{bin}/nowplaying-cli get title\").strip"
+}
