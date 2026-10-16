@@ -356,6 +356,7 @@ public static partial class FormulaLoader
             Ohai(i, line);
             if (!Interp.Truthy(i.RunSystem(a)))
                 throw i.Error(BuildError(i), $"Failed executing: {line}");
+            WriteNpmBinLinks(i, a.Where(x => x is not RHash).Select(i.ToS).ToList());
             return null;
         });
         it.Def(F, "inreplace", (i, self, a, b) => { Inreplace(i, a, b); return null; });
@@ -393,6 +394,7 @@ public static partial class FormulaLoader
         DefineTestHelpers(it, F);
         DefineBuildDsl(it, F);
         DefinePythonDsl(it, F);
+        DefineNodeDsl(it, F);
         return F;
     }
 
