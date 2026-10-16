@@ -1,0 +1,6 @@
+{
+  "formula": "bluez",
+  "desc": "BlueZ's Bluetooth tools (bluetoothctl, hciconfig, hcitool...) for Windows",
+  "commands": ["bluetoothctl", "hciconfig", "hcitool", "rfcomm", "sdptool", "btmon", "bluemoon"],
+  "test": "assert_match \"5.87\", shell_output(\"#{bin}/bluetoothctl --version\")\nassert_match \"Failed to open HCI user channel\", shell_output(\"#{bin}/bluemoon 2>&1\", 1)\nassert_match \"Failed to open channel\", shell_output(\"#{bin}/btmon 2>&1\", 1)\nassert_match \"Devices:\", shell_output(\"#{bin}/hcitool dev\")\nsystem bin/\"rfcomm\""
+}
