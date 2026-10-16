@@ -1,0 +1,7 @@
+{
+  "formula": "keyutils",
+  "desc": "Key management utilities on Windows Credential Manager",
+  "commands": ["keyctl"],
+  "caveats": "keyctl keeps keys in Windows Credential Manager (generic credentials named keyctl/...).\nThere is no libkeyutils: programs that need a key store on Windows use Credential Manager directly.",
+  "test": "assert_match \"keyutils\", shell_output(\"#{bin}/keyctl --version\")\nassert_match \"have_key_invalidate=1\", shell_output(\"#{bin}/keyctl supports\")\nshell_output(\"#{bin}/keyctl print 1 2>&1\", 1)"
+}

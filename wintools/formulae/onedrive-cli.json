@@ -1,0 +1,6 @@
+{
+  "formula": "onedrive-cli",
+  "desc": "Folder synchronization with OneDrive via the built-in client",
+  "commands": ["onedrive"],
+  "test": "output = pipe_output(\"#{bin}/onedrive 2>&1\", \"\")\nassert_match \"Attempting to contact the Microsoft OneDrive Service\", output\nassert_match \"Successfully reached the Microsoft OneDrive Service\", output\nassert_match \"onedrive v\", shell_output(\"#{bin}/onedrive --version\")"
+}

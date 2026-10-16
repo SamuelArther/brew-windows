@@ -1,0 +1,7 @@
+{
+  "formula": "chrome-cli",
+  "desc": "Control Google Chrome from the command-line",
+  "commands": ["chrome-cli"],
+  "caveats": "chrome-cli talks to Chrome's DevTools port. Start Chrome with\n  chrome --remote-debugging-port=9222 --user-data-dir=<profile folder>\nand set CHROME_CLI_PORT if you use another port.",
+  "test": "assert_match \"remote-debugging-port\", shell_output(\"#{bin}/chrome-cli --help\")\nport = free_port\nwith_env(CHROME_CLI_PORT: port.to_s) do\n  assert_match \"remote-debugging-port=#{port}\", shell_output(\"#{bin}/chrome-cli list tabs 2>&1\", 1)\nend"
+}

@@ -1,0 +1,8 @@
+{
+  "formula": "avahi",
+  "desc": "Service discovery over mDNS/DNS-SD using the Windows mDNS stack",
+  "commands": ["avahi-browse", "avahi-resolve", "avahi-resolve-host-name", "avahi-resolve-address",
+               "avahi-publish", "avahi-publish-service", "avahi-publish-address", "avahi-daemon"],
+  "caveats": "Windows' DNS Client service is the mDNS responder, so these are avahi's command-line\ntools only: there is no avahi-daemon to run and no libavahi to build against.",
+  "test": "assert_match \"avahi-browse\", shell_output(\"#{bin}/avahi-browse --help\")\nshell_output(\"#{bin}/avahi-browse -t -k _http._tcp\")\nassert_match \"127.0.0.1\", shell_output(\"#{bin}/avahi-resolve -4 -n localhost\")\nassert_match \"no separate daemon\", shell_output(\"#{bin}/avahi-daemon 2>&1\", 1)"
+}
