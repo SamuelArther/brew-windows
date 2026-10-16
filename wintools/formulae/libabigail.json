@@ -1,0 +1,7 @@
+{
+  "formula": "libabigail",
+  "desc": "ABI Generic Analysis and Instrumentation Library",
+  "commands": ["abidw", "abidiff", "abicompat", "abilint"],
+  "caveats": "On Windows the tools work on PE binaries (DLLs, EXEs, drivers) at the symbol level:\nexports, imported DLLs and DLL names. Type-level comparison needs debug info that PE files\ndon't carry (PDB files are not read).",
+  "test": "dll = \"#{ENV[\"SystemRoot\"]}/System32/version.dll\"\nassert_match \"<dependency name=\", shell_output(\"#{bin}/abilint #{dll}\")\nassert_match \"GetFileVersionInfoW\", shell_output(\"#{bin}/abidw #{dll}\")\nsystem bin/\"abidw\", \"--out-file\", testpath/\"version.abi\", dll\nassert_equal \"\", shell_output(\"#{bin}/abidiff #{testpath}/version.abi #{dll}\")\nshell_output(\"#{bin}/abilint --noout #{testpath}/version.abi\")\nassert_match \"two input files\", shell_output(\"#{bin}/abidiff #{dll} 2>&1\", 2)"
+}

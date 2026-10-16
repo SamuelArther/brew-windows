@@ -1,0 +1,6 @@
+{
+  "formula": "vtable-dumper",
+  "desc": "List contents of virtual tables in a shared library",
+  "commands": ["vtable-dumper"],
+  "test": "dll = \"#{ENV[\"SystemRoot\"]}/System32/msvcp_win.dll\"\nassert_match(/: \\d+ entries/, shell_output(\"#{bin}/vtable-dumper #{dll}\"))\nassert_match \"Vtable for std::\", shell_output(\"#{bin}/vtable-dumper #{dll}\")\nassert_match \"1.2\", shell_output(\"#{bin}/vtable-dumper --dumpversion\")"
+}
