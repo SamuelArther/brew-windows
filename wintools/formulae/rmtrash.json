@@ -1,0 +1,6 @@
+{
+  "formula": "rmtrash",
+  "desc": "Move files to the Recycle Bin instead of deleting them (rm-compatible)",
+  "commands": ["rmtrash"],
+  "test": "(testpath/\"junk.txt\").write \"x\"\nsystem bin/\"rmtrash\", \"-f\", testpath/\"junk.txt\"\nrefute_path_exists testpath/\"junk.txt\""
+}
