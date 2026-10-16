@@ -1,0 +1,7 @@
+{
+  "formula": "sandvault",
+  "desc": "Run AI agents isolated in a sandbox with its own home folder",
+  "commands": ["sv", "sandvault"],
+  "test": "assert_equal \"sv version #{version}\", shell_output(\"#{bin}/sv --version\").chomp\nassert_match \"sandvault\", shell_output(\"#{bin}/sv run cmd /c echo %USERPROFILE%\")\nsystem bin/\"sv\", \"uninstall\"",
+  "caveats": "sv runs agents in a Windows AppContainer: they see only the current directory and\n%LOCALAPPDATA%\\sandvault\\home, which becomes their home folder."
+}

@@ -1,0 +1,7 @@
+{
+  "formula": "bubblewrap",
+  "desc": "Unprivileged sandboxing tool (Windows AppContainer)",
+  "commands": ["bwrap"],
+  "test": "assert_match \"bubblewrap\", shell_output(\"#{bin}/bwrap --version\")\nassert_match \"hi\", shell_output(\"#{bin}/bwrap -- cmd /c echo hi\")\n(testpath/\"secret.txt\").write \"brew\"\ndir = testpath.to_s.tr(\"/\", \"\\\\\")\nrefute_match \"brew\", shell_output(\"#{bin}/bwrap -- cmd /c type '#{dir}\\\\secret.txt' 2>&1\", 1)\nassert_match \"brew\", shell_output(\"#{bin}/bwrap --ro-bind '#{dir}' '#{dir}' -- cmd /c type '#{dir}\\\\secret.txt'\")\nassert_match \"no mount namespaces\", shell_output(\"#{bin}/bwrap --bind '#{dir}' C:/elsewhere cmd 2>&1\", 1)",
+  "caveats": "bwrap runs programs in a Windows AppContainer: they can read Windows and Program Files,\nbut none of your files unless you bind them with --bind or --ro-bind (at the same path)."
+}

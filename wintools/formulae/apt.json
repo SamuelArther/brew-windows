@@ -1,0 +1,7 @@
+{
+  "formula": "apt",
+  "desc": "Advanced Package Tool commands for winget",
+  "commands": ["apt", "apt-get", "apt-cache"],
+  "test": "assert_match \"apt #{version}\", shell_output(\"#{bin}/apt --version\")\nassert_match \"install\", shell_output(\"#{bin}/apt-get --help\")\nassert_match \"winget install --id Git.Git --exact\", shell_output(\"#{bin}/apt-get -s install Git.Git\")\nassert_match \"nothing to remove\", shell_output(\"#{bin}/apt autoremove\")\nassert_match \"Invalid operation\", shell_output(\"#{bin}/apt frobnicate 2>&1\", 2)",
+  "caveats": "apt, apt-get and apt-cache manage Windows packages through winget;\npackage names are winget ids such as Git.Git."
+}

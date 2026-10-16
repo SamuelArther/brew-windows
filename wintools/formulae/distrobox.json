@@ -1,0 +1,7 @@
+{
+  "formula": "distrobox",
+  "desc": "Use any Linux distribution inside your terminal (on WSL)",
+  "commands": ["distrobox", "distrobox-create", "distrobox-enter", "distrobox-list", "distrobox-rm", "distrobox-stop", "distrobox-upgrade", "distrobox-ephemeral", "distrobox-export"],
+  "test": "assert_match \"wsl.exe --install Ubuntu --name my-distrobox --no-launch\", shell_output(\"#{bin}/distrobox-create --dry-run\")\nassert_match \"Ubuntu-22.04 --name test\", shell_output(\"#{bin}/distrobox create --dry-run --image ubuntu:22.04 --name test\")\nassert_match \"FedoraLinux-43\", shell_output(\"#{bin}/distrobox-create -d -i registry.fedoraproject.org/fedora-toolbox:43\")\nassert_match \"distrobox: #{version}\", shell_output(\"#{bin}/distrobox version\")\nassert_match \"NAME\", shell_output(\"#{bin}/distrobox-list --no-color\")",
+  "caveats": "Distroboxes are WSL distributions, so WSL must be installed (wsl --install)."
+}
