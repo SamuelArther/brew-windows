@@ -1,0 +1,6 @@
+{
+  "formula": "folderify",
+  "desc": "Generate folder icons with an engraved mask image in the Windows folder style",
+  "commands": ["folderify"],
+  "test": "(testpath/\"test.svg\").write <<~EOS\n  <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\">\n    <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"transparent\" stroke=\"black\" stroke-width=\"20\" />\n  </svg>\nEOS\nsystem bin/\"folderify\", \"test.svg\", \"--output-iconset\", testpath/\"test.iconset\", \"--no-progress\"\nassert_predicate testpath/\"test.iconset/icon_512x512.png\", :size?\nsystem bin/\"folderify\", test_fixtures(\"test.png\"), \"--output-ico\", testpath/\"test.ico\", \"--badge\", \"locked\"\nassert_equal \"\\x00\\x00\\x01\\x00\".b, (testpath/\"test.ico\").binread[0, 4]\n(testpath/\"folder\").mkpath\nsystem bin/\"folderify\", \"test.svg\", testpath/\"folder\"\nassert_path_exists testpath/\"folder/desktop.ini\"\nassert_match \"Windows folder style\", shell_output(\"#{bin}/folderify --help\")"
+}
