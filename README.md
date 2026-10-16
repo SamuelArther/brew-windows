@@ -1,101 +1,89 @@
 # brew-windows
 
-A from-scratch C#/.NET 10 Windows port following Homebrew 7.0.9, with **1,208
-formulae**, **97 aliases** and a built-in Ruby interpreter. No analytics are sent.
-Homebrew attribution: [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt).
+**Homebrew, natively on Windows.** `brew install`, `brew upgrade`, `brew list` and the rest of
+the commands you know from macOS, running as real Windows programs, with no WSL and no Linux VM.
 
-## Build and publish
+```powershell
+irm https://raw.githubusercontent.com/SamuelArther/brew-windows/main/install.ps1 | iex
+brew install jq ripgrep fd
+```
 
-Building requires the .NET 10 SDK and LLVM-MinGW `clang` on PATH, without MSVC.
-Published builds are self-contained and need no separate .NET installation.
+brew-windows is an independent project. It is **not affiliated with or endorsed by Homebrew**;
+it follows Homebrew's behaviour and uses its formulae under their BSD-2-Clause license
+(see [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt)). Thank you, Homebrew maintainers.
+
+## What you get
+
+- **Homebrew's own formulae, built for Windows.** Formulae come from
+  [homebrew-core](https://github.com/Homebrew/homebrew-core) unchanged wherever possible. Each one
+  is built from source on GitHub Actions, must pass its own `brew test`, and is published as a
+  Windows bottle. Only formulae that build and pass make it into the tap.
+- **Go, Rust, Python, Node, Java and C/C++ tools.** C and C++ build with MSYS2's UCRT64 GCC.
+  Unix-only programs (the ones that need `fork`, terminals or sockets) build against MSYS2's
+  POSIX layer, the same approach Git for Windows uses. Every bottle carries the DLLs it needs.
+- **Mac and Linux-only tools rewritten for Windows.** `trash`, `lsusb`, `iostat`, `ip`,
+  `systemctl`, `wifi-password`, `brightness` and more run as native Windows tools under their
+  original names ([wintools](wintools)).
+- **Daily updates.** A bot follows homebrew-core every day, rebuilds what changed, and only ships
+  what passes. Run `brew update` to get it.
+- **Familiar commands.** `install`, `uninstall`, `upgrade`, `outdated`, `list`, `info`, `search`,
+  `deps`, `uses`, `leaves`, `link`, `pin`, `cleanup`, `autoremove`, `doctor`, `shellenv`, `tap`,
+  plus the formula developer commands (`create`, `edit`, `audit`, `style`, `test`, `livecheck`,
+  `bottle` ...). `brew commands` lists them all.
+
+## Install
+
+Requirements: 64-bit Windows 10 or 11, [Git](https://git-scm.com/download/win)
+(`winget install --id Git.Git -e`), and **Developer Mode** turned on (Settings → System → For
+developers) so brew can create symlinks without administrator rights.
+
+```powershell
+irm https://raw.githubusercontent.com/SamuelArther/brew-windows/main/install.ps1 | iex
+```
+
+The installer clones this repository to `%LOCALAPPDATA%\brew-windows` (formula updates come
+through `git`), downloads the latest `brew.exe` release next to it, and adds brew and
+`%LOCALAPPDATA%\Homebrew\bin` to your user `PATH`. Open a new terminal afterwards.
+
+Packages live under `%LOCALAPPDATA%\Homebrew` (`Cellar\<name>\<version>`, linked into `bin`,
+`lib`, `share` ...), just like on macOS. To upgrade brew itself, run the installer again.
+
+## How it works
+
+- **brew.exe** is written from scratch in C# (.NET 10) and ships as one self-contained file.
+- **Formulae are Ruby.** brew-windows contains its own Ruby interpreter that runs formula files
+  the way Homebrew does: the formula DSL, `def install`, `test do`, `post_install_steps`, and
+  Homebrew's helpers (`std_cargo_args`, `virtualenv_install_with_resources`, `std_npm_args`,
+  `inreplace`, `shell_output` ...).
+- **Builds** run in a "superenv" like Homebrew's: Go/Cargo caches, MSYS2 compilers, CMake/Ninja,
+  pkg-config and the formula's dependencies on `PATH`.
+- **Bottles** are built by [`.github/workflows/bottles.yml`](.github/workflows/bottles.yml):
+  import an upstream formula, build it, run `brew test`, bottle it, and upload it as a GitHub
+  release. Bots then commit the formula with its bottle block.
+- **Windows-specific fixes** to a formula live in `tools/windows-patches/<name>.patch`, so
+  upstream updates keep flowing.
+
+## Building from source
+
+Needs the .NET 10 SDK and [LLVM-MinGW](https://github.com/mstorsjo/llvm-mingw) `clang` on `PATH`
+(for the small native launcher brew embeds).
 
 ```powershell
 dotnet build
+dotnet run --project tests/Commands     # command tests in isolated prefixes
+dotnet run --project tests/Smoke        # real install/uninstall round trip
 dotnet publish src/Brew -c Release -o .artifacts/brew
 ```
 
-Keep the complete published directory together: `brew.exe`, bundled `tap`
-(including aliases and audit-exception JSON), and license notices.
+## Contributing
 
-## Setup
+Bug reports and pull requests are welcome. If a formula fails to build or misbehaves on
+Windows, open an issue with the output of `brew install --verbose <name>` and `brew config`.
+Formula fixes usually belong in `tools/windows-patches/`; see [docs/PACKAGING.md](docs/PACKAGING.md)
+and [docs/FORMULA_API.md](docs/FORMULA_API.md).
 
-Use Windows x64 with Developer Mode enabled for real symlinks. Windows 11's
-`tar.exe` with zstd and 7z support is required for the corresponding archives.
-The default prefix is `%LOCALAPPDATA%\Homebrew`; keep it short for GCC header paths.
+## License
 
-Initialize PowerShell from the repository:
-
-```powershell
-$brew = (Resolve-Path .artifacts/brew/brew.exe).Path
-$env:PATH = "$(Split-Path $brew);$env:PATH"
-& $brew shellenv pwsh | Out-String | Invoke-Expression
-brew install jq
-jq --version
-brew list
-brew uninstall jq
-```
-
-For persistent setup, put the first three lines in `$PROFILE`, replacing the
-first line with `$brew = 'C:\Tools\brew-windows\brew.exe'` or your actual path.
-Set `BREW_PREFIX`, `BREW_CACHE`, or `BREW_REPOSITORY` before `shellenv` to override
-the prefix, cache, or directory containing `tap`. Kegs live in
-`Cellar/<name>/<version>`; `brew --prefix <name>` resolves through `opt` symlinks.
-
-## Commands
-
-- Packages: `install`, `uninstall`, `reinstall`, `upgrade`, `outdated`, `fetch`.
-- Queries: `list`, `info`, `search`, `desc`, `deps`, `uses`, `leaves`, `missing`, `options`.
-- Maintenance: `link`, `unlink`, `pin`, `unpin`, `cleanup`, `autoremove`.
-- System/taps: `update`, `doctor`, `config`, `shellenv`, `commands`, `help`, `home`,
-  `tap`, `untap`, `tap-info`, `log`, `--prefix`, `--cellar`, `--cache`,
-  `--repository`, `--env`, `--version`.
-- Formula development: `create`, `edit`, `cat`, `formula`, `audit`, `style`,
-  `readall`, `test`, `livecheck` (`lc`), `bump`, `bump-formula-pr`, `bump-revision`,
-  `extract`, `unpack`, `linkage`, `sh`, `irb`, `ruby`.
-- Git/GitHub/release handlers include `tap-new`, `pr-pull`, `pr-publish`,
-  `pr-upload`, `bottle`, `dispatch-build-bottle`, `release`, `contributions`,
-  `lgtm`, API generation, update helpers, `test-bot`, `determine-test-runners`.
-
-Run `brew commands --quiet` for the full registered list and
-`brew <command> --help` for arguments. This release candidate has remaining gaps:
-casks and source builds are unsupported; Ruby is a subset; GitHub/release
-workflows are not fully verified, and some developer operations are explicitly
-unsupported. See [developer command status](docs/DEV_COMMANDS.md).
-
-## Packages
-
-Edit recipes directly using [Writing and checking formulae](docs/PACKAGING.md).
-**Do not regenerate recipes:** the renderer is disabled, and
-`tools/windows-packages.json` is only a legacy package-test fixture.
-Regeneration would discard hand-written tests, livecheck rules and fixes.
-
-Downloads use HTTPS and pinned SHA-256 checksums, including caches and mirrors.
-Most use official releases; third-party builders include GyanD (FFmpeg),
-FireDaemon (OpenSSL), LuaBinaries (Lua), and MSYS2 (GNU tools). Checksums identify
-files; builder provenance still matters. The [original catalog](docs/WINDOWS_PACKAGES.md)
-records the initial batch; each formula contains its current URLs and resources.
-
-Commands are available in each keg's `bin`. Global commands use symlinks or
-native shims for DLL lookup and fixed arguments. Keg-only formulae require
-explicit linking. MSYS2 tools bundle pinned runtime resources. MSI extraction
-runs no installer actions.
-
-## Verification
-
-```powershell
-dotnet run --project tests/Commands
-dotnet run --project tests/Smoke
-pwsh -File tests/EndToEnd.ps1 -BrewExe .artifacts/brew/brew.exe
-& .artifacts/brew/brew.exe readall
-& .artifacts/brew/brew.exe audit
-& .artifacts/brew/brew.exe style
-```
-
-Command tests use isolated prefixes and cached synthetic archives. Smoke tests
-run real jq and check rollback and native shims; move or remove their
-`.test-work/smoke` directory before rerunning. End-to-end tests use a new prefix.
-Verify the exact published executable and its bundled tap before distribution.
-
-Interpreter contract: [FORMULA_API.md](docs/FORMULA_API.md).
-Parallel cache use, large-tap benchmarks, installer extraction and optional MSYS2
-DLL deduplication: [Scaling notes](docs/SCALING.md).
+brew-windows is released under the [BSD 2-Clause License](LICENSE). Formulae and behaviour derived
+from Homebrew remain under Homebrew's BSD 2-Clause License ([notices](THIRD_PARTY_NOTICES.txt)).
+Packages you install keep their own licenses.
