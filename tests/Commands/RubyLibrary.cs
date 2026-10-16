@@ -19,6 +19,12 @@ static class RubyLibrary
         Expect("""JSON.pretty_generate({ "a" => 1 })""", "{\n  \"a\": 1\n}");
         Expect("""begin; JSON.parse("{"); "no"; rescue JSON::ParserError; "raised"; end""", "raised");
         Expect("""Pathname.new("C:\\x\\y").join("z").to_s""", "C:/x/y/z");
+        Expect("""[0x66, 0xb8, 0, 0xcd].pack("C*").unpack("C*").inspect""", "[102, 184, 0, 205]");
+        Expect("""["cafe"].pack("H*").unpack1("H*")""", "cafe");
+        Expect("""[1, 2].pack("nN").bytes.inspect""", "[0, 1, 0, 0, 0, 2]");
+        Expect("""[513].pack("v").unpack1("v").to_s""", "513");
+        Expect("""["aGk="].first.unpack1("m")""", "hi");
+        Expect("""["hi"].pack("m0")""", "aGk=");
         // Formula-level preludes (blank?/present?, post_install_steps) load with the Formula class.
         var formulaIt = Brew.Ruby.FormulaLoader.NewInterpreterForTests();
         foreach (var (code, expected) in new[] { ("[nil.present?, \" \".blank?, [1].present?, {}.blank?].inspect", "[false, true, true, true]"),

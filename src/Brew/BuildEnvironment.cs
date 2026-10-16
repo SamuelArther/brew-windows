@@ -50,8 +50,9 @@ public static class BuildEnvironment
     {
         if (Msys2Root == null) return;
         var env = context.BuildEnvironment;
+        // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH.
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
-            .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "bin")).Where(Directory.Exists);
+            .SelectMany(d => new[] { "bin", "lib" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
         env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
         ApplyToolchain(paths, env, dependencies, context.BuildPath);

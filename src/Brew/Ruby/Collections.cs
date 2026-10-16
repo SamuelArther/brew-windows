@@ -546,7 +546,7 @@ public sealed partial class Interp
             foreach (var c in res.L) it.Y1(b, c);
             return self;
         });
-        Def(A, "pack", (it, self, a, b) => throw it.Error(it.NotImplementedError, "Array#pack is not supported"));
+        Def(A, "pack", (it, self, a, b) => it.Pack(((RArray)self).L, it.Str(a[0])));
         Def(A, "sum", (it, self, a, b) =>
         {
             object acc = a.Length > 0 ? a[0] : 0L;

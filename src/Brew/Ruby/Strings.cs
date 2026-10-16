@@ -245,11 +245,8 @@ public sealed partial class Interp
         Def(St, "valid_encoding?", (it, self, a, b) => true);
         Def(St, "ascii_only?", (it, self, a, b) => Self(self).V.All(c => c < 128));
         Def(St, "each_byte", (it, self, a, b) => { foreach (var x in RawBytes(Self(self))) it.Yield(b, (long)x); return self; });
-        Def(St, "unpack1", (it, self, a, b) => it.Str(a[0]) switch
-        {
-            "H*" => S(Convert.ToHexString(Encoding.Latin1.GetBytes(Self(self).V)).ToLowerInvariant()),
-            _ => throw it.ArgError("unsupported unpack format"),
-        });
+        Def(St, "unpack", (it, self, a, b) => new RArray(it.Unpack(Self(self), it.Str(a[0]))));
+        Def(St, "unpack1", (it, self, a, b) => it.Unpack(Self(self), it.Str(a[0])).FirstOrDefault());
         DefS(St, "new", (it, self, a, b) => S(a.Length > 0 && a[0] is RString s ? s.V : ""));
 
         // ---- Regexp ----
