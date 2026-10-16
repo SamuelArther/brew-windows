@@ -1,0 +1,102 @@
+[
+  {
+    "name": "action-validator",
+    "status": "build",
+    "seconds": 249
+  },
+  {
+    "name": "actions-batch",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "ad",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "add-determinism",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "aiac",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "aiken",
+    "status": "build",
+    "seconds": 486
+  },
+  {
+    "name": "ain",
+    "status": "ok",
+    "seconds": 2
+  },
+  {
+    "name": "akamai",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "alass",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "alejandra",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "algernon",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "aliyun-cli",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "amass",
+    "status": "ok",
+    "seconds": 157
+  },
+  {
+    "name": "amfora",
+    "status": "test",
+    "seconds": 19
+  },
+  {
+    "name": "angle-grinder",
+    "status": "build",
+    "seconds": 1
+  },
+  {
+    "name": "anycable-go",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "anyquery",
+    "status": "test",
+    "seconds": 99
+  },
+  {
+    "name": "apache-brooklyn-cli",
+    "status": "test",
+    "seconds": 104
+  },
+  {
+    "name": "api-linter",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "apkeep",
+    "status": "build",
+    "seconds": 1
+  }
+]
