@@ -1,0 +1,52 @@
+name: sync-upstream
+
+# Daily: move to the newest homebrew-core commit, then rebuild (bottles workflow) the formulae
+# that changed upstream and try the ones upstream added. Formulae only land if they build and test.
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Skip while a bottles run is waiting
+        id: busy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          waiting=$(gh run list --workflow bottles.yml --json status --jq '[.[] | select(.status == "pending" or .status == "queued" or .status == "waiting")] | length')
+          echo "waiting=$waiting" >> "$GITHUB_OUTPUT"
+          if [ "$waiting" != "0" ]; then echo "A bottles run is already waiting; trying again tomorrow."; fi
+      - name: Compare upstream
+        if: steps.busy.outputs.waiting == '0'
+        id: diff
+        run: |
+          old=$(tr -d '[:space:]' < tools/upstream-commit.txt)
+          git clone -q --filter=blob:none --no-checkout https://github.com/Homebrew/homebrew-core.git "$RUNNER_TEMP/core"
+          new=$(git -C "$RUNNER_TEMP/core" rev-parse origin/HEAD)
+          batch="sync-$(date -u +%Y%m%d)"
+          python3 tools/sync_upstream.py "$RUNNER_TEMP/core" "$old" "$new" "tools/batches/$batch.txt"
+          echo "$new" > tools/upstream-commit.txt
+          echo "batch=$batch" >> "$GITHUB_OUTPUT"
+          echo "count=$(grep -c . "tools/batches/$batch.txt" || true)" >> "$GITHUB_OUTPUT"
+      - name: Commit and build
+        if: steps.busy.outputs.waiting == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/upstream-commit.txt tools/batches
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Sync with homebrew-core ($(cut -c1-12 tools/upstream-commit.txt)): ${{ steps.diff.outputs.count }} formulae to build"
+          git push -q
+          if [ "${{ steps.diff.outputs.count }}" != "0" ]; then
+            gh workflow run bottles.yml -f batch=${{ steps.diff.outputs.batch }} -f chunk_size=15 -f toolchain=true
+          fi
