@@ -612,6 +612,15 @@ public sealed class Parser
             {
                 p++;
                 var arr = new ArrayNode { Line = line };
+                if (t.WordParts != null)
+                {
+                    foreach (var word in t.WordParts)
+                    {
+                        var str = MakeStr(new Token { Parts = word, Line = t.Line });
+                        arr.Elems.Add(t.Text == "i" ? new DSymNode { Str = str, Line = line } : str);
+                    }
+                    return arr;
+                }
                 foreach (var w in t.WordList)
                     arr.Elems.Add(t.Text == "i" ? new SymNode { Name = w, Line = line } : new StrNode { Parts = { w }, Line = line });
                 return arr;

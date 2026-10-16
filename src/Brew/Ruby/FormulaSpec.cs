@@ -48,6 +48,8 @@ public sealed class FormulaSpec
     public string DeprecationReplacement, DisableReplacement;
     public LivecheckSpec Livecheck;
     public BottleSpec Bottle;
+    public readonly List<PatchSpec> Patches = new();
+    internal const string DataMarker = ":DATA:";
     public bool HasLivecheck => Livecheck != null;
     public bool HasCaveats;
     public bool HasTest => TestBlock != null;
@@ -139,6 +141,17 @@ public sealed class FormulaSpec
 
     public bool HasPostInstall;
 
+    // `patch :DATA` reads everything after __END__ in the formula file.
+    PatchSpec ResolvePatch(PatchSpec p)
+    {
+        if (p.Data != DataMarker) return p;
+        var text = System.IO.File.ReadAllText(Path).Replace("\r\n", "\n");
+        var end = text.IndexOf("\n__END__\n", StringComparison.Ordinal);
+        if (end < 0) throw new InvalidOperationException($"{Name}: patch :DATA without __END__");
+        var resolved = new PatchSpec { Strip = p.Strip, Directory = p.Directory, Data = text[(end + 9)..] };
+        return resolved;
+    }
+
     public FormulaDefinition ToDefinition() => Sha256 == null ? throw new InvalidOperationException($"{Name}: formula requires a sha256") : new()
     {
         Name = Name,
@@ -151,6 +164,7 @@ public sealed class FormulaSpec
         Dependencies = Dependencies.Where(d => !d.Test && !d.Optional).Select(d => d.Name).ToList(),
         Resources = Resources.ToList(),
         Bottle = Bottle,
+        Patches = Patches.Select(ResolvePatch).ToList(),
         Install = ctx => FormulaLoader.RunInstall(this, ctx),
     };
 }

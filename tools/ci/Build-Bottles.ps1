@@ -25,11 +25,23 @@ function Invoke-Brew([string[]] $Arguments, [string] $Log, [string] $Directory =
     return $code
 }
 
+# brew test-bot installs `depends_on ... => :test` formulae before testing.
+function Install-TestDependencies([string] $Name, [string] $Log) {
+    $all = & $Brew deps --direct --include-test $Name 2>> $Log
+    if ($LASTEXITCODE -ne 0) { return $false }
+    $runtime = & $Brew deps --direct $Name 2>> $Log
+    foreach ($dependency in $all | Where-Object { $runtime -notcontains $_ }) {
+        if ((Invoke-Brew @('install', $dependency) $Log) -ne 0) { return $false }
+    }
+    return $true
+}
+
 $results = foreach ($name in $Names) {
     $log = Join-Path $logs "$name.log"
     $started = Get-Date
     $status = 'ok'
     if ((Invoke-Brew @('install', '--build-bottle', $name) $log) -ne 0) { $status = 'build' }
+    elseif (-not (Install-TestDependencies $name $log)) { $status = 'test-deps' }
     elseif ((Invoke-Brew @('test', $name) $log) -ne 0) { $status = 'test' }
     elseif ((Invoke-Brew @('bottle', '--json', $name) $log) -ne 0) { $status = 'bottle' }
     Invoke-Brew @('uninstall', '--force', '--ignore-dependencies', $name) $log | Out-Null

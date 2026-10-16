@@ -21,6 +21,7 @@ public sealed class Token
     public string Text;
     public List<StrPart> Parts;       // Str / XStr / Regex / Symbol(dsym)
     public List<string> WordList;     // %w[]
+    public List<List<StrPart>> WordParts;  // %W[] / %I[] with #{} interpolation
     public bool SpaceBefore;
     public int Line;
     public override string ToString() => $"{Type}:{Text}@{Line}";
@@ -330,9 +331,26 @@ public sealed class Lexer
             case 'w': case 'W': case 'i': case 'I':
             {
                 var parts = ReadDelimited(open, close, kind == 'W' || kind == 'I');
-                string body = string.Concat(parts.Select(p => p.Text ?? ""));
-                var words = body.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
-                tokens.Add(new Token { Type = T.Words, WordList = words, Text = (kind == 'i' || kind == 'I') ? "i" : "w", SpaceBefore = space, Line = startLine });
+                // Split on whitespace in literal text only; #{...} parts stay inside their word.
+                var wordParts = new List<List<StrPart>>();
+                var current = new List<StrPart>();
+                var text = new StringBuilder();
+                void FlushText() { if (text.Length > 0) { current.Add(new StrPart { Text = text.ToString() }); text.Clear(); } }
+                void FlushWord() { FlushText(); if (current.Count > 0) { wordParts.Add(current); current = new List<StrPart>(); } }
+                foreach (var part in parts)
+                {
+                    if (part.Code != null) { FlushText(); current.Add(part); continue; }
+                    foreach (var ch in part.Text)
+                        if (char.IsWhiteSpace(ch)) FlushWord(); else text.Append(ch);
+                }
+                FlushWord();
+                var interpolated = wordParts.Any(w => w.Any(p => p.Code != null));
+                tokens.Add(new Token
+                {
+                    Type = T.Words, Text = (kind == 'i' || kind == 'I') ? "i" : "w", SpaceBefore = space, Line = startLine,
+                    WordList = wordParts.Select(w => string.Concat(w.Select(p => p.Text ?? ""))).ToList(),
+                    WordParts = interpolated ? wordParts : null,
+                });
                 return true;
             }
             case 'q':

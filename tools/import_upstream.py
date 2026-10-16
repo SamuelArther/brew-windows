@@ -2,17 +2,20 @@
 
 The upstream file is kept verbatim except for its macOS/Linux `bottle do` block; Windows
 bottles are built by .github/workflows/bottles.yml and merged with `brew bottle --merge --write`.
-Windows-specific edits live in tools/windows-overrides/<name>.rb, which replace the import.
+Small Windows edits are tools/windows-patches/<name>.patch (a git diff of the tap file, applied
+after import); tools/windows-overrides/<name>.rb replaces a formula entirely.
 
 usage: import_upstream.py <homebrew-core checkout> <names file (one per line) | name...>
 """
 import pathlib
 import re
+import subprocess
 import sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 TAP = REPO / "tap" / "homebrew-core" / "Formula"
 OVERRIDES = REPO / "tools" / "windows-overrides"
+PATCHES = REPO / "tools" / "windows-patches"
 BOTTLE = re.compile(r"^  bottle do\n.*?^  end\n\n?", re.M | re.S)
 
 
@@ -51,6 +54,12 @@ def main():
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(text, encoding="utf-8", newline="\n")
             written += 1
+        # Small Windows edits on top of the upstream file, so upstream updates keep flowing.
+        patch = PATCHES / f"{name}.patch"
+        if patch.exists() and source != override:
+            check = subprocess.run(["git", "apply", "--check", "--reverse", str(patch)], cwd=REPO, capture_output=True)
+            if check.returncode != 0:
+                subprocess.run(["git", "apply", str(patch)], cwd=REPO, check=True)
     print(f"wrote {written} formulae")
 
 

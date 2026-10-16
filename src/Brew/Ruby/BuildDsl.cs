@@ -71,6 +71,7 @@ public static partial class FormulaLoader
             if (i.FindMethod(((RObject)self).Class, "fetch") is { } fm && fm.Owner != i.ObjectClass.Consts["Formula"]) args.Add("--offline");
             return StrArray(args.ToArray());
         });
+        it.Def(F, "std_cargo_fetch_args", (i, self, a, b) => StrArray("--locked", "--target", "host-tuple"));
         it.Def(F, "std_meson_args", (i, self, a, b) =>
             StrArray("--prefix=" + Prefix(i, self), "--libdir=lib", "--buildtype=release", "--wrap-mode=nofallback"));
         it.Def(F, "std_npm_args", (i, self, a, b) =>

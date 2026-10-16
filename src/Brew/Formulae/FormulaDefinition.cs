@@ -13,6 +13,15 @@ public sealed class FormulaDefinition
     public List<FormulaResource> Resources { get; set; } = [];
     public List<string> Dependencies { get; set; } = [];
     public BottleSpec Bottle { get; set; }
+    public List<PatchSpec> Patches { get; set; } = [];
+}
+
+// `patch [:pN] [:DATA | "diff"] [do url/sha256/directory/apply/file end]`
+public sealed class PatchSpec
+{
+    public int Strip = 1;
+    public string Url, Sha256, Data, Directory, File;
+    public readonly List<string> Apply = [];
 }
 
 // `bottle do ... end`: root_url, rebuild, and sha256 per tag (cellar, checksum).

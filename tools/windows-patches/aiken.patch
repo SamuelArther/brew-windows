@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/a/aiken.rb
++++ b/tap/homebrew-core/Formula/a/aiken.rb
+@@ -22,7 +22,8 @@
+   def install
+     system "cargo", "install", *std_cargo_args(path: "crates/aiken")
+ 
+-    generate_completions_from_executable(bin/"aiken", "completion")
++    # aiken has no `completion` subcommand on Windows (cfg(not(target_os = "windows"))).
++    generate_completions_from_executable(bin/"aiken", "completion") unless OS.windows?
+   end
+ 
+   test do

@@ -112,6 +112,7 @@ public sealed class PackageManager(Paths paths)
                     var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);
                     resources.Add(resource.Name, stagedResource);
                 }
+                await ApplyPatchesAsync(formula, stagedBuild, build, file);
                 CommandOutput.Header($"Installing {name}");
                 Directory.CreateDirectory(keg);
                 createdKeg = true;
@@ -140,6 +141,28 @@ public sealed class PackageManager(Paths paths)
             throw;
         }
         finally { if (Directory.Exists(build)) Directory.Delete(build, true); }
+    }
+
+    // Homebrew's Formula#patch: inline/DATA diffs, downloaded diffs, and `apply` files inside patch archives.
+    async Task ApplyPatchesAsync(FormulaDefinition formula, string source, string build, string formulaFile)
+    {
+        if (formula.Patches.Count == 0) return;
+        CommandOutput.Header("Patching");
+        var archive = 0;
+        foreach (var patch in formula.Patches)
+        {
+            var directory = string.IsNullOrEmpty(patch.Directory) ? source : Path.Combine(source, patch.Directory);
+            if (patch.Data != null) { Patcher.Apply(patch.Data, patch.Strip, directory); continue; }
+            if (patch.File != null)
+            {
+                Patcher.Apply(File.ReadAllText(Path.Combine(Path.GetDirectoryName(formulaFile)!, patch.File)), patch.Strip, directory);
+                continue;
+            }
+            var download = await new Downloader(paths.Cache).FetchAsync(patch.Url, patch.Sha256);
+            if (patch.Apply.Count == 0) { Patcher.Apply(File.ReadAllText(download), patch.Strip, directory); continue; }
+            var staged = await Archive.StageAsync(download, Downloader.FileName(patch.Url), Path.Combine(build, ".patches", (archive++).ToString()));
+            foreach (var diff in patch.Apply) Patcher.Apply(File.ReadAllText(Path.Combine(staged, diff)), patch.Strip, directory);
+        }
     }
 
     public void List(string[] names, bool versions)

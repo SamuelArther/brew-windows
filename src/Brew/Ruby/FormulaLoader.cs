@@ -247,9 +247,36 @@ public static partial class FormulaLoader
         it.DefS(F, "resource", (i, self, a, b) =>
         {
             var holder = NewHolder(i, F, new FormulaSpec());
+            // Resource livecheck blocks reference livecheck-time constants (LATEST_VERSION); they are not evaluated here.
+            i.Def(i.SingletonOf(holder), "livecheck", (_, _, _, _) => null);
             if (b != null) i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             var r = (FormulaSpec)holder.Host;
             Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256));
+            return null;
+        });
+        it.DefS(F, "patch", (i, self, a, b) =>
+        {
+            var patch = new PatchSpec();
+            var args = a.Where(x => x is not RHash).ToList();
+            if (args.Count > 0 && args[0] is RSymbol strip && strip.Name.Length > 1 && strip.Name[0] == 'p' && int.TryParse(strip.Name[1..], out var level))
+            {
+                patch.Strip = level;
+                args.RemoveAt(0);
+            }
+            if (args.Count > 0) patch.Data = args[0] is RSymbol { Name: "DATA" } ? FormulaSpec.DataMarker : i.ToS(args[0]);
+            if (b != null)
+            {
+                var holder = new RObject { Class = i.ObjectClass, Host = patch };
+                var s = i.SingletonOf(holder);
+                i.Def(s, "url", (i2, _, a2, _) => { patch.Url = i2.ToS(a2[0]); return null; });
+                i.Def(s, "sha256", (i2, _, a2, _) => { patch.Sha256 = i2.ToS(a2[0]).ToLowerInvariant(); return null; });
+                i.Def(s, "directory", (i2, _, a2, _) => { patch.Directory = i2.ToS(a2[0]); return null; });
+                i.Def(s, "file", (i2, _, a2, _) => { patch.File = i2.ToS(a2[0]); return null; });
+                i.Def(s, "apply", (i2, _, a2, _) => { foreach (var x in a2.SelectMany(v => v is RArray arr ? arr.L : [v])) patch.Apply.Add(i2.ToS(x)); return null; });
+                i.Def(s, "mirror resolves type", (_, _, _, _) => null);
+                i.CallProc(b, Array.Empty<object>(), null, holder, s);
+            }
+            Sp(self).Patches.Add(patch);
             return null;
         });
         it.DefS(F, "test", (i, self, a, b) => { Sp(self).TestBlock = b; return null; });
@@ -267,7 +294,7 @@ public static partial class FormulaLoader
         it.DefS(F, arm ? "on_arm" : "on_intel", (i, self, a, b) => b == null ? null : i.CallProc(b, Array.Empty<object>(), null, self, i.SingletonOf((RClass)self)));
         it.DefS(F, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_tahoe on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
             (i, self, a, b) => null);
-        it.DefS(F, "deprecated_option patch skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
+        it.DefS(F, "deprecated_option skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
                    "compatibility_version no_autobump! pypi_packages env allow_network_access! deny_network_access!",
             (i, self, a, b) => null);
 
@@ -305,7 +332,20 @@ public static partial class FormulaLoader
         it.Def(F, "opt_lib", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "lib")));
         it.Def(F, "opt_libexec", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "libexec")));
         it.Def(F, "caveats post_install plist", (i, self, a, b) => null);
-        it.Def(F, "build", (i, self, a, b) => i.Main);
+        // Homebrew's BuildOptions: stable builds, no options; bottle? while building one.
+        it.Def(F, "build", (i, self, a, b) =>
+        {
+            var options = new RObject { Class = i.ObjectClass };
+            var s = i.SingletonOf(options);
+            var bottling = (self as RObject)?.Host is InstallContext ctx && (ctx.PouredFromBottle || i.Env.ContainsKey("HOMEBREW_BUILD_BOTTLE"));
+            i.Def(s, "head?", (_, _, _, _) => false);
+            i.Def(s, "stable?", (_, _, _, _) => true);
+            i.Def(s, "bottle?", (_, _, _, _) => bottling);
+            i.Def(s, "with? include?", (_, _, a2, _) => false);
+            i.Def(s, "without?", (_, _, a2, _) => true);
+            i.Def(s, "used_options unused_options", (_, _, _, _) => new RArray());
+            return options;
+        });
         it.Def(F, "head?", (i, self, a, b) => false);
         it.Def(F, "stable?", (i, self, a, b) => true);
         it.Def(F, "std_cmake_args", (i, self, a, b) => StrArray($"-DCMAKE_INSTALL_PREFIX={Prefix(i, self)}", "-DCMAKE_BUILD_TYPE=Release", "-DBUILD_TESTING=OFF", "-Wno-dev"));
@@ -352,6 +392,7 @@ public static partial class FormulaLoader
         it.Def(it.KernelModule, "quiet_system", (i, self, a, b) => i.RunSystem(a));
         DefineTestHelpers(it, F);
         DefineBuildDsl(it, F);
+        DefinePythonDsl(it, F);
         return F;
     }
 

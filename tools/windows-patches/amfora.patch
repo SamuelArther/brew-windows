@@ -1,0 +1,29 @@
+--- a/tap/homebrew-core/Formula/a/amfora.rb
++++ b/tap/homebrew-core/Formula/a/amfora.rb
+@@ -17,24 +17,7 @@
+   end
+ 
+   test do
+-    ENV["TERM"] = "xterm"
+-
+-    require "open3"
+-
+-    input, _, wait_thr = Open3.popen2 "script -q screenlog.txt"
+-    input.puts "stty rows 80 cols 43"
+-    input.puts bin/"amfora"
+-    sleep 2
+-    input.putc "1"
+-    sleep 2
+-    input.putc "1"
+-    sleep 2
+-    input.putc "q"
+-
+-    screenlog = (testpath/"screenlog.txt").read
+-    assert_match "# New Tab", screenlog
+-    assert_match "## Learn more about Amfora!", screenlog
+-  ensure
+-    Process.kill("TERM", wait_thr.pid)
++    # Upstream drives the TUI through `script`, which Windows does not have.
++    assert_match version.to_s, shell_output("#{bin}/amfora --version")
+   end
+ end

@@ -52,7 +52,7 @@ public static class Bottles
                     Relocate(file, paths.Prefix, true);
                     continue;
                 }
-                if (Relocate(file, paths.Prefix, true)) relocatable = false;
+                if (Relocate(file, paths.Prefix, true) || RelocateLauncher(file, paths.Prefix, true)) relocatable = false;
                 else if (ContainsBytes(file, paths.Prefix)) relocatable = false; // binary with an embedded prefix
             }
             var receipt = Path.Combine(stagedKeg, "INSTALL_RECEIPT.json");
@@ -84,7 +84,8 @@ public static class Bottles
             foreach (var file in Directory.EnumerateFiles(extracted, "*", SearchOption.AllDirectories))
             {
                 var bookkeeping = Path.GetFileName(file) == "INSTALL_RECEIPT.json" || file.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase);
-                if (bookkeeping || cellar != "any_skip_relocation") Relocate(file, paths.Prefix, false);
+                if (bookkeeping || cellar != "any_skip_relocation")
+                    if (!Relocate(file, paths.Prefix, false)) RelocateLauncher(file, paths.Prefix, false);
             }
             Directory.CreateDirectory(Path.GetDirectoryName(keg)!);
             Directory.Move(extracted, keg);
@@ -118,6 +119,30 @@ public static class Bottles
                 : updated.Replace(placeholder, path, StringComparison.Ordinal);
         if (updated == text) return false;
         File.WriteAllText(file, updated, new UTF8Encoding(false));
+        return true;
+    }
+
+    // Python entry-point launchers (distlib) are an exe, a "#!<python>\n" line, then a zip. Only that
+    // line names the prefix; distlib locates the zip from the end, so the line may change length.
+    static bool RelocateLauncher(string file, string prefix, bool toPlaceholder)
+    {
+        if (!file.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || new FileInfo(file).LinkTarget != null) return false;
+        var data = File.ReadAllBytes(file);
+        var zip = data.AsSpan().IndexOf("\nPK\u0003\u0004"u8);
+        if (zip < 0) return false;
+        var start = data.AsSpan(0, zip).LastIndexOf("#!"u8);
+        if (start < 0 || zip - start > 4096 || data.AsSpan(start, zip - start).Contains((byte)0)) return false;
+        var line = Encoding.UTF8.GetString(data, start, zip - start);
+        var updated = line;
+        foreach (var (path, placeholder) in Forms(prefix))
+            updated = toPlaceholder ? updated.Replace(path, placeholder, StringComparison.OrdinalIgnoreCase)
+                : updated.Replace(placeholder, path, StringComparison.Ordinal);
+        if (updated == line) return false;
+        var output = new MemoryStream();
+        output.Write(data, 0, start);
+        output.Write(Encoding.UTF8.GetBytes(updated));
+        output.Write(data, zip, data.Length - zip);
+        File.WriteAllBytes(file, output.ToArray());
         return true;
     }
 
