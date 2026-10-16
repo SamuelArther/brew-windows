@@ -1,0 +1,8 @@
+{
+  "formula": "swiftplantuml",
+  "desc": "Generate UML class diagrams from Swift sources",
+  "commands": [
+    "swiftplantuml"
+  ],
+  "test": "system bin/\"swiftplantuml\", \"--help\"\n(testpath/\"Shapes.swift\").write <<~SWIFT\n  protocol Shape { func area() -> Double }\n  class Base {}\n  final class Circle: Base, Shape {\n    var radius: Double = 1\n    func area() -> Double { radius * radius * 3.14 }\n  }\nSWIFT\noutput = shell_output(\"#{bin}/swiftplantuml classdiagram Shapes.swift --output consoleOnly\")\nassert_match \"@startuml\", output\nassert_match \"class \\\"Circle\\\" as Circle\", output\nassert_match \"~radius : Double\", output\nassert_match \"Circle --|> Base : inherits\", output\nassert_match \"Circle ..|> Shape : conforms to\", output"
+}
