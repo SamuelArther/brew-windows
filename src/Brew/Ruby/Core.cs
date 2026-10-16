@@ -67,6 +67,8 @@ public sealed partial class Interp
             catch (ThrowSignal t) when (it.Equal(t.Tag, tag)) { return t.Value; }
         });
         Def(K, "throw", (it, self, a, b) => throw new ThrowSignal { Tag = a[0], Value = a.Length > 1 ? a[1] : null });
+        // `retry` in a rescue clause: EvalBegin restarts the begin body.
+        Def(K, "retry", (it, self, a, b) => throw new RetrySignal());
         Def(K, "sleep", (it, self, a, b) => { Thread.Sleep((int)(it.Num(a.Length > 0 ? a[0] : 0L) * 1000)); return 0L; });
         Def(K, "rand", (it, self, a, b) => a.Length == 0 ? Random.Shared.NextDouble() : (object)Random.Shared.NextInt64(it.Int(a[0])));
         Def(K, "at_exit autoload trap", (it, self, a, b) => null);
@@ -74,9 +76,16 @@ public sealed partial class Interp
         Def(K, "abort", (it, self, a, b) =>
         {
             if (a.Length > 0) it.Err.WriteLine(it.Str(a[0]));
-            throw new RubyError(it.NewException(it.SystemExit, a.Length > 0 ? it.Str(a[0]) : "exit"));
+            var abort = it.NewException(it.SystemExit, a.Length > 0 ? it.Str(a[0]) : "exit");
+            abort.SetIvar("@status", 1L);
+            throw new RubyError(abort);
         });
-        Def(K, "exit exit!", (it, self, a, b) => throw new RubyError(it.NewException(it.SystemExit, "exit")));
+        Def(K, "exit exit!", (it, self, a, b) =>
+        {
+            var exit = it.NewException(it.SystemExit, "exit");
+            exit.SetIvar("@status", a.Length == 0 || a[0] is true ? 0L : a[0] is false ? 1L : it.Int(a[0]));
+            throw new RubyError(exit);
+        });
         Def(K, "freeze", (it, self, a, b) =>
         {
             switch (self)
@@ -379,8 +388,8 @@ public sealed partial class Interp
         });
         Def(E, "==", (it, self, a, b) => a[0] is RObject o && o.Class == ((RObject)self).Class && it.Equal(((RObject)self).GetIvar("@message"), o.GetIvar("@message")));
         DefS(E, "exception", (it, self, a, b) => it.Invoke(self, "new", a, b));
-        Def(SystemExit, "status", (it, self, a, b) => 0L);
-        Def(SystemExit, "success?", (it, self, a, b) => true);
+        Def(SystemExit, "status", (it, self, a, b) => ((RObject)self).GetIvar("@status") ?? 0L);
+        Def(SystemExit, "success?", (it, self, a, b) => ((RObject)self).GetIvar("@status") is null or 0L);
     }
 
     public object Allocate(RClass cls)
@@ -786,8 +795,24 @@ public sealed partial class Interp
                     break;
                 }
                 case 'g': case 'G':
-                    body = Num(arg).ToString("G" + (prec < 0 ? 6 : prec), CultureInfo.InvariantCulture);
+                {
+                    // C's %g: %e when the exponent is < -4 or >= the precision, else %f; trailing zeros dropped.
+                    double v = Num(arg);
+                    int p = prec < 0 ? 6 : Math.Max(prec, 1);
+                    var abs = Math.Abs(v);
+                    var es = abs.ToString("E" + (p - 1), CultureInfo.InvariantCulture);
+                    int x = int.Parse(es[(es.IndexOf('E') + 1)..], CultureInfo.InvariantCulture);
+                    string Trim(string t) => flags.Contains('#') || !t.Contains('.') ? t : t.TrimEnd('0').TrimEnd('.');
+                    if (double.IsNaN(v) || double.IsInfinity(v)) body = double.IsNaN(v) ? "NaN" : "Inf";
+                    else if (x < -4 || x >= p)
+                    {
+                        var mantissa = Trim(es[..es.IndexOf('E')]);
+                        body = mantissa + (conv == 'g' ? "e" : "E") + (x < 0 ? "-" : "+") + Math.Abs(x).ToString("00", CultureInfo.InvariantCulture);
+                    }
+                    else body = Trim(abs.ToString("F" + (p - 1 - x), CultureInfo.InvariantCulture));
+                    body = (v < 0 || (v == 0 && double.IsNegative(v)) ? "-" : flags.Contains('+') ? "+" : flags.Contains(' ') ? " " : "") + body;
                     break;
+                }
                 case 'x': case 'X': case 'o': case 'b': case 'B':
                 {
                     long v = Int(arg);

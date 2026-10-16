@@ -462,11 +462,21 @@ public sealed class Lexer
             case 'n': return "\n";
             case 't': return "\t";
             case 'r': return "\r";
-            case '0': return "\0";
+            case >= '0' and <= '7':
+            {
+                // octal: "\0", "\016", "\263" (up to three digits; a high byte is raw like \xNN)
+                int value = n - '0';
+                for (int k = 0; k < 2 && Cur is >= '0' and <= '7'; k++) value = value * 8 + (src[pos++] - '0');
+                value &= 0xFF;
+                return (value < 0x80 ? (char)value : (char)(RString.RawByteBase + value)).ToString();
+            }
             case 'e': return "\u001b";
             case 's': return " ";
             case 'a': return "\a";
             case 'b': return "\b";
+            case 'v': return "\v";
+            case 'f': return "\f";
+            case 'c' when pos < src.Length: return ((char)(src[pos++] & 0x1f)).ToString();
             case 'u':
             {
                 if (Cur == '{')
@@ -598,6 +608,8 @@ public sealed class Lexer
                 var sub = new Lexer(body + "\u0001");
                 sub.pos = 0;
                 var parts = sub.ReadDelimited('\u0002', '\u0001', true);
+                foreach (var part in parts)
+                    if (part.Text != null && part.Text.Any(RString.IsRawByte)) part.Text = DecodeRawBytes(part.Text);
                 tok.Parts.AddRange(parts);
             }
         }

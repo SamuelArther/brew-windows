@@ -95,7 +95,12 @@ public sealed partial class Interp
         Def(St, "%", (it, self, a, b) => S(it.Format(Self(self).V, a[0] is RArray arr ? arr.L.ToArray() : new[] { a[0] })));
         Def(St, "== === eql?", (it, self, a, b) => a[0] is RString o && o.Equals(Self(self)));
         Def(St, "<=>", (it, self, a, b) => a[0] is RString o ? (long)Math.Sign(string.CompareOrdinal(Self(self).V, o.V)) : null);
-        Def(St, "=~", (it, self, a, b) => a[0] is RRegex r ? it.RegexMatch(r, Self(self).V, 0) is { } m ? (long)m.M.Index : null : it.Invoke(a[0], "=~", new[] { self }, null));
+        Def(St, "=~", (it, self, a, b) => a[0] switch
+        {
+            RRegex r => it.RegexMatch(r, Self(self).V, 0) is { } m ? (long)m.M.Index : null,
+            RString => throw it.TypeErr("wrong argument type String (expected Regexp)"),
+            _ => it.Invoke(a[0], "=~", new[] { self }, null),
+        });
         Def(St, "match", (it, self, a, b) =>
         {
             var m = it.RegexMatch(it.ToRegex(a[0]), Self(self).V, a.Length > 1 ? (int)it.Int(a[1]) : 0);
@@ -166,7 +171,12 @@ public sealed partial class Interp
         Def(St, "gsub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, true); if (r == s.V) return null; s.V = r; return s; });
         Def(St, "count", (it, self, a, b) => { var set = TrSet(it.Str(a[0])); return (long)Self(self).V.Count(c => set(c)); });
         Def(St, "chars", (it, self, a, b) => new RArray(Self(self).V.Select(c => (object)S(c.ToString()))));
-        Def(St, "each_char", (it, self, a, b) => { foreach (var c in Self(self).V.ToArray()) it.Yield(b, S(c.ToString())); return self; });
+        Def(St, "each_char", (it, self, a, b) =>
+        {
+            if (b == null) return new RArray(Self(self).V.Select(c => (object)S(c.ToString())));
+            foreach (var c in Self(self).V.ToArray()) it.Yield(b, S(c.ToString()));
+            return self;
+        });
         Def(St, "bytes", (it, self, a, b) => new RArray(RawBytes(Self(self)).Select(x => (object)(long)x)));
         Def(St, "lines", (it, self, a, b) => new RArray(Lines(Self(self).V).Select(l => (object)S(l))));
         Def(St, "each_line", (it, self, a, b) =>
@@ -181,6 +191,7 @@ public sealed partial class Interp
             : Self(self).V.StartsWith(it.Str(x), StringComparison.Ordinal)));
         Def(St, "end_with?", (it, self, a, b) => a.Any(x => Self(self).V.EndsWith(it.Str(x), StringComparison.Ordinal)));
         Def(St, "include?", (it, self, a, b) => Self(self).V.Contains(it.Str(a[0]), StringComparison.Ordinal));
+        Def(St, "exclude?", (it, self, a, b) => !Self(self).V.Contains(it.Str(a[0]), StringComparison.Ordinal));   // ActiveSupport
         Def(St, "index", (it, self, a, b) =>
         {
             var s = Self(self).V;
@@ -326,7 +337,12 @@ public sealed partial class Interp
         });
         Def(St, "valid_encoding?", (it, self, a, b) => true);
         Def(St, "ascii_only?", (it, self, a, b) => Self(self).V.All(c => c < 128));
-        Def(St, "each_byte", (it, self, a, b) => { foreach (var x in RawBytes(Self(self))) it.Yield(b, (long)x); return self; });
+        Def(St, "each_byte", (it, self, a, b) =>
+        {
+            if (b == null) return new RArray(RawBytes(Self(self)).Select(x => (object)(long)x));
+            foreach (var x in RawBytes(Self(self))) it.Yield(b, (long)x);
+            return self;
+        });
         Def(St, "unpack", (it, self, a, b) => new RArray(it.Unpack(Self(self), it.Str(a[0]))));
         Def(St, "unpack1", (it, self, a, b) => it.Unpack(Self(self), it.Str(a[0])).FirstOrDefault());
         DefS(St, "new", (it, self, a, b) => S(a.Length > 0 && a[0] is RString s ? s.V : ""));
