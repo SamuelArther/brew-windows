@@ -38,3 +38,5 @@ runs:
       run: |
         "BREW_REPOSITORY=$env:GITHUB_WORKSPACE" | Add-Content $env:GITHUB_ENV
         "HOMEBREW_PREFIX=$env:LOCALAPPDATA\Homebrew" | Add-Content $env:GITHUB_ENV
+        # Runner profiles lack a Documents folder, which SHGetFolderPath (and so some tools) treats as an error.
+        New-Item -ItemType Directory -Force "$env:USERPROFILE\Documents" | Out-Null

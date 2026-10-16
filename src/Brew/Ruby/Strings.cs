@@ -10,6 +10,8 @@ public sealed partial class Interp
     {
         var St = StringClass;
         RString Self(object o) => (RString)o;
+        // A binary (ASCII-8BIT) string holds one byte per char; others are UTF-8.
+        static byte[] RawBytes(RString s) => s.Binary ? Encoding.Latin1.GetBytes(s.V) : Encoding.UTF8.GetBytes(s.V);
         RString Mut(Interp it, object o)
         {
             var s = (RString)o;
@@ -75,7 +77,7 @@ public sealed partial class Interp
             return a[^1];
         });
         Def(St, "length size", (it, self, a, b) => (long)Self(self).V.Length);
-        Def(St, "bytesize", (it, self, a, b) => (long)Encoding.UTF8.GetByteCount(Self(self).V));
+        Def(St, "bytesize", (it, self, a, b) => (long)RawBytes(Self(self)).Length);
         Def(St, "empty?", (it, self, a, b) => Self(self).V.Length == 0);
         Bang("upcase", (it, s, a) => s.ToUpperInvariant());
         Bang("downcase", (it, s, a) => s.ToLowerInvariant());
@@ -113,7 +115,7 @@ public sealed partial class Interp
         Def(St, "count", (it, self, a, b) => { var set = TrSet(it.Str(a[0])); return (long)Self(self).V.Count(c => set(c)); });
         Def(St, "chars", (it, self, a, b) => new RArray(Self(self).V.Select(c => (object)S(c.ToString()))));
         Def(St, "each_char", (it, self, a, b) => { foreach (var c in Self(self).V.ToArray()) it.Yield(b, S(c.ToString())); return self; });
-        Def(St, "bytes", (it, self, a, b) => new RArray(Encoding.UTF8.GetBytes(Self(self).V).Select(x => (object)(long)x)));
+        Def(St, "bytes", (it, self, a, b) => new RArray(RawBytes(Self(self)).Select(x => (object)(long)x)));
         Def(St, "lines", (it, self, a, b) => new RArray(Lines(Self(self).V).Select(l => (object)S(l))));
         Def(St, "each_line", (it, self, a, b) =>
         {
@@ -242,7 +244,7 @@ public sealed partial class Interp
         Def(St, "force_encoding encode unicode_normalize scrub b", (it, self, a, b) => self);
         Def(St, "valid_encoding?", (it, self, a, b) => true);
         Def(St, "ascii_only?", (it, self, a, b) => Self(self).V.All(c => c < 128));
-        Def(St, "each_byte", (it, self, a, b) => { foreach (var x in Encoding.UTF8.GetBytes(Self(self).V)) it.Yield(b, (long)x); return self; });
+        Def(St, "each_byte", (it, self, a, b) => { foreach (var x in RawBytes(Self(self))) it.Yield(b, (long)x); return self; });
         Def(St, "unpack1", (it, self, a, b) => it.Str(a[0]) switch
         {
             "H*" => S(Convert.ToHexString(Encoding.Latin1.GetBytes(Self(self).V)).ToLowerInvariant()),

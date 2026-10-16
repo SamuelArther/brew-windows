@@ -53,7 +53,7 @@ public static partial class FormulaLoader
                 var result = a.Length > 1 ? a[1] : 0L;
                 i.Invoke(self, "ohai", new object[] { Interp.S(i.ToS(cmd)) }, null);
                 var line = CommandLine(i, self, cmd, assertion);
-                var (output, _, code) = Exec(i, ShellPsi(i, line), Sink.Capture, Sink.Err, null, false, false, out var binary);
+                var (output, _, code) = Shell(i, line, Sink.Capture, Sink.Err, null, false, false, out var binary);
                 if (result != null) AssertExit(i, self, assertion, result, code, output);
                 return new RString(output) { Binary = binary };
             });
@@ -67,7 +67,7 @@ public static partial class FormulaLoader
                 var result = a.Length > 2 ? a[2] : null;
                 i.Invoke(self, "ohai", new object[] { Interp.S(i.ToS(cmd)) }, null);
                 var line = CommandLine(i, self, cmd, assertion);
-                var (output, _, code) = Exec(i, ShellPsi(i, line), Sink.Capture, Sink.Err, input, true,
+                var (output, _, code) = Shell(i, line, Sink.Capture, Sink.Err, input, true,
                     a.Length > 1 && a[1] is RString { Binary: true }, out var binary);
                 if (result != null) AssertExit(i, self, assertion, result, code, output);
                 return new RString(output) { Binary = binary };
@@ -76,7 +76,7 @@ public static partial class FormulaLoader
             // Kernel#quiet_system: like system, with stdout and stderr discarded
             it.Def(F, "quiet_system", (i, self, a, b) =>
             {
-                try { return Exec(i, Psi(i, a), Sink.Discard, Sink.Discard, null, false).Code == 0; }
+                try { return Run(i, a, Sink.Discard, Sink.Discard) == 0; }
                 catch (RubyError e) when (i.IsA(e.Exc, i.ENOENT)) { SetStatus(i, 127); return null; }
             });
 
@@ -132,6 +132,9 @@ public static partial class FormulaLoader
                 i.Env["NPM_CONFIG_USERCONFIG"] = "NUL";
                 if (!i.Env.ContainsKey("CURL_HOME")) i.Env["CURL_HOME"] = home;
                 i.Env["PYTHONDONTWRITEBYTECODE"] = "1";
+                // macOS/Linux test runs have a UTF-8 locale; Windows pipes default to the ANSI code page.
+                i.Env["PYTHONUTF8"] = "1";
+                i.Env["PYTHONIOENCODING"] = "utf-8";
                 i.Env["XDG_CONFIG_HOME"] = Path.Combine(home, ".config");
                 // Windows' known folders (SHGetKnownFolderPath) live under the profile.
                 i.Env["LOCALAPPDATA"] = Path.Combine(home, "AppData", "Local");
@@ -150,7 +153,7 @@ public static partial class FormulaLoader
                     var line = string.Join(" ", a.Where(x => x is not RHash).Select(ii.ToS));
                     ii.Invoke(s, "ohai", new object[] { Interp.S(line) }, null);
                     bool ok;
-                    try { ok = Exec(ii, Psi(ii, a), Sink.Inherit, Sink.Inherit, null, false).Code == 0; }
+                    try { ok = Run(ii, a, Sink.Inherit, Sink.Inherit) == 0; }
                     catch (RubyError e) when (ii.IsA(e.Exc, ii.ENOENT)) { ok = false; }
                     if (!ok) throw ii.Error(BuildError(ii), $"Failed executing: {line}");
                     return null;
@@ -572,12 +575,121 @@ public static partial class FormulaLoader
             }
         }
 
+        // One command string, run the way Ruby runs it with /bin/sh: a simple command is read here (PosixShell)
+        // and started directly; pipelines, lists and the like go to a POSIX shell; cmd.exe is the last resort.
+        static (string Out, string Err, int Code) Shell(Interp i, string line, Sink outMode, Sink errMode, string input, bool redirectIn,
+            bool inputBinary, out bool binary)
+        {
+            var cmd = PosixShell.Parse(line, k => i.Env.GetValueOrDefault(k), i.Cwd);
+            var program = cmd == null ? null : Runnable(i, cmd.Argv[0]);
+            var bin = false;
+            if (program == null)
+            {
+                var fallback = WithEnv(i, ShellEnv, () => Exec(i, FallbackPsi(i, line), outMode, errMode, input, redirectIn, inputBinary, out bin));
+                binary = bin;
+                return fallback;
+            }
+
+            if (cmd.HereString != null) { input = cmd.HereString; redirectIn = true; inputBinary = false; }
+            else if (cmd.StdinFile != null)
+            {
+                var file = cmd.StdinFile == "NUL" ? null : i.Abs(cmd.StdinFile);
+                if (file != null && !File.Exists(file))
+                {
+                    i.Err.WriteLine($"sh: {cmd.StdinFile}: No such file or directory");
+                    SetStatus(i, 1);
+                    binary = false;
+                    return ("", "", 1);
+                }
+                input = file == null ? "" : Encoding.Latin1.GetString(File.ReadAllBytes(file));
+                redirectIn = true;
+                inputBinary = true;
+            }
+            Sink Of(PosixShell.Redirect r, bool stdout) => r.Kind switch
+            {
+                PosixShell.Target.Null => Sink.Discard,
+                PosixShell.Target.File => stdout ? Sink.Capture : (cmd.Stdout.Kind == PosixShell.Target.File && cmd.Stdout.Path == r.Path ? Sink.Merge : Sink.Capture),
+                PosixShell.Target.Out => stdout ? outMode : outMode == Sink.Inherit ? Sink.Inherit : Sink.Merge,
+                _ => stdout ? Sink.Err : errMode,
+            };
+            var outSink = Of(cmd.Stdout, true);
+            var errSink = Of(cmd.Stderr, false);
+            var psi = new ProcessStartInfo(program);
+            foreach (var p in cmd.Argv.Skip(1)) psi.ArgumentList.Add(p);
+            var result = WithEnv(i, cmd.Assignments, () => Exec(i, psi, outSink, errSink, input, redirectIn, inputBinary, out bin));
+            var isBinary = binary = bin;
+            void Write(PosixShell.Redirect r, string text, bool bin)
+            {
+                var bytes = bin ? Encoding.Latin1.GetBytes(text) : new UTF8Encoding(false).GetBytes(text);
+                using var f = new FileStream(r.Path, r.Append ? FileMode.Append : FileMode.Create);
+                f.Write(bytes);
+            }
+            var output = result.Out;
+            if (cmd.Stdout.Kind == PosixShell.Target.File) { Write(cmd.Stdout, output, isBinary); output = ""; binary = false; }
+            if (cmd.Stderr.Kind == PosixShell.Target.File && errSink == Sink.Capture) Write(cmd.Stderr, result.Err, false);
+            return (output, result.Err, result.Code);
+        }
+
+        static readonly Dictionary<string, string> ShellEnv = new() { ["MSYS2_ARG_CONV_EXCL"] = "*", ["MSYS_NO_PATHCONV"] = "1" };
+
+        // Runs f with extra variables in the interpreter's environment (what `NAME=value cmd` does).
+        static T WithEnv<T>(Interp i, Dictionary<string, string> vars, Func<T> f)
+        {
+            var saved = vars.Keys.ToDictionary(k => k, k => i.Env.GetValueOrDefault(k));
+            foreach (var kv in vars) i.Env[kv.Key] = kv.Value;
+            try { return f(); }
+            finally
+            {
+                foreach (var kv in saved)
+                    if (kv.Value == null) i.Env.Remove(kv.Key); else i.Env[kv.Key] = kv.Value;
+            }
+        }
+
+        // The program a command word names, or null when it isn't one Windows can start (sh builtins, yes, cat...).
+        static string Runnable(Interp i, string word)
+        {
+            if (word.IndexOfAny(new[] { '/', '\\', ':' }) < 0) return Which(i, word, i.Env.GetValueOrDefault("PATH", ""));
+            var full = Resolve(i, word);
+            return File.Exists(full) ? full : null;
+        }
+
+        // A line the reader can't run itself: a POSIX shell if there is one, else cmd.exe.
+        static ProcessStartInfo FallbackPsi(Interp i, string line)
+        {
+            if (PosixShell.FindShell(k => i.Env.GetValueOrDefault(k)) is not { } bash) return ShellPsi(i, line);
+            var psi = new ProcessStartInfo(bash);
+            psi.ArgumentList.Add("-c");
+            psi.ArgumentList.Add("PATH=\"$PATH:/usr/bin\"; " + PosixShell.ForBash(line, PathExts(i)));
+            return psi;
+        }
+
+        // A process for IO.popen's command string: started directly when it's a plain command, else via a shell.
+        static ProcessStartInfo LinePsi(Interp i, string line)
+        {
+            var cmd = PosixShell.Parse(line, k => i.Env.GetValueOrDefault(k), i.Cwd);
+            if (cmd is { Redirected: false, Assignments.Count: 0 } && Runnable(i, cmd.Argv[0]) is { } program)
+            {
+                var direct = new ProcessStartInfo(program);
+                foreach (var p in cmd.Argv.Skip(1)) direct.ArgumentList.Add(p);
+                return direct;
+            }
+            return FallbackPsi(i, line);
+        }
+
         // cmd.exe runs the line; a leading "./tool" or "C:/x/bin/tool" program path gets backslashes so cmd can find it.
         static ProcessStartInfo ShellPsi(Interp i, string line)
         {
             var m = Regex.Match(line, @"^\s*([A-Za-z]:[\\/]|\.{1,2}[\\/])[^\s""&|<>()]*");
             if (m.Success && m.Value.Contains('/')) line = m.Value.Replace('/', '\\') + line[m.Length..];
             return new ProcessStartInfo("cmd.exe", "/d /s /c \"" + line + "\"");
+        }
+
+        // Kernel#system: one string is a shell line, several run the program directly.
+        static int Run(Interp i, object[] a, Sink outMode, Sink errMode)
+        {
+            var parts = a.Where(x => x is not RHash).SelectMany(x => x is RArray arr ? arr.L : new List<object> { x }).Select(i.ToS).ToList();
+            return parts.Count == 1 ? Shell(i, parts[0], outMode, errMode, null, false, false, out _).Code
+                : Exec(i, Psi(i, a), outMode, errMode, null, false).Code;
         }
 
         // Kernel#system-style arguments: one string goes through the shell, several run the program directly.
@@ -916,11 +1028,13 @@ public static partial class FormulaLoader
                         var line = i.ToS(cmd);
                         if (opts != null && opts.D.TryGetValue(Interp.Sym("err"), out var err) && err is RArray ea && ea.L.LastOrDefault() is RSymbol { Name: "out" })
                             line += " 2>&1";
-                        psi = ShellPsi(i, line);
+                        psi = LinePsi(i, line);
                     }
                     psi.UseShellExecute = false;
                     psi.WorkingDirectory = i.Cwd;
                     i.ApplyEnv(psi);
+                    if (psi.FileName.EndsWith("bash.exe", StringComparison.OrdinalIgnoreCase))
+                        foreach (var kv in ShellEnv) psi.Environment[kv.Key] = kv.Value;
                     if (env != null)
                         foreach (var kv in env.D)
                             if (kv.Value == null) psi.Environment.Remove(i.StrOrSym(kv.Key)); else psi.Environment[i.StrOrSym(kv.Key)] = i.ToS(kv.Value);

@@ -19,6 +19,7 @@ class QobineWeb < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/qobine-web version 2>&1")
+    # No version flag in this release; check the CLI loads and lists its commands.
+    assert_match "Authenticate with Qobuz", shell_output("#{bin}/qobine-web --help")
   end
 end

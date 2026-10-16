@@ -23,6 +23,13 @@ class Scala < Formula
   end
 
   test do
+    ENV["SCALA_CLI_HOME"] = testpath
+    ENV["COURSIER_CACHE"] = ENV["COURSIER_ARCHIVE_CACHE"] = testpath/".coursier_cache"
+
+    %w[scala scalac scaladoc].each do |cmd|
+      assert_match version.to_s, shell_output("#{bin}/#{cmd} --version")
+    end
+
     file = testpath/"Test.scala"
     file.write <<~SCALA
       object Test {
@@ -32,7 +39,7 @@ class Scala < Formula
       }
     SCALA
 
-    out = shell_output("#{bin}/scala #{file}").strip
+    out = shell_output("#{bin}/scala --server=false #{file}").chomp
     assert_equal "4", out
   end
 end

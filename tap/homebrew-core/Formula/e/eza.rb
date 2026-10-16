@@ -18,6 +18,7 @@ class Eza < Formula
   test do
     testfile = "test.txt"
     touch testfile
-    assert_match testfile, shell_output(bin/"eza")
+    # The Windows build lists nothing when given no path, so name the directory.
+    assert_match testfile, shell_output("#{bin}/eza .")
   end
 end

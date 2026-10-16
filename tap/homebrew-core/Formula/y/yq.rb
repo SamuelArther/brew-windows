@@ -15,6 +15,7 @@ class Yq < Formula
   end
 
   test do
-    assert_equal "key: cat", pipe_output("#{bin}/yq eval --no-colors .key=\"cat\"", "{}").chomp
+    assert_equal "key: cat", shell_output("#{bin}/yq eval --null-input --no-colors '.key = \"cat\"'").chomp
+    assert_equal "cat", pipe_output("#{bin}/yq eval .key -", "key: cat", 0).chomp
   end
 end

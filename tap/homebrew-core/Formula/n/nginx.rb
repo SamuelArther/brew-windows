@@ -15,6 +15,33 @@ class Nginx < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/nginx -v 2>&1")
-    system bin/"nginx", "-t"
+
+    # nginx reads backslashes in its config as escapes
+    dir = testpath.to_s.tr("\\", "/")
+    (testpath/"nginx.conf").write <<~NGINX
+      worker_processes 4;
+      error_log #{dir}/error.log;
+      pid #{dir}/nginx.pid;
+
+      events {
+        worker_connections 1024;
+      }
+
+      http {
+        client_body_temp_path #{dir}/client_body_temp;
+        fastcgi_temp_path #{dir}/fastcgi_temp;
+        proxy_temp_path #{dir}/proxy_temp;
+        scgi_temp_path #{dir}/scgi_temp;
+        uwsgi_temp_path #{dir}/uwsgi_temp;
+
+        server {
+          listen #{free_port};
+          root #{dir};
+          access_log #{dir}/access.log;
+          error_log #{dir}/error.log;
+        }
+      }
+    NGINX
+    system bin/"nginx", "-t", "-c", testpath/"nginx.conf"
   end
 end

@@ -17,10 +17,7 @@ class Ruby < Formula
   # plain 7z archive (no installer, no MSYS2 devkit; gems with C extensions need `ridk install`).
 
   def install
-    # brew does not unpack .7z itself; Windows' bundled bsdtar reads 7z archives.
-    archive = buildpath/"rubyinstaller-#{version}-1-x64.7z"
-    system "#{ENV["SystemRoot"]}/System32/tar.exe", "-xf", archive, "-C", buildpath
-    install_tree "rubyinstaller-#{version}-1-x64", "libexec"
+    install_tree
     windows_exe "libexec/bin/ruby.exe", "ruby"
     windows_exe "libexec/bin/rubyw.exe", "rubyw"
     windows_cmd "libexec/bin/gem.cmd", "gem"

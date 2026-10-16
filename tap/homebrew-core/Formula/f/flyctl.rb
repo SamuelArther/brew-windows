@@ -17,6 +17,7 @@ class Flyctl < Formula
   end
 
   test do
-    assert_match "flyctl v#{version}", shell_output("#{bin}/flyctl version")
+    # Windows builds name themselves flyctl.exe
+    assert_match(/flyctl(\.exe)? v#{Regexp.escape(version.to_s)}/, shell_output("#{bin}/flyctl version"))
   end
 end

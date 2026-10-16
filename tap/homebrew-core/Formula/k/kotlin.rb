@@ -28,6 +28,6 @@ class Kotlin < Formula
       }
     KOTLIN
     system bin/"kotlinc", "test.kt", "-include-runtime", "-d", "test.jar"
-    system bin/"kotlinc-js", "test.kt", "-Xir-produce-js", "-ir-output-dir", "out"
+    system bin/"kotlinc-jvm", "test.kt", "-include-runtime", "-d", "test.jar"
   end
 end

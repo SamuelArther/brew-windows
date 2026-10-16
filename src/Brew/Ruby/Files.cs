@@ -39,12 +39,7 @@ public sealed partial class Interp
         if (Path.IsPathRooted(b) && (b.StartsWith('/') || b.StartsWith('\\') || (b.Length > 1 && b[1] == ':'))) return b;
         if (a.Length == 0 || a == ".") return b;
         if (b == ".") return a;
-        // Native Windows paths stay native: programs print C:\x\y, and tests compare against that.
-        if (a.Contains('\\'))
-        {
-            b = b.Replace('/', '\\');
-            return a.EndsWith('\\') || a.EndsWith('/') ? a + b : a + "\\" + b;
-        }
+        // Always "/": tests rely on (testpath/"x").to_s == "#{testpath}/x", and Windows accepts mixed separators.
         return a.EndsWith('/') || a.EndsWith('\\') ? a + b : a + "/" + b;
     }
 
@@ -129,7 +124,7 @@ public sealed partial class Interp
         });
         Def(P, "size", (it, self, a, b) => new FileInfo(it.Abs(Me(self))).Length);
         Def(P, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(Me(self))).Replace("\r\n", "\n")));
-        Def(P, "binread", (it, self, a, b) => S(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))));
+        Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))) { Binary = true });
         Def(P, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(Me(self)))).Select(l => (object)S(l))));
         Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
         // Homebrew's WriteMkpathExtension: refuses to overwrite, creates parent directories.
@@ -277,7 +272,7 @@ public sealed partial class Interp
         DefS(F, "zero? empty?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && new FileInfo(p).Length == 0; });
         DefS(F, "size", (it, self, a, b) => new FileInfo(it.Abs(it.PathStr(a[0]))).Length);
         DefS(F, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(it.PathStr(a[0]))).Replace("\r\n", "\n")));
-        DefS(F, "binread", (it, self, a, b) => S(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))))));
+        DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))))) { Binary = true });
         DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
         DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
         DefS(F, "write binwrite", (it, self, a, b) =>

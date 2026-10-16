@@ -1,0 +1,15 @@
+difftastic
+eza
+flyctl
+hadolint
+kotlin
+mail-deduplicate
+mklittlefs
+nasm
+nginx
+qobine-web
+ruby
+scala
+trippy
+wrkflw
+yq

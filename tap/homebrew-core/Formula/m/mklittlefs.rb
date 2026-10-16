@@ -21,7 +21,9 @@ class Mklittlefs < Formula
     (testpath/"data/hello.txt").write("Hello, World!")
     (testpath/"data/Poetry.txt").write("Had we but world enough, and time...")
     system(bin/"mklittlefs", "-s", "1048576", "-c", testpath/"data", testpath/"out.img")
-    system(bin/"mklittlefs", "-u", testpath/"out", testpath/"out.img")
-    system("diff", "-r", testpath/"data", testpath/"out")
+    # mklittlefs unpacks into a path relative to the current directory
+    system(bin/"mklittlefs", "-u", "out", testpath/"out.img")
+    assert_equal "Hello, World!", (testpath/"out/hello.txt").read
+    assert_equal "Had we but world enough, and time...", (testpath/"out/Poetry.txt").read
   end
 end
