@@ -1,0 +1,7 @@
+{
+  "formula": "slirp4netns",
+  "desc": "User-mode networking (slirp) for a virtual machine's frame socket",
+  "commands": ["slirp4netns"],
+  "caveats": "Windows has no network namespaces or TAP devices, so slirp4netns attaches to a QEMU\n-netdev stream server socket instead: slirp4netns --target-type=stream PATH. The guest gets\n10.0.2.100 by DHCP (gateway 10.0.2.2 reaches the host, 10.0.2.3 is DNS), and --api-socket\naccepts add_hostfwd/list_hostfwd/remove_hostfwd. IPv4 only.",
+  "test": "assert_match \"slirp4netns version 1.3.6\", shell_output(\"#{bin}/slirp4netns --version\")\nassert_match \"--target-type\", shell_output(\"#{bin}/slirp4netns --help\")\nassert_match \"--target-type=stream\", shell_output(\"#{bin}/slirp4netns 1234 tap0 2>&1\", 1)\nshell_output(\"#{bin}/slirp4netns --target-type=stream #{testpath}/no-such.socket 2>&1\", 1)"
+}

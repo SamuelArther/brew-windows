@@ -1,0 +1,7 @@
+{
+  "formula": "passt",
+  "desc": "User-mode networking daemon for virtual machines (QEMU stream socket)",
+  "commands": ["passt", "pasta"],
+  "caveats": "passt serves a Unix socket QEMU connects to (-netdev stream,addr.type=unix); the guest's\nARP, DHCP and DNS are answered and its TCP, UDP and ping traffic is carried on ordinary host\nsockets, with -t/-u port forwards into the guest. IPv4 only. pasta joins Linux network\nnamespaces, which Windows doesn't have.",
+  "test": "assert_match \"passt 2026\", shell_output(\"#{bin}/passt --version\")\nassert_match \"--tcp-ports\", shell_output(\"#{bin}/passt --help\")\nassert_match \"port ranges differ\", shell_output(\"#{bin}/passt -t 80:90-91 2>&1\", 2)\nassert_match \"network namespaces\", shell_output(\"#{bin}/pasta 2>&1\", 1)"
+}
