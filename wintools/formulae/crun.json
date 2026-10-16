@@ -1,0 +1,7 @@
+{
+  "formula": "crun",
+  "desc": "Fast and lightweight fully featured OCI runtime and C library",
+  "commands": ["crun"],
+  "test": "assert_empty shell_output(\"#{bin}/crun --root=#{testpath} list -q\").strip\nassert_match \"crun version\", shell_output(\"#{bin}/crun --version\")\n(testpath/\"bundle/rootfs/app\").mkpath\n(testpath/\"bundle/rootfs/app/hello.cmd\").write \"@echo hello from the rootfs %1\\r\\n\"\n(testpath/\"bundle/config.json\").write <<~JSON\n  {\n    \"ociVersion\": \"1.2.1\",\n    \"process\": { \"args\": [\"hello\", \"crun\"], \"env\": [\"PATH=/app\"], \"cwd\": \"/app\" },\n    \"root\": { \"path\": \"rootfs\" }\n  }\nJSON\noutput = shell_output(\"#{bin}/crun --root=#{testpath}/state run --bundle=#{testpath}/bundle demo\")\nassert_match \"hello from the rootfs crun\", output",
+  "caveats": "Containers are Windows processes in job objects (limits, accounting, kill-together); the root\nfile system is where the process starts, not a chroot, and Linux (ELF) programs are refused.\nRun Linux images with the container formula (WSL2)."
+}

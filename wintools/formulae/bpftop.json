@@ -1,0 +1,7 @@
+{
+  "formula": "bpftop",
+  "desc": "Dynamic real-time view of running eBPF programs (eBPF for Windows)",
+  "commands": ["bpftop"],
+  "test": "assert_match \"bpftop\", shell_output(\"#{bin}/bpftop --version\")\noutput = shell_output(\"#{bin}/bpftop 2>&1\", 1)\nassert_match(/must be run as root|eBPF for Windows is not installed/, output)",
+  "caveats": "bpftop lists the programs of eBPF for Windows, whose runtime (drivers and EbpfApi.dll) is installed\nfrom https://github.com/microsoft/ebpf-for-windows/releases. Run it from an elevated prompt."
+}

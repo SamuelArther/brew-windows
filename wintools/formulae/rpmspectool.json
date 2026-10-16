@@ -1,0 +1,6 @@
+{
+  "formula": "rpmspectool",
+  "desc": "Utility for handling RPM spec files",
+  "commands": ["rpmspectool"],
+  "test": "(testpath/\".rpmmacros\").write <<~EOS\n  %_topdir  %(echo $HOME)/rpmbuild\n  %_tmppath %_topdir/tmp\nEOS\n\n(testpath/\"hello.spec\").write <<~SPEC\n  Name:           hello\n  Version:        2.12.1\n  Release:        1\n  Summary:        Prints a familiar, friendly greeting\n  License:        GPL-3.0-or-later AND GFDL-1.3-or-later\n  URL:            https://www.gnu.org/software/hello/\n  Source0:        https://ftp.gnu.org/gnu/hello/hello-2.12.1.tar.gz\n\n  %description\n  The GNU Hello program produces a familiar, friendly greeting.\n\n  %prep\n  %setup -q\n\n  %build\n  %configure\n  %make_build\n\n  %install\n  %make_install\n\n  %files -f hello.lang\n  %license COPYING\n  %_bindir/hello\nSPEC\nassert_equal \"Source0: https://ftp.gnu.org/gnu/hello/hello-2.12.1.tar.gz\",\n             shell_output(\"#{bin}/rpmspectool list #{testpath}/hello.spec\").strip\nsystem bin/\"rpmspectool\", \"get\", testpath/\"hello.spec\"\nassert_path_exists testpath/\"hello-2.12.1.tar.gz\""
+}

@@ -1,0 +1,7 @@
+{
+  "formula": "btrfs-progs",
+  "desc": "Userspace utilities to manage btrfs filesystems",
+  "commands": ["mkfs.btrfs", "btrfs"],
+  "test": "device = testpath/\"test.img\"\noutput = shell_output(\"#{bin}/mkfs.btrfs -b 128M #{device}\")\nassert_match(/Filesystem size:\\s*128\\.00MiB/, output)\noutput = shell_output(\"#{bin}/btrfs filesystem show #{device}\")\nassert_match \"Total devices 1 FS bytes used 112.00KiB\", output\nassert_match \"no error found\", shell_output(\"#{bin}/btrfs check #{device}\")\nsystem bin/\"btrfs\", \"filesystem\", \"label\", device, \"brewtest\"\nassert_equal \"brewtest\", shell_output(\"#{bin}/btrfs filesystem label #{device}\").strip\nassert_match \"Metadata, single\", shell_output(\"#{bin}/btrfs filesystem df #{device}\")\nassert_match \"existing filesystem\", shell_output(\"#{bin}/mkfs.btrfs #{device} 2>&1\", 1)",
+  "caveats": "mkfs.btrfs writes image files or whole disks (PhysicalDriveN devices, from an elevated prompt).\nMounting btrfs on Windows is WinBtrfs' job (https://github.com/maharmstone/btrfs); commands that\nneed a mounted file system (subvolume, balance, scrub, send/receive) go through it."
+}

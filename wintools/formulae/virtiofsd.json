@@ -1,0 +1,7 @@
+{
+  "formula": "virtiofsd",
+  "desc": "Vhost-user virtio-fs device backend written in Rust",
+  "commands": ["virtiofsd"],
+  "test": "assert_match \"virtiofsd 1.14.0\", shell_output(\"#{bin}/virtiofsd --version\")\nassert_match '\"type\": \"fs\"', shell_output(\"#{bin}/virtiofsd --print-capabilities\")\n(testpath/\"shared\").mkpath\nargs = \"--shared-dir #{testpath}/shared --socket-path #{testpath}/vfs.sock\"\nassert_match \"can't serve a VM on Windows\", shell_output(\"#{bin}/virtiofsd #{args} 2>&1\", 1)\nargs = \"--shared-dir #{testpath}/nope --socket-path #{testpath}/vfs.sock\"\nassert_match \"not a directory\", shell_output(\"#{bin}/virtiofsd #{args} 2>&1\", 1)",
+  "caveats": "Windows hosts can't run vhost-user devices (no file descriptor passing, no VMM with vhost-user\nvirtio-fs); virtiofsd here checks options and reports capabilities. WSL2 already shares Windows folders."
+}

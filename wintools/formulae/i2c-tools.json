@@ -1,0 +1,7 @@
+{
+  "formula": "i2c-tools",
+  "desc": "Heterogeneous set of I2C tools (on Windows' I2C controllers)",
+  "commands": ["i2cdetect", "i2cget", "i2cset", "i2cdump", "i2ctransfer", "eeprog", "decode-dimms"],
+  "test": "assert_empty shell_output(\"#{bin}/i2cdetect -l 2>&1\").strip\nassert_match \"/dev/i2c/0': No such file or directory\", shell_output(\"#{bin}/i2cget -y 0 0x08 2>&1\", 1)\nassert_match \"Memory Serial Presence Detect Decoder\", shell_output(\"#{bin}/decode-dimms\")\nassert_match \"Usage: i2ctransfer\", shell_output(\"#{bin}/i2ctransfer -h\")\nassert_match \"Usage: i2cset\", shell_output(\"#{bin}/i2cset 2>&1\", 1)",
+  "caveats": "Windows only shows applications the I2C controllers its firmware exposes (SPB controllers on\ntablets, boards and Windows IoT); i2cdetect -l lists them. decode-dimms reads the SMBIOS memory\nrecords, since SPD EEPROMs aren't readable without a driver. The py-smbus module isn't included."
+}

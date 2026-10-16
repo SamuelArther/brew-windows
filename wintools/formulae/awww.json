@@ -1,0 +1,7 @@
+{
+  "formula": "awww",
+  "desc": "Answer to your Wayland Wallpaper Woes (per-monitor and animated wallpapers on Windows)",
+  "commands": ["awww", "awww-daemon"],
+  "test": "assert_match \"Make sure awww-daemon is running\", shell_output(\"#{bin}/awww clear 2>&1\", 1)\nassert_match \"Usage: awww-daemon\", shell_output(\"#{bin}/awww-daemon --help\")\nassert_match \"--resize <RESIZE>\", shell_output(\"#{bin}/awww img --help\")\nassert_match \"rrggbb\", shell_output(\"#{bin}/awww clear zz 2>&1\", 2)",
+  "caveats": "Start the daemon in your desktop session (it owns the backgrounds), then send it images:\n  awww-daemon &\n  awww img wallpaper.gif --outputs DISPLAY1\nWindows changes wallpapers without transitions; --transition-* options are accepted."
+}

@@ -1,0 +1,7 @@
+{
+  "formula": "nftables",
+  "desc": "Netfilter tables userspace tools (on Windows Firewall)",
+  "commands": ["nft"],
+  "test": "assert_match \"Windows Firewall\", shell_output(\"#{bin}/nft --version\")\nassert_match \"table inet filter\", shell_output(\"#{bin}/nft list tables\")\nruleset = shell_output(\"#{bin}/nft list ruleset\")\nassert_match \"type filter hook input priority filter; policy\", ruleset\nassert_match \"chain output\", ruleset\n(testpath/\"rules.nft\").write <<~NFT\n  flush ruleset\n  table inet filter {\n    chain input {\n      type filter hook input priority 0; policy drop;\n      ct state established,related accept\n      tcp dport { 22, 80, 443 } accept\n      ip saddr 10.0.0.0/8 udp dport 53 accept comment \"dns\"\n      icmp type echo-request accept\n    }\n  }\nNFT\nsystem bin/\"nft\", \"-c\", \"-f\", testpath/\"rules.nft\"\nassert_match \"forwarded traffic\", shell_output(\"#{bin}/nft -c add rule inet filter forward accept 2>&1\", 1)\nassert_match \"no NAT\", shell_output(\"#{bin}/nft -c add rule ip nat postrouting masquerade 2>&1\", 1)",
+  "caveats": "nft shows Windows Firewall as table inet filter (chain input = inbound rules, chain output =\noutbound rules). Changing rules needs an elevated (Administrator) prompt; rules added with nft\nare ordinary Windows Firewall rules named \"nft: ...\"."
+}

@@ -1,0 +1,6 @@
+{
+  "formula": "conmon",
+  "desc": "OCI container runtime monitor",
+  "commands": ["conmon"],
+  "test": "assert_match \"conmon: Container ID not provided. Use --cid\", shell_output(\"#{bin}/conmon 2>&1\", 1)\n(testpath/\"bundle/rootfs\").mkpath\n(testpath/\"bundle/config.json\").write <<~JSON\n  {\n    \"ociVersion\": \"1.2.1\",\n    \"process\": { \"args\": [\"cmd.exe\", \"/c\", \"echo hello& exit 3\"], \"env\": [], \"cwd\": \"/\" },\n    \"root\": { \"path\": \"rootfs\" }\n  }\nJSON\n# The runtime is wintools' own runc.\nruntime = %W[--runtime #{libexec}/wintools.exe --runtime-arg runc\n             --runtime-arg --root --runtime-arg #{testpath}/state]\nsystem bin/\"conmon\", \"--cid\", \"c1\", \"--cuuid\", \"u1\", *runtime, \"--bundle\", testpath/\"bundle\",\n       \"--log-path\", \"k8s-file:#{testpath}/ctr.log\", \"--exit-dir\", testpath/\"exits\"\nsystem libexec/\"wintools.exe\", \"runc\", \"--root\", testpath/\"state\", \"start\", \"c1\"\n30.times do\n  break if (testpath/\"exits/u1\").exist?\n\n  sleep 1\nend\nassert_equal \"3\", (testpath/\"exits/u1\").read.strip\nassert_match \"stdout F hello\", (testpath/\"ctr.log\").read\nsystem libexec/\"wintools.exe\", \"runc\", \"--root\", testpath/\"state\", \"delete\", \"c1\""
+}

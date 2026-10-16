@@ -1,0 +1,6 @@
+{
+  "formula": "chunkah",
+  "desc": "OCI building tool for content-based layers",
+  "commands": ["chunkah"],
+  "test": "(testpath/\"rootfs/bin\").mkpath\n(testpath/\"rootfs/etc\").mkpath\n(testpath/\"rootfs/lib/apk/db\").mkpath\n(testpath/\"rootfs/bin/hello\").write \"#!/bin/sh\\necho hello\\n\"\n(testpath/\"rootfs/etc/motd\").write \"Welcome\\n\"\n(testpath/\"rootfs/lib/apk/db/installed\").write \"P:hello\\nV:1.0\\nF:bin\\nR:hello\\n\\n\"\nsystem bin/\"chunkah\", \"build\", \"--rootfs\", \"rootfs\", \"--output\", \"output.tar\", \"--tag\", \"brew/test:1\"\nassert_path_exists testpath/\"output.tar\"\nindex = shell_output(\"tar -xOf output.tar index.json\")\nassert_match \"application/vnd.oci.image.manifest.v1+json\", index\nassert_match \"brew/test:1\", index\nassert_match \"blobs/sha256/\", shell_output(\"tar -tf output.tar\")"
+}

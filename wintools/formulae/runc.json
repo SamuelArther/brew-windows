@@ -1,0 +1,7 @@
+{
+  "formula": "runc",
+  "desc": "CLI tool for spawning and running containers according to the OCI specification",
+  "commands": ["runc"],
+  "test": "system bin/\"runc\", \"spec\", \"--bundle\", testpath\nassert_path_exists testpath/\"config.json\"\n(testpath/\"bundle/rootfs\").mkpath\n(testpath/\"bundle/config.json\").write <<~JSON\n  {\n    \"ociVersion\": \"1.2.1\",\n    \"process\": { \"args\": [\"cmd.exe\", \"/c\", \"echo container says %FOO%\"], \"env\": [\"FOO=hi\"], \"cwd\": \"/\" },\n    \"root\": { \"path\": \"rootfs\" },\n    \"linux\": { \"resources\": { \"memory\": { \"limit\": 268435456 }, \"pids\": { \"limit\": 8 } } }\n  }\nJSON\nstate = testpath/\"state\"\nassert_match \"container says hi\", shell_output(\"#{bin}/runc --root #{state} run --bundle #{testpath}/bundle c1\")\nsystem bin/\"runc\", \"--root\", state, \"create\", \"--bundle\", testpath/\"bundle\", \"c2\"\nassert_match '\"status\": \"created\"', shell_output(\"#{bin}/runc --root #{state} state c2\")\nsystem bin/\"runc\", \"--root\", state, \"delete\", \"--force\", \"c2\"\nassert_empty shell_output(\"#{bin}/runc --root #{state} list -q\").strip\nassert_match \"does not exist\", shell_output(\"#{bin}/runc --root #{state} kill c9 KILL 2>&1\", 1)",
+  "caveats": "Containers are Windows processes in job objects (limits, accounting, kill-together); the root\nfile system is where the process starts, not a chroot, and Linux (ELF) programs are refused.\nRun Linux images with the container formula (WSL2)."
+}

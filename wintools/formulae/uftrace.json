@@ -1,0 +1,7 @@
+{
+  "formula": "uftrace",
+  "desc": "Function graph tracer for C/C++/Rust",
+  "commands": ["uftrace"],
+  "test": "assert_match \"uftrace v0.20\", shell_output(\"#{bin}/uftrace --version\")\n(testpath/\"hello.c\").write <<~C\n  #include <stdio.h>\n  __attribute__((noinline)) int leaf(int x) { return x * 2; }\n  int main(void) { printf(\"%d\\\\n\", leaf(21)); return 0; }\nC\nsystem ENV.cc, \"hello.c\", \"-o\", \"hello.exe\"\nout = shell_output(\"#{bin}/uftrace -A . -R . -P main -P leaf ./hello.exe\")\nassert_match \"| main(\", out\nassert_match \"leaf(21\", out\nassert_match \"} = 0; /* main */\", out\nsystem bin/\"uftrace\", \"record\", \"-P\", \"leaf\", \"./hello.exe\"\nassert_match \"leaf\", shell_output(\"#{bin}/uftrace report\")\nassert_match \"program path\", shell_output(\"#{bin}/uftrace info\")",
+  "caveats": "uftrace patches functions through the Windows debugging API and finds them in the program's\nPDB or COFF symbol table (MinGW builds keep one unless stripped). Timings include the debugger's\nround trip per event."
+}
