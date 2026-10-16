@@ -1,0 +1,7 @@
+{
+  "formula": "apptainer",
+  "desc": "Application container platform that runs SIF and Docker images in WSL 2",
+  "commands": ["apptainer", "singularity", "run-singularity"],
+  "caveats": "Running containers (exec, run, shell) needs WSL 2:\n  wsl --install --no-distribution\nEach image is imported once as the WSL distribution apptainer-<id>;\n`apptainer cache clean` removes them again.",
+  "test": "assert_match(/There are [0-9]+ container file/, shell_output(\"#{bin}/apptainer cache list\"))\nassert_match \"apptainer version\", shell_output(\"#{bin}/apptainer --version\")\ndeffile = \"bootstrap: docker\\nfrom: alpine\\n\"\nheader = [\"#!/usr/bin/env run-singularity\\n\", \"SIF_MAGIC\", \"01\", \"02\", \"0123456789abcdef\",\n          0, 0, 0, 1, 128, 585, 713, deffile.bytesize].pack(\"a32a10a3a3a16q<8\")\ndescriptor = [0x4001, 1, 1, 0x10000001, 0, 713, deffile.bytesize, deffile.bytesize,\n              0, 0, 0, 0, \"\", \"\"].pack(\"l<CL<L<L<q<7a128a384\")\n(testpath/\"test.sif\").binwrite header + descriptor + deffile\nassert_match \"Def.FILE\", shell_output(\"#{bin}/apptainer sif list #{testpath}/test.sif\")\nassert_equal deffile, shell_output(\"#{bin}/apptainer sif dump 1 #{testpath}/test.sif\")\nassert_match \"mksquashfs\", shell_output(\"#{bin}/apptainer build test2.sif test.def 2>&1\", 1)"
+}
