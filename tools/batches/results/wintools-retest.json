@@ -1,0 +1,542 @@
+[
+  {
+    "name": "acl",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "apt",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "archivemount",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "asitop",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "atop",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "attr",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "avahi",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "bindfs",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "bluetoothconnector",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "blueutil",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "brightness",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "bubblewrap",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "choose-gui",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "chrome-cli",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "cliclick",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "clipper",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "clippy",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "dark-mode",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "ddcctl",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "ddcutil",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "defaultbrowser",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "dislocker",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "displayplacer",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "distrobox",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "dockutil",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "duti",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "fileicon",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "fmdiff",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "fsevent_watch",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "fsevents-tools",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "ifuse",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "imageoptim-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "imagesnap",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "infat",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "ios-deploy",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "iproute2",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "iproute2mac",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "iptables",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "iputils",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "keyd",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "keyutils",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "killswitch",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "kqwait",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "launch",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "libfuse",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "lm-sensors",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "locateme",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lsusb",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lsusb-laniksj",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lttng-ust",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lunchy",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "lunchy-go",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "m-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "m1ddc",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "mac-cleanup-go",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "macchanger",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "maclaunch",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "macmon",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "macos-term-size",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "macos-trash",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "macosvpn",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "mactop",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "macvim",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "makeicns",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "mas",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "media-control",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "mobiledevice",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "mole",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "net-tools",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "nowplaying-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "onedrive-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "osx-cpu-temp",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "osx-trash",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "osxutils",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "paneru",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "pciutils",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "peekaboo",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "pinentry-mac",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "pngpaste",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "quotatool",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "rmtrash",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "s3fs",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "sandvault",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "sbjson",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "screenresolution",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "sf-pwgen",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "sleepwatcher",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "squashfuse",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "sshfs",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "strace",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "switchaudio-osx",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "sysprof",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "sysstat",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "systemd",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "telnetd",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "terminal-notifier",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "trash",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "utiluti",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "valgrind",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "wallpaper",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "wavemon",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "whisperkit-cli",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "wifi-password",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "wl-clipboard",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "wtype",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xmount",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "yap",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zzz",
+    "status": "ok",
+    "seconds": 4
+  }
+]
