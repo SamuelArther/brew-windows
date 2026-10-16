@@ -269,7 +269,8 @@ public static partial class FormulaLoader
             {
                 var name = key == "__MSVC_PATH" ? "PATH" : key;
                 saved[name] = i.Env.GetValueOrDefault(name);
-                i.Env[name] = key == "__MSVC_PATH" ? (i.Env.GetValueOrDefault("PATH") ?? Environment.GetEnvironmentVariable("PATH")) + ";" + value : value;
+                // Visual Studio's tools go first: MSYS2's coreutils has a link.exe of its own.
+                i.Env[name] = key == "__MSVC_PATH" ? value + ";" + (i.Env.GetValueOrDefault("PATH") ?? Environment.GetEnvironmentVariable("PATH")) : value;
             }
         try
         {

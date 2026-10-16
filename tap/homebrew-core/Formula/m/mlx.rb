@@ -21,7 +21,9 @@ class Mlx < Formula
   end
 
   def install
-    system "tar", "-xf", "mlx_cpu-#{version}-py3-none-win_amd64.whl"
+    # Windows' own tar (bsdtar) reads wheels, which are zip files; MSYS2's GNU tar, first on PATH
+    # when the C toolchain is set up, can't.
+    system "#{ENV["SystemRoot"]}/System32/tar.exe", "-xf", "mlx_cpu-#{version}-py3-none-win_amd64.whl"
     cd "mlx" do
       # The CMake package expects mlx.dll at the prefix root; keep DLLs in bin/ and resolve the
       # prefix through opt/ so the linked share/cmake/MLX works from HOMEBREW_PREFIX too.

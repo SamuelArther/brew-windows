@@ -67,7 +67,7 @@ public static class BuildEnvironment
         var env = context.BuildEnvironment;
         // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH.
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(d => new[] { "bin", "lib" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
+            .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
         env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
         // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
@@ -120,7 +120,7 @@ public static class BuildEnvironment
             {
                 ["DISTUTILS_USE_SDK"] = "1", ["MSSdk"] = "1",
                 ["INCLUDE"] = env["INCLUDE"], ["LIB"] = env["LIB"], ["LIBPATH"] = env.GetValueOrDefault("LIBPATH", ""),
-                // Only the directories vcvars adds, appended later so MinGW tools keep their place on PATH.
+                // Only the directories vcvars adds; PipInstall puts them first on PATH for the build.
                 ["__MSVC_PATH"] = string.Join(";", env.GetValueOrDefault("PATH", "").Split(';')
                     .Except((Environment.GetEnvironmentVariable("PATH") ?? "").Split(';'), StringComparer.OrdinalIgnoreCase)),
             };
@@ -161,7 +161,11 @@ public static class BuildEnvironment
         var listSeparator = posix ? ":" : ";";
         var ucrt = posix ? Path.Combine(root, "usr") : Path.Combine(root, "ucrt64");
         var kegs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
-            .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).Where(Directory.Exists).ToList();
+            .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).Where(Directory.Exists)
+            // Formulae packaged from MSYS2 (msys2_install) keep their headers, import libraries and .pc files
+            // under libexec/ucrt64; dependents build against that tree like any other prefix.
+            .SelectMany(k => posix || !Directory.Exists(Path.Combine(k, "libexec", "ucrt64")) ? [k] : new[] { k, Path.Combine(k, "libexec", "ucrt64") })
+            .ToList();
 
         // macOS spells the GNU tools g-prefixed (glibtoolize, gsed, gmake); formulae call those names.
         var shims = Path.Combine(buildPath, ".brew_shims");
@@ -212,7 +216,8 @@ public static class BuildEnvironment
         // Where an imported DLL can come from: the keg's dependencies (their bin and lib), then the
         // toolchain's runtime (UCRT64 for native builds, msys-*.dll for POSIX-runtime builds). Copies
         // keep every bottle self-contained; Windows doesn't search other kegs.
-        var sources = (dependencyKegs ?? []).SelectMany(k => new[] { Path.Combine(k, "bin"), Path.Combine(k, "lib") }).Where(Directory.Exists).ToList();
+        var sources = (dependencyKegs ?? []).SelectMany(k => new[] { Path.Combine(k, "bin"), Path.Combine(k, "lib"), Path.Combine(k, "libexec", "ucrt64", "bin") })
+            .Where(Directory.Exists).ToList();
         if (Msys2Root is { } root) sources.Add(Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin"));
         if (sources.Count == 0) return;
         foreach (var binary in Directory.EnumerateFiles(keg, "*.*", SearchOption.AllDirectories)
