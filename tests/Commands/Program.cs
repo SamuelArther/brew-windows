@@ -22,6 +22,7 @@ try
     assertions += LinkConflicts.Run(root);
     assertions += TreeLinks.Run(root);
     assertions += PosixLines.Run(root);
+    assertions += RubyLibrary.Run(root);
     assertions += Patches.Run(root);
     assertions += BottleRelocation.Run(root);
     await Formula("resources", "1.0", resourceNames: ["mingw-w64-ucrt-x86_64-SDL2", "PyYAML", "MarkupSafe"]);

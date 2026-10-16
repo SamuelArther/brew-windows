@@ -42,8 +42,7 @@ public static partial class FormulaLoader
             });
 
             it.Def(F, "testpath", (i, self, a, b) => i.NewPath(TestPath(i, self)));
-            it.Def(F, "test_fixtures", (i, self, a, b) =>
-                throw i.Error(i.NotImplementedError, $"test_fixtures({i.Inspect(a.Length > 0 ? a[0] : null)}) is not supported: Homebrew's test fixtures are not bundled on Windows"));
+            it.Def(F, "test_fixtures", (i, self, a, b) => i.NewPath(TestFixture(i, i.PathStr(a[0]))));
 
             // Homebrew::Assertions#shell_output
             it.Def(F, "shell_output", (i, self, a, b) =>
@@ -88,6 +87,29 @@ public static partial class FormulaLoader
             });
 
             DefineProcessHelpers(it);
+        }
+
+        // Homebrew's test fixtures (Library/Homebrew/test/support/fixtures, BSD-2-Clause) aren't shipped with
+        // brew-windows; the ones a test asks for are fetched from Homebrew/brew at a pinned commit and cached.
+        const string FixturesCommit = "f8d1b25f33e032707f151123aca0eac3a239c676";
+
+        static string TestFixture(Interp i, string name)
+        {
+            if (name.Length == 0 || name.Split('/', '\\').Any(p => p is "" or "." or ".."))
+                throw i.Error(i.ArgumentError, $"invalid test fixture: {name}");
+            var cache = i.Env.GetValueOrDefault("HOMEBREW_CACHE") is { Length: > 0 } c ? c
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Homebrew", "cache");
+            var file = Path.Combine(cache, "test_fixtures", FixturesCommit[..12], name.Replace('/', Path.DirectorySeparatorChar));
+            if (File.Exists(file)) return file;
+            var url = $"https://raw.githubusercontent.com/Homebrew/brew/{FixturesCommit}/Library/Homebrew/test/support/fixtures/{name}";
+            using var http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromMinutes(2) };
+            using var response = http.GetAsync(url).GetAwaiter().GetResult();
+            if (!response.IsSuccessStatusCode) throw i.Error(i.ENOENT, $"No such file or directory - test fixture {name} ({(int)response.StatusCode})");
+            Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+            var partial = file + ".incomplete";
+            using (var output = File.Create(partial)) response.Content.CopyToAsync(output).GetAwaiter().GetResult();
+            File.Move(partial, file, true);
+            return file;
         }
 
         // ---- Formula#run_test environment ----

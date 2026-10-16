@@ -106,8 +106,8 @@ public static partial class FormulaLoader
             var executable = commands[0];
             var prefix = Prefix(i, self);
             var baseName = Kw(i, a, "base_name") is { } bn ? i.ToS(bn)
-                : executable.StartsWith(Path.Combine(prefix, "bin"), StringComparison.OrdinalIgnoreCase)
-                  || executable.StartsWith(Path.Combine(prefix, "sbin"), StringComparison.OrdinalIgnoreCase)
+                : i.Abs(executable).StartsWith(Path.Combine(prefix, "bin"), StringComparison.OrdinalIgnoreCase)
+                  || i.Abs(executable).StartsWith(Path.Combine(prefix, "sbin"), StringComparison.OrdinalIgnoreCase)
                     ? Path.GetFileNameWithoutExtension(executable) : Nm(self);
             var fmt = format is RSymbol fs ? fs.Name : format == null ? null : i.ToS(format);
             var shells = Kw(i, a, "shells") is RArray sa ? sa.L.Select(x => ((RSymbol)x).Name).ToList()

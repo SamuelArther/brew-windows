@@ -37,6 +37,7 @@ public sealed partial class Interp
         InitStrings();
         InitCollections();
         InitFiles();
+        InitJson();
     }
 
     public object Run(string source, string file)

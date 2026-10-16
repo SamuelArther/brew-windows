@@ -904,7 +904,7 @@ public sealed partial class Interp
         var exts = Env.GetValueOrDefault("PATHEXT", ".COM;.EXE;.BAT;.CMD").Split(';', StringSplitOptions.RemoveEmptyEntries);
         IEnumerable<string> Candidates(string p) => Path.HasExtension(p) && File.Exists(p) ? new[] { p } : exts.Select(e => p + e).Prepend(p);
         if (name.Contains('/') || name.Contains('\\'))
-            return Candidates(Abs(name)).FirstOrDefault(File.Exists) ?? name;
+            return Candidates(Abs(name)).FirstOrDefault(File.Exists) ?? PendingCommand?.Invoke(Path.GetFullPath(Abs(name))) ?? name;
         foreach (var dir in Env.GetValueOrDefault("PATH", "").Split(';', StringSplitOptions.RemoveEmptyEntries).Prepend(Cwd))
         {
             string full;
@@ -915,6 +915,10 @@ public sealed partial class Interp
         }
         return name;
     }
+
+    // During install, bin/<name> for a command registered with windows_exe (written to bin only after
+    // install) resolves to the program it will launch.
+    public Func<string, string> PendingCommand;
 
     public void SetStatus(int code, int pid)
     {

@@ -92,6 +92,14 @@ public static partial class FormulaLoader
             it.ObjectClass.Consts["HOMEBREW_CELLAR"] = it.NewPath(Path.Combine(ctx.BrewPrefix, "Cellar"));
             it.InstallRenamedRoots.Add(Path.GetFullPath(Path.Combine(ctx.BrewPrefix, "etc")));
         }
+        it.PendingCommand = full =>
+        {
+            var bin = Path.TrimEndingDirectorySeparator(Path.GetFullPath(ctx.Bin));
+            if (!string.Equals(Path.GetDirectoryName(full), bin, StringComparison.OrdinalIgnoreCase)) return null;
+            var name = Path.GetFileName(full);
+            return ctx.Commands.LastOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase))?.Target;
+        };
         var buildRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(ctx.BuildPath)) + Path.DirectorySeparatorChar;
         it.InstallHook = (dir, src, newName) =>
         {
@@ -186,7 +194,16 @@ public static partial class FormulaLoader
             return VersionObject(i, string.IsNullOrEmpty(version) ? "0" : version);
         });
         var utils = it.DefineModule("Utils");
-        it.DefS(utils, "safe_popen_read popen_read", (i, s, a, b) => i.Backtick(string.Join(" ", a.Select(i.ToS).Select(Quote))));
+        // Utils.git_head(repo, length: nil)
+        it.DefS(utils, "git_head git_short_head", (i, s, a, b) =>
+        {
+            var repo = a.Length > 0 && a[0] is not RHash ? i.Abs(i.PathStr(a[0])) : i.Cwd;
+            var head = i.Backtick($"git -C \"{repo}\" rev-parse HEAD") is RString r ? r.V.Trim() : "";
+            if (head.Length == 0) return null;
+            var length = a.Length > 0 && a[^1] is RHash h && h.D.TryGetValue(Interp.Sym("length"), out var l) && l is long n ? (int)n : head.Length;
+            return Interp.S(head[..Math.Min(length, head.Length)]);
+        });
+        it.DefS(utils, "safe_popen_read popen_read",(i, s, a, b) => i.Backtick(string.Join(" ", a.Select(i.ToS).Select(Quote))));
 
         // ---- class-level DSL ----
         FormulaSpec Sp(object self) => SpecOf((RClass)self);
