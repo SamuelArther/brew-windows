@@ -1,0 +1,752 @@
+[
+  {
+    "name": "abcmidi",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "abduco",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "abnfgen",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "abpoa",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "ace",
+    "status": "build",
+    "seconds": 56
+  },
+  {
+    "name": "acme",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "acme.sh",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "acpica",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "adamstark-audiofile",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "admesh",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "adns",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "adr-tools",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "advancescan",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "aescrypt",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "aespipe",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "afio",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "aften",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "agedu",
+    "status": "test",
+    "seconds": 95
+  },
+  {
+    "name": "aha",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "ahcpd",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "aklomp-base64",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "align",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "ampl-asl",
+    "status": "test",
+    "seconds": 40
+  },
+  {
+    "name": "ampl-mp",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "angband",
+    "status": "build",
+    "seconds": 145
+  },
+  {
+    "name": "ansiweather",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "antidote",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "antlr4-cpp-runtime",
+    "status": "test",
+    "seconds": 145
+  },
+  {
+    "name": "any2fasta",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "anyenv",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "aoeui",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "apache-arrow-adbc",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "apache-flink-cdc",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "apibuilder-cli",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "apparix",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "argparse",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "argtable3",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "argus",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "arp-scan",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "asar",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "asciitex",
+    "status": "build",
+    "seconds": 44
+  },
+  {
+    "name": "asimov",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "asio",
+    "status": "build",
+    "seconds": 346
+  },
+  {
+    "name": "asm6809",
+    "status": "test",
+    "seconds": 75
+  },
+  {
+    "name": "asn1c",
+    "status": "ok",
+    "seconds": 112
+  },
+  {
+    "name": "async_simple",
+    "status": "build",
+    "seconds": 47
+  },
+  {
+    "name": "asyncplusplus",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "atasm",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "atf",
+    "status": "build",
+    "seconds": 69
+  },
+  {
+    "name": "atomic_queue",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "atool",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "automysqlbackup",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "autossh",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "avanor",
+    "status": "test",
+    "seconds": 53
+  },
+  {
+    "name": "avimetaedit",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "avra",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "awk",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "b2sum",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "b43-fwcutter",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "babeld",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bam",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bas55",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "base16384",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "base64",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "base91",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "bash_unit",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "bash-completion",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "bash-git-prompt",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bash-preexec",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "bash-snippets",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "bashunit",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "basis_universal",
+    "status": "test",
+    "seconds": 146
+  },
+  {
+    "name": "bats-core",
+    "status": "test",
+    "seconds": 13
+  },
+  {
+    "name": "bbe",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "bbftp-client",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "bc-gh",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "bcal",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bchunk",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bcpp",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "bcrypt",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "bdw-gc",
+    "status": "test",
+    "seconds": 50
+  },
+  {
+    "name": "beanstalkd",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "bedtk",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "beecrypt",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "befunge93",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "berkeley-db@5",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "betty",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bgpdump",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "bgpq3",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "bgpq4",
+    "status": "build",
+    "seconds": 56
+  },
+  {
+    "name": "bgrep",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "bib-tool",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "bibclean",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "bibutils",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "binkd",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "bioawk",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "bioperl",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "bittwist",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "blake3",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "blazeblogger",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "blink",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "blitz",
+    "status": "test",
+    "seconds": 31
+  },
+  {
+    "name": "bmake",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "bogofilter",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "bonnie++",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "boom-completion",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "boost-build",
+    "status": "test",
+    "seconds": 66
+  },
+  {
+    "name": "bootterm",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "bork",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "bossa",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "bpm-tools",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "brainfuck",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "brew-gem",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "brew-php-switcher",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "bsdconv",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "bsdsfv",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "bstring",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "btparse",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "build2",
+    "status": "build",
+    "seconds": 766
+  },
+  {
+    "name": "bundler-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "bvi",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "bwfmetaedit",
+    "status": "test",
+    "seconds": 61
+  },
+  {
+    "name": "bwm-ng",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "byacc",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "c",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "c-blosc",
+    "status": "test",
+    "seconds": 62
+  },
+  {
+    "name": "c2048",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "ca-certificates",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "cadical",
+    "status": "build",
+    "seconds": 133
+  },
+  {
+    "name": "cadubi",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "camellia",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "canfigger",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "capnp",
+    "status": "ok",
+    "seconds": 147
+  },
+  {
+    "name": "catch2",
+    "status": "test",
+    "seconds": 30
+  },
+  {
+    "name": "catimg",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "cbmbasic",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "cc65",
+    "status": "build",
+    "seconds": 59
+  },
+  {
+    "name": "ccd2iso",
+    "status": "test",
+    "seconds": 17
+  },
+  {
+    "name": "cconv",
+    "status": "build",
+    "seconds": 47
+  },
+  {
+    "name": "ccrypt",
+    "status": "build",
+    "seconds": 63
+  },
+  {
+    "name": "cctz",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "cdargs",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "cdb",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "cdk",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "cdlabelgen",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "cdpr",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "cdsclient",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "celero",
+    "status": "test",
+    "seconds": 17
+  },
+  {
+    "name": "cereal",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "cern-ndiff",
+    "status": "ok",
+    "seconds": 18
+  }
+]
