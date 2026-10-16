@@ -1,0 +1,7 @@
+{
+  "formula": "ntfs-3g",
+  "desc": "NTFS mount and ntfsprogs tools on Windows' own NTFS driver",
+  "commands": ["ntfs-3g", "lowntfs-3g", "ntfs-3g.probe", "ntfslabel", "ntfsinfo", "ntfsls", "ntfscat", "ntfsfix", "mkntfs"],
+  "caveats": "Windows' NTFS driver is the read-write driver: ntfs-3g gives a volume a mount point (a drive\nletter or an empty folder) and the ntfsprogs tools work on volumes through it. Devices are\ndrive letters (E:) or \\\\?\\Volume{...}\\ paths; attach disk images with Mount-DiskImage first.\nntfsinfo -m, ntfsfix, mkntfs and mounting need an administrator.",
+  "test": "assert_match \"ntfs-3g\", shell_output(\"#{bin}/ntfs-3g --version\")\nsystem bin/\"ntfs-3g.probe\", \"--readonly\", \"C:\"\nshell_output(\"#{bin}/ntfslabel C:\")\nassert_match \"Windows\", shell_output(\"#{bin}/ntfsls -F C:\")\nassert_match \"[fonts]\", shell_output(\"#{bin}/ntfscat C: Windows/win.ini\")\nassert_match \"Dumping Inode\", shell_output(\"#{bin}/ntfsinfo -F Windows/win.ini C:\")\nassert_match \"Would run: Format-Volume -DriveLetter Z\", shell_output(\"#{bin}/mkntfs --no-action --fast --label Homebrew Z:\")\nassert_match \"system volume\", shell_output(\"#{bin}/mkntfs C: 2>&1\", 1)\nassert_match \"No change made\", shell_output(\"#{bin}/ntfsfix --no-action C:\")"
+}
