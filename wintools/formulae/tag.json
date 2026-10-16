@@ -1,0 +1,6 @@
+{
+  "formula": "tag",
+  "desc": "Manipulate and query Finder-style tags on files (stored in NTFS streams)",
+  "commands": ["tag"],
+  "test": "test_tag = \"test_tag\"\ntest_file = testpath/\"test_file\"\ntouch test_file\nsystem bin/\"tag\", \"--add\", test_tag, test_file\nassert_equal test_tag, shell_output(\"#{bin}/tag --list --no-name #{test_file}\").chomp\nsystem bin/\"tag\", \"--add\", \"Red,work\", test_file\nassert_match \"test_file\", shell_output(\"#{bin}/tag --match work --enter #{testpath}\")\nsystem bin/\"tag\", \"--remove\", \"*\", test_file\nassert_empty shell_output(\"#{bin}/tag --list --no-name #{test_file}\").strip\nassert_match \"tag v\", shell_output(\"#{bin}/tag --version\")"
+}

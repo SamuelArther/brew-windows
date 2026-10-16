@@ -1,0 +1,6 @@
+{
+  "formula": "timedog",
+  "desc": "Lists files that were saved by a File History backup",
+  "commands": ["timedog"],
+  "test": "assert_match \"No machine directory found for host\", shell_output(\"#{bin}/timedog 2>&1\", 1)\ndocs = testpath/\"fh/Data/C/Users/me\"\ndocs.mkpath\n(docs/\"a (2026_10_15 08_00_00 UTC).txt\").write \"aaaa\"\n(docs/\"a (2026_10_16 09_30_00 UTC).txt\").write \"aaaaaaaa\"\noutput = shell_output(\"#{bin}/timedog #{testpath}/fh\")\nassert_match \"Comparing FH backup 2026-10-16-093000 to 2026-10-15-080000\", output\nassert_match \"4B->       8B    C:\\\\Users\\\\me\\\\a.txt\", output\nassert_match \"Total Backup: 1 changed file, 8B\", output"
+}
