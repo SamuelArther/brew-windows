@@ -28,6 +28,11 @@ static class DownloadTests
             Check(Path.GetFileName(file) == sha + "--package.zip" && File.ReadAllBytes(file).SequenceEqual(bytes), "mirror keeps canonical filename and verifies payload");
             await downloader.FetchAsync("https://primary.invalid/package.zip", sha, ["https://mirror.invalid/other.zip"]);
             Check(requests.Count == 2, "verified mirror cache reused");
+            File.WriteAllText(file, "corrupted after download");
+            var error = Console.Error; Console.SetError(new StringWriter());
+            try { await downloader.FetchAsync("https://primary.invalid/package.zip", sha, ["https://mirror.invalid/other.zip"]); }
+            finally { Console.SetError(error); }
+            Check(requests.Count == 4 && File.ReadAllBytes(file).SequenceEqual(bytes), "corrupt cached download is fetched again");
             var before = requests.Count;
             try
             {

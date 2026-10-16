@@ -44,7 +44,7 @@ public static class Bottles
         {
             CopyTree(keg, stagedKeg);
             var relocatable = true;
-            foreach (var file in Directory.EnumerateFiles(stagedKeg, "*", SearchOption.AllDirectories))
+            foreach (var file in Paths.TreeFiles(stagedKeg))
             {
                 var bookkeeping = Path.GetFileName(file) == "INSTALL_RECEIPT.json" || file.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase);
                 if (bookkeeping)
@@ -81,7 +81,7 @@ public static class Bottles
             if (tar.Code != 0) throw new IOException("Bottle extraction failed: " + tar.Error.Trim());
             var extracted = Path.Combine(staging, name, version);
             if (!Directory.Exists(extracted)) throw new IOException($"Bottle does not contain {name}/{version}");
-            foreach (var file in Directory.EnumerateFiles(extracted, "*", SearchOption.AllDirectories))
+            foreach (var file in Paths.TreeFiles(extracted))
             {
                 var bookkeeping = Path.GetFileName(file) == "INSTALL_RECEIPT.json" || file.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase);
                 if (bookkeeping || cellar != "any_skip_relocation")
@@ -99,27 +99,32 @@ public static class Bottles
         return Convert.ToHexStringLower(await SHA256.HashDataAsync(stream));
     }
 
+    // Relocation edits bytes, like Homebrew's: files are read as Latin-1 (one char per byte) and the
+    // prefix is matched by its UTF-8 bytes, so text in any encoding (or a BOM) is otherwise untouched.
+    static readonly Encoding Bytes = Encoding.Latin1;
+
     // Prefix spellings, most specific first: JSON-escaped, native, forward-slash.
     static (string Path, string Placeholder)[] Forms(string prefix) =>
     [
-        (prefix.Replace("\\", "\\\\"), "@@HOMEBREW_PREFIX_ESCAPED@@"),
-        (prefix, Placeholder),
-        (prefix.Replace('\\', '/'), "@@HOMEBREW_PREFIX_POSIX@@"),
+        (Raw(prefix.Replace("\\", "\\\\")), "@@HOMEBREW_PREFIX_ESCAPED@@"),
+        (Raw(prefix), Placeholder),
+        (Raw(prefix.Replace('\\', '/')), "@@HOMEBREW_PREFIX_POSIX@@"),
     ];
+    static string Raw(string text) => Bytes.GetString(Encoding.UTF8.GetBytes(text));
 
     // Rewrites prefix <-> placeholders in a text file. Returns whether anything changed.
     public static bool Relocate(string file, string prefix, bool toPlaceholder)
     {
         var info = new FileInfo(file);
         if (info.LinkTarget != null || info.Length > MaxTextFile || !IsText(file)) return false;
-        var text = File.ReadAllText(file);
+        var text = Bytes.GetString(File.ReadAllBytes(file));
         var updated = text;
-        foreach (var (path, placeholder) in toPlaceholder ? Forms(prefix) : Forms(prefix))
+        foreach (var (path, placeholder) in Forms(prefix))
             updated = toPlaceholder ? updated.Replace(path, placeholder, StringComparison.OrdinalIgnoreCase)
                 : updated.Replace(placeholder, path, StringComparison.Ordinal);
         if (updated == text) return false;
         Writable(file);
-        File.WriteAllText(file, updated, new UTF8Encoding(false));
+        File.WriteAllBytes(file, Bytes.GetBytes(updated));
         return true;
     }
 
@@ -133,7 +138,7 @@ public static class Bottles
         if (zip < 0) return false;
         var start = data.AsSpan(0, zip).LastIndexOf("#!"u8);
         if (start < 0 || zip - start > 4096 || data.AsSpan(start, zip - start).Contains((byte)0)) return false;
-        var line = Encoding.UTF8.GetString(data, start, zip - start);
+        var line = Bytes.GetString(data, start, zip - start);
         var updated = line;
         foreach (var (path, placeholder) in Forms(prefix))
             updated = toPlaceholder ? updated.Replace(path, placeholder, StringComparison.OrdinalIgnoreCase)
@@ -141,7 +146,7 @@ public static class Bottles
         if (updated == line) return false;
         var output = new MemoryStream();
         output.Write(data, 0, start);
-        output.Write(Encoding.UTF8.GetBytes(updated));
+        output.Write(Bytes.GetBytes(updated));
         output.Write(data, zip, data.Length - zip);
         Writable(file);
         File.WriteAllBytes(file, output.ToArray());
@@ -168,19 +173,26 @@ public static class Bottles
         return false;
     }
 
-    static void CopyTree(string source, string destination)
+    // An absolute link into the keg (Directory.CreateSymbolicLink(root/"bin", root/"usr/bin")) is made
+    // relative: copied as is it would name this machine's Cellar, and point the staged tree back at it.
+    static void CopyTree(string source, string destination, string keg = null)
     {
+        keg ??= Path.TrimEndingDirectorySeparator(Path.GetFullPath(source));
         Directory.CreateDirectory(destination);
         foreach (var entry in Directory.EnumerateFileSystemEntries(source))
         {
             var target = Path.Combine(destination, Path.GetFileName(entry));
             var info = new FileInfo(entry);
-            if (info.LinkTarget != null)
+            if (info.LinkTarget is { } link)
             {
-                if (Directory.Exists(entry)) Directory.CreateSymbolicLink(target, info.LinkTarget);
-                else File.CreateSymbolicLink(target, info.LinkTarget);
+                var resolved = Path.GetFullPath(link, Path.GetDirectoryName(entry)!);
+                if (Path.IsPathRooted(link) && (resolved.Equals(keg, StringComparison.OrdinalIgnoreCase)
+                    || resolved.StartsWith(keg + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)))
+                    link = Path.GetRelativePath(Path.GetDirectoryName(entry)!, resolved);
+                if (Directory.Exists(entry)) Directory.CreateSymbolicLink(target, link);
+                else File.CreateSymbolicLink(target, link);
             }
-            else if (Directory.Exists(entry)) CopyTree(entry, target);
+            else if (Directory.Exists(entry)) CopyTree(entry, target, keg);
             else File.Copy(entry, target);
         }
     }

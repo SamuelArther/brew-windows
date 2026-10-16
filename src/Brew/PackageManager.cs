@@ -204,13 +204,13 @@ public sealed class PackageManager(Paths paths)
             if (patch.Data != null) { Patcher.Apply(patch.Data, patch.Strip, directory); continue; }
             if (patch.File != null)
             {
-                Patcher.Apply(File.ReadAllText(PatchFile(formulaFile, patch.File)), patch.Strip, directory);
+                Patcher.Apply(File.ReadAllBytes(PatchFile(formulaFile, patch.File)), patch.Strip, directory);
                 continue;
             }
             var download = await new Downloader(paths.Cache).FetchAsync(patch.Url, patch.Sha256);
-            if (patch.Apply.Count == 0) { Patcher.Apply(File.ReadAllText(download), patch.Strip, directory); continue; }
+            if (patch.Apply.Count == 0) { Patcher.Apply(File.ReadAllBytes(download), patch.Strip, directory); continue; }
             var staged = await Archive.StageAsync(download, Downloader.FileName(patch.Url), Path.Combine(build, ".patches", (archive++).ToString()));
-            foreach (var diff in patch.Apply) Patcher.Apply(File.ReadAllText(Path.Combine(staged, diff)), patch.Strip, directory);
+            foreach (var diff in patch.Apply) Patcher.Apply(File.ReadAllBytes(Path.Combine(staged, diff)), patch.Strip, directory);
         }
     }
 
@@ -230,7 +230,7 @@ public sealed class PackageManager(Paths paths)
             var kegs = RequireKegs(name);
             if (versions) Console.WriteLine(name + " " + string.Join(" ", kegs.Select(Path.GetFileName)));
             else foreach (var keg in kegs)
-                foreach (var file in Directory.EnumerateFiles(keg, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
+                foreach (var file in Paths.TreeFiles(keg).Order(StringComparer.Ordinal))
                     if (Path.GetFileName(file) != ReceiptName) Console.WriteLine(file);
         }
     }
@@ -243,8 +243,9 @@ public sealed class PackageManager(Paths paths)
         if (!force && store.IsPinned(name)) throw new InvalidOperationException($"{name} is pinned. You must unpin it to uninstall.");
         if (kegs.Length > 0 && !ignoreDependencies)
         {
-            var dependents = Directory.EnumerateFiles(paths.Cellar, ReceiptName, SearchOption.AllDirectories)
-                .Select(f => JsonSerializer.Deserialize<Receipt>(File.ReadAllText(f)))
+            // Only Cellar/<rack>/<version>/INSTALL_RECEIPT.json: a recursive search would also read files
+            // deep inside kegs (and walk their directory links).
+            var dependents = store.All.Select(k => k.Receipt)
                 .Where(r => r.Name != name && r.Dependencies?.Any(d => Paths.FormulaName(d) == name) == true)
                 .Select(r => r.Name).Distinct().Order(StringComparer.Ordinal).ToArray();
             if (dependents.Length > 0)
@@ -279,7 +280,9 @@ public sealed class PackageManager(Paths paths)
     public void Link(string name, bool unlink, bool force = false)
     {
         name = store.ResolveName(name);
-        foreach (var keg in RequireKegs(name))
+        // `brew link` links the latest keg only (to_latest_kegs); linking every version would collide.
+        var kegs = RequireKegs(name);
+        foreach (var keg in unlink ? kegs : [kegs[^1]])
         {
             var receiptPath = Path.Combine(keg, ReceiptName);
             var receipt = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receiptPath));
@@ -293,11 +296,20 @@ public sealed class PackageManager(Paths paths)
             }
             else
             {
-                if (receipt.Links.Count > 0) { Console.Error.WriteLine($"Warning: Already linked: {keg}"); continue; }
                 var file = receipt.SourcePath;
-                var formula = file != null && File.Exists(file) ? repository.LoadFile(file) : repository.Load(name);
-                if (!force && Metadata.Bool(formula, "KegOnly")
-                    && Metadata.Text(Metadata.Get(formula, "KegOnlyReason"), "Name") != "versioned_formula")
+                FormulaDefinition Formula() => file != null && File.Exists(file) ? repository.LoadFile(file) : repository.Load(name);
+                bool StrictKegOnly(FormulaDefinition f) => Metadata.Bool(f, "KegOnly")
+                    && Metadata.Text(Metadata.Get(f, "KegOnlyReason"), "Name") != "versioned_formula";
+                if (receipt.Links.Count > 0)
+                {
+                    Console.Error.WriteLine($"Warning: Already linked: {keg}");
+                    bool strict;
+                    try { strict = StrictKegOnly(Formula()); } catch (FormulaUnavailableException) { strict = false; }
+                    Console.WriteLine($"To relink, run:\n  brew unlink {name} && brew link {(strict ? "--force " : "")}{name}");
+                    continue;
+                }
+                var formula = Formula();
+                if (!force && StrictKegOnly(formula))
                 {
                     CommandOutput.Warning($"{name} is keg-only and must be linked with `--force`.");
                     var bins = new[] { "bin", "sbin" }.Where(dir => Directory.Exists(Path.Combine(keg, dir))).ToArray();
@@ -393,16 +405,26 @@ public sealed class PackageManager(Paths paths)
             if (previous.Length > 0 && Directory.Exists(previous[^1].Path)) opt.Set(name, previous[^1].Path);
             throw;
         }
-        foreach (var (_, backup) in moved) DeleteTree(backup);
+        // The replacement is installed: a backup that can't be removed now is stale, not a failure.
+        // Its receipt goes first, so RecoverBackups never restores a half-deleted copy over it.
+        foreach (var (_, backup) in moved)
+            try { File.Delete(Path.Combine(backup, ReceiptName)); DeleteTree(backup); }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            { CommandOutput.Warning($"Could not remove {backup}: {e.Message}"); }
     }
 
     // Directory.Delete refuses read-only files (chmod 0444, `install -m 444`); clear the attribute first.
+    // Directory links are removed, never entered: their targets' attributes aren't ours to change.
     internal static void DeleteTree(string path)
     {
         if (!Directory.Exists(path)) return;
-        foreach (var entry in new DirectoryInfo(path).EnumerateFileSystemInfos("*", new EnumerationOptions { RecurseSubdirectories = true, AttributesToSkip = 0 }))
-            if (entry.Attributes.HasFlag(FileAttributes.ReadOnly) && entry.LinkTarget == null)
-                entry.Attributes &= ~FileAttributes.ReadOnly;
+        if (new DirectoryInfo(path).LinkTarget == null)
+            foreach (var entry in Paths.TreeFiles(path, includeDirectories: true))
+            {
+                var attributes = File.GetAttributes(entry);
+                if (attributes.HasFlag(FileAttributes.ReadOnly) && !attributes.HasFlag(FileAttributes.ReparsePoint))
+                    File.SetAttributes(entry, attributes & ~FileAttributes.ReadOnly);
+            }
         Directory.Delete(path, true);
     }
 
@@ -417,11 +439,23 @@ public sealed class PackageManager(Paths paths)
                 try
                 {
                     var receipt = Path.Combine(backup, ReceiptName);
-                    var version = File.Exists(receipt) ? JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receipt))?.Version : null;
-                    var keg = version == null ? null : Path.Combine(rack, version);
+                    var saved = File.Exists(receipt) ? JsonSerializer.Deserialize<Receipt>(File.ReadAllText(receipt)) : null;
+                    var keg = saved?.Version == null ? null : Path.Combine(rack, saved.Version);
                     if (keg != null && !Directory.Exists(keg))
                     {
                         Directory.Move(backup, keg);
+                        // ReplaceAsync unlinked the keg before moving it, so the receipt's links are gone:
+                        // record that, or `brew link` would answer "Already linked".
+                        if (saved.Links.Count > 0) ReceiptFile.Write(Path.Combine(keg, ReceiptName), saved with { Links = [] });
+                        try
+                        {
+                            // opt/<name> may still name the replacement that never finished.
+                            var optTarget = new DirectoryInfo(opt.PathFor(Path.GetFileName(rack))).LinkTarget;
+                            if (optTarget == null || !File.Exists(Path.Combine(Path.GetFullPath(optTarget, Path.Combine(paths.Prefix, "opt")), ReceiptName)))
+                                opt.Set(Path.GetFileName(rack), keg);
+                        }
+                        catch (Exception e) when (e is IOException or InvalidOperationException)
+                        { CommandOutput.Warning($"Could not point opt at {keg}: {e.Message}"); }
                         CommandOutput.Warning($"Restored {keg} from an interrupted upgrade; run `brew link {Path.GetFileName(rack)}` if needed.");
                     }
                     else DeleteTree(backup);
@@ -445,7 +479,7 @@ public sealed class PackageManager(Paths paths)
 
     public static string Abbreviation(string keg)
     {
-        var files = Directory.GetFiles(keg, "*", SearchOption.AllDirectories);
+        var files = Paths.TreeFiles(keg).ToArray();
         double bytes = files.Sum(f => new FileInfo(f).Length);
         var units = new[] { "B", "KB", "MB", "GB" };
         var unit = 0;

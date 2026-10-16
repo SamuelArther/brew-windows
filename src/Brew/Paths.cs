@@ -1,9 +1,24 @@
+using System.IO.Enumeration;
+
 namespace Brew;
 
 public sealed class Paths
 {
-    public string Prefix { get; } = Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_PREFIX") ?? Environment.GetEnvironmentVariable("HOMEBREW_PREFIX")
-        ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Homebrew"));
+    // No trailing separator ("C:\brew\" -> "C:\brew"): bottle relocation matches the prefix as text.
+    public string Prefix { get; } = Path.TrimEndingDirectorySeparator(Path.GetFullPath(Environment.GetEnvironmentVariable("BREW_PREFIX") ?? Environment.GetEnvironmentVariable("HOMEBREW_PREFIX")
+        ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Homebrew")));
+
+    // Every file under root (and directory, if asked), like Ruby's Find.find: directory symlinks and
+    // junctions are listed but never entered, so a link out of the tree or to an ancestor isn't walked.
+    // (.NET's own recursive enumeration follows them, and a cycle exhausts memory.)
+    public static IEnumerable<string> TreeFiles(string root, bool includeDirectories = false, Func<string, bool> prune = null) =>
+        new FileSystemEnumerable<string>(root, (ref FileSystemEntry entry) => entry.ToFullPath(),
+            new EnumerationOptions { RecurseSubdirectories = true, AttributesToSkip = 0, IgnoreInaccessible = false })
+        {
+            ShouldIncludePredicate = (ref FileSystemEntry entry) => includeDirectories || !entry.IsDirectory,
+            ShouldRecursePredicate = (ref FileSystemEntry entry) =>
+                (entry.Attributes & FileAttributes.ReparsePoint) == 0 && (prune == null || !prune(entry.ToFullPath())),
+        };
     public string Cellar => Path.Combine(Prefix, "Cellar");
     public string Bin => Path.Combine(Prefix, "bin");
     // HOMEBREW_CACHE is the cache root (as in Homebrew); downloads go in its downloads folder, and

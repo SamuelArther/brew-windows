@@ -48,6 +48,15 @@ static class Patches
         if (File.Exists(Path.Combine(root, "evil"))) throw new Exception("Escaping patch wrote outside the tree");
         try { Patcher.Apply("--- a/src/a.c\n+++ b/src/a.c\n@@ -1,2 +1,2 @@\n-nope\n-nada\n+x\n+y\n", 1, dir); throw new Exception("Mismatched hunk accepted"); }
         catch (InvalidOperationException ex) when (ex.Message.Contains("FAILED")) { }
-        return 6;
+
+        // Bytes outside the hunks survive whatever the encoding: a Latin-1 source (0xA9 is not UTF-8),
+        // a UTF-8 BOM, and a Latin-1 context line matched byte for byte by a Latin-1 patch file.
+        var latin1 = Path.Combine(dir, "src", "latin1.c");
+        byte[] Latin1(string text) => System.Text.Encoding.Latin1.GetBytes(text);
+        File.WriteAllBytes(latin1, [0xEF, 0xBB, 0xBF, .. Latin1("/* © 1999 */\none\nété\nthree\n")]);
+        Patcher.Apply(Latin1("--- a/src/latin1.c\n+++ b/src/latin1.c\n@@ -2,3 +2,3 @@\n one\n-été\n+summer\n three\n"), 1, dir);
+        if (!File.ReadAllBytes(latin1).SequenceEqual((byte[])[0xEF, 0xBB, 0xBF, .. Latin1("/* © 1999 */\none\nsummer\nthree\n")]))
+            throw new Exception("Patching rewrote bytes outside the hunk: " + Convert.ToHexString(File.ReadAllBytes(latin1)));
+        return 7;
     }
 }

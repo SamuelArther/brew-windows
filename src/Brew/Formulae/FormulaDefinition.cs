@@ -126,9 +126,9 @@ public sealed class InstallContext
         var root = Path.Combine(Prefix, "libexec");
         Directory.CreateDirectory(Path.Combine(root, "tmp"));
         Directory.CreateDirectory(Path.Combine(root, "etc"));
-        // MSYS2's standard layout aliases /bin to /usr/bin.
+        // MSYS2's standard layout aliases /bin to /usr/bin. Relative, so the keg can move (bottles, upgrade backups).
         if (Directory.Exists(Path.Combine(root, "usr", "bin")) && !Directory.Exists(Path.Combine(root, "bin")))
-            Directory.CreateSymbolicLink(Path.Combine(root, "bin"), Path.Combine(root, "usr", "bin"));
+            Directory.CreateSymbolicLink(Path.Combine(root, "bin"), Path.Combine("usr", "bin"));
         RelocatePkgConfig(Path.Combine(root, "ucrt64"));
     }
 
