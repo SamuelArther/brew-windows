@@ -1,0 +1,6 @@
+{
+  "formula": "lttng-ust",
+  "desc": "Userspace tracing via ETW TraceLogging (lttng-gen-tp code generator)",
+  "commands": ["lttng-gen-tp"],
+  "test": "(testpath/\"demo.tp\").write <<~TP\n  TRACEPOINT_EVENT(myapp, greeting, TP_ARGS(int, count, const char*, who),\n    TP_FIELDS(ctf_integer(int, count, count) ctf_string(who, who)))\n  TP\nsystem bin/\"lttng-gen-tp\", testpath/\"demo.tp\", \"-o\", testpath/\"demo.h\", \"-o\", testpath/\"demo.c\"\nassert_match \"TraceLoggingWrite\", (testpath/\"demo.h\").read\nassert_match \"greeting\", (testpath/\"demo.h\").read\nassert_match \"TRACELOGGING_DEFINE_PROVIDER\", (testpath/\"demo.c\").read"
+}
