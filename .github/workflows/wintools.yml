@@ -46,6 +46,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add tap tools/windows-overrides tools/batches/wintools.txt
-          git commit -q -m "wintools $env:VERSION: tap formulae"
+          git commit -q -m "wintools ${env:VERSION}: tap formulae"
           for ($i = 0; $i -lt 5; $i++) { git pull -q --rebase; git push -q; if ($LASTEXITCODE -eq 0) { break }; Start-Sleep 10 }
           gh workflow run retest.yml -f batch=wintools -f chunk_size=30
