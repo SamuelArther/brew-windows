@@ -1,0 +1,10 @@
+{
+  "formula": "libdrm",
+  "desc": "GPU and display mode-setting tools (libdrm drmdevice, modetest, modeprint)",
+  "commands": [
+    "drmdevice",
+    "modetest",
+    "modeprint"
+  ],
+  "test": "# GitHub's runners have a (virtual) display adapter; the listing works with any number of GPUs.\nassert_match \"--- Checking the number of DRM device available ---\", shell_output(\"#{bin}/drmdevice\")\nassert_match \"Connectors:\", shell_output(\"#{bin}/modetest -c\")\nassert_match \"CRTCs:\", shell_output(\"#{bin}/modetest -p\")\nassert_match \"count_connectors\", shell_output(\"#{bin}/modeprint\")\nassert_match \"failed to find connector\", shell_output(\"#{bin}/modetest -s 9999:640x480 2>&1\", 1)"
+}
