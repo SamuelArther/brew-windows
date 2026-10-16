@@ -529,6 +529,7 @@ public sealed partial class Interp
     public object CallProc(RProc proc, object[] args, RProc blk = null, object self = null, RClass defTarget = null, RMethod asMethod = null)
     {
         if (proc.Fn != null) return proc.Fn(this, self ?? proc.Self, args, blk);
+        CheckDeadline();
         var pf = proc.Frame;
         bool lambda = proc.Lambda || asMethod != null;
         var f = new Frame
@@ -928,6 +929,7 @@ public sealed partial class Interp
     {
         while (Truthy(Eval(w.Cond, f)) != w.Until)
         {
+            CheckDeadline();
             try { Eval(w.Body, f); }
             catch (NextSignal) { }
             catch (BreakSignal b) when (b.Proc == f.Proc) { return b.Value; }

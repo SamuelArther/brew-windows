@@ -128,10 +128,10 @@ public sealed partial class Interp
         });
         Def(P, "size", (it, self, a, b) => new FileInfo(it.Abs(Me(self))).Length);
         Def(P, "size?", (it, self, a, b) => SizeOrNil(it.Abs(Me(self))));
-        Def(P, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(Me(self))).Replace("\r\n", "\n")));
+        Def(P, "read", (it, self, a, b) => S(ReadText(it.Abs(Me(self)))));
         Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))) { Binary = true });
-        Def(P, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(Me(self)))).Select(l => (object)S(l))));
-        Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
+        Def(P, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(Me(self)))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
+        Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
         // Homebrew's WriteMkpathExtension: refuses to overwrite, creates parent directories.
         Def(P, "write binwrite", (it, self, a, b) =>
         {
@@ -286,10 +286,10 @@ public sealed partial class Interp
         DefS(F, "zero? empty?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && new FileInfo(p).Length == 0; });
         DefS(F, "size", (it, self, a, b) => new FileInfo(it.Abs(it.PathStr(a[0]))).Length);
         DefS(F, "size?", (it, self, a, b) => SizeOrNil(it.Abs(it.PathStr(a[0]))));
-        DefS(F, "read", (it, self, a, b) => S(File.ReadAllText(it.Abs(it.PathStr(a[0]))).Replace("\r\n", "\n")));
+        DefS(F, "read", (it, self, a, b) => S(ReadText(it.Abs(it.PathStr(a[0])))));
         DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))))) { Binary = true });
-        DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(File.ReadAllText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
-        DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(File.ReadAllText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
+        DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
+        DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
         DefS(F, "write binwrite", (it, self, a, b) =>
         {
             var data = Bytes(a[1], it.ToS(a[1]));
@@ -327,7 +327,7 @@ public sealed partial class Interp
             var path = it.Abs(it.PathStr(a[0]));
             var mode = a.Length > 1 && a[1] is RString m ? m.V : "r";
             var f = new RObject { Class = it.FileClass, Host = new FileHandle { Path = path, Mode = mode } };
-            if (mode.StartsWith('r')) ((FileHandle)f.Host).Buffer.Append(File.ReadAllText(path).Replace("\r\n", "\n"));
+            if (mode.StartsWith('r')) ((FileHandle)f.Host).Buffer.Append(ReadText(path));
             if (b == null) return f;
             try { return it.Y1(b, f); }
             finally { it.Invoke(f, "close", NoArgs, null); }
@@ -526,6 +526,31 @@ public sealed partial class Interp
         Def(E, "prepend", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.ToS(a[1]), a.Length > 2 ? it.Str(a[2]) : " ", true); return null; });
         Def(E, "append", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.ToS(a[1]), a.Length > 2 ? it.Str(a[2]) : " ", false); return null; });
         Def(E, "deparallelize permit_arch_flags runtime_cpu_detection cxx11 libcxx O0 O1 O2 O3 Os refurbish_args", (it, self, a, b) => null);
+    }
+
+    // File.read: text mode (CRLF -> LF, a UTF-8 BOM dropped); bytes that aren't UTF-8 stay raw bytes, as in
+    // Ruby, instead of turning into U+FFFD (Digest of a read binary file, "\x89PNG" comparisons).
+    public static string ReadText(string path)
+    {
+        var bytes = File.ReadAllBytes(path);
+        var span = bytes.AsSpan();
+        if (span.StartsWith(new byte[] { 0xEF, 0xBB, 0xBF })) span = span[3..];
+        return DecodeUtf8(span).Replace("\r\n", "\n");
+    }
+
+    public static string DecodeUtf8(ReadOnlySpan<byte> bytes)
+    {
+        var sb = new StringBuilder(bytes.Length);
+        while (bytes.Length > 0)
+        {
+            if (System.Text.Rune.DecodeFromUtf8(bytes, out var rune, out var used) == System.Buffers.OperationStatus.Done)
+            {
+                if (rune.IsBmp) sb.Append((char)rune.Value); else sb.Append(rune.ToString());
+            }
+            else { sb.Append((char)(RString.RawByteBase + bytes[0])); used = 1; }
+            bytes = bytes[used..];
+        }
+        return sb.ToString();
     }
 
     bool Truthy2(object[] a, string kw) => a.Length > 0 && a[^1] is RHash h && h.D.TryGetValue(Sym(kw), out var v) && Truthy(v);

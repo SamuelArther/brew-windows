@@ -69,7 +69,47 @@ public sealed partial class Interp
         Def(K, "throw", (it, self, a, b) => throw new ThrowSignal { Tag = a[0], Value = a.Length > 1 ? a[1] : null });
         // `retry` in a rescue clause: EvalBegin restarts the begin body.
         Def(K, "retry", (it, self, a, b) => throw new RetrySignal());
-        Def(K, "sleep", (it, self, a, b) => { Thread.Sleep((int)(it.Num(a.Length > 0 ? a[0] : 0L) * 1000)); return 0L; });
+        Def(K, "sleep", (it, self, a, b) =>
+        {
+            var ms = it.Num(a.Length > 0 ? a[0] : 0L) * 1000;
+            if (it.timeouts.Count > 0) ms = Math.Min(ms, Math.Max(0, (it.timeouts.Min(t => t.Deadline) - DateTime.UtcNow).TotalMilliseconds) + 1);
+            Thread.Sleep((int)ms);
+            it.CheckDeadline();
+            return (long)Math.Round(ms / 1000);
+        });
+        // Timeout.timeout(n) { ... }: the block is stopped at its next loop iteration or sleep after n seconds.
+        var timeout = DefineModule("Timeout");
+        var timeoutError = DefineClass("Error", RuntimeError, timeout);
+        DefS(timeout, "timeout", (it, self, a, b) =>
+        {
+            var secs = a.Length > 0 && a[0] != null ? it.Num(a[0]) : 0;
+            if (secs <= 0) return it.CallProc(b, new[] { a.Length > 0 ? a[0] : null });
+            it.timeouts.Add((DateTime.UtcNow.AddSeconds(secs), a.Length > 1 && a[1] is RClass k ? k : timeoutError));
+            int mark = it.timeouts.Count;
+            try { return it.CallProc(b, new[] { a[0] }); }
+            finally { it.timeouts.RemoveRange(mark - 1, it.timeouts.Count - mark + 1); }
+        });
+        // Digest::SHA256.hexdigest(data) and friends, over the string's bytes.
+        var digest = DefineModule("Digest");
+        foreach (var (name, hash) in new (string, Func<byte[], byte[]>)[]
+                 { ("MD5", System.Security.Cryptography.MD5.HashData), ("SHA1", System.Security.Cryptography.SHA1.HashData),
+                   ("SHA256", System.Security.Cryptography.SHA256.HashData), ("SHA384", System.Security.Cryptography.SHA384.HashData),
+                   ("SHA512", System.Security.Cryptography.SHA512.HashData) })
+        {
+            var cls = DefineClass(name, ObjectClass, digest);
+            byte[] Data(Interp it, object o) => o is RString s ? RString.Bytes(s) : RString.Utf8(it.ToS(o));
+            DefS(cls, "hexdigest", (it, self, a, b) => S(Convert.ToHexStringLower(hash(Data(it, a[0])))));
+            DefS(cls, "base64digest", (it, self, a, b) => S(Convert.ToBase64String(hash(Data(it, a[0])))));
+            DefS(cls, "digest", (it, self, a, b) => new RString(Encoding.Latin1.GetString(hash(Data(it, a[0])))) { Binary = true });
+            DefS(cls, "file", (it, self, a, b) =>
+            {
+                var sum = hash(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))));
+                var o = new RObject { Class = cls };
+                var sc = it.SingletonOf(o);
+                it.Def(sc, "hexdigest to_s", (i2, s2, a2, b2) => S(Convert.ToHexStringLower(sum)));
+                return o;
+            });
+        }
         Def(K, "rand", (it, self, a, b) => a.Length == 0 ? Random.Shared.NextDouble() : (object)Random.Shared.NextInt64(it.Int(a[0])));
         Def(K, "at_exit autoload trap", (it, self, a, b) => null);
         Def(K, "binding", (it, self, a, b) => self);
@@ -390,6 +430,18 @@ public sealed partial class Interp
         DefS(E, "exception", (it, self, a, b) => it.Invoke(self, "new", a, b));
         Def(SystemExit, "status", (it, self, a, b) => ((RObject)self).GetIvar("@status") ?? 0L);
         Def(SystemExit, "success?", (it, self, a, b) => ((RObject)self).GetIvar("@status") is null or 0L);
+    }
+
+    // Active Timeout.timeout blocks, innermost last.
+    readonly List<(DateTime Deadline, RClass Error)> timeouts = new();
+
+    // Called from loops and sleep: raises the error of the first Timeout.timeout block whose time is up.
+    public void CheckDeadline()
+    {
+        if (timeouts.Count == 0) return;
+        var now = DateTime.UtcNow;
+        foreach (var (deadline, error) in timeouts)
+            if (now >= deadline) throw Error(error, "execution expired");
     }
 
     public object Allocate(RClass cls)

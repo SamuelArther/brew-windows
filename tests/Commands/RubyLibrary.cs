@@ -48,6 +48,8 @@ static class RubyLibrary
         // Ruby regexp: \h inside a class, and named groups make plain groups non-capturing.
         Expect("""["ab_f9 z"[/[\h_]+/], "v1.2".match(/v(?<maj>\d+)\.(\d+)/).captures, "x y"[/[^[:space:]]+/]].inspect""", """["ab_f9", ["1"], "x"]""");
         Expect("""[(begin; "a".center; rescue ArgumentError; :arg; end), (begin; {}.merge(1); rescue TypeError; :type; end)].inspect""", "[:arg, :type]");
+        Expect("""[Digest::SHA256.hexdigest("abc")[0, 8], (begin; Timeout.timeout(0.2) { loop { } }; rescue Timeout::Error; :expired; end)].inspect""", """["ba7816bf", :expired]""");
+        Expect($"""File.binwrite("{file}", [0x89, 0xff, 0x0d, 0x0a].pack("C*")); File.read("{file}").bytes.inspect""", "[137, 255, 10]");
         Expect("""[$stdout.fileno, STDERR.fileno, $stdout.tty?].inspect""", "[1, 2, false]");
         // Backticks run through /bin/sh (bash) like Ruby, when there is one.
         if (PosixShell.FindShell(Environment.GetEnvironmentVariable) != null)
