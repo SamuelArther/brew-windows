@@ -74,13 +74,21 @@ public static class PosixShell
                     ReadRedirect(command, fd);
                     continue;
                 }
-                var (word, quoted, glob) = Word();
-                if (words.Count == 0 && !quoted && Regex.IsMatch(word, @"^[A-Za-z_][A-Za-z0-9_]*=") && !glob)
+                if (words.Count == 0 && Regex.Match(s[at..], "^[A-Za-z_][A-Za-z0-9_]*=") is { Success: true } assignment)
                 {
-                    var eq = word.IndexOf('=');
-                    command.Assignments[word[..eq]] = word[(eq + 1)..];
+                    // NAME=value, NAME="a b", NAME='x': the value is one word, never globbed.
+                    at += assignment.Length;
+                    var value = "";
+                    if (at < s.Length && s[at] is not (' ' or '\t'))
+                    {
+                        var (raw, _, isPattern) = Word();
+                        value = isPattern ? Regex.Replace(raw, @"\\(.)", "$1") : raw;
+                    }
+                    command.Assignments[assignment.Value[..^1]] = value;
                     continue;
                 }
+                var (word, quoted, glob) = Word();
+                if (!quoted && word.Length == 0) continue;   // an unquoted expansion of an empty variable is no word
                 if (glob) words.AddRange(Glob(word));
                 else words.Add(word);
             }
@@ -192,7 +200,13 @@ public static class PosixShell
                     quoted = true;
                     at += 2;
                 }
-                else if (c == '$') Lit(Dollar());
+                else if (c == '$')
+                {
+                    // Unquoted, sh splits the value into fields on whitespace: leave that to a real shell.
+                    var value = Dollar();
+                    if (value.Any(ch => ch is ' ' or '\t' or '\n')) throw new Unsupported();
+                    Lit(value);
+                }
                 else
                 {
                     if (c is '*' or '?') { glob = true; pattern.Append(c); sb.Append(c); }
