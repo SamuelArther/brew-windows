@@ -18,6 +18,7 @@ runs:
         path-type: inherit
         install: >-
           base-devel
+          autotools
           mingw-w64-ucrt-x86_64-gcc
           mingw-w64-ucrt-x86_64-cmake
           mingw-w64-ucrt-x86_64-ninja
@@ -47,7 +48,7 @@ runs:
         $commit = (Get-Content tools/upstream-commit.txt).Trim()
         git init -q $core
         git -C $core remote add origin https://github.com/Homebrew/homebrew-core.git
-        git -C $core sparse-checkout set Formula
+        git -C $core sparse-checkout set Formula Patches
         git -C $core fetch -q --depth 1 --filter=blob:none origin $commit
         git -C $core checkout -q FETCH_HEAD
     - name: Brew environment

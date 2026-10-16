@@ -73,7 +73,8 @@ public sealed class PackageManager(Paths paths)
             await InstallAsync(dependency, requested: false);
         }
         var bottle = fromSource || Environment.GetEnvironmentVariable("HOMEBREW_BUILD_FROM_SOURCE") == "1" ? null : Bottles.For(formula);
-        var buildDependencies = QueryCommands.Dependencies(formula).Where(d => d.Tags.Contains("build")).Select(d => d.Name).ToList();
+        var buildDependencies = QueryCommands.Dependencies(formula).Where(d => d.Tags.Contains("build")).Select(d => d.Name)
+            .Where(d => !BuildEnvironment.ProvidesBuildTool(d)).ToList();
         if (bottle == null && !ignoreDependencies)
             foreach (var dependency in buildDependencies.Where(d => store.Latest(d) == null))
             {
@@ -147,6 +148,16 @@ public sealed class PackageManager(Paths paths)
     // Homebrew's Formula#patch: inline/DATA diffs, downloaded diffs, and `apply` files inside patch archives.
     async Task ApplyPatchesAsync(FormulaDefinition formula, string source, string build, string formulaFile)
     {
+        // `patch do file "Patches/x/y.patch"` names a file in the tap (homebrew-core keeps them in
+        // Patches/ beside Formula/); a formula outside a tap resolves it next to itself.
+        static string PatchFile(string formulaFile, string file)
+        {
+            for (var dir = Path.GetDirectoryName(formulaFile); dir != null; dir = Path.GetDirectoryName(dir))
+                if (string.Equals(Path.GetFileName(dir), "Formula", StringComparison.OrdinalIgnoreCase))
+                    return Path.Combine(Path.GetDirectoryName(dir)!, file);
+            return Path.Combine(Path.GetDirectoryName(formulaFile)!, file);
+        }
+
         if (formula.Patches.Count == 0) return;
         CommandOutput.Header("Patching");
         var archive = 0;
@@ -156,7 +167,7 @@ public sealed class PackageManager(Paths paths)
             if (patch.Data != null) { Patcher.Apply(patch.Data, patch.Strip, directory); continue; }
             if (patch.File != null)
             {
-                Patcher.Apply(File.ReadAllText(Path.Combine(Path.GetDirectoryName(formulaFile)!, patch.File)), patch.Strip, directory);
+                Patcher.Apply(File.ReadAllText(PatchFile(formulaFile, patch.File)), patch.Strip, directory);
                 continue;
             }
             var download = await new Downloader(paths.Cache).FetchAsync(patch.Url, patch.Sha256);

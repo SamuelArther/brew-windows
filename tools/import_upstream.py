@@ -16,6 +16,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 TAP = REPO / "tap" / "homebrew-core" / "Formula"
 OVERRIDES = REPO / "tools" / "windows-overrides"
 PATCHES = REPO / "tools" / "windows-patches"
+LOCAL_PATCH = re.compile(r'^\s*file "(Patches/[^"]+)"', re.M)
 BOTTLE = re.compile(r"^  bottle do\n.*?^  end\n\n?", re.M | re.S)
 
 
@@ -50,6 +51,13 @@ def main():
         kept = BOTTLE.search(existing)
         if kept and source != override and same_version(existing, text):
             text = insert_bottle(text, kept.group(0).rstrip("\n") + "\n")
+        # `patch do file "Patches/..."` files live in homebrew-core's Patches/ directory.
+        for rel in LOCAL_PATCH.findall(text):
+            src = core.parent / rel
+            dst = TAP.parent / rel
+            if src.exists() and (not dst.exists() or dst.read_bytes() != src.read_bytes()):
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(src.read_bytes())
         if text != existing:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(text, encoding="utf-8", newline="\n")

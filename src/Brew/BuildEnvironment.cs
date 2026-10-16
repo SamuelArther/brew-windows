@@ -41,7 +41,7 @@ public static class BuildEnvironment
         var rustflags = Environment.GetEnvironmentVariable("RUSTFLAGS");
         env["RUSTFLAGS"] = string.IsNullOrEmpty(rustflags) ? "-C target-feature=+crt-static" : rustflags + " -C target-feature=+crt-static";
 
-        ApplyToolchain(paths, env, dependencies);
+        ApplyToolchain(paths, env, dependencies, context.BuildPath);
     }
 
     // MSYS2's UCRT64 environment is the C/C++ toolchain (what Xcode's Command Line Tools are for
@@ -57,18 +57,36 @@ public static class BuildEnvironment
         }
     }
 
+    // Build tools the MSYS2 toolchain already supplies (base-devel, CMake, Ninja, Meson, pkgconf), the way
+    // macOS's Command Line Tools stand in for some of them upstream. Brewing them again would only put a
+    // second copy ahead of the toolchain's on PATH.
+    static readonly HashSet<string> ToolchainTools = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "autoconf", "automake", "libtool", "make", "m4", "bison", "flex", "texinfo", "gawk",
+        "pkgconf", "pkg-config", "cmake", "ninja", "meson", "patch", "diffutils",
+    };
+
+    public static bool ProvidesBuildTool(string formula) => Msys2Root != null && ToolchainTools.Contains(formula);
+
     // GCC and friends, then MSYS2's POSIX tools: ahead of the system PATH, where another MSYS runtime
     // (Git for Windows' usrin) would otherwise supply expr/sed/sh and mangle their arguments.
     static IEnumerable<string> ToolchainPath() => Msys2Root is { } root
         ? [Path.Combine(root, "ucrt64", "bin"), Path.Combine(root, "usr", "bin")] : [];
 
-    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
+    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath)
     {
         if (Msys2Root is not { } root) return;
         string Posix(string p) => p.Replace('\\', '/');
         var ucrt = Path.Combine(root, "ucrt64");
         var kegs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).Where(Directory.Exists).ToList();
+
+        // macOS spells the GNU tools g-prefixed (glibtoolize, gsed, gmake); formulae call those names.
+        var shims = Path.Combine(buildPath, ".brew_shims");
+        Directory.CreateDirectory(shims);
+        foreach (var (alias, tool) in new[] { ("glibtoolize", "libtoolize"), ("glibtool", "libtool"), ("gsed", "sed"), ("gmake", "make"), ("gm4", "m4") })
+            File.WriteAllText(Path.Combine(shims, alias), $"#!/usr/bin/env bash\nexec {tool} \"$@\"\n");
+        env["PATH"] = shims + ";" + env["PATH"];
 
         env["HOMEBREW_MSYS2_ROOT"] = root;
         env["MSYSTEM"] = "UCRT64";
