@@ -1,0 +1,6 @@
+{
+  "formula": "needle",
+  "desc": "Compile-time safe Swift dependency injection framework with real code",
+  "commands": ["needle"],
+  "test": "(testpath/\"Test.swift\").write <<~SWIFT\n  import Foundation\n\n  protocol ChildDependency: Dependency {}\n  class Child: Component<ChildDependency> {}\n\n  let child = Child(parent: self)\nSWIFT\nassert_match \"Root\\n\", shell_output(\"#{bin}/needle print-dependency-tree #{testpath}/Test.swift\")\nassert_match \"0.25.1\", shell_output(\"#{bin}/needle version\")\n(testpath/\"App.swift\").write <<~SWIFT\n  class RootComponent: BootstrapComponent {\n    var api: API { shared { API() } }\n    var child: ChildComponent { ChildComponent(parent: self) }\n  }\n  protocol ChildDependency: Dependency {\n    var api: API { get }\n  }\n  class ChildComponent: Component<ChildDependency> {}\nSWIFT\nsystem bin/\"needle\", \"generate\", testpath/\"Generated.swift\", testpath/\"App.swift\"\ngenerated = (testpath/\"Generated.swift\").read\nassert_match \"return rootComponent.api\", generated\nassert_match \"^->RootComponent->ChildComponent\", generated"
+}
