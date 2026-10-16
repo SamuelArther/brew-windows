@@ -1,0 +1,8 @@
+{
+  "formula": "abi-dumper",
+  "desc": "Dump ABI of an ELF or PE object containing DWARF debug info",
+  "commands": [
+    "abi-dumper"
+  ],
+  "test": "assert_match \"ABI Dumper\", shell_output(\"#{bin}/abi-dumper -v\")\n# An object without DWARF is refused the way abi-dumper does.\ncp libexec/\"wintools.exe\", testpath/\"nodebug.exe\"\nassert_match \"can't find debug info\", shell_output(\"#{bin}/abi-dumper #{testpath}/nodebug.exe -o x.dump 2>&1\", 2)\n(testpath/\"test.c\").write \"int foo() { return 0; }\\n\"\nsystem ENV.cc, \"-g\", \"-Og\", \"-shared\", \"test.c\", \"-o\", testpath/\"libtest.dll\"\nsystem bin/\"abi-dumper\", testpath/\"libtest.dll\", \"-o\", \"test.dump\"\nassert_path_exists testpath/\"test.dump\"\nassert_match \"'ShortName' => 'foo'\", (testpath/\"test.dump\").read"
+}
