@@ -270,27 +270,27 @@ sealed class MachO
 
     // Every location the loader must slide, from whichever mechanism the image uses. Chained fixups
     // are resolved in place (each chain entry is rewritten to the plain pointer it encodes), so the
-    // image bytes in Data are what an unslid load would see. Binds to other images are errors: a
-    // preloaded or firmware image has no dynamic loader to resolve them.
-    public List<Rebase> Rebases()
+    // image bytes in Data are what an unslid load would see. Binds to other images are errors when
+    // strict (a preloaded or firmware image has no dynamic loader to resolve them), else left as 0.
+    public List<Rebase> Rebases(bool strict = true)
     {
         var list = new List<Rebase>();
-        if (fixupsSize != 0) ChainedFixups(list);
+        if (fixupsSize != 0) ChainedFixups(list, strict);
         if (rebaseSize != 0) RebaseOpcodes(list);
-        if (nlocrel != 0 || nextrel != 0) ClassicRelocations(list);
+        if (nlocrel != 0 || nextrel != 0) ClassicRelocations(list, strict);
         foreach (var sec in Sections.Where(s => s.NReloc != 0 && FileType == 1))
             throw new FormatException($"relocatable object files are not supported (section {sec.SegName},{sec.Name}); link it first");
         return list.Distinct().OrderBy(r => r.Address).ToList();
     }
 
-    void ClassicRelocations(List<Rebase> list)
+    void ClassicRelocations(List<Rebase> list, bool strict)
     {
         // r_address is relative to the first segment, or to the first writable one for x86_64 and
         // split-segment images (as dyld reads it).
         var firstWritable = Segments.FirstOrDefault(s => s.Writable)?.VmAddr ?? 0;
         var first = Segments.FirstOrDefault(s => s.Name != "__PAGEZERO")?.VmAddr ?? 0;
         var baseAddr = CpuType is CpuX86_64 or CpuArm64 || (Flags & 0x20) != 0 ? firstWritable : first;
-        if (nextrel > 0)
+        if (nextrel > 0 && strict)
         {
             var sym = U32(Data, (int)extreloff + 4) & 0xffffff;
             var name = sym < Symbols.Count ? Symbols[(int)sym].Name : $"#{sym}";
@@ -355,7 +355,7 @@ sealed class MachO
         }
     }
 
-    void ChainedFixups(List<Rebase> list)
+    void ChainedFixups(List<Rebase> list, bool strict)
     {
         var h = (int)fixupsOff;
         var startsOffset = (int)U32(Data, h + 4);
@@ -387,6 +387,14 @@ sealed class MachO
                 {
                     var raw = U64(Data, (int)off);
                     var bind = (raw >> 63) != 0;
+                    if (bind && !strict)
+                    {
+                        BinaryPrimitives.WriteUInt64LittleEndian(Data.AsSpan((int)off), 0);
+                        var skip = (raw >> 51) & 0xfff;
+                        if (skip == 0) break;
+                        off += (long)(skip * 4);
+                        continue;
+                    }
                     if (bind)
                         throw new FormatException($"chained fixup binds to another image ({importsCount} imports); firmware images must be self-contained");
                     // target:36, high8:8, reserved:7, next:12 (4-byte strides), bind:1. The target is a vmaddr
