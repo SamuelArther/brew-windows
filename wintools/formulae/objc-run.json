@@ -1,0 +1,7 @@
+{
+  "formula": "objc-run",
+  "desc": "Use Objective-C files for shell script-like tasks",
+  "commands": ["objc-run"],
+  "caveats": "objc-run compiles with clang against GNUstep's Foundation. Install both, e.g.\n  brew install llvm gnustep-base\nor point GNUSTEP_ROOT at an existing GNUstep (include/Foundation, lib, bin).",
+  "test": "assert_match \"objc-run usage\", shell_output(\"#{bin}/objc-run 2>&1\", 1)\n(testpath/\"hello.m\").write \"#!/usr/bin/env objc-run\\nint main(void) { return 0; }\\n\"\ntouch testpath/\"hello\"\nassert_match \"file already exists\", shell_output(\"#{bin}/objc-run #{testpath}/hello.m 2>&1\", 1)\n(testpath/\"pods.m\").write \"/*\\npodfile-start\\npod 'Barista'\\npodfile-end\\n*/\\n\"\nassert_match \"CocoaPods\", shell_output(\"#{bin}/objc-run #{testpath}/pods.m 2>&1\", 1)\nassert_match \"GNUSTEP_ROOT\", shell_output(\"#{bin}/objc-run --help\")"
+}
