@@ -831,12 +831,20 @@ public sealed partial class Interp
         var parts = a.Where(x => x is not RHash).Select(ToS).ToList();
         if (parts.Count == 0) throw ArgCount(a, 1, -1);
         System.Diagnostics.ProcessStartInfo psi;
-        if (parts.Count == 1)
+        if (parts.Count == 1 && Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var msys))
+        {
+            // Ruby runs a single command string with /bin/sh; in the build toolchain that is MSYS2's bash.
+            psi = new System.Diagnostics.ProcessStartInfo(Path.Combine(msys, "usr", "bin", "bash.exe"));
+            psi.ArgumentList.Add("-c");
+            psi.ArgumentList.Add(PosixArgument(parts[0]));
+        }
+        else if (parts.Count == 1)
             psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/d /s /c \"" + parts[0] + "\"");
         else
         {
-            psi = new System.Diagnostics.ProcessStartInfo(ResolveProgram(parts[0]));
-            foreach (var p in parts.Skip(1)) psi.ArgumentList.Add(p);
+            var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), parts.Skip(1).ToList());
+            psi = new System.Diagnostics.ProcessStartInfo(program);
+            foreach (var p in arguments) psi.ArgumentList.Add(p);
         }
         psi.UseShellExecute = false;
         psi.WorkingDirectory = Cwd;
@@ -854,6 +862,24 @@ public sealed partial class Interp
             return null;
         }
     }
+
+    // In the MSYS2 build toolchain: scripts (./configure, autoreconf) run through bash, which honours their
+    // shebangs, and MSYS2's own tools get C:/forward/slash paths (backslashes are escapes to them).
+    (string Program, List<string> Arguments) ToolchainInvocation(string program, List<string> arguments)
+    {
+        if (!Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var root)) return (program, arguments);
+        var extension = Path.GetExtension(program).ToLowerInvariant();
+        if (extension is not (".exe" or ".com" or ".cmd" or ".bat") && File.Exists(program))
+            return (Path.Combine(root, "usr", "bin", "bash.exe"),
+                ["-c", "exec \"$0\" \"$@\"", program.Replace('\\', '/'), .. arguments.Select(PosixArgument)]);
+        var msysBin = Path.Combine(root, "usr", "bin") + Path.DirectorySeparatorChar;
+        return program.StartsWith(msysBin, StringComparison.OrdinalIgnoreCase)
+            ? (program, arguments.Select(PosixArgument).ToList()) : (program, arguments);
+    }
+
+    static readonly System.Text.RegularExpressions.Regex WindowsPath = new(@"[A-Za-z]:\\", System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    static string PosixArgument(string argument) => WindowsPath.IsMatch(argument) ? argument.Replace('\\', '/') : argument;
 
     // Finds a program the way a Windows shell would: relative to cwd, then the (virtual) PATH, honoring PATHEXT.
     public string ResolveProgram(string name)

@@ -1,8 +1,18 @@
 name: Set up brew-windows
 description: .NET 10, LLVM-MinGW (for the shim), and homebrew-core at tools/upstream-commit.txt
+inputs:
+  toolchain:
+    description: Install the MSYS2 UCRT64 C/C++ toolchain (for building C formulae)
+    default: "false"
 runs:
   using: composite
   steps:
+    - name: MSYS2 toolchain
+      if: inputs.toolchain == 'true'
+      shell: pwsh
+      run: |
+        C:\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm --needed base-devel mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-meson mingw-w64-ucrt-x86_64-pkgconf"
+        if ($LASTEXITCODE) { exit $LASTEXITCODE }
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: "10.0.x"

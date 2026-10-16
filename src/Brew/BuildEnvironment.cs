@@ -39,5 +39,118 @@ public static class BuildEnvironment
         env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         var rustflags = Environment.GetEnvironmentVariable("RUSTFLAGS");
         env["RUSTFLAGS"] = string.IsNullOrEmpty(rustflags) ? "-C target-feature=+crt-static" : rustflags + " -C target-feature=+crt-static";
+
+        ApplyToolchain(paths, env, dependencies);
+    }
+
+    // MSYS2's UCRT64 environment is the C/C++ toolchain (what Xcode's Command Line Tools are for
+    // Homebrew on macOS): GCC, binutils, CMake/Ninja/Meson, pkgconf, and bash + make for autotools.
+    public static string Msys2Root
+    {
+        get
+        {
+            foreach (var root in new[] { Environment.GetEnvironmentVariable("HOMEBREW_MSYS2_ROOT"), @"C:\msys64" })
+                if (!string.IsNullOrEmpty(root) && File.Exists(Path.Combine(root, "usr", "bin", "bash.exe"))) return root;
+            return null;
+        }
+    }
+
+    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
+    {
+        if (Msys2Root is not { } root) return;
+        string Posix(string p) => p.Replace('\\', '/');
+        var ucrt = Path.Combine(root, "ucrt64");
+        var kegs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))).Where(Directory.Exists).ToList();
+
+        // Brewed dependencies first, then the toolchain, then MSYS2's POSIX tools, then the system.
+        var path = env["PATH"].Split(';').ToList();
+        var system = path.Count > 0 ? path[^1] : "";
+        path.RemoveAt(path.Count - 1);
+        path.AddRange([Path.Combine(ucrt, "bin"), Path.Combine(root, "usr", "bin"), system]);
+        env["PATH"] = string.Join(";", path);
+
+        env["HOMEBREW_MSYS2_ROOT"] = root;
+        env["MSYSTEM"] = "UCRT64";
+        env["MSYS2_PATH_TYPE"] = "inherit";
+        env["CHERE_INVOKING"] = "1";
+        env["CC"] = "gcc";
+        env["CXX"] = "g++";
+        env["CPP"] = "cpp";
+        env["AR"] = "ar";
+        env["RANLIB"] = "ranlib";
+        env["CMAKE_GENERATOR"] = "Ninja";
+        env["CFLAGS"] = "-O2 -pipe";
+        env["CXXFLAGS"] = "-O2 -pipe";
+        env["CPPFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(d => "-I" + Posix(d)));
+        env["LDFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(d => "-L" + Posix(d)));
+        env["PKG_CONFIG_PATH"] = string.Join(";", kegs.Append(paths.Prefix)
+            .SelectMany(k => new[] { Path.Combine(k, "lib", "pkgconfig"), Path.Combine(k, "share", "pkgconfig") })
+            .Where(Directory.Exists).Select(Posix));
+        env["PKG_CONFIG_LIBDIR"] = Posix(Path.Combine(ucrt, "lib", "pkgconfig"));
+        env["ACLOCAL_PATH"] = string.Join(":", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "share", "aclocal"))
+            .Where(Directory.Exists).Select(Posix));
+        env["CMAKE_PREFIX_PATH"] = string.Join(";", kegs.Append(paths.Prefix).Select(Posix));
+    }
+
+    // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.
+    // Copy those DLLs next to each binary so the keg (and its bottle) runs without MSYS2.
+    public static void BundleToolchainDlls(string keg)
+    {
+        if (Msys2Root is not { } root) return;
+        var toolchainBin = Path.Combine(root, "ucrt64", "bin");
+        foreach (var binary in Directory.EnumerateFiles(keg, "*.*", SearchOption.AllDirectories)
+                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList())
+        {
+            var directory = Path.GetDirectoryName(binary)!;
+            var pending = new Queue<string>(PortableExecutable.Imports(binary));
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            while (pending.Count > 0)
+            {
+                var dll = pending.Dequeue();
+                if (!seen.Add(dll)) continue;
+                var source = Path.Combine(toolchainBin, dll);
+                var local = Path.Combine(directory, dll);
+                if (!File.Exists(source) || File.Exists(local) || Directory.EnumerateFiles(keg, dll, SearchOption.AllDirectories).Any()) continue;
+                File.Copy(source, local);
+                foreach (var next in PortableExecutable.Imports(source)) pending.Enqueue(next);
+            }
+        }
+    }
+}
+
+// Minimal PE import-table reader (DLL names a binary imports).
+public static class PortableExecutable
+{
+    public static IEnumerable<string> Imports(string file)
+    {
+        try
+        {
+            using var stream = File.OpenRead(file);
+            using var reader = new System.Reflection.PortableExecutable.PEReader(stream);
+            var headers = reader.PEHeaders;
+            var directory = headers.PEHeader?.ImportTableDirectory;
+            if (directory is not { Size: > 0 } table) return [];
+            var image = reader.GetEntireImage().GetContent().ToArray();
+            int Offset(int rva)
+            {
+                foreach (var s in headers.SectionHeaders)
+                    if (rva >= s.VirtualAddress && rva < s.VirtualAddress + Math.Max(s.VirtualSize, s.SizeOfRawData))
+                        return rva - s.VirtualAddress + s.PointerToRawData;
+                return -1;
+            }
+            var names = new List<string>();
+            for (var at = Offset(table.RelativeVirtualAddress); at >= 0 && at + 20 <= image.Length; at += 20)
+            {
+                var nameRva = BitConverter.ToInt32(image.AsSpan(at + 12, 4));
+                if (nameRva == 0) break;
+                var name = Offset(nameRva);
+                if (name < 0) break;
+                var end = image.AsSpan(name).IndexOf((byte)0);
+                names.Add(System.Text.Encoding.ASCII.GetString(image, name, end));
+            }
+            return names;
+        }
+        catch (BadImageFormatException) { return []; }
     }
 }

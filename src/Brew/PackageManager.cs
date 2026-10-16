@@ -119,6 +119,7 @@ public sealed class PackageManager(Paths paths)
                 context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
                 BuildEnvironment.Apply(paths, context, runtimeDependencies.Concat(buildDependencies));
                 formula.Install(context);
+                BuildEnvironment.BundleToolchainDlls(keg);
                 if (Environment.GetEnvironmentVariable("BREW_DEDUPLICATE_MSYS2") == "1") SharedRuntime.Deduplicate(paths, keg);
                 linker.MaterializeCommands(keg, context.Commands);
             }

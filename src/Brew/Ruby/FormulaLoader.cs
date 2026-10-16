@@ -348,8 +348,23 @@ public static partial class FormulaLoader
         });
         it.Def(F, "head?", (i, self, a, b) => false);
         it.Def(F, "stable?", (i, self, a, b) => true);
-        it.Def(F, "std_cmake_args", (i, self, a, b) => StrArray($"-DCMAKE_INSTALL_PREFIX={Prefix(i, self)}", "-DCMAKE_BUILD_TYPE=Release", "-DBUILD_TESTING=OFF", "-Wno-dev"));
-        it.Def(F, "std_configure_args", (i, self, a, b) => StrArray($"--prefix={Prefix(i, self)}", "--disable-debug", "--disable-dependency-tracking"));
+        // Upstream's argument lists; paths use forward slashes (CMake and configure scripts treat '\' as an escape).
+        string Forward(string p) => p.Replace('\\', '/');
+        it.Def(F, "std_cmake_args", (i, self, a, b) =>
+        {
+            var installPrefix = Kw(i, a, "install_prefix") is { } ip ? i.PathStr(ip) : Prefix(i, self);
+            var libdir = Kw(i, a, "install_libdir") is { } ld ? i.PathStr(ld) : "lib";
+            var framework = Kw(i, a, "find_framework") is { } ff ? i.ToS(ff) : "LAST";
+            return StrArray($"-DCMAKE_INSTALL_PREFIX={Forward(installPrefix)}", $"-DCMAKE_INSTALL_LIBDIR={Forward(libdir)}", "-DCMAKE_BUILD_TYPE=Release",
+                $"-DCMAKE_FIND_FRAMEWORK={framework}", "-DCMAKE_VERBOSE_MAKEFILE=ON", "-Wno-author", "-DBUILD_TESTING=OFF", "-DCCACHE_FOUND=OFF");
+        });
+        it.Def(F, "std_configure_args", (i, self, a, b) =>
+        {
+            var prefix = Kw(i, a, "prefix") is { } p ? i.PathStr(p) : Prefix(i, self);
+            var libdir = Kw(i, a, "libdir") is { } l ? i.PathStr(l) : "lib";
+            var fullLibdir = Path.IsPathRooted(libdir) ? libdir : Path.GetFullPath(Path.Combine(prefix, libdir));
+            return StrArray("--disable-debug", "--disable-dependency-tracking", $"--prefix={Forward(prefix)}", $"--libdir={Forward(fullLibdir)}");
+        });
         it.Def(F, "system", (i, self, a, b) =>
         {
             var line = string.Join(" ", a.Where(x => x is not RHash).Select(i.ToS));
