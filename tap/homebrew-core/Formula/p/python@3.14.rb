@@ -138,6 +138,13 @@ class PythonAT314 < Formula
     msys2_bin "ucrt64/bin/pythonw.exe", "pythonw"
   end
 
+  # Like upstream's sitecustomize: packages linked into HOMEBREW_PREFIX/lib/python3.14/site-packages
+  # are importable. (MSYS2's Python already installs --prefix trees in that layout.)
+  def post_install
+    (libexec/"ucrt64/lib/python3.14/site-packages/homebrew.pth").write \
+      "import site; site.addsitedir(r'#{HOMEBREW_PREFIX/"lib/python3.14/site-packages"}')\n"
+  end
+
   test do
     assert_match version.to_s, shell_output("#{bin}/python --version 2>&1")
   end

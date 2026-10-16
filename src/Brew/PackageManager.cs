@@ -81,7 +81,7 @@ public sealed class PackageManager(Paths paths)
                 CommandOutput.Header($"Installing {name} dependency: {CommandOutput.Identifier(dependency)} ({Metadata.Version(definition)})", green: true);
                 await InstallAsync(dependency, requested: false);
             }
-        var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", Guid.NewGuid().ToString("N"));
+        var build = Path.Combine(paths.Prefix, "var", "homebrew", "build", name + "-" + Guid.NewGuid().ToString("N")[..8]); // short: deep source trees hit MAX_PATH
         Directory.CreateDirectory(build);
         var createdKeg = false;
         List<BinLink> links = [];

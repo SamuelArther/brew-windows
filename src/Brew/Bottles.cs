@@ -38,7 +38,7 @@ public static class Bottles
     {
         var name = Path.GetFileName(Path.GetDirectoryName(keg));
         var version = Path.GetFileName(keg);
-        var staging = Path.Combine(paths.Prefix, "var", "homebrew", "bottle", Guid.NewGuid().ToString("N"));
+        var staging = Path.Combine(paths.Prefix, "var", "homebrew", "bottle", Guid.NewGuid().ToString("N")[..8]);
         var stagedKeg = Path.Combine(staging, name, version);
         try
         {
@@ -73,7 +73,7 @@ public static class Bottles
     {
         var name = Path.GetFileName(Path.GetDirectoryName(keg));
         var version = Path.GetFileName(keg);
-        var staging = Path.Combine(paths.Prefix, "var", "homebrew", "pour", Guid.NewGuid().ToString("N"));
+        var staging = Path.Combine(paths.Prefix, "var", "homebrew", "pour", Guid.NewGuid().ToString("N")[..8]);
         Directory.CreateDirectory(staging);
         try
         {
@@ -108,7 +108,7 @@ public static class Bottles
     ];
 
     // Rewrites prefix <-> placeholders in a text file. Returns whether anything changed.
-    static bool Relocate(string file, string prefix, bool toPlaceholder)
+    public static bool Relocate(string file, string prefix, bool toPlaceholder)
     {
         var info = new FileInfo(file);
         if (info.LinkTarget != null || info.Length > MaxTextFile || !IsText(file)) return false;
@@ -124,7 +124,7 @@ public static class Bottles
 
     // Python entry-point launchers (distlib) are an exe, a "#!<python>\n" line, then a zip. Only that
     // line names the prefix; distlib locates the zip from the end, so the line may change length.
-    static bool RelocateLauncher(string file, string prefix, bool toPlaceholder)
+    public static bool RelocateLauncher(string file, string prefix, bool toPlaceholder)
     {
         if (!file.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || new FileInfo(file).LinkTarget != null) return false;
         var data = File.ReadAllBytes(file);

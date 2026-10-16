@@ -149,15 +149,26 @@ public static partial class FormulaLoader
         string CreateVenv(Interp i, object self, string root, string py, bool systemSite)
         {
             i.Globals["$__formula"] = self;
-            if (File.Exists(Path.Combine(root, "bin", "python.exe"))) return root;
+            if (File.Exists(Path.Combine(VenvBin(root), "python.exe"))) return root;
             var args = new List<string> { BasePython(i, py), "-m", "venv" };
             if (systemSite) args.Add("--system-site-packages");
             args.Add(root);
             Capture(i, args, []);
-            // Homebrew removes the activation scripts; keep pip (MSYS2 Python has no host pip to drive the venv).
-            foreach (var f in Directory.GetFiles(Path.Combine(root, "bin")).Where(f => Path.GetFileName(f).StartsWith("activate", StringComparison.OrdinalIgnoreCase)
-                         || Path.GetFileName(f).Equals("Activate.ps1", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(f).Equals("deactivate.bat", StringComparison.OrdinalIgnoreCase)))
+            // Homebrew removes the activation scripts; keep pip (the venv's own pip drives installs).
+            foreach (var f in Directory.GetFiles(VenvBin(root)).Where(f => Path.GetFileName(f).StartsWith("activate", StringComparison.OrdinalIgnoreCase)
+                         || Path.GetFileName(f).Equals("deactivate.bat", StringComparison.OrdinalIgnoreCase)))
                 File.Delete(f);
+            // CPython venvs use Scripts\ and Lib\site-packages; upstream formulae use bin/ and
+            // lib/pythonX.Y/site-packages. Relative links make both spellings work (and survive bottling).
+            var scripts = Path.Combine(root, "Scripts");
+            if (Directory.Exists(scripts) && !Directory.Exists(Path.Combine(root, "bin")))
+            {
+                Directory.CreateSymbolicLink(Path.Combine(root, "bin"), "Scripts");
+                var version = Capture(i, [Path.Combine(scripts, "python.exe"), "-c", "import sys;print(f'{sys.version_info[0]}.{sys.version_info[1]}')"], []).Trim();
+                var versioned = Path.Combine(root, "Lib", "python" + version);
+                Directory.CreateDirectory(versioned);
+                Directory.CreateSymbolicLink(Path.Combine(versioned, "site-packages"), Path.Combine("..", "site-packages"));
+            }
             return root;
         }
 
@@ -182,17 +193,19 @@ public static partial class FormulaLoader
 
     static void PipInstall(Interp i, string venv, List<string> targets, bool buildIsolation)
     {
-        var args = new List<string> { Path.Combine(venv, "bin", "python.exe"), "-m", "pip", "install",
+        var args = new List<string> { Path.Combine(VenvBin(venv), "python.exe"), "-m", "pip", "install",
             "--verbose", "--no-deps", "--no-binary=:all:", "--ignore-installed", "--no-compile", "--uploaded-prior-to=P1D" };
         if (!buildIsolation) args.Add("--no-build-isolation");
         args.AddRange(targets);
         Ohai(i, string.Join(" ", args));
-        Capture(i, args, []);
+        // Like Formula#system: output streams to the build log; failure is a BuildError.
+        if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
+            throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
     }
 
     static void PipInstallAndLink(Interp i, object formula, string venv, List<string> targets, bool linkManpages)
     {
-        var bin = Path.Combine(venv, "bin");
+        var bin = VenvBin(venv);
         var man = Path.Combine(venv, "share", "man");
         var binBefore = Directory.GetFiles(bin).ToHashSet(StringComparer.OrdinalIgnoreCase);
         var manBefore = Directory.Exists(man) ? Directory.GetFiles(man, "*", SearchOption.AllDirectories).ToHashSet() : [];
@@ -213,8 +226,12 @@ public static partial class FormulaLoader
         }
     }
 
+    static string VenvBin(string venv) =>
+        Directory.Exists(Path.Combine(venv, "Scripts")) ? Path.Combine(venv, "Scripts") : Path.Combine(venv, "bin");
+
     static string VenvSitePackages(Interp i, string venv) =>
-        Directory.GetDirectories(Path.Combine(venv, "lib"), "python*").Select(d => Path.Combine(d, "site-packages")).First(Directory.Exists);
+        Directory.Exists(Path.Combine(venv, "Lib", "site-packages")) ? Path.Combine(venv, "Lib", "site-packages")
+            : Directory.GetDirectories(Path.Combine(venv, "lib"), "python*").Select(d => Path.Combine(d, "site-packages")).First(Directory.Exists);
 
     // "python3.14" / "python@3.14" -> the brewed interpreter's real executable, via the stable opt path.
     static string BasePython(Interp i, string py)
@@ -223,9 +240,12 @@ public static partial class FormulaLoader
         var prefix = i.Env.GetValueOrDefault("HOMEBREW_PREFIX") ?? throw i.Error(i.RuntimeError, "HOMEBREW_PREFIX is not set");
         var formula = version.Length > 0 ? "python@" + version : Directory.GetDirectories(Path.Combine(prefix, "opt"), "python@3.*").Select(Path.GetFileName).Max();
         var opt = Path.Combine(prefix, "opt", formula);
-        var command = Path.Combine(opt, "bin", (version.Length > 0 ? "python" + version : "python3") + ".exe");
+        var candidates = (version.Length > 0 ? new[] { "python" + version } : []).Concat(["python3", "python"])
+            .Select(n => Path.Combine(opt, "bin", n + ".exe")).ToList();
+        var command = candidates.FirstOrDefault(c => File.Exists(c + ".brew-shim")) ?? candidates.FirstOrDefault(File.Exists)
+            ?? throw i.Error(i.RuntimeError, $"{formula} is not installed");
         var sidecar = command + ".brew-shim";
-        if (!File.Exists(sidecar)) return Exe(i, command);
+        if (!File.Exists(sidecar)) return command;
         var real = File.ReadAllText(sidecar).Split('\n')[0].Trim();
         var keg = Path.Combine(prefix, "Cellar", formula);
         // Point the venv at opt/, not the versioned keg, so it survives Python patch upgrades.

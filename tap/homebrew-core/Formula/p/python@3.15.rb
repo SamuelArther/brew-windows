@@ -20,6 +20,24 @@ class PythonAT315 < Formula
     windows_exe "libexec/tools/python.exe", "python"
     windows_exe "libexec/tools/python.exe", "python3"
     windows_exe "libexec/tools/python.exe", "pip3", "-m", "pip"
+    windows_exe "libexec/tools/python.exe", "python3.15"
+    windows_exe "libexec/tools/python.exe", "pip3.15", "-m", "pip"
+  end
+
+  # Like upstream's sitecustomize: packages linked into HOMEBREW_PREFIX/lib/python3.15/site-packages
+  # are importable. While formulae build (HOMEBREW_PYTHON_PREFIX_SCHEME=posix), `pip install --prefix`
+  # uses upstream's lib/python3.15/site-packages + bin layout instead of Lib\site-packages + Scripts.
+  def post_install
+    site_packages = HOMEBREW_PREFIX/"lib/python3.15/site-packages"
+    scheme = "{'stdlib': '{installed_base}/Lib', 'platstdlib': '{base}/Lib', " \
+             "'purelib': '{base}/lib/python{py_version_short}/site-packages', " \
+             "'platlib': '{base}/lib/python{py_version_short}/site-packages', " \
+             "'include': '{installed_base}/Include', 'platinclude': '{installed_base}/Include', " \
+             "'scripts': '{base}/bin', 'data': '{base}'}"
+    (libexec/"tools/Lib/site-packages/homebrew.pth").write <<~PTH
+      import site; site.addsitedir(r'#{site_packages}')
+      import os, sys, sysconfig; os.environ.get('HOMEBREW_PYTHON_PREFIX_SCHEME') == 'posix' and sys.prefix == sys.base_prefix and (sysconfig._INSTALL_SCHEMES.__setitem__('homebrew_prefix', #{scheme}), setattr(sysconfig, 'get_preferred_scheme', (lambda f: lambda key: 'homebrew_prefix' if key == 'prefix' else f(key))(sysconfig.get_preferred_scheme)))
+    PTH
   end
 
   test do

@@ -32,6 +32,9 @@ public static class BuildEnvironment
         env["GOTOOLCHAIN"] = "local";
         env["GOFLAGS"] = "-buildvcs=false";
 
+        // Python: brewed CPython installs `pip install --prefix` trees in upstream's layout (see python@3.15).
+        env["HOMEBREW_PYTHON_PREFIX_SCHEME"] = "posix";
+
         // Rust: shared registry cache; static CRT so binaries need no Visual C++ runtime.
         env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         var rustflags = Environment.GetEnvironmentVariable("RUSTFLAGS");
