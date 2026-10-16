@@ -1,0 +1,7 @@
+{
+  "formula": "vfkit",
+  "desc": "Command-line hypervisor using QEMU on the Windows Hypervisor Platform",
+  "commands": ["vfkit"],
+  "caveats": "vfkit runs virtual machines with QEMU's WHPX accelerator. Install QEMU with\n  winget install SoftwareFreedomConservancy.QEMU\n(or set VFKIT_QEMU to qemu-system-x86_64.exe) and turn on the\n\"Windows Hypervisor Platform\" optional feature for hardware speed.",
+  "test": "version_output = shell_output(\"#{bin}/vfkit --version 2>&1\")\nassert_match(/vfkit version: v\\d+\\.\\d+\\.\\d+/, version_output)\noutput = shell_output(\"#{bin}/vfkit --kernel foo --initrd bar --kernel-cmdline baz 2>&1\", 1)\nassert_match(\"foo: no such file or directory\", output)\ntouch testpath/\"vmlinuz\"\ntouch testpath/\"disk.img\"\ncmd = shell_output(\"#{bin}/vfkit --cpus 2 --memory 1024 --bootloader linux,kernel=#{testpath}/vmlinuz \" \\\n                   \"--device virtio-blk,path=#{testpath}/disk.img --device virtio-net,nat --print-qemu-command\")\nassert_match \"-accel whpx\", cmd\nassert_match \"-smp 2 -m 1024M\", cmd\nassert_match \"virtio-blk-pci\", cmd\nfs = shell_output(\"#{bin}/vfkit --kernel #{testpath}/vmlinuz -d virtio-fs,sharedDir=.,mountTag=x 2>&1\", 1)\nassert_match \"virtio-fs\", fs"
+}
