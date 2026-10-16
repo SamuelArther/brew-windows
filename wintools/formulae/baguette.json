@@ -1,0 +1,7 @@
+{
+  "formula": "baguette",
+  "desc": "Headless iOS Simulator manager and host-side input injection for iOS 26",
+  "commands": ["baguette"],
+  "caveats": "The iOS Simulator is part of Xcode and only runs on macOS. On Windows baguette lists\ndevice sets copied from a Mac (baguette list --device-set DIR); the commands that drive a\nlive simulator explain that and exit 1.",
+  "test": "assert_match version.to_s, shell_output(\"#{bin}/baguette --version\")\nassert_match \"Headless iOS simulator control\", shell_output(\"#{bin}/baguette --help\")\nassert_match \"Usage: baguette\", shell_output(\"#{bin}/baguette no-such-command 2>&1\", 64)\n(testpath/\"set/AB12\").mkpath\n(testpath/\"set/AB12/device.plist\").write <<~XML\n  <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <plist version=\"1.0\"><dict><key>UDID</key><string>AB12</string><key>name</key><string>iPhone 17</string>\n  <key>runtime</key><string>com.apple.CoreSimulator.SimRuntime.iOS-26-0</string><key>state</key><integer>3</integer></dict></plist>\nXML\nassert_match \"\\\"runtime\\\":\\\"iOS 26.0\\\"\", shell_output(\"#{bin}/baguette list --device-set #{testpath}/set\")\nassert_match \"only runs on macOS\", shell_output(\"#{bin}/baguette tap 2>&1\", 1)"
+}
