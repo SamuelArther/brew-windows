@@ -1,0 +1,6 @@
+{
+  "formula": "macosvpn",
+  "desc": "Create Windows VPN connections programmatically",
+  "commands": ["macosvpn"],
+  "test": "assert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/macosvpn version\"))\nassert_match \"Cisco\", shell_output(\"#{bin}/macosvpn create --cisco Office 2>&1\", 1)\nassert_match \"sharedsecret\", shell_output(\"#{bin}/macosvpn create --l2tp Office --endpoint vpn.example.com 2>&1\", 2)\nassert_match \"no VPN named\", shell_output(\"#{bin}/macosvpn delete --name brew-no-such-vpn 2>&1\", 1)"
+}

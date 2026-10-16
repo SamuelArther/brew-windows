@@ -1,0 +1,6 @@
+{
+  "formula": "killswitch",
+  "desc": "VPN kill switch using Windows Firewall block rules",
+  "commands": ["killswitch"],
+  "test": "assert_match \"No VPN interface found\", shell_output(\"#{bin}/killswitch 2>&1\")\nassert_match \"Interface\", shell_output(\"#{bin}/killswitch\")\nassert_match \"No VPN interface found\", shell_output(\"#{bin}/killswitch -p 2>&1\", 1)\nassert_match(/\\d+\\.\\d+/, shell_output(\"#{bin}/killswitch -v\"))"
+}

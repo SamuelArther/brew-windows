@@ -1,0 +1,6 @@
+{
+  "formula": "macchanger",
+  "desc": "Change a network adapter's MAC address",
+  "commands": ["macchanger"],
+  "test": "assert_match \"macchanger\", shell_output(\"#{bin}/macchanger --version\")\nassert_match \"Please specify an interface name\", shell_output(\"#{bin}/macchanger --show 2>&1\", 1)\nassert_match \"no such interface\", shell_output(\"#{bin}/macchanger -s no-such-adapter 2>&1\", 1)\nassert_match \"invalid MAC address\", shell_output(\"#{bin}/macchanger -m 12:34 no-such-adapter 2>&1\", 2)"
+}

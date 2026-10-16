@@ -1,0 +1,7 @@
+{
+  "formula": "iptables",
+  "desc": "Administer Windows Firewall rules with iptables syntax",
+  "commands": ["iptables", "ip6tables", "iptables-save", "ip6tables-save", "iptables-restore", "ip6tables-restore"],
+  "test": "assert_match \"Windows Firewall\", shell_output(\"#{bin}/iptables --version\")\nassert_match \"-P INPUT\", shell_output(\"#{bin}/iptables -S\")\nassert_match \"Chain OUTPUT\", shell_output(\"#{bin}/ip6tables -L -n\")\nassert_match \"*filter\", shell_output(\"#{bin}/iptables-save\")\n(testpath/\"rules\").write \"*filter\\n:INPUT DROP [0:0]\\n-A INPUT -s 10.0.0.0/8 -p tcp -m multiport --dports 22,80 -j ACCEPT\\nCOMMIT\\n\"\nsystem bin/\"iptables-restore\", \"--test\", testpath/\"rules\"\nassert_match \"only filters\", shell_output(\"#{bin}/iptables -t nat -L 2>&1\", 1)\nassert_match \"Bad rule\", shell_output(\"#{bin}/iptables -C INPUT -p tcp --dport 1 -m comment --comment brewtest -j DROP 2>&1\", 1)",
+  "caveats": "Rules added with iptables are ordinary (persistent) Windows Firewall rules named \"iptables: ...\".\nChanging rules needs an elevated (Administrator) prompt."
+}

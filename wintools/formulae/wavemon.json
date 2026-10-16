@@ -1,0 +1,6 @@
+{
+  "formula": "wavemon",
+  "desc": "Monitor Wi-Fi link quality and nearby access points",
+  "commands": ["wavemon"],
+  "test": "assert_match \"wavemon: option requires an argument -- 'i'\", shell_output(\"#{bin}/wavemon -i 2>&1\", 2)\nassert_match \"wavemon\", shell_output(\"#{bin}/wavemon -v\")\nassert_match \"no supported wireless interfaces\", shell_output(\"#{bin}/wavemon 2>&1\", 1)"
+}
