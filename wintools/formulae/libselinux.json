@@ -1,0 +1,7 @@
+{
+  "formula": "libselinux",
+  "desc": "Mandatory access control utilities for Windows integrity levels",
+  "commands": ["selinuxenabled", "getenforce", "setenforce", "getfilecon", "setfilecon", "getpidcon", "matchpathcon"],
+  "caveats": "The mandatory access control here is Windows Mandatory Integrity Control: contexts are\nintegrity levels (Untrusted, Low, Medium, High, System). It is always Enforcing.\nThere is no libselinux C library or SELinux policy on Windows.",
+  "test": "assert_match(/^(Enforcing|Permissive|Disabled)$/, shell_output(bin/\"getenforce\").chomp)\nsystem bin/\"selinuxenabled\"\n(testpath/\"f.txt\").write \"x\"\nassert_match \"Medium\", shell_output(\"#{bin}/getfilecon #{testpath}/f.txt\")\nsystem bin/\"setfilecon\", \"Low\", testpath/\"f.txt\"\nassert_match \"Low\", shell_output(\"#{bin}/getfilecon #{testpath}/f.txt\")\nshell_output(\"#{bin}/setenforce 0 2>&1\", 1)"
+}
