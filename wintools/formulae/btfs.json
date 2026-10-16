@@ -4,5 +4,6 @@
   "commands": [
     "btfs"
   ],
-  "test": "system bin/\"btfs\", \"--help\"\nassert_match \"btfs version\", shell_output(\"#{bin}/btfs --version\")\n(testpath/\"bad.torrent\").write \"not a torrent\"\nassert_match \"Failed to parse metadata\", shell_output(\"#{bin}/btfs #{testpath}/bad.torrent #{testpath}/mnt 2>&1\", 1)\nassert_match \"info hash\", shell_output(\"#{bin}/btfs 'magnet:?dn=nothing' #{testpath}/mnt 2>&1\", 1)"
+  "test": "system bin/\"btfs\", \"--help\"\nassert_match \"btfs version\", shell_output(\"#{bin}/btfs --version\")\n(testpath/\"bad.torrent\").write \"not a torrent\"\nassert_match \"Failed to parse metadata\", shell_output(\"#{bin}/btfs #{testpath}/bad.torrent #{testpath}/mnt 2>&1\", 1)\nassert_match \"info hash\", shell_output(\"#{bin}/btfs 'magnet:?dn=nothing' #{testpath}/mnt 2>&1\", 1)",
+  "caveats": "btfs needs the Windows Projected File System. Turn it on once (as admin) with:\n  Enable-WindowsOptionalFeature -Online -FeatureName Client-ProjFS -NoRestart\nThen `btfs file.torrent mnt` (or a magnet link with tr= trackers) and unmount with `btfs -u mnt`."
 }
