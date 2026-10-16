@@ -23,7 +23,7 @@ sealed class XcResultBundle
         if (!Directory.Exists(full)) throw new IOException($"{path}: no such .xcresult bundle");
         var info = System.IO.Path.Combine(full, "Info.plist");
         if (!File.Exists(info)) throw new IOException($"{path}: not an .xcresult bundle (no Info.plist)");
-        var plist = XcPlist.Read(File.ReadAllBytes(info)) as Dictionary<string, object>;
+        var plist = XcResultPlist.Read(File.ReadAllBytes(info)) as Dictionary<string, object>;
         var root = (plist?.GetValueOrDefault("rootId") as Dictionary<string, object>)?.GetValueOrDefault("hash") as string;
         return new XcResultBundle(full, root);
     }
@@ -218,7 +218,7 @@ sealed class XcResultBundle
         if (root == null) return null;
         var reportRef = root.Array("actions").Select(a => a["actionResult"]?["coverage"]?.RefId("reportRef")).FirstOrDefault(r => r != null);
         if (reportRef == null || !HasObject(reportRef)) return null;
-        if (XcPlist.Unarchive(Raw(reportRef)) is not Dictionary<string, object> report) return null;
+        if (XcResultPlist.Unarchive(Raw(reportRef)) is not Dictionary<string, object> report) return null;
         var coverage = new XcrCoverage { Covered = Long(report, "coveredLines"), Executable = Long(report, "executableLines") };
         foreach (var t in List(report, "buildableCoverageObjects"))
         {

@@ -103,8 +103,8 @@ sealed class XcNode
 }
 
 // Property lists: XML and binary (bplist00) reading, NSKeyedArchiver decoding. Values come back as
-// Dictionary<string, object>, List<object>, string, long, double, bool, byte[], DateTime or XcPlist.Uid.
-static class XcPlist
+// Dictionary<string, object>, List<object>, string, long, double, bool, byte[], DateTime or XcResultPlist.Uid.
+static class XcResultPlist
 {
     public readonly record struct Uid(int Index);
 
