@@ -1,0 +1,25 @@
+--- a/tap/homebrew-core/Formula/p/pigz.rb
++++ b/tap/homebrew-core/Formula/p/pigz.rb
+@@ -17,6 +17,13 @@
+   end
+ 
+   def install
++    if OS.windows?
++      # argv[0] is C:\\...\\unpigz.exe here: without the backslash split and the .exe, unpigz compresses.
++      inreplace "pigz.c", "p = strrchr(argv[0], '/');",
++                "p = strrchr(argv[0], 92); /* backslash */\n        if (p == NULL) p = strrchr(argv[0], '/');"
++      inreplace "pigz.c", 'strcmp(g.prog, "unpigz") == 0 || strcmp(g.prog, "gunzip") == 0',
++                'strncmp(g.prog, "unpigz", 6) == 0 || strncmp(g.prog, "gunzip", 6) == 0'
++    end
+     system "make", "CC=#{ENV.cc}", "CFLAGS=#{ENV.cflags}"
+     bin.install "pigz", "unpigz"
+     man1.install "pigz.1"
+@@ -30,7 +37,7 @@
+     assert_predicate testpath/"example.gz", :file?
+     system bin/"unpigz", testpath/"example.gz"
+     assert_equal test_data, (testpath/"example").read
+-    system "/bin/dd", "if=/dev/random", "of=foo.bin", "bs=1024k", "count=10"
++    system OS.windows? ? "dd" : "/bin/dd", "if=/dev/random", "of=foo.bin", "bs=1024k", "count=10"
+     system bin/"pigz", "foo.bin"
+   end
+ end

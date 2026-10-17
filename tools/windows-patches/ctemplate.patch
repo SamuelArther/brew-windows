@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/c/ctemplate.rb
++++ b/tap/homebrew-core/Formula/c/ctemplate.rb
+@@ -13,6 +13,8 @@
+   uses_from_macos "python" => :build
+ 
+   def install
++    # GCC 16 defaults to C++20, which removed std::allocator<void>::const_pointer.
++    ENV.append "CXXFLAGS", "-std=gnu++17" if OS.windows?
+     system "./autogen.sh"
+     system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}"
+     system "make", "install"

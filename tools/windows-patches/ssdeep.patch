@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/s/ssdeep.rb
++++ b/tap/homebrew-core/Formula/s/ssdeep.rb
+@@ -6,6 +6,8 @@
+   license "GPL-2.0-or-later"
+ 
+   def install
++    # GCC 16 defaults to C++20, which deletes ostream << const wchar_t* (the Windows build prints wide names).
++    ENV.append "CXXFLAGS", "-std=gnu++17" if OS.windows?
+     system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}"
+     system "make", "install"
+   end

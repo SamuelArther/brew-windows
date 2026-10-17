@@ -76,7 +76,7 @@ $PosixOnly = @(
     "too many arguments to function 'mkdir'|socket function not found|cannot find library function socket|-rdynamic",
     # More of what Cygwin's libc has and MinGW's doesn't: headers, POSIX types, signals and functions.
     'fatal error: ''?(sys/(uio|dir|file|ipc|shm|sem|msg|random)|nl_types|alloca|regex|net/if|netinet/in_systm)\.h',
-    "(unknown type name|does not name a type|has not been declared)[^\n]*'(sigjmp_buf|sigset_t|uid_t|gid_t|u_int\w*|u_char|u_short|u_long|suseconds_t)'",
+    "unknown type name '(sigjmp_buf|sigset_t|uid_t|gid_t|u_int\w*|u_char|u_short|u_long|suseconds_t)'|'(sigjmp_buf|sigset_t|uid_t|gid_t|u_int\w*|u_char|u_short|u_long|suseconds_t)' (does not name a type|has not been declared)",
     "'SIG(PIPE|USR1|USR2|WINCH|CHLD|HUP|ALRM|QUIT|TSTP|CONT)' (undeclared|was not declared)|'(F_SETFL|F_GETFL|O_NONBLOCK|FIONREAD|MAXNAMLEN|S_ISLNK|S_IFLNK|_SC_ARG_MAX|MCL_CURRENT)' (undeclared|was not declared)",
     "'(fchmod|fchown|lstat|truncate|ttyname|getppid|drand48|srand48|lrand48|asprintf|vasprintf|realpath|setenv|strsep)' was not declared|implicit declaration of function '(fchmod|lstat|drand48|srand48|lrand48|getline|strsep|setenv)'",
     "storage size of '\w+' isn't known[^\n]*|variable '\w+' has initializer but incomplete type|invalid use of undefined type 'struct (sigaction|itimerval|passwd|group)'",

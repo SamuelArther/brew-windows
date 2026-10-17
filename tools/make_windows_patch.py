@@ -16,7 +16,11 @@ def main():
     core = pathlib.Path(sys.argv[1]) / "Formula"
     PATCHES.mkdir(parents=True, exist_ok=True)
     for name in sys.argv[2:]:
-        upstream = convert((core / name[0] / f"{name}.rb").read_text(encoding="utf-8"))
+        # homebrew-core shards lib* formulae under Formula/lib/, as import_upstream.py's fallback finds them.
+        source = core / name[0] / f"{name}.rb"
+        if not source.exists():
+            source = next(core.glob(f"*/{name}.rb"))
+        upstream = convert(source.read_text(encoding="utf-8"))
         target = formula_dir(name) / f"{name}.rb"
         edited = target.read_text(encoding="utf-8")
         rel = target.relative_to(REPO).as_posix()

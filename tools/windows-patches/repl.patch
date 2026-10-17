@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/r/repl.rb
++++ b/tap/homebrew-core/Formula/r/repl.rb
+@@ -8,6 +8,8 @@
+   conflicts_with "nmh", because: "both install `repl` binaries"
+ 
+   def install
++    # File.exists? is gone since Ruby 3.2; the ruby that runs the script on Windows is current.
++    inreplace "bin/repl", "File.exists?", "File.exist?"
+     bin.install "bin/repl"
+     man1.install "man/repl.1"
+   end

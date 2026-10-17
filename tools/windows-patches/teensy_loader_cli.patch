@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/t/teensy_loader_cli.rb
++++ b/tap/homebrew-core/Formula/t/teensy_loader_cli.rb
+@@ -21,6 +21,8 @@
+       inreplace "teensy_loader_cli.c", /ret != kIOReturnSuccess/, "0"
+     end
+ 
++    # The Makefile picks its platform from OS, which Windows itself sets to Windows_NT (no target matches).
++    ENV["OS"] = "WINDOWS" if OS.windows?
+     system "make"
+     bin.install "teensy_loader_cli"
+   end

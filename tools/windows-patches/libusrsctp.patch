@@ -1,0 +1,13 @@
+--- a/tap/homebrew-core/Formula/l/libusrsctp.rb
++++ b/tap/homebrew-core/Formula/l/libusrsctp.rb
+@@ -25,7 +25,9 @@
+   deny_network_access!
+ 
+   def install
+-    system "cmake", "-S", ".", "-B", "build", "-Dsctp_build_shared_lib=ON", *std_cmake_args
++    # Newer GCC warns more (-Wunused-but-set-variable) than usrsctp's -Werror allows.
++    args = OS.windows? ? ["-Dsctp_werror=OFF"] : []
++    system "cmake", "-S", ".", "-B", "build", "-Dsctp_build_shared_lib=ON", *args, *std_cmake_args
+     system "cmake", "--build", "build"
+     system "cmake", "--install", "build"
+   end

@@ -1,0 +1,13 @@
+--- a/tap/homebrew-core/Formula/t/tth.rb
++++ b/tap/homebrew-core/Formula/t/tth.rb
+@@ -14,7 +14,9 @@
+ 
+   def install
+     system "make", "tth.c"
+-    system ENV.cc, "-o", "tth", "tth.c"
++    # GCC 16 defaults to C23, where tth's K&R declarations take no arguments.
++    args = OS.windows? ? ["-std=gnu17"] : []
++    system ENV.cc, *args, "-o", "tth", "tth.c"
+     bin.install %w[tth latex2gif ps2gif]
+     man1.install "tth.1"
+   end
