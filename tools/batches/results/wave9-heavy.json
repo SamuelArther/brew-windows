@@ -1,0 +1,157 @@
+[
+  {
+    "name": "apache-arrow",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "cabal-install",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "clisp",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "crystal",
+    "status": "build",
+    "seconds": 1207
+  },
+  {
+    "name": "dotnet@8",
+    "status": "build",
+    "seconds": 334
+  },
+  {
+    "name": "erlang@28",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "fbthrift",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "fizz",
+    "status": "build",
+    "seconds": 1178
+  },
+  {
+    "name": "ghc",
+    "status": "build",
+    "seconds": 32
+  },
+  {
+    "name": "ghc@9.12",
+    "status": "build",
+    "seconds": 34
+  },
+  {
+    "name": "git-annex",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "haskell-stack",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "hpack",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "ldc",
+    "status": "build",
+    "seconds": 119
+  },
+  {
+    "name": "libint",
+    "status": "build",
+    "seconds": 81
+  },
+  {
+    "name": "llvm@19",
+    "status": "build",
+    "seconds": 207
+  },
+  {
+    "name": "llvm@20",
+    "status": "build",
+    "seconds": 237
+  },
+  {
+    "name": "llvm@21",
+    "status": "build",
+    "seconds": 235
+  },
+  {
+    "name": "llvm@22",
+    "status": "build",
+    "seconds": 173
+  },
+  {
+    "name": "mlton",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "mvfst",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "openjdk@11",
+    "status": "build",
+    "seconds": 141
+  },
+  {
+    "name": "purescript",
+    "status": "build",
+    "seconds": 32
+  },
+  {
+    "name": "pytorch",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "qt@5",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "qtbase",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "spidermonkey",
+    "status": "build",
+    "seconds": 833
+  },
+  {
+    "name": "swift",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "vectorscan",
+    "status": "build",
+    "seconds": 693
+  },
+  {
+    "name": "wangle",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "yosys",
+    "status": "build",
+    "seconds": 23
+  }
+]
