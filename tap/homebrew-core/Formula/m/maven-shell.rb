@@ -1,0 +1,36 @@
+class MavenShell < Formula
+  desc "Shell for Maven"
+  homepage "https://github.com/jdillon/mvnsh"
+  url "https://search.maven.org/remotecontent?filepath=org/sonatype/maven/shell/dist/mvnsh-assembly/1.1.0/mvnsh-assembly-1.1.0-bin.tar.gz"
+  sha256 "584008d726bf6f90271f4ccd03b549773cbbe62ba7e92bf131e67df3ac5a41ac"
+  license "EPL-1.0"
+
+  livecheck do
+    url "https://search.maven.org/remotecontent?filepath=org/sonatype/maven/shell/dist/mvnsh-assembly/maven-metadata.xml"
+    regex(%r{<version>v?(\d+(?:\.\d+)+)</version>}i)
+  end
+
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d9894d3390f8519cddd4c2cb0e763ff42001e744b3825b3c88d519cd09bf5852"
+  end
+
+  depends_on "openjdk" => :test
+
+  deny_network_access!
+
+  def install
+    # Remove windows files.
+    rm(Dir["bin/*.bat"])
+    libexec.install Dir["*"]
+    bin.install_symlink libexec/"bin/mvnsh"
+  end
+
+  test do
+    ENV["JAVA_HOME"] = formula_opt_prefix("openjdk")
+    # Old Guice/XStream need reflective access on modern Java
+    opens = %w[java.base/java.util java.base/java.lang.reflect java.base/java.text java.desktop/java.awt.font]
+    ENV["MAVEN_OPTS"] = "-Duser.home=#{testpath} " + opens.map { |o| "--add-opens=#{o}=ALL-UNNAMED" }.join(" ")
+
+    assert_equal "hello world", shell_output("#{bin}/mvnsh -c 'echo hello world'").strip
+  end
+end
