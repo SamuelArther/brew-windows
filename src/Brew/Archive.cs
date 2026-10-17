@@ -93,6 +93,7 @@ public static class Archive
             var error = await process.StandardError.ReadToEndAsync();
             await process.WaitForExitAsync();
             if (process.ExitCode != 0) throw new IOException($"Could not extract {filename}: {error.Trim()}");
+            RetypeDirectoryLinks(destination);
         }
         else if (!filename.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || !await InstallerArchive.Extract(file, destination))
         { File.Copy(file, Path.Combine(destination, filename)); return destination; }
@@ -103,5 +104,34 @@ public static class Archive
             && entries.Length == 1 && Directory.Exists(entries[0]) && new DirectoryInfo(entries[0]).LinkTarget == null)
             return entries[0];
         return destination;
+    }
+
+    // Windows' bsdtar makes every tar symlink a file symlink, since its target may not be extracted yet. One that
+    // points at a directory then can't be opened as one ("Access to the path ... is denied" staging baml's
+    // languages/rust/baml/types -> ../../../engine/language_client_cffi/types), so it becomes a directory link.
+    internal static void RetypeDirectoryLinks(string root)
+    {
+        // Only file-type reparse points: no per-file link lookups across a big source tree.
+        var fileLinks = new System.IO.Enumeration.FileSystemEnumerable<string>(root, (ref System.IO.Enumeration.FileSystemEntry e) => e.ToFullPath(),
+            new EnumerationOptions { RecurseSubdirectories = true, AttributesToSkip = 0, IgnoreInaccessible = true })
+        {
+            ShouldIncludePredicate = (ref System.IO.Enumeration.FileSystemEntry e) =>
+                (e.Attributes & FileAttributes.ReparsePoint) != 0 && (e.Attributes & FileAttributes.Directory) == 0,
+            ShouldRecursePredicate = (ref System.IO.Enumeration.FileSystemEntry e) => (e.Attributes & FileAttributes.ReparsePoint) == 0,
+        };
+        foreach (var path in fileLinks.ToList())
+        {
+            if (new FileInfo(path).LinkTarget is not { } target) continue;
+            var resolved = Path.GetFullPath(target, Path.GetDirectoryName(path)!);
+            // Only links that stay inside the extracted tree (tar rejects others' paths, but not link targets).
+            var inside = Path.TrimEndingDirectorySeparator(Path.GetFullPath(root)) + Path.DirectorySeparatorChar;
+            if (!resolved.StartsWith(inside, StringComparison.OrdinalIgnoreCase) || !Directory.Exists(resolved)) continue;
+            try
+            {
+                File.Delete(path);
+                Directory.CreateSymbolicLink(path, target.Replace('/', '\\'));
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
+        }
     }
 }

@@ -120,12 +120,24 @@ class Ratarmount < Formula
   def install
     resource("zlib-source").stage buildpath/"zlib"
     ENV["ZLIB_HOME"] = buildpath/"zlib"
+    # indexed_zstd's Windows build compiles against LIBZSTD_DIR/include and links LIBZSTD_DIR/lib/libzstd.lib
+    # (without it, MSVC: "Cannot open include file: 'zstd.h'"). zstd's keg is MSYS2's: its headers, and its
+    # MinGW import library under MSVC's name (link.exe reads GNU import libraries).
+    zstd = Formula["zstd"].opt_libexec/"ucrt64"
+    (buildpath/"libzstd/include").mkpath
+    (buildpath/"libzstd/lib").mkpath
+    cp Dir[zstd/"include/{zstd,zstd_errors,zdict}.h"], buildpath/"libzstd/include"
+    cp zstd/"lib/libzstd.dll.a", buildpath/"libzstd/lib/libzstd.lib"
+    ENV["LIBZSTD_DIR"] = buildpath/"libzstd"
     venv = virtualenv_install_with_resources(without: "zlib-source")
     fuse_dll = (Formula["libfuse"].opt_bin/"winfsp-x64.dll").to_s.tr("/", "\\")
     archive_dll = Dir[Formula["libarchive"].opt_bin/"libarchive*.dll"].first.to_s.tr("/", "\\")
+    zstd_bin = (zstd/"bin").to_s.tr("/", "\\")
+    # Python doesn't search PATH for an extension's DLLs: indexed_zstd's libzstd.dll is added explicitly.
     (venv.site_packages/"homebrew-windows-dlls.pth").write <<~PTH
       import os; os.environ.setdefault("FUSE_LIBRARY_PATH", r"#{fuse_dll}")
       import os; os.environ.setdefault("LIBARCHIVE", r"#{archive_dll}")
+      import os; os.path.isdir(r"#{zstd_bin}") and os.add_dll_directory(r"#{zstd_bin}")
     PTH
   end
 

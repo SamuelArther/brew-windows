@@ -575,7 +575,22 @@ public sealed partial class Interp
         Def(E, "append_path", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.PathStr(a[1]), ";", false); return null; });
         Def(E, "prepend", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.ToS(a[1]), a.Length > 2 ? it.Str(a[2]) : " ", true); return null; });
         Def(E, "append", (it, self, a, b) => { it.EnvJoin(it.Str(a[0]), it.ToS(a[1]), a.Length > 2 ? it.Str(a[2]) : " ", false); return null; });
-        Def(E, "deparallelize permit_arch_flags runtime_cpu_detection cxx11 libcxx O0 O1 O2 O3 Os refurbish_args", (it, self, a, b) => null);
+        Def(E, "permit_arch_flags runtime_cpu_detection cxx11 libcxx O0 O1 O2 O3 Os refurbish_args", (it, self, a, b) => null);
+        // Superenv's deparallelize: make runs one job (no MAKEFLAGS, HOMEBREW_MAKE_JOBS=1); with a block, only
+        // for the block (ghc@9.4's `ENV.deparallelize { system "make", "install" }`), then both come back.
+        Def(E, "deparallelize", (it, self, a, b) =>
+        {
+            var oldFlags = it.Env.Remove("MAKEFLAGS", out var f) ? f : null;
+            var oldJobs = it.Env.TryGetValue("HOMEBREW_MAKE_JOBS", out var j) ? j : null;
+            it.Env["HOMEBREW_MAKE_JOBS"] = "1";
+            if (b == null) return null;
+            try { return it.Yield(b); }
+            finally
+            {
+                if (oldFlags != null) it.Env["MAKEFLAGS"] = oldFlags; else it.Env.Remove("MAKEFLAGS");
+                if (oldJobs != null) it.Env["HOMEBREW_MAKE_JOBS"] = oldJobs; else it.Env.Remove("HOMEBREW_MAKE_JOBS");
+            }
+        });
     }
 
     // File.read: text mode (CRLF -> LF, a UTF-8 BOM dropped); bytes that aren't UTF-8 stay raw bytes, as in
@@ -624,6 +639,8 @@ public sealed partial class Interp
 
     void EnvJoin(string key, string value, string sep, bool prepend)
     {
+        // Java on Windows splits CLASSPATH at ';': upstream's ":" would cut "C:/.../antlr-complete.jar" at its drive colon.
+        if (sep == ":" && key.Equals("CLASSPATH", StringComparison.OrdinalIgnoreCase)) sep = ";";
         if (!Env.TryGetValue(key, out var cur) || cur.Length == 0) { Env[key] = value; return; }
         Env[key] = prepend ? value + sep + cur : cur + sep + value;
     }
@@ -721,6 +738,9 @@ public sealed partial class Interp
             else Directory.Move(from, to);
         }
         else if (File.Exists(from) || IsSymlink(from)) File.Move(from, to, true);
+        // A built executable named without its .exe moves as one (build2: mv "b/b", "b/b-boot" for b.exe).
+        else if (WithExe(from) is { } exe)
+            File.Move(exe, Path.HasExtension(to) && !to.EndsWith('.') ? to : to + Path.GetExtension(exe).ToLowerInvariant(), true);
         else throw Error(ENOENT, $"No such file or directory @ rb_file_s_rename - ({from}, {to})");
     }
 

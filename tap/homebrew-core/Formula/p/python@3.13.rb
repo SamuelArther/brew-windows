@@ -4,6 +4,7 @@ class PythonAT313 < Formula
   url "https://api.nuget.org/v3-flatcontainer/python/3.13.16/python.3.13.16.nupkg"
   sha256 "95fad176338f1d6a799e45946488063f4aa61764e6cff2f132ddeffbf7a04c34"
   license "Python-2.0"
+  revision 1
 
   # Track the official CPython NuGet package (stable releases of this minor version).
   livecheck do
@@ -17,6 +18,10 @@ class PythonAT313 < Formula
 
   def install
     install_tree
+    # Upstream's libexec/bin/python and python3, which multi-Python formulae run as
+    # `f.opt_libexec/"bin/python"` (numpy, rpds-py, py3cairo). Python finds its home through the link.
+    (libexec/"bin").install_symlink libexec/"tools/python.exe"
+    (libexec/"bin").install_symlink libexec/"tools/python.exe" => "python3.exe"
     windows_exe "libexec/tools/python.exe", "python3.13"
     windows_exe "libexec/tools/python.exe", "pip3.13", "-m", "pip"
   end

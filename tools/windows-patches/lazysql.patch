@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/l/lazysql.rb
++++ b/tap/homebrew-core/Formula/l/lazysql.rb
+@@ -37,7 +37,8 @@
+     names = pipe_output("sqlite3 test.db", school, 0).strip.split("\n")
+     assert_equal %w[Sue Tim Bob], names
+ 
+-    assert_match "terminal not cursor addressable", shell_output("#{bin}/lazysql test.db 2>&1", 1)
++    # tcell drives the Windows console directly, not terminfo, so TERM=dumb does not stop the TUI there.
++    assert_match "terminal not cursor addressable", shell_output("#{bin}/lazysql test.db 2>&1", 1) unless OS.windows?
+ 
+     assert_match version.to_s, shell_output("#{bin}/lazysql -version 2>&1")
+   end

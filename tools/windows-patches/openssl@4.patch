@@ -1,16 +1,17 @@
 --- a/tap/homebrew-core/Formula/o/openssl@4.rb
 +++ b/tap/homebrew-core/Formula/o/openssl@4.rb
-@@ -33,6 +33,9 @@
+@@ -33,6 +33,10 @@
      arch_args = []
      if OS.mac?
        arch_args += %W[darwin64-#{Hardware::CPU.arch}-cc enable-ec_nistp_64_gcc_128]
 +    elsif OS.windows?
-+      # MSYS2's UCRT64 GCC with OpenSSL's own MinGW-w64 target.
-+      arch_args << "mingw64"
++      # MSYS2's UCRT64 GCC with OpenSSL's own MinGW-w64 target. The test suite doesn't run on Windows (below),
++      # so its ~400 programs aren't built either: the whole build ran past CI's 45-minute limit.
++      arch_args += %w[mingw64 no-tests]
      elsif Hardware::CPU.intel?
        arch_args << "linux-x86_64"
      elsif Hardware::CPU.arm?
-@@ -43,7 +46,8 @@
+@@ -43,7 +47,8 @@
      system "perl", "./Configure", *configure_args, *arch_args
      system "make"
      system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"

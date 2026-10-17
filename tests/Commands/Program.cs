@@ -29,6 +29,7 @@ try
     assertions += RubyStdLib.Run(root);
     assertions += FormulaDsl.Run(root);
     assertions += GoRustFormulae.Run(root);
+    assertions += FoundationFormulae.Run(root);
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);

@@ -4,7 +4,7 @@ class PythonAT314 < Formula
   url "https://api.nuget.org/v3-flatcontainer/python/3.14.8/python.3.14.8.nupkg"
   sha256 "ce85f674d9a63029f709cbff7a3da1c6bc5bfcfaefdd9999f98fa0290470c454"
   license "Python-2.0"
-  revision 3
+  revision 4
 
   # Track the official CPython NuGet package (stable releases of this minor version).
   livecheck do
@@ -18,6 +18,10 @@ class PythonAT314 < Formula
 
   def install
     install_tree
+    # Upstream's libexec/bin/python and python3, which multi-Python formulae run as
+    # `f.opt_libexec/"bin/python"` (numpy, rpds-py, py3cairo). Python finds its home through the link.
+    (libexec/"bin").install_symlink libexec/"tools/python.exe"
+    (libexec/"bin").install_symlink libexec/"tools/python.exe" => "python3.exe"
     windows_exe "libexec/tools/python.exe", "python3.14"
     windows_exe "libexec/tools/python.exe", "pip3.14", "-m", "pip"
   end

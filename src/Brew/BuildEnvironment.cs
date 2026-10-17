@@ -280,6 +280,26 @@ public static class BuildEnvironment
         // the same lists from CPATH and LIBRARY_PATH, so plain Makefiles and `gcc test.c -lfoo` in tests find them.
         env["CPATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(Posix));
         env["LIBRARY_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(Posix));
+        // GNU make runs as many jobs as Homebrew's superenv allows (MAKEFLAGS=-j<make_jobs>); a formula's own -j or
+        // ENV.deparallelize still wins. Single-job OpenSSL builds ran past the 45-minute limit.
+        if (!env.ContainsKey("MAKEFLAGS") && Environment.GetEnvironmentVariable("MAKEFLAGS") is not { Length: > 0 })
+            env["MAKEFLAGS"] = "-j" + (env.TryGetValue("HOMEBREW_MAKE_JOBS", out var jobs) ? jobs
+                : Environment.GetEnvironmentVariable("HOMEBREW_MAKE_JOBS") is { Length: > 0 } set ? set : Environment.ProcessorCount.ToString());
+        if (dependencies.Any(d => d is "rust" or "rustup")) PointCcRsAtMsvc(env);
+    }
+
+    // Rust's toolchain targets x86_64-pc-windows-msvc, and cc-rs (the C build of *-sys crates) reads CC and AR before
+    // looking for Visual Studio: MSYS2's gcc and `ar` then got lib.exe's "-out:" ("ar: invalid option -- :", turso's
+    // libmimalloc-sys and zstd-sys). The target-specific variables, which cc-rs reads first, name MSVC's own tools.
+    static void PointCcRsAtMsvc(Dictionary<string, string> env)
+    {
+        if (MsvcX64 is not { } msvc || !msvc.TryGetValue("__MSVC_PATH", out var dirs)) return;
+        string Tool(string exe) => dirs.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(d => Path.Combine(d.Trim('"'), exe)).FirstOrDefault(File.Exists);
+        if (Tool("cl.exe") is not { } cl || Tool("lib.exe") is not { } lib) return;
+        // CFLAGS/CXXFLAGS hold GCC's options ("-Wno-error=..." is a fatal D8021 to cl); the target-specific ones,
+        // read instead of them, stay empty.
+        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib), ("CFLAGS", ""), ("CXXFLAGS", "") })
+            if (!env.ContainsKey(name + "_x86_64_pc_windows_msvc")) env[name + "_x86_64_pc_windows_msvc"] = value;
     }
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.

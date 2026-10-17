@@ -29,7 +29,7 @@ public static partial class FormulaLoader
             if (spec.Git) dir = GitSources.StageAsync(spec.Url, spec.Tag, spec.Revision, spec.Branch ?? "", into).GetAwaiter().GetResult();
             else
             {
-                var file = new Downloader(new Paths().Cache).FetchAsync(spec.Url, spec.Sha256).GetAwaiter().GetResult();
+                var file = new Downloader(new Paths().Cache).FetchAsync(spec.Url, spec.Sha256, spec.Mirrors).GetAwaiter().GetResult();
                 dir = Archive.StageAsync(file, Downloader.FileName(spec.Url), into, spec.Using == "nounzip").GetAwaiter().GetResult();
             }
             staged[spec.Name] = dir;

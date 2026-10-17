@@ -71,8 +71,7 @@ public static partial class FormulaLoader
         if (spec.Url == null) throw new InvalidOperationException($"{name}: formula requires at least a URL");
         if (spec.Version == null)
         {
-            // Homebrew's Version.detect: a git source's version comes from its tag.
-            spec.Version = spec.UrlTag != null && GitSources.VersionFromTag(spec.UrlTag) is { } tagged ? tagged : Versions.Parse(spec.Url);
+            spec.Version = StableVersion(spec);
             spec.VersionFromUrl = true;
         }
         if (spec.Version == null) throw new InvalidOperationException($"{name}: version could not be detected from URL: {spec.Url}");
@@ -80,6 +79,11 @@ public static partial class FormulaLoader
         spec.HasPostInstall = it.FindMethod(cls, "post_install")?.Owner != formulaClass;
         return spec;
     }
+
+    // The explicit `version`, else Homebrew's Version.detect: a git source's version comes from its tag, others from the url.
+    static string StableVersion(FormulaSpec spec) =>
+        spec.Version ?? (spec.Url == null ? null
+            : spec.UrlTag != null && GitSources.VersionFromTag(spec.UrlTag) is { } tagged ? tagged : Versions.Parse(spec.Url));
 
     static string Where(Interp it, string path) => it.CurLine > 0 ? $"{path}:{it.CurLine}: " : "";
 
@@ -189,6 +193,7 @@ public static partial class FormulaLoader
     {
         var F = it.DefineClass("Formula");
         F.Includes.Add(it.FileUtilsModule);   // Homebrew's Formula includes FileUtils (mv, cp, rm_r, ...)
+        DefineKeg(it);
         var os = it.DefineModule("OS");
         it.DefS(os, "mac? linux?", (i, s, a, b) => false);
         it.DefS(os, "windows?", (i, s, a, b) => true);
@@ -291,14 +296,32 @@ public static partial class FormulaLoader
             spec.UrlUsing = Opt("using");
             return null;
         });
-        Field("version", (s, v) => s.Version = v);
+        // `version "1.2"` sets it; bare `version` (Formula.version = stable.version) reads it, also inside the class
+        // body (extra-cmake-modules' livecheck url uses #{version.major}) before the load fills it from the url.
+        it.DefS(F, "version", (i, self, a, b) =>
+        {
+            if (a.Length == 0) return StableVersion(Sp(self)) is { } v ? VersionObject(i, v) : null;
+            i.Arity(a, 1, 2);
+            Sp(self).Version = i.ToS(a[0]);
+            return null;
+        });
         Field("sha256", (s, v) => s.Sha256 = v.ToLowerInvariant());
         Field("mirror", (s, v) => s.Mirrors.Add(v));
         it.DefS(F, "license", (i, self, a, b) => { Sp(self).License = LicenseString(i, a[0]); return null; });
         it.DefS(F, "revision", (i, self, a, b) => { Sp(self).Revision = (int)i.Int(a[0]); return null; });
         it.DefS(F, "version_scheme", (i, self, a, b) => { Sp(self).VersionScheme = (int)i.Int(a[0]); return null; });
         it.DefS(F, "depends_on", (i, self, a, b) => { AddDeps(i, Sp(self).Dependencies, a); return null; });
-        it.DefS(F, "uses_from_macos", (i, self, a, b) => { AddDeps(i, Sp(self).UsesFromMacos, a); return null; });
+        it.DefS(F, "uses_from_macos", (i, self, a, b) =>
+        {
+            var deps = new List<Dependency>();
+            AddDeps(i, deps, a);
+            Sp(self).UsesFromMacos.AddRange(deps);
+            // Windows has no system sqlite3, zip or zsh for a test to use: as on Linux, a test-only one is a test
+            // dependency (lazysql and vi-sql pipe SQL into sqlite3) when its tap has the formula.
+            foreach (var d in deps.Where(d => d.Tags.Count == 1 && d.Test && TapHasFormula(i, d.Name)))
+                Sp(self).Dependencies.Add(d);
+            return null;
+        });
         it.DefS(F, "conflicts_with", (i, self, a, b) =>
         {
             var because = Kw(i, a, "because") is { } bc ? i.ToS(bc) : null;
@@ -359,7 +382,7 @@ public static partial class FormulaLoader
             i.Def(i.SingletonOf(holder), "livecheck", (_, _, _, _) => null);
             if (b != null) i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             var r = (FormulaSpec)holder.Host;
-            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing));
+            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing) { Mirrors = r.Mirrors.ToList() });
             return null;
         });
         it.DefS(F, "patch", (i, self, a, b) =>
@@ -393,6 +416,7 @@ public static partial class FormulaLoader
             var lc = Sp(self).Livecheck = new LivecheckSpec();
             if (b == null) return null;
             var holder = new RObject { Class = LivecheckClass(i), Host = lc };
+            holder.SetIvar("@package_or_resource", self);
             i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             return null;
         });
@@ -707,8 +731,44 @@ public static partial class FormulaLoader
                 it.Def(cls, m, (i, s, a, b) => i.NewPath(isPkg ? Path.Combine(Opt(i, s, sb), S(s).Name) : Opt(i, s, sb)));
             }
             it.Def(cls, "any_version_installed? latest_version_installed? installed?", (i, s, a, b) => Directory.Exists(Opt(i, s, "")));
+            // Formula#versioned_formulae: the other name@version formulae of the same software, newest first
+            // (python-setuptools links its files into every python@3.x's site-packages).
+            it.Def(cls, "versioned_formulae", (i, s, a, b) =>
+            {
+                var name = S(s).Name;
+                var stem = name.Split('@')[0];
+                var dir = Path.GetDirectoryName(S(s).Path);
+                var others = dir == null || !Directory.Exists(dir) ? []
+                    : Directory.GetFiles(dir, stem + "@*.rb").Select(Path.GetFileNameWithoutExtension)
+                        .Where(n => !n.Equals(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                var loaded = new List<RObject>();
+                foreach (var other in others)
+                {
+                    try { loaded.Add(OtherFormula(i, other)); }
+                    catch (Exception e) when (e is RubyError or InvalidOperationException) { }   // FormulaUnavailableError: skipped, as upstream
+                }
+                return new RArray(loaded.OrderByDescending(f => S(f).Version, Comparer<string>.Create(Versions.Compare)).Select(f => (object)f).ToList());
+            });
         }
         return new RObject { Class = cls, Host = spec };
+    }
+
+    // Keg.for(path): the keg a file belongs to (Cellar/<name>/<version>/... or opt/<name>/...), and Keg#to_formula.
+    static void DefineKeg(Interp it)
+    {
+        var keg = it.DefineClass("Keg");
+        string Name(object o) => (string)((RObject)o).Host;
+        it.DefS(keg, "for new", (i, self, a, b) =>
+        {
+            var path = i.Abs(i.PathStr(a[0]));
+            var prefix = i.ConstGet(i.ObjectClass, "HOMEBREW_PREFIX") is RObject { Host: string hp } ? hp : DevCommands.Prefix;
+            var parts = Path.GetRelativePath(prefix, path).Split('\\', '/');
+            if (parts.Length < 2 || !(parts[0].Equals("Cellar", StringComparison.OrdinalIgnoreCase) || parts[0].Equals("opt", StringComparison.OrdinalIgnoreCase)))
+                throw i.Error(i.ConstGet(i.ObjectClass, "NotAKegError") as RClass ?? i.DefineClass("NotAKegError", i.RuntimeError), $"{path} is not inside a keg");
+            return new RObject { Class = (RClass)self, Host = parts[1] };
+        });
+        it.Def(keg, "name to_s", (i, self, a, b) => Interp.S(Name(self)));
+        it.Def(keg, "to_formula", (i, self, a, b) => OtherFormula(i, Name(self)));
     }
 
     static RClass BuildError(Interp it) => it.ConstGet(it.ObjectClass, "BuildError") as RClass ?? it.DefineClass("BuildError", it.RuntimeError);
@@ -796,6 +856,16 @@ public static partial class FormulaLoader
         if (errors.Count > 0) throw it.Error(it.RuntimeError, "inreplace failed\n" + string.Join("\n", errors));
     }
 
+    // A formula (or alias) of that name beside the file being loaded: <tap>/Formula/<shard>/<name>.rb or <tap>/Aliases/<name>.
+    static bool TapHasFormula(Interp it, string name)
+    {
+        if (it.CurrentFile is not { Length: > 0 } current || name.Contains('/')) return false;
+        var formulaDir = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath(current)));
+        if (formulaDir == null || !Path.GetFileName(formulaDir).Equals("Formula", StringComparison.OrdinalIgnoreCase)) return false;
+        return File.Exists(Path.Combine(formulaDir, DevCommands.Shard(name), name + ".rb"))
+            || File.Exists(Path.Combine(Path.GetDirectoryName(formulaDir)!, "Aliases", name));
+    }
+
     static void AddDeps(Interp it, List<Dependency> list, object[] a)
     {
         foreach (var arg in a)
@@ -859,6 +929,10 @@ public static partial class FormulaLoader
         it.Def(L, "skip", (i, self, a, b) => { Lc(self).Skip = a.Length > 0 ? i.ToS(a[0]) : ""; return null; });
         it.Def(L, "formula", (i, self, a, b) => { Lc(self).Formula = i.StrOrSym(a[0]); return null; });
         it.Def(L, "throttle", (i, self, a, b) => null);
+        // Livecheck delegates version, arch and os to its formula (`url "https://kde.org/.../#{version.major}/"`).
+        foreach (var name in new[] { "version", "arch", "os" })
+            it.Def(L, name, (i, self, a, b) => ((RObject)self).GetIvar("@package_or_resource") is { } owner
+                ? i.Call(owner, name) : null);
         return L;
     }
 }

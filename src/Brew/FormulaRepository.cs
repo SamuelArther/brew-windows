@@ -42,8 +42,15 @@ public sealed class FormulaRepository(Paths paths)
         if (matches.Length == 1) return matches[0];
         if (matches.Length > 1) throw new InvalidOperationException($"Formulae found in multiple taps: {input}\nPlease use a fully-qualified name.");
         // Resolve aliases through the interpreter, rather than parsing Ruby text separately.
+        // A formula that fails to load can't be the alias: one broken file in the tap mustn't turn every
+        // unknown name into its load error (cgal reported extra-cmake-modules' NameError instead of its missing dependency).
         foreach (var file in Files)
-            if (Metadata.Strings(LoadFile(file), "Aliases").Contains(name)) return file;
+        {
+            FormulaDefinition formula;
+            try { formula = LoadFile(file); }
+            catch (Exception e) when (e is InvalidOperationException or IOException or UnauthorizedAccessException) { continue; }
+            if (Metadata.Strings(formula, "Aliases").Contains(name)) return file;
+        }
         throw new FormulaUnavailableException(input);
     }
 
