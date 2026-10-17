@@ -129,6 +129,7 @@ public static partial class FormulaLoader
         try { return fn(it, f); }
         catch (RubyError e) { throw new InvalidOperationException($"{spec.Name}: {Describe(it, e)}", e); }
         catch (RubySyntaxError e) { throw new InvalidOperationException($"{spec.Name}: {e.Message}", e); }
+        finally { it.EndRubyThreads(); }
     });
 
     // Homebrew runs a formula's own `def fetch` (network allowed) before `def install`.

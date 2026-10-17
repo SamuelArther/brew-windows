@@ -1012,7 +1012,7 @@ public sealed partial class Interp
         }
     }
 
-    static bool IsCatchable(Exception ex) => ex is not (BreakSignal or NextSignal or ReturnSignal or ThrowSignal or RetrySignal or OutOfMemoryException);
+    static bool IsCatchable(Exception ex) => ex is not (BreakSignal or NextSignal or ReturnSignal or ThrowSignal or RetrySignal or ForkExecSignal or OutOfMemoryException);
 
     bool RescueMatches(RescueClause rc, RObject exc, Frame f)
     {
@@ -1309,8 +1309,8 @@ public sealed partial class Interp
         psi.WorkingDirectory = Cwd;
         ApplyEnv(psi);
         using var proc = System.Diagnostics.Process.Start(psi)!;
-        var output = proc.StandardOutput.ReadToEnd();
-        proc.WaitForExit();
+        var output = Blocking(() => proc.StandardOutput.ReadToEnd());
+        WaitForExit(proc);
         SetStatus(proc.ExitCode, proc.Id);
         return S(output.Replace("\r\n", "\n"));
     }
