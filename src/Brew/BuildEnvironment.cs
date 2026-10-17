@@ -142,9 +142,10 @@ public static class BuildEnvironment
 
     // GCC and friends, then MSYS2's POSIX tools: ahead of the system PATH, where another MSYS runtime
     // (Git for Windows' usrin) would otherwise supply expr/sed/sh and mangle their arguments.
+    // Perl's own tools (pod2man, which OpenSSL's `make install` runs, pod2text ...) live in usr/bin/*_perl, as on Arch.
     static IEnumerable<string> ToolchainPath() => Msys2Root is not { } root ? []
-        : PosixRuntime ? [Path.Combine(root, "usr", "bin")]
-        : [Path.Combine(root, "ucrt64", "bin"), Path.Combine(root, "usr", "bin")];
+        : (PosixRuntime ? [Path.Combine(root, "usr", "bin")] : new[] { Path.Combine(root, "ucrt64", "bin"), Path.Combine(root, "usr", "bin") })
+            .Concat(new[] { "core_perl", "vendor_perl", "site_perl" }.Select(d => Path.Combine(root, "usr", "bin", d)).Where(Directory.Exists));
 
     // POSIX-runtime builds (HOMEBREW_POSIX_RUNTIME=1) compile with MSYS2's own GCC against msys-2.0.dll,
     // MSYS2's Cygwin-derived POSIX layer: fork, termios, sockets, signals. For Unix programs MinGW can't

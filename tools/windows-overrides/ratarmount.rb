@@ -29,6 +29,14 @@ class Ratarmount < Formula
     sha256 "5267e45aab72161b035ddc4dda4ffa2490b6da1ca752e4ff7eaedd4dd18aa85d"
   end
 
+  # indexed_gzip compiles zlib's sources into its extension when ZLIB_HOME points at them (its documented
+  # Windows build): MSVC has no zlib of its own to link against.
+  resource "zlib-source" do
+    url "https://zlib.net/zlib-1.3.2.tar.gz"
+    mirror "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz"
+    sha256 "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16"
+  end
+
   resource "indexed-gzip" do
     url "https://files.pythonhosted.org/packages/e8/f9/a127e4f1f806b18d43272b6d0bb56f74ca1a16628d60ebc674a62ebf37eb/indexed_gzip-1.10.3.tar.gz"
     sha256 "1347f3b6c5522c5c50db5d9e2801257cea86639e87b46c6635f22005ee3ded25"
@@ -110,7 +118,9 @@ class Ratarmount < Formula
   end
 
   def install
-    venv = virtualenv_install_with_resources
+    resource("zlib-source").stage buildpath/"zlib"
+    ENV["ZLIB_HOME"] = buildpath/"zlib"
+    venv = virtualenv_install_with_resources(without: "zlib-source")
     fuse_dll = (Formula["libfuse"].opt_bin/"winfsp-x64.dll").to_s.tr("/", "\\")
     archive_dll = Dir[Formula["libarchive"].opt_bin/"libarchive*.dll"].first.to_s.tr("/", "\\")
     (venv.site_packages/"homebrew-windows-dlls.pth").write <<~PTH
