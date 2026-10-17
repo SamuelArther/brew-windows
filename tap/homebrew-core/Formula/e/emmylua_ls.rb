@@ -1,0 +1,52 @@
+class EmmyluaLs < Formula
+  desc "Lua Language Server"
+  homepage "https://github.com/EmmyLuaLs/emmylua-analyzer-rust"
+  # The project name is `emmylua-analyzer-rust`, but it contains several crates, not all of which we install.
+  url "https://github.com/EmmyLuaLs/emmylua-analyzer-rust/archive/refs/tags/0.25.1.tar.gz"
+  sha256 "497b80cf970afbcced36d446a29bde2b59a86f10bbfa936d86f048450553fb0c"
+  license "MIT"
+  head "https://github.com/EmmyLuaLs/emmylua-analyzer-rust.git", branch: "main"
+
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "e944777773440a6726952dd6c98832a02c13efde395fd28191e259c520dda3a4"
+  end
+
+  depends_on "pkgconf" => :build
+  depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
+
+  def install
+    system "cargo", "install", *std_cargo_args(path: "crates/emmylua_ls")
+    system "cargo", "install", *std_cargo_args(path: "crates/emmylua_doc_cli")
+    system "cargo", "install", *std_cargo_args(path: "crates/emmylua_check")
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/emmylua_ls --version")
+
+    require "open3"
+
+    json = <<~JSON
+      {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": {
+          "rootUri": null,
+          "capabilities": {}
+        }
+      }
+    JSON
+
+    Open3.popen3(bin/"emmylua_ls") do |stdin, stdout|
+      stdin.write "Content-Length: #{json.size}\r\n\r\n#{json}"
+      sleep 3
+      assert_match(/^Content-Length: \d+/i, stdout.readline)
+    end
+  end
+end
