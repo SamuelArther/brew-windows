@@ -1,0 +1,1132 @@
+[
+  {
+    "name": "action-docs",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "actions-languageserver",
+    "status": "ok",
+    "seconds": 973
+  },
+  {
+    "name": "actions-up",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "addons-linter",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "ai-cli",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "aicommit2",
+    "status": "build",
+    "seconds": 268
+  },
+  {
+    "name": "aicommits",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "airtable-mcp-server",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "alexjs",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "ansible-language-server",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "apify-cli",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "artillery",
+    "status": "ok",
+    "seconds": 679
+  },
+  {
+    "name": "ask-cli",
+    "status": "test",
+    "seconds": 193
+  },
+  {
+    "name": "autocannon",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "autocode",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "aws-amplify",
+    "status": "ok",
+    "seconds": 1085
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 147
+  },
+  {
+    "name": "azurite",
+    "status": "ok",
+    "seconds": 313
+  },
+  {
+    "name": "babel",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "basedpyright",
+    "status": "test",
+    "seconds": 97
+  },
+  {
+    "name": "bash-language-server",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "basti",
+    "status": "ok",
+    "seconds": 128
+  },
+  {
+    "name": "bcoin",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "bibtex-tidy",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "bitwarden-cli",
+    "status": "ok",
+    "seconds": 1635
+  },
+  {
+    "name": "bower",
+    "status": "ok",
+    "seconds": 224
+  },
+  {
+    "name": "bpmnlint",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "bruno-cli",
+    "status": "ok",
+    "seconds": 341
+  },
+  {
+    "name": "bumpp",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 161
+  },
+  {
+    "name": "cdk8s",
+    "status": "test",
+    "seconds": 59
+  },
+  {
+    "name": "chalk-cli",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "changelogen",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "chrome-devtools-mcp",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "claude-cmd",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "claude-code-router",
+    "status": "build",
+    "seconds": 65
+  },
+  {
+    "name": "claude-code-templates",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "claude-hooks",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "claudekit",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "codeburn",
+    "status": "ok",
+    "seconds": 80
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "coffeescript",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "commitlint",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "contentful-cli",
+    "status": "test",
+    "seconds": 254
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "cspell",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 180
+  },
+  {
+    "name": "cyclonedx-npm",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "czg",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "dbml-cli",
+    "status": "ok",
+    "seconds": 202
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "defuddle",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "devcontainer",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "docker-compose-langserver",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "dockerfile-language-server",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "dockly",
+    "status": "test",
+    "seconds": 642
+  },
+  {
+    "name": "dtsroll",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "e2b",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 224
+  },
+  {
+    "name": "eask-cli",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "eleventy",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "eslint",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "eslint_d",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "fanyi",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "fedify",
+    "status": "ok",
+    "seconds": 202
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "firebase-cli",
+    "status": "ok",
+    "seconds": 266
+  },
+  {
+    "name": "flamebearer",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "gatsby-cli",
+    "status": "ok",
+    "seconds": 466
+  },
+  {
+    "name": "generate-json-schema",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "git-mob",
+    "status": "test",
+    "seconds": 15
+  },
+  {
+    "name": "git-split-diffs",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "gitlab-ci-local",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "gitmoji",
+    "status": "build",
+    "seconds": 38
+  },
+  {
+    "name": "gitter-cli",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "gnhf",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "graphql-cli",
+    "status": "ok",
+    "seconds": 141
+  },
+  {
+    "name": "graphql-inspector",
+    "status": "ok",
+    "seconds": 126
+  },
+  {
+    "name": "graphqlviz",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "graphqurl",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "grunt-cli",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "gtop",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "gulp-cli",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "haraka",
+    "status": "test",
+    "seconds": 79
+  },
+  {
+    "name": "hexo",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 203
+  },
+  {
+    "name": "htmlhint",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "http-server",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "httpyac",
+    "status": "ok",
+    "seconds": 114
+  },
+  {
+    "name": "idnits",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "immich-cli",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "inshellisense",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "install-peerdeps",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "ios-sim",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "js-beautify",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "jsdoc3",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "json2ts",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "json5",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "jsonlint",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "jsrepo",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "karakeep",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "kirimase",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "kubevious",
+    "status": "test",
+    "seconds": 71
+  },
+  {
+    "name": "kuto",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "lando-cli",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "lerna",
+    "status": "ok",
+    "seconds": 177
+  },
+  {
+    "name": "localtunnel",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "mailsy",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "mako",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "mapscii",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "markdown-toc",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "markdownlint-cli",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "markdownlint-cli2",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "marked",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "marp-cli",
+    "status": "ok",
+    "seconds": 125
+  },
+  {
+    "name": "mcp-remote",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "mcp-server-chart",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "mcp-server-kubernetes",
+    "status": "ok",
+    "seconds": 318
+  },
+  {
+    "name": "mermaid-cli",
+    "status": "ok",
+    "seconds": 297
+  },
+  {
+    "name": "mimo-code",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "mjml",
+    "status": "ok",
+    "seconds": 88
+  },
+  {
+    "name": "mongosh",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "ncc",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "netlistsvg",
+    "status": "test-deps",
+    "seconds": 51
+  },
+  {
+    "name": "newman",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "ni",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "node-red",
+    "status": "ok",
+    "seconds": 150
+  },
+  {
+    "name": "notion-mcp-server",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "npm-check-updates",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "npq",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "nrm",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "nuxi",
+    "status": "ok",
+    "seconds": 157
+  },
+  {
+    "name": "nx",
+    "status": "ok",
+    "seconds": 129
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "build",
+    "seconds": 67
+  },
+  {
+    "name": "openclaw-cli",
+    "status": "build",
+    "seconds": 552
+  },
+  {
+    "name": "openlore",
+    "status": "build",
+    "seconds": 198
+  },
+  {
+    "name": "openskills",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "openspec",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "org-formation",
+    "status": "ok",
+    "seconds": 237
+  },
+  {
+    "name": "ovsx",
+    "status": "ok",
+    "seconds": 174
+  },
+  {
+    "name": "oxfmt",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "patch-package",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "pear",
+    "status": "test",
+    "seconds": 35
+  },
+  {
+    "name": "perlnavigator",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "phantom",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "pi-coding-agent",
+    "status": "ok",
+    "seconds": 199
+  },
+  {
+    "name": "playwright-cli",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "playwright-mcp",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "podcast-dl",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "portless",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "postgraphile",
+    "status": "test",
+    "seconds": 203
+  },
+  {
+    "name": "preevy",
+    "status": "ok",
+    "seconds": 555
+  },
+  {
+    "name": "prettier",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "prettierd",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "prism-cli",
+    "status": "ok",
+    "seconds": 103
+  },
+  {
+    "name": "pwned",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "pyright",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "qnm",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "quicktype",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "quint",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "react-native-cli",
+    "status": "ok",
+    "seconds": 162
+  },
+  {
+    "name": "readwise-cli",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "release-it",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "repomix",
+    "status": "ok",
+    "seconds": 80
+  },
+  {
+    "name": "retire",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "reveal-md",
+    "status": "ok",
+    "seconds": 206
+  },
+  {
+    "name": "roblox-ts",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "rollup",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 159
+  },
+  {
+    "name": "saf-cli",
+    "status": "ok",
+    "seconds": 295
+  },
+  {
+    "name": "salesforce-mcp",
+    "status": "test",
+    "seconds": 537
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 334
+  },
+  {
+    "name": "seam",
+    "status": "build",
+    "seconds": 416
+  },
+  {
+    "name": "semver",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "sf",
+    "status": "ok",
+    "seconds": 394
+  },
+  {
+    "name": "shadcn",
+    "status": "ok",
+    "seconds": 453
+  },
+  {
+    "name": "shiki",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "shortest",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "sitefetch",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "skills",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "sloc",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "smithery-cli",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "snyk-cli",
+    "status": "ok",
+    "seconds": 198
+  },
+  {
+    "name": "solhint",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "spectral-cli",
+    "status": "ok",
+    "seconds": 93
+  },
+  {
+    "name": "sql-formatter",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "sql-lint",
+    "status": "test",
+    "seconds": 644
+  },
+  {
+    "name": "standard",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "static-web-apps-cli",
+    "status": "test",
+    "seconds": 212
+  },
+  {
+    "name": "stepci",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "style-dictionary",
+    "status": "build",
+    "seconds": 56
+  },
+  {
+    "name": "stylelint",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "svgo",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "synchrony",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "tailwindcss",
+    "status": "test",
+    "seconds": 24
+  },
+  {
+    "name": "tailwindcss-language-server",
+    "status": "ok",
+    "seconds": 81
+  },
+  {
+    "name": "taskline",
+    "status": "ok",
+    "seconds": 153
+  },
+  {
+    "name": "taze",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "triton",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "tweakcc",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "ungit",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "varlock",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "vite",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "vscode-langservers-extracted",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "vtsls",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "vue-language-server",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "webfont",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "webpack",
+    "status": "test",
+    "seconds": 658
+  },
+  {
+    "name": "webpod",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "whistle",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "wikibase-cli",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "worm-scraper",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "write-good",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "wuchale",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "yaml-language-server",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "yamlresume",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "yo",
+    "status": "ok",
+    "seconds": 141
+  },
+  {
+    "name": "yuque-dl",
+    "status": "ok",
+    "seconds": 101
+  },
+  {
+    "name": "zsh-history-enquirer",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zx",
+    "status": "ok",
+    "seconds": 6
+  }
+]

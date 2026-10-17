@@ -6,6 +6,10 @@ class IosSim < Formula
 
   # Windows-native rewrite (brew-windows' wintools) of a macOS/Linux-only formula.
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "90ed80c9b33774a9a027916fc901d341f3bf7bb054156db359a758d2c4e97a20"
+  end
+
   def install
     libexec.install "wintools.exe"
     windows_exe "libexec/wintools.exe", "ios-sim", "ios-sim"
