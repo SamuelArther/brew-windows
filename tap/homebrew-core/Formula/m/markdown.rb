@@ -1,0 +1,27 @@
+class Markdown < Formula
+  desc "Text-to-HTML conversion tool"
+  homepage "https://daringfireball.net/projects/markdown/"
+  url "https://daringfireball.net/projects/downloads/Markdown_1.0.1.zip"
+  sha256 "6520e9b6a58c5555e381b6223d66feddee67f675ed312ec19e9cee1b92bc0137"
+  license "BSD-3-Clause"
+
+  livecheck do
+    url :homepage
+    regex(/href=.*?Markdown[._-]v?(\d+(?:\.\d+)+)\.zip/i)
+  end
+
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "3f18717c3a3f74ac3d975083a30adcfdcffa5839076845a13d26977f5ba6ec3d"
+  end
+
+  conflicts_with "discount", because: "both install `markdown` binaries"
+  conflicts_with "multimarkdown", because: "both install `markdown` binaries"
+
+  def install
+    bin.install "Markdown.pl" => "markdown"
+  end
+
+  test do
+    assert_equal "<p>foo <em>bar</em></p>\n", pipe_output(bin/"markdown", "foo *bar*\n")
+  end
+end

@@ -1,0 +1,3637 @@
+[
+  {
+    "name": "chuck",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "cidrmerge",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "cifer",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "cimg",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "cksfv",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "clac",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "clang-build-analyzer",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "clang-format",
+    "status": "ok",
+    "seconds": 1886
+  },
+  {
+    "name": "classads",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "clean",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "clens",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "clhep",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "cli11",
+    "status": "ok",
+    "seconds": 176
+  },
+  {
+    "name": "clib",
+    "status": "ok",
+    "seconds": 101
+  },
+  {
+    "name": "clipsafe",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "cpufetch",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "cpulimit",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "crcany",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "create-api",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "crf++",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "croaring",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "crunch",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "cryptopp",
+    "status": "ok",
+    "seconds": 560
+  },
+  {
+    "name": "csmith",
+    "status": "build",
+    "seconds": 146
+  },
+  {
+    "name": "cspice",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "csshx",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "csvprintf",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "ctags",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "ctemplate",
+    "status": "build",
+    "seconds": 74
+  },
+  {
+    "name": "ctre",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "ip_relay",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "ipbt",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "ipcalc",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "ipinfo",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "ipmiutil",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "ipsumdump",
+    "status": "build",
+    "seconds": 2703
+  },
+  {
+    "name": "ipv6calc",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "ipv6toolkit",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "ired",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "irrtoolset",
+    "status": "build",
+    "seconds": 71
+  },
+  {
+    "name": "iso-codes",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "ispell",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "itex2mml",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "ittapi",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "ivykis",
+    "status": "build",
+    "seconds": 2703
+  },
+  {
+    "name": "janet",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "jcal",
+    "status": "build",
+    "seconds": 47
+  },
+  {
+    "name": "jenv",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "jerryscript",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "jhead",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "jhiccup",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "jinx",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "jlog",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "john",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "jpeg",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "jpeg-turbo",
+    "status": "build",
+    "seconds": 199
+  },
+  {
+    "name": "jsmn",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "json-table",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "json2tsv",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "jthread",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "juman",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "jupp",
+    "status": "test",
+    "seconds": 116
+  },
+  {
+    "name": "kakoune",
+    "status": "ok",
+    "seconds": 271
+  },
+  {
+    "name": "kerl",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "kimwitu++",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "kissat",
+    "status": "bottle",
+    "seconds": 60
+  },
+  {
+    "name": "kitchen-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "knock",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "kommit",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "kona",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "krep",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "ksh93",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "kstart",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "kyoto-cabinet",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "kytea",
+    "status": "ok",
+    "seconds": 168
+  },
+  {
+    "name": "libdaemon",
+    "status": "test",
+    "seconds": 140
+  },
+  {
+    "name": "libdbi",
+    "status": "build",
+    "seconds": 48
+  },
+  {
+    "name": "libdc1394",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "libdill",
+    "status": "build",
+    "seconds": 62
+  },
+  {
+    "name": "libdivide",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "libdivsufsort",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "libdnet",
+    "status": "build",
+    "seconds": 75
+  },
+  {
+    "name": "libdshconfig",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "libdsk",
+    "status": "ok",
+    "seconds": 214
+  },
+  {
+    "name": "libdvbcsa",
+    "status": "ok",
+    "seconds": 89
+  },
+  {
+    "name": "libesedb",
+    "status": "ok",
+    "seconds": 827
+  },
+  {
+    "name": "libestr",
+    "status": "test",
+    "seconds": 37
+  },
+  {
+    "name": "libev",
+    "status": "test",
+    "seconds": 46
+  },
+  {
+    "name": "libfabric",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "libfastjson",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "liblbfgs",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "liblerc",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "liblinear",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "liblockfile",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "libltc",
+    "status": "test",
+    "seconds": 47
+  },
+  {
+    "name": "liblxi",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "liblzf",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "libmagic",
+    "status": "build",
+    "seconds": 135
+  },
+  {
+    "name": "libmemcached",
+    "status": "build",
+    "seconds": 161
+  },
+  {
+    "name": "libmetalink",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "libmobi",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "libmpdclient",
+    "status": "test",
+    "seconds": 23
+  },
+  {
+    "name": "libmps",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "libmxml",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "libnatpmp",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "libngspice",
+    "status": "ok",
+    "seconds": 2335
+  },
+  {
+    "name": "libnxml",
+    "status": "test",
+    "seconds": 101
+  },
+  {
+    "name": "libomp",
+    "status": "build",
+    "seconds": 288
+  },
+  {
+    "name": "libopennet",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "liboping",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "libosip",
+    "status": "build",
+    "seconds": 81
+  },
+  {
+    "name": "libowfat",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "libpg_query",
+    "status": "build",
+    "seconds": 205
+  },
+  {
+    "name": "libpgm",
+    "status": "build",
+    "seconds": 169
+  },
+  {
+    "name": "libplctag",
+    "status": "test",
+    "seconds": 109
+  },
+  {
+    "name": "libpointing",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "libpoker-eval",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "libpostal",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "libptytty",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "libquantum",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "libredwg",
+    "status": "test",
+    "seconds": 384
+  },
+  {
+    "name": "libresample",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "libsais",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "libscfg",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "libscrypt",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "libspnav",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "libstatgrab",
+    "status": "build",
+    "seconds": 198
+  },
+  {
+    "name": "libstxxl",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "libsvm",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "libswiftnav",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libtar",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "libtecla",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libtrng",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "libucl",
+    "status": "test",
+    "seconds": 67
+  },
+  {
+    "name": "libudfread",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "libuecc",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "libuninameslist",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "libupnp",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "libusrsctp",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "libversion",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "libvidstab",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "libvmaf",
+    "status": "test",
+    "seconds": 31
+  },
+  {
+    "name": "libvo-aacenc",
+    "status": "test",
+    "seconds": 59
+  },
+  {
+    "name": "libxcvt",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libxdg-basedir",
+    "status": "test",
+    "seconds": 87
+  },
+  {
+    "name": "libxls",
+    "status": "build",
+    "seconds": 36
+  },
+  {
+    "name": "libxmi",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "libxml++@5",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "libxmp-lite",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "libyubikey",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "libzzip",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "lifelines",
+    "status": "build",
+    "seconds": 57
+  },
+  {
+    "name": "liquidprompt",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "lizard",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "llhttp",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "lmfit",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "log4c",
+    "status": "ok",
+    "seconds": 164
+  },
+  {
+    "name": "log4cplus",
+    "status": "ok",
+    "seconds": 586
+  },
+  {
+    "name": "log4shib",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "logcheck",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "lolcode",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "lorem",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "lout",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "lp_solve",
+    "status": "build",
+    "seconds": 83
+  },
+  {
+    "name": "lpc21isp",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "lr",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "lrzsz",
+    "status": "build",
+    "seconds": 68
+  },
+  {
+    "name": "ls-hpack",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "lsof",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "ltl2ba",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "luajit-openresty",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "lunzip",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "lv",
+    "status": "bottle",
+    "seconds": 61
+  },
+  {
+    "name": "lv2",
+    "status": "test",
+    "seconds": 21
+  },
+  {
+    "name": "lynis",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "lzfse",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "lziprecover",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "lzlib",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "lzo",
+    "status": "ok",
+    "seconds": 225
+  },
+  {
+    "name": "mac",
+    "status": "test",
+    "seconds": 24
+  },
+  {
+    "name": "mac-robber",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "mad",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "mafft",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "magic_enum",
+    "status": "ok",
+    "seconds": 177
+  },
+  {
+    "name": "mailcheck",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "mairix",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "makeself",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "malbolge",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "mandoc",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "markdown",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "masscan",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "massdns",
+    "status": "test",
+    "seconds": 14
+  },
+  {
+    "name": "matlab2tikz",
+    "status": "test-deps",
+    "seconds": 10
+  },
+  {
+    "name": "maven-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "maven-shell",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "mawk",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "mbelib",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "mbw",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "md5deep",
+    "status": "build",
+    "seconds": 1649
+  },
+  {
+    "name": "mdf2iso",
+    "status": "build",
+    "seconds": 1670
+  },
+  {
+    "name": "mdp",
+    "status": "build",
+    "seconds": 1497
+  },
+  {
+    "name": "mecab-ko",
+    "status": "build",
+    "seconds": 1522
+  },
+  {
+    "name": "memcache-top",
+    "status": "build",
+    "seconds": 1762
+  },
+  {
+    "name": "memtester",
+    "status": "build",
+    "seconds": 1522
+  },
+  {
+    "name": "mergelog",
+    "status": "build",
+    "seconds": 1523
+  },
+  {
+    "name": "metalang99",
+    "status": "build",
+    "seconds": 1493
+  },
+  {
+    "name": "mg",
+    "status": "build",
+    "seconds": 1536
+  },
+  {
+    "name": "mhash",
+    "status": "build",
+    "seconds": 1515
+  },
+  {
+    "name": "micropython",
+    "status": "build",
+    "seconds": 1624
+  },
+  {
+    "name": "microsocks",
+    "status": "build",
+    "seconds": 1538
+  },
+  {
+    "name": "mkcue",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "mksh",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "mkvalidator",
+    "status": "build",
+    "seconds": 45
+  },
+  {
+    "name": "mlogger",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "mockolo",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "modman",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "moe",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "mon",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "mongoose",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "moon-buggy",
+    "status": "build",
+    "seconds": 40
+  },
+  {
+    "name": "mp3cat",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "mp3check",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "mp3info",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "mp3val",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "mp4v2",
+    "status": "build",
+    "seconds": 45
+  },
+  {
+    "name": "mpage",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "mpck",
+    "status": "test",
+    "seconds": 28
+  },
+  {
+    "name": "mpegdemux",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "mpgtx",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "mpssh",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "msdl",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "msgpack",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "msgpack-tools",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "multi-git-status",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "multitime",
+    "status": "test",
+    "seconds": 33
+  },
+  {
+    "name": "mupdf-tools",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "mussh",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "mysqltuner",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "n",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "naga",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "nanoflann",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "nanomsg",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "nanorc",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "nave",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "nbimg",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "nbsdgames",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "nbytes",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "ncftp",
+    "status": "build",
+    "seconds": 137
+  },
+  {
+    "name": "ndiff",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "ne",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "neatvi",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "nerdfetch",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "nethogs",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "netris",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "netsurf-buildsystem",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "nettoe",
+    "status": "build",
+    "seconds": 57
+  },
+  {
+    "name": "never",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "nfdump",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "nikto",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "ninvaders",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "nkf",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "nload",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "nlohmann-json",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "nmrpflash",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "no-more-secrets",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "nodebrew",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "nodeenv",
+    "status": "test",
+    "seconds": 18
+  },
+  {
+    "name": "norm",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "npush",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "nq",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "nrg2iso",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "nsnake",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "nsuds",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "nvm",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "nyancat",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "objconv",
+    "status": "test",
+    "seconds": 19
+  },
+  {
+    "name": "ocaml@4",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "octomap",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "odo",
+    "status": "ok",
+    "seconds": 172
+  },
+  {
+    "name": "oksh",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "ol",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "ondir",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "onigmo",
+    "status": "ok",
+    "seconds": 122
+  },
+  {
+    "name": "open-jtalk",
+    "status": "build",
+    "seconds": 173
+  },
+  {
+    "name": "open-mesh",
+    "status": "test",
+    "seconds": 71
+  },
+  {
+    "name": "openal-soft",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "opencl-headers",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "opendetex",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "openfst",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "openkermit",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "osmfilter",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "osqp",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "ossp-uuid",
+    "status": "build",
+    "seconds": 80
+  },
+  {
+    "name": "overdrive",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "p0f",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pacapt",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "packetq",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "pacvim",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "pakchois",
+    "status": "build",
+    "seconds": 45
+  },
+  {
+    "name": "pangene",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "paperkey",
+    "status": "test",
+    "seconds": 37
+  },
+  {
+    "name": "par",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "parallel",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "parallel-hashmap",
+    "status": "ok",
+    "seconds": 216
+  },
+  {
+    "name": "passwdqc",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "pawk",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "pax-runner",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "pbzip2",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "pcal",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "pcalc",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "pcapmirror",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "pcapplusplus",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "pcsc-lite",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "pdf2json",
+    "status": "build",
+    "seconds": 71
+  },
+  {
+    "name": "pdfcrack",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "pdftohtml",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "peg",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "pegtl",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "pelikan",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "perl-build",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "perltidy",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pgbadger",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "pgdbf",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "pgformatter",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "pgpdump",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "pgtoolkit",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "phoon",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "phpmyadmin",
+    "status": "test",
+    "seconds": 34
+  },
+  {
+    "name": "phpstan",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "phpunit",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "physunits",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "picat",
+    "status": "build",
+    "seconds": 35
+  },
+  {
+    "name": "pick",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "picoc",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pict",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "pidcat",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "pigz",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "pip-completion",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "pipebench",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "pipemeter",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "pit",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pixd",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "plank",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "plink1",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "plog",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "pmccabe",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "pngcheck",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pod2man",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "podiff",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "polyml",
+    "status": "ok",
+    "seconds": 458
+  },
+  {
+    "name": "portable-libffi",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "portable-libxcrypt",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "portable-libyaml",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "portable-openssl",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "portable-zlib",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "portablegl",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "posh",
+    "status": "build",
+    "seconds": 34
+  },
+  {
+    "name": "poster",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "powerlevel10k",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "precomp",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "prettyping",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "primer3",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "procmail",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "progress",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "progressline",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "prometheus-cpp",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "protozero",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "prover9",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "proxychains-ng",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "psftools",
+    "status": "test",
+    "seconds": 213
+  },
+  {
+    "name": "psgrep",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "pstree",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "pth",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "ptunnel",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "publish",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "puf",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "pulledpork",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "pwnat",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pythia",
+    "status": "build",
+    "seconds": 36
+  },
+  {
+    "name": "qbe",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "qprint",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "qstat",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "qthreads",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "quex",
+    "status": "test",
+    "seconds": 9
+  },
+  {
+    "name": "quill",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "radamsa",
+    "status": "build",
+    "seconds": 2703
+  },
+  {
+    "name": "rails-completion",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "rake-completion",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "rancid",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "randomize-lines",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "range-v3",
+    "status": "test",
+    "seconds": 18
+  },
+  {
+    "name": "rapidfuzz-cpp",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "rapidjson",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "rapidyaml",
+    "status": "test",
+    "seconds": 19
+  },
+  {
+    "name": "rats",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "rcm",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "rdate",
+    "status": "build",
+    "seconds": 66
+  },
+  {
+    "name": "readerwriterqueue",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "recoverjpeg",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "recutils",
+    "status": "test",
+    "seconds": 492
+  },
+  {
+    "name": "redir",
+    "status": "test",
+    "seconds": 29
+  },
+  {
+    "name": "regex-opt",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "regina-rexx",
+    "status": "build",
+    "seconds": 215
+  },
+  {
+    "name": "regldg",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "reliable",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "remind",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "ren",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "repl",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "replxx",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "repo",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "reproc",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "resty",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "retry",
+    "status": "test",
+    "seconds": 79
+  },
+  {
+    "name": "rex",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "rfcstrip",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "rgf",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "rgxg",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "rig",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "rinetd",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "ripmime",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "rkhunter",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "rlog",
+    "status": "build",
+    "seconds": 75
+  },
+  {
+    "name": "rmate",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "rnv",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "robin-map",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "robotfindskitten",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "rogue",
+    "status": "build",
+    "seconds": 100
+  },
+  {
+    "name": "roll",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "rolldice",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "ronn",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "roundup",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "rp",
+    "status": "build",
+    "seconds": 60
+  },
+  {
+    "name": "rsnapshot",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "rsync-time-backup",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "rtf2latex2e",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "rtp2httpd",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "rtptools",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "rttr",
+    "status": "build",
+    "seconds": 37
+  },
+  {
+    "name": "ruby-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "runit",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "rush",
+    "status": "ok",
+    "seconds": 204
+  },
+  {
+    "name": "rustc-completion",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "rzip",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "safeint",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "samurai",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "saxon-b",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "sblim-sfcc",
+    "status": "build",
+    "seconds": 114
+  },
+  {
+    "name": "sbtenv",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "sc68",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "scalaenv",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "schema-evolution-manager",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "scheme48",
+    "status": "test",
+    "seconds": 106
+  },
+  {
+    "name": "screen",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "scrub",
+    "status": "build",
+    "seconds": 55
+  },
+  {
+    "name": "scs",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "scws",
+    "status": "build",
+    "seconds": 54
+  },
+  {
+    "name": "sec",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "secp256k1",
+    "status": "test",
+    "seconds": 131
+  },
+  {
+    "name": "selecta",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "sentry-native",
+    "status": "build",
+    "seconds": 53
+  },
+  {
+    "name": "seqtk",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "serialize",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "sersniff",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "servus",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "setconf",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "sexpect",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "sfk",
+    "status": "build",
+    "seconds": 80
+  },
+  {
+    "name": "sfsexp",
+    "status": "build",
+    "seconds": 78
+  },
+  {
+    "name": "sfst",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "shc",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "sheenbidi",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "shellspec",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "shivavg",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "shmcat",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "shml",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "shmux",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "shntool",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "shpotify",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "shtool",
+    "status": "build",
+    "seconds": 47
+  },
+  {
+    "name": "shunit2",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "sic",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "sickle",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "simde",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "simg2img",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "since",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "sipcalc",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "sisc-scheme",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "sixtunnel",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "skalibs",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "slashem",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "slimerjs",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "sloccount",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "slugify",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "slurm",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "smake",
+    "status": "build",
+    "seconds": 614
+  },
+  {
+    "name": "smartmontools",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "smartypants",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "smenu",
+    "status": "test",
+    "seconds": 36
+  },
+  {
+    "name": "smlnj",
+    "status": "build",
+    "seconds": 64
+  },
+  {
+    "name": "smu",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "snap7",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "snooze",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "snow",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "solid",
+    "status": "build",
+    "seconds": 149
+  },
+  {
+    "name": "sonar-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "sound-touch",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "sourcedocs",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "sourcekitten",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "sourcery",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "spack",
+    "status": "bottle",
+    "seconds": 81
+  },
+  {
+    "name": "span-lite",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "spark",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "sparse",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "spawn-fcgi",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "speedread",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "spice-protocol",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "spigot",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "spim",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "spin",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "spirv-headers",
+    "status": "test",
+    "seconds": 40
+  },
+  {
+    "name": "splint",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "spoa",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "sponge",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "spring-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "spring-loaded",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "sql-translator",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "sqldiff",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "sqlite-rsync",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "sqtop",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "squirrel-lang",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "ssdb",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "ssdeep",
+    "status": "build",
+    "seconds": 56
+  },
+  {
+    "name": "sse2neon",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "ssed",
+    "status": "build",
+    "seconds": 47
+  },
+  {
+    "name": "ssh-copy-id",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "sshguard",
+    "status": "test",
+    "seconds": 52
+  },
+  {
+    "name": "sslmate",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "st",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "stdman",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "stm32flash",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "stockfish",
+    "status": "ok",
+    "seconds": 114
+  },
+  {
+    "name": "stone",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "stormlib",
+    "status": "test",
+    "seconds": 57
+  },
+  {
+    "name": "streamvbyte",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "stress",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "stress-ng",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "strip-nondeterminism",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "style-check",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "sub2srt",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "surfraw",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "swaks",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "swftools",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "swift-format",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "swift-outdated",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "swift-sh",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "swiftdraw",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "swiftformat",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "swiftlint",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "swiftly",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "sword",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "symlinks",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "t-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "t1lib",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "ta-lib",
+    "status": "ok",
+    "seconds": 587
+  },
+  {
+    "name": "tabulate",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "taktuk",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "tal",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "talloc",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "task-spooler",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "taskflow",
+    "status": "test",
+    "seconds": 24
+  },
+  {
+    "name": "tass64",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "tclap",
+    "status": "test",
+    "seconds": 108
+  },
+  {
+    "name": "tcping",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "tcpsplit",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tcpstat",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "tcptunnel",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tdb",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "teensy_loader_cli",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "termbox",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "termcolor",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "testdisk",
+    "status": "test",
+    "seconds": 141
+  },
+  {
+    "name": "texi2mdoc",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "tgenv",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "thrulay",
+    "status": "build",
+    "seconds": 79
+  },
+  {
+    "name": "timelimit",
+    "status": "build",
+    "seconds": 60
+  },
+  {
+    "name": "tnef",
+    "status": "build",
+    "seconds": 46
+  },
+  {
+    "name": "tnftp",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "tnftpd",
+    "status": "build",
+    "seconds": 88
+  },
+  {
+    "name": "todo-txt",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "tofrodos",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "tokyo-cabinet",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "toml11",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "topgit",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "torsocks",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "tractorgen",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "transcrypt",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "tre",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "trec_eval",
+    "status": "build",
+    "seconds": 57
+  },
+  {
+    "name": "tree-sitter-go",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tree-sitter-python",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "tree-sitter-ruby",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "treecc",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "trimal",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "truecrack",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "trurl",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "tta",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "ttf2eot",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "ttf2pt1",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "tth",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "ttmath",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "tty-clock",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "tty-solitaire",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "ttyplot",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tweak",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "two-lame",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "unxip",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "unyaffs",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "uptimed",
+    "status": "test",
+    "seconds": 112
+  },
+  {
+    "name": "urdfdom_headers",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "urlview",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "usb.ids",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "userspace-rcu",
+    "status": "test",
+    "seconds": 605
+  },
+  {
+    "name": "utf8cpp",
+    "status": "test",
+    "seconds": 41
+  },
+  {
+    "name": "utf8proc",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "utftex",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "uthash",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "util-macros",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "uudeview",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "uvg266",
+    "status": "test",
+    "seconds": 39
+  },
+  {
+    "name": "v",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "valijson",
+    "status": "test",
+    "seconds": 13
+  },
+  {
+    "name": "vampire",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "vapor",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "vbindiff",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "vc",
+    "status": "test",
+    "seconds": 40
+  },
+  {
+    "name": "vc4asm",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "vcsh",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "vde",
+    "status": "build",
+    "seconds": 56
+  },
+  {
+    "name": "vdt",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "verovio",
+    "status": "build",
+    "seconds": 91
+  },
+  {
+    "name": "viennacl",
+    "status": "build",
+    "seconds": 349
+  },
+  {
+    "name": "vile",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "vilistextum",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "vip",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "visionmedia-watch",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "vitetris",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "vmtouch",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "voro++",
+    "status": "test",
+    "seconds": 18
+  },
+  {
+    "name": "vpcs",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "vramsteg",
+    "status": "test",
+    "seconds": 13
+  },
+  {
+    "name": "vsftpd",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "vtclock",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "vttest",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "vvdec",
+    "status": "test",
+    "seconds": 133
+  },
+  {
+    "name": "vvenc",
+    "status": "test",
+    "seconds": 250
+  },
+  {
+    "name": "wasm-micro-runtime",
+    "status": "build",
+    "seconds": 33
+  },
+  {
+    "name": "watcher",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "wcstools",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "when",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "wiggle",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "willgit",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "wimlib",
+    "status": "test",
+    "seconds": 161
+  },
+  {
+    "name": "wirouter_keyrec",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "woof",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "wordplay",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "wp-cli-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "wput",
+    "status": "build",
+    "seconds": 40
+  },
+  {
+    "name": "wren",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "wtf",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "wwwoffle",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "wy60",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "x-cmd",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "x264",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "xa",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "xbyak",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "xcbeautify",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "xclogparser",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "xcsift",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "xcv",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xe",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "xlslib",
+    "status": "build",
+    "seconds": 128
+  },
+  {
+    "name": "xmlcatmgr",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "xmltoman",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "xmq",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "xnvme",
+    "status": "test",
+    "seconds": 39
+  },
+  {
+    "name": "xpipe",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "xsimd",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "xtermcontrol",
+    "status": "test",
+    "seconds": 29
+  },
+  {
+    "name": "xtitle",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xvid",
+    "status": "test",
+    "seconds": 43
+  },
+  {
+    "name": "yacas",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "yadm",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "yank",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "yaze-ag",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "yetris",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "yydecode",
+    "status": "build",
+    "seconds": 39
+  },
+  {
+    "name": "yyjson",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "z",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "z80asm",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "z80dasm",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "zerolang",
+    "status": "ok",
+    "seconds": 82
+  },
+  {
+    "name": "zfp",
+    "status": "test",
+    "seconds": 53
+  },
+  {
+    "name": "zimfw",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "zinit",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zlog",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "znapzend",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "zork",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "zpaq",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "zpaqfranz",
+    "status": "build",
+    "seconds": 135
+  },
+  {
+    "name": "zplug",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zsh-async",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "zsh-autocomplete",
+    "status": "test-deps",
+    "seconds": 15
+  },
+  {
+    "name": "zsh-autopair",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zsh-autosuggestions",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zsh-completions",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zsh-f-sy-h",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zsh-fast-syntax-highlighting",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zsh-history-substring-search",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zsh-lovers",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "zsh-navigation-tools",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "zsh-syntax-highlighting",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "zsh-system-clipboard",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zsh-vi-mode",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zsh-you-should-use",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "zug",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "zxcc",
+    "status": "build",
+    "seconds": 237
+  },
+  {
+    "name": "zzuf",
+    "status": "build",
+    "seconds": 111
+  }
+]
