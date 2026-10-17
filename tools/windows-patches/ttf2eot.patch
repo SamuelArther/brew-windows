@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/t/ttf2eot.rb
++++ b/tap/homebrew-core/Formula/t/ttf2eot.rb
+@@ -14,6 +14,9 @@
+     if OS.mac?
+       font_name = "Arial Unicode"
+       font_dir = "/Library/Fonts"
++    elsif OS.windows?
++      font_name = "arial"
++      font_dir = "C:/Windows/Fonts"
+     else
+       font_name = "DejaVuSans"
+       font_dir = "/usr/share/fonts/truetype/dejavu"

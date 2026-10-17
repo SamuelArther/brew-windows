@@ -52,6 +52,9 @@ public static class Bottles
             var relocatable = true;
             foreach (var file in Paths.TreeFiles(stagedKeg))
             {
+                // Links are packed as links (CopyTree made in-keg ones relative); one may dangle, like kissat's
+                // test/configure -> ../configure, and has no bytes of its own to relocate.
+                if (new FileInfo(file).LinkTarget != null) continue;
                 var bookkeeping = Path.GetFileName(file) == "INSTALL_RECEIPT.json" || file.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase);
                 if (bookkeeping)
                 {

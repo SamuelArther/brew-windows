@@ -1,0 +1,14 @@
+--- a/tap/homebrew-core/Formula/m/mongoose.rb
++++ b/tap/homebrew-core/Formula/m/mongoose.rb
+@@ -17,6 +17,11 @@
+     if OS.linux?
+       system ENV.cc, "-fPIC", "-c", "mongoose.c"
+       system ENV.cc, "-shared", "-Wl,-soname,libmongoose.so", "-o", "libmongoose.so", "mongoose.o", "-lc", "-lpthread"
++    end
++    if OS.windows?
++      system ENV.cc, "-shared", "mongoose.c", "-o", "libmongoose.dll",
++             "-Wl,--out-implib,libmongoose.dll.a", "-lws2_32", "-lbcrypt"
++      lib.install "libmongoose.dll.a"
+     end
+     lib.install shared_library("libmongoose")
+     include.install "mongoose.h"

@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/o/openal-soft.rb
++++ b/tap/homebrew-core/Formula/o/openal-soft.rb
+@@ -50,6 +50,9 @@
+       %w[
+         -DALSOFT_BACKEND_PULSEAUDIO=OFF
+       ]
++    elsif OS.windows?
++      # WASAPI is the Windows backend; ALSA, PipeWire and PulseAudio are Linux ones.
++      []
+     else
+       # Make sure support for common audio backends are available
+       %w[

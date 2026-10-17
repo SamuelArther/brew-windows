@@ -16,6 +16,10 @@ runs:
         msystem: UCRT64
         update: true
         path-type: inherit
+        # The mingw-w64-ucrt-x86_64 libraries are the "system" libraries `uses_from_macos` formulae expect
+        # (libxml2, ncurses, readline, expat, iconv ...: macOS ships them, Linux brews them); the msys *-devel
+        # ones serve POSIX-runtime builds (libcrypt-devel: screen, john). zsh: zsh plugin formulae test with it,
+        # as macOS has it built in; texinfo's makeinfo and zip are build tools macOS ships too.
         install: >-
           base-devel
           autotools
@@ -24,6 +28,24 @@ runs:
           mingw-w64-ucrt-x86_64-ninja
           mingw-w64-ucrt-x86_64-meson
           mingw-w64-ucrt-x86_64-pkgconf
+          mingw-w64-ucrt-x86_64-libxml2
+          mingw-w64-ucrt-x86_64-ncurses
+          mingw-w64-ucrt-x86_64-readline
+          mingw-w64-ucrt-x86_64-expat
+          mingw-w64-ucrt-x86_64-libiconv
+          mingw-w64-ucrt-x86_64-zlib
+          mingw-w64-ucrt-x86_64-bzip2
+          mingw-w64-ucrt-x86_64-xz
+          mingw-w64-ucrt-x86_64-zstd
+          mingw-w64-ucrt-x86_64-curl
+          mingw-w64-ucrt-x86_64-sqlite3
+          mingw-w64-ucrt-x86_64-libffi
+          mingw-w64-ucrt-x86_64-openssl
+          mingw-w64-ucrt-x86_64-pcre2
+          zsh
+          texinfo
+          zip
+          libcrypt-devel
           gcc
           cmake
           ninja

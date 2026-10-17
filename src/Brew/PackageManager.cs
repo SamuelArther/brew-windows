@@ -151,15 +151,17 @@ public sealed class PackageManager(Paths paths)
                 var resources = new Dictionary<string, string>();
                 foreach (var resource in formula.Resources)
                 {
-                    Paths.ValidateResourceName(resource.Name);
-                    var resourcePath = Path.Combine(build, ".resources", resource.Name);
+                    var resourcePath = Path.Combine(build, ".resources", Paths.ResourceDirectory(resource.Name));
+                    // A resource only defined for other platforms (`on_linux do url ...`) has no source here; like
+                    // Homebrew it is only an error if the formula uses it.
+                    if (resource.Url == null) continue;
                     if (resource.Git)
                     {
                         resources.Add(resource.Name, await GitSources.StageAsync(resource.Url, resource.Tag, resource.Revision, resource.Branch ?? "", resourcePath));
                         continue;
                     }
                     var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
-                    var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath);
+                    var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath, resource.Using == "nounzip");
                     resources.Add(resource.Name, stagedResource);
                 }
                 await ApplyPatchesAsync(formula, stagedBuild, build, file);
@@ -169,6 +171,7 @@ public sealed class PackageManager(Paths paths)
                 createdKeg = true;
                 context = new InstallContext(keg, stagedBuild, resources, paths.Prefix);
                 BuildEnvironment.Apply(paths, context, runtimeDependencies.Concat(buildDependencies));
+                BuildEnvironment.RefreshConfigScripts(build);
                 var etcVar = EtcVar.Snapshot(paths.Prefix);
                 formula.Install(context);
                 EtcVar.Preserve(paths.Prefix, keg, etcVar);

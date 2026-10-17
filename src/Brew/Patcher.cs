@@ -165,10 +165,14 @@ public static class Patcher
     }
 
     // "a/foo.c\t2024-01-01 ..." -> "a/foo.c"
+    static readonly Regex Timestamp = new(@"\s+(\d{4}-\d{2}-\d{2}\s+\d{1,2}:\d{2}(:\d{2}(\.\d+)?)?(\s*[+-]\d{4})?|[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\s+\d{1,2}:\d{2}:\d{2}\s+\d{4})$", RegexOptions.Compiled);
+
     static string Name(string field)
     {
         var name = field.Split('\t')[0].TrimEnd();
         if (name.StartsWith('"') && name.EndsWith('"')) name = Regex.Unescape(name[1..^1]);
+        // Without a tab, GNU patch still drops a trailing timestamp ("kccommon.h  2013-11-08 09:27:47.000000000 -0500").
+        else name = Timestamp.Replace(name, "");
         return name;
     }
 }

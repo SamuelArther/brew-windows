@@ -113,6 +113,62 @@ public sealed partial class Interp
             });
         }
         Def(K, "rand", (it, self, a, b) => a.Length == 0 ? Random.Shared.NextDouble() : (object)Random.Shared.NextInt64(it.Int(a[0])));
+        // __FILE__ / __dir__: the file being run (a formula's own path; symlinks' test reaches the tap's Aliases).
+        Def(K, "__FILE__", (it, self, a, b) => S(it.CurrentFile.Replace('\\', '/')));
+        Def(K, "__dir__", (it, self, a, b) => it.CurrentFile is "-" or "-e" ? null : S(Path.GetDirectoryName(Path.GetFullPath(it.CurrentFile))!.Replace('\\', '/')));
+
+        // Random.new(seed).rand / #bytes (lzfse's test writes Random.new.bytes(0xFFFF)), Random.rand.
+        var random = DefineClass("Random");
+        Random Rng(object o) => (Random)((RObject)o).Host;
+        object Draw(Interp it, Random r, object[] a)
+        {
+            if (a.Length == 0 || a[0] == null) return r.NextDouble();
+            return a[0] switch
+            {
+                double d => (object)(r.NextDouble() * d),
+                RRange range => it.Int(range.From) + r.NextInt64(it.Int(range.To) - it.Int(range.From) + (range.Excl ? 0 : 1)),
+                _ => r.NextInt64(it.Int(a[0])),
+            };
+        }
+        DefS(random, "new", (it, self, a, b) =>
+        {
+            var seed = a.Length > 0 && a[0] != null ? it.Int(a[0]) : Random.Shared.NextInt64();
+            var o = new RObject { Class = random, Host = new Random(unchecked((int)seed ^ (int)(seed >> 32))) };
+            o.SetIvar("@seed", seed);
+            return o;
+        });
+        DefS(random, "rand", (it, self, a, b) => Draw(it, Random.Shared, a));
+        DefS(random, "new_seed", (it, self, a, b) => Random.Shared.NextInt64());
+        DefS(random, "bytes", (it, self, a, b) => { var buf = new byte[it.Int(a[0])]; Random.Shared.NextBytes(buf); return new RString(Encoding.Latin1.GetString(buf)) { Binary = true }; });
+        Def(random, "rand", (it, self, a, b) => Draw(it, Rng(self), a));
+        Def(random, "seed", (it, self, a, b) => ((RObject)self).GetIvar("@seed"));
+        Def(random, "bytes", (it, self, a, b) => { var buf = new byte[it.Int(a[0])]; Rng(self).NextBytes(buf); return new RString(Encoding.Latin1.GetString(buf)) { Binary = true }; });
+
+        // Etc: the account and machine (slashem's configure passes --with-owner=#{Etc.getpwuid.name}).
+        var etc = DefineModule("Etc");
+        var passwd = DefineClass("Passwd", ObjectClass, etc);
+        foreach (var (field, value) in new (string, Func<object>)[]
+                 { ("name", () => S(Environment.UserName)), ("uid", () => 1000L), ("gid", () => 1000L),
+                   ("dir", () => S(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile).Replace('\\', '/'))),
+                   ("shell", () => S("/bin/sh")), ("gecos", () => S(Environment.UserName)) })
+        {
+            var get = value;
+            Def(passwd, field, (it, self, a, b) => get());
+        }
+        DefS(etc, "getpwuid getpwnam", (it, self, a, b) => new RObject { Class = passwd });
+        DefS(etc, "getlogin", (it, self, a, b) => S(Environment.UserName));
+        DefS(etc, "nprocessors", (it, self, a, b) => (long)Environment.ProcessorCount);
+        DefS(etc, "systmpdir", (it, self, a, b) => S(Path.GetTempPath().TrimEnd('\\').Replace('\\', '/')));
+        DefS(etc, "uname", (it, self, a, b) =>
+        {
+            var h = new RHash();
+            h.D[Sym("sysname")] = S("Windows_NT");
+            h.D[Sym("nodename")] = S(Environment.MachineName);
+            h.D[Sym("release")] = S(Environment.OSVersion.Version.ToString());
+            h.D[Sym("version")] = S(Environment.OSVersion.VersionString);
+            h.D[Sym("machine")] = S(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture == System.Runtime.InteropServices.Architecture.Arm64 ? "arm64" : "x86_64");
+            return h;
+        });
         Def(K, "at_exit autoload trap", (it, self, a, b) => null);
         Def(K, "binding", (it, self, a, b) => self);
         Def(K, "abort", (it, self, a, b) =>
@@ -910,24 +966,24 @@ public sealed partial class Interp
     {
         var parts = a.Where(x => x is not RHash).Select(ToS).ToList();
         if (parts.Count == 0) throw ArgCount(a, 1, -1);
+        // Kernel#system([env,] command..., [options]): a leading hash sets (nil unsets) variables;
+        // options support chdir:.
+        var workingDirectory = a.Length > 1 && a[^1] is RHash options && options.D.TryGetValue(Sym("chdir"), out var chdir) && chdir != null
+            ? Abs(PathStr(chdir)) : Cwd;
         System.Diagnostics.ProcessStartInfo psi;
         if (parts.Count == 1) psi = ShellLine(parts[0]);
         else
         {
-            var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), parts.Skip(1).ToList());
+            var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), parts.Skip(1).ToList(), workingDirectory);
             psi = new System.Diagnostics.ProcessStartInfo(program);
             foreach (var p in arguments) psi.ArgumentList.Add(p);
         }
         psi.UseShellExecute = false;
-        psi.WorkingDirectory = Cwd;
+        psi.WorkingDirectory = workingDirectory;
         ApplyEnv(psi);
-        // Kernel#system([env,] command..., [options]): a leading hash sets (nil unsets) variables;
-        // options support chdir:.
         if (a.Length > 0 && a[0] is RHash env)
             foreach (var kv in env.D)
                 if (kv.Value == null) psi.Environment.Remove(StrOrSym(kv.Key)); else psi.Environment[StrOrSym(kv.Key)] = ToS(kv.Value);
-        if (a.Length > 1 && a[^1] is RHash options && options.D.TryGetValue(Sym("chdir"), out var chdir) && chdir != null)
-            psi.WorkingDirectory = Abs(PathStr(chdir));
         try
         {
             using var proc = System.Diagnostics.Process.Start(psi)!;
@@ -957,7 +1013,7 @@ public sealed partial class Interp
 
     // In the MSYS2 build toolchain: scripts (./configure, autoreconf) run through bash, which honours their
     // shebangs, and MSYS2's own tools get C:/forward/slash paths (backslashes are escapes to them).
-    (string Program, List<string> Arguments) ToolchainInvocation(string program, List<string> arguments)
+    (string Program, List<string> Arguments) ToolchainInvocation(string program, List<string> arguments, string workingDirectory)
     {
         var extension = Path.GetExtension(program).ToLowerInvariant();
         if (!Env.TryGetValue("HOMEBREW_MSYS2_ROOT", out var root))
@@ -965,15 +1021,26 @@ public sealed partial class Interp
             // No toolchain: a shell script (./install.sh) still needs a POSIX shell, e.g. Git for Windows' bash.
             if (extension is not (".exe" or ".com" or ".cmd" or ".bat") && File.Exists(program) && IsScript(program)
                 && PosixShell.FindShell(k => Env.GetValueOrDefault(k)) is { } bash)
-                return (bash, ["-c", "exec \"$0\" \"$@\"", program.Replace('\\', '/'), .. arguments.Select(PosixArgument)]);
+                return (bash, ["-c", "exec \"$0\" \"$@\"", ScriptPath(program, workingDirectory), .. arguments.Select(PosixArgument)]);
             return (program, arguments);
         }
         if (extension is not (".exe" or ".com" or ".cmd" or ".bat") && File.Exists(program))
             return (Path.Combine(root, "usr", "bin", "bash.exe"),
-                ["-c", "exec \"$0\" \"$@\"", program.Replace('\\', '/'), .. arguments.Select(PosixArgument)]);
+                ["-c", "exec \"$0\" \"$@\"", ScriptPath(program, workingDirectory), .. arguments.Select(PosixArgument)]);
         var msysBin = Path.Combine(root, "usr", "bin") + Path.DirectorySeparatorChar;
         return program.StartsWith(msysBin, StringComparison.OrdinalIgnoreCase)
             ? (program, arguments.Select(PosixArgument).ToList()) : (program, arguments);
+    }
+
+    // The script's $0 as a Unix shell would see it: "./configure" for one in the build tree, /c/x/... elsewhere.
+    // A C:/ path breaks scripts that split on ':' (autoconf 2.13's CONFIG_FILES "Makefile:$srcdir/Makefile.in" in
+    // ncftp, ndiff, rzip) and is a relative path to MSYS programs a shebang names (/usr/bin/meson's python).
+    static string ScriptPath(string program, string workingDirectory)
+    {
+        var full = Path.GetFullPath(program);
+        var cwd = Path.TrimEndingDirectorySeparator(Path.GetFullPath(workingDirectory)) + Path.DirectorySeparatorChar;
+        if (full.StartsWith(cwd, StringComparison.OrdinalIgnoreCase)) return "./" + full[cwd.Length..].Replace('\\', '/');
+        return full.Length > 2 && full[1] == ':' ? "/" + char.ToLowerInvariant(full[0]) + full[2..].Replace('\\', '/') : full.Replace('\\', '/');
     }
 
     static bool IsScript(string file)

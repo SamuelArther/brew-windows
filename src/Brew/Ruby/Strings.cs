@@ -167,8 +167,10 @@ public sealed partial class Interp
         Def(St, "next", (it, self, a, b) => S(Succ(Self(self).V)));
         Def(St, "sub", (it, self, a, b) => S(it.Sub(Self(self).V, a, b, false)));
         Def(St, "gsub", (it, self, a, b) => S(it.Sub(Self(self).V, a, b, true)));
-        Def(St, "sub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, false); if (r == s.V) return null; s.V = r; return s; });
-        Def(St, "gsub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, true); if (r == s.V) return null; s.V = r; return s; });
+        // nil only when nothing matched: a match whose replacement equals the original still counts (rewrite_shebang
+        // of an already-correct "#!/usr/bin/env python3").
+        Def(St, "sub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, false, out var matched); if (!matched) return null; s.V = r; return s; });
+        Def(St, "gsub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, true, out var matched); if (!matched) return null; s.V = r; return s; });
         Def(St, "count", (it, self, a, b) => { var set = TrSet(it.Str(a[0])); return (long)Self(self).V.Count(c => set(c)); });
         Def(St, "chars", (it, self, a, b) => new RArray(Self(self).V.Select(c => (object)S(c.ToString()))));
         Def(St, "each_char", (it, self, a, b) =>
@@ -536,7 +538,9 @@ public sealed partial class Interp
         return S(s.Substring(start, len));
     }
 
-    string Sub(string s, object[] a, RProc blk, bool global)
+    string Sub(string s, object[] a, RProc blk, bool global) => Sub(s, a, blk, global, out _);
+
+    string Sub(string s, object[] a, RProc blk, bool global, out bool matched)
     {
         var re = ToRegex(a[0]);
         RHash map = a.Length > 1 ? a[1] as RHash : null;
@@ -545,6 +549,7 @@ public sealed partial class Interp
         var sb = new StringBuilder();
         int pos = 0;
         var m = re.R.Match(s);
+        matched = m.Success;
         while (m.Success)
         {
             sb.Append(s, pos, m.Index - pos);

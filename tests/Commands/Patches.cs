@@ -63,6 +63,12 @@ static class Patches
         File.WriteAllText(guess, "case x in\n\techo a\n\texit 0 ;;\nesac\n");
         Patcher.Apply("--- a/src/guess.sh\n+++ b/src/guess.sh\n@@ -1,4 +1,5 @@\n case x in\n\techo a\n+\techo b\n\texit 0 ;;\n esac\n", 1, dir);
         if (File.ReadAllText(guess) != "case x in\n\techo a\n\techo b\n\texit 0 ;;\nesac\n") throw new Exception("Tab-led context line not treated as context");
-        return 8;
+
+        // A timestamp after spaces (no tab) isn't part of the file name (kyoto-cabinet's kccommon.h patch).
+        var stamped = Path.Combine(dir, "src", "kccommon.h");
+        File.WriteAllText(stamped, "using ::snprintf;\n}\n");
+        Patcher.Apply("--- a/src/kccommon.h  2013-11-08 09:27:37.000000000 -0500\n+++ b/src/kccommon.h  2013-11-08 09:27:47.000000000 -0500\n@@ -1,2 +1,2 @@\n-using ::snprintf;\n+using std::snprintf;\n }\n", 1, dir);
+        if (File.ReadAllText(stamped) != "using std::snprintf;\n}\n") throw new Exception("Space-separated timestamp kept in the patch target name");
+        return 9;
     }
 }

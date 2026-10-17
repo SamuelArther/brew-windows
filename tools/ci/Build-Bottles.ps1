@@ -69,11 +69,19 @@ function Install-TestDependencies([string] $Name, [string] $Log) {
 }
 
 $PosixOnly = @(
-    'fatal error: (termios|pwd|grp|poll|netdb|sysexits|syslog|dlfcn|libgen|langinfo|glob|fnmatch|err|byteswap|features|curses|ncurses)\.h',
-    'fatal error: (sys/(socket|wait|ioctl|mman|resource|select|signal|un|utsname|times|statvfs|endian|termios)|netinet/\w+|arpa/inet)\.h',
+    'fatal error: ''?(termios|pwd|grp|poll|netdb|sysexits|syslog|dlfcn|libgen|langinfo|glob|fnmatch|err|byteswap|features|curses|ncurses)\.h',
+    'fatal error: ''?(sys/(socket|wait|ioctl|mman|resource|select|signal|un|utsname|times|statvfs|endian|termios)|netinet/\w+|arpa/inet)\.h',
     "undefined reference to ``(getuid|getgid|geteuid|random|srandom|fork|pipe|kill|getpwnam|getpwuid|alarm|readlink|symlink|lstat|socket)'",
     "'siginfo_t'|'F_UNLCK'|implicit declaration of function '(srandom|random|fork|getuid|lstat|kill|alarm)'",
-    "too many arguments to function 'mkdir'|socket function not found|cannot find library function socket|-rdynamic"
+    "too many arguments to function 'mkdir'|socket function not found|cannot find library function socket|-rdynamic",
+    # More of what Cygwin's libc has and MinGW's doesn't: headers, POSIX types, signals and functions.
+    'fatal error: ''?(sys/(uio|dir|file|ipc|shm|sem|msg|random)|nl_types|alloca|regex|net/if|netinet/in_systm)\.h',
+    "unknown type name '(sigjmp_buf|sigset_t|uid_t|gid_t|u_int\w*|u_char|u_short|u_long|suseconds_t)'|'(sigjmp_buf|sigset_t|uid_t|gid_t|u_int\w*|u_char|u_short|u_long|suseconds_t)' (does not name a type|has not been declared)",
+    "'SIG(PIPE|USR1|USR2|WINCH|CHLD|HUP|ALRM|QUIT|TSTP|CONT)' (undeclared|was not declared)|'(F_SETFL|F_GETFL|O_NONBLOCK|FIONREAD|MAXNAMLEN|S_ISLNK|S_IFLNK|_SC_ARG_MAX|MCL_CURRENT)' (undeclared|was not declared)",
+    "'(fchmod|fchown|lstat|truncate|ttyname|getppid|drand48|srand48|lrand48|asprintf|vasprintf|realpath|setenv|strsep)' was not declared|implicit declaration of function '(fchmod|lstat|drand48|srand48|lrand48|getline|strsep|setenv)'",
+    "storage size of '\w+' isn't known[^\n]*|variable '\w+' has initializer but incomplete type|invalid use of undefined type 'struct (sigaction|itimerval|passwd|group)'",
+    "undefined reference to ``(localtime_r|gmtime_r|getchar_unlocked|putc_unlocked|regcomp|regexec|rindex|index|strsep|setenv|getline|drand48|srand48|sigaction|dlopen)'",
+    'Neither rand_r nor random_r|cannot find socket|Socket related headers missing|unable to determine required linker flags for socket functions|could not find dlopen|glob\.h is required|required function arc4random\(\) not found|headers for System V Shared Memory|unable to find crypt\(\) function'
 ) -join '|'
 
 $results = foreach ($name in $Names) {

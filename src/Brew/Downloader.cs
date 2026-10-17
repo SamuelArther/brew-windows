@@ -15,8 +15,32 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
     public static string FileName(string url)
     {
         var uri = new Uri(url);
-        var name = Path.GetFileName(ApacheMirror.IsPicker(uri) ? ApacheMirror.PathInfo(uri) : uri.LocalPath);
+        var name = ApacheMirror.IsPicker(uri) ? Path.GetFileName(ApacheMirror.PathInfo(uri)) : QueryFileName(uri) ?? Path.GetFileName(uri.LocalPath);
         return SafeFileName(name);
+    }
+
+    // AbstractFileDownloadStrategy#parse_basename: a query can name the file (Content-Disposition in S3 links,
+    // Maven's remotecontent?filepath=org/.../springloaded-1.2.6.RELEASE.jar).
+    static string QueryFileName(Uri uri)
+    {
+        if (uri.Query.Length <= 1) return null;
+        foreach (var pair in uri.Query[1..].Split('&'))
+        {
+            var eq = pair.IndexOf('=');
+            if (eq < 0 || !Uri.UnescapeDataString(pair[..eq]).Equals("response-content-disposition", StringComparison.OrdinalIgnoreCase)) continue;
+            var m = System.Text.RegularExpressions.Regex.Match(Uri.UnescapeDataString(pair[(eq + 1)..].Replace('+', ' ')), @"attachment;\s*filename=([""']?)(.+)\1", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (m.Success) return Path.GetFileName(m.Groups[2].Value);
+        }
+        // Pathname("#{path}?#{query}").ascend: the first component with an extension, cut at ? or &.
+        var parts = (Uri.UnescapeDataString(uri.AbsolutePath) + "?" + Uri.UnescapeDataString(uri.Query[1..])).Split('/', StringSplitOptions.RemoveEmptyEntries);
+        for (var i = parts.Length - 1; i >= 0; i--)
+        {
+            var ext = System.Text.RegularExpressions.Regex.Match(parts[i], @"(\.tar)?\.[A-Za-z0-9]+$").Value;
+            if (ext.Length == 0) continue;
+            var m = System.Text.RegularExpressions.Regex.Match(parts[i], @"[^?&]+" + System.Text.RegularExpressions.Regex.Escape(ext));
+            if (m.Success) return m.Value;
+        }
+        return null;
     }
 
     public static string SafeFileName(string name) =>
