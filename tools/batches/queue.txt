@@ -1,6 +1,5 @@
 # Bottle batches waiting their turn: each bottles.yml run starts the first line when it finishes.
 # Format: <batch> [chunk_size=N] [toolchain=true] [formula_timeout=M] [from_run=ID]
-wave5-portable chunk_size=10 toolchain=true
 wave8-deprecated chunk_size=20 toolchain=true
 wave9-heavy chunk_size=1 toolchain=true formula_timeout=300
 sync-20261017 chunk_size=15 toolchain=true
