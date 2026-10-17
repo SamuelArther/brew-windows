@@ -261,8 +261,7 @@ public sealed partial class Interp
                 any = true;
             }
             value *= sign;
-            // The interpreter has no Bignum; out-of-range values saturate.
-            return value > long.MaxValue ? long.MaxValue : value < long.MinValue ? long.MinValue : (long)value;
+            return Norm(value);
         });
         Def(St, "to_f", (it, self, a, b) =>
         {

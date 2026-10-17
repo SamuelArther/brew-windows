@@ -18,7 +18,7 @@ public sealed partial class Interp
         Def(BasicObjectClass, "method_missing", (it, self, a, b) => throw it.NoMethod(self, it.StrOrSym(a[0]), false));
         Def(BasicObjectClass, "!", (it, self, a, b) => !Truthy(self));
         // Interp.Equal knows the core values; anything else (MatchData, procs ...) is equal only to itself.
-        Def(BasicObjectClass, "== equal?", (it, self, a, b) => self is null or bool or long or double or RString or RSymbol or RArray or RHash or RRange or RClass
+        Def(BasicObjectClass, "== equal?", (it, self, a, b) => self is null or bool or long or System.Numerics.BigInteger or double or RString or RSymbol or RArray or RHash or RRange or RClass
             ? it.Equal(self, a[0]) : ReferenceEquals(self, a[0]));
         Def(BasicObjectClass, "!=", (it, self, a, b) => !it.Equal(self, a[0]));
         Def(BasicObjectClass, "__send__", (it, self, a, b) => it.Invoke(self, it.StrOrSym(a[0]), a[1..], b));
@@ -370,6 +370,7 @@ public sealed partial class Interp
         }
 
         InitNumbers();
+        InitBigInt();
 
         // ---- Symbol ----
         var Y = SymbolClass;
@@ -542,10 +543,8 @@ public sealed partial class Interp
     {
         switch (v)
         {
-            case long: return v;
-            case double d:
-                if (double.IsNaN(d) || double.IsInfinity(d)) throw Error(FloatDomainError(), FloatToS(d));
-                return (long)Math.Truncate(d);
+            case long or System.Numerics.BigInteger: return v;
+            case double d: return FloatToInt(d);
             case null:
                 if (noException) return null;
                 throw TypeErr("can't convert nil into Integer");
@@ -563,7 +562,7 @@ public sealed partial class Interp
                 try
                 {
                     if (t.Length == 0) throw new FormatException();
-                    return sign * Convert.ToInt64(t, r);
+                    return Norm(sign * (ParseDigits(t, r) ?? throw new FormatException()));
                 }
                 catch (Exception) when (noException) { return null; }
                 catch (Exception) { throw ArgError($"invalid value for Integer(): {InspectStr(s.V)}"); }
@@ -716,6 +715,7 @@ public sealed partial class Interp
 
     public object NumOp(object a, string op, object b)
     {
+        if (IntOp(a, op, b, out var big)) return big;
         if (b is not (long or double))
         {
             if (op == "==") return false;
@@ -829,8 +829,8 @@ public sealed partial class Interp
                 case 'p': body = Inspect(arg); break;
                 case 'd': case 'i': case 'u':
                 {
-                    long v = arg is double dd ? (long)Math.Floor(dd) : Int(ToInteger(arg, 10, false));
-                    body = Math.Abs(v).ToString(CultureInfo.InvariantCulture);
+                    var v = arg is double dd ? Big(FloatToInt(Math.Floor(dd))) : Big(ToInteger(arg, 10, false));
+                    body = System.Numerics.BigInteger.Abs(v).ToString(CultureInfo.InvariantCulture);
                     if (prec >= 0) body = body.PadLeft(prec, '0');
                     body = (v < 0 ? "-" : flags.Contains('+') ? "+" : flags.Contains(' ') ? " " : "") + body;
                     break;

@@ -26,6 +26,7 @@ try
     assertions += PosixLines.Run(root);
     assertions += RubyLibrary.Run(root);
     assertions += ProcessApi.Run(Path.Combine(root, "process-api"));
+    assertions += RubyStdLib.Run(root);
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);
