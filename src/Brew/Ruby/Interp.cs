@@ -38,6 +38,7 @@ public sealed partial class Interp
         InitCollections();
         InitFiles();
         InitJson();
+        InitStdLib();
         Run(EncodingPrelude, "<encoding>");
     }
 
@@ -146,7 +147,7 @@ public sealed partial class Interp
     {
         null => NilClass,
         bool b => b ? TrueClass : FalseClass,
-        long => IntegerClass,
+        long or System.Numerics.BigInteger => IntegerClass,
         double => FloatClass,
         RString => StringClass,
         RSymbol => SymbolClass,
@@ -292,6 +293,7 @@ public sealed partial class Interp
     {
         long l => l,
         double d => (long)d,
+        System.Numerics.BigInteger => throw Error(RangeError, "bignum too big to convert into 'long'"),
         _ => throw TypeErr($"no implicit conversion of {TypeName(o)} into Integer"),
     };
 
@@ -299,6 +301,7 @@ public sealed partial class Interp
     {
         long l => l,
         double d => d,
+        System.Numerics.BigInteger bi => (double)bi,
         _ => throw TypeErr($"can't convert {TypeName(o)} into Float"),
     };
 
@@ -322,6 +325,7 @@ public sealed partial class Interp
             case string str: return str;
             case null: return "";
             case long l: return l.ToString(CultureInfo.InvariantCulture);
+            case System.Numerics.BigInteger bi: return bi.ToString(CultureInfo.InvariantCulture);
             case double d: return FloatToS(d);
             case RSymbol y: return y.Name;
             case bool b: return b ? "true" : "false";
@@ -369,7 +373,7 @@ public sealed partial class Interp
         {
             case null: return "nil";
             case bool b: return b ? "true" : "false";
-            case long or double: return ToS(o);
+            case long or double or System.Numerics.BigInteger: return ToS(o);
             case RString s: return InspectStr(s.V);
             case string str: return InspectStr(str);
             case RSymbol y: return ":" + SymName(y.Name);
@@ -441,6 +445,7 @@ public sealed partial class Interp
         (null, null) => true,
         (RString x, RString y) => x.V == y.V,
         (long x, long y) => x == y,
+        (System.Numerics.BigInteger x, System.Numerics.BigInteger y) => x == y,
         (double x, double y) => x.Equals(y),
         (bool x, bool y) => x == y,
         (RArray x, RArray y) => x.L.Count == y.L.Count && x.L.Zip(y.L).All(p => Eql(p.First, p.Second)),
@@ -454,7 +459,8 @@ public sealed partial class Interp
             case null: return b == null;
             case bool x: return b is bool yb && x == yb;
             case long x: return b is long yl ? x == yl : b is double dy && x == dy;
-            case double x: return b is double yd ? x == yd : b is long ly && x == ly;
+            case System.Numerics.BigInteger: return b is System.Numerics.BigInteger or double && NumOp(a, "==", b) is true;
+            case double x: return b is double yd ? x == yd : b is long ly ? x == ly : b is System.Numerics.BigInteger && NumOp(b, "==", a) is true;
             case RString x: return b is RString ys && x.Equals(ys);
             case RSymbol: return ReferenceEquals(a, b);
             case RArray x: return b is RArray ya && x.L.Count == ya.L.Count && x.L.Zip(ya.L).All(p => Equal(p.First, p.Second));
@@ -471,6 +477,8 @@ public sealed partial class Interp
         switch (a, b)
         {
             case (long x, long y): return x.CompareTo(y);
+            case (System.Numerics.BigInteger, long or double or System.Numerics.BigInteger) or (long or double, System.Numerics.BigInteger):
+                return NumOp(a, "<=>", b) is long c ? (int)c : throw ArgError($"comparison of {ClassOf(a).Name} with {Inspect(b)} failed");
             case (long or double, long or double): return Num(a).CompareTo(Num(b));
             case (RString x, RString y): return string.CompareOrdinal(x.V, y.V) switch { < 0 => -1, > 0 => 1, _ => 0 };
         }
@@ -654,6 +662,7 @@ public sealed partial class Interp
             case StrNode s: return new RString(Interpolate(s, f));
             case SymNode s: return Sym(s.Name);
             case IntNode i: return i.Value;
+            case BigIntNode bi: return bi.Value;
             case FloatNode fl: return fl.Value;
             case NilNode: return null;
             case TrueNode: return true;
@@ -813,9 +822,9 @@ public sealed partial class Interp
         {
             switch (op)
             {
-                case "+": r = x + y; return true;
-                case "-": r = x - y; return true;
-                case "*": r = x * y; return true;
+                case "+": r = AddInt(x, y); return true;
+                case "-": r = SubInt(x, y); return true;
+                case "*": r = MulInt(x, y); return true;
                 case "<": r = x < y; return true;
                 case ">": r = x > y; return true;
                 case "<=": r = x <= y; return true;
@@ -976,7 +985,7 @@ public sealed partial class Interp
         RClass c => IsA(v, c),
         RRegex r => v is RString or RSymbol && RegexMatch(r, StrOrSym(v), 0) != null,
         RRange rg => RangeIncludes(rg, v),
-        RString or long or double or RSymbol or null or bool => Equal(pattern, v),
+        RString or long or double or System.Numerics.BigInteger or RSymbol or null or bool => Equal(pattern, v),
         RProc p => Truthy(CallProc(p, new[] { v })),
         _ => Truthy(Invoke(pattern, "===", new[] { v }, null)),
     };

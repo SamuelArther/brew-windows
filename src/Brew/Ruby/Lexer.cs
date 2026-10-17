@@ -303,7 +303,15 @@ public sealed class Lexer
         {
             pos += 2;
             while (Uri.IsHexDigit(Cur) || Cur == '_') pos++;
-            Add(T.Int, Convert.ToInt64(src[(s + 2)..pos].Replace("_", ""), 16).ToString(), space);
+            Add(T.Int, Interp.ParseDigits(src[(s + 2)..pos].Replace("_", ""), 16)?.ToString() ?? "0", space);
+            return;
+        }
+        if (Cur == '0' && (Peek() == 'b' || Peek() == 'B') && (Peek(2) == '0' || Peek(2) == '1'))
+        {
+            pos += 2;
+            int bs = pos;
+            while (Cur == '0' || Cur == '1' || Cur == '_') pos++;
+            Add(T.Int, Interp.ParseDigits(src[bs..pos].Replace("_", ""), 2)?.ToString() ?? "0", space);
             return;
         }
         if (Cur == '0' && (Peek() == 'o' || char.IsDigit(Peek())))
@@ -312,7 +320,7 @@ public sealed class Lexer
             if (Cur == 'o') pos++;
             int ds = pos;
             while (char.IsDigit(Cur) || Cur == '_') pos++;
-            Add(T.Int, Convert.ToInt64(src[ds..pos].Replace("_", ""), 8).ToString(), space);
+            Add(T.Int, Interp.ParseDigits(src[ds..pos].Replace("_", ""), 8)?.ToString() ?? "0", space);
             return;
         }
         while (char.IsDigit(Cur) || (Cur == '_' && char.IsDigit(Peek()))) pos++;

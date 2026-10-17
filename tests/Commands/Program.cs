@@ -23,6 +23,7 @@ try
     assertions += TreeLinks.Run(root);
     assertions += PosixLines.Run(root);
     assertions += RubyLibrary.Run(root);
+    assertions += RubyStdLib.Run(root);
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);

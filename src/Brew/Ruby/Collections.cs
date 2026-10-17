@@ -40,6 +40,13 @@ public sealed partial class Interp
             }
             yield break;
         }
+        // Anything else with #succ (Date, Time...) steps by succ, like Range#each.
+        if (r.From is RObject && RespondTo(r.From, "succ"))
+        {
+            for (var x = r.From; r.To == null || (r.Excl ? Compare(x, r.To) < 0 : Compare(x, r.To) <= 0); x = Invoke(x, "succ", NoArgs, null))
+                yield return x;
+            yield break;
+        }
         throw TypeErr($"can't iterate from {ClassOf(r.From).Name}");
     }
 

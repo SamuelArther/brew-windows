@@ -319,6 +319,7 @@ public sealed class Parser
         return v switch
         {
             IntNode i => new IntNode { Value = -i.Value, Line = line },
+            BigIntNode i => Interp.Norm(-i.Value) is long nl ? new IntNode { Value = nl, Line = line } : new BigIntNode { Value = -i.Value, Line = line },
             FloatNode f => new FloatNode { Value = -f.Value, Line = line },
             _ => new CallNode { Recv = v, Name = "-@", Line = line },
         };
@@ -593,7 +594,7 @@ public sealed class Parser
                 p++;
                 return long.TryParse(t.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l)
                     ? new IntNode { Value = l, Line = line }
-                    : new FloatNode { Value = double.Parse(t.Text, CultureInfo.InvariantCulture), Line = line };
+                    : new BigIntNode { Value = System.Numerics.BigInteger.Parse(t.Text, CultureInfo.InvariantCulture), Line = line };
             case T.Float:
                 p++;
                 return new FloatNode { Value = double.Parse(t.Text, CultureInfo.InvariantCulture), Line = line };
