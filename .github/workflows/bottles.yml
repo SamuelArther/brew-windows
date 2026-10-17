@@ -100,13 +100,19 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-brew
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: bottles-*
-          path: bottles
-          merge-multiple: true
-          run-id: ${{ inputs.from_run || github.run_id }}
-          github-token: ${{ github.token }}
+      # Not actions/download-artifact: it saw only the first 100 of a run's artifacts (a 78-chunk run has 156),
+      # so a third of the chunks' bottles and reports were silently left out. gh pages through all of them.
+      - name: Download bottles
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download ${{ inputs.from_run || github.run_id }} --repo "${{ github.repository }}" --pattern 'bottles-*' --dir downloaded
+          if ($LASTEXITCODE -ne 0) { throw "could not download the bottles" }
+          New-Item -ItemType Directory -Force bottles | Out-Null
+          $chunks = @(Get-ChildItem downloaded -Directory)
+          foreach ($chunk in $chunks) { Copy-Item (Join-Path $chunk.FullName '*') bottles -Recurse -Force }
+          "downloaded $($chunks.Count) chunks: $(@(Get-ChildItem bottles -Filter 'report-*.json').Count) reports, $(@(Get-ChildItem bottles -Filter '*.bottle.json').Count) bottles"
       - name: Report
         shell: pwsh
         run: |
