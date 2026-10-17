@@ -110,3 +110,7 @@ jobs:
                   time.sleep(10)
               else:
                   raise SystemExit("could not push the retest report")
+          # The test jobs pass whatever the formula did, so the run's result comes from the report.
+          failed = [f'{r["name"]} ({r["status"]})' for r in rows if r["status"] != "ok"]
+          if failed:
+              raise SystemExit("failed: " + ", ".join(failed))
