@@ -13,6 +13,10 @@ class Ratarmount < Formula
   # WinFsp's FUSE DLL and at libarchive's DLL (for libarchive-c) through a .pth file, since neither
   # is found by name on Windows. Mount points are drive letters (X:) or folders that don't exist yet.
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "d8b4a17f56a12deb1179e50754c51404c0ada6baa40d4cf86e97741b8cff5360"
+  end
+
   depends_on "libarchive"
   depends_on "libfuse" => :no_linkage
   depends_on "python@3.15"
