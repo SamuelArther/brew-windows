@@ -128,7 +128,8 @@ jobs:
           $report | ConvertTo-Json -AsArray | Set-Content "tools/batches/results/${{ inputs.batch }}.json"
           $report | Group-Object status | ForEach-Object { "{0}: {1}" -f $_.Name, $_.Count } | Tee-Object -Variable summary
           "### ${{ inputs.batch }}`n" + ($summary -join "`n") | Add-Content $env:GITHUB_STEP_SUMMARY
-          $ok = ($report | Where-Object status -eq 'ok').name
+          # Kept an array: splatting a single name as a string passes it one character at a time.
+          $ok = @(($report | Where-Object status -eq 'ok').name)
           if ($ok) { python tools/import_upstream.py "$env:RUNNER_TEMP/homebrew-core" @ok }
       # Bottles go to their own repository (Bottles.DefaultDomain), which needs a token that can write
       # there: the BOTTLES_TOKEN secret. Without it they stay in this repository, which brew still checks.
@@ -168,6 +169,9 @@ jobs:
           $jq = '[.[] | select(.databaseId != ${{ github.run_id }} and (.status == "pending" or .status == "queued" or .status == "waiting"))] | length'
           $waiting = gh run list --workflow bottles.yml --json status,databaseId --jq $jq
           if ($waiting -ne '0') { "a bottles run is already waiting; it will start the next batch"; exit 0 }
+          # A failed publish leaves imported tap files behind; they would block the pull.
+          git reset -q --hard HEAD
+          git clean -qfd tap
           for ($i = 0; $i -lt 5; $i++) {
             git pull -q --rebase
             $queue = if (Test-Path tools/batches/queue.txt) { @(Get-Content tools/batches/queue.txt | Where-Object { $_ -match '\S' -and $_ -notmatch '^\s*#' }) } else { @() }
