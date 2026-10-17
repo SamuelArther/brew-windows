@@ -1,0 +1,16 @@
+name: check-bottles-token
+
+# One-off: report what the BOTTLES_TOKEN secret may do, without printing it.
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.BOTTLES_TOKEN }}
+        run: |
+          echo "bottles repo: $(gh api repos/SamuelArther/brew-windows-bottles --jq '.permissions | {admin, push, pull}' 2>&1)"
+          echo "main repo:    $(gh api repos/SamuelArther/brew-windows --jq '.permissions | {admin, push, pull}' 2>&1)"
+          echo "can list other repos' private data: $(gh api user/repos?visibility=private --jq 'length' 2>&1)"
