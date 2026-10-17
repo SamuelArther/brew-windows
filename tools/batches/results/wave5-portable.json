@@ -1,0 +1,97 @@
+[
+  {
+    "name": "asccli",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "fits",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "gcl",
+    "status": "build",
+    "seconds": 38
+  },
+  {
+    "name": "git-url-sub",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "icbirc",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "juise",
+    "status": "build",
+    "seconds": 1156
+  },
+  {
+    "name": "lazycut",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "libiconv",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "libslax",
+    "status": "build",
+    "seconds": 59
+  },
+  {
+    "name": "nfd2nfc",
+    "status": "build",
+    "seconds": 158
+  },
+  {
+    "name": "ntfs2btrfs",
+    "status": "build",
+    "seconds": 40
+  },
+  {
+    "name": "nvi2",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "payara",
+    "status": "test",
+    "seconds": 17
+  },
+  {
+    "name": "rio-terminal",
+    "status": "build",
+    "seconds": 359
+  },
+  {
+    "name": "signify-osx",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "smimesign",
+    "status": "build",
+    "seconds": 82
+  },
+  {
+    "name": "svt-vp9",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "thrax",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "tup",
+    "status": "build",
+    "seconds": 7
+  }
+]
