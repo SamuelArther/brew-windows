@@ -6,6 +6,10 @@ class Tccutil < Formula
 
   # Windows-native rewrite (brew-windows' wintools) of a macOS/Linux-only formula.
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "46db5a4e95baca13dd8bdfb4cb51f72d060c6ac8de39d70822708856bf977a34"
+  end
+
   def install
     libexec.install "wintools.exe"
     windows_exe "libexec/wintools.exe", "tccutil", "tccutil"

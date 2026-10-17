@@ -6,6 +6,10 @@ class Iproute2mac < Formula
 
   # Windows-native rewrite (brew-windows' wintools) of a macOS/Linux-only formula.
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5cb1add2ad656db0bdc9b8c8933394c4daa509da36db5305d2294001271805ea"
+  end
+
   def install
     libexec.install "wintools.exe"
     windows_exe "libexec/wintools.exe", "ip", "ip"

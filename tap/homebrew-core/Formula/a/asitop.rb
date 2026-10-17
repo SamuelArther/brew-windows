@@ -6,6 +6,10 @@ class Asitop < Formula
 
   # Windows-native rewrite (brew-windows' wintools) of a macOS/Linux-only formula.
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "74e61983805debf416644a8b34ae046be13220a881ef897c5d7d0c04af3aeab3"
+  end
+
   def install
     libexec.install "wintools.exe"
     windows_exe "libexec/wintools.exe", "asitop", "asitop"
