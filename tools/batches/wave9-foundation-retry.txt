@@ -87,3 +87,4 @@ libnet
 yara
 dolt
 asciidoc
+ratarmount
