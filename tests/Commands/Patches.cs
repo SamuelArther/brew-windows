@@ -57,6 +57,12 @@ static class Patches
         Patcher.Apply(Latin1("--- a/src/latin1.c\n+++ b/src/latin1.c\n@@ -2,3 +2,3 @@\n one\n-été\n+summer\n three\n"), 1, dir);
         if (!File.ReadAllBytes(latin1).SequenceEqual((byte[])[0xEF, 0xBB, 0xBF, .. Latin1("/* © 1999 */\none\nsummer\nthree\n")]))
             throw new Exception("Patching rewrote bytes outside the hunk: " + Convert.ToHexString(File.ReadAllBytes(latin1)));
-        return 7;
+
+        // A context line that lost its leading space and starts with a tab is still context (GNU patch; md5deep).
+        var guess = Path.Combine(dir, "src", "guess.sh");
+        File.WriteAllText(guess, "case x in\n\techo a\n\texit 0 ;;\nesac\n");
+        Patcher.Apply("--- a/src/guess.sh\n+++ b/src/guess.sh\n@@ -1,4 +1,5 @@\n case x in\n\techo a\n+\techo b\n\texit 0 ;;\n esac\n", 1, dir);
+        if (File.ReadAllText(guess) != "case x in\n\techo a\n\techo b\n\texit 0 ;;\nesac\n") throw new Exception("Tab-led context line not treated as context");
+        return 8;
     }
 }

@@ -142,8 +142,10 @@ public static class Patcher
                 {
                     var line = lines[i];
                     if (line.StartsWith('\\')) { if (last is '-' or ' ') oldNoEol = true; if (last is '+' or ' ') newNoEol = true; i++; continue; }
-                    var tag = line.Length == 0 ? ' ' : line[0];
-                    var body = line.Length == 0 ? "" : line[1..];
+                    // Like GNU patch, a context line whose leading space got eaten (it starts with a tab, as in
+                    // md5deep's config.guess patch) is still context, tab included.
+                    var tag = line.Length == 0 || line[0] == '\t' ? ' ' : line[0];
+                    var body = line.Length == 0 ? "" : line[0] == '\t' ? line : line[1..];
                     switch (tag)
                     {
                         case ' ': old.Add(body); @new.Add(body); break;
