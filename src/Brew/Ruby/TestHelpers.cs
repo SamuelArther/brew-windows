@@ -849,9 +849,12 @@ public static partial class FormulaLoader
                 i.WaitForExit(proc);
                 i.Blocking(() => Task.WaitAll(pumps.ToArray()));
                 if (errMode == Sink.Err) i.Err.Flush();
-                SetStatus(i, proc.ExitCode);
+                // exit(-1) is 255 to a Unix shell, which is what tests assert (libudfread, xnvme); Windows reports
+                // the full 32 bits. Only those small negatives are folded, never NTSTATUS crashes or codes over 255.
+                var code = proc.ExitCode is < 0 and >= -255 ? proc.ExitCode & 0xFF : proc.ExitCode;
+                SetStatus(i, code);
                 var output = Decode(outBuf.ToArray(), out binary);
-                return (output, Decode(errBuf.ToArray(), out _), proc.ExitCode);
+                return (output, Decode(errBuf.ToArray(), out _), code);
             }
         }
 

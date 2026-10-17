@@ -65,12 +65,13 @@ public sealed class Linker(Paths paths)
             var found = new[] { "", ".exe", ".cmd", ".bat" }.Select(e => native + e).FirstOrDefault(File.Exists) ?? native + ".exe";
             return $"@\"{found}\" {extra} \"{script}\" %*\r\n".Replace("  ", " ");
         }
+        // The script's $0 gets forward slashes: with backslashes, `$0/../lib/x` (shellspec) isn't a path to bash.
         if (name is "sh" or "bash" or "dash" or "ksh")
             return "@echo off\r\nsetlocal\r\n"
                 + "set \"BREW_SH=%HOMEBREW_MSYS2_ROOT%\\usr\\bin\\bash.exe\"\r\n"
                 + "if not exist \"%BREW_SH%\" set \"BREW_SH=%ProgramFiles%\\Git\\bin\\bash.exe\"\r\n"
                 + "if not exist \"%BREW_SH%\" set \"BREW_SH=bash\"\r\n"
-                + $"\"%BREW_SH%\" {extra} \"{script}\" %*\r\n".Replace("  ", " ");
+                + $"\"%BREW_SH%\" {extra} \"{script.Replace('\\', '/')}\" %*\r\n".Replace("  ", " ");
         if (name.StartsWith("python", StringComparison.Ordinal)) name = "python";
         return $"@{name} {extra} \"{script}\" %*\r\n".Replace("  ", " ");
     }

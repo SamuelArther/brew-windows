@@ -49,6 +49,12 @@ static class FormulaDsl
         Expect("""f = Formula.allocate; [f.shared_library("libfoo"), f.shared_library("libfoo", 2), f.shared_library("libfoo", "*"), f.shared_library("*")].inspect""",
             """["libfoo.dll", "libfoo-2.dll", "libfoo{,-*}.dll", "*.dll"]""");
         Expect("""Formula.allocate.std_swift_args.first(2).inspect""", """["--configuration", "release"]""");
+        // install_symlink: a relative source is relative to the link's directory, the link is relative (lv's
+        // `bin.install_symlink "lv" => "lgrep"` dangled into the deleted build tree), and an .exe keeps its extension.
+        Expect("""Pathname("ln/bin").mkpath; File.write("ln/bin/lv.exe", "x"); File.write("ln/tool.sh", "#!/bin/sh\n"); Pathname("ln/bin").install_symlink "lv" => "lgrep"; Pathname("ln/bin").install_symlink Pathname("ln/tool.sh").expand_path => "tool"; [File.readlink("ln/bin/lgrep.exe"), File.readlink("ln/bin/tool").tr("\\", "/"), File.read("ln/bin/lgrep.exe")].inspect""",
+            """["lv.exe", "../tool.sh", "x"]""");
+        // A dangling DLL link (libzzip's lib/libzzip.dll) imports nothing instead of failing the install.
+        Check(!PortableExecutable.Imports(Path.Combine(dir, "missing.dll")).Any(), "missing DLL has no imports");
 
         // A query can name the download (Maven's remotecontent?filepath=..., S3's response-content-disposition).
         Check(Downloader.FileName("https://search.maven.org/remotecontent?filepath=org/springframework/springloaded/1.2.6.RELEASE/springloaded-1.2.6.RELEASE.jar")

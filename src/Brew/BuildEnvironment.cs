@@ -333,6 +333,7 @@ public static class PortableExecutable
             }
             return names;
         }
-        catch (BadImageFormatException) { return []; }
+        // A dangling link (libzzip's CMake links lib/libzzip.dll to a DLL it installed in bin/) imports nothing.
+        catch (Exception e) when (e is BadImageFormatException or IOException or UnauthorizedAccessException) { return []; }
     }
 }

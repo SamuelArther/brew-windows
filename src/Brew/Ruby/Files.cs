@@ -262,14 +262,28 @@ public sealed partial class Interp
         {
             var dir = it.Abs(Me(self));
             Directory.CreateDirectory(dir);
+            // install_symlink_p: a relative source is relative to the directory the link goes in (`bin.install_symlink
+            // "lv" => "lgrep"` is bin/lgrep -> lv), and the link is made relative so it survives bottling.
+            void Link(string source, string name)
+            {
+                var target = Path.GetFullPath(source.Replace('/', Path.DirectorySeparatorChar), dir);
+                if (!File.Exists(target) && !Directory.Exists(target) && !IsSymlink(target) && File.Exists(target + ".exe"))
+                {
+                    target += ".exe";   // built executables carry .exe; so does the link, or Windows can't run it
+                    if (!Path.HasExtension(name)) name += ".exe";
+                }
+                var link = Path.Combine(dir, name);
+                if (File.Exists(link) || IsSymlink(link)) { if (Directory.Exists(link)) Directory.Delete(link); else File.Delete(link); }
+                it.MakeSymlink(Path.GetRelativePath(Path.GetDirectoryName(link)!, target), link);
+            }
             foreach (var x in a)
             {
                 if (x is RHash h)
                 {
-                    foreach (var kv in h.D) it.MakeSymlink(it.Abs(it.PathStr(kv.Key)), Path.Combine(dir, it.PathStr(kv.Value)));
+                    foreach (var kv in h.D) Link(it.PathStr(kv.Key), it.PathStr(kv.Value));
                 }
                 else foreach (var src in x is RArray arr ? arr.L : new List<object> { x })
-                    it.MakeSymlink(it.Abs(it.PathStr(src)), Path.Combine(dir, BaseName(it.PathStr(src))));
+                    Link(it.PathStr(src), BaseName(it.PathStr(src)));
             }
             return null;
         });
