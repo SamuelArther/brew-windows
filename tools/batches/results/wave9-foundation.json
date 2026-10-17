@@ -1,0 +1,697 @@
+[
+  {
+    "name": "abseil",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "adwaita-icon-theme",
+    "status": "build",
+    "seconds": 98
+  },
+  {
+    "name": "ansible",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "ant",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "antlr",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "argp-standalone",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "asciidoc",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "asio",
+    "status": "build",
+    "seconds": 342
+  },
+  {
+    "name": "azure-core-cpp",
+    "status": "build",
+    "seconds": 2706
+  },
+  {
+    "name": "bamtools",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "bc-gh",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "bdw-gc",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "berkeley-db",
+    "status": "build",
+    "seconds": 2704
+  },
+  {
+    "name": "berkeley-db@5",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "bmake",
+    "status": "build",
+    "seconds": 234
+  },
+  {
+    "name": "boost-python3",
+    "status": "build",
+    "seconds": 134
+  },
+  {
+    "name": "bowtie2",
+    "status": "ok",
+    "seconds": 523
+  },
+  {
+    "name": "build2",
+    "status": "build",
+    "seconds": 746
+  },
+  {
+    "name": "ca-certificates",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "camlp-streams",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "cargo-c",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "cbc",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "certifi",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "cffi",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "cgal",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "chafa",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "corepack",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "cppzmq",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "cryptography",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "cups",
+    "status": "build",
+    "seconds": 2424
+  },
+  {
+    "name": "docker",
+    "status": "test",
+    "seconds": 115
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "doxygen",
+    "status": "ok",
+    "seconds": 376
+  },
+  {
+    "name": "dune",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "eigenpy",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "etcd",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "extra-cmake-modules",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "fltk@1.3",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "fluid-synth",
+    "status": "test",
+    "seconds": 50
+  },
+  {
+    "name": "font-util",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "fstrm",
+    "status": "ok",
+    "seconds": 118
+  },
+  {
+    "name": "gd",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "gdk-pixbuf",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "glib",
+    "status": "build",
+    "seconds": 33
+  },
+  {
+    "name": "go@1.26",
+    "status": "build",
+    "seconds": 43
+  },
+  {
+    "name": "gradle@8",
+    "status": "ok",
+    "seconds": 252
+  },
+  {
+    "name": "groonga",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "gtk4",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "httpd",
+    "status": "build",
+    "seconds": 2704
+  },
+  {
+    "name": "java-service-wrapper",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "krb5",
+    "status": "build",
+    "seconds": 2704
+  },
+  {
+    "name": "libadwaita",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "libelf",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libfontenc",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "libfuse@2",
+    "status": "build",
+    "seconds": 133
+  },
+  {
+    "name": "libheif",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "libmpc",
+    "status": "ok",
+    "seconds": 323
+  },
+  {
+    "name": "libnet",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "libnfc",
+    "status": "build",
+    "seconds": 83
+  },
+  {
+    "name": "libosmium",
+    "status": "test",
+    "seconds": 123
+  },
+  {
+    "name": "libparserutils",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "libpq",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "libretls",
+    "status": "build",
+    "seconds": 2707
+  },
+  {
+    "name": "librtlsdr",
+    "status": "test",
+    "seconds": 15
+  },
+  {
+    "name": "libsoup",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "libwapcaplet",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "libxau",
+    "status": "test",
+    "seconds": 59
+  },
+  {
+    "name": "libxdmcp",
+    "status": "test",
+    "seconds": 65
+  },
+  {
+    "name": "libxml++",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "libxmlsec1",
+    "status": "build",
+    "seconds": 2707
+  },
+  {
+    "name": "lima",
+    "status": "test",
+    "seconds": 202
+  },
+  {
+    "name": "little-cms2",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "lowdown",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "lpeg",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "luarocks",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "mariadb-connector-c",
+    "status": "build",
+    "seconds": 1766
+  },
+  {
+    "name": "mecab-ipadic",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "mupdf",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "musepack",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "mysql-client",
+    "status": "build",
+    "seconds": 2705
+  },
+  {
+    "name": "net-snmp",
+    "status": "build",
+    "seconds": 2706
+  },
+  {
+    "name": "netpbm",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "nmap",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "notmuch",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "numpy",
+    "status": "build",
+    "seconds": 44
+  },
+  {
+    "name": "ocaml-findlib",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "openssl@4",
+    "status": "build",
+    "seconds": 2704
+  },
+  {
+    "name": "osi",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "pari",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "pcre",
+    "status": "build",
+    "seconds": 166
+  },
+  {
+    "name": "perl-dbd-mysql",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "py3cairo",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "pybind11",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "pycparser",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "pydantic",
+    "status": "build",
+    "seconds": 156
+  },
+  {
+    "name": "pyenv",
+    "status": "build",
+    "seconds": 2705
+  },
+  {
+    "name": "pygit2",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "pygobject3",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "pymupdf",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "pyqt-builder",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "pyqt@5",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "python-setuptools",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "qtconnectivity",
+    "status": "build",
+    "seconds": 14
+  },
+  {
+    "name": "qtimageformats",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "qtnetworkauth",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "qtserialport",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "qtshadertools",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "qtsvg",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "riemann-client",
+    "status": "build",
+    "seconds": 2704
+  },
+  {
+    "name": "rpds-py",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "s-lang",
+    "status": "build",
+    "seconds": 176
+  },
+  {
+    "name": "scipy",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "sdl2_image",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "sdl2_mixer",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "sdl2_net",
+    "status": "test",
+    "seconds": 66
+  },
+  {
+    "name": "sdl2_ttf",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "sdl3_ttf",
+    "status": "test",
+    "seconds": 19
+  },
+  {
+    "name": "solarus",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "sphinx-doc",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "suite-sparse",
+    "status": "build",
+    "seconds": 122
+  },
+  {
+    "name": "tcl-tk",
+    "status": "build",
+    "seconds": 80
+  },
+  {
+    "name": "tcl-tk@8",
+    "status": "build",
+    "seconds": 89
+  },
+  {
+    "name": "tesseract",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "theora",
+    "status": "test",
+    "seconds": 120
+  },
+  {
+    "name": "urdfdom",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "vala",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "valkey",
+    "status": "build",
+    "seconds": 2704
+  },
+  {
+    "name": "vulkan-tools",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "wandio",
+    "status": "build",
+    "seconds": 74
+  },
+  {
+    "name": "wcslib",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "webp",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "whisper.cpp",
+    "status": "test",
+    "seconds": 180
+  },
+  {
+    "name": "wxwidgets",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "wxwidgets@3.2",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "xapian",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "xml-security-c",
+    "status": "build",
+    "seconds": 2564
+  },
+  {
+    "name": "xtrans",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "yara",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "yaz",
+    "status": "build",
+    "seconds": 20
+  }
+]

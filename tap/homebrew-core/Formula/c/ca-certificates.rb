@@ -11,6 +11,10 @@ class CaCertificates < Formula
     regex(/href=.*?cacert[._-](\d{4}-\d{2}-\d{2})\.pem/i)
   end
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5c04266a2241e93e1c62e0adb9b020d46f830ceccbcd0524f2ffa6b7a1d61fbf"
+  end
+
   deny_network_access!
 
   def install
