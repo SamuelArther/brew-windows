@@ -160,7 +160,7 @@ public sealed class PackageManager(Paths paths)
                         resources.Add(resource.Name, await GitSources.StageAsync(resource.Url, resource.Tag, resource.Revision, resource.Branch ?? "", resourcePath));
                         continue;
                     }
-                    var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
+                    var resourceFile = await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256, resource.Mirrors);
                     var stagedResource = await Archive.StageAsync(resourceFile, Downloader.FileName(resource.Url), resourcePath, resource.Using == "nounzip");
                     resources.Add(resource.Name, stagedResource);
                 }
@@ -496,7 +496,7 @@ public sealed class PackageManager(Paths paths)
             await GitSources.StageAsync(formula.Url, formula.GitTag, formula.GitRevision, formula.GitBranch, clone);
         }
         else await new Downloader(paths.Cache).FetchAsync(formula.Url, formula.Sha256, Metadata.Strings(formula, "Mirrors"));
-        foreach (var resource in formula.Resources.Where(r => !r.Git)) await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256);
+        foreach (var resource in formula.Resources.Where(r => !r.Git)) await new Downloader(paths.Cache).FetchAsync(resource.Url, resource.Sha256, resource.Mirrors);
     }
 
     public async Task ReinstallAsync(string name)

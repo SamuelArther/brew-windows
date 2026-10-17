@@ -92,6 +92,8 @@ public static class Bottles
             if (tar.Code != 0) throw new IOException("Bottle extraction failed: " + tar.Error.Trim());
             var extracted = Path.Combine(staging, name, version);
             if (!Directory.Exists(extracted)) throw new IOException($"Bottle does not contain {name}/{version}");
+            // tar.exe extracts a keg's directory links (an MSYS2 keg's libexec/bin -> usr/bin) as file links.
+            Archive.RetypeDirectoryLinks(extracted);
             foreach (var file in Paths.TreeFiles(extracted))
             {
                 var bookkeeping = Path.GetFileName(file) == "INSTALL_RECEIPT.json" || file.EndsWith(".brew-shim", StringComparison.OrdinalIgnoreCase);
