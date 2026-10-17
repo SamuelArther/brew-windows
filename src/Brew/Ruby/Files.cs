@@ -208,7 +208,8 @@ public sealed partial class Interp
             foreach (var x in items) it.Y1(b, x);
             return null;
         });
-        Def(P, "mkpath", (it, self, a, b) => { Directory.CreateDirectory(it.Abs(Me(self))); return null; });
+        // Ruby 3.1+ returns self (sbtenv: prefix.install_symlink (var/"lib/sbtenv/plugins").mkpath).
+        Def(P, "mkpath", (it, self, a, b) => { Directory.CreateDirectory(it.Abs(Me(self))); return self; });
         Def(P, "mkdir", (it, self, a, b) =>
         {
             var p = it.Abs(Me(self));
@@ -326,20 +327,50 @@ public sealed partial class Interp
         {
             var path = it.Abs(it.PathStr(a[0]));
             var mode = a.Length > 1 && a[1] is RString m ? m.V : "r";
-            var f = new RObject { Class = it.FileClass, Host = new FileHandle { Path = path, Mode = mode } };
-            if (mode.StartsWith('r')) ((FileHandle)f.Host).Buffer.Append(ReadText(path));
+            var handle = new FileHandle { Path = path, Mode = mode, Binary = mode.Contains('b') };
+            var f = new RObject { Class = it.FileClass, Host = handle };
+            // Binary modes ("rb", "r+b") keep every byte (one char per byte); text mode folds CRLFs.
+            if (mode.StartsWith('r')) handle.Buffer.Append(handle.Binary ? Encoding.Latin1.GetString(File.ReadAllBytes(path)) : ReadText(path));
             if (b == null) return f;
             try { return it.Y1(b, f); }
             finally { it.Invoke(f, "close", NoArgs, null); }
         });
         FileHandle FH(object o) => (FileHandle)((RObject)o).Host;
+        // Writes land at the position (seek then write overwrites, as lziprecover's test corrupts a byte in place).
+        void WriteAt(FileHandle h, string text)
+        {
+            var overlap = Math.Min(text.Length, h.Buffer.Length - h.Pos);
+            if (overlap > 0) h.Buffer.Remove(h.Pos, overlap);
+            h.Buffer.Insert(h.Pos, text);
+            h.Pos += text.Length;
+        }
         Def(F, "write print <<", (it, self, a, b) =>
         {
-            foreach (var x in a) { FH(self).Buffer.Append(it.ToS(x)); FH(self).Binary |= x is RString { Binary: true }; }
+            foreach (var x in a) { WriteAt(FH(self), it.ToS(x)); FH(self).Binary |= x is RString { Binary: true }; }
             return self;
         });
-        Def(F, "puts", (it, self, a, b) => { var sw = new StringWriter(); it.Puts(sw, a); FH(self).Buffer.Append(sw.ToString()); return null; });
-        Def(F, "read", (it, self, a, b) => { var s = FH(self).Buffer.ToString(FH(self).Pos, FH(self).Buffer.Length - FH(self).Pos); FH(self).Pos = FH(self).Buffer.Length; return S(s); });
+        Def(F, "puts", (it, self, a, b) => { var sw = new StringWriter(); it.Puts(sw, a); WriteAt(FH(self), sw.ToString()); return null; });
+        Def(F, "read", (it, self, a, b) =>
+        {
+            var h = FH(self);
+            var count = a.Length > 0 && a[0] != null ? (int)Math.Min(it.Int(a[0]), h.Buffer.Length - h.Pos) : h.Buffer.Length - h.Pos;
+            if (a.Length > 0 && a[0] != null && count <= 0 && it.Int(a[0]) > 0) return null;   // read(n) at EOF is nil
+            var s = h.Buffer.ToString(h.Pos, Math.Max(0, count));
+            h.Pos += Math.Max(0, count);
+            return new RString(s) { Binary = h.Binary };
+        });
+        Def(F, "seek", (it, self, a, b) =>
+        {
+            var h = FH(self);
+            var whence = a.Length > 1 ? a[1] switch { long w => w, RSymbol { Name: "CUR" } => 1L, RSymbol { Name: "END" } => 2L, _ => 0L } : 0L;
+            var origin = whence switch { 1 => h.Pos, 2 => h.Buffer.Length, _ => 0 };
+            h.Pos = (int)Math.Max(0, origin + it.Int(a[0]));
+            if (h.Pos > h.Buffer.Length) h.Buffer.Append('\0', h.Pos - h.Buffer.Length);
+            return 0L;
+        });
+        Def(F, "pos tell", (it, self, a, b) => (long)FH(self).Pos);
+        Def(F, "rewind", (it, self, a, b) => { FH(self).Pos = 0; return 0L; });
+        Def(F, "eof? eof", (it, self, a, b) => FH(self).Pos >= FH(self).Buffer.Length);
         Def(F, "each_line", (it, self, a, b) => { foreach (var l in Lines(FH(self).Buffer.ToString())) it.Y1(b, S(l)); return self; });
         Def(F, "readlines", (it, self, a, b) => new RArray(Lines(FH(self).Buffer.ToString()).Select(l => (object)S(l))));
         Def(F, "path to_path", (it, self, a, b) => S(FH(self).Path));
@@ -349,7 +380,7 @@ public sealed partial class Interp
             if (h.Closed) return null;
             h.Closed = true;
             Encoding encoding = h.Binary ? Encoding.Latin1 : new UTF8Encoding(false);
-            if (h.Mode.StartsWith('w')) File.WriteAllText(h.Path, h.Buffer.ToString(), encoding);
+            if (h.Mode.StartsWith('w') || (h.Mode.StartsWith('r') && h.Mode.Contains('+'))) File.WriteAllText(h.Path, h.Buffer.ToString(), encoding);
             else if (h.Mode.StartsWith('a')) File.AppendAllText(h.Path, h.Buffer.ToString(), encoding);
             return null;
         });
@@ -400,14 +431,14 @@ public sealed partial class Interp
         DefS(FU, "mkdir", (it, self, a, b) => { foreach (var p in Paths(it, a[0])) Directory.CreateDirectory(p); return a[0]; });
         DefS(FU, "rm remove", (it, self, a, b) =>
         {
-            foreach (var p in Paths(it, a[0]))
+            foreach (var p in Paths(it, a[0]).Select(BuiltExecutable))
             {
                 if (!File.Exists(p) && !IsSymlink(p)) throw it.Error(it.ENOENT, "No such file or directory @ apply2files - " + p);
                 File.Delete(p);
             }
             return a[0];
         });
-        DefS(FU, "rm_f", (it, self, a, b) => { foreach (var p in Paths(it, a[0])) if (File.Exists(p) || IsSymlink(p)) File.Delete(p); return a[0]; });
+        DefS(FU, "rm_f", (it, self, a, b) => { foreach (var p in Paths(it, a[0]).Select(BuiltExecutable)) if (File.Exists(p) || IsSymlink(p)) File.Delete(p); return a[0]; });
         DefS(FU, "rm_r rm_rf remove_dir rmtree remove_entry", (it, self, a, b) => { foreach (var p in Paths(it, a[0])) it.RemoveTree(p); return a[0]; });
         DefS(FU, "rmdir", (it, self, a, b) => { foreach (var p in Paths(it, a[0])) Directory.Delete(p); return a[0]; });
         DefS(FU, "cp copy install", (it, self, a, b) =>
@@ -579,6 +610,10 @@ public sealed partial class Interp
         catch (IOException) { return false; }
     }
 
+    // Built executables carry .exe on Windows; `rm bin/"file"` (libmagic drops its file(1)) means file.exe.
+    static string BuiltExecutable(string p) =>
+        !File.Exists(p) && !Directory.Exists(p) && !IsSymlink(p) && !Path.HasExtension(p) && File.Exists(p + ".exe") ? p + ".exe" : p;
+
     static bool IsExecutableName(string p) =>
         Path.GetExtension(p).ToLowerInvariant() is ".exe" or ".cmd" or ".bat" or ".com" or ".ps1";
 
@@ -693,6 +728,11 @@ public sealed partial class Interp
                 return;
             case RHash h:
                 foreach (var kv in h.D) InstallOne(dir, PathStr(kv.Key), PathStr(kv.Value));
+                return;
+            // Pathname#install(resource): the resource is staged into the directory (pkgshare.install resource("data")).
+            case RObject { Class.Name: "FormulaResource" } resource:
+                Directory.CreateDirectory(Abs(dir));
+                Invoke(resource, "stage", new object[] { NewPath(Abs(dir)) }, null);
                 return;
             default:
                 var s = PathStr(src);

@@ -98,6 +98,49 @@ public static class BuildEnvironment
 
     public static bool ProvidesBuildTool(string formula) => Msys2Root != null && ToolchainTools.Contains(formula);
 
+    // Where a toolchain-provided tool lives, standing in for its opt prefix (libtecla copies
+    // #{formula_opt_prefix("automake")}/share/automake-1.18/config.guess). Null when it's not a toolchain tool.
+    public static string ToolchainPrefix(string formula) =>
+        !ProvidesBuildTool(formula) ? null
+        : Path.Combine(Msys2Root, !PosixRuntime && formula is "pkgconf" or "pkg-config" or "cmake" or "ninja" or "meson" ? "ucrt64" : "usr");
+
+    // Old config.guess/config.sub scripts don't know MinGW or MSYS ("can not guess host type", "machine
+    // `x86_64-w64' not recognized"). Like the gnu-config copies some formulae make for new platforms, every
+    // copy in the source tree older than the toolchain's automake one is replaced before the build.
+    public static void RefreshConfigScripts(string sourceTree)
+    {
+        if (Msys2Root is not { } root || !Directory.Exists(Path.Combine(root, "usr", "share"))) return;
+        var fresh = Directory.GetDirectories(Path.Combine(root, "usr", "share"), "automake-*")
+            .OrderByDescending(d => Version.TryParse(Path.GetFileName(d)["automake-".Length..], out var v) ? v : new Version())
+            .Select(d => (Guess: Path.Combine(d, "config.guess"), Sub: Path.Combine(d, "config.sub")))
+            .FirstOrDefault(p => File.Exists(p.Guess) && File.Exists(p.Sub));
+        if (fresh.Guess == null) return;
+        var latest = new Dictionary<string, (string Path, string Stamp)>
+        {
+            ["config.guess"] = (fresh.Guess, ConfigStamp(fresh.Guess)), ["config.sub"] = (fresh.Sub, ConfigStamp(fresh.Sub)),
+        };
+        foreach (var file in Paths.TreeFiles(sourceTree).Where(f => latest.ContainsKey(Path.GetFileName(f).ToLowerInvariant())).ToList())
+        {
+            var (source, stamp) = latest[Path.GetFileName(file).ToLowerInvariant()];
+            var own = ConfigStamp(file);
+            // Only GNU's scripts (they carry a timestamp='YYYY-MM-DD' line), and only older ones.
+            if (own == null || stamp == null || string.CompareOrdinal(own, stamp) >= 0) continue;
+            File.Copy(source, file, true);
+        }
+    }
+
+    static string ConfigStamp(string file)
+    {
+        try
+        {
+            using var reader = new StreamReader(file);
+            for (var n = 0; n < 60 && reader.ReadLine() is { } line; n++)
+                if (System.Text.RegularExpressions.Regex.Match(line, @"^timestamp='(\d{4}-\d{2}-\d{2})'") is { Success: true } m) return m.Groups[1].Value;
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
+        return null;
+    }
+
     // Visual Studio's native x64 tools (vcvars64), for Python extension builds. setuptools otherwise always
     // cross-compiles with the 32-bit-hosted cl.exe, which runs out of address space on huge generated
     // sources such as Cython's ("C1083: Cannot open compiler generated file: ''"). DISTUTILS_USE_SDK makes
@@ -188,9 +231,16 @@ public static class BuildEnvironment
         // MSYS2 ships GCC 15, which defaults to C23 and turns several old warnings into errors. Upstream
         // formulae target older compilers (Apple clang, Linux GCC 12), so build C as gnu17 and keep those
         // diagnostics warnings; a project's own -std flag still comes later and wins.
+        // Projects' own -Werror also meets warnings those compilers don't have (GCC 14/15's
+        // -Wcalloc-transposed-args in simg2img, -Wunterminated-string-initialization in jerryscript) and MSVC
+        // pragmas MinGW's _WIN32 lets through (jinx's #pragma warning): those stay warnings too.
+        const string newerWarnings = " -Wno-error=calloc-transposed-args -Wno-error=unknown-pragmas";
         env["CFLAGS"] = "-O2 -pipe -std=gnu17 -Wno-error=incompatible-pointer-types -Wno-error=int-conversion"
-            + " -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error=return-mismatch";
-        env["CXXFLAGS"] = "-O2 -pipe";
+            + " -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error=return-mismatch"
+            + " -Wno-error=unterminated-string-initialization" + newerWarnings;
+        // GCC 15+ rejects errors in uninstantiated template bodies (-Wtemplate-body: rapidjson 1.1's
+        // GenericStringRef::operator=, bundled by msgpack-tools and rttr); older compilers only checked instantiations.
+        env["CXXFLAGS"] = "-O2 -pipe -Wno-template-body" + newerWarnings;
         env["CPPFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(d => "-I" + Posix(d)));
         env["LDFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(d => "-L" + Posix(d)));
         env["PKG_CONFIG_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix)
@@ -206,8 +256,17 @@ public static class BuildEnvironment
         // Old config.guess scripts don't know MinGW or MSYS; tell configure what it is building on.
         var site = Path.Combine(buildPath, ".brew_config.site");
         var triple = posix ? "x86_64-pc-cygwin" : "x86_64-w64-mingw32";
-        File.WriteAllText(site, "ac_cv_build=${ac_cv_build:-" + triple + "}\n");
+        // Autoconf 2.5x configures (Thomas Dickey's mawk, vile, vttest ...) default the host to ac_cv_build_alias,
+        // which only config.guess sets: with the build cached it stayed empty ("config.sub  failed").
+        File.WriteAllText(site, "ac_cv_build=${ac_cv_build:-" + triple + "}\nac_cv_build_alias=${ac_cv_build_alias:-" + triple + "}\n");
         env["CONFIG_SITE"] = Posix(site);
+        // CMake 4 refuses projects declaring cmake_minimum_required < 3.5 (rapidjson, termcolor); upstream formulae
+        // that need it pass -DCMAKE_POLICY_VERSION_MINIMUM=3.5 one by one. A formula's own -D still wins.
+        if (!env.ContainsKey("CMAKE_POLICY_VERSION_MINIMUM")) env["CMAKE_POLICY_VERSION_MINIMUM"] = "3.5";
+        // Superenv's cc shim adds the prefix's and dependencies' include/lib dirs to every compiler call; GCC reads
+        // the same lists from CPATH and LIBRARY_PATH, so plain Makefiles and `gcc test.c -lfoo` in tests find them.
+        env["CPATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(Posix));
+        env["LIBRARY_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(Posix));
     }
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.

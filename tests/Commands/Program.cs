@@ -27,13 +27,20 @@ try
     assertions += RubyLibrary.Run(root);
     assertions += ProcessApi.Run(Path.Combine(root, "process-api"));
     assertions += RubyStdLib.Run(root);
+    assertions += FormulaDsl.Run(root);
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);
     await Formula("resources", "1.0", resourceNames: ["mingw-w64-ucrt-x86_64-SDL2", "PyYAML", "MarkupSafe"]);
     Equal((await Run("install", "resources")).Code, 0, "uppercase resource names install end to end");
     Equal((await Run("uninstall", "resources")).Code, 0, "uppercase resource fixture uninstalls");
-    foreach (var invalid in new[] { "../escape", "a/b", "a\\b", "..", ".", "", "C:escape", "NUL", "trailing." })
+    // Resource#download_name escapes '/' (swift-nav/cmake); Perl module names (Crypt::Twofish) and other characters
+    // Windows file names can't hold are escaped too, so each still stages in one folder of its own.
+    await Formula("resources", "1.0", resourceNames: ["Crypt::Twofish", "swift-nav/cmake", "a\\b", "C:escape"]);
+    Equal((await Run("install", "resources")).Code, 0, "Perl- and path-style resource names install");
+    Equal(Directory.Exists(Path.Combine(prefix, "Cellar", "resources")), true, "escaped resource names make the keg");
+    Equal((await Run("uninstall", "resources")).Code, 0, "escaped resource fixture uninstalls");
+    foreach (var invalid in new[] { "../escape", "..", ".", "", "NUL", "trailing." })
     {
         await Formula("resources", "1.0", resourceNames: [invalid]);
         var rejected = await Run("install", "resources");

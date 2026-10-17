@@ -651,8 +651,8 @@ public static partial class FormulaLoader
             };
             var outSink = Of(cmd.Stdout, true);
             var errSink = Of(cmd.Stderr, false);
-            var psi = new ProcessStartInfo(program);
-            foreach (var p in cmd.Argv.Skip(1)) psi.ArgumentList.Add(p);
+            // Direct: a #! script ("#{bin}/shml", a bin.install_symlink to one) runs through the POSIX shell.
+            var psi = Direct(i, program, cmd.Argv.Skip(1).ToList());
             var result = WithEnv(i, cmd.Assignments, () => Exec(i, psi, outSink, errSink, input, redirectIn, inputBinary, out bin));
             var isBinary = binary = bin;
             void Write(PosixShell.Redirect r, string text, bool bin)
@@ -705,11 +705,7 @@ public static partial class FormulaLoader
         {
             var cmd = PosixShell.Parse(line, k => i.Env.GetValueOrDefault(k), i.Cwd);
             if (cmd is { Redirected: false, Assignments.Count: 0 } && Runnable(i, cmd.Argv[0]) is { } program)
-            {
-                var direct = new ProcessStartInfo(program);
-                foreach (var p in cmd.Argv.Skip(1)) direct.ArgumentList.Add(p);
-                return direct;
-            }
+                return Direct(i, program, cmd.Argv.Skip(1).ToList());
             return FallbackPsi(i, line);
         }
 
@@ -735,9 +731,7 @@ public static partial class FormulaLoader
             var parts = a.Where(x => x is not RHash).SelectMany(x => x is RArray arr ? arr.L : new List<object> { x }).Select(i.ToS).ToList();
             if (parts.Count == 0) throw i.ArgCount(a, 1, -1);
             if (parts.Count == 1) return ShellPsi(i, parts[0]);
-            var psi = new ProcessStartInfo(Resolve(i, parts[0]));
-            foreach (var p in parts.Skip(1)) psi.ArgumentList.Add(p);
-            return psi;
+            return Direct(i, Resolve(i, parts[0]), parts.Skip(1).ToList());
         }
 
         static string[] PathExts(Interp i) =>

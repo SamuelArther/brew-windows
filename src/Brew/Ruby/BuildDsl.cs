@@ -150,6 +150,18 @@ public static partial class FormulaLoader
         it.Def(E, "cc", (i, self, a, b) => i.Env.TryGetValue("CC", out var v) ? Interp.S(v) : Interp.S("clang"));
         it.Def(E, "cxx", (i, self, a, b) => i.Env.TryGetValue("CXX", out var v) ? Interp.S(v) : Interp.S("clang++"));
         it.Def(E, "cflags cxxflags ldflags cppflags", (i, self, a, b) => null);
+        // ENV.compiler: the toolchain is MinGW GCC (so `ENV.compiler == :llvm_clang` branches stay off).
+        it.Def(E, "compiler", (i, self, a, b) => Interp.Sym(i.Env.TryGetValue("CC", out var cc) && cc.Contains("clang") ? "clang" : "gcc"));
+        // ENV.clang / ENV.gcc: switch CC/CXX (clang-build-analyzer's test needs clang's -ftime-trace; LLVM-MinGW is on PATH).
+        it.Def(E, "clang llvm_clang", (i, self, a, b) => { i.Env["CC"] = "clang"; i.Env["CXX"] = "clang++"; return null; });
+        it.Def(E, "gcc", (i, self, a, b) => { i.Env["CC"] = "gcc"; i.Env["CXX"] = "g++"; return null; });
+        // ENV.prepend_create_path: mkpath, then prepend_path (perl formulae: PERL5LIB under libexec).
+        it.Def(E, "prepend_create_path", (i, self, a, b) =>
+        {
+            var dir = i.Abs(i.PathStr(a[1]));
+            Directory.CreateDirectory(dir);
+            return i.Invoke(self, "prepend_path", new object[] { a[0], i.NewPath(dir) }, null);
+        });
         it.Def(E, "append_to_cflags", (i, self, a, b) =>
         {
             foreach (var k in new[] { "CFLAGS", "CXXFLAGS" })
@@ -159,6 +171,66 @@ public static partial class FormulaLoader
 
         DefineTime(it);
     }
+
+    // StringInreplaceExtension's Makefile helpers, Language::Perl::Shebang and Pathname#install_metafiles, as upstream
+    // writes them (utils/string_inreplace_extension.rb, language/perl.rb, metafiles.rb).
+    internal const string BuildPrelude = """
+        class String
+          def change_make_var!(flag, new_value)
+            gsub!(/^#{Regexp.escape(flag)}[ \t]*[\\?+:!]?=[ \t]*((?:.*\\\n)*.*)$/, "#{flag}=#{new_value}")
+          end
+
+          def remove_make_var!(flags)
+            Array(flags).each { |flag| gsub!(/^#{Regexp.escape(flag)}[ \t]*[\\?+:!]?=(?:.*\\\n)*.*$\n?/, "") }
+            self
+          end
+
+          def get_make_var(flag)
+            self[/^#{Regexp.escape(flag)}[ \t]*[\\?+:!]?=[ \t]*((?:.*\\\n)*.*)$/, 1] ||
+              raise(ArgumentError, "expected to find make variable #{flag.inspect}")
+          end
+        end
+
+        module Language
+          module Perl
+            module Shebang
+              PERL_SHEBANG_REGEX = %r{\A#! ?(?:/usr/bin/(?:env )?)?perl( |$)}
+              PERL_SHEBANG_MAX_LENGTH = 21
+
+              def perl_shebang_rewrite_info(perl_path)
+                Utils::Shebang::RewriteInfo.new(PERL_SHEBANG_REGEX, PERL_SHEBANG_MAX_LENGTH, "#{perl_path}\\1")
+              end
+
+              # A brewed perl when the formula depends on one, else whichever perl is on PATH.
+              def detected_perl_shebang(formula = self)
+                brewed = formula_opt_bin("perl")/"perl.exe"
+                perl = formula.deps.any? { |d| d.name == "perl" } && brewed.exist? ? brewed : "/usr/bin/env perl"
+                perl_shebang_rewrite_info(perl)
+              end
+            end
+          end
+        end
+
+        class Pathname
+          METAFILE_LICENSES = %w[copying copyright license licence].freeze
+          METAFILE_EXTENSIONS = %w[.adoc .asc .asciidoc .creole .html .markdown .md .mdown .mediawiki .mkdn
+                                   .org .pod .rdoc .rst .rtf .textile .txt .wiki].freeze
+          METAFILE_BASENAMES = %w[about authors changelog changes history news notes notice readme todo].freeze
+
+          def install_metafiles(from = Pathname.pwd)
+            Pathname(from).children.each do |p|
+              next if p.directory? || p.size.zero?
+
+              name = p.basename.to_s.downcase
+              ext = File.extname(name)
+              base = METAFILE_EXTENSIONS.include?(ext) ? File.basename(name, ext) : name
+              next unless METAFILE_LICENSES.include?(name.split(/\.|-/).first) || METAFILE_BASENAMES.include?(base)
+
+              install p
+            end
+          end
+        end
+        """;
 
     static IEnumerable<string> Strings(Interp i, object v) => v is RArray arr ? arr.L.Select(i.ToS) : [i.ToS(v)];
 

@@ -20,8 +20,20 @@ public static partial class FormulaLoader
         string Staged(Interp i, object o)
         {
             var (spec, ctx) = Res(o);
-            return ctx.Resources.TryGetValue(spec.Name, out var dir) ? dir
-                : throw i.Error(i.RuntimeError, $"resource {spec.Name} was not staged");
+            if (ctx.Resources.TryGetValue(spec.Name, out var dir)) return dir;
+            // `brew test` resources (homebrew-testdata ...) aren't staged by the install: fetch and unpack them on
+            // first use, as Resource#stage does.
+            if (spec.Url == null || ctx.Resources is not IDictionary<string, string> staged)
+                throw i.Error(i.RuntimeError, $"resource {spec.Name} was not staged");
+            var into = Path.Combine(ctx.BuildPath, ".brew_resources", Paths.ResourceDirectory(spec.Name));
+            if (spec.Git) dir = GitSources.StageAsync(spec.Url, spec.Tag, spec.Revision, spec.Branch ?? "", into).GetAwaiter().GetResult();
+            else
+            {
+                var file = new Downloader(new Paths().Cache).FetchAsync(spec.Url, spec.Sha256).GetAwaiter().GetResult();
+                dir = Archive.StageAsync(file, Downloader.FileName(spec.Url), into, spec.Using == "nounzip").GetAwaiter().GetResult();
+            }
+            staged[spec.Name] = dir;
+            return dir;
         }
         it.Def(R, "name", (i, s, a, b) => Interp.S(Res(s).Spec.Name));
         it.Def(R, "url", (i, s, a, b) => Interp.S(Res(s).Spec.Url));

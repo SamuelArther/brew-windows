@@ -401,6 +401,7 @@ public static partial class FormulaLoader
                      ("share", "share"), ("frameworks", "Frameworks"), ("man", "share/man"), ("info", "share/info"),
                      ("elisp", "share/emacs/site-lisp"), ("fish_completion", "share/fish/vendor_completions.d"),
                      ("bash_completion", "etc/bash_completion.d"), ("zsh_completion", "share/zsh/site-functions"),
+                     ("zsh_function", "share/zsh/site-functions"), ("fish_function", "share/fish/vendor_functions.d"),
                  })
         {
             var r = rel;
@@ -427,7 +428,9 @@ public static partial class FormulaLoader
             {
                 var name = i.ToS(a[0]).Split('/')[^1];
                 var brewPrefix = i.ConstGet(i.ObjectClass, "HOMEBREW_PREFIX") is RObject { Host: string hp } ? hp : (self as RObject)?.Host is InstallContext c ? c.BrewPrefix : "";
-                return i.NewPath(Path.Combine(brewPrefix ?? "", "opt", name, subdir).TrimEnd('\\'));
+                var opt = Path.Combine(brewPrefix ?? "", "opt", name);
+                if (!Directory.Exists(opt) && BuildEnvironment.ToolchainPrefix(name) is { } tool) opt = tool;
+                return i.NewPath(Path.Combine(opt, subdir).TrimEnd('\\'));
             });
         }
         // Service file locations (Formula#plist_name, #launchd_service_path, #systemd_service_path).
@@ -526,6 +529,15 @@ public static partial class FormulaLoader
             return StrArray($"-DCMAKE_INSTALL_PREFIX={Forward(installPrefix)}", $"-DCMAKE_INSTALL_LIBDIR={Forward(libdir)}", "-DCMAKE_BUILD_TYPE=Release",
                 $"-DCMAKE_FIND_FRAMEWORK={framework}", "-DCMAKE_VERBOSE_MAKEFILE=ON", "-Wno-author", "-DBUILD_TESTING=OFF", "-DCCACHE_FOUND=OFF");
         });
+        it.Def(F, "std_swift_args", (i, self, a, b) => StrArray("--configuration", "release", "--jobs", MakeJobs(i).ToString()));
+        // Formula#shared_library, MinGW spelling: libfoo.dll, versioned libfoo-2.dll (libtool's naming); "*" globs.
+        it.Def(F, "shared_library", (i, self, a, b) =>
+        {
+            var name = i.ToS(a[0]);
+            var version = a.Length > 1 && a[1] != null ? i.ToS(a[1]) : "";
+            if (name == "*" && version is "" or "*") return Interp.S("*.dll");
+            return Interp.S(name + (version switch { "" => "", "*" => "{,-*}", _ => "-" + version }) + ".dll");
+        });
         it.Def(F, "std_configure_args", (i, self, a, b) =>
         {
             var prefix = Kw(i, a, "prefix") is { } p ? i.PathStr(p) : Prefix(i, self);
@@ -580,6 +592,7 @@ public static partial class FormulaLoader
         DefineNodeDsl(it, F);
         DefineJavaDsl(it, F);
         it.Run(InstallStepsPrelude, "<install_steps>");
+        it.Run(BuildPrelude, "<build>");
         return F;
     }
 
@@ -638,7 +651,10 @@ public static partial class FormulaLoader
             string Opt(Interp i, object o, string sub)
             {
                 var prefix = i.ConstGet(i.ObjectClass, "HOMEBREW_PREFIX") is RObject { Host: string hp } ? hp : DevCommands.Prefix;
-                return Path.Combine(prefix, "opt", S(o).Name, sub);
+                var opt = Path.Combine(prefix, "opt", S(o).Name);
+                // Build tools the MSYS2 toolchain supplies aren't brewed: their files are the toolchain's.
+                if (!Directory.Exists(opt) && BuildEnvironment.ToolchainPrefix(S(o).Name) is { } tool) opt = tool;
+                return Path.Combine(opt, sub);
             }
             it.Def(cls, "name full_name to_s", (i, s, a, b) => Interp.S(S(s).Name));
             it.Def(cls, "version", (i, s, a, b) => VersionObject(i, S(s).Version));
@@ -713,6 +729,9 @@ public static partial class FormulaLoader
     {
         var paths = a[0] is RArray arr ? arr.L : new List<object> { a[0] };
         object before = a.Length > 1 ? a[1] : null, after = a.Length > 2 ? a[2] : null;
+        // StringInreplaceExtension#gsub!: a Pathname on either side is its string (inreplace pc, prefix, opt_prefix).
+        if (before is RObject { Host: string } bp && bp.Class == it.PathnameClass) before = Interp.S(it.PathStr(bp));
+        if (after is RObject { Host: string } ap && ap.Class == it.PathnameClass) after = Interp.S(it.PathStr(ap));
         var errors = new List<string>();
         foreach (var p in paths)
         {

@@ -19,7 +19,28 @@ public static class Archive
         return null;
     }
 
-    public static async Task<string> StageAsync(string file, string filename, string destination)
+    // A gzip stream whose content is a tar archive (".tar.gz" under any name, GitHub's /tarball/<ref>).
+    static bool GzippedTar(string file)
+    {
+        try
+        {
+            using var input = File.OpenRead(file);
+            using var gzip = new GZipStream(input, CompressionMode.Decompress);
+            var head = new byte[512];
+            var read = gzip.ReadAtLeast(head, head.Length, throwOnEndOfStream: false);
+            return read >= 262 && System.Text.Encoding.ASCII.GetString(head, 257, 5) == "ustar";
+        }
+        catch (InvalidDataException) { return false; }
+    }
+
+    static bool IsGzip(string file)
+    {
+        using var stream = File.OpenRead(file);
+        return stream.ReadByte() == 0x1F && stream.ReadByte() == 0x8B;
+    }
+
+    // `noUnzip`: `using: :nounzip` resources are staged as the downloaded file.
+    public static async Task<string> StageAsync(string file, string filename, string destination, bool noUnzip = false)
     {
         // Callers using the URL basename still need the resolved Apache artifact's extension.
         var cachedName = Path.GetFileName(file);
@@ -27,6 +48,19 @@ public static class Archive
             && cachedName.Substring(64, 2) == "--" && cachedName[..64].All(Uri.IsHexDigit))
             filename = cachedName[66..];
         Directory.CreateDirectory(destination);
+        if (noUnzip) { File.Copy(file, Path.Combine(destination, filename)); return destination; }
+        // Homebrew's Gzip strategy: a gzipped single file (zimfw.zsh.gz, a .xcactivitylog) is unpacked to the name
+        // without .gz. Gzipped tarballs fall through to tar.
+        if (!filename.Contains(".tar", StringComparison.OrdinalIgnoreCase) && !filename.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase)
+            && IsGzip(file) && !GzippedTar(file))
+        {
+            var name = filename.EndsWith(".gz", StringComparison.OrdinalIgnoreCase) && filename.Length > 3 ? filename[..^3] : filename;
+            await using (var input = File.OpenRead(file))
+            await using (var gzip = new GZipStream(input, CompressionMode.Decompress))
+            await using (var output = File.Create(Path.Combine(destination, name)))
+                await gzip.CopyToAsync(output);
+            return destination;
+        }
         // Like Homebrew, trust the bytes over the name: .crate, .tbz2, .txz and GitHub /tarball/<ref>
         // downloads are compressed tarballs whatever they're called.
         switch (Sniff(file))

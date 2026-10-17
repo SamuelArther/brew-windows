@@ -58,6 +58,11 @@ public sealed class Paths
         return name;
     }
 
+    // The folder a resource is staged in. Like Resource#download_name, '/' is escaped (swift-nav/cmake); so are the
+    // other characters Windows file names can't hold (Perl modules: Crypt::Twofish). What's left must be one safe name.
+    public static string ResourceDirectory(string name) =>
+        ValidateResourceName(System.Text.RegularExpressions.Regex.Replace(name ?? "", @"[/\\:*?""<>|]", "-"));
+
     public string Rack(string name) => Path.Combine(Cellar, ValidateName(name));
     public static string FormulaName(string fullName) => ValidateName(fullName.Split('/')[^1]);
     // Homebrew CoreTap.new_formula_subdirectory (BSD-2-Clause).
