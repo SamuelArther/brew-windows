@@ -75,7 +75,7 @@ public sealed partial class Interp
         {
             var ms = it.Num(a.Length > 0 ? a[0] : 0L) * 1000;
             if (it.timeouts.Count > 0) ms = Math.Min(ms, Math.Max(0, (it.timeouts.Min(t => t.Deadline) - DateTime.UtcNow).TotalMilliseconds) + 1);
-            Thread.Sleep((int)ms);
+            it.Blocking(() => Thread.Sleep((int)ms));
             it.CheckDeadline();
             return (long)Math.Round(ms / 1000);
         });
@@ -440,6 +440,7 @@ public sealed partial class Interp
     // Called from loops and sleep: raises the error of the first Timeout.timeout block whose time is up.
     public void CheckDeadline()
     {
+        PreemptIfWaiting();   // RubyThreads.cs
         if (timeouts.Count == 0) return;
         var now = DateTime.UtcNow;
         foreach (var (deadline, error) in timeouts)
@@ -520,7 +521,7 @@ public sealed partial class Interp
         return ro;
     }
 
-    void Puts(TextWriter w, object[] a)
+    internal void Puts(TextWriter w, object[] a)
     {
         if (a.Length == 0) { w.Write('\n'); return; }
         foreach (var x in a)
@@ -930,7 +931,7 @@ public sealed partial class Interp
         try
         {
             using var proc = System.Diagnostics.Process.Start(psi)!;
-            proc.WaitForExit();
+            WaitForExit(proc);
             SetStatus(proc.ExitCode, proc.Id);
             return proc.ExitCode == 0;
         }
@@ -1019,7 +1020,7 @@ public sealed partial class Interp
         Globals["$CHILD_STATUS"] = st;
     }
 
-    RClass ProcessStatusClass()
+    internal RClass ProcessStatusClass()
     {
         var process = ConstGet(ObjectClass, "Process") as RClass ?? DefineModule("Process");
         if (process.Consts.GetValueOrDefault("Status") is RClass c) return c;

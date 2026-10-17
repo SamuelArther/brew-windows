@@ -4,6 +4,7 @@ using System.Text.Json;
 using Brew;
 
 if (args.FirstOrDefault() == "--download-worker") { await ConcurrentDownloads.Worker(args); return; }
+if (args.FirstOrDefault() == "--child") { ProcessApi.Child(args[1..]); return; }
 var workspace = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../"));
 var root = Path.Combine(workspace, ".test-work", "commands-" + Guid.NewGuid().ToString("N"));
 var repo = Path.Combine(root, "repository"); var prefix = Path.Combine(root, "prefix"); var cache = Path.Combine(root, "cache");
@@ -15,6 +16,7 @@ Environment.SetEnvironmentVariable("HOMEBREW_BROWSER", "false");
 Environment.SetEnvironmentVariable("PATH", Path.Combine(prefix, "bin") + ";" + saved["PATH"]);
 Directory.CreateDirectory(cache);
 int assertions = 0;
+if (args.FirstOrDefault() == "--process-api") { Console.WriteLine($"PASS: {ProcessApi.Run(Path.Combine(root, "process-api"))} process API tests"); return; }
 try
 {
     assertions += await DownloadTests.Run(root);
@@ -23,6 +25,7 @@ try
     assertions += TreeLinks.Run(root);
     assertions += PosixLines.Run(root);
     assertions += RubyLibrary.Run(root);
+    assertions += ProcessApi.Run(Path.Combine(root, "process-api"));
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);

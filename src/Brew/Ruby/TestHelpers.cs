@@ -15,7 +15,7 @@ public static partial class FormulaLoader
     static partial void DefineTestHelpers(Interp it, RClass formula) => TestSupport.Define(it, formula);
 
     // Kept in one nested class so these helper names can't collide with FormulaLoader's own.
-    static class TestSupport
+    static partial class TestSupport
     {
         static readonly object[] None = Array.Empty<object>();
 
@@ -126,6 +126,7 @@ public static partial class FormulaLoader
         {
             var saved = new Dictionary<string, string>(i.Env, StringComparer.OrdinalIgnoreCase);
             var savedCwd = i.Cwd;
+            var session = BeginProcessSession(i);
             try
             {
                 var home = TestPath(i, self);
@@ -199,6 +200,7 @@ public static partial class FormulaLoader
             }
             finally
             {
+                EndProcessSession(i, session);
                 i.Env.Clear();
                 foreach (var kv in saved) i.Env[kv.Key] = kv.Value;
                 i.Cwd = savedCwd;
@@ -796,6 +798,9 @@ public static partial class FormulaLoader
         {
             if (errMode == Sink.Err && ReferenceEquals(i.Err, Console.Error)) errMode = Sink.Inherit;
             if (outMode == Sink.Err && ReferenceEquals(i.Out, Console.Out)) outMode = Sink.Inherit;
+            // After $stdout.reopen / $stderr.reopen the child's inherited output goes where Ruby's does.
+            if (outMode == Sink.Inherit && Reopened(i, 1)) outMode = Sink.Err;
+            if (errMode == Sink.Inherit && Reopened(i, 2)) errMode = Sink.Err;
             psi.UseShellExecute = false;
             psi.WorkingDirectory = i.Cwd;
             i.ApplyEnv(psi);
@@ -847,8 +852,8 @@ public static partial class FormulaLoader
                     }
                     catch (IOException) { }
                 }
-                proc.WaitForExit();
-                Task.WaitAll(pumps.ToArray());
+                i.WaitForExit(proc);
+                i.Blocking(() => Task.WaitAll(pumps.ToArray()));
                 if (errMode == Sink.Err) i.Err.Flush();
                 SetStatus(i, proc.ExitCode);
                 var output = Decode(outBuf.ToArray(), out binary);
@@ -912,220 +917,7 @@ public static partial class FormulaLoader
             DefMissing(it.IntegerClass, "exited?", (i, self, a, b) => true);
             DefMissing(it.IntegerClass, "signaled?", (i, self, a, b) => false);
 
-            var P = it.ConstGet(it.ObjectClass, "Process") as RClass ?? it.DefineModule("Process");
-            var PS = it.SingletonOf(P);
-            P.Consts.TryAdd("CLOCK_MONOTONIC", 1L);
-            P.Consts.TryAdd("CLOCK_REALTIME", 0L);
-            var children = new Dictionary<long, Process>();
-            Native spawn = (i, self, a, b) =>
-            {
-                var args = a.ToList();
-                RHash env = args.Count > 0 && args[0] is RHash e ? e : null;
-                if (env != null) args.RemoveAt(0);
-                RHash opts = args.Count > 0 && args[^1] is RHash o ? o : null;
-                if (opts != null) args.RemoveAt(args.Count - 1);
-                var psi = Psi(i, args.ToArray());
-                psi.UseShellExecute = false;
-                psi.WorkingDirectory = i.Cwd;
-                i.ApplyEnv(psi);
-                if (env != null)
-                    foreach (var kv in env.D)
-                        if (kv.Value == null) psi.Environment.Remove(i.StrOrSym(kv.Key)); else psi.Environment[i.StrOrSym(kv.Key)] = i.ToS(kv.Value);
-                bool quiet = false;
-                if (opts != null)
-                    foreach (var kv in opts.D)
-                    {
-                        if (kv.Key is RSymbol { Name: "chdir" }) psi.WorkingDirectory = i.Abs(i.PathStr(kv.Value));
-                        else if (kv.Value is RString { V: "NUL" or "/dev/null" } || (kv.Value is RArray arr && arr.L.FirstOrDefault() is RString { V: "NUL" or "/dev/null" }))
-                            quiet = true;
-                    }
-                if (quiet) { psi.RedirectStandardOutput = true; psi.RedirectStandardError = true; }
-                Process proc;
-                try { proc = Process.Start(psi)!; }
-                catch (Win32Exception) { throw i.Error(i.ENOENT, "No such file or directory - " + psi.FileName); }
-                if (quiet)
-                {
-                    proc.OutputDataReceived += (_, _) => { };
-                    proc.ErrorDataReceived += (_, _) => { };
-                    proc.BeginOutputReadLine();
-                    proc.BeginErrorReadLine();
-                }
-                lock (children) children[proc.Id] = proc;
-                return (long)proc.Id;
-            };
-            DefMissing(K, "spawn", spawn);
-            DefMissing(PS, "spawn", spawn);
-            DefMissing(PS, "pid", (i, self, a, b) => (long)Environment.ProcessId);
-            DefMissing(PS, "kill", (i, self, a, b) =>
-            {
-                foreach (var pidObj in a.Skip(1))
-                {
-                    var pid = i.Int(pidObj);
-                    Process proc;
-                    lock (children) children.TryGetValue(pid, out proc);
-                    try { proc ??= Process.GetProcessById((int)pid); }
-                    catch (ArgumentException) { throw i.Error(it.ConstGet(it.ErrnoModule, "ESRCH") as RClass ?? i.SystemCallError, "No such process"); }
-                    try { if (!proc.HasExited) proc.Kill(true); }
-                    catch (InvalidOperationException) { }
-                }
-                return (long)(a.Length - 1);
-            });
-            DefMissing(PS, "wait waitpid wait2", (i, self, a, b) =>
-            {
-                Process proc = null;
-                long pid;
-                lock (children)
-                {
-                    pid = a.Length > 0 && a[0] is long l ? l : children.Keys.FirstOrDefault(-1L);
-                    children.Remove(pid, out proc);
-                }
-                if (proc == null) throw i.Error(it.ConstGet(it.ErrnoModule, "ECHILD") as RClass ?? i.SystemCallError, "No child processes");
-                proc.WaitForExit();
-                SetStatus(i, proc.ExitCode);
-                proc.Dispose();
-                return pid;
-            });
-            DefMissing(PS, "detach", (i, self, a, b) => null);
-            DefMissing(PS, "clock_gettime", (i, self, a, b) =>
-                a.Length > 0 && a[0] is long c && c == 1L ? Stopwatch.GetTimestamp() / (double)Stopwatch.Frequency : DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000.0);
-
-            // IO.popen(cmd, mode = "r") { |io| ... }: read/gets/each_line/readlines, write/puts/print/<<, close_write, close, pid
-            var IOS = it.SingletonOf(it.IOClass);
-            if (!IOS.Methods.ContainsKey("popen"))
-            {
-                var pipeClass = new RClass { Name = "IO", Super = it.IOClass, Class = it.ClassClass };
-                Process Pr(object self) => (Process)((RObject)self).Host;
-                string Line(Process p) => p.StandardOutput.ReadLine() is { } l ? l + "\n" : null;
-                void Close(Interp i, object self)
-                {
-                    var p = Pr(self);
-                    var o = (RObject)self;
-                    if (o.Frozen) return;
-                    o.Frozen = true;
-                    if (p.StartInfo.RedirectStandardInput) try { p.StandardInput.Close(); } catch (IOException) { }
-                    if (p.StartInfo.RedirectStandardOutput) p.StandardOutput.ReadToEnd();
-                    p.WaitForExit();
-                    SetStatus(i, p.ExitCode);
-                    p.Dispose();
-                }
-                void Write(Process p, string s)
-                {
-                    p.StandardInput.Write(s);
-                    p.StandardInput.Flush();
-                }
-                it.Def(pipeClass, "read", (i, self, a, b) => Interp.S(Pr(self).StandardOutput.ReadToEnd().Replace("\r\n", "\n")));
-                it.Def(pipeClass, "gets readline", (i, self, a, b) => Line(Pr(self)) is { } l ? Interp.S(l) : null);
-                it.Def(pipeClass, "readlines", (i, self, a, b) =>
-                {
-                    var res = new RArray();
-                    while (Line(Pr(self)) is { } l) res.L.Add(Interp.S(l));
-                    return res;
-                });
-                it.Def(pipeClass, "each_line each", (i, self, a, b) =>
-                {
-                    while (Line(Pr(self)) is { } l) i.CallProc(b, new object[] { Interp.S(l) });
-                    return self;
-                });
-                it.Def(pipeClass, "write print <<", (i, self, a, b) => { foreach (var x in a) Write(Pr(self), i.ToS(x)); return self; });
-                it.Def(pipeClass, "puts", (i, self, a, b) =>
-                {
-                    foreach (var x in a.Length == 0 ? new object[] { Interp.S("") } : a)
-                    {
-                        var s = i.ToS(x);
-                        Write(Pr(self), s.EndsWith('\n') ? s : s + "\n");
-                    }
-                    return null;
-                });
-                it.Def(pipeClass, "close_write", (i, self, a, b) => { Pr(self).StandardInput.Close(); return null; });
-                it.Def(pipeClass, "close", (i, self, a, b) => { Close(i, self); return null; });
-                it.Def(pipeClass, "closed?", (i, self, a, b) => ((RObject)self).Frozen);
-                it.Def(pipeClass, "pid", (i, self, a, b) => (long)Pr(self).Id);
-                it.Def(pipeClass, "sync=", (i, self, a, b) => a[0]);
-                it.Def(IOS, "popen", (i, self, a, b) =>
-                {
-                    var args = a.ToList();
-                    RHash opts = args.Count > 1 && args[^1] is RHash oh ? oh : null;
-                    if (opts != null) args.RemoveAt(args.Count - 1);
-                    var mode = args.Count > 1 ? i.ToS(args[1]) : "r";
-                    var cmd = args[0];
-                    RHash env = null;
-                    ProcessStartInfo psi;
-                    if (cmd is RArray arr)
-                    {
-                        var parts = arr.L.ToList();
-                        if (parts.Count > 0 && parts[0] is RHash eh) { env = eh; parts.RemoveAt(0); }
-                        if (parts.Count > 0 && parts[^1] is RHash) parts.RemoveAt(parts.Count - 1);
-                        psi = new ProcessStartInfo(Resolve(i, i.ToS(parts[0])));
-                        foreach (var p in parts.Skip(1)) psi.ArgumentList.Add(i.ToS(p));
-                    }
-                    else
-                    {
-                        var line = i.ToS(cmd);
-                        if (opts != null && opts.D.TryGetValue(Interp.Sym("err"), out var err) && err is RArray ea && ea.L.LastOrDefault() is RSymbol { Name: "out" })
-                            line += " 2>&1";
-                        psi = LinePsi(i, line);
-                    }
-                    psi.UseShellExecute = false;
-                    psi.WorkingDirectory = i.Cwd;
-                    i.ApplyEnv(psi);
-                    if (psi.FileName.EndsWith("bash.exe", StringComparison.OrdinalIgnoreCase))
-                        foreach (var kv in ShellEnv) psi.Environment[kv.Key] = kv.Value;
-                    if (env != null)
-                        foreach (var kv in env.D)
-                            if (kv.Value == null) psi.Environment.Remove(i.StrOrSym(kv.Key)); else psi.Environment[i.StrOrSym(kv.Key)] = i.ToS(kv.Value);
-                    psi.RedirectStandardOutput = mode.Contains('r') || mode.Contains('+');
-                    psi.RedirectStandardInput = mode.Contains('w') || mode.Contains('+');
-                    if (psi.RedirectStandardInput) psi.StandardInputEncoding = new UTF8Encoding(false);
-                    Process proc;
-                    try { proc = Process.Start(psi)!; }
-                    catch (Win32Exception) { throw i.Error(i.ENOENT, "No such file or directory - " + psi.FileName); }
-                    var io = new RObject { Class = pipeClass, Host = proc };
-                    if (b == null) return io;
-                    try { return i.CallProc(b, new object[] { io }); }
-                    finally { Close(i, io); }
-                });
-            }
-
-            // Open3.capture2 / capture2e / capture3 (stdin_data:, chdir:)
-            var O = it.ConstGet(it.ObjectClass, "Open3") as RClass ?? it.DefineModule("Open3");
-            object Capture(Interp i, object[] a, Sink err, int arity)
-            {
-                var args = a.ToList();
-                RHash env = args.Count > 0 && args[0] is RHash e ? e : null;
-                if (env != null) args.RemoveAt(0);
-                RHash opts = args.Count > 0 && args[^1] is RHash o ? o : null;
-                if (opts != null) args.RemoveAt(args.Count - 1);
-                string input = null;
-                string chdir = null;
-                if (opts != null)
-                {
-                    if (opts.D.TryGetValue(Interp.Sym("stdin_data"), out var sd) && sd != null) input = i.ToS(sd);
-                    if (opts.D.TryGetValue(Interp.Sym("chdir"), out var cd) && cd != null) chdir = i.Abs(i.PathStr(cd));
-                }
-                var psi = Psi(i, args.ToArray());
-                var oldCwd = i.Cwd;
-                var savedEnv = env == null ? null : new Dictionary<string, string>(i.Env, StringComparer.OrdinalIgnoreCase);
-                try
-                {
-                    if (chdir != null) i.Cwd = chdir;
-                    if (env != null)
-                        foreach (var kv in env.D)
-                            if (kv.Value == null) i.Env.Remove(i.StrOrSym(kv.Key)); else i.Env[i.StrOrSym(kv.Key)] = i.ToS(kv.Value);
-                    var (o2, e2, code) = Exec(i, psi, err == Sink.Merge ? Sink.Merge : Sink.Capture, err, input, true);
-                    return arity == 3
-                        ? new RArray(new object[] { Interp.S(o2), Interp.S(e2), (long)code })
-                        : new RArray(new object[] { Interp.S(o2), (long)code });
-                }
-                finally
-                {
-                    i.Cwd = oldCwd;
-                    if (savedEnv != null) { i.Env.Clear(); foreach (var kv in savedEnv) i.Env[kv.Key] = kv.Value; }
-                }
-            }
-            var OS = it.SingletonOf(O);
-            DefMissing(OS, "capture3", (i, self, a, b) => Capture(i, a, Sink.Capture, 3));
-            DefMissing(OS, "capture2", (i, self, a, b) => Capture(i, a, Sink.Err, 2));
-            DefMissing(OS, "capture2e", (i, self, a, b) => Capture(i, a, Sink.Merge, 2));
+            DefineProcessApi(it);
         }
     }
 }

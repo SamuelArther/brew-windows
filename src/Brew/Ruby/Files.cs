@@ -129,7 +129,7 @@ public sealed partial class Interp
         Def(P, "size", (it, self, a, b) => new FileInfo(it.Abs(Me(self))).Length);
         Def(P, "size?", (it, self, a, b) => SizeOrNil(it.Abs(Me(self))));
         Def(P, "read", (it, self, a, b) => S(ReadText(it.Abs(Me(self)))));
-        Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(Me(self))))) { Binary = true });
+        Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(Win32Process.ReadAllShared(it.Abs(Me(self))))) { Binary = true });
         Def(P, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(Me(self)))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
         Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
         // Homebrew's WriteMkpathExtension: refuses to overwrite, creates parent directories.
@@ -287,7 +287,7 @@ public sealed partial class Interp
         DefS(F, "size", (it, self, a, b) => new FileInfo(it.Abs(it.PathStr(a[0]))).Length);
         DefS(F, "size?", (it, self, a, b) => SizeOrNil(it.Abs(it.PathStr(a[0]))));
         DefS(F, "read", (it, self, a, b) => S(ReadText(it.Abs(it.PathStr(a[0])))));
-        DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(File.ReadAllBytes(it.Abs(it.PathStr(a[0]))))) { Binary = true });
+        DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(Win32Process.ReadAllShared(it.Abs(it.PathStr(a[0]))))) { Binary = true });
         DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
         DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
         DefS(F, "write binwrite", (it, self, a, b) =>
@@ -532,7 +532,7 @@ public sealed partial class Interp
     // Ruby, instead of turning into U+FFFD (Digest of a read binary file, "\x89PNG" comparisons).
     public static string ReadText(string path)
     {
-        var bytes = File.ReadAllBytes(path);
+        var bytes = Win32Process.ReadAllShared(path);
         var span = bytes.AsSpan();
         if (span.StartsWith(new byte[] { 0xEF, 0xBB, 0xBF })) span = span[3..];
         return DecodeUtf8(span).Replace("\r\n", "\n");
