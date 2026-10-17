@@ -1,0 +1,52 @@
+[
+  {
+    "name": "anyquery",
+    "status": "test-deps",
+    "seconds": 238
+  },
+  {
+    "name": "docker-credential-helper-ecr",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "go@1.26",
+    "status": "test",
+    "seconds": 38
+  },
+  {
+    "name": "lazysql",
+    "status": "test",
+    "seconds": 646
+  },
+  {
+    "name": "pgstream",
+    "status": "test-deps",
+    "seconds": 227
+  },
+  {
+    "name": "redka",
+    "status": "test-deps",
+    "seconds": 163
+  },
+  {
+    "name": "sq",
+    "status": "build",
+    "seconds": 213
+  },
+  {
+    "name": "turso",
+    "status": "build",
+    "seconds": 177
+  },
+  {
+    "name": "vi-sql",
+    "status": "test",
+    "seconds": 65
+  },
+  {
+    "name": "whodb-cli",
+    "status": "build",
+    "seconds": 306
+  }
+]
