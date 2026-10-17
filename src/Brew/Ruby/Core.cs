@@ -144,6 +144,26 @@ public sealed partial class Interp
         Def(random, "seed", (it, self, a, b) => ((RObject)self).GetIvar("@seed"));
         Def(random, "bytes", (it, self, a, b) => { var buf = new byte[it.Int(a[0])]; Rng(self).NextBytes(buf); return new RString(Encoding.Latin1.GetString(buf)) { Binary = true }; });
 
+        // SecureRandom (ntfy's test: SecureRandom.hex(6)), from the OS's cryptographic generator.
+        var secure = DefineModule("SecureRandom");
+        byte[] SecureBytes(Interp it, object[] a) =>
+            System.Security.Cryptography.RandomNumberGenerator.GetBytes(a.Length > 0 && a[0] != null ? (int)it.Int(a[0]) : 16);
+        DefS(secure, "hex", (it, self, a, b) => S(Convert.ToHexStringLower(SecureBytes(it, a))));
+        DefS(secure, "random_bytes bytes", (it, self, a, b) => new RString(Encoding.Latin1.GetString(SecureBytes(it, a))) { Binary = true });
+        DefS(secure, "base64", (it, self, a, b) => S(Convert.ToBase64String(SecureBytes(it, a))));
+        DefS(secure, "urlsafe_base64", (it, self, a, b) => S(Convert.ToBase64String(SecureBytes(it, a)).TrimEnd('=').Replace('+', '-').Replace('/', '_')));
+        DefS(secure, "uuid", (it, self, a, b) => S(Guid.NewGuid().ToString()));
+        DefS(secure, "alphanumeric", (it, self, a, b) =>
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var n = a.Length > 0 && a[0] != null ? (int)it.Int(a[0]) : 16;
+            return S(new string(Enumerable.Range(0, n).Select(_ => chars[System.Security.Cryptography.RandomNumberGenerator.GetInt32(chars.Length)]).ToArray()));
+        });
+        DefS(secure, "random_number rand", (it, self, a, b) => a.Length == 0 || a[0] == null
+            ? System.Security.Cryptography.RandomNumberGenerator.GetInt32(int.MaxValue) / (double)int.MaxValue
+            : a[0] is double d ? System.Security.Cryptography.RandomNumberGenerator.GetInt32(int.MaxValue) / (double)int.MaxValue * d
+            : (object)(long)System.Security.Cryptography.RandomNumberGenerator.GetInt32((int)Math.Min(it.Int(a[0]), int.MaxValue)));
+
         // Etc: the account and machine (slashem's configure passes --with-owner=#{Etc.getpwuid.name}).
         var etc = DefineModule("Etc");
         var passwd = DefineClass("Passwd", ObjectClass, etc);
@@ -1064,7 +1084,9 @@ public sealed partial class Interp
         IEnumerable<string> Candidates(string p) => Path.HasExtension(p) && File.Exists(p) ? new[] { p } : exts.Select(e => p + e).Prepend(p);
         if (name.Contains('/') || name.Contains('\\'))
             return Candidates(Abs(name)).FirstOrDefault(File.Exists) ?? PendingCommand?.Invoke(Path.GetFullPath(Abs(name))) ?? name;
-        foreach (var dir in Env.GetValueOrDefault("PATH", "").Split(';', StringSplitOptions.RemoveEmptyEntries).Prepend(Cwd))
+        // PATH only, as execvp searches it: not the current directory first, the way cmd.exe would
+        // (iam-policy-json-to-terraform's source tree has a `go` script beside `system "go", "build"`).
+        foreach (var dir in Env.GetValueOrDefault("PATH", "").Split(';', StringSplitOptions.RemoveEmptyEntries))
         {
             string full;
             try { full = Path.Combine(dir.Trim('"'), name); }

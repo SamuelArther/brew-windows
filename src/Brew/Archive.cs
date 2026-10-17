@@ -14,7 +14,8 @@ public static class Archive
         bool Starts(params byte[] magic) => read >= magic.Length && head.AsSpan(0, magic.Length).SequenceEqual(magic);
         if (Starts(0x50, 0x4B, 0x03, 0x04)) return "zip";
         if (Starts(0x1F, 0x8B) || Starts(0x42, 0x5A, 0x68) || Starts(0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00)
-            || Starts(0x28, 0xB5, 0x2F, 0xFD) || Starts(0x5D, 0x00, 0x00)) return "tar";
+            || Starts(0x28, 0xB5, 0x2F, 0xFD) || Starts(0x5D, 0x00, 0x00)
+            || Starts(0x4C, 0x5A, 0x49, 0x50) || Starts(0x1F, 0x9D) || Starts(0x04, 0x22, 0x4D, 0x18)) return "tar";   // + lzip, compress, lz4
         if (read >= 262 && System.Text.Encoding.ASCII.GetString(head, 257, 5) == "ustar") return "tar";
         return null;
     }
@@ -63,14 +64,15 @@ public static class Archive
         }
         // Like Homebrew, trust the bytes over the name: .crate, .tbz2, .txz and GitHub /tarball/<ref>
         // downloads are compressed tarballs whatever they're called.
-        switch (Sniff(file))
+        var sniffed = Sniff(file);
+        switch (sniffed)
         {
             case "zip" when !new[] { ".zip", ".nupkg", ".msix", ".jar", ".whl", ".vsix", ".apk", ".war" }.Any(e => filename.EndsWith(e, StringComparison.OrdinalIgnoreCase)):
                 if (!filename.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) filename += ".zip";
                 break;
             // (A lone foo.gz/.xz/.bz2/.zst is a compressed single file, not a tarball; it's kept as is.)
             case "tar" when !filename.Contains(".tar", StringComparison.OrdinalIgnoreCase) && !filename.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase)
-                            && !new[] { ".7z", ".gz", ".xz", ".bz2", ".zst", ".lzma", ".lz" }.Any(e => filename.EndsWith(e, StringComparison.OrdinalIgnoreCase)):
+                            && !new[] { ".7z", ".gz", ".xz", ".bz2", ".zst", ".lzma", ".lz", ".lz4", ".Z" }.Any(e => filename.EndsWith(e, StringComparison.OrdinalIgnoreCase)):
                 filename += ".tar.x";
                 break;
         }
@@ -78,7 +80,10 @@ public static class Archive
             await MsiArchive.ExtractAsync(file, destination);
         else if (new[] { ".zip", ".nupkg", ".msix" }.Any(e => filename.EndsWith(e, StringComparison.OrdinalIgnoreCase)))
             ZipFile.ExtractToDirectory(file, destination);
-        else if (filename.Contains(".tar.", StringComparison.OrdinalIgnoreCase) || filename.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase)
+        // A name with ".tar." in it is only a tarball if the bytes are one: bomctl's test resource
+        // bomctl_0.3.0_linux_amd64.tar.gz.spdx.json is JSON, staged as the file it is.
+        else if ((filename.Contains(".tar.", StringComparison.OrdinalIgnoreCase) || filename.EndsWith(".tar", StringComparison.OrdinalIgnoreCase)
+                || filename.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase)) && sniffed == "tar"
             || filename.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
         {
             // Windows bsdtar supports gzip, xz, bzip2 and zstd, and rejects unsafe archive paths.

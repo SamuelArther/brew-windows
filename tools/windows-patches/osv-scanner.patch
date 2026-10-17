@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/o/osv-scanner.rb
++++ b/tap/homebrew-core/Formula/o/osv-scanner.rb
+@@ -29,6 +29,8 @@
+     GOMOD
+ 
+     scan_output = shell_output("#{bin}/osv-scanner --lockfile #{testpath}/go.mod")
+-    assert_match "Scanned #{testpath}/go.mod file and found 1 package", scan_output
++    # Windows prints the path with backslashes.
++    go_mod = testpath/"go.mod"
++    assert_match "Scanned #{OS.windows? ? go_mod.to_s.tr("/", "\\") : go_mod} file and found 1 package", scan_output
+   end
+ end

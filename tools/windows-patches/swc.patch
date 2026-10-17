@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/s/swc.rb
++++ b/tap/homebrew-core/Formula/s/swc.rb
+@@ -28,7 +28,8 @@
+     system bin/"swc", "compile", "test.js", "--out-file", "test.out.js"
+     assert_path_exists testpath/"test.out.js"
+ 
+-    output = shell_output("#{bin}/swc lint 2>&1", 134)
++    # An abort ends a Windows process with STATUS_STACK_BUFFER_OVERRUN (0xC0000409), not SIGABRT's 134.
++    output = shell_output("#{bin}/swc lint 2>&1", OS.windows? ? -1_073_740_791 : 134)
+     assert_match "Lint command is not yet implemented", output
+   end
+ end

@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/p/permify.rb
++++ b/tap/homebrew-core/Formula/p/permify.rb
+@@ -33,7 +33,8 @@
+         }
+     YAML
+ 
+-    output = shell_output("#{bin}/permify ast #{testpath}/schema.yaml")
++    # A drive letter (C:/...) reads as a URL scheme, so Windows passes the schema's relative path.
++    output = shell_output("#{bin}/permify ast #{OS.windows? ? "schema.yaml" : "#{testpath}/schema.yaml"}")
+     assert_equal "document", JSON.parse(output)["entityDefinitions"]["document"]["name"]
+   end
+ end

@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/o/orgalorg.rb
++++ b/tap/homebrew-core/Formula/o/orgalorg.rb
+@@ -32,7 +32,8 @@
+     port = free_port
+     output = shell_output("#{bin}/orgalorg -u tester --key '' --host=127.0.0.1:#{port} -C uptime 2>&1", 1)
+     assert_match "connecting to cluster failed", output
+-    assert_match "dial tcp 127.0.0.1:#{port}: connect: connection refused", output
++    # Windows words a refused connection "No connection could be made because the target machine actively refused it".
++    assert_match "dial tcp 127.0.0.1:#{port}: #{OS.windows? ? "connectex: No connection could be made" : "connect: connection refused"}", output
+     assert_match "can't connect to address: [tester@127.0.0.1:#{port}]", output
+   end
+ end

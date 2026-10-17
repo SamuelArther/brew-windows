@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/j/jet.rb
++++ b/tap/homebrew-core/Formula/j/jet.rb
+@@ -20,6 +20,7 @@
+ 
+   test do
+     cmd = "#{bin}/jet -source=mysql -host=localhost -port=3306 -user=jet -password=jet -dbname=jetdb -path=./gen 2>&1"
+-    assert_match "connection refused", shell_output(cmd, 2)
++    # Windows words a refused connection "No connection could be made because the target machine actively refused it".
++    assert_match OS.windows? ? "actively refused it" : "connection refused", shell_output(cmd, 2)
+   end
+ end

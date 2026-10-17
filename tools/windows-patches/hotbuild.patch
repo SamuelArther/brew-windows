@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/h/hotbuild.rb
++++ b/tap/homebrew-core/Formula/h/hotbuild.rb
+@@ -27,7 +27,8 @@
+   end
+ 
+   test do
+-    output = "buildcmd = \"go build -o tmp/tmp_bin\""
++    # On Windows the default build command writes tmp/tmp_bin.exe.
++    output = "buildcmd = \"go build -o tmp/tmp_bin#{".exe" if OS.windows?}\""
+     system bin/"hotbuild", "initconf"
+     assert_match output, (testpath/".hotbuild.toml").read
+ 

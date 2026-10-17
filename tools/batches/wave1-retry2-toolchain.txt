@@ -1,0 +1,10 @@
+anyquery
+docker-credential-helper-ecr
+go@1.26
+lazysql
+pgstream
+redka
+sq
+vi-sql
+whodb-cli
+turso

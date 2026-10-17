@@ -168,6 +168,28 @@ public static partial class FormulaLoader
                 i.Env[k] = i.Env.TryGetValue(k, out var cur) && cur.Length > 0 ? cur + " " + i.ToS(a[0]) : i.ToS(a[0]);
             return null;
         });
+        // ENV.append_to_rustflags (wasm-bindgen's test): upstream's rustc shim adds HOMEBREW_RUSTFLAGS; with no
+        // shim here they go straight into RUSTFLAGS.
+        it.Def(E, "append_to_rustflags", (i, self, a, b) =>
+        {
+            foreach (var k in new[] { "HOMEBREW_RUSTFLAGS", "RUSTFLAGS" })
+                i.Env[k] = i.Env.TryGetValue(k, out var cur) && cur.Length > 0 ? cur + " " + i.ToS(a[0]) : i.ToS(a[0]);
+            return null;
+        });
+        // ENV.remove(keys, value): drop the first occurrence of value from each (garble's test edits PATH).
+        it.Def(E, "remove", (i, self, a, b) =>
+        {
+            if (a.Length < 2 || a[1] == null) return null;
+            var value = i.ToS(a[1]);
+            foreach (var key in a[0] is RArray keys ? keys.L.Select(i.ToS) : [i.ToS(a[0])])
+            {
+                if (!i.Env.TryGetValue(key, out var old)) continue;
+                var at = old.IndexOf(value, StringComparison.Ordinal);
+                var updated = at < 0 ? old : old.Remove(at, value.Length);
+                if (updated.Length == 0) i.Env.Remove(key); else i.Env[key] = updated;
+            }
+            return null;
+        });
 
         DefineTime(it);
     }

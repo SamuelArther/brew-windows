@@ -1257,7 +1257,7 @@ public sealed partial class Interp
         catch (ArgumentException e) { throw Error(SyntaxErrorClass, $"invalid regex /{src}/: {e.Message}"); }
     }
 
-    // Ruby regexp syntax .NET lacks: \h / \H, and POSIX bracket classes ([[:alpha:]]), which inside a
+    // Ruby regexp syntax .NET lacks: \h / \H, \R, and POSIX bracket classes ([[:alpha:]]), which inside a
     // character class have to become ranges rather than nested classes ([\h_] is [0-9a-fA-F_]).
     static string ToNetRegex(string src, out bool named)
     {
@@ -1272,6 +1272,7 @@ public sealed partial class Interp
                 char n = src[++i];
                 if (n == 'h') sb.Append(depth > 0 ? "0-9a-fA-F" : "[0-9a-fA-F]");
                 else if (n == 'H' && depth == 0) sb.Append("[^0-9a-fA-F]");
+                else if (n == 'R' && depth == 0) sb.Append("(?:\\r\\n|[\\n\\v\\f\\r\\u0085\\u2028\\u2029])");   // any linebreak (ec's test)
                 else sb.Append(c).Append(n);
                 continue;
             }

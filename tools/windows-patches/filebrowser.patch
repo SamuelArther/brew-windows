@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/f/filebrowser.rb
++++ b/tap/homebrew-core/Formula/f/filebrowser.rb
+@@ -32,6 +32,8 @@
+     assert_path_exists testpath/"filebrowser.db"
+ 
+     output = shell_output("#{bin}/filebrowser config cat 2>&1")
+-    assert_match "Using database: #{testpath}/filebrowser.db", output
++    # Windows prints the path with backslashes.
++    database = testpath/"filebrowser.db"
++    assert_match "Using database: #{OS.windows? ? database.to_s.tr("/", "\\") : database}", output
+   end
+ end

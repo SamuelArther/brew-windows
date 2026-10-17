@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/k/kubectl-explore.rb
++++ b/tap/homebrew-core/Formula/k/kubectl-explore.rb
+@@ -18,7 +18,8 @@
+   end
+ 
+   test do
+-    assert_match "The connection to the server localhost:8080 was refused",
++    # Windows words a refused connection "No connection could be made because the target machine actively refused it".
++    assert_match OS.windows? ? "actively refused it" : "The connection to the server localhost:8080 was refused",
+       shell_output("#{bin}/kubectl-explore pod 2>&1", 1)
+   end
+ end

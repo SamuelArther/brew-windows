@@ -1,0 +1,13 @@
+--- a/tap/homebrew-core/Formula/r/riff.rb
++++ b/tap/homebrew-core/Formula/r/riff.rb
+@@ -20,7 +20,9 @@
+   end
+ 
+   test do
+-    assert_empty shell_output("#{bin}/riff /etc/passwd /etc/passwd")
++    # Windows has no /etc/passwd; any file compared with itself shows no differences.
++    same = OS.windows? ? (testpath/"same.txt").tap { |f| f.write "same\n" } : "/etc/passwd"
++    assert_empty shell_output("#{bin}/riff #{same} #{same}")
+     assert_match version.to_s, shell_output("#{bin}/riff --version")
+   end
+ end

@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/v/virtctl.rb
++++ b/tap/homebrew-core/Formula/v/virtctl.rb
+@@ -31,6 +31,7 @@
+ 
+   test do
+     assert_match version.to_s, shell_output("#{bin}/virtctl version -c")
+-    assert_match "connection refused", shell_output("#{bin}/virtctl userlist myvm 2>&1", 1)
++    # Windows words a refused connection "No connection could be made because the target machine actively refused it".
++    assert_match OS.windows? ? "actively refused it" : "connection refused", shell_output("#{bin}/virtctl userlist myvm 2>&1", 1)
+   end
+ end

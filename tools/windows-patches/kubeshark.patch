@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/k/kubeshark.rb
++++ b/tap/homebrew-core/Formula/k/kubeshark.rb
+@@ -38,6 +38,8 @@
+     assert_equal "v#{version}", version_output.strip
+ 
+     tap_output = shell_output("#{bin}/kubeshark tap 2>&1")
+-    assert_match ".kube/config: no such file or directory", tap_output
++    # Windows prints the path with backslashes and words ENOENT "The system cannot find the path specified".
++    missing = OS.windows? ? ".kube\\config: The system cannot find the path specified" : ".kube/config: no such file or directory"
++    assert_match missing, tap_output
+   end
+ end

@@ -424,6 +424,9 @@ public sealed partial class Interp
         Def(A, "empty?", (it, self, a, b) => Self(self).L.Count == 0);
         Def(A, "first", (it, self, a, b) => a.Length == 0 ? Self(self).L.FirstOrDefault() : new RArray(Self(self).L.Take((int)it.Int(a[0]))));
         Def(A, "last", (it, self, a, b) => a.Length == 0 ? Self(self).L.LastOrDefault() : new RArray(Self(self).L.TakeLast((int)it.Int(a[0]))));
+        // Homebrew's extend/array.rb (sftpgo: `read.lines.second`).
+        foreach (var (method, index) in new[] { ("second", 1), ("third", 2), ("fourth", 3), ("fifth", 4) })
+            Def(A, method, (it, self, a, b) => Self(self).L.ElementAtOrDefault(index));
         Def(A, "each", (it, self, a, b) =>
         {
             if (b == null) return new RArray(Self(self).L);

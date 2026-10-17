@@ -1,0 +1,13 @@
+--- a/tap/homebrew-core/Formula/g/gittuf.rb
++++ b/tap/homebrew-core/Formula/g/gittuf.rb
+@@ -36,7 +36,9 @@
+     assert_match(/(unable to identify git directory for repository|No such remote 'origin')/, output)
+ 
+     output = shell_output("#{bin}/git-remote-gittuf 2>&1", 1)
+-    assert_match "usage: #{bin}/git-remote-gittuf <remote-name> <url>", output
++    # Windows prints the program's own path, with backslashes and its .exe.
++    usage = OS.windows? ? "#{bin}/git-remote-gittuf.exe".tr("/", "\\") : "#{bin}/git-remote-gittuf"
++    assert_match "usage: #{usage} <remote-name> <url>", output
+ 
+     assert_match version.to_s, shell_output("#{bin}/gittuf version")
+   end

@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/c/config-file-validator.rb
++++ b/tap/homebrew-core/Formula/c/config-file-validator.rb
+@@ -26,6 +26,7 @@
+     test_file.write <<~JSON
+       { "valid": "json" }
+     JSON
+-    assert_match "✓ #{test_file}", shell_output("#{bin}/cfv #{test_file}")
++    # Windows prints the path with backslashes.
++    assert_match "✓ #{OS.windows? ? test_file.to_s.tr("/", "\\") : test_file}", shell_output("#{bin}/cfv #{test_file}")
+   end
+ end

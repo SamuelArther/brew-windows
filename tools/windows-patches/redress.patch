@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/r/redress.rb
++++ b/tap/homebrew-core/Formula/r/redress.rb
+@@ -37,7 +37,7 @@
+   test do
+     assert_match "Version:  #{version}", shell_output("#{bin}/redress version")
+ 
+-    test_bin_path = bin/"redress"
++    test_bin_path = bin/"redress#{".exe" if OS.windows?}"
+     output = shell_output("#{bin}/redress info '#{test_bin_path}'")
+     assert_match "Build ID", output
+   end

@@ -1,0 +1,17 @@
+--- a/tap/homebrew-core/Formula/c/cargo-about.rb
++++ b/tap/homebrew-core/Formula/c/cargo-about.rb
+@@ -55,7 +55,13 @@
+       EOS
+       assert_equal expected, (crate/"about.toml").read
+ 
+-      output = shell_output("cargo about generate about.hbs")
++      # On Windows cargo-about refuses to write to a redirected stdout (PowerShell's encoding); -o writes the file.
++      if OS.windows?
++        system "cargo", "about", "generate", "about.hbs", "-o", "about.out"
++        output = (crate/"about.out").read
++      else
++        output = shell_output("cargo about generate about.hbs")
++      end
+       assert_match "The above copyright notice and this permission notice", output
+     end
+   end

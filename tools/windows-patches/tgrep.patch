@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/t/tgrep.rb
++++ b/tap/homebrew-core/Formula/t/tgrep.rb
+@@ -33,7 +33,8 @@
+     system bin/"tgrep", "index", testpath
+ 
+     matches = shell_output("#{bin}/tgrep 'hello trigram' #{testpath}")
+-    assert_match "src/main.rs", matches
++    # Windows prints the matched file's path with backslashes.
++    assert_match OS.windows? ? "src\\main.rs" : "src/main.rs", matches
+     assert_match "hello trigram", matches
+ 
+     assert_match version.to_s, shell_output("#{bin}/tgrep --version")

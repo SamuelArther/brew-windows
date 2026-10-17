@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/d/dblab.rb
++++ b/tap/homebrew-core/Formula/d/dblab.rb
+@@ -24,6 +24,7 @@
+     assert_match version.to_s, shell_output("#{bin}/dblab --version")
+ 
+     output = shell_output("#{bin}/dblab --url mysql://user:password@tcp\\(localhost:3306\\)/db 2>&1", 1)
+-    assert_match "connect: connection refused", output
++    # Windows words a refused connection "No connection could be made because the target machine actively refused it".
++    assert_match OS.windows? ? "actively refused it" : "connect: connection refused", output
+   end
+ end

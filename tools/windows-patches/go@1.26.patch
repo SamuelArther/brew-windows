@@ -1,0 +1,19 @@
+--- a/tap/homebrew-core/Formula/g/go@1.26.rb
++++ b/tap/homebrew-core/Formula/g/go@1.26.rb
+@@ -30,8 +30,14 @@
+     libexec.install Dir["*"]
+ 
+     cd libexec/"src" do
+-      # Set portable defaults for CC/CXX to be used by cgo
+-      with_env(CC: "cc", CXX: "c++") { system "./make.bash" }
++      if OS.windows?
++        # make.bash refuses to run on Windows; make.bat is its Windows counterpart.
++        ENV["GOROOT_BOOTSTRAP"] = Formula["go"].opt_libexec
++        system "cmd", "/c", "make.bat"
++      else
++        # Set portable defaults for CC/CXX to be used by cgo
++        with_env(CC: "cc", CXX: "c++") { system "./make.bash" }
++      end
+     end
+ 
+     bin.install_symlink Dir[libexec/"bin/go*"]

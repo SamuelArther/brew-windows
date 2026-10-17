@@ -68,8 +68,21 @@ public static class BuildEnvironment
         // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH.
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
+        // Last, brew itself: Homebrew's tests find `brew` in HOMEBREW_PREFIX/bin (gpk, taproom and frizbee run it).
+        var brewDir = Path.GetDirectoryName(Environment.ProcessPath);
         env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
-            .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
+            .Append(Environment.GetEnvironmentVariable("PATH") ?? "")
+            .Concat(brewDir != null && File.Exists(Path.Combine(brewDir, "brew.exe")) ? [brewDir] : []));
+        // Formula#common_sandbox_env: tests share the package managers' caches with builds (cargo-audit's test
+        // looks for its advisory database in HOMEBREW_CACHE/cargo_cache).
+        var cache = paths.CacheRoot;
+        env["HOMEBREW_PREFIX"] = paths.Prefix;
+        env["HOMEBREW_CACHE"] = cache;
+        env["GOPATH"] = Path.Combine(cache, "go_cache");
+        env["GOMODCACHE"] = Path.Combine(cache, "go_mod_cache");
+        env["GOCACHE"] = Path.Combine(cache, "go_build_cache");
+        env["GOTOOLCHAIN"] = "local";
+        env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
         if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath);
     }

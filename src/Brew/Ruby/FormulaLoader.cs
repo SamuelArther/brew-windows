@@ -244,6 +244,29 @@ public static partial class FormulaLoader
             return (object)i.NewPath(target);
         }).ToList()));
 
+        // Utils::Git.get_tar_commit_id(file): the commit `git archive` (so GitHub's tarballs) records in the
+        // tar's first pax global header ("52 comment=<sha>\n"), read natively instead of through gunzip and git.
+        var git = it.DefineModule("Git", utils);
+        it.DefS(git, "get_tar_commit_id", (i, s, a, b) =>
+        {
+            var file = i.Abs(i.PathStr(a[0]));
+            if (!File.Exists(file)) return null;
+            var name = Path.GetFileName(file);
+            var header = new byte[1024];
+            try
+            {
+                using var raw = File.OpenRead(file);
+                Stream input = name.EndsWith(".tar.gz") || name.EndsWith(".tgz") ? new System.IO.Compression.GZipStream(raw, System.IO.Compression.CompressionMode.Decompress)
+                    : name.EndsWith(".tar") ? raw : null;
+                if (input == null) return null;
+                using (input) if (input.ReadAtLeast(header, header.Length, throwOnEndOfStream: false) < header.Length) return null;
+            }
+            catch (InvalidDataException) { return null; }
+            if (header[156] != (byte)'g') return null;
+            var m = Regex.Match(System.Text.Encoding.ASCII.GetString(header, 512, 512), @"\A\d+ comment=([0-9a-f]{40,64})\n");
+            return m.Success ? Interp.S(m.Groups[1].Value) : null;
+        });
+
         // ---- class-level DSL ----
         FormulaSpec Sp(object self) => SpecOf((RClass)self);
         object Kw(Interp i, object[] a, string key) =>
@@ -437,6 +460,13 @@ public static partial class FormulaLoader
         it.Def(F, "plist_name service_name", (i, self, a, b) => Interp.S("homebrew.mxcl." + Nm(self)));
         it.Def(F, "launchd_service_path", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), $"homebrew.mxcl.{Nm(self)}.plist")));
         it.Def(F, "systemd_service_path", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), $"homebrew.{Nm(self)}.service")));
+        // Formula#cached_download: the stable source's file in the download cache (argocd-vault-plugin reads its tar header).
+        it.Def(F, "cached_download", (i, self, a, b) =>
+        {
+            var spec = SpecOf(((RObject)self).Class);
+            return i.NewPath(spec.GitSource || spec.Sha256 == null ? Path.Combine(new Paths().Cache, Nm(self) + "--git")
+                : Path.Combine(new Paths().Cache, spec.Sha256 + "--" + Downloader.FileName(spec.Url)));
+        });
         // Formula#stable: the SoftwareSpec (url, version, checksum, specs; stage fetches and unpacks it).
         it.Def(F, "stable", (i, self, a, b) =>
         {
@@ -593,6 +623,16 @@ public static partial class FormulaLoader
         DefineJavaDsl(it, F);
         it.Run(InstallStepsPrelude, "<install_steps>");
         it.Run(BuildPrelude, "<build>");
+        VersionObject(it, "0");   // defines Version, so `Version.new("1.2")` works before any formula version is read
+        // More of Homebrew's global paths (cargo-audit's test: HOMEBREW_CACHE/"cargo_cache"; garble's:
+        // HOMEBREW_SHIMS_PATH). Windows has no superenv shims; that path only has to be one that isn't on PATH.
+        var paths = new Paths();
+        it.ObjectClass.Consts["HOMEBREW_CACHE"] = it.NewPath(paths.CacheRoot);
+        it.ObjectClass.Consts["HOMEBREW_TEMP"] = it.NewPath(Path.TrimEndingDirectorySeparator(Path.GetFullPath(
+            Environment.GetEnvironmentVariable("HOMEBREW_TEMP") is { Length: > 0 } temp ? temp : Path.GetTempPath())));
+        it.ObjectClass.Consts["HOMEBREW_REPOSITORY"] = it.NewPath(paths.Repository);
+        it.ObjectClass.Consts["HOMEBREW_LIBRARY"] = it.NewPath(Path.Combine(paths.Repository, "Library"));
+        it.ObjectClass.Consts["HOMEBREW_SHIMS_PATH"] = it.NewPath(Path.Combine(paths.Repository, "Library", "Homebrew", "shims"));
         return F;
     }
 
@@ -738,7 +778,13 @@ public static partial class FormulaLoader
             var file = it.Abs(it.PathStr(p));
             var s = new RString(File.ReadAllText(file));
             var original = s.V;
-            if (b != null) it.CallProc(b, new object[] { s });
+            if (b != null)
+            {
+                var outer = it.InreplaceString;
+                it.InreplaceString = s;
+                try { it.CallProc(b, new object[] { s }); }
+                finally { it.InreplaceString = outer; }
+            }
             else
             {
                 var res = it.Invoke(s, "gsub!", new[] { before, after ?? Interp.S("") }, null);

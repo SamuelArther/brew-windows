@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/c/ccheck.rb
++++ b/tap/homebrew-core/Formula/c/ccheck.rb
+@@ -12,6 +12,8 @@
+ 
+   def fetch
+     system "go", "mod", "download"
++    # go.sum lacks cobra's Windows-only dependency.
++    system "go", "get", "github.com/inconshreveable/mousetrap" if OS.windows?
+   end
+ 
+   def install

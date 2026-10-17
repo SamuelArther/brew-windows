@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/b/bingrep.rb
++++ b/tap/homebrew-core/Formula/b/bingrep.rb
+@@ -26,7 +26,8 @@
+         return homebrew_test();
+       }
+     C
+-    system ENV.cc, testpath/"test.c"
++    # MinGW's compilers name their output a.exe unless told otherwise.
++    system ENV.cc, testpath/"test.c", "-o", "a.out"
+     assert_match "homebrew_test", shell_output("#{bin}/bingrep a.out")
+   end
+ end

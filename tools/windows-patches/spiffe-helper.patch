@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/s/spiffe-helper.rb
++++ b/tap/homebrew-core/Formula/s/spiffe-helper.rb
+@@ -23,6 +23,7 @@
+     assert_match version.to_s, shell_output("#{bin}/spiffe-helper -version")
+ 
+     output = shell_output("#{bin}/spiffe-helper 2>&1", 1)
+-    assert_match "helper.conf: no such file or directory", output
++    # Windows words ENOENT "The system cannot find the file specified".
++    assert_match "helper.conf: #{OS.windows? ? "The system cannot find the file specified" : "no such file or directory"}", output
+   end
+ end

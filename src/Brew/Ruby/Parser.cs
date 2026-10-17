@@ -374,7 +374,8 @@ public sealed class Parser
                 }
                 else n = ParseMethodCall(n, false);
             }
-            else if (IsOp("[") && !Tok.SpaceBefore)
+            // After a block's closing brace or `end`, `[` indexes the result even after a space (openshift-cli: `find { } ["x"]`).
+            else if (IsOp("[") && (!Tok.SpaceBefore || n is CallNode { Block: not null }))
             {
                 int line = Tok.Line;
                 p++;

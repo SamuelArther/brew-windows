@@ -1,0 +1,13 @@
+--- a/tap/homebrew-core/Formula/s/snowflake.rb
++++ b/tap/homebrew-core/Formula/s/snowflake.rb
+@@ -25,7 +25,9 @@
+   end
+ 
+   test do
+-    assert_match "open /usr/share/tor/geoip: no such file", shell_output("#{bin}/snowflake-broker 2>&1", 1)
++    # Windows words ENOENT "The system cannot find the path specified".
++    missing = OS.windows? ? "The system cannot find the path specified" : "no such file"
++    assert_match "open /usr/share/tor/geoip: #{missing}", shell_output("#{bin}/snowflake-broker 2>&1", 1)
+     assert_match "ENV-ERROR no TOR_PT_MANAGED_TRANSPORT_VER", shell_output("#{bin}/snowflake-client 2>&1", 1)
+     assert_match "the --acme-hostnames option is required", shell_output("#{bin}/snowflake-server 2>&1", 1)
+   end

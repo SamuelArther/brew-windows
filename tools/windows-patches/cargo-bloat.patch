@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/c/cargo-bloat.rb
++++ b/tap/homebrew-core/Formula/c/cargo-bloat.rb
+@@ -31,7 +31,8 @@
+       output = shell_output("#{bin}/cargo-bloat --release -n 10 2>&1", 1)
+       assert_match "Error: can be run only via `cargo bloat`", output
+       output = shell_output("cargo bloat --release -n 10 2>&1")
+-      assert_match "Analyzing target/release/hello_world", output
++      # Windows prints the path with backslashes.
++      assert_match OS.windows? ? "Analyzing target\\release\\hello_world" : "Analyzing target/release/hello_world", output
+     end
+   end
+ end

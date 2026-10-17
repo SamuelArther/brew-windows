@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/r/rathole.rb
++++ b/tap/homebrew-core/Formula/r/rathole.rb
+@@ -30,6 +30,8 @@
+   end
+ 
+   def install
++    # vergen's old libgit2-sys calls advapi32 without linking it, which Rust's std no longer does for it.
++    ENV.append "RUSTFLAGS", "-l advapi32" if OS.windows?
+     system "cargo", "install", *std_cargo_args
+   end
+ 

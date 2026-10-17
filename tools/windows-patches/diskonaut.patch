@@ -1,0 +1,16 @@
+--- a/tap/homebrew-core/Formula/d/diskonaut.rb
++++ b/tap/homebrew-core/Formula/d/diskonaut.rb
+@@ -18,8 +18,11 @@
+   end
+ 
+   test do
+-    output = pipe_output(bin/"diskonaut", shell_output("ls"), 2)
+-    assert_match "Error: IO-error occurred", output
++    # On Windows the TUI reads the console, not the piped stdin, so it waits instead of failing.
++    unless OS.windows?
++      output = pipe_output(bin/"diskonaut", shell_output("ls"), 2)
++      assert_match "Error: IO-error occurred", output
++    end
+ 
+     assert_match "diskonaut #{version}", shell_output("#{bin}/diskonaut --version")
+   end

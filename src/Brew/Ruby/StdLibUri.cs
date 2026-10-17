@@ -213,6 +213,15 @@ public sealed partial class Interp
         DefineClass("InvalidComponentError", uerr, U);
         DefineClass("BadURIError", uerr, U);
         var G = UriGeneric = DefineClass("Generic", ObjectClass, U);
+        // Net::HTTP.get(uri): the response body (k3d's `def fetch` reads k3s' release channels).
+        var netHttp = DefineClass("HTTP", ObjectClass, DefineModule("Net"));
+        DefS(netHttp, "get", (it, self, a, b) =>
+        {
+            var url = a.Length > 1 ? $"http://{it.ToS(a[0])}{it.ToS(a[1])}" : it.ToS(a[0]);
+            using var client = new HttpClient { Timeout = TimeSpan.FromMinutes(2) };
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Ruby");
+            return S(client.GetStringAsync(url).GetAwaiter().GetResult());
+        });
         var http = DefineClass("HTTP", G, U);
         DefineClass("HTTPS", http, U);
         DefineClass("FTP", G, U);

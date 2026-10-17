@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/k/ko.rb
++++ b/tap/homebrew-core/Formula/k/ko.rb
+@@ -22,6 +22,8 @@
+ 
+   test do
+     output = shell_output("#{bin}/ko login reg.example.com -u brew -p test 2>&1")
+-    assert_match "logged in via #{testpath}/.docker/config.json", output
++    # Windows prints the path with backslashes.
++    config = testpath/".docker/config.json"
++    assert_match "logged in via #{OS.windows? ? config.to_s.tr("/", "\\") : config}", output
+   end
+ end

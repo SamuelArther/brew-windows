@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/g/go-statik.rb
++++ b/tap/homebrew-core/Formula/g/go-statik.rb
+@@ -17,6 +17,8 @@
+   test do
+     font_path = if OS.mac?
+       "/Library/Fonts/Arial Unicode.ttf"
++    elsif OS.windows?
++      "C:/Windows/Fonts/arial.ttf"
+     else
+       "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+     end

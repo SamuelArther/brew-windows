@@ -169,8 +169,8 @@ public sealed partial class Interp
         Def(St, "gsub", (it, self, a, b) => S(it.Sub(Self(self).V, a, b, true)));
         // nil only when nothing matched: a match whose replacement equals the original still counts (rewrite_shebang
         // of an already-correct "#!/usr/bin/env python3").
-        Def(St, "sub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, false, out var matched); if (!matched) return null; s.V = r; return s; });
-        Def(St, "gsub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, a, b, true, out var matched); if (!matched) return null; s.V = r; return s; });
+        Def(St, "sub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, it.InreplaceArgs(s, a), b, false, out var matched); if (!matched) return null; s.V = r; return s; });
+        Def(St, "gsub!", (it, self, a, b) => { var s = Mut(it, self); var r = it.Sub(s.V, it.InreplaceArgs(s, a), b, true, out var matched); if (!matched) return null; s.V = r; return s; });
         Def(St, "count", (it, self, a, b) => { var set = TrSet(it.Str(a[0])); return (long)Self(self).V.Count(c => set(c)); });
         Def(St, "chars", (it, self, a, b) => new RArray(Self(self).V.Select(c => (object)S(c.ToString()))));
         Def(St, "each_char", (it, self, a, b) =>
@@ -468,6 +468,16 @@ public sealed partial class Interp
         if (start < s.Length) yield return s[start..];
     }
 
+    // The string an `inreplace ... do |s|` block edits: its sub!/gsub! are StringInreplaceExtension's, which take a
+    // Pathname on either side as its string (loki's test: s.gsub! var, testpath).
+    public RString InreplaceString;
+
+    object[] InreplaceArgs(RString s, object[] a)
+    {
+        if (!ReferenceEquals(s, InreplaceString) || !a.Any(x => x is RObject o && o.Class == PathnameClass)) return a;
+        return a.Select(x => x is RObject o && o.Class == PathnameClass ? S(PathStr(o)) : x).ToArray();
+    }
+
     public static string RubyEscape(string s)
     {
         var sb = new StringBuilder();
@@ -479,8 +489,11 @@ public sealed partial class Interp
                 case '\t': sb.Append("\\t"); break;
                 case '\r': sb.Append("\\r"); break;
                 case ' ': sb.Append("\\ "); break;
+                case '\f': sb.Append("\\f"); break;
+                case '\v': sb.Append("\\v"); break;
                 default:
-                    if (".*?+^$|()[]{}\\/-#".Contains(c)) sb.Append('\\');
+                    // Like Ruby's, '/' stays as is: Regexp.escape("a/b") is "a/b".
+                    if (".*?+^$|()[]{}\\-#".Contains(c)) sb.Append('\\');
                     sb.Append(c);
                     break;
             }

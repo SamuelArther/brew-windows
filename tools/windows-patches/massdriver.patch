@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/m/massdriver.rb
++++ b/tap/homebrew-core/Formula/m/massdriver.rb
+@@ -36,6 +36,8 @@
+     assert_match version.to_s, shell_output("#{bin}/mass version")
+ 
+     output = shell_output("#{bin}/mass bundle build 2>&1", 1)
+-    assert_match "Error: open massdriver.yaml: no such file or directory", output
++    # Windows words ENOENT "The system cannot find the file specified".
++    missing = OS.windows? ? "The system cannot find the file specified" : "no such file or directory"
++    assert_match "Error: open massdriver.yaml: #{missing}", output
+   end
+ end

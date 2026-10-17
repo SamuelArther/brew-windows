@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/y/yeet.rb
++++ b/tap/homebrew-core/Formula/y/yeet.rb
+@@ -22,7 +22,8 @@
+   test do
+     assert_match version.to_s, shell_output("#{bin}/yeet -version")
+ 
+-    output = "open yeetfile.js: no such file or directory"
++    # Windows words ENOENT "The system cannot find the file specified".
++    output = "open yeetfile.js: #{OS.windows? ? "The system cannot find the file specified" : "no such file or directory"}"
+     assert_match output, shell_output("#{bin}/yeet 2>&1", 1)
+   end
+ end

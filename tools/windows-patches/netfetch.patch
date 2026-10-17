@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/n/netfetch.rb
++++ b/tap/homebrew-core/Formula/n/netfetch.rb
+@@ -29,6 +29,8 @@
+   test do
+     assert_match version.to_s, shell_output("#{bin}/netfetch version")
+ 
+-    assert_match ".kube/config: no such file or directory", shell_output("#{bin}/netfetch scan")
++    # Windows prints the path with backslashes and words ENOENT "The system cannot find the path specified".
++    missing = OS.windows? ? ".kube\\config: The system cannot find the path specified" : ".kube/config: no such file or directory"
++    assert_match missing, shell_output("#{bin}/netfetch scan")
+   end
+ end

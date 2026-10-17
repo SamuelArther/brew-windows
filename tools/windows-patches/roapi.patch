@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/r/roapi.rb
++++ b/tap/homebrew-core/Formula/r/roapi.rb
+@@ -28,7 +28,8 @@
+     (testpath/"data.csv").write "name,age\nsam,27\n"
+     expected_output = '[{"name":"sam"}]'
+ 
+-    pid = spawn bin/"roapi", "-a", "localhost:#{port}", "-t", testpath/"data.csv"
++    # A drive letter (C:/...) reads as a URI scheme, so Windows passes the table's relative path.
++    pid = spawn bin/"roapi", "-a", "localhost:#{port}", "-t", OS.windows? ? "data.csv" : testpath/"data.csv"
+     begin
+       query = "SELECT name from data"
+       header = "ACCEPT: application/json"

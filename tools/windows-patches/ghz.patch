@@ -1,0 +1,12 @@
+--- a/tap/homebrew-core/Formula/g/ghz.rb
++++ b/tap/homebrew-core/Formula/g/ghz.rb
+@@ -33,7 +33,8 @@
+       [data]
+       name = "Bob"
+     TOML
+-    assert_match "open greeter.proto: no such file or directory",
++    # Windows words ENOENT "The system cannot find the file specified".
++    assert_match "open greeter.proto: #{OS.windows? ? "The system cannot find the file specified" : "no such file or directory"}",
+       shell_output("#{bin}/ghz --config config.toml 2>&1", 1)
+   end
+ end

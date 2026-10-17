@@ -78,6 +78,7 @@ public sealed partial class Interp
             Env[(string)e.Key] = (string)e.Value;
 
         IOClass = DefineClass("IO");
+        IOClass.Includes.Add(EnumerableModule);   // io.any? { |line| ... } (cloudprober's test), over #each
         FileClass = DefineClass("File", IOClass);
         DirClass = DefineClass("Dir");
         PathnameClass = DefineClass("Pathname");
@@ -126,10 +127,11 @@ public sealed partial class Interp
             if (Directory.Exists(p)) return !Directory.EnumerateFileSystemEntries(p).Any();
             return File.Exists(p) && new FileInfo(p).Length == 0;
         });
-        Def(P, "size", (it, self, a, b) => new FileInfo(it.Abs(Me(self))).Length);
-        Def(P, "size?", (it, self, a, b) => SizeOrNil(it.Abs(Me(self))));
-        Def(P, "read", (it, self, a, b) => S(ReadText(it.Abs(Me(self)))));
-        Def(P, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(Win32Process.ReadAllShared(it.Abs(Me(self))))) { Binary = true });
+        // bin/"tool" is tool.exe here too, as for exist? (sigsum-go's test signs (bin/"sigsum-key").read).
+        Def(P, "size", (it, self, a, b) => new FileInfo(BuiltExecutable(it.Abs(Me(self)))).Length);
+        Def(P, "size?", (it, self, a, b) => SizeOrNil(BuiltExecutable(it.Abs(Me(self)))));
+        Def(P, "read", (it, self, a, b) => S(ReadText(BuiltExecutable(it.Abs(Me(self))))));
+        Def(P, "binread", (it, self, a, b) => BinRead(it, BuiltExecutable(it.Abs(Me(self))), a));
         Def(P, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(Me(self)))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
         Def(P, "each_line", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(Me(self))))) it.Y1(b, S(l)); return null; });
         // Homebrew's WriteMkpathExtension: refuses to overwrite, creates parent directories.
@@ -174,12 +176,14 @@ public sealed partial class Interp
         });
         Def(P, "entries", (it, self, a, b) =>
             new RArray(new[] { ".", ".." }.Concat(Directory.EnumerateFileSystemEntries(it.Abs(Me(self))).Select(Path.GetFileName)).Select(n => (object)it.NewPath(n))));
+        // each_child(with_directory = true): children(with_directory).each, so each_child(false) yields bare names
+        // (ethereum, zsync: `(buildpath/"cmd").each_child(false) { |cmd| ... "./cmd/#{cmd}" }`).
         Def(P, "each_child", (it, self, a, b) =>
         {
-            var p = Me(self);
-            foreach (var c in Directory.EnumerateFileSystemEntries(it.Abs(p)).Order(StringComparer.Ordinal).ToList())
-                it.Y1(b, it.NewPath(JoinPath(p, Path.GetFileName(c))));
-            return null;
+            var children = (RArray)it.Invoke(self, "children", a, null);
+            if (b == null) return it.Invoke(children, "each", Array.Empty<object>(), null);
+            foreach (var c in children.L) it.Y1(b, c);
+            return children;
         });
         Def(P, "glob", (it, self, a, b) =>
         {
@@ -292,17 +296,18 @@ public sealed partial class Interp
         // ---- File ----
         var F = FileClass;
         DefS(F, "join", (it, self, a, b) => S(it.Flatten(a, -1).Select(it.PathStr).Aggregate("", (acc, x) => acc.Length == 0 ? x : acc.TrimEnd('/') + "/" + x.TrimStart('/'))));
-        DefS(F, "exist?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) || Directory.Exists(p); });
-        DefS(F, "file?", (it, self, a, b) => File.Exists(it.Abs(it.PathStr(a[0]))));
+        // "#{bin}/tool" is a built tool.exe (Pathname's predicates take any PATHEXT variant).
+        DefS(F, "exist?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) || Directory.Exists(p) || File.Exists(BuiltExecutable(p)); });
+        DefS(F, "file?", (it, self, a, b) => File.Exists(BuiltExecutable(it.Abs(it.PathStr(a[0])))));
         DefS(F, "directory?", (it, self, a, b) => Directory.Exists(it.Abs(it.PathStr(a[0]))));
         DefS(F, "symlink?", (it, self, a, b) => IsSymlink(it.Abs(it.PathStr(a[0]))));
-        DefS(F, "executable?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && IsExecutableName(p); });
-        DefS(F, "readable? writable?", (it, self, a, b) => File.Exists(it.Abs(it.PathStr(a[0]))));
+        DefS(F, "executable?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && IsExecutableName(p) || it.WithExe(p) != null; });
+        DefS(F, "readable? writable?", (it, self, a, b) => File.Exists(BuiltExecutable(it.Abs(it.PathStr(a[0])))));
         DefS(F, "zero? empty?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) && new FileInfo(p).Length == 0; });
-        DefS(F, "size", (it, self, a, b) => new FileInfo(it.Abs(it.PathStr(a[0]))).Length);
-        DefS(F, "size?", (it, self, a, b) => SizeOrNil(it.Abs(it.PathStr(a[0]))));
-        DefS(F, "read", (it, self, a, b) => S(ReadText(it.Abs(it.PathStr(a[0])))));
-        DefS(F, "binread", (it, self, a, b) => new RString(Encoding.Latin1.GetString(Win32Process.ReadAllShared(it.Abs(it.PathStr(a[0]))))) { Binary = true });
+        DefS(F, "size", (it, self, a, b) => new FileInfo(BuiltExecutable(it.Abs(it.PathStr(a[0])))).Length);
+        DefS(F, "size?", (it, self, a, b) => SizeOrNil(BuiltExecutable(it.Abs(it.PathStr(a[0])))));
+        DefS(F, "read", (it, self, a, b) => S(ReadText(BuiltExecutable(it.Abs(it.PathStr(a[0]))))));
+        DefS(F, "binread", (it, self, a, b) => BinRead(it, BuiltExecutable(it.Abs(it.PathStr(a[0]))), a[1..]));
         DefS(F, "readlines", (it, self, a, b) => new RArray(Lines(ReadText(it.Abs(it.PathStr(a[0])))).Select(l => (object)S(it.Truthy2(a, "chomp") ? l.TrimEnd('\n') : l))));
         DefS(F, "foreach", (it, self, a, b) => { foreach (var l in Lines(ReadText(it.Abs(it.PathStr(a[0]))))) it.Y1(b, S(l)); return null; });
         DefS(F, "write binwrite", (it, self, a, b) =>
@@ -385,7 +390,7 @@ public sealed partial class Interp
         Def(F, "pos tell", (it, self, a, b) => (long)FH(self).Pos);
         Def(F, "rewind", (it, self, a, b) => { FH(self).Pos = 0; return 0L; });
         Def(F, "eof? eof", (it, self, a, b) => FH(self).Pos >= FH(self).Buffer.Length);
-        Def(F, "each_line", (it, self, a, b) => { foreach (var l in Lines(FH(self).Buffer.ToString())) it.Y1(b, S(l)); return self; });
+        Def(F, "each_line each", (it, self, a, b) => { foreach (var l in Lines(FH(self).Buffer.ToString())) it.Y1(b, S(l)); return self; });
         Def(F, "readlines", (it, self, a, b) => new RArray(Lines(FH(self).Buffer.ToString()).Select(l => (object)S(l))));
         Def(F, "path to_path", (it, self, a, b) => S(FH(self).Path));
         Def(F, "close", (it, self, a, b) =>
@@ -583,6 +588,23 @@ public sealed partial class Interp
         return DecodeUtf8(span).Replace("\r\n", "\n");
     }
 
+    // IO.binread(name, length = nil, offset = 0): photocraft-cli's test checks (testpath/"test.png").binread(4).
+    static object BinRead(Interp it, string path, object[] a)
+    {
+        var bytes = Win32Process.ReadAllShared(path);
+        long offset = a.Length > 1 && a[1] != null ? it.Int(a[1]) : 0;
+        if (offset < 0) throw it.Error(it.ArgumentError, $"negative offset {offset} given");
+        if (a.Length > 0 && a[0] != null)
+        {
+            var length = it.Int(a[0]);
+            if (length < 0) throw it.Error(it.ArgumentError, $"negative length {length} given");
+            if (offset >= bytes.Length && length > 0) return null;
+            bytes = bytes.AsSpan((int)Math.Min(offset, bytes.Length), (int)Math.Min(length, Math.Max(0, bytes.Length - offset))).ToArray();
+        }
+        else bytes = bytes.AsSpan((int)Math.Min(offset, bytes.Length)).ToArray();
+        return new RString(Encoding.Latin1.GetString(bytes)) { Binary = true };
+    }
+
     public static string DecodeUtf8(ReadOnlySpan<byte> bytes)
     {
         var sb = new StringBuilder(bytes.Length);
@@ -724,6 +746,15 @@ public sealed partial class Interp
         var dir = Path.GetDirectoryName(link);
         if (dir != null) Directory.CreateDirectory(dir);
         var resolved = Path.IsPathRooted(target) ? target : Path.Combine(dir ?? Cwd, target);
+        // A link to a built executable named without its .exe (kubectx: ln_s bin/"kubectx", bin/"kubectl-ctx") points
+        // at the .exe and carries the suffix too, as install_symlink's do, or it dangles and Windows can't run it.
+        if (!File.Exists(resolved) && !Directory.Exists(resolved) && !IsSymlink(resolved) && File.Exists(resolved + ".exe"))
+        {
+            target += ".exe";
+            resolved += ".exe";
+            if (!Path.HasExtension(link)) link += ".exe";
+            if (File.Exists(link) || IsSymlink(link)) File.Delete(link);
+        }
         if (Directory.Exists(resolved)) Directory.CreateSymbolicLink(link, target);
         else File.CreateSymbolicLink(link, target);
     }

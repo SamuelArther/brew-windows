@@ -12,6 +12,9 @@ param(
 )
 $scriptStarted = Get-Date
 $ErrorActionPreference = 'Stop'
+# brew test-bot's environment on GitHub Actions: formula tests skip what CI machines can't do
+# (`return if ENV["HOMEBREW_GITHUB_ACTIONS"]`).
+if ($env:GITHUB_ACTIONS -eq 'true') { $env:HOMEBREW_GITHUB_ACTIONS = '1' }
 $Brew = (Resolve-Path $Brew).Path
 New-Item -ItemType Directory -Force $Out | Out-Null
 $Out = (Resolve-Path $Out).Path

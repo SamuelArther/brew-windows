@@ -1,0 +1,16 @@
+--- a/tap/homebrew-core/Formula/z/zbctl.rb
++++ b/tap/homebrew-core/Formula/z/zbctl.rb
+@@ -20,10 +20,12 @@
+ 
+   test do
+     # Check status for a nonexistent cluster
++    # (Windows words a refused connection "No connection could be made because the target machine actively refused it".)
+     status_error_message =
+       "Error: rpc error: code = " \
+       "Unavailable desc = connection error: " \
+-      "desc = \"transport: Error while dialing: dial tcp 127.0.0.1:26500: connect: connection refused\""
++      "desc = \"transport: Error while dialing: dial tcp 127.0.0.1:26500: " \
++      "#{OS.windows? ? "connectex: No connection could be made" : "connect: connection refused"}"
+     output = shell_output("#{bin}/zbctl status 2>&1", 1)
+     assert_match status_error_message, output
+ 

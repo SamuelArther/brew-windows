@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/p/pulsarctl.rb
++++ b/tap/homebrew-core/Formula/p/pulsarctl.rb
+@@ -41,6 +41,7 @@
+ 
+   test do
+     assert_match version.to_s, shell_output("#{bin}/pulsarctl --version")
+-    assert_match "connection refused", shell_output("#{bin}/pulsarctl clusters list 2>&1", 1)
++    # Windows words a refused connection "No connection could be made because the target machine actively refused it".
++    assert_match OS.windows? ? "actively refused it" : "connection refused", shell_output("#{bin}/pulsarctl clusters list 2>&1", 1)
+   end
+ end
