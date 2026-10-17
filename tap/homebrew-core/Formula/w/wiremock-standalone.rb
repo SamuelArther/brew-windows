@@ -1,0 +1,40 @@
+class WiremockStandalone < Formula
+  desc "Simulator for HTTP-based APIs"
+  homepage "https://wiremock.org/docs/running-standalone/"
+  url "https://search.maven.org/remotecontent?filepath=org/wiremock/wiremock-standalone/3.13.2/wiremock-standalone-3.13.2.jar"
+  sha256 "d097b19bd483c5038479b13a5c71e9faf8f2f5106584f0c120a7770ab0bdb367"
+  license "Apache-2.0"
+
+  livecheck do
+    url "https://search.maven.org/remotecontent?filepath=org/wiremock/wiremock-standalone/maven-metadata.xml"
+    regex(%r{<version>v?(\d+(?:\.\d+)+)</version>}i)
+  end
+
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "3593f7153e98818721539c3f8365f10cecc0119e0c9c3fcc0913f6dc6d0a2b6b"
+  end
+
+  depends_on "openjdk"
+
+  allow_network_access! :test
+
+  def install
+    libexec.install "wiremock-standalone-#{version}.jar"
+    bin.write_jar_script libexec/"wiremock-standalone-#{version}.jar", "wiremock"
+  end
+
+  test do
+    port = free_port
+
+    wiremock = spawn "#{bin}/wiremock", "-port", port.to_s
+
+    loop do
+      Utils.popen_read("curl", "-s", "http://localhost:#{port}/__admin/", "-X", "GET")
+      break if $CHILD_STATUS.exitstatus.zero?
+    end
+
+    system "curl", "-s", "http://localhost:#{port}/__admin/shutdown", "-X", "POST"
+
+    Process.wait(wiremock)
+  end
+end

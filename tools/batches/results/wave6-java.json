@@ -1,0 +1,1092 @@
+[
+  {
+    "name": "abcl",
+    "status": "build",
+    "seconds": 45
+  },
+  {
+    "name": "activemq",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "alloy-analyzer",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "allure",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "amy",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "apache-geode",
+    "status": "test",
+    "seconds": 15
+  },
+  {
+    "name": "apache-opennlp",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "apache-polaris",
+    "status": "build",
+    "seconds": 43
+  },
+  {
+    "name": "apache-pulsar",
+    "status": "build",
+    "seconds": 368
+  },
+  {
+    "name": "apgdiff",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "apktool",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "arcadedb",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "asciidoctorj",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "aspectj",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "astra",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "async-profiler",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "avro-tools",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "ballerina",
+    "status": "test",
+    "seconds": 28
+  },
+  {
+    "name": "basex",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "batik",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "bbtools",
+    "status": "build",
+    "seconds": 83
+  },
+  {
+    "name": "beagle",
+    "status": "build",
+    "seconds": 67
+  },
+  {
+    "name": "bee",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "bfg",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "bnd",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "boot-clj",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "briss",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "bundletool",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "byteman",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "calabash",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "carrot2",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "cassandra-reaper",
+    "status": "test",
+    "seconds": 50
+  },
+  {
+    "name": "cfr-decompiler",
+    "status": "ok",
+    "seconds": 167
+  },
+  {
+    "name": "checkstyle",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "civl",
+    "status": "test",
+    "seconds": 29
+  },
+  {
+    "name": "clojure",
+    "status": "test",
+    "seconds": 33
+  },
+  {
+    "name": "clojure-lsp",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "clojurescript",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "closure-compiler",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "coursier",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "cqlkit",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "crip",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "cromwell",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "csound",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "dafny",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "davmail",
+    "status": "test",
+    "seconds": 14
+  },
+  {
+    "name": "dependency-check",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "dex2jar",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "dita-ot",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "ditaa",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "djl-serving",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "druid",
+    "status": "build",
+    "seconds": 33
+  },
+  {
+    "name": "duck",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "elasticmq",
+    "status": "test",
+    "seconds": 22
+  },
+  {
+    "name": "epubcheck",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "excel-compare",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "fabric-installer",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "fantom",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "fastqc",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "fernflower",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "fgbio",
+    "status": "test",
+    "seconds": 22
+  },
+  {
+    "name": "flank",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "flix",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "flyway",
+    "status": "test",
+    "seconds": 15
+  },
+  {
+    "name": "fmpp",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "fop",
+    "status": "test",
+    "seconds": 39
+  },
+  {
+    "name": "frege",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "fuseki",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "galen",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "gcviewer",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "gitbucket",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "google-java-format",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "gosu",
+    "status": "ok",
+    "seconds": 462
+  },
+  {
+    "name": "groovysdk",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "gwt",
+    "status": "test",
+    "seconds": 19
+  },
+  {
+    "name": "h2",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "hapi-fhir-cli",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "helidon",
+    "status": "ok",
+    "seconds": 130
+  },
+  {
+    "name": "hexgui",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "htmlcleaner",
+    "status": "build",
+    "seconds": 64
+  },
+  {
+    "name": "htmlcompressor",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "i2p",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "igv",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "ipopt",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "ivy",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "jadx",
+    "status": "build",
+    "seconds": 154
+  },
+  {
+    "name": "jasmin",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "javacc",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "jbake",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "jbang",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "jboss-forge",
+    "status": "test",
+    "seconds": 7
+  },
+  {
+    "name": "jdnssec-tools",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "jena",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "jetty",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "jflex",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "jing-trang",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "jmxterm",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "jolie",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "jpdfbookmarks",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "jreleaser",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "jruby",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "jsign",
+    "status": "build",
+    "seconds": 61
+  },
+  {
+    "name": "jslint4java",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "jsonschema2pojo",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "jsvc",
+    "status": "build",
+    "seconds": 87
+  },
+  {
+    "name": "jython",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "kafka",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "kaitai-struct-compiler",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "kawa",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "kotlin-language-server",
+    "status": "test",
+    "seconds": 198
+  },
+  {
+    "name": "ktfmt",
+    "status": "test",
+    "seconds": 144
+  },
+  {
+    "name": "ktlint",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "kumo",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "languagetool",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "lcm",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "leakcanary-shark",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "leiningen",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "libphonenumber",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "libreadline-java",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "liquibase",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "mallet",
+    "status": "test",
+    "seconds": 13
+  },
+  {
+    "name": "mariadb@10.11",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "mariadb@11.4",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "mariadb@11.8",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "mariadb@12.3",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "maxwell",
+    "status": "test",
+    "seconds": 26
+  },
+  {
+    "name": "mercury",
+    "status": "build",
+    "seconds": 82
+  },
+  {
+    "name": "metabase",
+    "status": "test",
+    "seconds": 22
+  },
+  {
+    "name": "micronaut",
+    "status": "test",
+    "seconds": 251
+  },
+  {
+    "name": "mill",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "mockserver",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "moco",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "morphe",
+    "status": "test",
+    "seconds": 320
+  },
+  {
+    "name": "mvnvm",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "nco",
+    "status": "build",
+    "seconds": 111
+  },
+  {
+    "name": "nessie",
+    "status": "test",
+    "seconds": 802
+  },
+  {
+    "name": "nextflow",
+    "status": "test",
+    "seconds": 215
+  },
+  {
+    "name": "nifi-registry",
+    "status": "test",
+    "seconds": 16
+  },
+  {
+    "name": "octave",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "openapi-diff",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "openapi-generator",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "openfasttrace",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "openliberty-jakartaee8",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "openliberty-jakartaee9",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "openliberty-microprofile4",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "openliberty-webprofile8",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "openliberty-webprofile9",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "orc-tools",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "orientdb",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "osmosis",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "overarch",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "pacmc",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "parquet-cli",
+    "status": "ok",
+    "seconds": 114
+  },
+  {
+    "name": "pdftk-java",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "picard-tools",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "pkl",
+    "status": "ok",
+    "seconds": 358
+  },
+  {
+    "name": "pkl-lsp",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "planetiler",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "plantuml",
+    "status": "test",
+    "seconds": 8
+  },
+  {
+    "name": "pmd",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "prog8",
+    "status": "test",
+    "seconds": 180
+  },
+  {
+    "name": "proguard",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "protoc-gen-grpc-java",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "questdb",
+    "status": "test",
+    "seconds": 24
+  },
+  {
+    "name": "quilt-installer",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "riemann",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "ringojs",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "savana",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "saxon",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "scala@2.12",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "scala@2.13",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "scala@3.3",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "scalariform",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "scalastyle",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "scm-manager",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "sdedit",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "selenium-server",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "sjk",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "skinny",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "skip",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "sleuthkit",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "sonar-scanner",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "spotbugs",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "sqlancer",
+    "status": "ok",
+    "seconds": 148
+  },
+  {
+    "name": "stanford-corenlp",
+    "status": "test",
+    "seconds": 231
+  },
+  {
+    "name": "stanford-ner",
+    "status": "test",
+    "seconds": 71
+  },
+  {
+    "name": "stanford-parser",
+    "status": "test",
+    "seconds": 84
+  },
+  {
+    "name": "storm",
+    "status": "test",
+    "seconds": 24
+  },
+  {
+    "name": "structurizr",
+    "status": "build",
+    "seconds": 76
+  },
+  {
+    "name": "surelog",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "swagger-codegen",
+    "status": "ok",
+    "seconds": 198
+  },
+  {
+    "name": "swagger-codegen@2",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "tailor",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "teku",
+    "status": "build",
+    "seconds": 221
+  },
+  {
+    "name": "textidote",
+    "status": "build",
+    "seconds": 31
+  },
+  {
+    "name": "tika",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "tomcat",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "tomcat-native",
+    "status": "build",
+    "seconds": 39
+  },
+  {
+    "name": "tomcat@10",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "tomcat@9",
+    "status": "test",
+    "seconds": 10
+  },
+  {
+    "name": "tomee-plume",
+    "status": "test",
+    "seconds": 19
+  },
+  {
+    "name": "tomee-plus",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "tomee-webprofile",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "tsduck",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "umlet",
+    "status": "test",
+    "seconds": 55
+  },
+  {
+    "name": "umple",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "vault-cli",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "verapdf",
+    "status": "build",
+    "seconds": 232
+  },
+  {
+    "name": "vineflower",
+    "status": "ok",
+    "seconds": 190
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "wartremover",
+    "status": "ok",
+    "seconds": 110
+  },
+  {
+    "name": "wildfly-as",
+    "status": "build",
+    "seconds": 128
+  },
+  {
+    "name": "wiremock-standalone",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "xmlsectool",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "yuicompressor",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "zipkin",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "zookeeper",
+    "status": "build",
+    "seconds": 38
+  }
+]
