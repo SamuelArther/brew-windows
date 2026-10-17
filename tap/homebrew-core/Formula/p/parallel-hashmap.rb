@@ -16,6 +16,7 @@ class ParallelHashmap < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/parallel-hashmap-2.0.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "6e00a325658ce07b55246055e19273a327f45d769191dd6f70d32c2a54620250"
   end
 

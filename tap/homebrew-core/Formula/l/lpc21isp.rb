@@ -11,6 +11,7 @@ class Lpc21isp < Formula
   deny_network_access!
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lpc21isp-1.97"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "82f6badd95e469a54c308338d8b6308bedaaa3e6f2ae29adc262f14adbe8683a"
   end
 

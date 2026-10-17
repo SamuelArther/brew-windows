@@ -11,6 +11,7 @@ class Swaks < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/swaks-20240103.0"
     sha256 cellar: :any, x86_64_windows: "5a6fdc31c21661864f9e32c97a311ba53e6b839417cc77ae9a69289ac7ca416d"
   end
 

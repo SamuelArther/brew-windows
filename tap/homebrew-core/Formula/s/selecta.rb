@@ -6,6 +6,7 @@ class Selecta < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/selecta-0.0.8"
     sha256 cellar: :any, x86_64_windows: "8f13bb26e0acc6094b917ec10cd9e6f9784d25435a34c1d8e2d21eac3a568771"
   end
 

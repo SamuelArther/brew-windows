@@ -7,6 +7,7 @@ class Trimal < Formula
   head "https://github.com/inab/trimal.git", branch: "trimAl"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/trimal-1.5.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "ce248965391f7a9d7f89e95bdacdd06fdb9f8b4dcf511e1b9b6e8bf5e23aeb51"
   end
 

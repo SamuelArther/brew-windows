@@ -12,6 +12,7 @@ class NetsurfBuildsystem < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/netsurf-buildsystem-1.10"
     sha256 cellar: :any, x86_64_windows: "44eaf52b8bfe8cbafebfede12a69117822633a1eaacc35dca983a09b3d55f93e"
   end
 

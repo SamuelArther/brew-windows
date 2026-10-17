@@ -12,6 +12,7 @@ class Qbe < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/qbe-1.3"
     sha256 cellar: :any, x86_64_windows: "12ff5d87c95f41871b7112c19bc18763bea91360042b3792c7710a62c26aa2ad"
   end
 

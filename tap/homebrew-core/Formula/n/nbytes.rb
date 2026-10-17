@@ -6,6 +6,7 @@ class Nbytes < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nbytes-0.1.4"
     sha256 cellar: :any, x86_64_windows: "4ccb7a8055e6c53adcabf20e7e4b0d5742c008cd360ef96f49429cfdafe8fd25"
   end
 

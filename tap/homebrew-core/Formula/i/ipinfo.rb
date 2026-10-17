@@ -13,6 +13,7 @@ class Ipinfo < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ipinfo-1.2"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "161a0a60e01fc4fcc95d21f8b7269c247297e751d9f1235f03d2d32d71e4bf33"
   end
 

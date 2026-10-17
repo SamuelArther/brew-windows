@@ -13,6 +13,7 @@ class Nanomsg < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nanomsg-1.3.0"
     sha256 cellar: :any, x86_64_windows: "c34d8b2694f41e9e3b47c1357d640b3f45249b0de645daee7c094df9ea1dd640"
   end
 

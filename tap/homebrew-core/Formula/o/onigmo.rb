@@ -12,6 +12,7 @@ class Onigmo < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/onigmo-6.2.0"
     sha256 cellar: :any, x86_64_windows: "79b05b619d6f1d08e03e36e6ff58db68387afbfa61e036e6e50f44fa9e45ba33"
   end
 

@@ -11,6 +11,7 @@ class Markdown < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/markdown-1.0.1"
     sha256 cellar: :any, x86_64_windows: "3f18717c3a3f74ac3d975083a30adcfdcffa5839076845a13d26977f5ba6ec3d"
   end
 

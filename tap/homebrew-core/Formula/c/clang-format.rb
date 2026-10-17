@@ -15,6 +15,7 @@ class ClangFormat < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clang-format-23.1.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "11d536849f5bbffadccd63cf860e44b1743fdc3e2a28b9b59bea9aed58666bb3"
   end
 

@@ -7,6 +7,7 @@ class Sub2srt < Formula
   head "https://github.com/robelix/sub2srt.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sub2srt-0.5.5"
     sha256 cellar: :any, x86_64_windows: "ecdd31df96c46091a174b14d5f83d37cef2521968c36c69d70d56bc6de78cc12"
   end
 

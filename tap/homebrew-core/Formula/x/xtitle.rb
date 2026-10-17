@@ -11,6 +11,7 @@ class Xtitle < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xtitle-1.0.4"
     sha256 cellar: :any, x86_64_windows: "da06410dfb24cdbae3d59e92f6808ba825863f89cec86492d5700d7f1da7ea46"
   end
 

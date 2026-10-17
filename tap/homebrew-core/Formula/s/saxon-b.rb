@@ -19,6 +19,7 @@ class SaxonB < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/saxon-b-9.1.0.8"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "c8092fb6007de70108ed615f1a28fe3d1c7c2a3cb2f008b47cf68db8f3b9667e"
   end
 

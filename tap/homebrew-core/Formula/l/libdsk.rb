@@ -11,6 +11,7 @@ class Libdsk < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdsk-1.4.2"
     sha256 cellar: :any, x86_64_windows: "8864a279266c3974c20863330d5548e05988aab13149bdd6640ba8ae26ca734f"
   end
 

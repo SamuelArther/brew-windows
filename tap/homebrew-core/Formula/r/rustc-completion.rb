@@ -18,6 +18,7 @@ class RustcCompletion < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rustc-completion-0.12.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "6975696a5fb9b85fd7c2f663874062164420055774a2f378896892b42c319fb8"
   end
 

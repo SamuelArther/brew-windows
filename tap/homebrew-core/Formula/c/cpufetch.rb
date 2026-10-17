@@ -11,6 +11,7 @@ class Cpufetch < Formula
   patch :DATA
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cpufetch-1.07"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "2e1400ccf8ec42dfb7a459d6b48435e020ea5857c7b04faff200c02cda661018"
   end
 

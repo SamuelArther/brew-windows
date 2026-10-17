@@ -12,6 +12,7 @@ class Z80dasm < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/z80dasm-1.2.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "be263612439f8371147693ac2a3a3b53a72af1af54b392509f124a06cb474d5e"
   end
 

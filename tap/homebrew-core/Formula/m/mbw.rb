@@ -6,6 +6,7 @@ class Mbw < Formula
   license "GPL-3.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mbw-2.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "3bf9ecdc95242632c4e9c378f8f401e38091e33aecfa8667fa423bedea591fad"
   end
 

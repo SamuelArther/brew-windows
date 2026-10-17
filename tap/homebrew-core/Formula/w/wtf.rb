@@ -11,6 +11,7 @@ class Wtf < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/wtf-20230906"
     sha256 cellar: :any, x86_64_windows: "c4f32ecb2a098587459acbb0397d05502685625fe53d2c90dadd0b936272f0b0"
   end
 

@@ -11,6 +11,7 @@ class Nkf < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nkf-2.1.5"
     sha256 cellar: :any, x86_64_windows: "bc2c6cd40a25950b2434e127703183f091c591c6a26fcbcb1ab2bebb767a1f29"
   end
 

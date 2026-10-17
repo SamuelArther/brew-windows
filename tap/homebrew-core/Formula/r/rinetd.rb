@@ -15,6 +15,7 @@ class Rinetd < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rinetd-0.73_1"
     sha256 cellar: :any, x86_64_windows: "2b001d7fcf0075492fc018c697c0543c47c7a20bf09f012021794ac4b9a0bc04"
   end
 

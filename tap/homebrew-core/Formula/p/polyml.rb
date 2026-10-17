@@ -7,6 +7,7 @@ class Polyml < Formula
   head "https://github.com/polyml/polyml.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/polyml-5.9.2"
     sha256 cellar: :any, x86_64_windows: "ff425ffb225e3c9d31fe256aca04d0f8e3b9d94d575a240a9f857144e8786a2c"
   end
 

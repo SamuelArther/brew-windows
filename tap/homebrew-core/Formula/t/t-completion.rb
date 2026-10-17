@@ -7,6 +7,7 @@ class TCompletion < Formula
   head "https://github.com/sferik/x-cli.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/t-completion-5.0.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "246363f885d8f38c151d143ce6ec703ed1322d503adfce6ae4407e164a86ef59"
   end
 

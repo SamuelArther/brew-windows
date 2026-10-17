@@ -12,6 +12,7 @@ class Mysqltuner < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mysqltuner-2.9.2"
     sha256 cellar: :any, x86_64_windows: "8e96f44c63a1ed6b8464c76456564fa619cd1c4443b7cae577fba7989f807a82"
   end
 

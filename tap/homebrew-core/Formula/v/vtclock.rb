@@ -13,6 +13,7 @@ class Vtclock < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/vtclock-0.99.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "ff3c8b94f2dd18e2feceff878496607ec8bd2c779c01251035271d90e965c295"
   end
 

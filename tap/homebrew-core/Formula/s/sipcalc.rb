@@ -11,6 +11,7 @@ class Sipcalc < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sipcalc-1.1.6"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "3ae8398c4596847b80142e7739cb8f5f0d23d7099b3d1b380386b71d1df1e862"
   end
 

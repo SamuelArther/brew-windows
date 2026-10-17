@@ -6,6 +6,7 @@ class Crunch < Formula
   license "GPL-2.0-only"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/crunch-3.6"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "dce401fd1651d08708cd825e40af13bf3a377a2c82934438b33d4d08b2d1707d"
   end
 

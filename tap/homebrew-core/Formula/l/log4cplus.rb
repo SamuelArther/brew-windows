@@ -12,6 +12,7 @@ class Log4cplus < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/log4cplus-2.2.0.1"
     sha256 cellar: :any, x86_64_windows: "bb030187f726bfab09d4271cc340b10777ae830142b0ee52d4a56bc5cdb313b2"
   end
 

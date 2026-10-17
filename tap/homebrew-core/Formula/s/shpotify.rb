@@ -7,6 +7,7 @@ class Shpotify < Formula
   head "https://github.com/hnarayanan/shpotify.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/shpotify-2.1"
     sha256 cellar: :any, x86_64_windows: "0353ed446ba32f9943376b8520a8688b22b9be708c08ac2fdbf1a2d84304a058"
   end
 

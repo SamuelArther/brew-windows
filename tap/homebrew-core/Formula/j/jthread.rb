@@ -11,6 +11,7 @@ class Jthread < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/jthread-1.3.3"
     sha256 cellar: :any, x86_64_windows: "817f3d2ec4355986f90ab1385e43dd34a829a005fc0460a4da93c04c1304fdc6"
   end
 

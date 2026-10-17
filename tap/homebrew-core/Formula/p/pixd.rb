@@ -6,6 +6,7 @@ class Pixd < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pixd-1.0.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "f95104d01e27e54191494fdf69f4f6a2ac901b2bf935b3afa34d77fe4adb63e9"
   end
 

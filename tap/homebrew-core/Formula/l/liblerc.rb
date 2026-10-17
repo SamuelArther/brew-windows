@@ -12,6 +12,7 @@ class Liblerc < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/liblerc-4.2.0"
     sha256 cellar: :any, x86_64_windows: "81f577b56262eb5e405ba983bc55ae123c64707a0bc136b964973ff9c22408bd"
   end
 

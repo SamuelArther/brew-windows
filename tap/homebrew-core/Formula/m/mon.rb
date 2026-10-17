@@ -6,6 +6,7 @@ class Mon < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mon-1.2.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "875af5fe8d9c1300607c5a6229f9e7f6f948f73122df5b27bdab63c1e3c50c20"
   end
 

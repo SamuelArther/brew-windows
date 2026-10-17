@@ -14,6 +14,7 @@ class Ltl2ba < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ltl2ba-1.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "8ae5ce211d9cb142835b5457a7c42522b2fadda7cd1d49c5cf883690338e28c2"
   end
 

@@ -12,6 +12,7 @@ class Unyaffs < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/unyaffs-0.9.7_1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "0c8e775cc5a7dd816e7390b7fcfb492ef7d733c35a07c61e13b54729e1551e4a"
   end
 

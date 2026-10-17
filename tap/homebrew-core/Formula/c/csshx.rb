@@ -9,6 +9,7 @@ class Csshx < Formula
   head "https://github.com/brockgr/csshx.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/csshx-0.74"
     sha256 cellar: :any, x86_64_windows: "8edb3a7c4c28bdbfd7b3a1c12ac26015890b42f2dcd8be6aaf88d417eba8dd20"
   end
 

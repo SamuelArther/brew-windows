@@ -11,6 +11,7 @@ class Pdftohtml < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pdftohtml-0.40a"
     sha256 cellar: :any, x86_64_windows: "5fb427598b179ce8fdd4bd6f45a89f0ecce8ed8dc6234c9584e27ae2b2bb5fd5"
   end
 

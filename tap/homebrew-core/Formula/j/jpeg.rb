@@ -12,6 +12,7 @@ class Jpeg < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/jpeg-10"
     sha256 cellar: :any, x86_64_windows: "2f5cb7f1701c7f30f603c755dd121dd0c409bcfc40184a683f58fb141386802d"
   end
 

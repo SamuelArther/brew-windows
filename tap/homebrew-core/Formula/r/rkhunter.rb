@@ -6,6 +6,7 @@ class Rkhunter < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rkhunter-1.4.6"
     sha256 cellar: :any, x86_64_windows: "468842d6a2b1de399db9f0bac9af0218b3c2db4a877843f04bc98c358d2a29bb"
   end
 

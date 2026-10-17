@@ -6,6 +6,7 @@ class Sec < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sec-2.9.4"
     sha256 cellar: :any, x86_64_windows: "5d5f67d0bc6e85efe3b4a47e04b79614ab2599eeb7ce7c9179f2ef9237bc45d3"
   end
 

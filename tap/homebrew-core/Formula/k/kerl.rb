@@ -7,6 +7,7 @@ class Kerl < Formula
   head "https://github.com/kerl/kerl.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kerl-4.4.0"
     sha256 cellar: :any, x86_64_windows: "51a1b8784c7d145dfe47a07550991aba237eee9a09b41415c29656f5ac25656a"
   end
 

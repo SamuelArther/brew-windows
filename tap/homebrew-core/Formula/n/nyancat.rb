@@ -14,6 +14,7 @@ class Nyancat < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nyancat-1.5.2"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "ce52a282c16f3958f6a120d86c805e838327c7cea9fb2b27245f4be6726873fc"
   end
 

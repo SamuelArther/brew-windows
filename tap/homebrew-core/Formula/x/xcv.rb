@@ -7,6 +7,7 @@ class Xcv < Formula
   head "https://github.com/busterc/xcv.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xcv-1.0.1"
     sha256 cellar: :any, x86_64_windows: "11eeca37f3674c0454e6d6e360acef691df01279c29b3e2d0add9c2e70d1a0e0"
   end
 

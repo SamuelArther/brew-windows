@@ -7,6 +7,7 @@ class N < Formula
   head "https://github.com/tj/n.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/n-10.2.0"
     sha256 cellar: :any, x86_64_windows: "3671a1b555e2e1f475bba00dba7560a9b6e6b91fed749b28cab73504711a8154"
   end
 

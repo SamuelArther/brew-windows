@@ -11,6 +11,7 @@ class Stm32flash < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/stm32flash-0.7"
     sha256 cellar: :any, x86_64_windows: "c24e9b357ef4c47f2d6299c379efa7b2af42e5fdab91651e3eac24d27f9c632c"
   end
 

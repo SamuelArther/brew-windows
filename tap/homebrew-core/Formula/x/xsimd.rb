@@ -7,6 +7,7 @@ class Xsimd < Formula
   compatibility_version 1
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xsimd-14.3.0"
     sha256 cellar: :any, x86_64_windows: "ee46195c187c1f02e51ced6828ecaee7c241deb102484e2fc568710dc249af14"
   end
 

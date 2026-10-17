@@ -6,6 +6,7 @@ class Readerwriterqueue < Formula
   license all_of: ["BSD-2-Clause", "Zlib"]
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/readerwriterqueue-1.0.7"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "3615957ae66133db018ca7ad1ae428217056b35b5a445ebec07a96382a64cfae"
   end
 

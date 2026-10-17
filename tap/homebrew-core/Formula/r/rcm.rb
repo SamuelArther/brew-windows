@@ -13,6 +13,7 @@ class Rcm < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rcm-1.3.6"
     sha256 cellar: :any, x86_64_windows: "2fd6e3917995bf2d23b472db45ff6da89c33f88391a892a93716477be33765b1"
   end
 

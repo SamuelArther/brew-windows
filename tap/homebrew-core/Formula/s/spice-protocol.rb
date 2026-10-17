@@ -11,6 +11,7 @@ class SpiceProtocol < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/spice-protocol-0.14.5"
     sha256 cellar: :any, x86_64_windows: "3e7c8972deed3312c0b706e092fd62cf4dd2d90087a091f6ba69da433382ada4"
   end
 

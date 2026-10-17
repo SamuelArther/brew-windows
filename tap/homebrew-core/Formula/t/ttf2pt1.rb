@@ -13,6 +13,7 @@ class Ttf2pt1 < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ttf2pt1-3.4.4"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "04bac45e9b8bd5bb39a7288c316d4551ddf74ff0e8e5dcb2d335032dc208a2d1"
   end
 

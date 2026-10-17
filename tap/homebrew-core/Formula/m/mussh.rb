@@ -6,6 +6,7 @@ class Mussh < Formula
   license "GPL-1.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mussh-1.0"
     sha256 cellar: :any, x86_64_windows: "fe0760f0d5b9c30608de04a0633c1ad01da6adb3c38a0d9f8c511f98710fa6bd"
   end
 

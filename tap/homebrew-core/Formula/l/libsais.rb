@@ -7,6 +7,7 @@ class Libsais < Formula
   head "https://github.com/IlyaGrebnov/libsais.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libsais-2.10.4"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "e14e77b02643b2ad0eaa19a3efa19be03154d1695a1bbabe50df34f338cb270b"
   end
 

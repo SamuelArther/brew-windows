@@ -6,11 +6,12 @@ class OpenclHeaders < Formula
   license "Apache-2.0"
   head "https://github.com/KhronosGroup/OpenCL-Headers.git", branch: "main"
 
+  keg_only :shadowed_by_macos, "macOS provides OpenCL.framework"
+
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/opencl-headers-2026.05.29"
     sha256 cellar: :any, x86_64_windows: "a0857c00d0257cdd7e74b3520fc0ceabbf91fc321e287e7d93a2161b33dfa431"
   end
-
-  keg_only :shadowed_by_macos, "macOS provides OpenCL.framework"
 
   depends_on "cmake" => :build
 

@@ -19,6 +19,7 @@ class Speedread < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/speedread-1.0"
     sha256 cellar: :any, x86_64_windows: "f620bdf500979c13f448aaac2100eb79be020af04fd5d0ac83c7fbd226c0a3ce"
   end
 

@@ -16,6 +16,7 @@ class Cryptopp < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cryptopp-8.9.0"
     sha256 cellar: :any, x86_64_windows: "cae1b34cf0de51575247ad2f541264553a546239c1fcc70c128201eeee80066b"
   end
 

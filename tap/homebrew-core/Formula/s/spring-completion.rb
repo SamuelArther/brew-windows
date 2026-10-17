@@ -7,6 +7,7 @@ class SpringCompletion < Formula
   head "https://github.com/jacaetevha/spring_bash_completion.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/spring-completion-0.0.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "2355908e4973ac2536a39bf69e49a8dd1e75d1ad318340d401426750afac5293"
   end
 

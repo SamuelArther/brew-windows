@@ -7,6 +7,7 @@ class KitchenCompletion < Formula
   head "https://github.com/MarkBorcherding/test-kitchen-bash-completion.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kitchen-completion-1.0.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "37e200065905b4bef71a4e59b42eafc6c61444de93119997633f5f20b21dcffa"
   end
 

@@ -11,6 +11,7 @@ class Libmetalink < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libmetalink-0.1.3"
     sha256 cellar: :any, x86_64_windows: "d4337ce60f09a163a802fb31202a998b67f5bd729949555ca549df858e9d89f3"
   end
 

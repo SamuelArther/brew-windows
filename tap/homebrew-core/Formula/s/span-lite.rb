@@ -7,6 +7,7 @@ class SpanLite < Formula
   head "https://github.com/nonstd-lite/span-lite.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/span-lite-0.11.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "a9a3a45dc9f813fb841f4c5361a313a6edbae64e67d63cebf4d243fc21d673a4"
   end
 

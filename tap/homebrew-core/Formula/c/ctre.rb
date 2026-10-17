@@ -11,6 +11,7 @@ class Ctre < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ctre-3.11.0"
     sha256 cellar: :any, x86_64_windows: "77d81b38275b3c46aab2a757665c92f4d49e5c9725601c4450475a2473758e95"
   end
 

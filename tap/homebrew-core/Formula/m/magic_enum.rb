@@ -6,6 +6,7 @@ class MagicEnum < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/magic_enum-0.9.8"
     sha256 cellar: :any, x86_64_windows: "3453310a0a5084a242963b75b6b2de616350e52850db129d3628e135a323e5e9"
   end
 

@@ -17,6 +17,7 @@ class Itex2mml < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/itex2mml-1.6.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "3e00f914c48d867177e99b1deb8d32e06c6051bf78904acf8f91b6de748db9f5"
   end
 

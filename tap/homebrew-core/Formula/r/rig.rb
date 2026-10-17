@@ -5,15 +5,16 @@ class Rig < Formula
   sha256 "00bfc970d5c038c1e68bc356c6aa6f9a12995914b7d4fda69897622cb5b77ab8"
   license "GPL-2.0-or-later"
 
-  bottle do
-    sha256 cellar: :any, x86_64_windows: "ba8c09782835d094213bbabe6bb82cc1fff39bbf5ecef96f02c8fd2d926996a0"
-  end
-
   conflicts_with "r-rig", because: "both install `rig` binary"
 
   # Fix build failure because of missing #include <cstring> on Linux.
   # Patch submitted to author by email.
   patch :DATA
+
+  bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rig-1.11"
+    sha256 cellar: :any, x86_64_windows: "ba8c09782835d094213bbabe6bb82cc1fff39bbf5ecef96f02c8fd2d926996a0"
+  end
 
   def install
     system "make", "PREFIX=#{prefix}"

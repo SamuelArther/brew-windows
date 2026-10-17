@@ -7,6 +7,7 @@ class Pangene < Formula
   head "https://github.com/lh3/pangene.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pangene-1.1"
     sha256 cellar: :any, x86_64_windows: "6e0c8a41575b24cd64b5271232cf7047d0ffaf2731e9ae4796ab0c6e317b131e"
   end
 

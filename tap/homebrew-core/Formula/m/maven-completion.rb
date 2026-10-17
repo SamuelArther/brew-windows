@@ -7,6 +7,7 @@ class MavenCompletion < Formula
   head "https://github.com/juven/maven-bash-completion.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/maven-completion-20200420"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "c4e258bb2102b1422c89efc05c18b64c2864b3ac5fccb60d3866a9db17de705c"
   end
 

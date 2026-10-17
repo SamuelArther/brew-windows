@@ -6,6 +6,7 @@ class Mp3cat < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mp3cat-0.5"
     sha256 cellar: :any, x86_64_windows: "9f798d83e6bec5fc67a1a943b5c8ff88c9c2ccbf2843c283c196a29a6782e33b"
   end
 

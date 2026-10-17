@@ -13,6 +13,7 @@ class IsoCodes < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/iso-codes-4.20.1"
     sha256 cellar: :any, x86_64_windows: "fc12c129118d74e08c4c6970ab3f915011639341b9479e4a9412dde3a85cf6b5"
   end
 

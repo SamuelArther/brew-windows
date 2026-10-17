@@ -16,6 +16,7 @@ class Safeint < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/safeint-3.0.28a"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "ad3ffc129948b7fb81233949aedb133ed17d0ffcfd6f4d6cabba2fa6b8d5b677"
   end
 

@@ -12,6 +12,7 @@ class Sparse < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sparse-0.6.4"
     sha256 cellar: :any, x86_64_windows: "d2b389c961960201175c22c2e51ad2232454e6f5de4c5b483e5d1a44eafc25b5"
   end
 

@@ -12,6 +12,7 @@ class Mairix < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mairix-0.24"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "9cf174aa306b59a4e795af14ac904a2640b752b0d7df83f40b46fbb16819d9e2"
   end
 

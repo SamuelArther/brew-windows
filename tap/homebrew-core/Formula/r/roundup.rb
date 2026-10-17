@@ -7,6 +7,7 @@ class Roundup < Formula
   head "https://github.com/bmizerany/roundup.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/roundup-0.0.6"
     sha256 cellar: :any, x86_64_windows: "46faf433731bd7692be050e229f228ae7fb5c66ade75f82eb4a7dbec5cc6c67f"
   end
 

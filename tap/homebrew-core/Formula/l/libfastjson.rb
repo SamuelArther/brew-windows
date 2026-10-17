@@ -11,6 +11,7 @@ class Libfastjson < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libfastjson-1.2609.0"
     sha256 cellar: :any, x86_64_windows: "d2855a80bec68a2f1de941f06b9c2e93fdab22d65a973a90315ec7423a7c89e7"
   end
 

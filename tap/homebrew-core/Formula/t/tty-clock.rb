@@ -7,6 +7,7 @@ class TtyClock < Formula
   head "https://github.com/xorg62/tty-clock.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tty-clock-2.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "2a18170b94479b0d0f6b1a722bbc5c12f26d5f58127f318648bd3b280c1a6352"
   end
 

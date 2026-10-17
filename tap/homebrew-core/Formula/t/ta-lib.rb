@@ -6,6 +6,7 @@ class TaLib < Formula
   license "BSD-3-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ta-lib-0.8.1"
     sha256 cellar: :any, x86_64_windows: "83b57708472fb26160c5f0f937f88f5d0ac5b3e8f7d207f49628764126faad1f"
   end
 

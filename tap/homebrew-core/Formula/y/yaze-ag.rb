@@ -11,6 +11,7 @@ class YazeAg < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/yaze-ag-2.51.3"
     sha256 cellar: :any, x86_64_windows: "8f8eda28adbc5c3d2cbf1755a543d35983b8673146e15566d65440d2975dc769"
   end
 

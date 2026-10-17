@@ -22,6 +22,7 @@ class Wordplay < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/wordplay-7.22"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "0b32d196affb8c9f57b5e78366008926ea5b3bebdde7d9fb3b99b7a0d53d8861"
   end
 

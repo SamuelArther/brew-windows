@@ -13,6 +13,7 @@ class Z < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/z-1.12"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "43ea909e35d5bd98a2fe9921a360c2993379ab56a6628aaa1707eb00990f40f5"
   end
 

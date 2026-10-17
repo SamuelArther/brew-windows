@@ -9,6 +9,7 @@ class Lolcode < Formula
   head "https://github.com/justinmeza/lci.git", branch: "future"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lolcode-1.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "cb2856487d504eb35f1ab981c9c3831b4221799ee9932a45d0cba26458f7a542"
   end
 

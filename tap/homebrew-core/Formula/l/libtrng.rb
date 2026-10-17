@@ -12,6 +12,7 @@ class Libtrng < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libtrng-4.28"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "9c812fc863f8390fd98c7088a7cc2901342b493016135c9726b5d9d9e8fde08e"
   end
 

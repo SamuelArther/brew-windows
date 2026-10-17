@@ -8,6 +8,7 @@ class Overdrive < Formula
   head "https://github.com/chbrown/overdrive.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/overdrive-2.4.1_1"
     sha256 cellar: :any, x86_64_windows: "de3ca5fc8167bcc31a19f9a48a760e18ba25819f36267e324f7c42bebd01e3ae"
   end
 

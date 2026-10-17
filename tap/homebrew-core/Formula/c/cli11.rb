@@ -7,6 +7,7 @@ class Cli11 < Formula
   head "https://github.com/CLIUtils/CLI11.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cli11-2.7.2"
     sha256 cellar: :any, x86_64_windows: "a1092b418c790c4a9317d173794d7e91609b2efa767ce9be323ea60bae6cd015"
   end
 

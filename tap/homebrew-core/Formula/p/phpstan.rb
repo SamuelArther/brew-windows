@@ -6,6 +6,7 @@ class Phpstan < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/phpstan-2.3.1"
     sha256 cellar: :any, x86_64_windows: "3824ed7051b6b840ec5fcabcb7b1df3010af9c15ad83ea5c3f4b7ef976ea1c09"
   end
 

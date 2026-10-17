@@ -6,6 +6,7 @@ class Libversion < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libversion-3.0.4"
     sha256 cellar: :any, x86_64_windows: "c9d1cf3373f78649ff735ae4b72060bcf4642e705dd06c74f25f940a0718449a"
   end
 

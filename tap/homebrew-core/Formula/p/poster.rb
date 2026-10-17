@@ -6,6 +6,7 @@ class Poster < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/poster-1.0.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "af1d60c7269b1e7a6a5c64c8d37ea6688579c7bcab32e7ab2bb402dfe86bd2e4"
   end
 

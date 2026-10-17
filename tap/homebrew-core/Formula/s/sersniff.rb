@@ -11,6 +11,7 @@ class Sersniff < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sersniff-0.0.5"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "0baeb4b140a8ad4c6e124f1b418a749dd5adf8fead4f3c5c901bb8eb1af7660f"
   end
 

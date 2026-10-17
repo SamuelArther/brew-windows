@@ -7,6 +7,7 @@ class Psgrep < Formula
   head "https://github.com/jvz/psgrep.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/psgrep-1.0.9"
     sha256 cellar: :any, x86_64_windows: "cf7caf88a67e7fff56571b22c44907341549560ca6a0fe6542014e102cad2360"
   end
 

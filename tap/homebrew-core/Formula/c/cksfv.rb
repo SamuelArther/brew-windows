@@ -11,6 +11,7 @@ class Cksfv < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cksfv-1.3.15"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "2ad248d25180893ba8163921dd633b314e98aca4d68384e65efca33b2ef3e4b4"
   end
 

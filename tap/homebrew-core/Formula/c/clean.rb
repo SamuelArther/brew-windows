@@ -6,6 +6,7 @@ class Clean < Formula
   license :public_domain
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clean-3.4"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "fdc127e2d445cd958f8c84d1bc34ec978527f46a8a3b71e3f5a20caf98db1bf2"
   end
 

@@ -11,6 +11,7 @@ class Liblockfile < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/liblockfile-1.17"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "667f5b93165f3c7e5584b72d486772f8fd646f5eff60a1cef32cb746f7593bfd"
   end
 

@@ -7,6 +7,7 @@ class Croaring < Formula
   head "https://github.com/RoaringBitmap/CRoaring.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/croaring-5.2.4"
     sha256 cellar: :any, x86_64_windows: "615424a6c0bc21bf5e67a1620d5caa847345bde0c3eff12eea1b90125a829909"
   end
 

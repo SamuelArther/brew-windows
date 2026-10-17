@@ -11,6 +11,7 @@ class Podiff < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/podiff-1.4"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "697b1354c97d38d214dbb18e13335e451ade371de30cbdb9ad7b9e05af9c8957"
   end
 

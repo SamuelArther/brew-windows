@@ -6,6 +6,7 @@ class MultiGitStatus < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/multi-git-status-2.3"
     sha256 cellar: :any, x86_64_windows: "cf4e6047fe7989fc87fc04610b64f0092d621deb086419705b1d83a9a1f9a86a"
   end
 

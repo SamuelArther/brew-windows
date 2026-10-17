@@ -7,6 +7,7 @@ class Libscfg < Formula
   head "https://codeberg.org/emersion/libscfg.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libscfg-0.2.0"
     sha256 cellar: :any, x86_64_windows: "2f35c67a7c27cf7c909ed78e4a8111512a8759e64488c0698eaa6950be9bc4ea"
   end
 

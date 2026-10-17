@@ -6,6 +6,7 @@ class Shunit2 < Formula
   license "Apache-2.0"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/shunit2-2.1.8"
     sha256 cellar: :any, x86_64_windows: "17b5c57d27854c4ef93a823b94711c7b12237d03e502cd8e42dc16e937f7cd49"
   end
 

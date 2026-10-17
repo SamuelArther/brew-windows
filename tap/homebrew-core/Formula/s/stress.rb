@@ -6,6 +6,7 @@ class Stress < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/stress-1.0.7"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "1ebf9b0ded499ce10b0b9bf61a40d9fb2270f36a2d1f0ca9a6f60d80671c3ba2"
   end
 

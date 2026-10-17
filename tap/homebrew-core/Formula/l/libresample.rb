@@ -11,6 +11,7 @@ class Libresample < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libresample-0.1.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "cdb660587e6c236e293e12fe460dcea35c1087edf9bbbaf915e2642a7132be1e"
   end
 

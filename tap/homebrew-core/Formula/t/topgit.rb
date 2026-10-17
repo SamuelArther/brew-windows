@@ -8,6 +8,7 @@ class Topgit < Formula
   deny_network_access!
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/topgit-0.19.14"
     sha256 cellar: :any, x86_64_windows: "3116eda482373fa4f131133f38bb179a36f837e25bae9bae720ed30939fb4c96"
   end
 

@@ -12,6 +12,7 @@ class Remind < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/remind-06.03.06"
     sha256 cellar: :any, x86_64_windows: "838e1b0c17cf3ae96dd74dc088cd306dcba8df2e5e90b4b06dd4d91524ccbf71"
   end
 

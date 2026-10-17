@@ -6,6 +6,7 @@ class Yacas < Formula
   license "LGPL-2.1-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/yacas-1.9.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "1b2444127de3adf1962c23665110b0d488333a79993d0bf33a2dc30795ce9cdb"
   end
 

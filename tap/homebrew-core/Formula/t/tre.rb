@@ -6,6 +6,7 @@ class Tre < Formula
   license "BSD-2-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tre-0.9.0"
     sha256 cellar: :any, x86_64_windows: "87c67464159a2e6abf51cbbf72e784ddad5c04f7edecfa277bcf843d98b757ba"
   end
 

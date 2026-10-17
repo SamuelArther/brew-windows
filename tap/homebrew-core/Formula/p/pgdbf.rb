@@ -8,6 +8,7 @@ class Pgdbf < Formula
   deny_network_access!
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pgdbf-0.6.2"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "b3c43505868f72ddf5201ea8373f87c90ce7ce61eb1858d3443165b4bd7fc97a"
   end
 

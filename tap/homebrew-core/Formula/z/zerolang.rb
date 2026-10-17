@@ -12,6 +12,7 @@ class Zerolang < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/zerolang-0.3.4"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "a6b781b3962aa3429fb914da9a10113831d247e635138eac596edaf14bc7d880"
   end
 

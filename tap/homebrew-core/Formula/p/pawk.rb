@@ -8,6 +8,7 @@ class Pawk < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pawk-0.8.1"
     sha256 cellar: :any, x86_64_windows: "221852a7c56c311f674b30c3956eff9dd53abd1ed82b326f28001e3618a58349"
   end
 

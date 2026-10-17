@@ -7,6 +7,7 @@ class Libmxml < Formula
   head "https://github.com/michaelrsweet/mxml.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libmxml-4.0.6"
     sha256 cellar: :any, x86_64_windows: "42b2c0885046526103b37301f95427b6fa0028e6cf3eb1c1d65701c586ab9d6c"
   end
 

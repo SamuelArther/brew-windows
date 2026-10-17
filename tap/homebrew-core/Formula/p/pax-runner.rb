@@ -12,6 +12,7 @@ class PaxRunner < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pax-runner-1.9.0"
     sha256 cellar: :any, x86_64_windows: "77a5b4b6b8b321b37cd179071f0954c4901ee0954ac95c7edc793e64a00d65c5"
   end
 

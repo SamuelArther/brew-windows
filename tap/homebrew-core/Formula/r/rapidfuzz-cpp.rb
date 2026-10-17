@@ -7,6 +7,7 @@ class RapidfuzzCpp < Formula
   head "https://github.com/rapidfuzz/rapidfuzz-cpp.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rapidfuzz-cpp-3.3.4"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "33591211a5a39addc10311ed4f1fed51a47f91644dd0ac8236e825abded34da1"
   end
 

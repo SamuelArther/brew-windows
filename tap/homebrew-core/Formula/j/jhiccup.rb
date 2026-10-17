@@ -11,6 +11,7 @@ class Jhiccup < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/jhiccup-2.0.10"
     sha256 cellar: :any, x86_64_windows: "33045d403e94cbaa0e67a4f424aeb3b28073ab1d573fac0e086a98dbba0fb1d2"
   end
 

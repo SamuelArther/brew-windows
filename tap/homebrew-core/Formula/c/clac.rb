@@ -6,6 +6,7 @@ class Clac < Formula
   license "BSD-2-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clac-0.3.5"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "711ae9017003dc3a124442a3e65bfd50eb718a654249731ce46ac02093d0223b"
   end
 

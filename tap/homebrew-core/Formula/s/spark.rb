@@ -6,6 +6,7 @@ class Spark < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/spark-1.0.1"
     sha256 cellar: :any, x86_64_windows: "052cb8deb1a147bf4773bf11c3e0efa0a24daa12fd0bc601b2cfd8c9d1379ebf"
   end
 

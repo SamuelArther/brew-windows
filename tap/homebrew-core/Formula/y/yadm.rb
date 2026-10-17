@@ -7,6 +7,7 @@ class Yadm < Formula
   head "https://github.com/yadm-dev/yadm.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/yadm-3.5.0"
     sha256 cellar: :any, x86_64_windows: "58837ac16045904af1563c7aa80af3b2e2a4777a4176c07d379a81e4ea21cb25"
   end
 

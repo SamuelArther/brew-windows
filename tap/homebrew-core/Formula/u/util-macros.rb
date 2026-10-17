@@ -6,6 +6,7 @@ class UtilMacros < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/util-macros-1.20.2"
     sha256 cellar: :any, x86_64_windows: "a7593542431cb12925c98b72e24fc27247aaf4e334ac3c85e6821c3bd817e99d"
   end
 

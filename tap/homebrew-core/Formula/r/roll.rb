@@ -6,6 +6,7 @@ class Roll < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/roll-2.7.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "7698d4aef683f6cc4f7c084c89ac81b908683b8c247cdc8db925c27621b2bcfc"
   end
 

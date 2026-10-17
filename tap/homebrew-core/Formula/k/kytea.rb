@@ -38,6 +38,7 @@ class Kytea < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kytea-0.4.7"
     sha256 cellar: :any, x86_64_windows: "8f6296bff0b1608a85f8859655af646aef8ea2793d7b960d098b2a2a9e05369f"
   end
 

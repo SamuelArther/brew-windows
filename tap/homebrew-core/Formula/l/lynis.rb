@@ -6,6 +6,7 @@ class Lynis < Formula
   license "GPL-3.0-only"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lynis-3.1.7"
     sha256 cellar: :any, x86_64_windows: "a03c48a341218a3bde3a2248422f3db6827f5d461dbb52cbdf9dd91557e27392"
   end
 

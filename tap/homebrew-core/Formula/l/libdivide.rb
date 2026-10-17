@@ -7,6 +7,7 @@ class Libdivide < Formula
   head "https://github.com/ridiculousfish/libdivide.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdivide-5.4.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "4de083e823d8196116e27e8ac0df9ea9b1a9ea31949f11314160317774f97bc0"
   end
 

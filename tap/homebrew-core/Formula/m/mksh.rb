@@ -12,6 +12,7 @@ class Mksh < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mksh-59c"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "4300eec527899ec626ab41025be430dfa1af17371609e8d4e7581fb1d62f7c94"
   end
 

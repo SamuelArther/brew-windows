@@ -6,6 +6,7 @@ class Spoa < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/spoa-4.1.5"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "90d58b542961931277e6ef9d92cddc8cdefb33145b457cd1da869fa8f88f52d8"
   end
 

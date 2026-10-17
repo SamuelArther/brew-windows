@@ -6,6 +6,7 @@ class TtySolitaire < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tty-solitaire-1.4.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "57be6a152059cac7bde94539cdd9eebd9e4b2abfde13736d2c90e64187a24c8e"
   end
 

@@ -11,6 +11,7 @@ class IpRelay < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ip_relay-0.71"
     sha256 cellar: :any, x86_64_windows: "de93c0ba73f85aa88ccbb18b0ede75974c719ae77a8028a036bc86a5b0f32d84"
   end
 

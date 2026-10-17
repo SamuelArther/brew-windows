@@ -6,6 +6,7 @@ class Pdfcrack < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pdfcrack-0.21"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "e3c536e3158a00c42e72587e8e777036ab48a4422dc48954b3f1b60a64512b3c"
   end
 

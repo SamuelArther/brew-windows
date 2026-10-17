@@ -6,6 +6,7 @@ class Modman < Formula
   license "Apache-2.0"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/modman-1.14"
     sha256 cellar: :any, x86_64_windows: "0d437c1b70927df2c2808a015d94cd15fa8ea72f3f99cf240566690e6a16164c"
   end
 

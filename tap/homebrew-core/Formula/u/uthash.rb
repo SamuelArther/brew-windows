@@ -7,6 +7,7 @@ class Uthash < Formula
   head "https://github.com/troydhanson/uthash.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/uthash-2.4.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "c94823c5cdebcd6c185c83397984967ba36b81de427f793690dbe16d2249d487"
   end
 

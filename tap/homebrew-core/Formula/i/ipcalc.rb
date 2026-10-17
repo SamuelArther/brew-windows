@@ -6,6 +6,7 @@ class Ipcalc < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ipcalc-0.51"
     sha256 cellar: :any, x86_64_windows: "11dfef8ba452869b9a4b276083c06be33ce7d473fe026b92134b5ce4814332fa"
   end
 

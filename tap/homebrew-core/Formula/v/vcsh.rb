@@ -6,6 +6,7 @@ class Vcsh < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/vcsh-2.0.10"
     sha256 cellar: :any, x86_64_windows: "5e6e1434a644f59f3179802b1eac56d23196077c41a6edc4bde8789d71a3b210"
   end
 

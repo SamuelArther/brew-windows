@@ -12,6 +12,7 @@ class Never < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/never-2.3.9"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "9f4e29a4d0f1e4f3f08f4f2357e424647470244200333b5b5aa115d7fd3d8822"
   end
 

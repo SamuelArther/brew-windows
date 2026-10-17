@@ -6,6 +6,7 @@ class Prettyping < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/prettyping-1.1.0"
     sha256 cellar: :any, x86_64_windows: "4b0ad00c2bf15e404311f60c412f86688ee0994e6fe5c5efd743305242b12aec"
   end
 

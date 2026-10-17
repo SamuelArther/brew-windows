@@ -8,6 +8,7 @@ class MacRobber < Formula
   deny_network_access!
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/mac-robber-1.02"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "e5cb7b1e010b6555ebfc38254fa1b3e603a2a834972be9ae471e9b9a5402156c"
   end
 

@@ -7,6 +7,7 @@ class Nsnake < Formula
   head "https://github.com/alexdantas/nSnake.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nsnake-3.0.1"
     sha256 cellar: :any, x86_64_windows: "70d9e9ff669f623284c023032a6da65a4bc475ab6e562db7f4d9e5996c40875a"
   end
 

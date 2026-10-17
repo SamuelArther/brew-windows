@@ -7,6 +7,7 @@ class WpCliCompletion < Formula
   head "https://github.com/wp-cli/wp-cli.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/wp-cli-completion-2.12.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "f34efd67d0acb6a2fb9fb0bf4b99552d8257365a6ad019cd5b59f0b3ae07c257"
   end
 

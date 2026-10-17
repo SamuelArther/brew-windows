@@ -6,6 +6,7 @@ class Cidrmerge < Formula
   license "GPL-2.0-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cidrmerge-1.5.3"
     sha256 cellar: :any, x86_64_windows: "3ff8ada163ffbd838ea9ed5038a9872f40c586794db8f8e98db1fa0fc9b74f60"
   end
 

@@ -6,6 +6,7 @@ class RobinMap < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/robin-map-1.4.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "4c9f866416a111c9e8040c97d8d6c7e6f59c0a997be873039f5c9dd8868ab895"
   end
 

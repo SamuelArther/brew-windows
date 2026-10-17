@@ -7,6 +7,7 @@ class Nbsdgames < Formula
   head "https://github.com/abakh/nbsdgames.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nbsdgames-6.0.3"
     sha256 cellar: :any, x86_64_windows: "188520774d983a93fd4a5cc6c21da8d8245ff0f0d1a0f9be899da05582d30509"
   end
 

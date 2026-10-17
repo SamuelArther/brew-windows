@@ -6,6 +6,7 @@ class Liblbfgs < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/liblbfgs-1.10"
     sha256 cellar: :any, x86_64_windows: "e6194a6382479cd67e6801733874045a461c344775df729907fbbed82d323f61"
   end
 

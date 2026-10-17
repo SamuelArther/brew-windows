@@ -11,6 +11,7 @@ class Rgf < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rgf-3.12.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "19b267b5e3061aef4fc35f46c4653288a968db63a27eaf6fdcba52d3156bbb46"
   end
 

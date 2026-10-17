@@ -7,6 +7,7 @@ class Crcany < Formula
   head "https://github.com/madler/crcany.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/crcany-2.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "d94818495ca0fe84524af46ddc6287348415103c8ba6488b18862c0e1c44a630"
   end
 

@@ -8,6 +8,7 @@ class Yyjson < Formula
   head "https://github.com/ibireme/yyjson.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/yyjson-0.13.0"
     sha256 cellar: :any, x86_64_windows: "a38f800d7212a546944f9b0770449acadcc868bc6179e1d1f2f003df2520249c"
   end
 

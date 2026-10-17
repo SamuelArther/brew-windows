@@ -6,6 +6,7 @@ class Tass64 < Formula
   license all_of: ["GPL-2.0-or-later", "LGPL-2.0-or-later", "LGPL-2.1-only", "MIT"]
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tass64-1.60.3243"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "faf756c980e85cf2e4f2bcbad732d05fe9967bbde25f8034b0af71f33fb091b4"
   end
 

@@ -12,6 +12,7 @@ class Kakoune < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kakoune-2026.05.21"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "adf7d20ea602c0b8638fc6c9991ae1ebec3bd873515b93e8d1c9000363693fc5"
   end
 

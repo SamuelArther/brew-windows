@@ -6,6 +6,7 @@ class LibxmpLite < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libxmp-lite-4.7.4"
     sha256 cellar: :any, x86_64_windows: "0d590fe1a453cabf9d503bdb08c26d03008704c7ee0bdb36805ffdf6e38de9dc"
   end
 

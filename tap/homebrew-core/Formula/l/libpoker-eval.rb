@@ -11,6 +11,7 @@ class LibpokerEval < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libpoker-eval-138.0"
     sha256 cellar: :any, x86_64_windows: "17a1300cd46bd4b585fc165998c1a6e21783e6c5819451f286a62a95cb6dec9d"
   end
 

@@ -7,6 +7,7 @@ class Slugify < Formula
   head "https://github.com/JabberLabs/slugify.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/slugify-1.0.1"
     sha256 cellar: :any, x86_64_windows: "a1a74e663a5d2fc2cccd378ebee93949b05d61d665931b6985de21abbabc4a15"
   end
 

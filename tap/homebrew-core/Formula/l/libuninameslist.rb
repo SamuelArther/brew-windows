@@ -12,6 +12,7 @@ class Libuninameslist < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libuninameslist-20260918"
     sha256 cellar: :any, x86_64_windows: "93c5493d230b06bcdcc7623bb6164c37387ef0e7f08bdd3e46d16b64969a665a"
   end
 

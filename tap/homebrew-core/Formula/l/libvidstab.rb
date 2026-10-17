@@ -7,6 +7,7 @@ class Libvidstab < Formula
   compatibility_version 1
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libvidstab-1.1.2"
     sha256 cellar: :any, x86_64_windows: "29bf9af690c6dfa03ef1f9eb3d2d70e63c288203e18c1cac0f56b00885f4abe8"
   end
 

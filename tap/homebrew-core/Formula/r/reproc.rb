@@ -7,6 +7,7 @@ class Reproc < Formula
   head "https://github.com/DaanDeMeyer/reproc.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/reproc-14.2.8"
     sha256 cellar: :any, x86_64_windows: "e616830736c18e77b6b37a0bfb297e8a7ffe212e500078d2bf09862a273f6a70"
   end
 

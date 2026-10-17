@@ -13,6 +13,7 @@ class SshCopyId < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ssh-copy-id-10.6p1"
     sha256 cellar: :any, x86_64_windows: "17c53d053ebea34672d2b2523d9540b175b242e3704240332625be80f642fd4c"
   end
 

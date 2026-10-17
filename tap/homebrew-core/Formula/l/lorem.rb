@@ -9,6 +9,7 @@ class Lorem < Formula
   head "https://github.com/per9000/lorem.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lorem-0.8.0"
     sha256 cellar: :any, x86_64_windows: "aef2e7f089c3fb663a4ff4296cbdd4347e49371fc3137fd62b97fe4706b5ed00"
   end
 

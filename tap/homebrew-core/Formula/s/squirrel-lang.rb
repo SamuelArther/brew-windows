@@ -15,6 +15,7 @@ class SquirrelLang < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/squirrel-lang-3.2"
     sha256 cellar: :any, x86_64_windows: "c71c9cde9d9d9705273b9e8f646d5ea375a65f2203d9ecf344beeb4f345ef3b0"
   end
 

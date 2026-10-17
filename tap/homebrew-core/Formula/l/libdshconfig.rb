@@ -11,6 +11,7 @@ class Libdshconfig < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdshconfig-0.20.13"
     sha256 cellar: :any, x86_64_windows: "fb80993830f495ca1cd97917dee6e268c8bf16797947c458ce884ed634441171"
   end
 

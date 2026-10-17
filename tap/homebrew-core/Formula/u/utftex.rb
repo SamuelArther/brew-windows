@@ -6,6 +6,7 @@ class Utftex < Formula
   license "GPL-3.0-only"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/utftex-1.31"
     sha256 cellar: :any, x86_64_windows: "c6c33a8b115b1f8b32da64bb1d89e797cff0e617a80e0aa5e28f0f9dfd22a397"
   end
 

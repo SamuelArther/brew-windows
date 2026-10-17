@@ -6,6 +6,7 @@ class Xmlcatmgr < Formula
   license "BSD-3-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xmlcatmgr-2.2"
     sha256 cellar: :any, x86_64_windows: "cb05151331ce8e42a5c7a9de6ac6545b1a0482ad20afac0340f764104fab8996"
   end
 

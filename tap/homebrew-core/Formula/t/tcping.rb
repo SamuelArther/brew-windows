@@ -12,6 +12,7 @@ class Tcping < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tcping-2.1.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "2bd33b5febe0164ffb011c00d9f76f65adef2969843e42c0911718b776d79ed9"
   end
 

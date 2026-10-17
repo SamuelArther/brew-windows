@@ -7,6 +7,7 @@ class Streamvbyte < Formula
   head "https://github.com/fast-pack/streamvbyte.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/streamvbyte-3.0.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "08287af877b7b178fa95ff50edf8a9f6abe9e69ed3088c68ce36720dd437118c"
   end
 

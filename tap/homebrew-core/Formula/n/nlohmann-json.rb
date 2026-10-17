@@ -8,6 +8,7 @@ class NlohmannJson < Formula
   head "https://github.com/nlohmann/json.git", branch: "develop"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nlohmann-json-3.12.0"
     sha256 cellar: :any, x86_64_windows: "8c5cd8af453c6c47a4f89fe9b6a5da6f00767bbfcd345233d60bc16cf6243337"
   end
 

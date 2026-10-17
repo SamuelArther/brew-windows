@@ -11,6 +11,7 @@ class Lzo < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lzo-2.10"
     sha256 cellar: :any, x86_64_windows: "07779305e375c3293f208304852e11edcfee860ff6a616274ee7e0c4bed57262"
   end
 

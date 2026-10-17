@@ -11,6 +11,7 @@ class Wren < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/wren-0.4.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "b8bef6f588c8f8c407ebfbc15aabf26646212cefd428b62996f9d94caab3e2d1"
   end
 

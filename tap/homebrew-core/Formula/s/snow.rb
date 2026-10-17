@@ -12,6 +12,7 @@ class Snow < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/snow-20130616"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "a6a3285245e8a30915e93eaf3de50931ac204cdf9a8824f4c5edefc7744369f8"
   end
 

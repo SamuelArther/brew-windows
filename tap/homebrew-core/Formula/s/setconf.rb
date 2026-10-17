@@ -9,6 +9,7 @@ class Setconf < Formula
   head "https://github.com/xyproto/setconf.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/setconf-0.7.7"
     sha256 cellar: :any, x86_64_windows: "2596c87685c90505b434701300fdea4f6a153eb632d1d18ae6ced5e202613606"
   end
 

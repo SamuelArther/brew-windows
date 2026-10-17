@@ -7,6 +7,7 @@ class Nerdfetch < Formula
   head "https://github.com/ThatOneCalculator/NerdFetch.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nerdfetch-8.5.5"
     sha256 cellar: :any, x86_64_windows: "f8d0f0ad190401938340afd0830768abf911513bba8d8e353a052a64d2e70da0"
   end
 

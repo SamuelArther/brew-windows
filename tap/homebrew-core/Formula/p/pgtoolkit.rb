@@ -6,6 +6,7 @@ class Pgtoolkit < Formula
   license "PostgreSQL"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pgtoolkit-1.0.2"
     sha256 cellar: :any, x86_64_windows: "57a4b03f57d60a2cc01a066a4a210adbde0481dbbba78773518228f4934e6a0a"
   end
 

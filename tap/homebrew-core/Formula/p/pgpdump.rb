@@ -7,6 +7,7 @@ class Pgpdump < Formula
   head "https://github.com/kazu-yamamoto/pgpdump.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pgpdump-0.38"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "cfc45a76c0567f1ba89286395f14e8f0e0801f2db4fac85f4b06b3d21cfbd387"
   end
 

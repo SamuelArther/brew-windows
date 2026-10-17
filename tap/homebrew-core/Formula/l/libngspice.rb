@@ -11,6 +11,7 @@ class Libngspice < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libngspice-47"
     sha256 cellar: :any, x86_64_windows: "203427ab8416d59d992ab5810b53941ae098a46316b555af212677f803b92157"
   end
 

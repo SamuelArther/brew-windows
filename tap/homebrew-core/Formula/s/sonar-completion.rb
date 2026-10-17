@@ -7,6 +7,7 @@ class SonarCompletion < Formula
   head "https://github.com/a1dutch/sonarqube-bash-completion.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sonar-completion-1.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "9b32e1a0df4853ab47ba7b0082e2f23023759b0d764ac0d6d8c94f8a0514793e"
   end
 

@@ -7,6 +7,7 @@ class Willgit < Formula
   head "https://github.com/DanielVartanov/willgit.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/willgit-1.0.0"
     sha256 cellar: :any, x86_64_windows: "d093deddbd8141431f9be795b2b19b99ad666d48e79650644fceee299e29ef1a"
   end
 

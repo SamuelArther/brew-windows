@@ -7,6 +7,7 @@ class Zug < Formula
   head "https://github.com/arximboldi/zug.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/zug-0.1.2"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "8062b182d071a03af61820005e1556fe36645160a11459694103b3f41b75eb1b"
   end
 

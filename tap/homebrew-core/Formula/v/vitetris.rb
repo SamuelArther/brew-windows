@@ -7,6 +7,7 @@ class Vitetris < Formula
   head "https://github.com/vicgeralds/vitetris.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/vitetris-0.59.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "738f21d259d02abff1e021ec53695db4139477cb1487505fccb1549b59560538"
   end
 

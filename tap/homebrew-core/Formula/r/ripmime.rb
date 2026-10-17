@@ -6,6 +6,7 @@ class Ripmime < Formula
   license "BSD-3-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ripmime-1.4.1.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "5fe570e3e1f116689bd537d33841d732791b4d290a6828ab37576b051fde5b1e"
   end
 

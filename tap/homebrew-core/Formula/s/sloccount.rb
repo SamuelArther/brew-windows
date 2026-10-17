@@ -11,6 +11,7 @@ class Sloccount < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sloccount-2.26"
     sha256 cellar: :any, x86_64_windows: "ad01b7f73d5efa618ed83795e6a2975889083188d4db3ecee365e47d918a6f54"
   end
 

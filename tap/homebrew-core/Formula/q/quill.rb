@@ -7,6 +7,7 @@ class Quill < Formula
   head "https://github.com/odygrd/quill.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/quill-13.0.0"
     sha256 cellar: :any, x86_64_windows: "ec9d85c5df5eed6900b6749365a2b0f8f335451306c2ec25b96f2af873370748"
   end
 

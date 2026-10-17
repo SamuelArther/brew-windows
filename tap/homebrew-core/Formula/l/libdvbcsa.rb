@@ -13,6 +13,7 @@ class Libdvbcsa < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdvbcsa-1.1.0"
     sha256 cellar: :any, x86_64_windows: "15430a2a8203657f2ee1372d4f9fbdf2c66f7f6afb7e33e2b958ab700880a307"
   end
 

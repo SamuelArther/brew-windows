@@ -7,6 +7,7 @@ class Tgenv < Formula
   head "https://github.com/tgenv/tgenv.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tgenv-1.3.0"
     sha256 cellar: :any, x86_64_windows: "cf4b972f2fbdb73a2afcd0d1e0ecad1d9e60d489969704fba61b90485eb3fea1"
   end
 

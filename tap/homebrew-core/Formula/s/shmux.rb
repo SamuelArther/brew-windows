@@ -6,6 +6,7 @@ class Shmux < Formula
   license "BSD-3-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/shmux-1.0.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "24d05dde6941d504be7d4418f33d6bcb5cd292dc7b10f21e68c5548da8224898"
   end
 

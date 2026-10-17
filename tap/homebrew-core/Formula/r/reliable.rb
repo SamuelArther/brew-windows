@@ -6,6 +6,7 @@ class Reliable < Formula
   license "BSD-3-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/reliable-1.4.5"
     sha256 cellar: :any, x86_64_windows: "0f572a0275ca836bebfd9d917be67808f176c35bd7d1d90c9b765336a923e9bf"
   end
 

@@ -6,6 +6,7 @@ class Protozero < Formula
   license "BSD-2-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/protozero-1.8.2"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "2d92b3249690de2652e790651a6816821d32679f45e10bdc2785db767ab8dd6c"
   end
 

@@ -7,6 +7,7 @@ class Lr < Formula
   head "https://github.com/leahneukirchen/lr.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lr-2.0.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "f4e3a04c1ee802ffed1b74537e4100218efde8da4838e17427dbeb7f453b67c1"
   end
 

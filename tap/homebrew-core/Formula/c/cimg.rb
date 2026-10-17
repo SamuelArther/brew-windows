@@ -11,6 +11,7 @@ class Cimg < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cimg-4.0.6"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "f75474069696ba1ea8fcaa8ba687653abad943d479b37354261d1493d7782e6a"
   end
 

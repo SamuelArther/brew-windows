@@ -7,6 +7,7 @@ class Libuecc < Formula
   head "https://git.universe-factory.net/fastd/libuecc.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libuecc-7"
     sha256 cellar: :any, x86_64_windows: "6665082f5b27e90ea8c6b1b311a9379a8cc22a6e7266ede44f4a66c9e8f43ed8"
   end
 

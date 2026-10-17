@@ -11,6 +11,7 @@ class Libupnp < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libupnp-22.1.8"
     sha256 cellar: :any, x86_64_windows: "4195589015426483368082cd65ef7c166b68f10022b207333168183a181f20f9"
   end
 

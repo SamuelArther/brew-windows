@@ -11,6 +11,7 @@ class Smartypants < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/smartypants-1.5.1"
     sha256 cellar: :any, x86_64_windows: "5adbc6325fe26f914d2b7a13aafcc5afc8183bb250af413f83b1c431e820bec9"
   end
 

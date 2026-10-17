@@ -6,6 +6,7 @@ class Krep < Formula
   license "BSD-2-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/krep-3.1.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "72313f9bcfdf0b5a152eb9955285ac580ad9804401b13c1fecf387a74ead3450"
   end
 

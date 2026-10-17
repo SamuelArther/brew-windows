@@ -6,6 +6,7 @@ class Serialize < Formula
   license "BSD-3-Clause"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/serialize-1.17.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "16bc687aae5ca545da0ace10c756964eaeea512eec6c2502aa477b4cd6ff6bfb"
   end
 

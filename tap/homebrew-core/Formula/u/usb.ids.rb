@@ -12,6 +12,7 @@ class UsbIds < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/usb.ids-2026.06.26"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "28700ff995b1acdf3236ad6093636f8e0309cdf8137cd11d519c464d45a319b4"
   end
 

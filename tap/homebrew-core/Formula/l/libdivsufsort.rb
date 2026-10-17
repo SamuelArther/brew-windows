@@ -7,6 +7,7 @@ class Libdivsufsort < Formula
   head "https://github.com/y-256/libdivsufsort.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdivsufsort-2.0.1"
     sha256 cellar: :any, x86_64_windows: "feb504ecf6991bb4b50470b3945179445c7b1b35a7e4767690a1b7e782c39881"
   end
 

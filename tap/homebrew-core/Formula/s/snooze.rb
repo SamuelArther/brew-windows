@@ -6,6 +6,7 @@ class Snooze < Formula
   license :public_domain
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/snooze-0.6"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "b2a8f2114bff739d0c5ac543bbfb9ff152a5448233882ae3d20bd0c4d9863603"
   end
 

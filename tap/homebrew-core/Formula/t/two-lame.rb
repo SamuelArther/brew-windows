@@ -6,6 +6,7 @@ class TwoLame < Formula
   license "LGPL-2.1-or-later"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/two-lame-0.4.0"
     sha256 cellar: :any, x86_64_windows: "74cc069b7800a5947392d07d9e5f084da621cf7797c086e3d2f8bdbc4887f8d3"
   end
 

@@ -14,6 +14,7 @@ class UrdfdomHeaders < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/urdfdom_headers-3.0.1"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "47fad29fd3ed497afeebe02e9ce900f6ab8f9214dedaacf928bfd6d6690ec9c5"
   end
 

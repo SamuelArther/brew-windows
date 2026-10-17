@@ -11,6 +11,7 @@ class Libyubikey < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libyubikey-1.13"
     sha256 cellar: :any, x86_64_windows: "3284a9654e79b1647cca647cb1e04a2c526377c8ba8e70d3036c0e51ef3bae9a"
   end
 

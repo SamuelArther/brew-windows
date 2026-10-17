@@ -9,6 +9,7 @@ class Smartmontools < Formula
   deny_network_access!
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/smartmontools-7.5"
     sha256 cellar: :any, x86_64_windows: "d9a890039f7c76a11de30e899f2d8b56f0327f1e025bf941f1c7f4ceb76719f2"
   end
 

@@ -8,6 +8,7 @@ class RubyCompletion < Formula
   head "https://github.com/mernen/completion-ruby.git", branch: "main"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ruby-completion-1.0.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "f60375ce6769a6cf84612e2242432a2af644cfcaa7e97b1611394ccaed7bbc89"
   end
 

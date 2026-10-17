@@ -11,6 +11,7 @@ class Toml11 < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/toml11-4.4.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "0f385f7a4390af16cc9e55f2fc7ff97650b9338eb1d361c65b51b1ac0546d515"
   end
 

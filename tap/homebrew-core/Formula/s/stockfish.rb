@@ -12,6 +12,7 @@ class Stockfish < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/stockfish-19"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "c47cfe7adb7cc8470211d7f9395dfb272869564f3418b25a0434faf9bc19cc59"
   end
 

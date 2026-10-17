@@ -6,6 +6,7 @@ class Kommit < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kommit-1.1.0"
     sha256 cellar: :any, x86_64_windows: "77eeaaec498be8f296e86c19a0a2beaf4b2809a7132a5b7ba34f8f6a6800533a"
   end
 

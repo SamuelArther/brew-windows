@@ -7,6 +7,7 @@ class Liquidprompt < Formula
   head "https://github.com/liquidprompt/liquidprompt.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/liquidprompt-2.3.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "acd82a36ec6198e2797ac4667a1ca635e2f971e6521d4214022f8a40b63fe394"
   end
 

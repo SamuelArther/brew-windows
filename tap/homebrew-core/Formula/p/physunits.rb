@@ -7,6 +7,7 @@ class Physunits < Formula
   head "https://github.com/martinmoene/PhysUnits-CT-Cpp11.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/physunits-1.4.0"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "b9b8b6947012aace66865587f1c9ca54ced33cfb890c55db13fb0c215777d6f0"
   end
 

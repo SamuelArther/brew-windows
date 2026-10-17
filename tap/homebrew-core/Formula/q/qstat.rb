@@ -6,6 +6,7 @@ class Qstat < Formula
   license "Artistic-2.0"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/qstat-2.18"
     sha256 cellar: :any, x86_64_windows: "447e136bee053194fda949c6e78660bab54c1b66d37af4520e1675d0208088e1"
   end
 

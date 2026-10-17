@@ -6,6 +6,7 @@ class Sheenbidi < Formula
   license "Apache-2.0"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sheenbidi-3.0.0"
     sha256 cellar: :any, x86_64_windows: "56e2b9b530c43ab393181939d47d4992c48040ee6070776fe102d30459a31b77"
   end
 

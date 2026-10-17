@@ -14,6 +14,7 @@ class Parallel < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/parallel-20260922"
     sha256 cellar: :any, x86_64_windows: "cdb8973779109ddaa2762d348b34918ba4a55673bcc67c9bcef2f4b1579c0e62"
   end
 

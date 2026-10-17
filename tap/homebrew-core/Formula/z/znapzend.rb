@@ -15,6 +15,7 @@ class Znapzend < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/znapzend-0.23.6"
     sha256 cellar: :any, x86_64_windows: "81c517d75a49e3e4b1bb0f26e73cca4d98935e7762aa98dc60909cdc275c5340"
   end
 

@@ -8,6 +8,7 @@ class Utf8proc < Formula
   head "https://github.com/JuliaStrings/utf8proc.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/utf8proc-2.12.0"
     sha256 cellar: :any, x86_64_windows: "2e298154de729ba764abfe2cbb0853250ab1290071a12e7de11cb973fafcf113"
   end
 

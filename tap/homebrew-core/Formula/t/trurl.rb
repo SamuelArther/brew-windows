@@ -7,6 +7,7 @@ class Trurl < Formula
   head "https://github.com/curl/trurl.git", branch: "master"
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/trurl-0.16.1"
     sha256 cellar: :any, x86_64_windows: "8caa2c8ab3d21e9130c2b7aa39941f122eb3a921e0888b045f4ff06a7c1524aa"
   end
 

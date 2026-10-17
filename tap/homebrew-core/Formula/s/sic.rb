@@ -12,6 +12,7 @@ class Sic < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/sic-1.3"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "79cf058b2be531bbedf8aef7a5a470c7258c6fb910a409f48bd870dad05384f0"
   end
 

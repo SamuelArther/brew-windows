@@ -12,6 +12,7 @@ class Tal < Formula
   end
 
   bottle do
+    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tal-1.9"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "7e3dbb3edcb92159f67fc0097de287bb0ed8f5618a38cdbef49235de9a8808e3"
   end
 
