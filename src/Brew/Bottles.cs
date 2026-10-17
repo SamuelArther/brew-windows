@@ -10,7 +10,10 @@ public static class Bottles
 {
     public const string Tag = "x86_64_windows";
     public const string Placeholder = "@@HOMEBREW_PREFIX@@";
-    public const string DefaultDomain = "https://github.com/SamuelArther/brew-windows/releases/download";
+    // Bottles live in their own repository's releases (the brew-windows repository keeps brew's own releases).
+    public const string DefaultDomain = "https://github.com/SamuelArther/brew-windows-bottles/releases/download";
+    // Where bottles were published before that: still tried when the default domain doesn't have the file yet.
+    public const string LegacyDomain = "https://github.com/SamuelArther/brew-windows/releases/download";
     const long MaxTextFile = 32 * 1024 * 1024;
 
     public static string Domain =>
@@ -22,15 +25,17 @@ public static class Bottles
     // GitHub Releases layout: one release per formula version, tagged <name>-<pkg_version>.
     public static string ReleaseTag(string name, string pkgVersion) => $"{name}-{pkgVersion}";
 
-    public sealed record Bottle(string Url, string Sha256, string Cellar, string FileName);
+    public sealed record Bottle(string Url, string Sha256, string Cellar, string FileName, string[] Mirrors);
 
     public static Bottle For(Brew.Formulae.FormulaDefinition formula)
     {
         if (formula?.Bottle == null || !formula.Bottle.Files.TryGetValue(Tag, out var file)) return null;
         var pkgVersion = Metadata.Version(formula);
         var fileName = FileName(formula.Name, pkgVersion, formula.Bottle.Rebuild);
-        var root = formula.Bottle.RootUrl?.TrimEnd('/') ?? $"{Domain}/{ReleaseTag(formula.Name, pkgVersion)}";
-        return new Bottle($"{root}/{fileName}", file.Sha256, file.Cellar, fileName);
+        var tag = ReleaseTag(formula.Name, pkgVersion);
+        var root = formula.Bottle.RootUrl?.TrimEnd('/') ?? $"{Domain}/{tag}";
+        string[] mirrors = formula.Bottle.RootUrl == null && Domain == DefaultDomain ? [$"{LegacyDomain}/{tag}/{fileName}"] : [];
+        return new Bottle($"{root}/{fileName}", file.Sha256, file.Cellar, fileName, mirrors);
     }
 
     // Packs an installed keg. Returns the cellar value for the bottle DSL.

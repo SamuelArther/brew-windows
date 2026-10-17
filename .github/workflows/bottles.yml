@@ -124,13 +124,17 @@ jobs:
           "### ${{ inputs.batch }}`n" + ($summary -join "`n") | Add-Content $env:GITHUB_STEP_SUMMARY
           $ok = ($report | Where-Object status -eq 'ok').name
           if ($ok) { python tools/import_upstream.py "$env:RUNNER_TEMP/homebrew-core" @ok }
+      # Bottles go to their own repository (Bottles.DefaultDomain), which needs a token that can write
+      # there: the BOTTLES_TOKEN secret. Without it they stay in this repository, which brew still checks.
       - name: Publish bottles
         shell: pwsh
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.BOTTLES_TOKEN || github.token }}
+          BOTTLES_REPO: ${{ secrets.BOTTLES_TOKEN && format('{0}-bottles', github.repository) || github.repository }}
         run: |
           dotnet build src/Brew -c Release --nologo -v q
-          ./tools/ci/Publish-Bottles.ps1 -Dir bottles -Repo "${{ github.repository }}"
+          "publishing to $env:BOTTLES_REPO"
+          ./tools/ci/Publish-Bottles.ps1 -Dir bottles -Repo $env:BOTTLES_REPO
       - name: Commit
         shell: pwsh
         run: |

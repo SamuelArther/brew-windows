@@ -123,7 +123,7 @@ public sealed class PackageManager(Paths paths)
         {
             if (bottle != null)
             {
-                var archive = await new Downloader(paths.Cache).FetchAsync(bottle.Url, bottle.Sha256);
+                var archive = await new Downloader(paths.Cache).FetchAsync(bottle.Url, bottle.Sha256, bottle.Mirrors);
                 CommandOutput.Header($"Pouring {bottle.FileName}");
                 MarkIncomplete(incomplete);
                 createdKeg = true;
