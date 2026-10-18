@@ -6,7 +6,7 @@ class TechnitiumLibrary < Formula
   license "GPL-3.0-only"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f6049574baa5969d38888dc46173cb00e9a5c95e83b8d709d45e57e04c608387"
+    sha256 cellar: :any, x86_64_windows: "3347dd5ab0a1646dbbddb980fd9b724c0047853ded72a9ee49798ded47774ed8"
   end
 
   depends_on "dotnet"
@@ -29,6 +29,8 @@ class TechnitiumLibrary < Formula
   end
 
   test do
+    # .NET named mutexes need `XDG_RUNTIME_DIR` (or `USER`) on Linux, which test containers may lack
+    ENV["XDG_RUNTIME_DIR"] = testpath
     dotnet = Formula["dotnet"]
     target_framework = "net#{dotnet.version.major_minor}"
 

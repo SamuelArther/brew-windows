@@ -1,5 +1,5 @@
 class Yutu < Formula
-  desc "MCP server and CLI for YouTube"
+  desc "CLI, MCP server, and AI agent to automate YouTube workflows"
   homepage "https://yutu.ifor.dev"
   url "https://github.com/eat-pray-ai/yutu/archive/refs/tags/v0.11.0.tar.gz"
   sha256 "456affd706e72cdcc96c23bc3394b9011b9c1c2564054a155c081b70d05fcfb5"
@@ -12,7 +12,7 @@ class Yutu < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ff4bfb6a63d67d2e5179378c3364012ec3eed5727e3da2de72fb06438158d374"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "93c0935a9e1d0fdff7ec71835579c008ae63922b4f04bd83867799a4e2f58f73"
   end
 
   depends_on "go" => :build

@@ -1,12 +1,12 @@
 class Kata < Formula
   desc "Local-first, federated issue tracker for humans and coding agents"
   homepage "https://katatracker.com"
-  url "https://github.com/kenn-io/kata/releases/download/v0.18.0/kata_0.18.0_source.tar.gz"
-  sha256 "980503ab4a5ba37283b5c35013d034cb94e32bc55669426284cbd47030141db6"
+  url "https://github.com/kenn-io/kata/releases/download/v0.19.0/kata_0.19.0_source.tar.gz"
+  sha256 "f36b33f08bf7134cbd78a582ff04e6c72e93b7ddd80a647636685d2806b9e5bb"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "dac467bf2bf4f2bd0b31a9ab3474a5708cac1af54988b5321caffc116f243ba7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "63a4c9d46a365e034f5b55d2dd13df7945ca502af57f2ca4f13804678e15543a"
   end
 
   depends_on "go" => :build

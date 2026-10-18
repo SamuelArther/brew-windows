@@ -1,0 +1,187 @@
+[
+  {
+    "name": "alejandra",
+    "status": "ok",
+    "seconds": 208
+  },
+  {
+    "name": "asc",
+    "status": "ok",
+    "seconds": 209
+  },
+  {
+    "name": "bqlog",
+    "status": "ok",
+    "seconds": 174
+  },
+  {
+    "name": "carapace",
+    "status": "ok",
+    "seconds": 219
+  },
+  {
+    "name": "cargo-binstall",
+    "status": "build",
+    "seconds": 96
+  },
+  {
+    "name": "ccusage",
+    "status": "build",
+    "seconds": 38
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 338
+  },
+  {
+    "name": "diffle",
+    "status": "test",
+    "seconds": 172
+  },
+  {
+    "name": "dysk",
+    "status": "ok",
+    "seconds": 91
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 325
+  },
+  {
+    "name": "eslint",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 160
+  },
+  {
+    "name": "fallow",
+    "status": "build",
+    "seconds": 77
+  },
+  {
+    "name": "git-pages-cli",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "gomplate",
+    "status": "ok",
+    "seconds": 257
+  },
+  {
+    "name": "kata",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "lfk",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "mac",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "merman-cli",
+    "status": "build",
+    "seconds": 267
+  },
+  {
+    "name": "n",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "obscura",
+    "status": "build",
+    "seconds": 122
+  },
+  {
+    "name": "openspec",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "ovsx",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "build",
+    "seconds": 63
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "build",
+    "seconds": 60
+  },
+  {
+    "name": "portop",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "quill",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 361
+  },
+  {
+    "name": "shadcn",
+    "status": "ok",
+    "seconds": 366
+  },
+  {
+    "name": "superseedr",
+    "status": "build",
+    "seconds": 65
+  },
+  {
+    "name": "technitium-library",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "tgrep",
+    "status": "build",
+    "seconds": 227
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 129
+  },
+  {
+    "name": "yutu",
+    "status": "ok",
+    "seconds": 89
+  },
+  {
+    "name": "zeroclaw",
+    "status": "build",
+    "seconds": 103
+  }
+]

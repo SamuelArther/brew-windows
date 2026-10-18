@@ -1,12 +1,12 @@
 class Evnx < Formula
   desc "Comprehensive CLI tool for managing .env files"
   homepage "https://evnx.dev"
-  url "https://github.com/urwithajit9/evnx/archive/refs/tags/v0.10.2.tar.gz"
-  sha256 "3407e97e6678feccee303f306d3e4890bd738460fdbb1a7bcbae3c2b69a15e8d"
+  url "https://github.com/urwithajit9/evnx/archive/refs/tags/v0.10.8.tar.gz"
+  sha256 "f73ce6ecdc0f54684f2afe225a40fe7b8e550b95e1ee094c9e8c235cc58258db"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d58f301a413a14bcb7791193ce24bcb5b3a125677c122757086e8384b71450eb"
+    sha256 cellar: :any, x86_64_windows: "3b657a135e7d3f1bce6089fabda312fbcfa034bb0f089306e1f4b33839a0f312"
   end
 
   depends_on "rust" => :build

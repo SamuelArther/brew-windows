@@ -1,13 +1,13 @@
 class GitPagesCli < Formula
   desc "Tool for publishing a site to a git-pages server"
   homepage "https://codeberg.org/git-pages/git-pages-cli"
-  url "https://codeberg.org/git-pages/git-pages-cli/releases/download/v1.11.2/git-pages-cli-src.zip"
-  sha256 "d00d935b69a4fbf4144767d63e13cf81ac2b3ce14e7825167a404e2169196407"
+  url "https://codeberg.org/git-pages/git-pages-cli/releases/download/v1.11.3/git-pages-cli-src.zip"
+  sha256 "b100f0501de475088ad4fbd64f9bc3b77b2d179de3c26b3838b240bf32c70d73"
   license "0BSD"
   head "https://codeberg.org/git-pages/git-pages-cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b543cb9c69a6e941da065431154515b3c786276ae8a58000e34cd29f421b0109"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "dbade6de94d73c125692ce9714f8ded62f1aa1a62dbe8122ea3fa637f49bfa45"
   end
 
   depends_on "go" => :build
