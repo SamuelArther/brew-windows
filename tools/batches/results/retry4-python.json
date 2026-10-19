@@ -1,0 +1,37 @@
+[
+  {
+    "name": "cram",
+    "status": "test",
+    "seconds": 23
+  },
+  {
+    "name": "fprettify",
+    "status": "test",
+    "seconds": 50
+  },
+  {
+    "name": "fypp",
+    "status": "test",
+    "seconds": 41
+  },
+  {
+    "name": "lit",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "ranger",
+    "status": "test",
+    "seconds": 18
+  },
+  {
+    "name": "redo",
+    "status": "build",
+    "seconds": 63
+  },
+  {
+    "name": "regipy",
+    "status": "test",
+    "seconds": 67
+  }
+]
