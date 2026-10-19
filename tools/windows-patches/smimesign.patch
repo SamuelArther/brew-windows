@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/s/smimesign.rb
++++ b/tap/homebrew-core/Formula/s/smimesign.rb
+@@ -15,6 +15,8 @@
+ 
+   def install
+     ldflags = "-X main.versionString=#{version}"
++    # Newer cgo won't convert a *C.char straight to HLOCAL (a pointer type) for LocalFree.
++    inreplace "certstore/certstore_windows.go", "C.HLOCAL(cmsg)", "C.HLOCAL(unsafe.Pointer(cmsg))" if OS.windows?
+     system "go", "build", *std_go_args(ldflags:)
+   end
+ 

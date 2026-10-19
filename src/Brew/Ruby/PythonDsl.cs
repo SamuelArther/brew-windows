@@ -274,6 +274,23 @@ public static partial class FormulaLoader
         if (!buildIsolation) args.Add("--no-build-isolation");
         args.AddRange(targets);
         Ohai(i, string.Join(" ", args));
+        WithPythonBuildEnvironment(i, () =>
+        {
+            // Like Formula#system: output streams to the build log; failure is a BuildError.
+            if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
+                throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
+            return null;
+        });
+    }
+
+    // `python -m pip install ...` run by Formula#system (numpy, cffi, pydantic: `system python, "-m", "pip",
+    // "install", *std_pip_args, "."`) builds in the same environment as virtualenv_install_with_resources.
+    public static bool IsPipInstall(IReadOnlyList<string> argv) =>
+        argv.Count >= 4 && argv[1] == "-m" && argv[2] == "pip" && argv[3] == "install"
+        && Path.GetFileNameWithoutExtension(argv[0]).StartsWith("python", StringComparison.OrdinalIgnoreCase);
+
+    internal static object WithPythonBuildEnvironment(Interp i, Func<object> run)
+    {
         // Extensions build with Visual Studio's native x64 compiler when it's installed (see BuildEnvironment.MsvcX64).
         var saved = new Dictionary<string, string>();
         // MSVC 14.5x fails on Cython's own generated Compiler/Parsing.c (C1083 "Cannot open compiler generated
@@ -289,12 +306,7 @@ public static partial class FormulaLoader
                 // Visual Studio's tools go first: MSYS2's coreutils has a link.exe of its own.
                 i.Env[name] = key == "__MSVC_PATH" ? value + ";" + (i.Env.GetValueOrDefault("PATH") ?? Environment.GetEnvironmentVariable("PATH")) : value;
             }
-        try
-        {
-            // Like Formula#system: output streams to the build log; failure is a BuildError.
-            if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
-                throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
-        }
+        try { return run(); }
         finally
         {
             foreach (var (name, value) in saved)

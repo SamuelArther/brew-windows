@@ -1,0 +1,14 @@
+--- a/tap/homebrew-core/Formula/a/abseil.rb
++++ b/tap/homebrew-core/Formula/a/abseil.rb
+@@ -14,6 +14,11 @@
+ 
+   def install
+     ENV.runtime_cpu_detection
++    # MinGW has no O_NONBLOCK; open zoneinfo files the way the MSVC branch does (fopen_s).
++    if OS.windows?
++      inreplace "absl/time/internal/cctz/src/time_zone_info.cc",
++                "#if defined(_MSC_VER)\n  FILE* fp;", "#if defined(_WIN32)\n  FILE* fp;"
++    end
+ 
+     # Install test helpers.
+     extra_cmake_args = %w[ABSL_BUILD_TEST_HELPERS ABSL_USE_EXTERNAL_GOOGLETEST ABSL_FIND_GOOGLETEST].map do |arg|

@@ -34,7 +34,12 @@ public static class Bottles
         var fileName = FileName(formula.Name, pkgVersion, formula.Bottle.Rebuild);
         var tag = ReleaseTag(formula.Name, pkgVersion);
         var root = formula.Bottle.RootUrl?.TrimEnd('/') ?? $"{Domain}/{tag}";
-        string[] mirrors = formula.Bottle.RootUrl == null && Domain == DefaultDomain ? [$"{LegacyDomain}/{tag}/{fileName}"] : [];
+        // A root_url written while bottles went to the legacy repository may name a release that only the
+        // bottles repository has now (eigen, docbook, console_bridge: 404 for every dependent): try both.
+        var legacyRoot = formula.Bottle.RootUrl != null && root.StartsWith(LegacyDomain + "/", StringComparison.OrdinalIgnoreCase);
+        string[] mirrors = Domain != DefaultDomain ? []
+            : formula.Bottle.RootUrl == null ? [$"{LegacyDomain}/{tag}/{fileName}"]
+            : legacyRoot ? [$"{DefaultDomain}/{root[(LegacyDomain.Length + 1)..]}/{fileName}"] : [];
         return new Bottle($"{root}/{fileName}", file.Sha256, file.Cellar, fileName, mirrors);
     }
 

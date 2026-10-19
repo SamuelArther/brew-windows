@@ -1,0 +1,11 @@
+--- a/tap/homebrew-core/Formula/l/libslax.rb
++++ b/tap/homebrew-core/Formula/l/libslax.rb
+@@ -31,6 +31,8 @@
+   conflicts_with "libxi", because: "both install `libxi.a`"
+ 
+   def install
++    # psubase64.c uses the BSD/glibc `uint` typedef, which MinGW's headers don't have.
++    ENV.append_to_cflags "-Duint=unsigned" if OS.windows?
+     system "autoreconf", "--force", "--install", "--verbose" if build.head?
+     system "./configure", "--disable-silent-rules", "--enable-libedit", *std_configure_args
+     system "make", "install"

@@ -406,6 +406,9 @@ public static partial class FormulaLoader
                 i.Def(s, "apply", (i2, _, a2, _) => { foreach (var x in a2.SelectMany(v => v is RArray arr ? arr.L : [v])) patch.Apply.Add(i2.ToS(x)); return null; });
                 i.Def(s, "mirror resolves type", (_, _, _, _) => null);
                 i.CallProc(b, Array.Empty<object>(), null, holder, s);
+                // SoftwareSpec#patch skips an external patch without a url: one whose url is all inside
+                // on_linux/on_macos (net-snmp, spidermonkey) is not a patch on this platform.
+                if (patch.Url == null && patch.File == null && patch.Data == null) return null;
             }
             Sp(self).Patches.Add(patch);
             return null;
@@ -431,7 +434,7 @@ public static partial class FormulaLoader
         it.Def(it.ObjectClass, (arm ? "on_intel" : "on_arm") + " on_macos on_linux on_system on_tahoe on_sequoia on_sonoma on_ventura on_monterey on_big_sur",
             (i, self, a, b) => null);
         it.DefS(F, "deprecated_option skip_clean cxxstdlib_check link_overwrite service fails_with needs pour_bottle? " +
-                   "compatibility_version no_autobump! pypi_packages env allow_network_access! deny_network_access!",
+                   "compatibility_version no_autobump! pypi_packages env allow_network_access! deny_network_access! preserve_rpath",
             (i, self, a, b) => null);
 
         // ---- instance methods (install time) ----
@@ -441,6 +444,9 @@ public static partial class FormulaLoader
         it.Def(F, "name full_name", (i, self, a, b) => ((RObject)self).GetIvar("@name"));
         it.Def(F, "version", (i, self, a, b) => VersionObject(i, ((RObject)self).GetIvar("@version").ToString()));
         it.DefS(F, "[]", (i, self, a, b) => OtherFormula(i, i.StrOrSym(a[0])));
+        it.DefS(F, "names full_names", (i, self, a, b) => FormulaNames(i));
+        // Mach-O fixups (fits' deuniversalize_machos): PE files have no universal binaries.
+        it.Def(F, "deuniversalize_machos", (i, self, a, b) => null);
         it.Def(F, "prefix", (i, self, a, b) => i.NewPath(Prefix(i, self)));
         foreach (var (method, rel) in new[]
                  {
@@ -528,23 +534,7 @@ public static partial class FormulaLoader
             return new RObject { Class = cls, Host = spec };
         });
         // Formula#deps: Dependency objects (name, tags, to_formula).
-        it.Def(F, "deps", (i, self, a, b) =>
-        {
-            var depClass = i.ConstGet(i.ObjectClass, "Dependency") as RClass;
-            if (depClass == null)
-            {
-                depClass = i.DefineClass("Dependency");
-                string N(object o) => ((Dependency)((RObject)o).Host).Name;
-                i.Def(depClass, "name to_s", (ii, s, _, _) => Interp.S(N(s)));
-                i.Def(depClass, "to_formula", (ii, s, _, _) => OtherFormula(ii, N(s)));
-                i.Def(depClass, "tags", (ii, s, _, _) => new RArray(((Dependency)((RObject)s).Host).Tags.Select(t => (object)Interp.Sym(t))));
-                i.Def(depClass, "build?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("build"));
-                i.Def(depClass, "test?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("test"));
-                i.Def(depClass, "optional?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("optional"));
-                i.Def(depClass, "recommended?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("recommended"));
-            }
-            return new RArray(SpecOf(((RObject)self).Class).Dependencies.Select(d => (object)new RObject { Class = depClass, Host = d }));
-        });
+        it.Def(F, "deps", (i, self, a, b) => DependencyObjects(i, SpecOf(((RObject)self).Class)));
         it.Def(F, "opt_prefix", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self))));
         it.Def(F, "opt_bin", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "bin")));
         it.Def(F, "opt_lib", (i, self, a, b) => i.NewPath(Path.Combine(Ctx(i, self).BrewPrefix ?? "", "opt", Nm(self), "lib")));
@@ -601,9 +591,10 @@ public static partial class FormulaLoader
         });
         it.Def(F, "system", (i, self, a, b) =>
         {
-            var line = string.Join(" ", a.Where(x => x is not RHash).Select(i.ToS));
+            var argv = a.Where(x => x is not RHash).Select(i.ToS).ToList();
+            var line = string.Join(" ", argv);
             Ohai(i, line);
-            if (!Interp.Truthy(i.RunSystem(a)))
+            if (!Interp.Truthy(IsPipInstall(argv) ? WithPythonBuildEnvironment(i, () => i.RunSystem(a)) : i.RunSystem(a)))
                 throw i.Error(BuildError(i), $"Failed executing: {line}");
             WriteNpmBinLinks(i, a.Where(x => x is not RHash).Select(i.ToS).ToList());
             return null;
@@ -696,6 +687,39 @@ public static partial class FormulaLoader
 
     static object Ver(Interp it, string v) => v == null ? null : VersionObject(it, v);
 
+    // Formula#deps: Dependency objects (name, tags, to_formula).
+    static RArray DependencyObjects(Interp i, FormulaSpec spec)
+    {
+        var depClass = i.ConstGet(i.ObjectClass, "Dependency") as RClass;
+        if (depClass == null)
+        {
+            depClass = i.DefineClass("Dependency");
+            string N(object o) => ((Dependency)((RObject)o).Host).Name;
+            i.Def(depClass, "name to_s", (ii, s, _, _) => Interp.S(N(s)));
+            i.Def(depClass, "to_formula", (ii, s, _, _) => OtherFormula(ii, N(s)));
+            i.Def(depClass, "tags", (ii, s, _, _) => new RArray(((Dependency)((RObject)s).Host).Tags.Select(t => (object)Interp.Sym(t))));
+            i.Def(depClass, "build?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("build"));
+            i.Def(depClass, "test?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("test"));
+            i.Def(depClass, "optional?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("optional"));
+            i.Def(depClass, "recommended?", (ii, s, _, _) => ((Dependency)((RObject)s).Host).Tags.Contains("recommended"));
+        }
+        return new RArray(spec.Dependencies.Select(d => (object)new RObject { Class = depClass, Host = d }));
+    }
+
+    // Formula.names: every formula name in the tap the running formula comes from, sorted (llvm picks its
+    // python@ versions from it).
+    static RArray FormulaNames(Interp it)
+    {
+        var formulaDir = it.CurrentFile is { } current ? Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath(current))) : null;
+        if (formulaDir == null || !Directory.Exists(formulaDir))
+            formulaDir = Path.Combine(new Paths().Taps, "homebrew-core", "Formula");
+        var names = Directory.Exists(formulaDir)
+            ? Directory.EnumerateFiles(formulaDir, "*.rb", SearchOption.AllDirectories).Select(Path.GetFileNameWithoutExtension)
+                .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToList()
+            : [];
+        return new RArray(names.Select(n => (object)Interp.S(n)));
+    }
+
     // Formula["name"] from within a formula: another formula of the same tap, at its opt prefix.
     static RObject OtherFormula(Interp it, string name)
     {
@@ -731,6 +755,21 @@ public static partial class FormulaLoader
                 it.Def(cls, m, (i, s, a, b) => i.NewPath(isPkg ? Path.Combine(Opt(i, s, sb), S(s).Name) : Opt(i, s, sb)));
             }
             it.Def(cls, "any_version_installed? latest_version_installed? installed?", (i, s, a, b) => Directory.Exists(Opt(i, s, "")));
+            foreach (var (m, sub) in new[] { ("opt_sbin", "sbin"), ("sbin", "sbin"), ("opt_frameworks", "Frameworks") })
+            {
+                var sb = sub;
+                it.Def(cls, m, (i, s, a, b) => i.NewPath(Opt(i, s, sb)));
+            }
+            // Shared config and state under HOMEBREW_PREFIX, as for the formula being built (certifi links
+            // Formula["ca-certificates"].pkgetc/"cert.pem").
+            string Shared(Interp i, params string[] parts) => Path.Combine(
+                [i.ConstGet(i.ObjectClass, "HOMEBREW_PREFIX") is RObject { Host: string hp } ? hp : DevCommands.Prefix, .. parts]);
+            it.Def(cls, "etc", (i, s, a, b) => i.NewPath(Shared(i, "etc")));
+            it.Def(cls, "pkgetc", (i, s, a, b) => i.NewPath(Shared(i, "etc", S(s).Name)));
+            it.Def(cls, "var", (i, s, a, b) => i.NewPath(Shared(i, "var")));
+            // crystal: deps.filter_map(&:to_formula).reject(&:keg_only?).
+            it.Def(cls, "keg_only?", (i, s, a, b) => S(s).KegOnly);
+            it.Def(cls, "deps", (i, s, a, b) => DependencyObjects(i, S(s)));
             // Formula#versioned_formulae: the other name@version formulae of the same software, newest first
             // (python-setuptools links its files into every python@3.x's site-packages).
             it.Def(cls, "versioned_formulae", (i, s, a, b) =>

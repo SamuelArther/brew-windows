@@ -30,6 +30,7 @@ try
     assertions += FormulaDsl.Run(root);
     assertions += GoRustFormulae.Run(root);
     assertions += FoundationFormulae.Run(root);
+    assertions += Wave9Formulae.Run(root);
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);

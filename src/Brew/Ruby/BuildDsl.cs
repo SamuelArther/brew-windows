@@ -72,8 +72,10 @@ public static partial class FormulaLoader
             return StrArray(args.ToArray());
         });
         it.Def(F, "std_cargo_fetch_args", (i, self, a, b) => StrArray("--locked", "--target", "host-tuple"));
+        // std_meson_args(prefix: self.prefix, libdir: "lib"): glib stages a first build with prefix: buildpath/"staging".
         it.Def(F, "std_meson_args", (i, self, a, b) =>
-            StrArray("--prefix=" + Prefix(i, self), "--libdir=lib", "--buildtype=release", "--wrap-mode=nofallback"));
+            StrArray("--prefix=" + (Kw(i, a, "prefix") is { } p ? i.PathStr(p) : Prefix(i, self)),
+                "--libdir=" + (Kw(i, a, "libdir") is { } l ? i.PathStr(l) : "lib"), "--buildtype=release", "--wrap-mode=nofallback"));
         it.Def(F, "std_npm_args", (i, self, a, b) =>
             StrArray("--loglevel=silly", "--build-from-source", "--cache=" + Path.Combine(Ctx(i, self).BuildPath, ".brew_home", "npm_cache"),
                 "--prefix=" + Path.Combine(Prefix(i, self), "libexec")));

@@ -53,6 +53,9 @@ public static class Patcher
     static void ApplyFile(FilePatch file, string path, bool creating, bool deleting)
     {
         var existed = File.Exists(path);
+        // Like GNU patch, a missing file whose hunks only add lines ("--- a/lib/utf8mac.h 1970-01-01 ...",
+        // "@@ -0,0 +1,1608 @@": the epoch date some diffs give a new file) is created (libiconv's utf8mac patch).
+        if (!existed && file.Hunks.Count > 0 && file.Hunks.All(h => h.Old.Count == 0)) creating = true;
         if (!existed && !creating) throw new InvalidOperationException($"can't find file to patch: {path}");
         var text = existed ? Bytes.GetString(File.ReadAllBytes(path)) : "";
         var crlf = text.Contains("\r\n");

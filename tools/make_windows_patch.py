@@ -9,7 +9,7 @@ import difflib
 import pathlib
 import sys
 
-from import_upstream import PATCHES, REPO, convert, formula_dir
+from import_upstream import PATCHES, PLATFORM_ONLY, PORTABLE, REPO, convert, formula_dir
 
 
 def main():
@@ -21,6 +21,9 @@ def main():
         if not source.exists():
             source = next(core.glob(f"*/{name}.rb"))
         upstream = convert(source.read_text(encoding="utf-8"))
+        # import_upstream.py drops a portable formula's `depends_on :macos/:linux` before applying the patch.
+        if name in PORTABLE:
+            upstream = PLATFORM_ONLY.sub("", upstream)
         target = formula_dir(name) / f"{name}.rb"
         edited = target.read_text(encoding="utf-8")
         rel = target.relative_to(REPO).as_posix()

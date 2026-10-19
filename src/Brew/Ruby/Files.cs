@@ -224,7 +224,8 @@ public sealed partial class Interp
         Def(P, "rmtree", (it, self, a, b) => { it.RemoveTree(it.Abs(Me(self))); return null; });
         Def(P, "unlink delete", (it, self, a, b) =>
         {
-            var p = it.Abs(Me(self));
+            // (bin/"wxrc").unlink removes the built wxrc.exe, as File.exist? finds it.
+            var p = BuiltExecutable(it.Abs(Me(self)));
             if (Directory.Exists(p) && !IsSymlink(p)) Directory.Delete(p);
             else if (File.Exists(p) || IsSymlink(p)) File.Delete(p);
             else if (it.DropPendingCommand?.Invoke(p) == true) { }   // a windows_exe command not yet written to bin
@@ -292,6 +293,12 @@ public sealed partial class Interp
             return null;
         });
         Def(P, "open", (it, self, a, b) => it.Invoke(it.FileClass, "open", a.Prepend(self).ToArray(), b));
+        // Kernel#open with a path is File.open (openssl's test: open("checksum.txt") { |f| f.read(100) }).
+        Def(KernelModule, "open", (it, self, a, b) =>
+        {
+            if (a.Length > 0 && a[0] is RString { V: ['|', ..] }) throw it.Error(it.ArgumentError, "open(\"|command\") is not supported; use IO.popen");
+            return it.Invoke(it.FileClass, "open", a, b);
+        });
 
         // ---- File ----
         var F = FileClass;
@@ -332,7 +339,7 @@ public sealed partial class Interp
             return S(Path.GetFullPath(Path.IsPathRooted(p) ? p : Path.Combine(baseDir, p)).Replace('\\', '/'));
         });
         DefS(F, "realpath", (it, self, a, b) => S(it.Abs(it.PathStr(a[0])).Replace('\\', '/')));
-        DefS(F, "delete unlink", (it, self, a, b) => { foreach (var x in a) File.Delete(it.Abs(it.PathStr(x))); return (long)a.Length; });
+        DefS(F, "delete unlink", (it, self, a, b) => { foreach (var x in a) File.Delete(BuiltExecutable(it.Abs(it.PathStr(x)))); return (long)a.Length; });
         DefS(F, "rename", (it, self, a, b) => { it.MovePath(it.Abs(it.PathStr(a[0])), it.Abs(it.PathStr(a[1]))); return 0L; });
         DefS(F, "symlink", (it, self, a, b) => { it.MakeSymlink(it.PathStr(a[0]), it.Abs(it.PathStr(a[1]))); return 0L; });
         DefS(F, "readlink", (it, self, a, b) => S(new FileInfo(it.Abs(it.PathStr(a[0]))).LinkTarget ?? ""));

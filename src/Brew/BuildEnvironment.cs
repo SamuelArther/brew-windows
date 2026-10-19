@@ -11,12 +11,19 @@ public static class BuildEnvironment
         var cache = paths.CacheRoot;
         var home = Path.Combine(context.BuildPath, ".brew_home");
         Directory.CreateDirectory(home);
+        // Like superenv's deps (the recursive dependencies), the dependencies' own runtime dependencies count too:
+        // fizz finds folly's CMake config, which then needs double-conversion's.
+        var direct = dependencies.ToList();
+        dependencies = WithRuntimeDependencies(paths, direct);
 
-        // Brewed dependencies first, then the toolchain (if any), then the system.
+        // Brewed dependencies first, then the toolchain (if any), then the system. A brewed copy of the toolchain's
+        // own compiler (the gcc formula, which openblas depends on) doesn't go ahead of it.
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(d => Msys2Root == null || !IsCompilerKeg(Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))))
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "bin"))
             .Where(Directory.Exists);
         env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
+            .Concat(Msys2DllDirectories(paths, dependencies))
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
 
         env["HOMEBREW_PREFIX"] = paths.Prefix;
@@ -57,7 +64,7 @@ public static class BuildEnvironment
         // compiler generated file: ''"). _CL_ options apply after the command line, so this turns /GL off.
         env["_CL_"] = "/GL-";
 
-        ApplyToolchain(paths, env, dependencies, context.BuildPath);
+        ApplyToolchain(paths, env, dependencies, context.BuildPath, direct);
     }
 
     // `brew test` gets the compiler half of the build environment (Homebrew's test env is a build env):
@@ -65,7 +72,10 @@ public static class BuildEnvironment
     public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies)
     {
         var env = context.BuildEnvironment;
-        // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH.
+        // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH,
+        // and the DLLs those import, so the dependencies' own runtime dependencies too (gd's test links libgd,
+        // which loads libpng's and freetype's DLLs).
+        dependencies = WithRuntimeDependencies(paths, dependencies);
         var dependencyBins = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
             .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
         // Last, brew itself: Homebrew's tests find `brew` in HOMEBREW_PREFIX/bin (gpk, taproom and frizbee run it).
@@ -85,6 +95,43 @@ public static class BuildEnvironment
         env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
         if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath);
+    }
+
+    // An MSYS2-packaged keg that carries the C runtime's headers: a GCC of its own, not a library.
+    static bool IsCompilerKeg(string keg) => File.Exists(Path.Combine(keg, "libexec", "ucrt64", "include", "stdlib.h"));
+
+    // Formulae packaged from MSYS2 (msys2_install) keep their DLLs in libexec/ucrt64/bin, which programs a build
+    // runs need on PATH (fltk@1.3's fluid.exe loads libpng's libpng16-16.dll). After the toolchain: these folders
+    // also hold the packages' own tools, which shouldn't shadow anything.
+    static IEnumerable<string> Msys2DllDirectories(Paths paths, IEnumerable<string> dependencies) =>
+        dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "libexec", "ucrt64", "bin"))
+            .Where(Directory.Exists).ToList();
+
+    // The names plus every installed keg's recorded runtime dependencies, recursively (receipts list direct ones).
+    public static List<string> WithRuntimeDependencies(Paths paths, IEnumerable<string> names)
+    {
+        var all = new List<string>();
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var pending = new Queue<string>(names);
+        while (pending.Count > 0)
+        {
+            var name = pending.Dequeue();
+            if (!seen.Add(name)) continue;
+            all.Add(name);
+            var receipt = Path.Combine(paths.Prefix, "opt", Paths.FormulaName(name), "INSTALL_RECEIPT.json");
+            try
+            {
+                if (!File.Exists(receipt)) continue;
+                using var json = System.Text.Json.JsonDocument.Parse(File.ReadAllText(receipt));
+                if (json.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object
+                    && json.RootElement.TryGetProperty("Dependencies", out var list) && list.ValueKind == System.Text.Json.JsonValueKind.Array)
+                    foreach (var dependency in list.EnumerateArray())
+                        if (dependency.ValueKind == System.Text.Json.JsonValueKind.String) pending.Enqueue(dependency.GetString()!);
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException or System.Text.Json.JsonException) { }
+        }
+        return all;
     }
 
     // MSYS2's UCRT64 environment is the C/C++ toolchain (what Xcode's Command Line Tools are for
@@ -208,7 +255,7 @@ public static class BuildEnvironment
     // build; the keg carries msys-2.0.dll like Git for Windows does.
     public static bool PosixRuntime => Environment.GetEnvironmentVariable("HOMEBREW_POSIX_RUNTIME") == "1";
 
-    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath)
+    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath, IEnumerable<string> direct = null)
     {
         if (Msys2Root is not { } root) return;
         var posix = PosixRuntime;
@@ -223,6 +270,10 @@ public static class BuildEnvironment
             // under libexec/ucrt64; dependents build against that tree like any other prefix.
             .SelectMany(k => posix || !Directory.Exists(Path.Combine(k, "libexec", "ucrt64")) ? [k] : new[] { k, Path.Combine(k, "libexec", "ucrt64") })
             .ToList();
+        // A brewed compiler (the gcc formula, MSYS2's GCC) carries the C runtime's own headers. As a user include
+        // directory that tree comes before libstdc++'s, whose <cstdlib> then can't #include_next <stdlib.h>
+        // (ntfs2btrfs). It is the compiler's system directory, not a library's.
+        var includeKegs = kegs.Where(k => !File.Exists(Path.Combine(k, "include", "stdlib.h"))).ToList();
 
         // macOS spells the GNU tools g-prefixed (glibtoolize, gsed, gmake); formulae call those names.
         var shims = Path.Combine(buildPath, ".brew_shims");
@@ -254,7 +305,7 @@ public static class BuildEnvironment
         // GCC 15+ rejects errors in uninstantiated template bodies (-Wtemplate-body: rapidjson 1.1's
         // GenericStringRef::operator=, bundled by msgpack-tools and rttr); older compilers only checked instantiations.
         env["CXXFLAGS"] = "-O2 -pipe -Wno-template-body" + newerWarnings;
-        env["CPPFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(d => "-I" + Posix(d)));
+        env["CPPFLAGS"] = string.Join(" ", includeKegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(d => "-I" + Posix(d)));
         env["LDFLAGS"] = string.Join(" ", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(d => "-L" + Posix(d)));
         env["PKG_CONFIG_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix)
             .SelectMany(k => new[] { Path.Combine(k, "lib", "pkgconfig"), Path.Combine(k, "share", "pkgconfig") })
@@ -278,14 +329,24 @@ public static class BuildEnvironment
         if (!env.ContainsKey("CMAKE_POLICY_VERSION_MINIMUM")) env["CMAKE_POLICY_VERSION_MINIMUM"] = "3.5";
         // Superenv's cc shim adds the prefix's and dependencies' include/lib dirs to every compiler call; GCC reads
         // the same lists from CPATH and LIBRARY_PATH, so plain Makefiles and `gcc test.c -lfoo` in tests find them.
-        env["CPATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include")).Where(Directory.Exists).Select(Posix));
-        env["LIBRARY_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib")).Where(Directory.Exists).Select(Posix));
+        // Never set empty: GCC reads an empty list element as the current directory (build2 rejected the
+        // relative "./x86_64-w64-mingw32/16.2.0" that `g++ -print-search-dirs` then listed).
+        foreach (var (name, list) in new[]
+                 {
+                     ("CPATH", includeKegs.Append(paths.Prefix).Select(k => Path.Combine(k, "include"))),
+                     ("LIBRARY_PATH", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "lib"))),
+                 })
+        {
+            var value = string.Join(listSeparator, list.Where(Directory.Exists).Select(Posix));
+            if (value.Length > 0) env[name] = value;
+            else env.Remove(name);
+        }
         // GNU make runs as many jobs as Homebrew's superenv allows (MAKEFLAGS=-j<make_jobs>); a formula's own -j or
         // ENV.deparallelize still wins. Single-job OpenSSL builds ran past the 45-minute limit.
         if (!env.ContainsKey("MAKEFLAGS") && Environment.GetEnvironmentVariable("MAKEFLAGS") is not { Length: > 0 })
             env["MAKEFLAGS"] = "-j" + (env.TryGetValue("HOMEBREW_MAKE_JOBS", out var jobs) ? jobs
                 : Environment.GetEnvironmentVariable("HOMEBREW_MAKE_JOBS") is { Length: > 0 } set ? set : Environment.ProcessorCount.ToString());
-        if (dependencies.Any(d => d is "rust" or "rustup")) PointCcRsAtMsvc(env);
+        if ((direct ?? dependencies).Any(d => d is "rust" or "rustup")) PointCcRsAtMsvc(env);
     }
 
     // Rust's toolchain targets x86_64-pc-windows-msvc, and cc-rs (the C build of *-sys crates) reads CC and AR before
@@ -296,11 +357,19 @@ public static class BuildEnvironment
         if (MsvcX64 is not { } msvc || !msvc.TryGetValue("__MSVC_PATH", out var dirs)) return;
         string Tool(string exe) => dirs.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(d => Path.Combine(d.Trim('"'), exe)).FirstOrDefault(File.Exists);
         if (Tool("cl.exe") is not { } cl || Tool("lib.exe") is not { } lib) return;
-        // CFLAGS/CXXFLAGS hold GCC's options ("-Wno-error=..." is a fatal D8021 to cl); the target-specific ones,
-        // read instead of them, stay empty.
-        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib), ("CFLAGS", ""), ("CXXFLAGS", "") })
+        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib) })
             if (!env.ContainsKey(name + "_x86_64_pc_windows_msvc")) env[name + "_x86_64_pc_windows_msvc"] = value;
+        // cc-rs passes CFLAGS/CXXFLAGS to cl together with the target-specific ones (it reads them all, so an empty
+        // CFLAGS_x86_64_pc_windows_msvc hides nothing), and GCC's -Wno-error=/-Wno-template-body are a fatal D8021
+        // to cl (turso, cargo-c, ring in whodb-cli and nfd2nfc, pydantic-core). Rust builds keep what both accept.
+        env["CFLAGS"] = MsvcSafeFlags(env.GetValueOrDefault("CFLAGS"));
+        env["CXXFLAGS"] = MsvcSafeFlags(env.GetValueOrDefault("CXXFLAGS"));
     }
+
+    // Drops the GCC-only flags (-W..., -std=, -pipe) that cl.exe rejects or warns about; keeps the rest (-O2).
+    public static string MsvcSafeFlags(string flags) => string.Join(" ", (flags ?? "")
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Where(f => !f.StartsWith("-W", StringComparison.Ordinal) && !f.StartsWith("-std=", StringComparison.Ordinal) && f != "-pipe"));
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.
     // Copy those DLLs next to each binary so the keg (and its bottle) runs without MSYS2.

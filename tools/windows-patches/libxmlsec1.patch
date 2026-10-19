@@ -1,0 +1,14 @@
+--- a/tap/homebrew-core/Formula/l/libxmlsec1.rb
++++ b/tap/homebrew-core/Formula/l/libxmlsec1.rb
+@@ -20,6 +20,11 @@
+   depends_on "libxml2"
+   depends_on "openssl@4"
+   uses_from_macos "libxslt"
++
++  # Windows has no system libxslt for configure's -lxslt (as on Linux, it's a dependency).
++  on_windows do
++    depends_on "libxslt"
++  end
+ 
+   # Add HOMEBREW_PREFIX/lib to dl load path
+   patch :DATA
