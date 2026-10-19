@@ -1,9 +1,9 @@
 class DockerMachine < Formula
   desc "Create Docker hosts locally and on cloud providers"
   homepage "https://docs.gitlab.com/runner/executors/docker_machine.html"
-  url "https://gitlab.com/gitlab-org/ci-cd/docker-machine/-/archive/v0.16.2-gitlab.62/docker-machine-v0.16.2-gitlab.62.tar.bz2"
-  version "0.16.2-gitlab.62"
-  sha256 "499a62e0eb71a8c7e6bb130f1b9f928fa0910beba30afda95be06ef35243eb5e"
+  url "https://gitlab.com/gitlab-org/ci-cd/docker-machine/-/archive/v0.16.2-gitlab.63/docker-machine-v0.16.2-gitlab.63.tar.bz2"
+  version "0.16.2-gitlab.63"
+  sha256 "0144733564f8a45ab0a044710f89f7a4ac053d938dc07aef34fb0b69ae458c88"
   license "Apache-2.0"
   compatibility_version 1
   head "https://gitlab.com/gitlab-org/ci-cd/docker-machine.git", branch: "main"
@@ -14,7 +14,7 @@ class DockerMachine < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a6bf85755a8effd691e8d34e8347347afd0368d6c7da5b5f7d923c4b75186fef"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9d1bbaf01d41014f4b0af9c4949282f15e7ec07a09ba831ff4d285af1deb163e"
   end
 
   # After Docker ended support for original docker-machine[^1], we have used

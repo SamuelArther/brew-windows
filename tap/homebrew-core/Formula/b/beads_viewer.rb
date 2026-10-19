@@ -6,7 +6,7 @@ class BeadsViewer < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1696bee0013017e0b221c09ab5422ae28169f596ff76f928897920375ff6e278"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d5709b882e9ae7984df5227561f67bb4b35f761bdeea8242d697977dae08bd85"
   end
 
   depends_on "go" => :build
@@ -20,6 +20,7 @@ class BeadsViewer < Formula
   def install
     ldflags = %W[-X github.com/Dicklesworthstone/beads_viewer/pkg/version.version=v#{version}]
     system "go", "build", *std_go_args(ldflags:, output: bin/"bv"), "./cmd/bv"
+    generate_completions_from_executable(bin/"bv", shell_parameter_format: :cobra)
   end
 
   test do

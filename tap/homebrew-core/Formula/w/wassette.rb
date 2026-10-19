@@ -1,8 +1,8 @@
 class Wassette < Formula
   desc "Security-oriented runtime that runs WebAssembly Components via MCP"
   homepage "https://microsoft.github.io/wassette/"
-  url "https://github.com/microsoft/wassette/archive/refs/tags/v0.8.0.tar.gz"
-  sha256 "ed6ae36056fed2dc11f734623ca97f74159f648367b12c2d49c559b126f27ac0"
+  url "https://github.com/microsoft/wassette/archive/refs/tags/v0.8.1.tar.gz"
+  sha256 "62a8b7197a3193c604fa4374619529e2ec95e1416017863625fe9b1449453c48"
   license "MIT"
   head "https://github.com/microsoft/wassette.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Wassette < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "49c9f9be30cb6a222d1e485b033995370219844bd79f03ffa94537d7bce40d73"
+    sha256 cellar: :any, x86_64_windows: "8f7e5e71009acfba42fb222d06b72bcc5baa5690c6b35d8ef1f1751ebff7116d"
   end
 
   depends_on "pkgconf" => :build

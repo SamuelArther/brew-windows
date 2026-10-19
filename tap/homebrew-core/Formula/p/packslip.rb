@@ -1,13 +1,13 @@
 class Packslip < Formula
   desc "Signed release manifest for vendor binaries"
   homepage "https://packslip.dev"
-  url "https://github.com/jdx/packslip/archive/refs/tags/v1.7.0.tar.gz"
-  sha256 "93541f7f0313372bdd269e8163cf4388253a2199a14464d0a61469a7d932a1f6"
+  url "https://github.com/jdx/packslip/archive/refs/tags/v1.9.0.tar.gz"
+  sha256 "f34158114ca8ae673c36603461520beeb6755b54886c18dd630f64f4e4331767"
   license "MIT"
   head "https://github.com/jdx/packslip.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4dad04553470d95df79933c122f2e98f7295a1eb17fcfbf82390bc85c5c5cd01"
+    sha256 cellar: :any, x86_64_windows: "6fbc4cdeabaf0d7694b6f3585af5d58bac10d5b7a7c841faaa9d710738288e17"
   end
 
   depends_on "rust" => :build

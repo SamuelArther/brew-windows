@@ -1,8 +1,8 @@
 class Gitea < Formula
   desc "Painless self-hosted all-in-one software development service"
   homepage "https://about.gitea.com/"
-  url "https://dl.gitea.com/gitea/28.1.0/gitea-src-28.1.0.tar.gz"
-  sha256 "c833707707b6938e52da2f593c9b26b87f20c011b748e2176f608bdee436e62d"
+  url "https://dl.gitea.com/gitea/28.2.0/gitea-src-28.2.0.tar.gz"
+  sha256 "b8ad80f8a79ea42fa5cf52bdc3d5fd3457bb6abd6bd57cfcfab6a5ad4f31c3dc"
   license "MIT"
 
   livecheck do
@@ -13,7 +13,7 @@ class Gitea < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "676eef7107580fef848c4d7699ee34e47e5be38407af495da09296c98c045752"
+    sha256 cellar: :any, x86_64_windows: "630e0ce2e4dd5fe2e2bbc843ac1ad649f2ed26ece01f3998c9fc6dcf565c5491"
   end
 
   head do

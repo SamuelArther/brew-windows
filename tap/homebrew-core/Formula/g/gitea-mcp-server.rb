@@ -1,13 +1,13 @@
 class GiteaMcpServer < Formula
   desc "Interactive with Gitea instances with MCP"
   homepage "https://gitea.com/gitea/gitea-mcp"
-  url "https://gitea.com/gitea/gitea-mcp/archive/v1.9.0.tar.gz"
-  sha256 "bd5928fa35de145d7c4ed95f60242bec74b30d254ef219547e035d6862a1add4"
+  url "https://gitea.com/gitea/gitea-mcp/archive/v1.10.0.tar.gz"
+  sha256 "6cb7f69018160ff67f89f9f5fba5799be8274e75fecee03869be21cc5c528d92"
   license "MIT"
   head "https://gitea.com/gitea/gitea-mcp.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f2246a24cbb0aec73be94320185fc96d285a8446d180adb4e4d13a0341472950"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "28a65859f4efd07bbfd206b858622b9aee6c2bdf2bf5387afe17cbc7e3079b6d"
   end
 
   depends_on "go" => :build

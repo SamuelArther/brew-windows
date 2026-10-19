@@ -14,7 +14,7 @@ class Calicoctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "497f727256c85576ef15da9e1f3894c2e5d553bb5307e5b6bfffd7b176c997b5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "296fdc61f213f06caa6422febdfef5d55f9ada5bafdf7fbfc6245289cb8b67c2"
   end
 
   depends_on "go" => :build
@@ -32,6 +32,7 @@ class Calicoctl < Formula
       -X github.com/projectcalico/calico/pkg/buildinfo.BuildDate=#{time.iso8601}
     ]
     system "go", "build", *std_go_args(ldflags:), "calicoctl/calicoctl/calicoctl.go"
+    generate_completions_from_executable(bin/"calicoctl", shell_parameter_format: :cobra)
   end
 
   test do

@@ -1,16 +1,20 @@
 class GeminiCli < Formula
   desc "Interact with Google Gemini AI models from the command-line"
   homepage "https://geminicli.com"
-  url "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.46.0.tgz"
-  sha256 "0f36bcd29dcb69ac484427fad57006579b4b559f4b36ecbf893e9f960e1bbc40"
+  url "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.64.0.tgz"
+  sha256 "891a794e55c8319b6b78f6f8f13d6b8b2782a4709dfd2fcabf3a1f63ae8365e6"
   license "Apache-2.0"
+
+  livecheck do
+    url :stable
+  end
+
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "49dce23710833d08c5ae315710628cbb0dffc1986f741eb36dc2a390242e7417"
+  end
 
   deprecate! date: "2026-06-18", because: :unsupported, replacement_cask: "antigravity-cli"
   disable! date: "2026-12-18", because: :unsupported, replacement_cask: "antigravity-cli"
-
-  bottle do
-    sha256 cellar: :any, x86_64_windows: "9fef9cd7af5bd8270302c8a7bdc76bedb848bd3cc1d65add5e87819ee35e4348"
-  end
 
   depends_on "node"
 
@@ -24,14 +28,7 @@ class GeminiCli < Formula
     system "npm", "install", *std_npm_args
     bin.install_symlink libexec.glob("bin/*")
 
-    # Remove incompatible pre-built binaries
-    os = OS.kernel_name.downcase
-    arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
     node_modules = libexec/"lib/node_modules/@google/gemini-cli/node_modules"
-    node_modules.glob("{bare-fs,bare-os,bare-url,tree-sitter-bash,node-pty}/prebuilds/*").each do |dir|
-      rm_r(dir) if dir.basename.to_s != "#{os}-#{arch}"
-    end
-
     cd node_modules/"@github/keytar" do
       rm_r "prebuilds"
       system "npm", "run", "build"

@@ -1,0 +1,227 @@
+[
+  {
+    "name": "abcmidi",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "beads_viewer",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "calicoctl",
+    "status": "ok",
+    "seconds": 216
+  },
+  {
+    "name": "cargo-run-bin",
+    "status": "ok",
+    "seconds": 401
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 164
+  },
+  {
+    "name": "certifi",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "chardet",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "chart-releaser",
+    "status": "ok",
+    "seconds": 107
+  },
+  {
+    "name": "dbmate",
+    "status": "ok",
+    "seconds": 138
+  },
+  {
+    "name": "docker-agent",
+    "status": "ok",
+    "seconds": 271
+  },
+  {
+    "name": "docker-machine",
+    "status": "ok",
+    "seconds": 81
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 212
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 137
+  },
+  {
+    "name": "fakecloud",
+    "status": "ok",
+    "seconds": 2594
+  },
+  {
+    "name": "gemini-cli",
+    "status": "ok",
+    "seconds": 105
+  },
+  {
+    "name": "gitea",
+    "status": "ok",
+    "seconds": 244
+  },
+  {
+    "name": "gitea-mcp-server",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "icu4c@78",
+    "status": "ok",
+    "seconds": 386
+  },
+  {
+    "name": "karakeep",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "keploy",
+    "status": "ok",
+    "seconds": 150
+  },
+  {
+    "name": "lfk",
+    "status": "ok",
+    "seconds": 110
+  },
+  {
+    "name": "libsais",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 137
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "obscura",
+    "status": "ok",
+    "seconds": 677
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "ok",
+    "seconds": 234
+  },
+  {
+    "name": "openfasttrace",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "opkssh",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 265
+  },
+  {
+    "name": "prestd",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "redress",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "render",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "resterm",
+    "status": "ok",
+    "seconds": 87
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 98
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 350
+  },
+  {
+    "name": "sonar-scanner",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "technitium-library",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 104
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "wassette",
+    "status": "ok",
+    "seconds": 1050
+  },
+  {
+    "name": "ytt",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 29
+  }
+]

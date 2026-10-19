@@ -1,18 +1,19 @@
 class TechnitiumLibrary < Formula
   desc "Library for technitium .net based applications"
   homepage "https://technitium.com"
-  url "https://github.com/TechnitiumSoftware/TechnitiumLibrary/archive/refs/tags/dns-server-v15.6.1.tar.gz"
-  sha256 "981c54a68007f4d7c6e4af09faf8eb8cfe613dd4760ab5daebd504756fb7f4f1"
+  url "https://github.com/TechnitiumSoftware/TechnitiumLibrary/archive/refs/tags/dns-server-v15.6.2.tar.gz"
+  sha256 "e7f5add92da555fc3120991fabd802c0605ab9c45cb4b56137dfb0699a006cec"
   license "GPL-3.0-only"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3347dd5ab0a1646dbbddb980fd9b724c0047853ded72a9ee49798ded47774ed8"
+    sha256 cellar: :any, x86_64_windows: "9ee2fc30bc60b79e0d480c02abe51c186031d7900feb5e6c7d42193b7d334be6"
   end
 
   depends_on "dotnet"
 
   def install
     ENV["DOTNET_CLI_TELEMETRY_OPTOUT"] = "1"
+    ENV["XDG_RUNTIME_DIR"] = buildpath
 
     dotnet = Formula["dotnet"]
     args = %W[

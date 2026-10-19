@@ -7,7 +7,7 @@ class ChartReleaser < Formula
   head "https://github.com/helm/chart-releaser.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4bab0fcfe4b90ffc460554a6463ff28e2c36701bfb9f78a5b65a858b6110c9dc"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6f4922ccf90dde1dbf9dc604a3f3e3ec27f31151176704543eb1812d4bba3154"
   end
 
   depends_on "go" => :build
@@ -26,6 +26,7 @@ class ChartReleaser < Formula
       -X github.com/helm/chart-releaser/cr/cmd.BuildDate=#{time.iso8601}
     ]
     system "go", "build", *std_go_args(ldflags:, output: bin/"cr"), "./cr"
+    generate_completions_from_executable(bin/"cr", shell_parameter_format: :cobra)
   end
 
   test do

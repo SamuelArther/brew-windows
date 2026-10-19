@@ -1,12 +1,12 @@
 class CargoRunBin < Formula
   desc "Build, cache, and run binaries from Cargo.toml to avoid global installs"
   homepage "https://dustinblackman.com/posts/why-does-everyone-install-crates-globally/"
-  url "https://github.com/dustinblackman/cargo-run-bin/archive/refs/tags/v1.7.4.tar.gz"
-  sha256 "fd492430a60ca488ad8c356f9c6389426f3fbcd59658e5b721855e171cb62841"
+  url "https://static.crates.io/crates/cargo-run-bin/cargo-run-bin-1.7.5.crate"
+  sha256 "1ba4ea665f68a2042470ec6e27a36755783ebd3367b90bec2fb100f9d5012fd8"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f28357e6b48ae2db2e98e6e13b960d3e380336cb2f1a810dffebe288eb08b641"
+    sha256 cellar: :any, x86_64_windows: "6fc295d2350d140c02d6578e957f9f7b80f0a69ddb5d3cc0ab750c3fd2a7c435"
   end
 
   depends_on "rust" => :build
