@@ -69,9 +69,9 @@ public sealed class Downloader(string cache, HttpClient httpClient = null)
         if (sha256 == null || !System.Text.RegularExpressions.Regex.IsMatch(sha256, @"\A[0-9a-fA-F]{64}\z"))
             throw new InvalidOperationException("Formula must supply a SHA-256 checksum.");
         var uri = new Uri(url);
-        if (uri.Scheme != "https") throw new InvalidOperationException("Formula URL must use HTTPS.");
-        // Mirrors may be plain http (openssl@4's is): like Homebrew they're only fallbacks, and the SHA-256
-        // check still decides what's accepted. Anything else (ftp:, file:) is left out.
+        // Plain http is accepted, as Homebrew accepts it (old projects, and openssl@4's mirror): the SHA-256
+        // check above is mandatory and decides what's kept. Anything else (ftp:, file:) is left out.
+        if (uri.Scheme is not ("https" or "http")) throw new InvalidOperationException("Formula URL must use HTTPS or HTTP.");
         var urls = new[] { uri }.Concat((mirrors ?? []).Select(mirror => new Uri(mirror)).Where(m => m.Scheme is "https" or "http"))
             .Distinct().ToList();
         var name = FileName(url);
