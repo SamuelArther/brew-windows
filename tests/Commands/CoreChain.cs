@@ -106,8 +106,12 @@ static class CoreChain
             Directory.CreateDirectory(depBin);
             File.Copy(sample, Path.Combine(keg, "_mod.cp314-win_amd64.pyd"), true);
             File.WriteAllText(Path.Combine(depBin, imported), "not a PE");
+            var loaders = Path.Combine(dir, "pyd-keg", "lib", "gdk-pixbuf-2.0", "2.10.0", "loaders");
+            Directory.CreateDirectory(loaders);
+            File.Copy(sample, Path.Combine(loaders, "libpixbufloader-png.dll"), true);
             BuildEnvironment.BundleToolchainDlls(Path.Combine(dir, "pyd-keg"), [Path.Combine(dir, "pyd-dep")]);
             Check(File.Exists(Path.Combine(keg, imported)), "a .pyd's imported DLL is copied beside it: " + imported);
+            Check(!File.Exists(Path.Combine(loaders, imported)), "but not beside plugin DLLs in folders without programs (gdk-pixbuf loaders)");
 
             // Utils.binary_linked_to_library? (cargo-c's test) reads the import table; versioned DLL names match.
             var it = FormulaLoader.NewInterpreterForTests();

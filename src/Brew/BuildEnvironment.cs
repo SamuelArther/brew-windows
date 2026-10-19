@@ -454,6 +454,10 @@ public static class BuildEnvironment
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.
     // Copy those DLLs next to each binary so the keg (and its bottle) runs without MSYS2.
+    static bool IsProgramFolder(string directory) =>
+        Path.GetFileName(directory).Equals("bin", StringComparison.OrdinalIgnoreCase)
+        || Directory.EnumerateFiles(directory, "*.exe").Any();
+
     public static void BundleToolchainDlls(string keg, IEnumerable<string> dependencyKegs = null)
     {
         // Where an imported DLL can come from: the keg's dependencies (their bin and lib), then the
@@ -466,9 +470,11 @@ public static class BuildEnvironment
         foreach (var binary in Paths.TreeFiles(keg)
                      // Python extension modules too: Python 3.8+ doesn't load their DLLs from PATH (numpy's
                      // _multiarray_umath needs libopenblas and GCC's runtime: "DLL load failed while importing").
-                     // A second copy on disk is harmless: Windows reuses a DLL already loaded under the same name.
-                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
-                                 || f.EndsWith(".pyd", StringComparison.OrdinalIgnoreCase)).ToList())
+                     // Not plugin DLLs in folders without programs (gdk-pixbuf's loaders, GIO modules): their host's own
+                     // folder supplies those, and copies beside them loaded GLib twice ("cannot register existing type"),
+                     // which hung gdk-pixbuf-query-loaders.
+                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".pyd", StringComparison.OrdinalIgnoreCase)
+                                 || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) && IsProgramFolder(Path.GetDirectoryName(f)!)).ToList())
         {
             var directory = Path.GetDirectoryName(binary)!;
             var pending = new Queue<string>(PortableExecutable.Imports(binary));
