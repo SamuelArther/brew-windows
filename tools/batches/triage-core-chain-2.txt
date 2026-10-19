@@ -1,0 +1,12 @@
+glib
+vala
+gdk-pixbuf
+pygobject3
+extra-cmake-modules
+cargo-c
+numpy
+pydantic
+fallow
+zeroclaw
+cryptography
+pygit2
