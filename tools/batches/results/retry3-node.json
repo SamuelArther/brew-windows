@@ -1,0 +1,97 @@
+[
+  {
+    "name": "basedpyright",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "bcoin",
+    "status": "ok",
+    "seconds": 185
+  },
+  {
+    "name": "bpmnlint",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "claude-code-router",
+    "status": "ok",
+    "seconds": 174
+  },
+  {
+    "name": "commitlint",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "cspell",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "gemini-cli",
+    "status": "ok",
+    "seconds": 92
+  },
+  {
+    "name": "gitmoji",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "graphqurl",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "markdown-toc",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "mimo-code",
+    "status": "test",
+    "seconds": 12
+  },
+  {
+    "name": "npm-check-updates",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "ok",
+    "seconds": 228
+  },
+  {
+    "name": "openlore",
+    "status": "build",
+    "seconds": 235
+  },
+  {
+    "name": "qnm",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "style-dictionary",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "tweakcc",
+    "status": "ok",
+    "seconds": 81
+  }
+]
