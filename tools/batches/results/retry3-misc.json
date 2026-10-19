@@ -1,0 +1,87 @@
+[
+  {
+    "name": "bar",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "clozure-cl",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "convertlit",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "dupseek",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "dvdrtools",
+    "status": "build",
+    "seconds": 266
+  },
+  {
+    "name": "freeimage",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "go@1.24",
+    "status": "ok",
+    "seconds": 247
+  },
+  {
+    "name": "go@1.25",
+    "status": "ok",
+    "seconds": 187
+  },
+  {
+    "name": "goredo",
+    "status": "build",
+    "seconds": 35
+  },
+  {
+    "name": "intercal",
+    "status": "test",
+    "seconds": 39
+  },
+  {
+    "name": "libpcl",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "libxdiff",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "lockrun",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "lua@5.4",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "perceptualdiff",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "sassc",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "uffizzi",
+    "status": "build",
+    "seconds": 50
+  }
+]
