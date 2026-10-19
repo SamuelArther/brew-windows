@@ -1,6 +1,5 @@
 # Bottle batches waiting their turn: each bottles.yml run starts the first line when it finishes.
 # Format: <batch> [chunk_size=N] [toolchain=true] [formula_timeout=M] [from_run=ID]
-retry3-misc chunk_size=10 toolchain=true
 retry3-java chunk_size=20
 retry3-node chunk_size=20
 retry3-heavy chunk_size=1 toolchain=true formula_timeout=300
