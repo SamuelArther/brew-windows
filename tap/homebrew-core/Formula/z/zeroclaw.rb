@@ -6,6 +6,10 @@ class Zeroclaw < Formula
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/zeroclaw-labs/zeroclaw.git", branch: "master"
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "a58db1b4482be9acdc35cf09701c622ec60914062ab34098996dbd4171c5b094"
+  end
+
   depends_on "rust" => :build
 
   deny_network_access!

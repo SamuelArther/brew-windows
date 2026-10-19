@@ -6,6 +6,10 @@ class Fallow < Formula
   license "MIT"
   head "https://github.com/fallow-rs/fallow.git", branch: "main"
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "39c0976ff92eba49bd37bf59faf0fbce1428b17835a96addd23feea54616e232"
+  end
+
   depends_on "rust" => :build
 
   deny_network_access!
