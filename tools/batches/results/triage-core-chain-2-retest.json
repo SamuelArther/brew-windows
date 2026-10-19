@@ -1,0 +1,62 @@
+[
+  {
+    "name": "cargo-c",
+    "status": "test",
+    "seconds": 724
+  },
+  {
+    "name": "cryptography",
+    "status": "build",
+    "seconds": 244
+  },
+  {
+    "name": "extra-cmake-modules",
+    "status": "ok",
+    "seconds": 217
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1544
+  },
+  {
+    "name": "gdk-pixbuf",
+    "status": "build",
+    "seconds": 234
+  },
+  {
+    "name": "glib",
+    "status": "build",
+    "seconds": 211
+  },
+  {
+    "name": "numpy",
+    "status": "test",
+    "seconds": 607
+  },
+  {
+    "name": "pydantic",
+    "status": "ok",
+    "seconds": 1011
+  },
+  {
+    "name": "pygit2",
+    "status": "build",
+    "seconds": 79
+  },
+  {
+    "name": "pygobject3",
+    "status": "build",
+    "seconds": 225
+  },
+  {
+    "name": "vala",
+    "status": "build",
+    "seconds": 207
+  },
+  {
+    "name": "zeroclaw",
+    "status": "ok",
+    "seconds": 1294
+  }
+]
