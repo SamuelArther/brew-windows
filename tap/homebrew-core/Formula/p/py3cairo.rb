@@ -7,6 +7,10 @@ class Py3cairo < Formula
   revision 1
   compatibility_version 1
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "3ae9016174d980a3226c19c9d7b726fbbc6f2874d2f0a55248a8b1cacb18199c"
+  end
+
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkgconf" => :build

@@ -9,6 +9,10 @@ class Pydantic < Formula
   version_scheme 1
   compatibility_version 1
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "503be109dfd77ea187bfadb83fe7a6ee2b63c3c32e160b36389368e35993e3d3"
+  end
+
   depends_on "maturin" => :build
   depends_on "python@3.14" => [:build, :test]
   depends_on "python@3.15" => [:build, :test]

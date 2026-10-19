@@ -1,0 +1,242 @@
+[
+  {
+    "name": "adwaita-icon-theme",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "ansible",
+    "status": "build",
+    "seconds": 409
+  },
+  {
+    "name": "asciidoc",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "boost-python3",
+    "status": "build",
+    "seconds": 997
+  },
+  {
+    "name": "build2",
+    "status": "build",
+    "seconds": 1090
+  },
+  {
+    "name": "cargo-c",
+    "status": "ok",
+    "seconds": 617
+  },
+  {
+    "name": "cffi",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "chafa",
+    "status": "test",
+    "seconds": 246
+  },
+  {
+    "name": "cryptography",
+    "status": "ok",
+    "seconds": 418
+  },
+  {
+    "name": "eigenpy",
+    "status": "build",
+    "seconds": 33
+  },
+  {
+    "name": "extra-cmake-modules",
+    "status": "ok",
+    "seconds": 183
+  },
+  {
+    "name": "fits",
+    "status": "test",
+    "seconds": 31
+  },
+  {
+    "name": "fizz",
+    "status": "build",
+    "seconds": 68
+  },
+  {
+    "name": "fluid-synth",
+    "status": "test",
+    "seconds": 98
+  },
+  {
+    "name": "gcl",
+    "status": "build",
+    "seconds": 104
+  },
+  {
+    "name": "gd",
+    "status": "test",
+    "seconds": 297
+  },
+  {
+    "name": "gdk-pixbuf",
+    "status": "test",
+    "seconds": 27
+  },
+  {
+    "name": "glib",
+    "status": "ok",
+    "seconds": 269
+  },
+  {
+    "name": "gtk4",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "juise",
+    "status": "build",
+    "seconds": 121
+  },
+  {
+    "name": "lazycut",
+    "status": "ok",
+    "seconds": 187
+  },
+  {
+    "name": "libadwaita",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libiconv",
+    "status": "build",
+    "seconds": 106
+  },
+  {
+    "name": "libslax",
+    "status": "build",
+    "seconds": 120
+  },
+  {
+    "name": "libsoup",
+    "status": "build",
+    "seconds": 367
+  },
+  {
+    "name": "libxml++",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "net-snmp",
+    "status": "build",
+    "seconds": 1417
+  },
+  {
+    "name": "nfd2nfc",
+    "status": "build",
+    "seconds": 180
+  },
+  {
+    "name": "ntfs2btrfs",
+    "status": "build",
+    "seconds": 63
+  },
+  {
+    "name": "numpy",
+    "status": "ok",
+    "seconds": 701
+  },
+  {
+    "name": "py3cairo",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "pybind11",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "pydantic",
+    "status": "ok",
+    "seconds": 1220
+  },
+  {
+    "name": "pyenv",
+    "status": "build",
+    "seconds": 63
+  },
+  {
+    "name": "pygit2",
+    "status": "test",
+    "seconds": 108
+  },
+  {
+    "name": "pygobject3",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "rio-terminal",
+    "status": "ok",
+    "seconds": 1003
+  },
+  {
+    "name": "scipy",
+    "status": "build",
+    "seconds": 1078
+  },
+  {
+    "name": "sdl2_image",
+    "status": "test",
+    "seconds": 180
+  },
+  {
+    "name": "sdl2_mixer",
+    "status": "test",
+    "seconds": 927
+  },
+  {
+    "name": "sphinx-doc",
+    "status": "ok",
+    "seconds": 168
+  },
+  {
+    "name": "tesseract",
+    "status": "ok",
+    "seconds": 602
+  },
+  {
+    "name": "turso",
+    "status": "ok",
+    "seconds": 537
+  },
+  {
+    "name": "vala",
+    "status": "test",
+    "seconds": 637
+  },
+  {
+    "name": "whodb-cli",
+    "status": "build",
+    "seconds": 891
+  },
+  {
+    "name": "wxwidgets",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "wxwidgets@3.2",
+    "status": "build",
+    "seconds": 66
+  },
+  {
+    "name": "xapian",
+    "status": "build",
+    "seconds": 465
+  }
+]

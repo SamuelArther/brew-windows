@@ -9,6 +9,10 @@ class SphinxDoc < Formula
   revision 5
   head "https://github.com/sphinx-doc/sphinx.git", branch: "master"
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "f1d6658eed9d0caa89e5fd6a80b91db4aaa460177ccafd3880eec5a196276a88"
+  end
+
   depends_on "certifi"
   depends_on "python@3.15"
 

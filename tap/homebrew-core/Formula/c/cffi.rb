@@ -7,6 +7,10 @@ class Cffi < Formula
   revision 1
   compatibility_version 1
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "8761515bb8ce35670220d82a76f62ba2f678f3c031a7e4765ec1339587d66be5"
+  end
+
   depends_on "python@3.14" => [:build, :test]
   depends_on "python@3.15" => [:build, :test]
   depends_on "pycparser"

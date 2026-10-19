@@ -7,6 +7,10 @@ class Numpy < Formula
   compatibility_version 1
   head "https://github.com/numpy/numpy.git", branch: "main"
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "ba66e9bfc7b864ccc3ed6fed55b5425fefee9dd015475cd7f5501869b03408ed"
+  end
+
   depends_on "gcc" => :build # for gfortran
   depends_on "meson" => :build
   depends_on "ninja" => :build

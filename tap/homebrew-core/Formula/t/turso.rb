@@ -11,6 +11,10 @@ class Turso < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "b12cf11509d1701d97ec0b25a2ea0b87c36a4c4f1f83984753c2044e4ac7d613"
+  end
+
   depends_on "rust" => :build
   uses_from_macos "sqlite" => :test
 

@@ -11,6 +11,10 @@ class CargoC < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "1c4a1dad886368ed150046c4613226eca768811ed183950eeb27471425f162fb"
+  end
+
   depends_on "pkgconf" => :build
   depends_on "rust" => :build
   depends_on "libgit2"

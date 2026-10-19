@@ -11,6 +11,10 @@ class ExtraCmakeModules < Formula
     regex(%r{href=.*?v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "efbe546107b9964eeca74d262ce5cb002f1cacb6c7a0205107d4fb2fd711eb50"
+  end
+
   depends_on "cmake" => [:build, :test]
   depends_on "sphinx-doc" => :build
 

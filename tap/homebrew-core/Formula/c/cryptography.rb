@@ -8,6 +8,10 @@ class Cryptography < Formula
   compatibility_version 2
   head "https://github.com/pyca/cryptography.git", branch: "main"
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "9fbe14f2b87c49935e1c0cd10cb6750136185bcb7809e1e4fa896579602734a2"
+  end
+
   depends_on "maturin" => :build
   depends_on "pkgconf" => :build
   depends_on "python-setuptools" => :build
