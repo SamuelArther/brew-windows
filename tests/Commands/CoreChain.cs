@@ -99,6 +99,27 @@ static class CoreChain
                 "import names compare case-insensitively");
         }
 
+        // Visual Studio builds of Python extensions get the dependencies' headers and libraries (pygit2: git2.h,
+        // git2.lib), with MinGW's libfoo.dll.a offered as foo.lib.
+        {
+            var git2 = Path.Combine(dir, "msvc-git2");
+            Directory.CreateDirectory(Path.Combine(git2, "include"));
+            Directory.CreateDirectory(Path.Combine(git2, "lib"));
+            File.WriteAllText(Path.Combine(git2, "lib", "libgit2.dll.a"), "!<arch>\n");
+            Directory.CreateDirectory(Path.Combine(dir, "msvc-home"));
+            var it = FormulaLoader.NewInterpreterForTests();
+            it.Env["CPATH"] = Path.Combine(git2, "include").Replace('\\', '/');
+            it.Env["LIBRARY_PATH"] = Path.Combine(git2, "lib").Replace('\\', '/');
+            it.Env["INCLUDE"] = @"C:\VS\include";
+            it.Env["LIB"] = Path.Combine(dir, "msvc-home");
+            it.Env["HOME"] = Path.Combine(dir, "msvc-home");
+            FormulaLoader.AddDependenciesForMsvc(it);
+            Check(it.Env["INCLUDE"].Split(';').Contains(Path.Combine(git2, "include"), StringComparer.OrdinalIgnoreCase), "MSVC INCLUDE gets the dependencies' include folders: " + it.Env["INCLUDE"]);
+            var shim = Path.Combine(dir, "msvc-home", ".brew_msvc_lib");
+            Check(File.Exists(Path.Combine(shim, "git2.lib")) && it.Env["LIB"].Split(';').Contains(shim, StringComparer.OrdinalIgnoreCase)
+                  && it.Env["LIB"].Split(';')[0] == Path.Combine(dir, "msvc-home"), "MSVC LIB keeps Visual Studio's first and finds libgit2.dll.a as git2.lib: " + it.Env["LIB"]);
+        }
+
         // python@3.15's libexec/bin/python is a link to libexec/tools/python.exe, which imports python315.dll from
         // the link's own folder: the formula links the DLLs too.
         var python315 = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "../../../../../../tap/homebrew-core/Formula/p/python@3.15.rb"));

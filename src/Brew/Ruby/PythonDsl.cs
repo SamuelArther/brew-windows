@@ -315,12 +315,38 @@ public static partial class FormulaLoader
                 // Visual Studio's tools go first: MSYS2's coreutils has a link.exe of its own.
                 i.Env[name] = key == "__MSVC_PATH" ? value + ";" + (i.Env.GetValueOrDefault("PATH") ?? Environment.GetEnvironmentVariable("PATH")) : value;
             }
+        if (BuildEnvironment.MsvcX64 != null) AddDependenciesForMsvc(i);
         try { return run(); }
         finally
         {
             foreach (var (name, value) in saved)
                 if (value == null) i.Env.Remove(name); else i.Env[name] = value;
         }
+    }
+
+    // Superenv's -I/-L for the dependencies, for cl and link: setuptools extensions built with Visual Studio
+    // (pygit2's against libgit2: "C1083: Cannot open include file: 'git2.h'") see the same headers and libraries
+    // GCC gets through CPATH and LIBRARY_PATH, after Visual Studio's own. link.exe looks for foo.lib where MinGW
+    // installs libfoo.dll.a; both are COFF import libraries, so a copy under the MSVC name serves it.
+    public static void AddDependenciesForMsvc(Interp i)
+    {
+        static IEnumerable<string> List(string value) => (value ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries)
+            .Select(d => d.Replace('/', '\\')).Where(Directory.Exists);
+        var includes = List(i.Env.GetValueOrDefault("CPATH")).ToList();
+        if (includes.Count > 0) i.Env["INCLUDE"] = string.Join(";", List(i.Env.GetValueOrDefault("INCLUDE")).Concat(includes).Distinct(StringComparer.OrdinalIgnoreCase));
+        var libraries = List(i.Env.GetValueOrDefault("LIBRARY_PATH")).ToList();
+        if (libraries.Count == 0) return;
+        var home = i.Env.GetValueOrDefault("HOME") is { Length: > 0 } h && Directory.Exists(h) ? h : Path.GetTempPath();
+        var shims = Path.Combine(home, ".brew_msvc_lib");
+        Directory.CreateDirectory(shims);
+        foreach (var dir in libraries)
+            foreach (var importLibrary in Directory.GetFiles(dir, "lib*.dll.a"))
+            {
+                var name = Path.GetFileName(importLibrary)[3..^".dll.a".Length] + ".lib";
+                var target = Path.Combine(shims, name);
+                if (!File.Exists(Path.Combine(dir, name)) && !File.Exists(target)) File.Copy(importLibrary, target);
+            }
+        i.Env["LIB"] = string.Join(";", List(i.Env.GetValueOrDefault("LIB")).Concat(libraries).Append(shims).Distinct(StringComparer.OrdinalIgnoreCase));
     }
 
     static void PipInstallAndLink(Interp i, object formula, string venv, List<string> targets, bool linkManpages)
