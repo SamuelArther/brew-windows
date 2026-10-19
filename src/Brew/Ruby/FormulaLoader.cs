@@ -98,6 +98,10 @@ public static partial class FormulaLoader
         f.SetIvar("@name", Interp.S(spec.Name));
         f.SetIvar("@version", Interp.S(spec.Version));
         it.Cwd = ctx.BuildPath;
+        // bin/brew runs Homebrew with a filtered environment, so the user's JAVA_HOME never reaches install, test or
+        // post_install: Java wrappers ("${JAVA_HOME:-<brewed openjdk>}") then use the brewed JDK, not whatever the
+        // machine has (a CI runner's Java 17 rejected class file 65+ and broke `${JAVA_HOME}/bin/java` paths).
+        it.Env.Remove("JAVA_HOME");
         foreach (var kv in ctx.BuildEnvironment) it.Env[kv.Key] = kv.Value;
         if (ctx.BrewPrefix != null)
         {
@@ -111,7 +115,8 @@ public static partial class FormulaLoader
             if (!string.Equals(Path.GetDirectoryName(full), bin, StringComparison.OrdinalIgnoreCase)) return null;
             var name = Path.GetFileName(full);
             return ctx.Commands.LastOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)
-                || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase))?.Target;
+                || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase)) is { } c
+                ? (c.Target, c.Arguments ?? []) : null;
         };
         it.DropPendingCommand = full =>
         {
@@ -382,7 +387,8 @@ public static partial class FormulaLoader
             i.Def(i.SingletonOf(holder), "livecheck", (_, _, _, _) => null);
             if (b != null) i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             var r = (FormulaSpec)holder.Host;
-            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing) { Mirrors = r.Mirrors.ToList() });
+            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing)
+                { Mirrors = r.Mirrors.ToList(), Test = a.Skip(1).Any(x => x is RSymbol { Name: "test" }) });
             return null;
         });
         it.DefS(F, "patch", (i, self, a, b) =>
@@ -407,7 +413,7 @@ public static partial class FormulaLoader
                 i.Def(s, "mirror resolves type", (_, _, _, _) => null);
                 i.CallProc(b, Array.Empty<object>(), null, holder, s);
                 // SoftwareSpec#patch skips an external patch without a url: one whose url is all inside
-                // on_linux/on_macos (net-snmp, spidermonkey) is not a patch on this platform.
+                // on_linux/on_macos (net-snmp, spidermonkey, lua@5.4, freeimage) is not a patch on this platform.
                 if (patch.Url == null && patch.File == null && patch.Data == null) return null;
             }
             Sp(self).Patches.Add(patch);
@@ -639,6 +645,7 @@ public static partial class FormulaLoader
         it.Run(InstallStepsPrelude, "<install_steps>");
         it.Run(BuildPrelude, "<build>");
         VersionObject(it, "0");   // defines Version, so `Version.new("1.2")` works before any formula version is read
+        DefineFormulaCompat(it, F);
         // More of Homebrew's global paths (cargo-audit's test: HOMEBREW_CACHE/"cargo_cache"; garble's:
         // HOMEBREW_SHIMS_PATH). Windows has no superenv shims; that path only has to be one that isn't on PATH.
         var paths = new Paths();

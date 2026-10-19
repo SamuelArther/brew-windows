@@ -1,0 +1,9 @@
+lua@5.4
+freeimage
+perceptualdiff
+dvdrtools
+clozure-cl
+uffizzi
+sassc
+go@1.24
+go@1.25

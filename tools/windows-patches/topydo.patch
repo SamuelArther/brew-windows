@@ -1,0 +1,15 @@
+--- a/tap/homebrew-core/Formula/t/topydo.rb
++++ b/tap/homebrew-core/Formula/t/topydo.rb
+@@ -14,6 +14,12 @@
+   resource "arrow" do
+     url "https://files.pythonhosted.org/packages/b9/33/032cdc44182491aa708d06a68b62434140d8c50820a087fac7af37703357/arrow-1.4.0.tar.gz"
+     sha256 "ed0cc050e98001b8779e84d461b0098c4ac597e88704a655582b21d116e526d7"
++  end
++
++  # Windows: topydo imports colorama there (`colorama; sys_platform == "win32"`).
++  resource "colorama" do
++    url "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93a6792e2acffb9d9d5cb0a5cfd8802644b7b1c9a02e4/colorama-0.4.6.tar.gz"
++    sha256 "08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"
+   end
+ 
+   resource "prompt-toolkit" do

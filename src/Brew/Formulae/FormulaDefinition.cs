@@ -41,6 +41,8 @@ public sealed record FormulaResource(string Name, string Url, string Sha256, str
     public bool Git => GitSources.IsGit(Url, Using, Revision ?? Tag);
     // `mirror` lines in the resource block: fallbacks when the url fails (ant's ivy left dlcdn.apache.org for the archive).
     public IReadOnlyList<string> Mirrors { get; init; } = [];
+    // `resource "homebrew-test_hive", :test do`: only `brew test` uses it (staged then, on first use).
+    public bool Test { get; init; }
 }
 public sealed record CommandSpec(string Name, string Target, string[] Arguments);
 

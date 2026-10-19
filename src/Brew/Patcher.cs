@@ -27,18 +27,26 @@ public static class Patcher
             var deleting = file.NewName == "/dev/null";
             var creating = file.OldName == "/dev/null";
             var name = Target(deleting ? file.OldName : file.NewName, strip);
-            var path = Path.GetFullPath(Path.Combine(root, name));
-            if (Path.IsPathRooted(name) || name.Split('/').Contains("..") || !path.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                throw new InvalidOperationException($"Patch target path escapes the staged source tree: {name}");
-            // GNU patch falls back to the old name when the new one does not exist.
-            if (!creating && !File.Exists(path) && file.OldName != "/dev/null")
+            var path = Inside(root, name);
+            // GNU patch falls back to the old name when the new one does not exist, or names a place outside the tree
+            // (dvdrtools' MacPorts patches: `--- cdda2wav/cdda2wav.c` / `+++ ../dvdrtools-0.2.1-patched/cdda2wav/cdda2wav.c`).
+            if (!creating && (path == null || !File.Exists(path)) && file.OldName != "/dev/null")
             {
-                var alternate = Path.GetFullPath(Path.Combine(root, Target(file.OldName, strip)));
-                if (File.Exists(alternate) && alternate.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)) path = alternate;
+                var alternate = Inside(root, Target(file.OldName, strip));
+                if (alternate != null && File.Exists(alternate)) path = alternate;
             }
+            if (path == null) throw new InvalidOperationException($"Patch target path escapes the staged source tree: {name}");
             Console.WriteLine($"patching file {Path.GetRelativePath(root, path).Replace('\\', '/')}");
             ApplyFile(file, path, creating, deleting);
         }
+    }
+
+    // The full path of a patch target inside root, or null when the name leaves it.
+    static string Inside(string root, string name)
+    {
+        var path = Path.GetFullPath(Path.Combine(root, name));
+        return Path.IsPathRooted(name) || name.Split('/').Contains("..") || !path.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+            ? null : path;
     }
 
     // Names arrive as bytes (Latin-1 chars); file names are UTF-8.
