@@ -45,6 +45,7 @@ static class CoreChain
             BuildEnvironment.ApplyForTest(paths, test, ["cc-gettext", "python@3.14"]);
             Check(test.BuildEnvironment["PATH"].Split(';').Contains(Opt("python@3.14", "libexec", "bin"), StringComparer.OrdinalIgnoreCase)
                   && test.BuildEnvironment.ContainsKey("GI_EXTRA_BASE_DLL_DIRS"), "the test environment gets both too");
+            Check(test.BuildEnvironment.GetValueOrDefault("PYGI_DLL_PATH") == test.BuildEnvironment["GI_EXTRA_BASE_DLL_DIRS"], "PyGObject's PYGI_DLL_PATH lists the same folders");
         }
         finally
         {

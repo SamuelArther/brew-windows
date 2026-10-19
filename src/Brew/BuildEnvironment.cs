@@ -122,7 +122,11 @@ public static class BuildEnvironment
             .Append(paths.Bin)
             .Concat(Msys2Root is { } root ? [Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin")] : [])
             .Where(Directory.Exists).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-        if (dirs.Count > 0) env["GI_EXTRA_BASE_DLL_DIRS"] = string.Join(";", dirs);
+        if (dirs.Count == 0) return;
+        env["GI_EXTRA_BASE_DLL_DIRS"] = string.Join(";", dirs);
+        // PyGObject's gi/__init__.py reads its own variable for the same thing (_gi.pyd needs libgirepository and GLib).
+        if (!env.ContainsKey("PYGI_DLL_PATH") && Environment.GetEnvironmentVariable("PYGI_DLL_PATH") is not { Length: > 0 })
+            env["PYGI_DLL_PATH"] = env["GI_EXTRA_BASE_DLL_DIRS"];
     }
 
     // An MSYS2-packaged keg that carries the C runtime's headers: a GCC of its own, not a library.
