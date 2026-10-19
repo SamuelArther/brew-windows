@@ -118,7 +118,7 @@ public static class BuildEnvironment
     {
         if (env.ContainsKey("GI_EXTRA_BASE_DLL_DIRS") || Environment.GetEnvironmentVariable("GI_EXTRA_BASE_DLL_DIRS") is { Length: > 0 }) return;
         var dirs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub)))
+            .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.GetFullPath(Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))))
             .Append(paths.Bin)
             .Concat(Msys2Root is { } root ? [Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin")] : [])
             .Where(Directory.Exists).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
