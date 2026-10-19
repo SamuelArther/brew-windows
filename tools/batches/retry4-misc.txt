@@ -1,0 +1,10 @@
+lua@5.4
+freeimage
+perceptualdiff
+dvdrtools
+clozure-cl
+uffizzi
+convertlit
+goredo
+intercal
+libpcl

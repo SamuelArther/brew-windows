@@ -1,0 +1,13 @@
+llvm@22
+llvm@21
+llvm@20
+llvm@19
+spidermonkey
+libint
+apache-arrow
+pytorch
+qtbase
+qt@5
+erlang@28
+wangle
+mvfst
