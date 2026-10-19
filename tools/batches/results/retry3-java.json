@@ -1,0 +1,182 @@
+[
+  {
+    "name": "abcl",
+    "status": "build",
+    "seconds": 40
+  },
+  {
+    "name": "apache-pulsar",
+    "status": "test",
+    "seconds": 395
+  },
+  {
+    "name": "calabash",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "checkstyle",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "clojurescript",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "closure-compiler",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "cromwell",
+    "status": "test",
+    "seconds": 68
+  },
+  {
+    "name": "dependency-check",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "druid",
+    "status": "build",
+    "seconds": 60
+  },
+  {
+    "name": "duck",
+    "status": "build",
+    "seconds": 206
+  },
+  {
+    "name": "elasticmq",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "excel-compare",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "fastqc",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "fernflower",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "flix",
+    "status": "build",
+    "seconds": 32
+  },
+  {
+    "name": "fmpp",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "google-java-format",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "hexgui",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "ivy",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "jadx",
+    "status": "ok",
+    "seconds": 232
+  },
+  {
+    "name": "javacc",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "jing-trang",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "kotlin-language-server",
+    "status": "ok",
+    "seconds": 160
+  },
+  {
+    "name": "leiningen",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "metabase",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "micronaut",
+    "status": "ok",
+    "seconds": 270
+  },
+  {
+    "name": "nextflow",
+    "status": "test",
+    "seconds": 233
+  },
+  {
+    "name": "picard-tools",
+    "status": "test",
+    "seconds": 11
+  },
+  {
+    "name": "pkl-lsp",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "planetiler",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "prog8",
+    "status": "ok",
+    "seconds": 151
+  },
+  {
+    "name": "sbuild",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "storm",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "structurizr",
+    "status": "test",
+    "seconds": 702
+  },
+  {
+    "name": "textidote",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "wildfly-as",
+    "status": "build",
+    "seconds": 138
+  }
+]
