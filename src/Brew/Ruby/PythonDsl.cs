@@ -352,13 +352,57 @@ public static partial class FormulaLoader
             }
             else Ctx(i, formula).WindowsExe(Path.GetRelativePath(prefix, script), name);
         }
-        if (!linkManpages || !Directory.Exists(man)) return;
-        foreach (var page in Directory.GetFiles(man, "*", SearchOption.AllDirectories).Where(f => !manBefore.Contains(f)))
+        if (linkManpages && Directory.Exists(man))
+            foreach (var page in Directory.GetFiles(man, "*", SearchOption.AllDirectories).Where(f => !manBefore.Contains(f)))
+            {
+                var target = Path.Combine(prefix, "share", "man", Path.GetFileName(Path.GetDirectoryName(page))!, Path.GetFileName(page));
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                File.CreateSymbolicLink(target, page);
+            }
+        InstallWindowsRequirements(i, venv);
+    }
+
+    // Upstream's resource lists are resolved on macOS and Linux, so requirements only Windows has (sphinx's and
+    // click's `colorama; sys_platform == "win32"`) are never resources: sphinx-quickstart then failed with
+    // "No module named 'colorama'". After the formula's own packages, the venv gets whatever its packages
+    // require on Windows only and is still missing. Requirements without a Windows marker stay as upstream left them.
+    public const string WindowsRequirementsScript = """
+        import os, re, sys, importlib.metadata as md
+        from pip._vendor.packaging.requirements import Requirement
+        from pip._vendor.packaging.utils import canonicalize_name
+        venv = os.path.normcase(os.path.abspath(sys.prefix))
+        dists = [d for d in md.distributions() if d.metadata['Name']]
+        have = {canonicalize_name(d.metadata['Name']) for d in dists}
+        missing = set()
+        for d in dists:
+            if not os.path.normcase(os.path.abspath(str(d.locate_file('')))).startswith(venv):
+                continue
+            for line in d.requires or []:
+                r = Requirement(line)
+                if r.marker is None or not re.search(r'win32|windows|["\']nt["\']', str(r.marker), re.I):
+                    continue
+                if r.marker.evaluate({'extra': ''}) and canonicalize_name(r.name) not in have:
+                    missing.add(canonicalize_name(r.name))
+        print('\n'.join(sorted(missing)))
+        """;
+
+    static void InstallWindowsRequirements(Interp i, string venv)
+    {
+        var python = Path.Combine(VenvBin(venv), "python.exe");
+        List<string> missing;
+        try { missing = Capture(i, [python, "-c", WindowsRequirementsScript], []).Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(); }
+        catch (RubyError) { return; }
+        if (missing.Count == 0) return;
+        // Dependencies allowed (unlike std_pip_args' --no-deps); what's already installed stays as it is.
+        var args = new List<string> { python, "-m", "pip", "install", "--verbose", "--no-binary=:all:", "--uploaded-prior-to=P1D" };
+        args.AddRange(missing);
+        Ohai(i, string.Join(" ", args));
+        WithPythonBuildEnvironment(i, () =>
         {
-            var target = Path.Combine(prefix, "share", "man", Path.GetFileName(Path.GetDirectoryName(page))!, Path.GetFileName(page));
-            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-            File.CreateSymbolicLink(target, page);
-        }
+            if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
+                throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
+            return null;
+        });
     }
 
     // Homebrew links every new file in the venv's bin, not only entry points: a package's own `scripts=` (cram,

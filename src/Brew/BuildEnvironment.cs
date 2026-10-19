@@ -22,9 +22,10 @@ public static class BuildEnvironment
             .Where(d => Msys2Root == null || !IsCompilerKeg(Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))))
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "bin"))
             .Where(Directory.Exists);
-        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
+        env["PATH"] = string.Join(";", dependencyBins.Concat(PythonLibexecBins(paths, dependencies)).Append(paths.Bin).Concat(ToolchainPath())
             .Concat(Msys2DllDirectories(paths, dependencies))
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
+        SetExtensionDllDirectories(paths, env, dependencies);
 
         env["HOMEBREW_PREFIX"] = paths.Prefix;
         env["HOMEBREW_CELLAR"] = paths.Cellar;
@@ -80,9 +81,10 @@ public static class BuildEnvironment
             .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
         // Last, brew itself: Homebrew's tests find `brew` in HOMEBREW_PREFIX/bin (gpk, taproom and frizbee run it).
         var brewDir = Path.GetDirectoryName(Environment.ProcessPath);
-        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
+        env["PATH"] = string.Join(";", dependencyBins.Concat(PythonLibexecBins(paths, dependencies)).Append(paths.Bin).Concat(ToolchainPath())
             .Append(Environment.GetEnvironmentVariable("PATH") ?? "")
             .Concat(brewDir != null && File.Exists(Path.Combine(brewDir, "brew.exe")) ? [brewDir] : []));
+        SetExtensionDllDirectories(paths, env, dependencies);
         // Formula#common_sandbox_env: tests share the package managers' caches with builds (cargo-audit's test
         // looks for its advisory database in HOMEBREW_CACHE/cargo_cache).
         var cache = paths.CacheRoot;
@@ -95,6 +97,32 @@ public static class BuildEnvironment
         env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
         if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath);
+    }
+
+    // Superenv#homebrew_extra_paths: the python@3.x dependencies' libexec/bin (unversioned python and python3),
+    // newest first, after the dependencies' bin. Meson's python.find_installation('python3') and plain `python3`
+    // calls then get the brewed Python that python-setuptools is linked for, not MSYS2's own (glib's
+    // gobject-introspection: "python3 is missing modules: setuptools") or whichever python3 HOMEBREW_PREFIX/bin has.
+    public static IEnumerable<string> PythonLibexecBins(Paths paths, IEnumerable<string> dependencies) =>
+        dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => (Name: d, Match: System.Text.RegularExpressions.Regex.Match(d, @"^python(?:@(\d+(?:\.\d+)*))?$")))
+            .Where(p => p.Match.Success)
+            .OrderByDescending(p => Version.TryParse(p.Match.Groups[1].Success ? p.Match.Groups[1].Value : "0", out var v) ? v : new Version())
+            .Select(p => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(p.Name), "libexec", "bin"))
+            .Where(Directory.Exists).ToList();
+
+    // Python 3.8+ ignores PATH when loading an extension module's DLLs, so a MinGW-built .pyd (gobject-introspection's
+    // _giscanner, which needs libintl, pcre2 and GCC's runtime) failed with "DLL load failed while importing". GLib's
+    // tools add GI_EXTRA_BASE_DLL_DIRS with os.add_dll_directory: the dependencies' and toolchain's DLL folders.
+    static void SetExtensionDllDirectories(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
+    {
+        if (env.ContainsKey("GI_EXTRA_BASE_DLL_DIRS") || Environment.GetEnvironmentVariable("GI_EXTRA_BASE_DLL_DIRS") is { Length: > 0 }) return;
+        var dirs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub)))
+            .Append(paths.Bin)
+            .Concat(Msys2Root is { } root ? [Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin")] : [])
+            .Where(Directory.Exists).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        if (dirs.Count > 0) env["GI_EXTRA_BASE_DLL_DIRS"] = string.Join(";", dirs);
     }
 
     // An MSYS2-packaged keg that carries the C runtime's headers: a GCC of its own, not a library.
