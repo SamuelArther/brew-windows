@@ -88,6 +88,15 @@ static class CoreChain
             File.WriteAllText(Path.Combine(depBin, imported), "not a PE");
             BuildEnvironment.BundleToolchainDlls(Path.Combine(dir, "pyd-keg"), [Path.Combine(dir, "pyd-dep")]);
             Check(File.Exists(Path.Combine(keg, imported)), "a .pyd's imported DLL is copied beside it: " + imported);
+
+            // Utils.binary_linked_to_library? (cargo-c's test) reads the import table; versioned DLL names match.
+            var it = FormulaLoader.NewInterpreterForTests();
+            it.Cwd = dir;
+            var stem = Path.GetFileNameWithoutExtension(imported);
+            var probe = $"""require "utils/linkage"; [Utils.binary_linked_to_library?("{sample.Replace('\\', '/')}", "C:/x/lib/{imported}"), Utils.binary_linked_to_library?("{sample.Replace('\\', '/')}", "C:/x/lib/notimported.dll")].inspect""";
+            Check(it.ToS(it.Run(probe, Path.Combine(dir, "probe.rb"))) == "[true, false]", "Utils.binary_linked_to_library? follows the import table");
+            Check(FormulaLoader.BinaryLinkedToLibrary(sample, "C:/x/" + stem.ToLowerInvariant() + ".dll") && !FormulaLoader.BinaryLinkedToLibrary(sample, "C:/x/" + stem + "-other-name-xyz.dll"),
+                "import names compare case-insensitively");
         }
 
         // python@3.15's libexec/bin/python is a link to libexec/tools/python.exe, which imports python315.dll from
