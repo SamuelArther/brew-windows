@@ -1,0 +1,32 @@
+[
+  {
+    "name": "cargo-c",
+    "status": "ok",
+    "seconds": 477
+  },
+  {
+    "name": "chafa",
+    "status": "test",
+    "seconds": 888
+  },
+  {
+    "name": "cryptography",
+    "status": "build",
+    "seconds": 256
+  },
+  {
+    "name": "gdk-pixbuf",
+    "status": "test",
+    "seconds": 1170
+  },
+  {
+    "name": "numpy",
+    "status": "test",
+    "seconds": 729
+  },
+  {
+    "name": "pygobject3",
+    "status": "ok",
+    "seconds": 484
+  }
+]
