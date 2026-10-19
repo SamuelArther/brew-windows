@@ -75,6 +75,21 @@ static class CoreChain
             Directory.Delete(Opt("cc-dep"), true);
         }
 
+        // Python extension modules get their non-system DLLs beside them, as executables do (numpy's
+        // _multiarray_umath.pyd and libopenblas). Any PE works as the module: cmd.exe's first import stands in.
+        var sample = Path.Combine(Environment.SystemDirectory, "cmd.exe");
+        if (PortableExecutable.Imports(sample).FirstOrDefault() is { } imported)
+        {
+            var keg = Path.Combine(dir, "pyd-keg", "lib", "python3.14", "site-packages", "pkg");
+            var depBin = Path.Combine(dir, "pyd-dep", "bin");
+            Directory.CreateDirectory(keg);
+            Directory.CreateDirectory(depBin);
+            File.Copy(sample, Path.Combine(keg, "_mod.cp314-win_amd64.pyd"), true);
+            File.WriteAllText(Path.Combine(depBin, imported), "not a PE");
+            BuildEnvironment.BundleToolchainDlls(Path.Combine(dir, "pyd-keg"), [Path.Combine(dir, "pyd-dep")]);
+            Check(File.Exists(Path.Combine(keg, imported)), "a .pyd's imported DLL is copied beside it: " + imported);
+        }
+
         // python@3.15's libexec/bin/python is a link to libexec/tools/python.exe, which imports python315.dll from
         // the link's own folder: the formula links the DLLs too.
         var python315 = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "../../../../../../tap/homebrew-core/Formula/p/python@3.15.rb"));

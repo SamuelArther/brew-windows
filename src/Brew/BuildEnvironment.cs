@@ -431,7 +431,11 @@ public static class BuildEnvironment
         if (Msys2Root is { } root) sources.Add(Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin"));
         if (sources.Count == 0) return;
         foreach (var binary in Paths.TreeFiles(keg)
-                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList())
+                     // Python extension modules too: Python 3.8+ doesn't load their DLLs from PATH (numpy's
+                     // _multiarray_umath needs libopenblas and GCC's runtime: "DLL load failed while importing").
+                     // A second copy on disk is harmless: Windows reuses a DLL already loaded under the same name.
+                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
+                                 || f.EndsWith(".pyd", StringComparison.OrdinalIgnoreCase)).ToList())
         {
             var directory = Path.GetDirectoryName(binary)!;
             var pending = new Queue<string>(PortableExecutable.Imports(binary));
