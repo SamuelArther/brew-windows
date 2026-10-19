@@ -6,7 +6,7 @@ class Lfk < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c3faf2e5452492a16c17232b4be5d56e1e665c3c081b969e079fdca6fec097c4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9e4b5858f5f5601006314461b6386988d58fec85ac3fe40a22bec5de6072d764"
   end
 
   depends_on "go" => :build

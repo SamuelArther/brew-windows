@@ -11,11 +11,12 @@ class YazeAg < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/yaze-ag-2.51.3"
-    sha256 cellar: :any, x86_64_windows: "8f8eda28adbc5c3d2cbf1755a543d35983b8673146e15566d65440d2975dc769"
+    sha256 cellar: :any, x86_64_windows: "437a1ece8d9b3abcce02c7d607963aadf27ce04d5018960d8d51d9b4d17d7133"
   end
 
   conflicts_with "cpm", because: "both install `cpm` binaries"
+
+  deny_network_access!
 
   def install
     if OS.mac?

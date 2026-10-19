@@ -12,7 +12,7 @@ class Mac < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "017a8d29b987f69934c09c8c221defb41b04b93eb2a6cf6445a244522faa6f71"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5951b1db0255a4877add454cf69189b9aad0f9a13d489501a881b3e2310d8cf7"
   end
 
   no_autobump! because: :incompatible_version_format

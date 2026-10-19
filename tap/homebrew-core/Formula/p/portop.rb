@@ -7,7 +7,7 @@ class Portop < Formula
   head "https://github.com/padovanl/portop.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "2820b45e2534eb48645321d0f9531085af3517d2f17c76a4a7e8320e9e3a121d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "cd58ac49d9946062659ed2f35c14c2327ce9c59901812a3e0d07d6b31a33cd26"
   end
 
   depends_on "go" => :build

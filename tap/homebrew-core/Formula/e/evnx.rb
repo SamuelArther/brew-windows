@@ -6,7 +6,7 @@ class Evnx < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3b657a135e7d3f1bce6089fabda312fbcfa034bb0f089306e1f4b33839a0f312"
+    sha256 cellar: :any, x86_64_windows: "ee03057c3def9023f14675ca2e7be1836d6c3e9503898062f6c94daf493afdf5"
   end
 
   depends_on "rust" => :build

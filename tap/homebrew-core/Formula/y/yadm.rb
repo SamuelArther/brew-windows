@@ -6,9 +6,10 @@ class Yadm < Formula
   license "GPL-3.0-or-later"
   head "https://github.com/yadm-dev/yadm.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/yadm-3.5.0"
-    sha256 cellar: :any, x86_64_windows: "58837ac16045904af1563c7aa80af3b2e2a4777a4176c07d379a81e4ea21cb25"
+    sha256 cellar: :any, x86_64_windows: "15bddc8625858887172210a82447f9293464881b1ba4a359dca5d32fb388fc61"
   end
 
   def install

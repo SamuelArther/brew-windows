@@ -7,7 +7,7 @@ class Tuios < Formula
   head "https://github.com/Gaurav-Gosain/tuios.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "e78f28fa4f3db2f933580d296f8c28de33941726270d328a75a76a46d3401959"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f1ebdabc0a6b5f9a9e9136dbb4106bacf2e6bb2a1eb2b050b13d895e6fa364f8"
   end
 
   depends_on "go" => :build

@@ -6,8 +6,7 @@ class H264bitstream < Formula
   license "LGPL-2.1-or-later"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/h264bitstream-0.2.0"
-    sha256 cellar: :any, x86_64_windows: "56d29a56166e0ffd3007aff29769ebd256a3eaa78598085c7374a787fa687842"
+    sha256 cellar: :any, x86_64_windows: "9dc4e9fc0d67bb214941c43be506dc3b63c6d9e6e0d8cd99836b1e527f831b61"
   end
 
   depends_on "autoconf" => :build

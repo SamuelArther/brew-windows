@@ -1,24 +1,27 @@
 class Croaring < Formula
   desc "Roaring bitmaps in C (and C++)"
   homepage "https://roaringbitmap.org"
-  url "https://github.com/RoaringBitmap/CRoaring/archive/refs/tags/v5.2.4.tar.gz"
-  sha256 "0047582c0b1ac7a2a950156f0b23b52ad060dbfbd1f082939ffa369014675838"
+  url "https://github.com/RoaringBitmap/CRoaring/archive/refs/tags/v5.3.0.tar.gz"
+  sha256 "52509f2374d33543a14abcaed77946fdca731ca697bfce580f0b6d2a88119bdf"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/RoaringBitmap/CRoaring.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/croaring-5.2.4"
-    sha256 cellar: :any, x86_64_windows: "615424a6c0bc21bf5e67a1620d5caa847345bde0c3eff12eea1b90125a829909"
+    sha256 cellar: :any, x86_64_windows: "2bcb6ed602cce390ae58482b2fe6f9ab9b8d946711674979738c4437685d39e7"
   end
 
   depends_on "cmake" => :build
 
+  deny_network_access!
+
   def install
     system "cmake", "-S", ".", "-B", "build",
-                    "-DENABLE_ROARING_TESTS=OFF",
-                    "-DROARING_BUILD_STATIC=OFF",
                     "-DBUILD_SHARED_LIBS=ON",
+                    "-DENABLE_ROARING_TESTS=OFF",
                     "-DROARING_BUILD_LTO=ON",
+                    "-DROARING_BUILD_STATIC=OFF",
+                    "-DROARING_USE_CPM=OFF",
                     *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
