@@ -14,12 +14,14 @@ class Graphviz < Formula
       windows_exe "libexec/bin/#{cmd}.exe", cmd
     end
 
-    # The libraries for dependents (vala's libgvc): the release's .pc files name C:/Program Files/Graphviz,
-    # so the keg gets relocated copies, and its DLLs sit beside bin's commands where dependents' builds find them.
-    (lib/"pkgconfig").mkpath
-    (libexec/"lib/pkgconfig").glob("*.pc").each do |pc|
-      (lib/"pkgconfig"/pc.basename).write pc.read.gsub("C:/Program Files/Graphviz", "${pcfiledir}/../../libexec")
-    end
+    # The libraries for dependents (vala's libgvc): headers, import libraries and .pc files in the keg itself,
+    # where pkgconf's prefix relocation (pcfiledir/../..) points; the release's .pc files name
+    # C:/Program Files/Graphviz. Its DLLs sit beside bin's commands, where dependents' builds find them.
+    include.mkpath
+    lib.mkpath
+    cp_r (libexec/"include").children, include
+    cp_r (libexec/"lib").children, lib
+    (lib/"pkgconfig").glob("*.pc").each { |pc| inreplace pc, "C:/Program Files/Graphviz", "${pcfiledir}/../.." }
     (libexec/"bin").glob("*.dll").each { |dll| bin.install_symlink dll }
   end
 
