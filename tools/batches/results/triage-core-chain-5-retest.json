@@ -2,21 +2,21 @@
   {
     "name": "cryptography",
     "status": "ok",
-    "seconds": 382
+    "seconds": 315
   },
   {
     "name": "gdk-pixbuf",
     "status": "test",
-    "seconds": 1133
+    "seconds": 561
   },
   {
     "name": "numpy",
     "status": "ok",
-    "seconds": 701
+    "seconds": 712
   },
   {
     "name": "vala",
     "status": "build",
-    "seconds": 615
+    "seconds": 789
   }
 ]
