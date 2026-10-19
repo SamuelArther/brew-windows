@@ -59,7 +59,7 @@ internal static class InstallerArchive
             if (kind == "innoextract") ZipFile.ExtractToDirectory(archive, work);
             else await MsiArchive.ExtractAsync(archive, work);
             var relative = Path.GetRelativePath(work, Directory.GetFiles(work, executable, SearchOption.AllDirectories).First());
-            Directory.Move(work, installed);
+            PackageManager.MoveTree(work, installed);
             return Path.Combine(installed, relative);
         }
         finally

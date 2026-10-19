@@ -110,7 +110,7 @@ public static class Bottles
             var receipt = Path.Combine(extracted, "INSTALL_RECEIPT.json");
             if (File.Exists(receipt)) File.Move(receipt, Path.Combine(extracted, PouredReceiptName));
             Directory.CreateDirectory(Path.GetDirectoryName(keg)!);
-            Directory.Move(extracted, keg);
+            PackageManager.MoveTree(extracted, keg);
         }
         finally { PackageManager.DeleteTree(staging); }
     }

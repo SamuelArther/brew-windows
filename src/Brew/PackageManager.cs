@@ -529,7 +529,7 @@ public sealed class PackageManager(Paths paths)
             {
                 linker.Unlink(keg.Receipt.Links);
                 var backup = Path.Combine(paths.Rack(name), ".backup-" + Guid.NewGuid().ToString("N"));
-                try { Directory.Move(keg.Path, backup); }
+                try { MoveTree(keg.Path, backup); }
                 catch { if (keg.Receipt.Links.Count > 0) InstallationStore.Save(keg, keg.Receipt with { Links = linker.Link(keg.Path, keg.Receipt.Commands) }); throw; }
                 moved.Add((keg, backup));
             }
@@ -540,7 +540,7 @@ public sealed class PackageManager(Paths paths)
         {
             // Put every keg back before relinking any, and keep going past individual failures.
             foreach (var (keg, backup) in moved)
-                try { Directory.Move(backup, keg.Path); }
+                try { MoveTree(backup, keg.Path); }
                 catch (Exception e) when (e is IOException or UnauthorizedAccessException)
                 { CommandOutput.Warning($"Could not restore {keg.Path} from {backup}: {e.Message}"); }
             foreach (var (keg, _) in moved.Where(m => Directory.Exists(m.Keg.Path)))
@@ -574,6 +574,17 @@ public sealed class PackageManager(Paths paths)
                     File.SetAttributes(entry, attributes & ~FileAttributes.ReadOnly);
             }
         Directory.Delete(path, true);
+    }
+
+    // Antivirus scanners and the search indexer briefly open files that were just written, and a directory
+    // holding an open file can't be renamed ("Access to the path is denied"): retry for a few seconds.
+    internal static void MoveTree(string from, string to)
+    {
+        for (var attempt = 1; ; attempt++)
+            try { Directory.Move(from, to); return; }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException && attempt < 10
+                && Directory.Exists(from) && !Directory.Exists(to))
+            { Thread.Sleep(100 * attempt); }
     }
 
     // Leftovers of an interrupted upgrade (Cellar/<name>/.backup-*): put the keg back if its version
@@ -619,7 +630,7 @@ public sealed class PackageManager(Paths paths)
                 var keg = saved?.Version == null ? null : Path.Combine(rack, saved.Version);
                 if (keg != null && !Directory.Exists(keg))
                 {
-                    Directory.Move(backup, keg);
+                    MoveTree(backup, keg);
                     // ReplaceAsync unlinked the keg before moving it, so the receipt's links are gone:
                     // record that, or `brew link` would answer "Already linked".
                     if (saved.Links.Count > 0) ReceiptFile.Write(Path.Combine(keg, ReceiptName), saved with { Links = [] });
