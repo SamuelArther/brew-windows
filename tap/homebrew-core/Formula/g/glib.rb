@@ -102,7 +102,8 @@ class Glib < Formula
       system "meson", "install", "-C", "build"
     end
 
-    system "meson", "setup", "build", "--default-library=both", "-Dintrospection=enabled", *args, *std_meson_args
+    # Windows: GLib refuses default_library=both ("must be \"shared\" or \"static\" but not \"both\"").
+    system "meson", "setup", "build", "--default-library=shared", "-Dintrospection=enabled", *args, *std_meson_args
     system "meson", "compile", "-C", "build", "--verbose"
     system "meson", "install", "-C", "build"
 

@@ -10,3 +10,13 @@
  
      resource("gobject-introspection").stage do
        system "meson", "setup", "build", "-Dcairo=disabled", "-Ddoctool=disabled", "-Dtests=false", *staging_meson_args
+@@ -99,7 +102,8 @@
+       system "meson", "install", "-C", "build"
+     end
+ 
+-    system "meson", "setup", "build", "--default-library=both", "-Dintrospection=enabled", *args, *std_meson_args
++    # Windows: GLib refuses default_library=both ("must be \"shared\" or \"static\" but not \"both\"").
++    system "meson", "setup", "build", "--default-library=shared", "-Dintrospection=enabled", *args, *std_meson_args
+     system "meson", "compile", "-C", "build", "--verbose"
+     system "meson", "install", "-C", "build"
+ 
