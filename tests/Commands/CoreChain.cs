@@ -77,6 +77,14 @@ static class CoreChain
             var plain = new InstallContext(Path.Combine(dir, "keg5"), Path.Combine(dir, "build"), null, paths.Prefix);
             BuildEnvironment.Apply(paths, plain, ["openssl@4"]);
             Check(!plain.BuildEnvironment.ContainsKey("OPENSSL_DIR"), "but not builds without Rust");
+            Directory.CreateDirectory(Opt("openssl@4", "lib"));
+            foreach (var name in new[] { "libssl", "libcrypto" }) File.WriteAllText(Path.Combine(Opt("openssl@4", "lib"), name + ".dll.a"), "!<arch>\n");
+            var mingw = new InstallContext(Path.Combine(dir, "keg6"), Path.Combine(dir, "build"), null, paths.Prefix);
+            BuildEnvironment.Apply(paths, mingw, ["rust", "openssl@4"]);
+            var opensslLib = mingw.BuildEnvironment.GetValueOrDefault("OPENSSL_LIB_DIR") ?? "";
+            Check(File.Exists(Path.Combine(opensslLib, "libssl.lib")) && File.Exists(Path.Combine(opensslLib, "libcrypto.lib"))
+                  && mingw.BuildEnvironment.GetValueOrDefault("OPENSSL_INCLUDE_DIR") == Opt("openssl@4", "include"),
+                "a MinGW OpenSSL's import libraries are offered to openssl-sys under the MSVC names");
             Directory.Delete(Opt("openssl@3"), true);
             Directory.Delete(Opt("openssl@4"), true);
         }

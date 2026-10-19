@@ -387,7 +387,7 @@ public static class BuildEnvironment
         if ((direct ?? dependencies).Any(d => d is "rust" or "rustup"))
         {
             PointCcRsAtMsvc(env);
-            PointOpensslSysAtOpenssl(paths, env, dependencies);
+            PointOpensslSysAtOpenssl(paths, env, dependencies, buildPath);
         }
     }
 
@@ -397,7 +397,7 @@ public static class BuildEnvironment
     // openssl-sys never asks pkg-config on the MSVC target (it does on macOS and Linux, where superenv's
     // PKG_CONFIG_PATH finds the brewed OpenSSL): cryptography failed with "Could not find directory of OpenSSL
     // installation". The newest openssl dependency is OPENSSL_DIR, as cargo-c's formula sets it by hand.
-    static void PointOpensslSysAtOpenssl(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
+    static void PointOpensslSysAtOpenssl(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath)
     {
         if (env.ContainsKey("OPENSSL_DIR") || Environment.GetEnvironmentVariable("OPENSSL_DIR") is { Length: > 0 }) return;
         var openssl = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
@@ -406,7 +406,21 @@ public static class BuildEnvironment
             .OrderByDescending(p => Version.TryParse(p.Match.Groups[1].Success ? p.Match.Groups[1].Value + (p.Match.Groups[1].Value.Contains('.') ? "" : ".0") : "0.0", out var v) ? v : new Version())
             .Select(p => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(p.Name)))
             .FirstOrDefault(k => Directory.Exists(Path.Combine(k, "include", "openssl")));
-        if (openssl != null) env["OPENSSL_DIR"] = openssl;
+        if (openssl == null) return;
+        // On the MSVC target it links libssl.lib and libcrypto.lib, where a MinGW-built OpenSSL has libssl.dll.a and
+        // libcrypto.dll.a ("does not contain the required files to either statically or dynamically link OpenSSL").
+        // Both are COFF import libraries: copies under the MSVC names, in the build, serve link.exe.
+        var lib = Path.Combine(openssl, "lib");
+        if (!File.Exists(Path.Combine(lib, "libssl.lib")) && File.Exists(Path.Combine(lib, "libssl.dll.a")) && File.Exists(Path.Combine(lib, "libcrypto.dll.a")))
+        {
+            var shims = Path.Combine(buildPath, ".brew_openssl_lib");
+            Directory.CreateDirectory(shims);
+            foreach (var name in new[] { "libssl", "libcrypto" })
+                File.Copy(Path.Combine(lib, name + ".dll.a"), Path.Combine(shims, name + ".lib"), true);
+            env["OPENSSL_LIB_DIR"] = shims;
+            env["OPENSSL_INCLUDE_DIR"] = Path.Combine(openssl, "include");
+        }
+        else env["OPENSSL_DIR"] = openssl;
     }
 
     static void PointCcRsAtMsvc(Dictionary<string, string> env)
