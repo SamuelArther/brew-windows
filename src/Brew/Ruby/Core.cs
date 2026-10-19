@@ -112,7 +112,6 @@ public sealed partial class Interp
                 return o;
             });
         }
-        Def(K, "rand", (it, self, a, b) => a.Length == 0 ? Random.Shared.NextDouble() : (object)Random.Shared.NextInt64(it.Int(a[0])));
         // __FILE__ / __dir__: the file being run (a formula's own path; symlinks' test reaches the tap's Aliases).
         Def(K, "__FILE__", (it, self, a, b) => S(it.CurrentFile.Replace('\\', '/')));
         Def(K, "__dir__", (it, self, a, b) => it.CurrentFile is "-" or "-e" ? null : S(Path.GetDirectoryName(Path.GetFullPath(it.CurrentFile))!.Replace('\\', '/')));
@@ -138,6 +137,8 @@ public sealed partial class Interp
             return o;
         });
         DefS(random, "rand", (it, self, a, b) => Draw(it, Random.Shared, a));
+        // Kernel#rand takes a Range too (dependency-check's test: `sleep(rand(1..30))`); rand(0) is a Float.
+        Def(K, "rand", (it, self, a, b) => a.Length > 0 && a[0] is long n && n == 0 ? Random.Shared.NextDouble() : Draw(it, Random.Shared, a));
         DefS(random, "new_seed", (it, self, a, b) => Random.Shared.NextInt64());
         DefS(random, "bytes", (it, self, a, b) => { var buf = new byte[it.Int(a[0])]; Random.Shared.NextBytes(buf); return new RString(Encoding.Latin1.GetString(buf)) { Binary = true }; });
         Def(random, "rand", (it, self, a, b) => Draw(it, Rng(self), a));
@@ -994,7 +995,7 @@ public sealed partial class Interp
         if (parts.Count == 1) psi = ShellLine(parts[0]);
         else
         {
-            var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), parts.Skip(1).ToList(), workingDirectory);
+            var (program, arguments) = ToolchainInvocation(ResolveProgram(parts[0]), PendingArguments(parts[0]).Concat(parts.Skip(1)).ToList(), workingDirectory);
             psi = new System.Diagnostics.ProcessStartInfo(program);
             foreach (var p in arguments) psi.ArgumentList.Add(p);
         }
@@ -1083,7 +1084,7 @@ public sealed partial class Interp
         var exts = Env.GetValueOrDefault("PATHEXT", ".COM;.EXE;.BAT;.CMD").Split(';', StringSplitOptions.RemoveEmptyEntries);
         IEnumerable<string> Candidates(string p) => Path.HasExtension(p) && File.Exists(p) ? new[] { p } : exts.Select(e => p + e).Prepend(p);
         if (name.Contains('/') || name.Contains('\\'))
-            return Candidates(Abs(name)).FirstOrDefault(File.Exists) ?? PendingCommand?.Invoke(Path.GetFullPath(Abs(name))) ?? name;
+            return Candidates(Abs(name)).FirstOrDefault(File.Exists) ?? PendingCommand?.Invoke(Path.GetFullPath(Abs(name)))?.Target ?? name;
         // PATH only, as execvp searches it: not the current directory first, the way cmd.exe would
         // (iam-policy-json-to-terraform's source tree has a `go` script beside `system "go", "build"`).
         foreach (var dir in Env.GetValueOrDefault("PATH", "").Split(';', StringSplitOptions.RemoveEmptyEntries))
@@ -1097,9 +1098,20 @@ public sealed partial class Interp
         return name;
     }
 
+    // The arguments a pending command (see PendingCommand) puts before the caller's: a pip launcher's
+    // command runs `python.exe <script>`, so `bin/"robocop" --show-completion bash` needs the script first.
+    public IReadOnlyList<string> PendingArguments(string name)
+    {
+        if (!name.Contains('/') && !name.Contains('\\') || PendingCommand == null) return [];
+        var exts = Env.GetValueOrDefault("PATHEXT", ".COM;.EXE;.BAT;.CMD").Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var full = Abs(name);
+        if (File.Exists(full) || exts.Any(e => File.Exists(full + e))) return [];
+        return PendingCommand(Path.GetFullPath(full))?.Arguments ?? [];
+    }
+
     // During install, bin/<name> for a command registered with windows_exe (written to bin only after
-    // install) resolves to the program it will launch.
-    public Func<string, string> PendingCommand;
+    // install) resolves to the program it will launch, and the arguments it launches it with.
+    public Func<string, (string Target, string[] Arguments)?> PendingCommand;
     public Func<string, bool> DropPendingCommand;
 
     public void SetStatus(int code, int pid)

@@ -296,10 +296,13 @@ public static class BuildEnvironment
         if (MsvcX64 is not { } msvc || !msvc.TryGetValue("__MSVC_PATH", out var dirs)) return;
         string Tool(string exe) => dirs.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(d => Path.Combine(d.Trim('"'), exe)).FirstOrDefault(File.Exists);
         if (Tool("cl.exe") is not { } cl || Tool("lib.exe") is not { } lib) return;
-        // CFLAGS/CXXFLAGS hold GCC's options ("-Wno-error=..." is a fatal D8021 to cl); the target-specific ones,
-        // read instead of them, stay empty.
-        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib), ("CFLAGS", ""), ("CXXFLAGS", "") })
+        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib) })
             if (!env.ContainsKey(name + "_x86_64_pc_windows_msvc")) env[name + "_x86_64_pc_windows_msvc"] = value;
+        // cc-rs 1.2 adds CFLAGS, HOST_CFLAGS and CFLAGS_<target> together (older releases took the most specific
+        // one), so GCC's options can't stay in CFLAGS/CXXFLAGS for Rust builds: "-Wno-error=..." is a fatal D8021
+        // to cl (ring, aws-lc-sys, zstd-sys, psm). Only the optimization level both compilers accept stays.
+        env["CFLAGS"] = "-O2";
+        env["CXXFLAGS"] = "-O2";
     }
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.

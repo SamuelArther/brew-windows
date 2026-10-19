@@ -276,6 +276,16 @@ public sealed partial class Interp
                     target += ".exe";   // built executables carry .exe; so does the link, or Windows can't run it
                     if (!Path.HasExtension(name)) name += ".exe";
                 }
+                // A command with a .cmd launcher beside it (npm's bin/<name>.cmd, env scripts): the link needs one too,
+                // or Windows can't run it (`bin.install_symlink libexec/"bin/bpmnlint"`).
+                var cmd = target + ".cmd";
+                if (!Path.HasExtension(target) && !Path.HasExtension(name) && File.Exists(cmd))
+                {
+                    var cmdLink = Path.Combine(dir, name + ".cmd");
+                    if (File.Exists(cmdLink) || IsSymlink(cmdLink)) File.Delete(cmdLink);
+                    it.MakeSymlink(Path.GetRelativePath(dir, cmd), cmdLink);
+                    if (!File.Exists(target) && !IsSymlink(target)) return;
+                }
                 var link = Path.Combine(dir, name);
                 if (File.Exists(link) || IsSymlink(link)) { if (Directory.Exists(link)) Directory.Delete(link); else File.Delete(link); }
                 it.MakeSymlink(Path.GetRelativePath(Path.GetDirectoryName(link)!, target), link);
@@ -341,7 +351,9 @@ public sealed partial class Interp
             foreach (var x in a.Skip(1)) Chmod(it.Abs(it.PathStr(x)), it.Int(a[0]), false);
             return (long)(a.Length - 1);
         });
-        DefS(F, "fnmatch fnmatch?", (it, self, a, b) => GlobRegex(it.Str(a[0]), true).IsMatch(it.PathStr(a[1])));
+        // `*` crosses '/' unless File::FNM_PATHNAME is given, as in Ruby; Pathname#fnmatch? is File.fnmatch(pattern, self).
+        DefS(F, "fnmatch fnmatch?", (it, self, a, b) => GlobRegex(it.Str(a[0]), a.Length > 2 && a[2] is long f && (f & 2) != 0).IsMatch(it.PathStr(a[1])));
+        Def(P, "fnmatch fnmatch?", (it, self, a, b) => GlobRegex(it.Str(a[0]), a.Length > 1 && a[1] is long f && (f & 2) != 0).IsMatch(Me(self)));
         DefS(F, "open new", (it, self, a, b) =>
         {
             var path = it.Abs(it.PathStr(a[0]));
@@ -695,7 +707,19 @@ public sealed partial class Interp
                 new FileInfo(f) { IsReadOnly = readOnly };
     }
 
-    public void RemoveTree(string p) => DeleteTree(p);
+    public void RemoveTree(string p)
+    {
+        if (IsWindowsNodePrebuild(p)) return;
+        DeleteTree(p);
+    }
+
+    // Node formulae drop the prebuilt binaries "for other platforms" by keeping only the macOS or Linux one
+    // (`rm_r dir if dir.basename.to_s != "#{os}-#{arch}"` in tweakcc, mimo-code, apify-cli, pi-coding-agent).
+    // Here the platform they mean to keep is Windows', so win32-x64 prebuilds stay.
+    static bool IsWindowsNodePrebuild(string p) =>
+        p.Replace('\\', '/').Contains("/node_modules/", StringComparison.OrdinalIgnoreCase)
+        && System.Text.RegularExpressions.Regex.IsMatch(Path.GetFileName(Path.TrimEndingDirectorySeparator(p)), @"win32-x64(-msvc)?$",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
     // rm -rf that also removes read-only files (git objects, chmod 0444). Symlinks are removed, never
     // followed: a link to a directory elsewhere (or a link loop) mustn't be walked into.

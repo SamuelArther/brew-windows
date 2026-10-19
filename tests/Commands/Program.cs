@@ -33,6 +33,7 @@ try
     assertions += Patches.Run(root);
     assertions += await BottleRelocation.Run(root);
     assertions += await TapUpdate.Run(root);
+    assertions += await BatchRetry3.Run(root);
     await Formula("resources", "1.0", resourceNames: ["mingw-w64-ucrt-x86_64-SDL2", "PyYAML", "MarkupSafe"]);
     Equal((await Run("install", "resources")).Code, 0, "uppercase resource names install end to end");
     Equal((await Run("uninstall", "resources")).Code, 0, "uppercase resource fixture uninstalls");

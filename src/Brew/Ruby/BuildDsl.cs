@@ -269,7 +269,7 @@ public static partial class FormulaLoader
     {
         var psi = new System.Diagnostics.ProcessStartInfo(i.ResolveProgram(argv[0]))
         { RedirectStandardOutput = true, UseShellExecute = false, WorkingDirectory = i.Cwd };
-        foreach (var x in argv.Skip(1)) psi.ArgumentList.Add(x);
+        foreach (var x in i.PendingArguments(argv[0]).Concat(argv.Skip(1))) psi.ArgumentList.Add(x);
         i.ApplyEnv(psi);
         foreach (var kv in env) psi.Environment[kv.Key] = kv.Value;
         using var proc = System.Diagnostics.Process.Start(psi)!;

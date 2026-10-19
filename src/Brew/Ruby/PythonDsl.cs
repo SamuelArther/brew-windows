@@ -58,8 +58,15 @@ public static partial class FormulaLoader
                 CopyDirectory(source, dir);
             }
             if (b == null) return i.NewPath(dir);
-            return i.Invoke(i.DirClass, "chdir", [Interp.S(dir)], b);
+            // Upstream yields a ResourceStageContext, which answers the resource's version, url ... (khard:
+            // `resource("vobject").stage { |r| inreplace "setup.cfg", "...", r.version.to_s }`).
+            var cwd = i.Cwd;
+            i.Cwd = dir;
+            try { return i.CallProc(b, [s]); }
+            finally { i.Cwd = cwd; }
         });
+        // Resource#fetch: downloads (stages) it; cached_download then names the file (uffizzi's gems).
+        it.Def(R, "fetch", (i, s, a, b) => { Staged(i, s); return i.Invoke(s, "cached_download", [], null); });
 
         it.Def(F, "resource", (i, self, a, b) =>
         {
@@ -105,7 +112,8 @@ public static partial class FormulaLoader
             var root = i.Abs(i.PathStr(a[0]));
             var py = a.Length > 1 && a[1] is not RHash ? i.ToS(a[1]) : "python";
             var systemSite = Kw(i, a, "system_site_packages") is not false;
-            return CreateVenv(i, self, root, py, systemSite);
+            // A Virtualenv, as upstream returns: cxxtest and redo call venv.pip_install(_and_link) on it.
+            return VenvObject(i, CreateVenv(i, self, root, py, systemSite));
         });
 
         it.Def(venvMixin, "virtualenv_install_with_resources", (i, self, a, b) =>
@@ -313,7 +321,11 @@ public static partial class FormulaLoader
         foreach (var script in Directory.GetFiles(bin).Where(f => !binBefore.Contains(f)))
         {
             // Entry points: launchers (.exe) become commands; the -script.py/.pya companions stay in the venv.
-            if (!script.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) continue;
+            if (!script.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            {
+                LinkVenvScript(i, formula, prefix, bin, script);
+                continue;
+            }
             var name = Path.GetFileNameWithoutExtension(script);
             // pip's launcher runs a zipped __main__.py, which Python 3.14's argparse names "python.exe <path>".
             // Run that code as a plain script called after the command instead, as Homebrew's bin/ scripts are,
@@ -334,6 +346,37 @@ public static partial class FormulaLoader
             Directory.CreateDirectory(Path.GetDirectoryName(target)!);
             File.CreateSymbolicLink(target, page);
         }
+    }
+
+    // Homebrew links every new file in the venv's bin, not only entry points: a package's own `scripts=` (cram,
+    // ranger, git-plus) and helpers like awscli's aws.cmd or virtualenvwrapper.sh. A Python script becomes a
+    // command that runs the venv's python on it; anything else is linked as it is.
+    static void LinkVenvScript(Interp i, object formula, string prefix, string bin, string script)
+    {
+        var name = Path.GetFileName(script);
+        if (name.EndsWith("-script.py", StringComparison.OrdinalIgnoreCase) || name.EndsWith("-script.pyw", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".pya", StringComparison.OrdinalIgnoreCase) || name.StartsWith("activate", StringComparison.OrdinalIgnoreCase)
+            || name.StartsWith("python", StringComparison.OrdinalIgnoreCase) || name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase))
+            return;
+        string head;
+        try
+        {
+            using var reader = new StreamReader(script);
+            head = (reader.ReadLine() ?? "") + "\n" + (reader.ReadLine() ?? "");
+        }
+        catch (IOException) { return; }
+        var ctx = Ctx(i, formula);
+        if (head.StartsWith("#!", StringComparison.Ordinal) && head.Contains("python", StringComparison.OrdinalIgnoreCase))
+        {
+            ctx.WindowsExe(Path.GetRelativePath(prefix, Path.Combine(bin, "python.exe")), name, script);
+            return;
+        }
+        var links = Path.Combine(prefix, "bin");
+        var link = Path.Combine(links, name);
+        if (File.Exists(link) || new FileInfo(link).LinkTarget != null) return;
+        Directory.CreateDirectory(links);
+        File.CreateSymbolicLink(link, Path.GetRelativePath(links, script));
     }
 
     // The __main__.py zipped into a pip/distlib console-script launcher, or null for anything else

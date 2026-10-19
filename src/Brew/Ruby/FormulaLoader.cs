@@ -98,6 +98,10 @@ public static partial class FormulaLoader
         f.SetIvar("@name", Interp.S(spec.Name));
         f.SetIvar("@version", Interp.S(spec.Version));
         it.Cwd = ctx.BuildPath;
+        // bin/brew runs Homebrew with a filtered environment, so the user's JAVA_HOME never reaches install, test or
+        // post_install: Java wrappers ("${JAVA_HOME:-<brewed openjdk>}") then use the brewed JDK, not whatever the
+        // machine has (a CI runner's Java 17 rejected class file 65+ and broke `${JAVA_HOME}/bin/java` paths).
+        it.Env.Remove("JAVA_HOME");
         foreach (var kv in ctx.BuildEnvironment) it.Env[kv.Key] = kv.Value;
         if (ctx.BrewPrefix != null)
         {
@@ -111,7 +115,8 @@ public static partial class FormulaLoader
             if (!string.Equals(Path.GetDirectoryName(full), bin, StringComparison.OrdinalIgnoreCase)) return null;
             var name = Path.GetFileName(full);
             return ctx.Commands.LastOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)
-                || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase))?.Target;
+                || string.Equals(Path.GetFileNameWithoutExtension(c.Name), name, StringComparison.OrdinalIgnoreCase)) is { } c
+                ? (c.Target, c.Arguments ?? []) : null;
         };
         it.DropPendingCommand = full =>
         {
@@ -406,6 +411,9 @@ public static partial class FormulaLoader
                 i.Def(s, "apply", (i2, _, a2, _) => { foreach (var x in a2.SelectMany(v => v is RArray arr ? arr.L : [v])) patch.Apply.Add(i2.ToS(x)); return null; });
                 i.Def(s, "mirror resolves type", (_, _, _, _) => null);
                 i.CallProc(b, Array.Empty<object>(), null, holder, s);
+                // `patch do on_macos { file ... } on_linux { file ... } end` (lua@5.4, freeimage) names nothing to
+                // apply on Windows: there is no patch, not one without a checksum.
+                if (patch.Url == null && patch.File == null && patch.Data == null) return null;
             }
             Sp(self).Patches.Add(patch);
             return null;
@@ -648,6 +656,7 @@ public static partial class FormulaLoader
         it.Run(InstallStepsPrelude, "<install_steps>");
         it.Run(BuildPrelude, "<build>");
         VersionObject(it, "0");   // defines Version, so `Version.new("1.2")` works before any formula version is read
+        DefineFormulaCompat(it, F);
         // More of Homebrew's global paths (cargo-audit's test: HOMEBREW_CACHE/"cargo_cache"; garble's:
         // HOMEBREW_SHIMS_PATH). Windows has no superenv shims; that path only has to be one that isn't on PATH.
         var paths = new Paths();

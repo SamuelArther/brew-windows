@@ -72,14 +72,15 @@ public static partial class FormulaLoader
     }
 
     // Called by Formula#system after a successful `npm install --global --prefix=X`.
-    internal static void WriteNpmBinLinks(Interp i, IReadOnlyList<string> argv)
+    public static void WriteNpmBinLinks(Interp i, IReadOnlyList<string> argv)
     {
         if (argv.Count < 2 || !Path.GetFileNameWithoutExtension(argv[0]).Equals("npm", StringComparison.OrdinalIgnoreCase)
             || !argv.Contains("install") || !argv.Contains("--global")) return;
         var prefixArg = argv.LastOrDefault(x => x.StartsWith("--prefix=", StringComparison.Ordinal));
         if (prefixArg == null) return;
         var prefix = i.Abs(prefixArg["--prefix=".Length..]);
-        var modules = Path.Combine(prefix, "node_modules");
+        var modules = Path.Combine(prefix, "lib", "node_modules");
+        var installed = MoveToUnixLayout(prefix, modules);
         if (!Directory.Exists(modules)) return;
         var nodeExe = Path.Combine(i.Env.GetValueOrDefault("HOMEBREW_PREFIX") ?? "", "opt", "node", "libexec", "node.exe");
         var node = File.Exists(nodeExe) ? nodeExe : "node";
@@ -100,7 +101,48 @@ public static partial class FormulaLoader
                 Directory.CreateDirectory(bin);
                 File.WriteAllText(Path.Combine(bin, name + ".cmd"),
                     $"@echo off\r\n\"{node.Replace("%", "%%")}\" \"{target.Replace("%", "%%")}\" %*\r\nexit /b %errorlevel%\r\n");
+                // What npm links on Unix (bin/<name>), for tests and scripts that run the command through bash.
+                File.WriteAllText(Path.Combine(bin, name), $"#!/bin/sh\nexec \"{node.Replace('\\', '/')}\" \"{target.Replace('\\', '/')}\" \"$@\"\n");
+                // npm's own launchers in the prefix root point at the tree's old place.
+                if (installed.Contains(packageDir))
+                    foreach (var stale in new[] { name, name + ".cmd", name + ".ps1" }.Select(n => Path.Combine(prefix, n)).Where(File.Exists))
+                        File.Delete(stale);
             }
+        }
+    }
+
+    // A global install on Windows puts packages in <prefix>/node_modules; Unix npm, and so every formula
+    // (`libexec/"lib/node_modules/<name>/..."`), has them in <prefix>/lib/node_modules. Moves this install's
+    // packages there and returns their new directories.
+    static HashSet<string> MoveToUnixLayout(string prefix, string modules)
+    {
+        var moved = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var windows = Path.Combine(prefix, "node_modules");
+        if (!Directory.Exists(windows)) return moved;
+        Directory.CreateDirectory(modules);
+        foreach (var entry in Directory.GetFileSystemEntries(windows))
+        {
+            var name = Path.GetFileName(entry);
+            var destination = Path.Combine(modules, name);
+            if (name.StartsWith('@') && Directory.Exists(entry) && new DirectoryInfo(entry).LinkTarget == null)
+            {
+                Directory.CreateDirectory(destination);
+                foreach (var scoped in Directory.GetFileSystemEntries(entry))
+                    moved.Add(MoveEntry(scoped, Path.Combine(destination, Path.GetFileName(scoped))));
+                Directory.Delete(entry);
+            }
+            else moved.Add(MoveEntry(entry, destination));
+        }
+        Directory.Delete(windows);
+        return moved;
+
+        static string MoveEntry(string source, string destination)
+        {
+            // A package installed again replaces the earlier copy, as npm would in place.
+            if (Directory.Exists(destination)) Directory.Delete(destination, new DirectoryInfo(destination).LinkTarget == null);
+            else if (File.Exists(destination) || new FileInfo(destination).LinkTarget != null) File.Delete(destination);
+            if (Directory.Exists(source)) Directory.Move(source, destination); else File.Move(source, destination);
+            return destination;
         }
     }
 
