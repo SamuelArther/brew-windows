@@ -1,0 +1,9 @@
+glib
+vala
+gdk-pixbuf
+pygobject3
+numpy
+cargo-c
+cryptography
+maturin
+pygit2

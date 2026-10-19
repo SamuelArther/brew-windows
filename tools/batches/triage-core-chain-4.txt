@@ -1,0 +1,6 @@
+numpy
+cargo-c
+cryptography
+gdk-pixbuf
+pygobject3
+chafa

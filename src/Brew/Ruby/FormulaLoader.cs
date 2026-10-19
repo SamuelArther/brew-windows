@@ -169,7 +169,7 @@ public static partial class FormulaLoader
         Directory.CreateDirectory(testPath);
         var context = new InstallContext(prefix, testPath, null, brewPrefix);
         if (brewPrefix != null)
-            BuildEnvironment.ApplyForTest(new Paths(), context, spec.Dependencies.Select(d => d.Name).Append(spec.Name));
+            BuildEnvironment.ApplyForTest(new Paths(), context, spec.Dependencies.Select(d => d.Name).Append(spec.Name), spec.Name);
         WithInstance(spec, context, (it, f) =>
         {
             f.SetIvar("@__testpath", Interp.S(testPath));
@@ -240,6 +240,8 @@ public static partial class FormulaLoader
             return Interp.S(head[..Math.Min(length, head.Length)]);
         });
         it.DefS(utils, "safe_popen_read popen_read",(i, s, a, b) => i.Backtick(string.Join(" ", a.Select(i.ToS).Select(Quote))));
+        // Utils.binary_linked_to_library?(binary, library) (utils/linkage.rb): whether the binary imports that DLL.
+        it.DefS(utils, "binary_linked_to_library?", (i, s, a, b) => BinaryLinkedToLibrary(i.Abs(i.PathStr(a[0])), i.PathStr(a[1])));
         // Utils::Gzip.compress(*paths): each file becomes file.gz; returns the .gz paths.
         var gzip = it.DefineModule("Gzip", utils);
         it.DefS(gzip, "compress", (i, s, a, b) => new RArray(a.Where(x => x is not RHash).Select(x =>
@@ -815,6 +817,23 @@ public static partial class FormulaLoader
         });
         it.Def(keg, "name to_s", (i, self, a, b) => Interp.S(Name(self)));
         it.Def(keg, "to_formula", (i, self, a, b) => OtherFormula(i, Name(self)));
+    }
+
+    // Windows' version of utils/linkage.rb: the binary's import table names the library's DLL. DLL names carry
+    // versions that shared_library doesn't (libgit2 -> libgit2-1.9.dll, libssl -> libssl-4-x64.dll, zlib -> zlib1.dll),
+    // so "libgit2.dll" matches an import of libgit2.dll or libgit2-<anything>.dll. A vendored static copy imports nothing.
+    public static bool BinaryLinkedToLibrary(string binary, string library)
+    {
+        if (!File.Exists(binary) && File.Exists(binary + ".exe")) binary += ".exe";
+        var name = Path.GetFileName(library);
+        var stem = name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) ? name[..^4] : name;
+        return PortableExecutable.Imports(binary).Any(dll =>
+        {
+            var importStem = dll.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) ? dll[..^4] : dll;
+            return importStem.Equals(stem, StringComparison.OrdinalIgnoreCase)
+                || importStem.Length > stem.Length && importStem.StartsWith(stem, StringComparison.OrdinalIgnoreCase)
+                   && (importStem[stem.Length] == '-' || char.IsDigit(importStem[stem.Length]) && !char.IsDigit(stem[^1]));
+        });
     }
 
     static RClass BuildError(Interp it) => it.ConstGet(it.ObjectClass, "BuildError") as RClass ?? it.DefineClass("BuildError", it.RuntimeError);

@@ -315,12 +315,38 @@ public static partial class FormulaLoader
                 // Visual Studio's tools go first: MSYS2's coreutils has a link.exe of its own.
                 i.Env[name] = key == "__MSVC_PATH" ? value + ";" + (i.Env.GetValueOrDefault("PATH") ?? Environment.GetEnvironmentVariable("PATH")) : value;
             }
+        if (BuildEnvironment.MsvcX64 != null) AddDependenciesForMsvc(i);
         try { return run(); }
         finally
         {
             foreach (var (name, value) in saved)
                 if (value == null) i.Env.Remove(name); else i.Env[name] = value;
         }
+    }
+
+    // Superenv's -I/-L for the dependencies, for cl and link: setuptools extensions built with Visual Studio
+    // (pygit2's against libgit2: "C1083: Cannot open include file: 'git2.h'") see the same headers and libraries
+    // GCC gets through CPATH and LIBRARY_PATH, after Visual Studio's own. link.exe looks for foo.lib where MinGW
+    // installs libfoo.dll.a; both are COFF import libraries, so a copy under the MSVC name serves it.
+    public static void AddDependenciesForMsvc(Interp i)
+    {
+        static IEnumerable<string> List(string value) => (value ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries)
+            .Select(d => d.Replace('/', '\\')).Where(Directory.Exists);
+        var includes = List(i.Env.GetValueOrDefault("CPATH")).ToList();
+        if (includes.Count > 0) i.Env["INCLUDE"] = string.Join(";", List(i.Env.GetValueOrDefault("INCLUDE")).Concat(includes).Distinct(StringComparer.OrdinalIgnoreCase));
+        var libraries = List(i.Env.GetValueOrDefault("LIBRARY_PATH")).ToList();
+        if (libraries.Count == 0) return;
+        var home = i.Env.GetValueOrDefault("HOME") is { Length: > 0 } h && Directory.Exists(h) ? h : Path.GetTempPath();
+        var shims = Path.Combine(home, ".brew_msvc_lib");
+        Directory.CreateDirectory(shims);
+        foreach (var dir in libraries)
+            foreach (var importLibrary in Directory.GetFiles(dir, "lib*.dll.a"))
+            {
+                var name = Path.GetFileName(importLibrary)[3..^".dll.a".Length] + ".lib";
+                var target = Path.Combine(shims, name);
+                if (!File.Exists(Path.Combine(dir, name)) && !File.Exists(target)) File.Copy(importLibrary, target);
+            }
+        i.Env["LIB"] = string.Join(";", List(i.Env.GetValueOrDefault("LIB")).Concat(libraries).Append(shims).Distinct(StringComparer.OrdinalIgnoreCase));
     }
 
     static void PipInstallAndLink(Interp i, object formula, string venv, List<string> targets, bool linkManpages)
@@ -352,13 +378,57 @@ public static partial class FormulaLoader
             }
             else Ctx(i, formula).WindowsExe(Path.GetRelativePath(prefix, script), name);
         }
-        if (!linkManpages || !Directory.Exists(man)) return;
-        foreach (var page in Directory.GetFiles(man, "*", SearchOption.AllDirectories).Where(f => !manBefore.Contains(f)))
+        if (linkManpages && Directory.Exists(man))
+            foreach (var page in Directory.GetFiles(man, "*", SearchOption.AllDirectories).Where(f => !manBefore.Contains(f)))
+            {
+                var target = Path.Combine(prefix, "share", "man", Path.GetFileName(Path.GetDirectoryName(page))!, Path.GetFileName(page));
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                File.CreateSymbolicLink(target, page);
+            }
+        InstallWindowsRequirements(i, venv);
+    }
+
+    // Upstream's resource lists are resolved on macOS and Linux, so requirements only Windows has (sphinx's and
+    // click's `colorama; sys_platform == "win32"`) are never resources: sphinx-quickstart then failed with
+    // "No module named 'colorama'". After the formula's own packages, the venv gets whatever its packages
+    // require on Windows only and is still missing. Requirements without a Windows marker stay as upstream left them.
+    public const string WindowsRequirementsScript = """
+        import os, re, sys, importlib.metadata as md
+        from pip._vendor.packaging.requirements import Requirement
+        from pip._vendor.packaging.utils import canonicalize_name
+        venv = os.path.normcase(os.path.abspath(sys.prefix))
+        dists = [d for d in md.distributions() if d.metadata['Name']]
+        have = {canonicalize_name(d.metadata['Name']) for d in dists}
+        missing = set()
+        for d in dists:
+            if not os.path.normcase(os.path.abspath(str(d.locate_file('')))).startswith(venv):
+                continue
+            for line in d.requires or []:
+                r = Requirement(line)
+                if r.marker is None or not re.search(r'win32|windows|["\']nt["\']', str(r.marker), re.I):
+                    continue
+                if r.marker.evaluate({'extra': ''}) and canonicalize_name(r.name) not in have:
+                    missing.add(canonicalize_name(r.name))
+        print('\n'.join(sorted(missing)))
+        """;
+
+    static void InstallWindowsRequirements(Interp i, string venv)
+    {
+        var python = Path.Combine(VenvBin(venv), "python.exe");
+        List<string> missing;
+        try { missing = Capture(i, [python, "-c", WindowsRequirementsScript], []).Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(); }
+        catch (RubyError) { return; }
+        if (missing.Count == 0) return;
+        // Dependencies allowed (unlike std_pip_args' --no-deps); what's already installed stays as it is.
+        var args = new List<string> { python, "-m", "pip", "install", "--verbose", "--no-binary=:all:", "--uploaded-prior-to=P1D" };
+        args.AddRange(missing);
+        Ohai(i, string.Join(" ", args));
+        WithPythonBuildEnvironment(i, () =>
         {
-            var target = Path.Combine(prefix, "share", "man", Path.GetFileName(Path.GetDirectoryName(page))!, Path.GetFileName(page));
-            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-            File.CreateSymbolicLink(target, page);
-        }
+            if (!Interp.Truthy(i.RunSystem(args.Select(a => (object)Interp.S(a)).ToArray())))
+                throw i.Error(BuildError(i), $"Failed executing: {string.Join(" ", args)}");
+            return null;
+        });
     }
 
     // Homebrew links every new file in the venv's bin, not only entry points: a package's own `scripts=` (cram,

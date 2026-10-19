@@ -22,9 +22,10 @@ public static class BuildEnvironment
             .Where(d => Msys2Root == null || !IsCompilerKeg(Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d))))
             .Select(d => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), "bin"))
             .Where(Directory.Exists);
-        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
+        env["PATH"] = string.Join(";", dependencyBins.Concat(PythonLibexecBins(paths, dependencies)).Append(paths.Bin).Concat(ToolchainPath())
             .Concat(Msys2DllDirectories(paths, dependencies))
             .Append(Environment.GetEnvironmentVariable("PATH") ?? ""));
+        SetExtensionDllDirectories(paths, env, dependencies);
 
         env["HOMEBREW_PREFIX"] = paths.Prefix;
         env["HOMEBREW_CELLAR"] = paths.Cellar;
@@ -69,7 +70,7 @@ public static class BuildEnvironment
 
     // `brew test` gets the compiler half of the build environment (Homebrew's test env is a build env):
     // tests compile against the keg with ENV.cc and pkg-config.
-    public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies)
+    public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies, string tested = null)
     {
         var env = context.BuildEnvironment;
         // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH,
@@ -80,9 +81,10 @@ public static class BuildEnvironment
             .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))).Where(Directory.Exists);
         // Last, brew itself: Homebrew's tests find `brew` in HOMEBREW_PREFIX/bin (gpk, taproom and frizbee run it).
         var brewDir = Path.GetDirectoryName(Environment.ProcessPath);
-        env["PATH"] = string.Join(";", dependencyBins.Append(paths.Bin).Concat(ToolchainPath())
+        env["PATH"] = string.Join(";", dependencyBins.Concat(PythonLibexecBins(paths, dependencies)).Append(paths.Bin).Concat(ToolchainPath())
             .Append(Environment.GetEnvironmentVariable("PATH") ?? "")
             .Concat(brewDir != null && File.Exists(Path.Combine(brewDir, "brew.exe")) ? [brewDir] : []));
+        SetExtensionDllDirectories(paths, env, dependencies);
         // Formula#common_sandbox_env: tests share the package managers' caches with builds (cargo-audit's test
         // looks for its advisory database in HOMEBREW_CACHE/cargo_cache).
         var cache = paths.CacheRoot;
@@ -94,7 +96,37 @@ public static class BuildEnvironment
         env["GOTOOLCHAIN"] = "local";
         env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
-        if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath);
+        if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath, tested: tested);
+    }
+
+    // Superenv#homebrew_extra_paths: the python@3.x dependencies' libexec/bin (unversioned python and python3),
+    // newest first, after the dependencies' bin. Meson's python.find_installation('python3') and plain `python3`
+    // calls then get the brewed Python that python-setuptools is linked for, not MSYS2's own (glib's
+    // gobject-introspection: "python3 is missing modules: setuptools") or whichever python3 HOMEBREW_PREFIX/bin has.
+    public static IEnumerable<string> PythonLibexecBins(Paths paths, IEnumerable<string> dependencies) =>
+        dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => (Name: d, Match: System.Text.RegularExpressions.Regex.Match(d, @"^python(?:@(\d+(?:\.\d+)*))?$")))
+            .Where(p => p.Match.Success)
+            .OrderByDescending(p => Version.TryParse(p.Match.Groups[1].Success ? p.Match.Groups[1].Value : "0", out var v) ? v : new Version())
+            .Select(p => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(p.Name), "libexec", "bin"))
+            .Where(Directory.Exists).ToList();
+
+    // Python 3.8+ ignores PATH when loading an extension module's DLLs, so a MinGW-built .pyd (gobject-introspection's
+    // _giscanner, which needs libintl, pcre2 and GCC's runtime) failed with "DLL load failed while importing". GLib's
+    // tools add GI_EXTRA_BASE_DLL_DIRS with os.add_dll_directory: the dependencies' and toolchain's DLL folders.
+    static void SetExtensionDllDirectories(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
+    {
+        if (env.ContainsKey("GI_EXTRA_BASE_DLL_DIRS") || Environment.GetEnvironmentVariable("GI_EXTRA_BASE_DLL_DIRS") is { Length: > 0 }) return;
+        var dirs = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .SelectMany(d => new[] { "bin", "lib", "libexec/ucrt64/bin" }.Select(sub => Path.GetFullPath(Path.Combine(paths.Prefix, "opt", Paths.FormulaName(d), sub))))
+            .Append(paths.Bin)
+            .Concat(Msys2Root is { } root ? [Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin")] : [])
+            .Where(Directory.Exists).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        if (dirs.Count == 0) return;
+        env["GI_EXTRA_BASE_DLL_DIRS"] = string.Join(";", dirs);
+        // PyGObject's gi/__init__.py reads its own variable for the same thing (_gi.pyd needs libgirepository and GLib).
+        if (!env.ContainsKey("PYGI_DLL_PATH") && Environment.GetEnvironmentVariable("PYGI_DLL_PATH") is not { Length: > 0 })
+            env["PYGI_DLL_PATH"] = env["GI_EXTRA_BASE_DLL_DIRS"];
     }
 
     // An MSYS2-packaged keg that carries the C runtime's headers: a GCC of its own, not a library.
@@ -255,7 +287,7 @@ public static class BuildEnvironment
     // build; the keg carries msys-2.0.dll like Git for Windows does.
     public static bool PosixRuntime => Environment.GetEnvironmentVariable("HOMEBREW_POSIX_RUNTIME") == "1";
 
-    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath, IEnumerable<string> direct = null)
+    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath, IEnumerable<string> direct = null, string tested = null)
     {
         if (Msys2Root is not { } root) return;
         var posix = PosixRuntime;
@@ -315,7 +347,13 @@ public static class BuildEnvironment
         string Msys(string p) => p.Length > 1 && p[1] == ':' ? "/" + char.ToLowerInvariant(p[0]) + p[2..].Replace('\\', '/') : p.Replace('\\', '/');
         env["ACLOCAL_PATH"] = string.Join(":", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "share", "aclocal"))
             .Where(Directory.Exists).Select(Msys));
-        env["CMAKE_PREFIX_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(Posix));
+        // Not the tested formula's own keg: like upstream, its tests find it through HOMEBREW_PREFIX
+        // (extra-cmake-modules asserts ECM_DIR is HOMEBREW_PREFIX/share/ECM/cmake).
+        var testedKeg = tested == null ? null : Path.Combine(paths.Prefix, "opt", Paths.FormulaName(tested));
+        env["CMAKE_PREFIX_PATH"] = string.Join(listSeparator, kegs
+            .Where(k => testedKeg == null || !(k.Equals(testedKeg, StringComparison.OrdinalIgnoreCase)
+                || k.StartsWith(testedKeg + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)))
+            .Append(paths.Prefix).Select(Posix));
 
         // Old config.guess scripts don't know MinGW or MSYS; tell configure what it is building on.
         var site = Path.Combine(buildPath, ".brew_config.site");
@@ -346,19 +384,57 @@ public static class BuildEnvironment
         if (!env.ContainsKey("MAKEFLAGS") && Environment.GetEnvironmentVariable("MAKEFLAGS") is not { Length: > 0 })
             env["MAKEFLAGS"] = "-j" + (env.TryGetValue("HOMEBREW_MAKE_JOBS", out var jobs) ? jobs
                 : Environment.GetEnvironmentVariable("HOMEBREW_MAKE_JOBS") is { Length: > 0 } set ? set : Environment.ProcessorCount.ToString());
-        if ((direct ?? dependencies).Any(d => d is "rust" or "rustup")) PointCcRsAtMsvc(env);
+        if ((direct ?? dependencies).Any(d => d is "rust" or "rustup"))
+        {
+            PointCcRsAtMsvc(env);
+            PointOpensslSysAtOpenssl(paths, env, dependencies, buildPath);
+        }
     }
 
     // Rust's toolchain targets x86_64-pc-windows-msvc, and cc-rs (the C build of *-sys crates) reads CC and AR before
     // looking for Visual Studio: MSYS2's gcc and `ar` then got lib.exe's "-out:" ("ar: invalid option -- :", turso's
     // libmimalloc-sys and zstd-sys). The target-specific variables, which cc-rs reads first, name MSVC's own tools.
+    // openssl-sys never asks pkg-config on the MSVC target (it does on macOS and Linux, where superenv's
+    // PKG_CONFIG_PATH finds the brewed OpenSSL): cryptography failed with "Could not find directory of OpenSSL
+    // installation". The newest openssl dependency is OPENSSL_DIR, as cargo-c's formula sets it by hand.
+    static void PointOpensslSysAtOpenssl(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath)
+    {
+        if (env.ContainsKey("OPENSSL_DIR") || Environment.GetEnvironmentVariable("OPENSSL_DIR") is { Length: > 0 }) return;
+        var openssl = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => (Name: d, Match: System.Text.RegularExpressions.Regex.Match(d, @"^openssl(?:@(\d+(?:\.\d+)*))?$")))
+            .Where(p => p.Match.Success)
+            .OrderByDescending(p => Version.TryParse(p.Match.Groups[1].Success ? p.Match.Groups[1].Value + (p.Match.Groups[1].Value.Contains('.') ? "" : ".0") : "0.0", out var v) ? v : new Version())
+            .Select(p => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(p.Name)))
+            .FirstOrDefault(k => Directory.Exists(Path.Combine(k, "include", "openssl")));
+        if (openssl == null) return;
+        // On the MSVC target it links libssl.lib and libcrypto.lib, where a MinGW-built OpenSSL has libssl.dll.a and
+        // libcrypto.dll.a ("does not contain the required files to either statically or dynamically link OpenSSL").
+        // Both are COFF import libraries: copies under the MSVC names, in the build, serve link.exe.
+        var lib = Path.Combine(openssl, "lib");
+        if (!File.Exists(Path.Combine(lib, "libssl.lib")) && File.Exists(Path.Combine(lib, "libssl.dll.a")) && File.Exists(Path.Combine(lib, "libcrypto.dll.a")))
+        {
+            var shims = Path.Combine(buildPath, ".brew_openssl_lib");
+            Directory.CreateDirectory(shims);
+            foreach (var name in new[] { "libssl", "libcrypto" })
+                File.Copy(Path.Combine(lib, name + ".dll.a"), Path.Combine(shims, name + ".lib"), true);
+            env["OPENSSL_LIB_DIR"] = shims;
+            env["OPENSSL_INCLUDE_DIR"] = Path.Combine(openssl, "include");
+        }
+        else env["OPENSSL_DIR"] = openssl;
+    }
+
     static void PointCcRsAtMsvc(Dictionary<string, string> env)
     {
         if (MsvcX64 is not { } msvc || !msvc.TryGetValue("__MSVC_PATH", out var dirs)) return;
         string Tool(string exe) => dirs.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(d => Path.Combine(d.Trim('"'), exe)).FirstOrDefault(File.Exists);
-        if (Tool("cl.exe") is not { } cl || Tool("lib.exe") is not { } lib) return;
-        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib) })
+        if (Tool("cl.exe") is null || Tool("lib.exe") is not { } lib) return;
+        // cl by its plain name: build scripts that pick assembly by compiler name (blake3 in cargo-c accepts only
+        // "", "cl" or "cl.exe") took a full path for GCC and fed cl its *_windows_gnu.S files (LNK1181). Visual
+        // Studio's folders go last on PATH, so they shadow neither MSYS2's tools nor its link.exe (rustc finds
+        // Visual Studio's linker itself).
+        foreach (var (name, value) in new[] { ("CC", "cl.exe"), ("CXX", "cl.exe"), ("AR", lib) })
             if (!env.ContainsKey(name + "_x86_64_pc_windows_msvc")) env[name + "_x86_64_pc_windows_msvc"] = value;
+        env["PATH"] = env.GetValueOrDefault("PATH", Environment.GetEnvironmentVariable("PATH") ?? "") + ";" + dirs;
         // A compiler named this way is run as is: cc-rs only sets up Visual Studio's environment for a cl it found
         // itself, so cl needs vcvars' header and library lists ("C1034: stdarg.h: no include path set" in ring,
         // aws-lc-sys, libsqlite3-sys). MinGW GCC and ld don't read these variables.
@@ -378,6 +454,10 @@ public static class BuildEnvironment
 
     // Executables built with MinGW GCC may import its runtime and any UCRT64 libraries the build found.
     // Copy those DLLs next to each binary so the keg (and its bottle) runs without MSYS2.
+    static bool IsProgramFolder(string directory) =>
+        Path.GetFileName(directory).Equals("bin", StringComparison.OrdinalIgnoreCase)
+        || Directory.EnumerateFiles(directory, "*.exe").Any();
+
     public static void BundleToolchainDlls(string keg, IEnumerable<string> dependencyKegs = null)
     {
         // Where an imported DLL can come from: the keg's dependencies (their bin and lib), then the
@@ -388,7 +468,13 @@ public static class BuildEnvironment
         if (Msys2Root is { } root) sources.Add(Path.Combine(root, PosixRuntime ? "usr" : "ucrt64", "bin"));
         if (sources.Count == 0) return;
         foreach (var binary in Paths.TreeFiles(keg)
-                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList())
+                     // Python extension modules too: Python 3.8+ doesn't load their DLLs from PATH (numpy's
+                     // _multiarray_umath needs libopenblas and GCC's runtime: "DLL load failed while importing").
+                     // Not plugin DLLs in folders without programs (gdk-pixbuf's loaders, GIO modules): their host's own
+                     // folder supplies those, and copies beside them loaded GLib twice ("cannot register existing type"),
+                     // which hung gdk-pixbuf-query-loaders.
+                     .Where(f => f.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".pyd", StringComparison.OrdinalIgnoreCase)
+                                 || f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) && IsProgramFolder(Path.GetDirectoryName(f)!)).ToList())
         {
             var directory = Path.GetDirectoryName(binary)!;
             var pending = new Queue<string>(PortableExecutable.Imports(binary));

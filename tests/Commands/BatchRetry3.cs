@@ -117,7 +117,12 @@ static class BatchRetry3
             var context = new InstallContext(Path.Combine(dir, "keg"), Path.Combine(dir, "build"), null, Path.Combine(root, "prefix"));
             BuildEnvironment.Apply(new Paths(), context, ["rust"]);
             if (context.BuildEnvironment.ContainsKey("CC_x86_64_pc_windows_msvc"))
+            {
                 Check(!context.BuildEnvironment["CFLAGS"].Contains("-W") && !context.BuildEnvironment["CXXFLAGS"].Contains("-W"), "Rust build CFLAGS carry no GCC warning options");
+                // blake3's build script recognizes MSVC only by the names "cl"/"cl.exe" (cargo-c: LNK1181 on *_windows_gnu.o).
+                Check(context.BuildEnvironment["CC_x86_64_pc_windows_msvc"] == "cl.exe" && context.BuildEnvironment["PATH"].Split(';').Any(d => File.Exists(Path.Combine(d.Trim('"'), "cl.exe"))),
+                    "cc-rs gets cl by name, with Visual Studio's folder on PATH");
+            }
             var c = new InstallContext(Path.Combine(dir, "keg2"), Path.Combine(dir, "build"), null, Path.Combine(root, "prefix"));
             BuildEnvironment.Apply(new Paths(), c, []);
             Check(c.BuildEnvironment["CFLAGS"].Contains("-Wno-error=incompatible-pointer-types"), "C builds keep GCC's -Wno-error options");

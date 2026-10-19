@@ -1,0 +1,47 @@
+[
+  {
+    "name": "cargo-c",
+    "status": "test",
+    "seconds": 742
+  },
+  {
+    "name": "cryptography",
+    "status": "build",
+    "seconds": 254
+  },
+  {
+    "name": "gdk-pixbuf",
+    "status": "build",
+    "seconds": 566
+  },
+  {
+    "name": "glib",
+    "status": "ok",
+    "seconds": 285
+  },
+  {
+    "name": "maturin",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "numpy",
+    "status": "test",
+    "seconds": 679
+  },
+  {
+    "name": "pygit2",
+    "status": "test",
+    "seconds": 113
+  },
+  {
+    "name": "pygobject3",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "vala",
+    "status": "build",
+    "seconds": 349
+  }
+]

@@ -312,7 +312,11 @@ public sealed partial class Interp
 
         // ---- File ----
         var F = FileClass;
-        DefS(F, "join", (it, self, a, b) => S(it.Flatten(a, -1).Select(it.PathStr).Aggregate("", (acc, x) => acc.Length == 0 ? x : acc.TrimEnd('/') + "/" + x.TrimStart('/'))));
+        // A drive-absolute part after the first loses its drive, as DESTDIR trees lay it out on Windows (meson and
+        // CMake install C:/prefix under $DESTDIR/prefix): gdk-pixbuf's File.join("stage", HOMEBREW_PREFIX) made
+        // "stage/C:/..." where Ruby on Unix makes "stage/opt/homebrew". A ':' inside a path is never valid anyway.
+        DefS(F, "join", (it, self, a, b) => S(it.Flatten(a, -1).Select(it.PathStr).Aggregate("", (acc, x) => acc.Length == 0 ? x
+            : acc.TrimEnd('/') + "/" + (x.Length >= 2 && x[1] == ':' && char.IsAsciiLetter(x[0]) ? x[2..] : x).TrimStart('/', '\\'))));
         // "#{bin}/tool" is a built tool.exe (Pathname's predicates take any PATHEXT variant).
         DefS(F, "exist?", (it, self, a, b) => { var p = it.Abs(it.PathStr(a[0])); return File.Exists(p) || Directory.Exists(p) || File.Exists(BuiltExecutable(p)); });
         DefS(F, "file?", (it, self, a, b) => File.Exists(BuiltExecutable(it.Abs(it.PathStr(a[0])))));

@@ -1,0 +1,67 @@
+[
+  {
+    "name": "cargo-c",
+    "status": "build",
+    "seconds": 464
+  },
+  {
+    "name": "cffi",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "extra-cmake-modules",
+    "status": "test",
+    "seconds": 217
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "glib",
+    "status": "build",
+    "seconds": 153
+  },
+  {
+    "name": "nfd2nfc",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "numpy",
+    "status": "test",
+    "seconds": 730
+  },
+  {
+    "name": "pydantic",
+    "status": "ok",
+    "seconds": 1158
+  },
+  {
+    "name": "python@3.15",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "sphinx-doc",
+    "status": "ok",
+    "seconds": 165
+  },
+  {
+    "name": "turso",
+    "status": "ok",
+    "seconds": 663
+  },
+  {
+    "name": "vala",
+    "status": "build",
+    "seconds": 130
+  },
+  {
+    "name": "zeroclaw",
+    "status": "ok",
+    "seconds": 9
+  }
+]

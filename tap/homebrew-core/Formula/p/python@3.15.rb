@@ -4,7 +4,7 @@ class PythonAT315 < Formula
   url "https://api.nuget.org/v3-flatcontainer/python/3.15.0/python.3.15.0.nupkg"
   sha256 "2f59399a704f1b7078606eca622992021fa4521058e25fdd09e55f8533f2a12e"
   license "Python-2.0"
-  revision 1
+  revision 2
 
   # Track the official CPython NuGet package (stable versions only).
   livecheck do
@@ -22,6 +22,9 @@ class PythonAT315 < Formula
     # `f.opt_libexec/"bin/python"` (numpy, rpds-py, py3cairo). Python finds its home through the link.
     (libexec/"bin").install_symlink libexec/"tools/python.exe"
     (libexec/"bin").install_symlink libexec/"tools/python.exe" => "python3.exe"
+    # 3.15's python.exe imports python315.dll, which Windows looks for beside the link, not its target:
+    # without these links libexec/bin/python exits with STATUS_DLL_NOT_FOUND and prints nothing.
+    (libexec/"tools").glob("*.dll").each { |dll| (libexec/"bin").install_symlink dll }
     windows_exe "libexec/tools/python.exe", "python"
     windows_exe "libexec/tools/python.exe", "python3"
     windows_exe "libexec/tools/python.exe", "pip3", "-m", "pip"
@@ -78,5 +81,7 @@ class PythonAT315 < Formula
     system python3, "dbm_test.py"
 
     system bin/"pip3", "list", "--format=columns"
+    # The multi-Python formulae's interpreter (cffi, numpy, pydantic run opt_libexec/"bin/python").
+    system libexec/"bin/python", "-c", "import sys"
   end
 end
