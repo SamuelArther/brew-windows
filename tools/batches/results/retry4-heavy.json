@@ -1,0 +1,67 @@
+[
+  {
+    "name": "apache-arrow",
+    "status": "build",
+    "seconds": 392
+  },
+  {
+    "name": "erlang@28",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "libint",
+    "status": "build",
+    "seconds": 124
+  },
+  {
+    "name": "llvm@19",
+    "status": "build",
+    "seconds": 5319
+  },
+  {
+    "name": "llvm@20",
+    "status": "build",
+    "seconds": 5848
+  },
+  {
+    "name": "llvm@21",
+    "status": "build",
+    "seconds": 5949
+  },
+  {
+    "name": "llvm@22",
+    "status": "build",
+    "seconds": 5753
+  },
+  {
+    "name": "mvfst",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "pytorch",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "qt@5",
+    "status": "build",
+    "seconds": 685
+  },
+  {
+    "name": "qtbase",
+    "status": "build",
+    "seconds": 214
+  },
+  {
+    "name": "spidermonkey",
+    "status": "build",
+    "seconds": 776
+  },
+  {
+    "name": "wangle",
+    "status": "build",
+    "seconds": 21
+  }
+]
