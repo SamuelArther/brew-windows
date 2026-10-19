@@ -359,6 +359,11 @@ public static class BuildEnvironment
         if (Tool("cl.exe") is not { } cl || Tool("lib.exe") is not { } lib) return;
         foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib) })
             if (!env.ContainsKey(name + "_x86_64_pc_windows_msvc")) env[name + "_x86_64_pc_windows_msvc"] = value;
+        // A compiler named this way is run as is: cc-rs only sets up Visual Studio's environment for a cl it found
+        // itself, so cl needs vcvars' header and library lists ("C1034: stdarg.h: no include path set" in ring,
+        // aws-lc-sys, libsqlite3-sys). MinGW GCC and ld don't read these variables.
+        foreach (var name in new[] { "INCLUDE", "LIB", "LIBPATH" })
+            if (!env.ContainsKey(name) && msvc.TryGetValue(name, out var value)) env[name] = value;
         // cc-rs passes CFLAGS/CXXFLAGS to cl together with the target-specific ones (it reads them all, so an empty
         // CFLAGS_x86_64_pc_windows_msvc hides nothing), and GCC's -Wno-error=/-Wno-template-body are a fatal D8021
         // to cl (turso, cargo-c, ring in whodb-cli and nfd2nfc, pydantic-core). Rust builds keep what both accept.

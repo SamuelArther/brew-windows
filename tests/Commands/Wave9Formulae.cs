@@ -52,6 +52,10 @@ static class Wave9Formulae
             """);
         Check(got == """[true, true, false, ["w9-lib"], "sbin"]""", "FormulaReference pkgetc/keg_only?/deps: " + got);
 
+        // Tap#issues_url (llvm's -DBUG_REPORT_URL).
+        got = Eval("""Formula.allocate.tap.issues_url""");
+        Check(got.Contains("SamuelArther/brew-windows/issues"), "Tap#issues_url: " + got);
+
         // Formula.names (llvm: the python@ versions it builds bindings for).
         got = Eval("""Formula.names.select { |n| n.start_with?("w9-") }.inspect""");
         Check(got == """["w9-certs", "w9-lib", "w9-probe", "w9-user"]""", "Formula.names lists the tap: " + got);

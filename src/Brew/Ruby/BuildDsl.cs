@@ -98,6 +98,9 @@ public static partial class FormulaLoader
             i.Def(s, "repo", (_, _, _, _) => Interp.S("core"));
             i.Def(s, "name to_s", (_, _, _, _) => Interp.S("homebrew/core"));
             i.Def(s, "core_tap? official?", (_, _, _, _) => true);
+            // Bug reports about these builds belong with brew-windows, not upstream homebrew-core (llvm's BUG_REPORT_URL).
+            i.Def(s, "remote default_remote", (_, _, _, _) => Interp.S("https://github.com/SamuelArther/brew-windows"));
+            i.Def(s, "issues_url", (_, _, _, _) => Interp.S("https://github.com/SamuelArther/brew-windows/issues"));
             return tap;
         });
 
