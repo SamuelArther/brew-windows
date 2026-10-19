@@ -174,7 +174,8 @@ jobs:
           git clean -qfd tap
           for ($i = 0; $i -lt 5; $i++) {
             git pull -q --rebase
-            $queue = if (Test-Path tools/batches/queue.txt) { @(Get-Content tools/batches/queue.txt | Where-Object { $_ -match '\S' -and $_ -notmatch '^\s*#' }) } else { @() }
+            # @() outside the if: assigning an if's output unrolls a one-line queue into a bare string.
+            $queue = @(if (Test-Path tools/batches/queue.txt) { Get-Content tools/batches/queue.txt | Where-Object { $_ -match '\S' -and $_ -notmatch '^\s*#' } })
             if ($queue.Count -eq 0) { "queue is empty"; exit 0 }
             $next = $queue[0]
             $rest = @(Get-Content tools/batches/queue.txt | Where-Object { $_ -ne $next })
