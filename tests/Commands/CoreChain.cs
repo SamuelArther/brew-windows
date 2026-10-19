@@ -67,6 +67,18 @@ static class CoreChain
             var cmake = test.BuildEnvironment["CMAKE_PREFIX_PATH"].Replace('\\', '/');
             Check(!cmake.Contains("/opt/cc-ecm") && cmake.Contains("/opt/cc-dep") && cmake.Contains(paths.Prefix.Replace('\\', '/')),
                 "the tested formula isn't in its own test's CMAKE_PREFIX_PATH: " + cmake);
+
+            // Rust builds: openssl-sys on the MSVC target only finds OpenSSL through OPENSSL_DIR (cryptography).
+            Directory.CreateDirectory(Opt("openssl@3", "include", "openssl"));
+            Directory.CreateDirectory(Opt("openssl@4", "include", "openssl"));
+            var rust = new InstallContext(Path.Combine(dir, "keg4"), Path.Combine(dir, "build"), null, paths.Prefix);
+            BuildEnvironment.Apply(paths, rust, ["rust", "openssl@3", "openssl@4"]);
+            Check(rust.BuildEnvironment.GetValueOrDefault("OPENSSL_DIR") == Opt("openssl@4"), "Rust builds get the newest openssl dependency as OPENSSL_DIR");
+            var plain = new InstallContext(Path.Combine(dir, "keg5"), Path.Combine(dir, "build"), null, paths.Prefix);
+            BuildEnvironment.Apply(paths, plain, ["openssl@4"]);
+            Check(!plain.BuildEnvironment.ContainsKey("OPENSSL_DIR"), "but not builds without Rust");
+            Directory.Delete(Opt("openssl@3"), true);
+            Directory.Delete(Opt("openssl@4"), true);
         }
         finally
         {
@@ -118,6 +130,14 @@ static class CoreChain
             var shim = Path.Combine(dir, "msvc-home", ".brew_msvc_lib");
             Check(File.Exists(Path.Combine(shim, "git2.lib")) && it.Env["LIB"].Split(';').Contains(shim, StringComparer.OrdinalIgnoreCase)
                   && it.Env["LIB"].Split(';')[0] == Path.Combine(dir, "msvc-home"), "MSVC LIB keeps Visual Studio's first and finds libgit2.dll.a as git2.lib: " + it.Env["LIB"]);
+        }
+
+        // File.join of a DESTDIR and a drive-absolute prefix drops the drive (gdk-pixbuf's stage/HOMEBREW_PREFIX).
+        {
+            var it = FormulaLoader.NewInterpreterForTests();
+            it.Cwd = dir;
+            Check(it.ToS(it.Run("""[File.join("stage", "C:/Users/x/Homebrew"), File.join("stage", "C:\\brew"), File.join("C:/a", "b"), File.join("a/", "/b")].inspect""", Path.Combine(dir, "join.rb")))
+                  == """["stage/Users/x/Homebrew", "stage/brew", "C:/a/b", "a/b"]""", "File.join lays a drive-absolute part out like DESTDIR");
         }
 
         // python@3.15's libexec/bin/python is a link to libexec/tools/python.exe, which imports python315.dll from

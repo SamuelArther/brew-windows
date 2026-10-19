@@ -384,12 +384,31 @@ public static class BuildEnvironment
         if (!env.ContainsKey("MAKEFLAGS") && Environment.GetEnvironmentVariable("MAKEFLAGS") is not { Length: > 0 })
             env["MAKEFLAGS"] = "-j" + (env.TryGetValue("HOMEBREW_MAKE_JOBS", out var jobs) ? jobs
                 : Environment.GetEnvironmentVariable("HOMEBREW_MAKE_JOBS") is { Length: > 0 } set ? set : Environment.ProcessorCount.ToString());
-        if ((direct ?? dependencies).Any(d => d is "rust" or "rustup")) PointCcRsAtMsvc(env);
+        if ((direct ?? dependencies).Any(d => d is "rust" or "rustup"))
+        {
+            PointCcRsAtMsvc(env);
+            PointOpensslSysAtOpenssl(paths, env, dependencies);
+        }
     }
 
     // Rust's toolchain targets x86_64-pc-windows-msvc, and cc-rs (the C build of *-sys crates) reads CC and AR before
     // looking for Visual Studio: MSYS2's gcc and `ar` then got lib.exe's "-out:" ("ar: invalid option -- :", turso's
     // libmimalloc-sys and zstd-sys). The target-specific variables, which cc-rs reads first, name MSVC's own tools.
+    // openssl-sys never asks pkg-config on the MSVC target (it does on macOS and Linux, where superenv's
+    // PKG_CONFIG_PATH finds the brewed OpenSSL): cryptography failed with "Could not find directory of OpenSSL
+    // installation". The newest openssl dependency is OPENSSL_DIR, as cargo-c's formula sets it by hand.
+    static void PointOpensslSysAtOpenssl(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies)
+    {
+        if (env.ContainsKey("OPENSSL_DIR") || Environment.GetEnvironmentVariable("OPENSSL_DIR") is { Length: > 0 }) return;
+        var openssl = dependencies.Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(d => (Name: d, Match: System.Text.RegularExpressions.Regex.Match(d, @"^openssl(?:@(\d+(?:\.\d+)*))?$")))
+            .Where(p => p.Match.Success)
+            .OrderByDescending(p => Version.TryParse(p.Match.Groups[1].Success ? p.Match.Groups[1].Value + (p.Match.Groups[1].Value.Contains('.') ? "" : ".0") : "0.0", out var v) ? v : new Version())
+            .Select(p => Path.Combine(paths.Prefix, "opt", Paths.FormulaName(p.Name)))
+            .FirstOrDefault(k => Directory.Exists(Path.Combine(k, "include", "openssl")));
+        if (openssl != null) env["OPENSSL_DIR"] = openssl;
+    }
+
     static void PointCcRsAtMsvc(Dictionary<string, string> env)
     {
         if (MsvcX64 is not { } msvc || !msvc.TryGetValue("__MSVC_PATH", out var dirs)) return;

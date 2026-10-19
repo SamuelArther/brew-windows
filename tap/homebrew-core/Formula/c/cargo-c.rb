@@ -48,11 +48,11 @@ class CargoC < Formula
     assert_match cargo_error, shell_output("#{bin}/cargo-cinstall cinstall 2>&1", 1)
     assert_match cargo_error, shell_output("#{bin}/cargo-cbuild cbuild 2>&1", 1)
 
+    # Windows: Cargo builds no openssl-sys there (its curl uses SChannel), so only
+    # libgit2 and libssh2 are linked.
     [
       formula_opt_lib("libgit2")/shared_library("libgit2"),
       formula_opt_lib("libssh2")/shared_library("libssh2"),
-      formula_opt_lib("openssl@4")/shared_library("libssl"),
-      formula_opt_lib("openssl@4")/shared_library("libcrypto"),
     ].each do |library|
       assert Utils.binary_linked_to_library?(bin/"cargo-cbuild", library),
              "No linkage with #{library.basename}! Cargo is likely using a vendored version."
