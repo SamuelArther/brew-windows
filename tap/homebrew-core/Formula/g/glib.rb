@@ -92,6 +92,9 @@ class Glib < Formula
     ENV.append_path "PKG_CONFIG_PATH", staging_dir/"lib/pkgconfig"
     ENV.append_path "LD_LIBRARY_PATH", staging_dir/"lib" if OS.linux?
     ENV.append_path "PATH", staging_dir/"bin"
+    # Windows: g-ir-scanner finds a library's DLL through its import library in GCC's search
+    # directories ("can't resolve libraries to shared libraries: glib-2.0, gobject-2.0").
+    ENV.append_path "LIBRARY_PATH", staging_dir/"lib"
 
     resource("gobject-introspection").stage do
       system "meson", "setup", "build", "-Dcairo=disabled", "-Ddoctool=disabled", "-Dtests=false", *staging_meson_args

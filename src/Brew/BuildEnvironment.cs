@@ -70,7 +70,7 @@ public static class BuildEnvironment
 
     // `brew test` gets the compiler half of the build environment (Homebrew's test env is a build env):
     // tests compile against the keg with ENV.cc and pkg-config.
-    public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies)
+    public static void ApplyForTest(Paths paths, InstallContext context, IEnumerable<string> dependencies, string tested = null)
     {
         var env = context.BuildEnvironment;
         // bin and lib: programs a test compiles load the keg's DLLs (MinGW puts them in either) via PATH,
@@ -96,7 +96,7 @@ public static class BuildEnvironment
         env["GOTOOLCHAIN"] = "local";
         env["CARGO_HOME"] = Path.Combine(cache, "cargo_cache");
         // Without MSYS2, ENV.cc is whatever compiler is on PATH (LLVM-MinGW clang); the DLL paths above still apply.
-        if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath);
+        if (Msys2Root != null) ApplyToolchain(paths, env, dependencies, context.BuildPath, tested: tested);
     }
 
     // Superenv#homebrew_extra_paths: the python@3.x dependencies' libexec/bin (unversioned python and python3),
@@ -283,7 +283,7 @@ public static class BuildEnvironment
     // build; the keg carries msys-2.0.dll like Git for Windows does.
     public static bool PosixRuntime => Environment.GetEnvironmentVariable("HOMEBREW_POSIX_RUNTIME") == "1";
 
-    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath, IEnumerable<string> direct = null)
+    static void ApplyToolchain(Paths paths, Dictionary<string, string> env, IEnumerable<string> dependencies, string buildPath, IEnumerable<string> direct = null, string tested = null)
     {
         if (Msys2Root is not { } root) return;
         var posix = PosixRuntime;
@@ -343,7 +343,13 @@ public static class BuildEnvironment
         string Msys(string p) => p.Length > 1 && p[1] == ':' ? "/" + char.ToLowerInvariant(p[0]) + p[2..].Replace('\\', '/') : p.Replace('\\', '/');
         env["ACLOCAL_PATH"] = string.Join(":", kegs.Append(paths.Prefix).Select(k => Path.Combine(k, "share", "aclocal"))
             .Where(Directory.Exists).Select(Msys));
-        env["CMAKE_PREFIX_PATH"] = string.Join(listSeparator, kegs.Append(paths.Prefix).Select(Posix));
+        // Not the tested formula's own keg: like upstream, its tests find it through HOMEBREW_PREFIX
+        // (extra-cmake-modules asserts ECM_DIR is HOMEBREW_PREFIX/share/ECM/cmake).
+        var testedKeg = tested == null ? null : Path.Combine(paths.Prefix, "opt", Paths.FormulaName(tested));
+        env["CMAKE_PREFIX_PATH"] = string.Join(listSeparator, kegs
+            .Where(k => testedKeg == null || !(k.Equals(testedKeg, StringComparison.OrdinalIgnoreCase)
+                || k.StartsWith(testedKeg + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)))
+            .Append(paths.Prefix).Select(Posix));
 
         // Old config.guess scripts don't know MinGW or MSYS; tell configure what it is building on.
         var site = Path.Combine(buildPath, ".brew_config.site");
@@ -384,9 +390,14 @@ public static class BuildEnvironment
     {
         if (MsvcX64 is not { } msvc || !msvc.TryGetValue("__MSVC_PATH", out var dirs)) return;
         string Tool(string exe) => dirs.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(d => Path.Combine(d.Trim('"'), exe)).FirstOrDefault(File.Exists);
-        if (Tool("cl.exe") is not { } cl || Tool("lib.exe") is not { } lib) return;
-        foreach (var (name, value) in new[] { ("CC", cl), ("CXX", cl), ("AR", lib) })
+        if (Tool("cl.exe") is null || Tool("lib.exe") is not { } lib) return;
+        // cl by its plain name: build scripts that pick assembly by compiler name (blake3 in cargo-c accepts only
+        // "", "cl" or "cl.exe") took a full path for GCC and fed cl its *_windows_gnu.S files (LNK1181). Visual
+        // Studio's folders go last on PATH, so they shadow neither MSYS2's tools nor its link.exe (rustc finds
+        // Visual Studio's linker itself).
+        foreach (var (name, value) in new[] { ("CC", "cl.exe"), ("CXX", "cl.exe"), ("AR", lib) })
             if (!env.ContainsKey(name + "_x86_64_pc_windows_msvc")) env[name + "_x86_64_pc_windows_msvc"] = value;
+        env["PATH"] = env.GetValueOrDefault("PATH", Environment.GetEnvironmentVariable("PATH") ?? "") + ";" + dirs;
         // A compiler named this way is run as is: cc-rs only sets up Visual Studio's environment for a cl it found
         // itself, so cl needs vcvars' header and library lists ("C1034: stdarg.h: no include path set" in ring,
         // aws-lc-sys, libsqlite3-sys). MinGW GCC and ld don't read these variables.

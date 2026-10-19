@@ -169,7 +169,7 @@ public static partial class FormulaLoader
         Directory.CreateDirectory(testPath);
         var context = new InstallContext(prefix, testPath, null, brewPrefix);
         if (brewPrefix != null)
-            BuildEnvironment.ApplyForTest(new Paths(), context, spec.Dependencies.Select(d => d.Name).Append(spec.Name));
+            BuildEnvironment.ApplyForTest(new Paths(), context, spec.Dependencies.Select(d => d.Name).Append(spec.Name), spec.Name);
         WithInstance(spec, context, (it, f) =>
         {
             f.SetIvar("@__testpath", Interp.S(testPath));

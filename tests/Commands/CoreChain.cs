@@ -51,6 +51,29 @@ static class CoreChain
             foreach (var name in new[] { "python@3.9", "python@3.14", "cc-gettext" }) Directory.Delete(Opt(name), true);
         }
 
+        // A test's CMAKE_PREFIX_PATH leaves out the tested keg itself: upstream's tests find it through HOMEBREW_PREFIX.
+        var savedMsys = Environment.GetEnvironmentVariable("HOMEBREW_MSYS2_ROOT");
+        var msys = Path.Combine(dir, "msys64");
+        Directory.CreateDirectory(Path.Combine(msys, "usr", "bin"));
+        File.WriteAllText(Path.Combine(msys, "usr", "bin", "bash.exe"), "");
+        Directory.CreateDirectory(Opt("cc-ecm", "share"));
+        Directory.CreateDirectory(Opt("cc-dep", "lib"));
+        try
+        {
+            Environment.SetEnvironmentVariable("HOMEBREW_MSYS2_ROOT", msys);
+            var test = new InstallContext(Path.Combine(dir, "keg3"), Path.Combine(dir, "build"), null, paths.Prefix);
+            BuildEnvironment.ApplyForTest(paths, test, ["cc-dep", "cc-ecm"], "cc-ecm");
+            var cmake = test.BuildEnvironment["CMAKE_PREFIX_PATH"].Replace('\\', '/');
+            Check(!cmake.Contains("/opt/cc-ecm") && cmake.Contains("/opt/cc-dep") && cmake.Contains(paths.Prefix.Replace('\\', '/')),
+                "the tested formula isn't in its own test's CMAKE_PREFIX_PATH: " + cmake);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("HOMEBREW_MSYS2_ROOT", savedMsys);
+            Directory.Delete(Opt("cc-ecm"), true);
+            Directory.Delete(Opt("cc-dep"), true);
+        }
+
         // python@3.15's libexec/bin/python is a link to libexec/tools/python.exe, which imports python315.dll from
         // the link's own folder: the formula links the DLLs too.
         var python315 = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "../../../../../../tap/homebrew-core/Formula/p/python@3.15.rb"));
