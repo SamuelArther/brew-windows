@@ -6,7 +6,7 @@ class Ccusage < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f10f0f51095da7ee53129ef1bb4d1a2b6b579b1ac665964bd44324e87b9ab887"
+    sha256 cellar: :any, x86_64_windows: "1537cf2436e6361560c2043b96a0a6c844da790166a9e0eccc2495373f577a9b"
   end
 
   depends_on "rust" => :build

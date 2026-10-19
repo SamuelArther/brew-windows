@@ -1,0 +1,97 @@
+[
+  {
+    "name": "cargo-binstall",
+    "status": "ok",
+    "seconds": 687
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 168
+  },
+  {
+    "name": "chainhook",
+    "status": "ok",
+    "seconds": 941
+  },
+  {
+    "name": "codeberg-cli",
+    "status": "build",
+    "seconds": 201
+  },
+  {
+    "name": "comtrya",
+    "status": "ok",
+    "seconds": 381
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1443
+  },
+  {
+    "name": "kty",
+    "status": "build",
+    "seconds": 365
+  },
+  {
+    "name": "merman-cli",
+    "status": "ok",
+    "seconds": 757
+  },
+  {
+    "name": "noseyparker",
+    "status": "build",
+    "seconds": 274
+  },
+  {
+    "name": "obscura",
+    "status": "ok",
+    "seconds": 644
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 816
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 817
+  },
+  {
+    "name": "pylint",
+    "status": "build",
+    "seconds": 625
+  },
+  {
+    "name": "shallow-backup",
+    "status": "build",
+    "seconds": 166
+  },
+  {
+    "name": "solo2-cli",
+    "status": "ok",
+    "seconds": 148
+  },
+  {
+    "name": "superseedr",
+    "status": "ok",
+    "seconds": 723
+  },
+  {
+    "name": "tgrep",
+    "status": "ok",
+    "seconds": 280
+  },
+  {
+    "name": "vpn-slice",
+    "status": "test",
+    "seconds": 482
+  },
+  {
+    "name": "zeroclaw",
+    "status": "ok",
+    "seconds": 1322
+  }
+]

@@ -1,13 +1,13 @@
 class Tgrep < Formula
   desc "Trigram-indexed grep for fast regex search in large codebases"
   homepage "https://github.com/microsoft/tgrep"
-  url "https://github.com/microsoft/tgrep/archive/refs/tags/v1.2.2.tar.gz"
-  sha256 "6d60e118f17bc22a9842d5aea3fe9cfc467ae1eccd5f9b680afd4bbe0342a407"
+  url "https://github.com/microsoft/tgrep/archive/refs/tags/v1.2.3.tar.gz"
+  sha256 "9c4af473d19a49ebf8803596fadea1b83e3154371805e00143a3f4bb8d2b6253"
   license "MIT"
   head "https://github.com/microsoft/tgrep.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "936b0faf0f5e29f44c8fe95ece767759e26ef176490d50c05f97143f0c23ee6b"
+    sha256 cellar: :any, x86_64_windows: "ac01328f0598e2922ef6bb0f720bf38919863f4c6e25e1cffea9a562c377e4cb"
   end
 
   depends_on "rust" => :build

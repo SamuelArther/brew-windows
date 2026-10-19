@@ -6,7 +6,7 @@ class Obscura < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f59bc624c12b2c16f46306533fdb43522ec0b0616ba3e1e9f7d35d98c9aefc3f"
+    sha256 cellar: :any, x86_64_windows: "3372d402c3de78aa8554ed136f2fc80bb2ba2727b9bc55834f17a6b3210b10ea"
   end
 
   depends_on "rust" => :build
