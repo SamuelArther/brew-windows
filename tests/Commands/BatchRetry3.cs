@@ -30,6 +30,7 @@ static class BatchRetry3
 
         // Library pieces: Hardware::CPU.bits (clozure-cl), Gem::Version (npm-check-updates), ERB::Util.url_encode
         // (snakeviz), File::Stat#ino (druid), Pathname#fnmatch? (apache-pulsar), ENV.fortran (fypp).
+        Expect("""Formula.allocate.deuniversalize_machos("x").inspect""", "nil");
         Expect("""[Hardware::CPU.bits, Gem::Version.new("4.17.1") > Gem::Version.new("3.6.1"), Gem::Version.new("1.10") > "1.9", ERB::Util.url_encode("a b/c")].inspect""",
             """[64, true, true, "a%20b%2Fc"]""");
         Expect("""File.write("st.txt", "abc"); File.write("st2.txt", "abc"); [File.stat("st.txt").size, Pathname("st.txt").stat.ino == File.stat("st.txt").ino, Pathname("st.txt").stat.ino == Pathname("st2.txt").stat.ino].inspect""",
@@ -85,6 +86,13 @@ static class BatchRetry3
         File.WriteAllText(osPatch, "class Ospatch < Formula\n  url \"https://example.invalid/ospatch-1.0.tar.gz\"\n  sha256 \"" + new string('0', 64) + "\"\n" +
             "  patch do\n    on_macos do\n      file \"Patches/x/mac.patch\"\n    end\n  end\n  patch :DATA\n  def install\n  end\nend\n__END__\n--- a/x\n+++ b/x\n");
         Check(FormulaLoader.Load(osPatch).Patches.Count == 1, "an OS-only patch block adds no patch on Windows");
+        // `resource "...", :test` is a test resource: not staged by the install, not pip-installed (regipy).
+        var testResource = Path.Combine(formulaDir, "testres.rb");
+        File.WriteAllText(testResource, "class Testres < Formula\n  url \"https://example.invalid/testres-1.0.tar.gz\"\n  sha256 \"" + new string('0', 64) + "\"\n" +
+            "  resource \"homebrew-hive\", :test do\n    url \"https://example.invalid/hive.xz\"\n    sha256 \"" + new string('1', 64) + "\"\n  end\n" +
+            "  resource \"six\" do\n    url \"https://example.invalid/six-1.0.tar.gz\"\n    sha256 \"" + new string('2', 64) + "\"\n  end\n  def install\n  end\nend\n");
+        var loaded = FormulaLoader.Load(testResource);
+        Check(loaded.Resources.Single(r => r.Name == "homebrew-hive").Test && !loaded.Resources.Single(r => r.Name == "six").Test, "a :test resource is marked as one");
 
         // GNU patch takes the old name when the new one points outside the tree (dvdrtools' MacPorts patches).
         var patchTree = Path.Combine(dir, "patch-tree");

@@ -39,7 +39,7 @@ public static partial class FormulaLoader
         it.Def(R, "url", (i, s, a, b) => Interp.S(Res(s).Spec.Url));
         it.Def(R, "checksum", (i, s, a, b) => Interp.S(Res(s).Spec.Sha256));
         it.Def(R, "version", (i, s, a, b) => VersionObject(i, Versions.Parse(Res(s).Spec.Url) ?? ""));
-        it.Def(R, "test?", (i, s, a, b) => false);
+        it.Def(R, "test?", (i, s, a, b) => Res(s).Spec.Test);
         it.Def(R, "inspect to_s", (i, s, a, b) => Interp.S($"#<Resource: {Res(s).Spec.Name}>"));
         it.Def(R, "cached_download", (i, s, a, b) =>
         {
@@ -126,7 +126,8 @@ public static partial class FormulaLoader
                     [] => throw i.Error(i.RuntimeError, $"{spec.Name}: no python dependency for virtualenv_install_with_resources"),
                     _ => throw i.Error(i.RuntimeError, $"{spec.Name}: ambiguous python dependency; pass using:"),
                 };
-            var resources = spec.Resources.ToList();
+            // Like upstream's `venv_resources.reject(&:test?)`: regipy's test hive isn't a Python package.
+            var resources = spec.Resources.Where(r => !r.Test).ToList();
             List<FormulaResource> Slice(object names)
             {
                 var wanted = names == null ? [] : Strings(i, names).ToList();

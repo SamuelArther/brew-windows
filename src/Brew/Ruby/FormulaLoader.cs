@@ -387,7 +387,8 @@ public static partial class FormulaLoader
             i.Def(i.SingletonOf(holder), "livecheck", (_, _, _, _) => null);
             if (b != null) i.CallProc(b, Array.Empty<object>(), null, holder, i.SingletonOf(holder));
             var r = (FormulaSpec)holder.Host;
-            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing) { Mirrors = r.Mirrors.ToList() });
+            Sp(self).Resources.Add(new FormulaResource(i.ToS(a[0]), r.Url, r.Sha256, r.UrlTag, r.UrlRevision, r.UrlBranch, r.UrlUsing)
+                { Mirrors = r.Mirrors.ToList(), Test = a.Skip(1).Any(x => x is RSymbol { Name: "test" }) });
             return null;
         });
         it.DefS(F, "patch", (i, self, a, b) =>

@@ -154,7 +154,7 @@ public sealed class PackageManager(Paths paths)
                     var resourcePath = Path.Combine(build, ".resources", Paths.ResourceDirectory(resource.Name));
                     // A resource only defined for other platforms (`on_linux do url ...`) has no source here; like
                     // Homebrew it is only an error if the formula uses it.
-                    if (resource.Url == null) continue;
+                    if (resource.Url == null || resource.Test) continue;
                     if (resource.Git)
                     {
                         resources.Add(resource.Name, await GitSources.StageAsync(resource.Url, resource.Tag, resource.Revision, resource.Branch ?? "", resourcePath));

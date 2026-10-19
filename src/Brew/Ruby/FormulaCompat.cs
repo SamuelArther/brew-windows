@@ -14,6 +14,9 @@ public static partial class FormulaLoader
         // Formula#pkg_version (gcc@9, gcc@10: "Homebrew GCC #{pkg_version}").
         it.Def(F, "pkg_version", (i, self, a, b) => Interp.S(SpecOf(((RObject)self).Class).PkgVersion));
 
+        // Formula#deuniversalize_machos: there are no Mach-O universal binaries off macOS (a no-op, as on Linux; rollup).
+        it.Def(F, "deuniversalize_machos", (i, self, a, b) => null);
+
         // Formula.names: every formula in the core tap (lit links its package for each python@x.y there).
         it.DefS(F, "names", (i, self, a, b) =>
         {
