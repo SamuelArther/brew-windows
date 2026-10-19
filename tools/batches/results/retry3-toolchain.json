@@ -1,0 +1,287 @@
+[
+  {
+    "name": "abseil",
+    "status": "ok",
+    "seconds": 128
+  },
+  {
+    "name": "adwaita-icon-theme",
+    "status": "build",
+    "seconds": 321
+  },
+  {
+    "name": "ansible",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "asciidoc",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "boost-python3",
+    "status": "build",
+    "seconds": 409
+  },
+  {
+    "name": "build2",
+    "status": "build",
+    "seconds": 1526
+  },
+  {
+    "name": "cargo-c",
+    "status": "build",
+    "seconds": 917
+  },
+  {
+    "name": "certifi",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "cffi",
+    "status": "build",
+    "seconds": 49
+  },
+  {
+    "name": "chafa",
+    "status": "build",
+    "seconds": 188
+  },
+  {
+    "name": "cryptography",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "eigenpy",
+    "status": "build",
+    "seconds": 344
+  },
+  {
+    "name": "extra-cmake-modules",
+    "status": "build",
+    "seconds": 141
+  },
+  {
+    "name": "fits",
+    "status": "test",
+    "seconds": 60
+  },
+  {
+    "name": "fizz",
+    "status": "build",
+    "seconds": 1114
+  },
+  {
+    "name": "fltk@1.3",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "fluid-synth",
+    "status": "test",
+    "seconds": 97
+  },
+  {
+    "name": "gcl",
+    "status": "build",
+    "seconds": 135
+  },
+  {
+    "name": "gd",
+    "status": "test",
+    "seconds": 322
+  },
+  {
+    "name": "gdk-pixbuf",
+    "status": "build",
+    "seconds": 200
+  },
+  {
+    "name": "glib",
+    "status": "build",
+    "seconds": 185
+  },
+  {
+    "name": "gtk4",
+    "status": "build",
+    "seconds": 194
+  },
+  {
+    "name": "juise",
+    "status": "build",
+    "seconds": 122
+  },
+  {
+    "name": "lazycut",
+    "status": "build",
+    "seconds": 181
+  },
+  {
+    "name": "libadwaita",
+    "status": "build",
+    "seconds": 193
+  },
+  {
+    "name": "libheif",
+    "status": "ok",
+    "seconds": 309
+  },
+  {
+    "name": "libiconv",
+    "status": "build",
+    "seconds": 164
+  },
+  {
+    "name": "libslax",
+    "status": "build",
+    "seconds": 1153
+  },
+  {
+    "name": "libsoup",
+    "status": "build",
+    "seconds": 185
+  },
+  {
+    "name": "libxml++",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "libxmlsec1",
+    "status": "ok",
+    "seconds": 198
+  },
+  {
+    "name": "net-snmp",
+    "status": "build",
+    "seconds": 1346
+  },
+  {
+    "name": "nfd2nfc",
+    "status": "build",
+    "seconds": 187
+  },
+  {
+    "name": "ntfs2btrfs",
+    "status": "build",
+    "seconds": 70
+  },
+  {
+    "name": "numpy",
+    "status": "build",
+    "seconds": 370
+  },
+  {
+    "name": "openssl@4",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "py3cairo",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "pybind11",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "pydantic",
+    "status": "build",
+    "seconds": 657
+  },
+  {
+    "name": "pyenv",
+    "status": "build",
+    "seconds": 1195
+  },
+  {
+    "name": "pygit2",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "pygobject3",
+    "status": "build",
+    "seconds": 183
+  },
+  {
+    "name": "rio-terminal",
+    "status": "build",
+    "seconds": 253
+  },
+  {
+    "name": "scipy",
+    "status": "build",
+    "seconds": 323
+  },
+  {
+    "name": "sdl2_image",
+    "status": "test",
+    "seconds": 164
+  },
+  {
+    "name": "sdl2_mixer",
+    "status": "test",
+    "seconds": 925
+  },
+  {
+    "name": "sdl3_ttf",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "smimesign",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "sphinx-doc",
+    "status": "test",
+    "seconds": 146
+  },
+  {
+    "name": "tesseract",
+    "status": "build",
+    "seconds": 283
+  },
+  {
+    "name": "turso",
+    "status": "build",
+    "seconds": 100
+  },
+  {
+    "name": "urdfdom",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "vala",
+    "status": "build",
+    "seconds": 186
+  },
+  {
+    "name": "whodb-cli",
+    "status": "build",
+    "seconds": 712
+  },
+  {
+    "name": "wxwidgets",
+    "status": "build",
+    "seconds": 43
+  },
+  {
+    "name": "wxwidgets@3.2",
+    "status": "build",
+    "seconds": 60
+  },
+  {
+    "name": "xapian",
+    "status": "build",
+    "seconds": 466
+  }
+]

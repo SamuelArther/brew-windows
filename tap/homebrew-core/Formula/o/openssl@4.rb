@@ -11,6 +11,10 @@ class OpensslAT4 < Formula
     regex(/href=.*?openssl[._-]v?(4(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "62660602d14198f96d701073ffff71462c91373e25cfd103d487c3d02f89a1de"
+  end
+
   depends_on "ca-certificates" => :no_linkage
 
   uses_from_macos "perl" => :build
