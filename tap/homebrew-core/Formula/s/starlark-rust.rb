@@ -7,10 +7,18 @@ class StarlarkRust < Formula
   head "https://github.com/facebook/starlark-rust.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "01326c737143d08f55525b1560e23345836aa3e95d966729cf73234be1951636"
+    sha256 cellar: :any, x86_64_windows: "5786d9517476d1f728eb7b1c918d9e294592487234d1a1234fb8d595a1954085"
   end
 
   depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    # `https://github.com/facebookexperimental/rust-shed.git` does not have `Cargo.lock`
+    system "cargo", "generate-lockfile"
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "starlark_bin")

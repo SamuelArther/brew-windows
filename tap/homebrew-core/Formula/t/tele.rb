@@ -6,7 +6,7 @@ class Tele < Formula
   license "GPL-3.0-only"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bc5e333c403f5d375b3ba1ee0fccb2c212976ab6936d25b494457d4078bb7752"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "deca69663a48f8d746997ae8a2c0e96c6f682ffabbe95ba8f784e17fc1bf69c9"
   end
 
   depends_on "go" => :build
@@ -22,7 +22,7 @@ class Tele < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/tele -version")
-    assert_match "dumped from tele-dark", shell_output("#{bin}/tele -theme-dump tele-dark")
+    assert_match version.to_s, shell_output("#{bin}/tele --version")
+    assert_match "dumped from tele-dark", shell_output("#{bin}/tele --theme-dump=tele-dark")
   end
 end

@@ -9,10 +9,10 @@ class Zpaq < Formula
   head "https://github.com/zpaq/zpaq.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "256f2297358adb14c9224db34f6889500c37d4f6f0955a2c911900df36a1e71f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "fff5d901359e4ce2f7259ac47820d7d9679b56d2bf652a5772ade2262ca96659"
   end
 
-  resource "test" do
+  resource "test", :test do
     url "https://mattmahoney.net/dc/calgarytest2.zpaq"
     sha256 "b110688939477bbe62263faff1ce488872c68c0352aa8e55779346f1bd1ed07e"
   end

@@ -1,13 +1,13 @@
 class Spicedb < Formula
   desc "Open Source, Google Zanzibar-inspired database"
   homepage "https://authzed.com/docs/spicedb/getting-started/discovering-spicedb"
-  url "https://github.com/authzed/spicedb/archive/refs/tags/v1.56.2.tar.gz"
-  sha256 "a8e0fabc378a3c31417ca325b8737b5cd299d6b96213ce69d44a44b0c2e2916a"
+  url "https://github.com/authzed/spicedb/archive/refs/tags/v1.57.0.tar.gz"
+  sha256 "d9ef895cd0544ac43af5773d68d08c8e7c6bc02ac4fd21357e037715824759df"
   license "Apache-2.0"
   head "https://github.com/authzed/spicedb.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c185f6aec8e4bf10a949bbbd3924abde3e62c8b9810bcd3b8ce23550f0f4982e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "eb6d1ed286e2e04f7baa2796ccb2eea8d0d4ecf512dbf0b8285f1595d9e3db42"
   end
 
   depends_on "go" => :build

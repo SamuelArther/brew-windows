@@ -1,9 +1,9 @@
 class Mac < Formula
   desc "Monkey's Audio lossless codec"
   homepage "https://www.monkeysaudio.com"
-  url "https://monkeysaudio.com/files/MAC_1330_SDK.zip"
-  version "13.30"
-  sha256 "9f74ffc0300d0b664e0530186d543e060f50e8776ae9325ec7b3f8fb1eb3f230"
+  url "https://monkeysaudio.com/files/MAC_1342_SDK.zip"
+  version "13.42"
+  sha256 "0a763b3592d13183bbd6c04b12eb637d364de16791602733a897b72df8e87326"
   license "BSD-3-Clause"
 
   livecheck do
@@ -12,7 +12,7 @@ class Mac < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5951b1db0255a4877add454cf69189b9aad0f9a13d489501a881b3e2310d8cf7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3da4fcd89d2e94e7e33a96e4ef011556a6bac91f1fafd5e166220d5cdd53c835"
   end
 
   no_autobump! because: :incompatible_version_format

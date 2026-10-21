@@ -1,8 +1,8 @@
 class Range2cidr < Formula
   desc "Converts IP ranges to CIDRs"
   homepage "https://ipinfo.io"
-  url "https://github.com/ipinfo/cli/archive/refs/tags/range2cidr-1.3.0.tar.gz"
-  sha256 "562f130483c8c7b2d376f8b0325392136f53e74912c879fae0677ffe46299738"
+  url "https://github.com/ipinfo/cli/archive/refs/tags/range2cidr-3.3.3.tar.gz"
+  sha256 "bcf717e779d72f5b1ee01d808d6c86dfa5d9431ab786391c103a19cf3753948d"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class Range2cidr < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a7212dc63edd773a7120a2b0449d8339b232b6b5419cdc8d52623642238ba1de"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e90b8f72eaf6f32e8ba72b8e5c8702c48db3d788e313185dc8ce3531b3f58d0c"
   end
 
   depends_on "go" => :build

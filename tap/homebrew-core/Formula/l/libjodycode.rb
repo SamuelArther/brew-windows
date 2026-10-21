@@ -1,16 +1,17 @@
 class Libjodycode < Formula
   desc "Shared code used by several utilities written by Jody Bruchon"
   homepage "https://codeberg.org/jbruchon/libjodycode"
-  url "https://codeberg.org/jbruchon/libjodycode/archive/v4.1.2.tar.gz"
-  sha256 "0343cf2ff53fb19887663b8c1f47210fc2d1599a4a8f95e292991d5b1034bc05"
+  url "https://codeberg.org/jbruchon/libjodycode/archive/v4.2.tar.gz"
+  sha256 "eeb54fc50b9ebec4e43c954704e69f56c104fede67aaee9f375fbecbb87933b0"
   license "MIT"
 
   # These files used to be distributed as part of the jdupes formula
   link_overwrite "include/libjodycode.h", "share/man/man7/libjodycode.7", "lib/libjodycode.a"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libjodycode-4.1.2"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bf59e955f447f7e527daceda8d9179bbd905a17bd743ce0fa528b1c5f51b75ec"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "46461718f46f6e18737e5f31d2b6968527e2ef874ba7eb298c86e282ad5bbaf5"
   end
 
   def install

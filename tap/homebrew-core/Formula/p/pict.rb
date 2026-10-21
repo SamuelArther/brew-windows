@@ -6,10 +6,10 @@ class Pict < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "148f05823d3c8fb69127ac204ee507ccce1eb3b6532fd00c927f45880ee449c5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a9824a12a700e69602ae8394974abff22804aeda4066934c29251ff3e2b4ccec"
   end
 
-  resource "testfile" do
+  resource "testfile", :test do
     url "https://gist.githubusercontent.com/glsorre/9f67891c69c21cbf477c6cedff8ee910/raw/84ec65cf37e0a8df5428c6c607dbf397c2297e06/pict.txt"
     sha256 "ac5e3561f9c481d2dca9d88df75b58a80331b757a9d2632baaf3ec5c2e49ccec"
   end

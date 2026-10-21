@@ -7,7 +7,7 @@ class Cek < Formula
   head "https://github.com/bschaatsbergen/cek.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8f7d33b91aeb2340a313ec8eb0e6bef71a5a73be2020a7c5fbed58dfb5f4bc2e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b2f1f185305e13a3842abe1ca584bfd55ea34f0bf49fc29b64fe3e93f33c01f9"
   end
 
   depends_on "go" => :build
@@ -21,6 +21,7 @@ class Cek < Formula
   def install
     ldflags = %W[-X github.com/bschaatsbergen/cek/version.Version=#{version}]
     system "go", "build", *std_go_args(ldflags:)
+    generate_completions_from_executable(bin/"cek", shell_parameter_format: :cobra)
   end
 
   test do

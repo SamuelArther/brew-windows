@@ -11,12 +11,18 @@ class Erg < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "36411119bbbf0dc61610eef4b90e8356f586cc16ab42c91541f154122dacf6ef"
+    sha256 cellar: :any, x86_64_windows: "d70f3f4ba7e34dd995d553df1fd719d94e4c1a6b35533ae65cdf3bf933e6d6b0"
   end
 
   depends_on "rust" => :build
 
   uses_from_macos "python" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     ENV["HOME"] = buildpath # The build will write to HOME/.erg

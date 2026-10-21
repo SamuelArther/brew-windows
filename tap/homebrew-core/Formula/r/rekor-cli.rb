@@ -1,8 +1,8 @@
 class RekorCli < Formula
   desc "CLI for interacting with Rekor"
   homepage "https://docs.sigstore.dev/logging/overview/"
-  url "https://github.com/sigstore/rekor/archive/refs/tags/v1.5.4.tar.gz"
-  sha256 "1624472d50b8002a7d97f62b2585d11a79f0ae776b56e7f89dad1d5c663033eb"
+  url "https://github.com/sigstore/rekor/archive/refs/tags/v1.5.5.tar.gz"
+  sha256 "b42e4157f24664746cf9dbbca00f2dcf7260383218e15d5723c8174ae3280c42"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class RekorCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8b5727580e916ea995fbc6cff3bb19eca608c548129858ffc250fd2c4c7a25fc"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "cebf41181e08f2bbc01ae8b3b0f234fc92112a1bae1d59b2763befd268abf246"
   end
 
   depends_on "go" => :build

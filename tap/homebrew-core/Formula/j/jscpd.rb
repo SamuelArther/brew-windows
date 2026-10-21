@@ -1,12 +1,12 @@
 class Jscpd < Formula
   desc "Copy/paste detector for programming source code"
   homepage "https://jscpd.dev/"
-  url "https://github.com/kucherenko/jscpd/archive/refs/tags/v5.4.1.tar.gz"
-  sha256 "c29dda5e09bc8d75a8c352ba801e70599782acd8e51ca5dff8037f2f3e46a1c8"
+  url "https://github.com/kucherenko/jscpd/archive/refs/tags/v5.4.2.tar.gz"
+  sha256 "e51ea154058f92ced612f4f32c366ca16f6e2e87e3743137a79b169a04233bac"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b4865606c7acfc57b2b7a2984b97a0d991b909e1b7a431a2b708b6f7a071bf70"
+    sha256 cellar: :any, x86_64_windows: "9b26ee4c491c75a8096c8437d8d0483033638075d09c7213aa13e69de83f23d3"
   end
 
   depends_on "rust" => :build

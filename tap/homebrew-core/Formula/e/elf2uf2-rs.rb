@@ -6,7 +6,7 @@ class Elf2uf2Rs < Formula
   license "0BSD"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "21063b9be2358c796310fc7c63bd0da5680beb197039122da6477ea7c5258dae"
+    sha256 cellar: :any, x86_64_windows: "307cda6f5669955c0e2429b7aed98f77e2c0982a70ce20c417233305c8f9e121"
   end
 
   depends_on "rust" => :build
@@ -14,6 +14,12 @@ class Elf2uf2Rs < Formula
   on_linux do
     depends_on "pkgconf" => :build
     depends_on "systemd" # for libudev
+  end
+
+  deny_network_access!
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install

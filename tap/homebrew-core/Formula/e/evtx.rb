@@ -7,10 +7,16 @@ class Evtx < Formula
   head "https://github.com/omerbenamram/evtx.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "140528833bac896fa3fd26765d848de18e07138fa0ec7247e6994494b1c43244"
+    sha256 cellar: :any, x86_64_windows: "17c6498f69e3eff1f082e9c052e0255d04aaa2e882ebba5561da443765512902"
   end
 
   depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args
