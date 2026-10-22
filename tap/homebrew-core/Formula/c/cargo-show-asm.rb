@@ -1,13 +1,13 @@
 class CargoShowAsm < Formula
   desc "Show assembly, LLVM-IR, MIR, and WASM generated for Rust code"
   homepage "https://github.com/pacak/cargo-show-asm"
-  url "https://github.com/pacak/cargo-show-asm/archive/refs/tags/0.2.63.tar.gz"
-  sha256 "d391fdea08cfd4e4638299ecfb86b56ef910b3f79f72462485b6e0713adefa29"
+  url "https://github.com/pacak/cargo-show-asm/archive/refs/tags/0.2.64.tar.gz"
+  sha256 "14faeada9a44344c1b45788e794f456eb0632a8e34621eb4c2b6064094e1823e"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/pacak/cargo-show-asm.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e4c079889ee67eea3a7aec57a5b9176dcecde3fecd1bf678ba83a1e6cf9b62c1"
+    sha256 cellar: :any, x86_64_windows: "b848add4a6db541e3357ee85892d6f7f3f0bdfb5b5da48621e6cc757773aa9d3"
   end
 
   depends_on "rust" => :build

@@ -12,7 +12,7 @@ class Librespot < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ec69374d7644f5940ab2f190a3ce53172b1a39021e030deb0c367036f335cbec"
+    sha256 cellar: :any, x86_64_windows: "4dedfa287682611a48962615ae1a1db6adba54029c2a07edac31fbdab40ef06a"
   end
 
   depends_on "pkgconf" => :build
@@ -29,6 +29,12 @@ class Librespot < Formula
     sha256 "3cd869925d498406c83878e55e6f26fc59b51554f8550b10f85bacf9168be9d8"
     type :unofficial
     resolves "https://github.com/librespot-org/librespot/pull/1707"
+  end
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install

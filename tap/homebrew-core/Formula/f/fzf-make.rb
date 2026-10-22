@@ -1,15 +1,15 @@
 class FzfMake < Formula
   desc "Fuzzy finder with preview window for various command runners including make"
   homepage "https://github.com/kyu08/fzf-make"
-  url "https://github.com/kyu08/fzf-make/archive/refs/tags/v0.75.0.tar.gz"
-  sha256 "41587f1340cfa440491704a0edbe945a0fe7f4965c09ea4cad84580ab7f6f937"
+  url "https://github.com/kyu08/fzf-make/archive/refs/tags/v0.76.0.tar.gz"
+  sha256 "9183f49fe2026477288630a06b50a899a00d5a2786d45e2d4860e9f3e3ac79d4"
   license "MIT"
   head "https://github.com/kyu08/fzf-make.git", branch: "main"
 
   no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3ab9dbe7fd2216b45609274cf06c17a0b693dd43669668ce84e32b4991d333fb"
+    sha256 cellar: :any, x86_64_windows: "e0060c412a229ff663907f14efd2e1cca5f0871e2831435a2d926aece2b05871"
   end
 
   depends_on "rust" => :build

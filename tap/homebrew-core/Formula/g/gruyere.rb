@@ -3,14 +3,13 @@ class Gruyere < Formula
 
   desc "TUI program for viewing and killing processes listening on ports"
   homepage "https://github.com/savannahostrowski/gruyere"
-  url "https://files.pythonhosted.org/packages/16/0f/d951dda46ba3b3dcbdf14f55355130b016445f9aa6b021dd70a9a567026a/gruyere-0.1.0.tar.gz"
-  sha256 "3fe1ff4eef9a53ed46f17a7aa5efa2eb0212a2c6de618c2b36735bcc71d358be"
+  url "https://files.pythonhosted.org/packages/04/8e/29dff1a81e094bdaea0e8a2a6e49111c7b74e32dbb30f259eb6643b29c23/gruyere-0.1.1.tar.gz"
+  sha256 "de848e041a461629b9e76c5b6118c1ac84e0f4faa2cd14dc4b390298ea49a32e"
   license "MIT"
-  revision 2
   head "https://github.com/savannahostrowski/gruyere.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9c746705ed2b7744c8ca87dab6c21d773b01989ec3da1931d60bac287c27d574"
+    sha256 cellar: :any, x86_64_windows: "09afc84b16e70ea8c60f23cc04b5933b9798790e78e659edda5255751de20a3d"
   end
 
   depends_on "python@3.15"

@@ -7,7 +7,7 @@ class Octobuild < Formula
   head "https://github.com/octobuild/octobuild.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "84e12201d26d04c9b679472b6804018b8b2ab058c00c8d8de171a68ab76a3773"
+    sha256 cellar: :any, x86_64_windows: "eb5f5c745ce69d100cabeb1ab7c5491cc02c2bcbe75be522cba6f47277d1986c"
   end
 
   depends_on "pkgconf" => :build
@@ -15,6 +15,14 @@ class Octobuild < Formula
 
   on_linux do
     depends_on "openssl@4"
+  end
+
+  deny_network_access!
+
+  def fetch
+    # `Cargo.lock` file is ignored
+    system "cargo", "generate-lockfile"
+    system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install

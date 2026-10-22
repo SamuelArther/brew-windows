@@ -1,13 +1,13 @@
 class Hoverfly < Formula
   desc "API simulations for development and testing"
   homepage "https://hoverfly.io/"
-  url "https://github.com/SpectoLabs/hoverfly/archive/refs/tags/v1.12.15.tar.gz"
-  sha256 "3ac7c620995afb5b8bf08d35601f0c300b99911e4c1a43b301e291e82b242066"
+  url "https://github.com/SpectoLabs/hoverfly/archive/refs/tags/v1.12.16.tar.gz"
+  sha256 "3571f41cdc6f308a912130558d2a901b08f68cc81589a67313e40ef83fc79c54"
   license "Apache-2.0"
   head "https://github.com/SpectoLabs/hoverfly.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0331445afdd0e691267f6f0ce2a02bd8a1a44b00830186490cb9c05c44b78197"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8a7b99014094569f408a50d5ede05bc2c41161e8bef8944b0e4460e71c98beec"
   end
 
   depends_on "go" => :build

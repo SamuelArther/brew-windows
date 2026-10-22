@@ -1,8 +1,8 @@
 class SwaggerCodegenAT2 < Formula
   desc "Generate clients, server stubs, and docs from an OpenAPI spec"
   homepage "https://swagger.io/tools/swagger-codegen/"
-  url "https://github.com/swagger-api/swagger-codegen/archive/refs/tags/v2.4.52.tar.gz"
-  sha256 "7707fa9771272644d7fab12a5eaee0f3f319bda746a44ed58ba726efa60050a9"
+  url "https://github.com/swagger-api/swagger-codegen/archive/refs/tags/v2.4.53.tar.gz"
+  sha256 "70f603ee89ed6c9249965930e375141e211b979f41e21fe6f13a32b563c2cade"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class SwaggerCodegenAT2 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ffb375bbd8614205ddbaef9394e69a6b343494f3ade9a79515d31128e8034239"
+    sha256 cellar: :any, x86_64_windows: "ef07943d159b0b5b925e41696a30da9314e33b1a323b11a3666989fb7ad0db93"
   end
 
   keg_only :versioned_formula

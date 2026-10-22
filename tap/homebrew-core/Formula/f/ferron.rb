@@ -7,10 +7,16 @@ class Ferron < Formula
   head "https://github.com/ferronweb/ferron.git", branch: "develop-2.x"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e5143cf855d13d5b1a03680c4170ac6df900f1cbfd4d0572a90244bbf52d7116"
+    sha256 cellar: :any, x86_64_windows: "3b0b5c551e6a100f43e5c890502378cd384c3d58fcbff71c14f108c4a72e2076"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "ferron")

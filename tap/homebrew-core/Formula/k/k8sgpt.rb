@@ -1,13 +1,13 @@
 class K8sgpt < Formula
   desc "Scanning your k8s clusters, diagnosing, and triaging issues in simple English"
   homepage "https://k8sgpt.ai/"
-  url "https://github.com/k8sgpt-ai/k8sgpt/archive/refs/tags/v0.4.40.tar.gz"
-  sha256 "1153994475a609f8b9bb6a281bf3bff517c1fa9390633682eb88f091da8f2ffa"
+  url "https://github.com/k8sgpt-ai/k8sgpt/archive/refs/tags/v0.4.41.tar.gz"
+  sha256 "5bf358be47b5e7a9f78bf70318244acb737f5916084c85212f898aa6d12e323c"
   license "Apache-2.0"
   head "https://github.com/k8sgpt-ai/k8sgpt.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "9230216306e1f7ae66a234f9486b3ce861e34f6eba79a7154283f26ce42b00c9"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "59d5099820af1e06b647b8905bc682ceba2a25143e843100141675df0e570ba7"
   end
 
   depends_on "go" => :build

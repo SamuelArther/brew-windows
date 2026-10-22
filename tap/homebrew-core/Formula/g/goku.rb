@@ -7,10 +7,16 @@ class Goku < Formula
   head "https://github.com/jcaromiq/goku.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8df9d34e197851629878e4bfefbc97955c01d1e7ba0395bd6a9dcfdda83e01a9"
+    sha256 cellar: :any, x86_64_windows: "0911a98db4c1beab534afbf206ffb92106a4f91e787b42f75699aece29adf1ba"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "cli")

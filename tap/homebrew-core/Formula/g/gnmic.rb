@@ -1,13 +1,13 @@
 class Gnmic < Formula
   desc "GNMI CLI client and collector"
   homepage "https://gnmic.openconfig.net"
-  url "https://github.com/openconfig/gnmic/archive/refs/tags/v0.49.0.tar.gz"
-  sha256 "59c238fb3c5e8b7280e6d743cf2f569fdf0abe2f2b8fe147871ceaf22f59a0ba"
+  url "https://github.com/openconfig/gnmic/archive/refs/tags/v0.49.1.tar.gz"
+  sha256 "4f3ad40acb2fc4643eecbd4f0feb3b979f9b1139ff492aeb90dc02c309012c5c"
   license "Apache-2.0"
   head "https://github.com/openconfig/gnmic.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "02ce59432897b00e0550c86ecd20064d36492a76ee8b15b5144762d8e676ddb5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7b0da7fb75fbfbd87e9b670c59dc8a6957bc555e50046e837aa97ccf723ba6b2"
   end
 
   depends_on "go" => :build

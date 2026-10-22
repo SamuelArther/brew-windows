@@ -1,19 +1,19 @@
 class Ccusage < Formula
   desc "CLI tool for analyzing Claude Code usage from local JSONL files"
   homepage "https://github.com/ccusage/ccusage"
-  url "https://github.com/ccusage/ccusage/archive/refs/tags/v20.0.38.tar.gz"
-  sha256 "09100499aa469a02ced756c4cc013ca7b3805b327c45d87864b0fb2724b54dc1"
+  url "https://github.com/ccusage/ccusage/archive/refs/tags/v20.0.40.tar.gz"
+  sha256 "01a8a77d48c3f0f405a2c84ce7ff97a0d6974060851a033ec8172216802fc219"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a9736b7df42667a88eac55886d8d3af2cd17aa4e0fc123274d2faaeed8d523dd"
+    sha256 cellar: :any, x86_64_windows: "8d5cdec6cf87a7bf60ce1f94aa91f4cda51c5a21157c19dc79698ffb2c8fd0be"
   end
 
   depends_on "rust" => :build
 
   resource "litellm-pricing-json" do
-    url "https://raw.githubusercontent.com/BerriAI/litellm/a31c5230de303d342f62e0e2ecd62af83e5fcd4e/model_prices_and_context_window.json"
-    version "a31c5230de303d342f62e0e2ecd62af83e5fcd4e"
+    url "https://raw.githubusercontent.com/BerriAI/litellm/b6f91a221b6b9df6f8a89ec6f8264ac87d63ff5d/model_prices_and_context_window.json"
+    version "b6f91a221b6b9df6f8a89ec6f8264ac87d63ff5d"
     sha256 "91da1a98e194e0d7c436aaf970800c8e734d70cc78027cfe314d5b27dfaf9a4c"
 
     # Fetch the latest available resource

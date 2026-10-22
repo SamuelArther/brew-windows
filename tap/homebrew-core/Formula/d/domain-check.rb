@@ -7,10 +7,16 @@ class DomainCheck < Formula
   head "https://github.com/saidutt46/domain-check.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ea2ff4556fad9773a2d7173cea4515e916d9694b27c91e2c2ee5efacdd040b72"
+    sha256 cellar: :any, x86_64_windows: "c827ecd63d5e790db1ed42188f42d8edf3345ee0fdd01961d665f976372a2910"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "domain-check")

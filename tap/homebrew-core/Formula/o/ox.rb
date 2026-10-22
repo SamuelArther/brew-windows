@@ -7,10 +7,16 @@ class Ox < Formula
   head "https://github.com/curlpipe/ox.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a749a9756ac748bb617a460a30d7a12c253c27faa33b82ef12232dc350fea16a"
+    sha256 cellar: :any, x86_64_windows: "cb4571c65ecc79cf9aeab401e76e4aef5a1bf62c544712f9ea47292f00ed20d5"
   end
 
   depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args

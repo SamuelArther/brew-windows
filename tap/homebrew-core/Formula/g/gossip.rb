@@ -8,7 +8,7 @@ class Gossip < Formula
   head "https://github.com/mikedilger/gossip.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "45ca111b7b5a5efee1431aa147b4ac0cbac9d84788b8811372754a74b62cd2c3"
+    sha256 cellar: :any, x86_64_windows: "9ea9e501cf648721e30dc15643af53861f3146bf344c6ee1aad31deb6be6290e"
   end
 
   depends_on "rust" => :build
@@ -18,8 +18,10 @@ class Gossip < Formula
     depends_on "mesa"
   end
 
-  def install
-    odie "Remove `rust-lightning` source replacement!" if build.stable? && version > "0.14.0"
+  deny_network_access!
+
+  def fetch
+    odie "Remove `rust-lightning` source replacement!" if version > "0.14.0"
     # `nostr-types` pins a `rust-lightning` fork whose repository was removed, so
     # point the identical commit at upstream. Upstream gossip dropped the fork in
     # https://github.com/mikedilger/gossip/commit/541c7ae0d3fd4b62af9d86a46a164a16f4b96cb2
@@ -34,6 +36,10 @@ class Gossip < Formula
       rev = "7a62cb4106d449bc4d1724920b73918d501bb3a9"
     TOML
 
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
+
+  def install
     ENV.append_to_rustflags "--cfg tokio_unstable"
     system "cargo", "install", *std_cargo_args(path: "gossip-bin", features: "lang-cjk")
   end
