@@ -1,13 +1,13 @@
 class KubernetesMcpServer < Formula
   desc "MCP server for Kubernetes"
   homepage "https://github.com/containers/kubernetes-mcp-server"
-  url "https://github.com/containers/kubernetes-mcp-server/archive/refs/tags/v0.0.67.tar.gz"
-  sha256 "650449c50fb661857db047764991e7f890ee411a1cc47a3c40f3cc02694817c4"
+  url "https://github.com/containers/kubernetes-mcp-server/archive/refs/tags/v0.0.68.tar.gz"
+  sha256 "f96371606b414cf389b6e70da06ed8214a03f73d67645b157dc468da6e338b41"
   license "Apache-2.0"
   head "https://github.com/containers/kubernetes-mcp-server.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1ea0d640d6adf4e58993df1defa06cfd6e23abf8471bf4a409395c41f74049e0"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d869880a40bbfe93b4586e2bf3a070d59f03787b3f458b07b4851687d6c44642"
   end
 
   depends_on "go" => :build
@@ -29,6 +29,8 @@ class KubernetesMcpServer < Formula
   end
 
   test do
+    require "yaml"
+
     assert_match version.to_s, shell_output("#{bin}/kubernetes-mcp-server --version")
 
     kubeconfig = testpath/"kubeconfig"
@@ -52,12 +54,19 @@ class KubernetesMcpServer < Formula
           token: test-token
     YAML
 
+    (testpath/"config.toml").write <<~TOML
+      kubeconfig = "#{kubeconfig}"
+    TOML
+
     json = <<~JSON
-      {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26"}}
-      {"jsonrpc":"2.0","id":2,"method":"tools/list"}
+      {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"homebrew","version":"1.0"}}}
+      {"jsonrpc":"2.0","method":"notifications/initialized"}
+      {"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"configuration_view","arguments":{}}}
     JSON
 
-    output = shell_output("(echo '#{json}'; sleep 1) | #{bin}/kubernetes-mcp-server --kubeconfig #{kubeconfig} 2>&1")
-    assert_match "Get the current Kubernetes configuration content as a kubeconfig YAML", output
+    output = shell_output("(echo '#{json}'; sleep 1) | #{bin}/kubernetes-mcp-server --config #{testpath}/config.toml")
+    response = output.lines.map { |line| JSON.parse(line) }.find { |message| message["id"] == 2 }
+    config = YAML.safe_load(response.fetch("result").fetch("content").first.fetch("text"))
+    assert_equal "test-context", config["current-context"]
   end
 end

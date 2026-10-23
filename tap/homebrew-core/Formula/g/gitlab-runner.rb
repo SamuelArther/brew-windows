@@ -2,8 +2,8 @@ class GitlabRunner < Formula
   desc "Official GitLab CI runner"
   homepage "https://gitlab.com/gitlab-org/gitlab-runner"
   url "https://gitlab.com/gitlab-org/gitlab-runner.git",
-      tag:      "v19.5.0",
-      revision: "70f5c12dad80bfd8ab426843f38cae72fddc4e75"
+      tag:      "v19.5.1",
+      revision: "f411f264f80a4870995a7c49482d02765e86c86e"
   license "MIT"
   head "https://gitlab.com/gitlab-org/gitlab-runner.git", branch: "main"
 
@@ -13,7 +13,7 @@ class GitlabRunner < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "585eaa6f05891b593ac2b18493f1747410d042f9d6eed64a90a2d7f64f50b6a7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b386129559933b7f102811cecf0b8a4bc863acb5ce8f0d88ffb430714c804b74"
   end
 
   depends_on "go" => :build

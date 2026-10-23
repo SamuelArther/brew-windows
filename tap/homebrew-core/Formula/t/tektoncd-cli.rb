@@ -1,8 +1,8 @@
 class TektoncdCli < Formula
   desc "CLI for interacting with TektonCD"
   homepage "https://github.com/tektoncd/cli"
-  url "https://github.com/tektoncd/cli/archive/refs/tags/v0.46.1.tar.gz"
-  sha256 "3432cf4ea1f0014305d41d4a703f9c0b7910a1d693b32d82191e07ca35b2337d"
+  url "https://github.com/tektoncd/cli/archive/refs/tags/v0.46.2.tar.gz"
+  sha256 "63485a0d3a3c0b59408c09dc0e5515e9ae95e836e18fa92548c21eaad598d359"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class TektoncdCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "711832805b456fd57ddb5a0d24d537f48df32ddec71acd48498ce139bf8cba50"
+    sha256 cellar: :any, x86_64_windows: "f5ae05da724e875e83ea4dc42294561636a4ebb5f5389b99c7c90e4ed6296574"
   end
 
   depends_on "go" => :build

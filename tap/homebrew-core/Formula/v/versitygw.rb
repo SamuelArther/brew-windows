@@ -1,13 +1,13 @@
 class Versitygw < Formula
   desc "Versity S3 Gateway"
   homepage "https://www.versity.com/products/versitygw/"
-  url "https://github.com/versity/versitygw/archive/refs/tags/v1.9.0.tar.gz"
-  sha256 "0bad0aa6eb277eeba71dbad61c7e9141b748dfa1f4f1837dd43939b7ca23bf7c"
+  url "https://github.com/versity/versitygw/archive/refs/tags/v1.10.0.tar.gz"
+  sha256 "2412650615032f002f67fdc83e03e33f36298f8cfeeff9755c3f61c0df0b4fb8"
   license "Apache-2.0"
   head "https://github.com/versity/versitygw.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bcdc54d326d71691baa206161d16728bcb86056d1da5cb61d5a94d81630e43a3"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4e71dfd9e8b0e2d7b02bea5cb0d55407738918df3886d86ab3354ca9b3efa7c8"
   end
 
   depends_on "go" => :build

@@ -1,8 +1,8 @@
 class PhraseCli < Formula
   desc "Tool to interact with the Phrase API"
   homepage "https://phrase.com/"
-  url "https://github.com/phrase/phrase-cli/archive/refs/tags/2.69.1.tar.gz"
-  sha256 "6ab26bd57bc07a11c9d9602c8e51a708d86d41e95f4482b1c03e152ea86d53db"
+  url "https://github.com/phrase/phrase-cli/archive/refs/tags/2.71.0.tar.gz"
+  sha256 "8302be1fff596c9d5da0cba82c1a4697dbda38a7140eea1d9238e6f186da282d"
   license "MIT"
 
   livecheck do
@@ -11,7 +11,7 @@ class PhraseCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7c5bab306ab86c75bd6768ddc6080c3195ef06c4a833f3be2afae53246b27873"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ff7bf0993170d49e954890d837d97015e8652b2b7aa909d6f10f2b2ace02e8b2"
   end
 
   no_autobump! because: :bumped_by_upstream

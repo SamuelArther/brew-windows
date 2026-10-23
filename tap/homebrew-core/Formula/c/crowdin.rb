@@ -4,6 +4,7 @@ class Crowdin < Formula
   url "https://github.com/crowdin/crowdin-cli/archive/refs/tags/5.5.0.tar.gz"
   sha256 "bfb363152db668267dd8a79239f9c698113d863e1777464af7cbccca90466185"
   license "MIT"
+  revision 1
 
   livecheck do
     url :stable
@@ -11,7 +12,7 @@ class Crowdin < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ccaa8ef65db3404812a405b619155d9c09c45a00e979098b476fa8c11d0c7d09"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4097d3a24c2cf34cecb5d310e1408fe45fe522ccb667312e5c5d73453f38f13c"
   end
 
   depends_on "bun" => :build

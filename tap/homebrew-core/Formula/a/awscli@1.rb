@@ -3,8 +3,8 @@ class AwscliAT1 < Formula
 
   desc "Official Amazon AWS command-line interface"
   homepage "https://aws.amazon.com/cli/"
-  url "https://files.pythonhosted.org/packages/d9/d7/74b718d668537d85ecef9f908f951827a95f7b1eb32f254bf3b1813edf9e/awscli-1.46.0.tar.gz"
-  sha256 "5c1bd660bd3f967f5754a2267fb54e81edf379374faa27973671561888d39bf6"
+  url "https://files.pythonhosted.org/packages/a0/90/c289657c4d946f615063952a945e19d6acc50f493f42580ff77ebc423a35/awscli-1.46.2.tar.gz"
+  sha256 "43e77f324745e760918dc3c6ffb73eef49e35e9f52a5c39fe4a6de854f7e1121"
   license "Apache-2.0"
 
   livecheck do
@@ -13,7 +13,7 @@ class AwscliAT1 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "94ff75175925546960b88ea70d1aed23444174a9cac0a3e5fc12b032be40a5c2"
+    sha256 cellar: :any, x86_64_windows: "33d942fec215a827f0b4e42bec273727b37f7c1289ce65340ad2f5c072b964fa"
   end
 
   keg_only :versioned_formula

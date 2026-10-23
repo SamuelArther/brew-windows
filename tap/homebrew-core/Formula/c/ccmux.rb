@@ -4,9 +4,10 @@ class Ccmux < Formula
   url "https://github.com/epilande/ccmux/archive/refs/tags/v1.4.4.tar.gz"
   sha256 "e5e44bc18eab59ee68ffa33a398c6a254e11831b52a9c649201f36faaf3ee80b"
   license "MIT"
+  revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "aa4b79b083379c6d1873eb1ca5c9a53607c890986e1568843e7d2194cca2be33"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ce29197f526e63d9c749ec97cb2b7607eebe222950439e7fe4857b640788c9dd"
   end
 
   depends_on "bun" => :build
@@ -22,6 +23,12 @@ class Ccmux < Formula
     depends_on "icu4c@78"
   end
 
+  deny_network_access!
+
+  def fetch
+    system "bun", "install", "--frozen-lockfile", "--ignore-scripts"
+  end
+
   def install
     if OS.linux?
       bun_icu = Formula["bun"].deps.find { |dep| dep.name.start_with?("icu4c") }.to_formula
@@ -30,7 +37,6 @@ class Ccmux < Formula
       odie "Update icu4c dependency!" if bun_icu.name != icu.name
     end
 
-    system "bun", "install", "--frozen-lockfile", "--ignore-scripts"
     system "bun", "run", "build"
 
     # Without this the executable inherits the repository's bunfig.toml, whose

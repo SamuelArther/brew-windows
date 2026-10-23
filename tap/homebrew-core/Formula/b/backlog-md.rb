@@ -1,12 +1,12 @@
 class BacklogMd < Formula
   desc "Markdown‑native Task Manager & Kanban visualizer for any Git repository"
   homepage "https://github.com/MrLesk/Backlog.md"
-  url "https://github.com/MrLesk/Backlog.md/archive/refs/tags/v1.55.1.tar.gz"
-  sha256 "f4356cf9ce2f348b555d3ee228366b48a77df67d680ea37b49e2c781ebfb2523"
+  url "https://github.com/MrLesk/Backlog.md/archive/refs/tags/v1.55.2.tar.gz"
+  sha256 "defd47f30b787a69bcf888499ea95ddd0ce6fc352c775a0b12010485b874b6c8"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "fb45db354bab88fd269813bbaf6d750bed4541e7c8a3ba931e15b2d01dbf0224"
+    sha256 cellar: :any, x86_64_windows: "1e91a86ce8e16897991bf4aba6834c653460faf8bfbdd81ee6327051df2e0c00"
   end
 
   depends_on "bun" => :build
@@ -16,6 +16,12 @@ class BacklogMd < Formula
     depends_on "icu4c@78"
   end
 
+  deny_network_access!
+
+  def fetch
+    system "bun", "install", "--frozen-lockfile", "--ignore-scripts"
+  end
+
   def install
     if OS.linux?
       bun_icu = Formula["bun"].deps.find { |dep| dep.name.match?(/^icu4c/) }.to_formula
@@ -23,8 +29,6 @@ class BacklogMd < Formula
 
       odie "Update icu4c dependency!" if bun_icu.name != icu.name
     end
-
-    system "bun", "install", "--frozen-lockfile", "--ignore-scripts"
 
     # Upstream injects the version at release time; the tagged `package.json` lags.
     ENV["BACKLOG_BUILD_VERSION"] = version.to_s

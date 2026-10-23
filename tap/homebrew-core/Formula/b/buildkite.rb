@@ -1,13 +1,13 @@
 class Buildkite < Formula
   desc "Work with Buildkite from the command-line"
   homepage "https://github.com/buildkite/cli"
-  url "https://github.com/buildkite/cli/archive/refs/tags/v3.65.0.tar.gz"
-  sha256 "df4b7cf62080f240834d4243cfc09c8f638c00da658527f7053c61bb487491b2"
+  url "https://github.com/buildkite/cli/archive/refs/tags/v3.66.0.tar.gz"
+  sha256 "cff14147b1ce8c02eb0c9a8663fda32b2d73b60ec6101e259eaa1a4e7187a97a"
   license "MIT"
   head "https://github.com/buildkite/cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d0da0dec9cd74781797a839a4d2439c69ab82dd39bf4bdd9f30435ba32b82beb"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9f17e6b6c933ae8acaaacbe21554fa68adf1cd5a7a925e5928d79647c3fb855c"
   end
 
   depends_on "go" => :build

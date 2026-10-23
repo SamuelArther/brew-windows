@@ -1,0 +1,417 @@
+[
+  {
+    "name": "aicommits",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "aliyun-cli",
+    "status": "ok",
+    "seconds": 262
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "arkade",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "aws-vault",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "awscli@1",
+    "status": "ok",
+    "seconds": 235
+  },
+  {
+    "name": "backlog-md",
+    "status": "ok",
+    "seconds": 84
+  },
+  {
+    "name": "benthos",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "buildkite",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 141
+  },
+  {
+    "name": "ccmux",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 284
+  },
+  {
+    "name": "certstrap",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "closure-compiler",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "cloudquery",
+    "status": "build",
+    "seconds": 49
+  },
+  {
+    "name": "convox",
+    "status": "ok",
+    "seconds": 405
+  },
+  {
+    "name": "cpp-peglib",
+    "status": "ok",
+    "seconds": 90
+  },
+  {
+    "name": "crowdin",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 231
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 136
+  },
+  {
+    "name": "descope",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "diffle",
+    "status": "test",
+    "seconds": 702
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "draft",
+    "status": "ok",
+    "seconds": 141
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 168
+  },
+  {
+    "name": "evtx",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "exploitdb",
+    "status": "ok",
+    "seconds": 186
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 144
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1402
+  },
+  {
+    "name": "firebase-cli",
+    "status": "ok",
+    "seconds": 381
+  },
+  {
+    "name": "git-filter-repo",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "git-pages-cli",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "gitea-mcp-server",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "gitea-runner",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "gitlab-runner",
+    "status": "ok",
+    "seconds": 188
+  },
+  {
+    "name": "go-feature-flag-relay-proxy",
+    "status": "ok",
+    "seconds": 185
+  },
+  {
+    "name": "go-parquet-tools",
+    "status": "ok",
+    "seconds": 87
+  },
+  {
+    "name": "gomplate",
+    "status": "ok",
+    "seconds": 172
+  },
+  {
+    "name": "immich-cli",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 163
+  },
+  {
+    "name": "istioctl",
+    "status": "ok",
+    "seconds": 185
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "kubernetes-mcp-server",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "lazyrsync",
+    "status": "ok",
+    "seconds": 166
+  },
+  {
+    "name": "lizard-analyzer",
+    "status": "ok",
+    "seconds": 100
+  },
+  {
+    "name": "mac",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "mcp-toolbox",
+    "status": "ok",
+    "seconds": 480
+  },
+  {
+    "name": "mmctl",
+    "status": "ok",
+    "seconds": 285
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "node-red",
+    "status": "ok",
+    "seconds": 138
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "nx",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "ok",
+    "seconds": 218
+  },
+  {
+    "name": "opkssh",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 450
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 845
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 869
+  },
+  {
+    "name": "phrase-cli",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "pi-coding-agent",
+    "status": "ok",
+    "seconds": 197
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "ruby-build",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 376
+  },
+  {
+    "name": "sdns",
+    "status": "ok",
+    "seconds": 123
+  },
+  {
+    "name": "serialize",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "slumber",
+    "status": "ok",
+    "seconds": 470
+  },
+  {
+    "name": "snyk-cli",
+    "status": "ok",
+    "seconds": 178
+  },
+  {
+    "name": "stackql",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "stripe-cli",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "swc",
+    "status": "ok",
+    "seconds": 540
+  },
+  {
+    "name": "tektoncd-cli",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "texres",
+    "status": "ok",
+    "seconds": 463
+  },
+  {
+    "name": "tgenv",
+    "status": "test",
+    "seconds": 4
+  },
+  {
+    "name": "threatcl",
+    "status": "build",
+    "seconds": 34
+  },
+  {
+    "name": "tock",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "urdfdom",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "versitygw",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "weaviate",
+    "status": "ok",
+    "seconds": 172
+  },
+  {
+    "name": "xfr",
+    "status": "ok",
+    "seconds": 277
+  },
+  {
+    "name": "xray",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 27
+  }
+]

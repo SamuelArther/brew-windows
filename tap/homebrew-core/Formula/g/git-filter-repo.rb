@@ -8,11 +8,13 @@ class GitFilterRepo < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "28897d1ceb82715835d0464b803e839afeed7f0578622ba123963b9a64f6c37e"
+    sha256 cellar: :any, x86_64_windows: "0ff60312091f2c892f446f2837b09964e05abfb0a85eb6768831b642a0740ba0"
   end
 
   uses_from_macos "git"
   uses_from_macos "python"
+
+  deny_network_access!
 
   def install
     rewrite_shebang detected_python_shebang(use_python_from_path: true), "git-filter-repo"

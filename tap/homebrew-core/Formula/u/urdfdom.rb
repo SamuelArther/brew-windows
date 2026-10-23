@@ -1,8 +1,8 @@
 class Urdfdom < Formula
   desc "Unified Robot Description Format (URDF) parser"
   homepage "https://wiki.ros.org/urdf/"
-  url "https://github.com/ros/urdfdom/archive/refs/tags/6.0.1.tar.gz"
-  sha256 "f34c6b25512fe47a7e4e8806df2b94b166aed13dd19befd6056858be619b6a40"
+  url "https://github.com/ros/urdfdom/archive/refs/tags/6.0.2.tar.gz"
+  sha256 "47e26b6553afe8bb49cc675a5209fb9f2feb91ab9310360f8015d4cb98cc094a"
   license "BSD-3-Clause"
   compatibility_version 2
 
@@ -15,7 +15,7 @@ class Urdfdom < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "77f0ee07fbb2eb8af4ccd7fa32fe046854ce46163ea9c264abd0f9a8ede30712"
+    sha256 cellar: :any, x86_64_windows: "74f5e06f5f3130076a3d2b07ae557bbd5e64f44d2a12a5fb0cfdde57b27e0892"
   end
 
   depends_on "cmake" => :build
