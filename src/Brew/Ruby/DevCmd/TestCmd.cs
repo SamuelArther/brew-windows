@@ -135,7 +135,7 @@ sealed class TestCmd : DevCommand
                 if (!keep && !Required(d)) continue;
                 if (!seen.Add(d.Name)) continue;
                 missing.Add(d.Name);
-                if (DevTap.FormulaPath(d.Name) is { } p)
+                if (DevCommands.FormulaPath(d.Name) is { } p)
                 {
                     try { Walk(FormulaLoader.LoadSpec(p)); }
                     catch (InvalidOperationException) { }
@@ -148,7 +148,7 @@ sealed class TestCmd : DevCommand
 
     public override void Run(ParsedArgs args)
     {
-        var formulae = args.Named.Select(DevTap.LoadFormula).ToList();
+        var formulae = args.Named.Select(DevCommands.LoadFormula).ToList();
         var failedOnce = new HashSet<string>();
         foreach (var f in formulae)
         {

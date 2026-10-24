@@ -476,7 +476,7 @@ static class LivecheckEngine
         {
             if (refName == "parent") break;
             FormulaSpec next;
-            try { next = DevTap.LoadFormula(refName); }
+            try { next = DevCommands.LoadFormula(refName); }
             catch (BrewError) { throw new BrewError($"No available formula with the name \"{refName}\"."); }
             if (chain.Any(c => c.Path == next.Path) || next.Path == f.Path)
             {
@@ -1023,7 +1023,7 @@ sealed class LivecheckCmd : DevCommand
             foreach (var n in args.Named)
             {
                 if (args.Switch("cask")) throw new BrewError($"No available cask with the name \"{n}\".");
-                var p = DevTap.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".");
+                var p = DevCommands.FormulaPath(n) ?? throw new BrewError(DevCommands.UnavailableMessage(n));
                 formulae.Add(FormulaLoader.LoadSpec(p));
             }
         }
@@ -1037,7 +1037,7 @@ sealed class LivecheckCmd : DevCommand
                 return line.Trim();
             }).Where(l => !string.IsNullOrEmpty(l));
             foreach (var n in names)
-                if (DevTap.FormulaPath(n) is { } p) formulae.Add(FormulaLoader.LoadSpec(p));
+                if (DevCommands.FormulaPath(n) is { } p) formulae.Add(FormulaLoader.LoadSpec(p));
         }
         else if (!args.Switch("cask"))
         {

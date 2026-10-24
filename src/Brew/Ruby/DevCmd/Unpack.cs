@@ -27,7 +27,7 @@ sealed class UnpackCmd : DevCommand
         {
             if (args.Switch("cask")) throw new BrewError($"Cask '{n}' is unavailable: No Cask with this name exists.");
             if (DevCommands.FormulaPath(n) == null)
-                throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".");
+                throw new BrewError(DevCommands.UnavailableMessage(n));
             try { formulae.Add(DevCommands.LoadFormula(n)); }
             catch (Exception e) when (e is not (BrewError or OutOfMemoryException)) { throw new BrewError(e.Message); }
         }
@@ -62,7 +62,8 @@ sealed class UnpackCmd : DevCommand
         if (Directory.Exists(stageDir) || File.Exists(stageDir))
         {
             if (!args.Switch("force")) throw new BrewError($"Destination {stageDir} already exists!");
-            if (Directory.Exists(stageDir)) Directory.Delete(stageDir, true); else File.Delete(stageDir);
+            // A previous `--git` unpack holds a git repository, whose objects are read-only.
+            if (Directory.Exists(stageDir)) PackageManager.DeleteTree(stageDir); else File.Delete(stageDir);
         }
 
         Out.Oh1($"Unpacking {Formatter.Identifier(f.Name)} to: {stageDir}");
@@ -79,7 +80,7 @@ sealed class UnpackCmd : DevCommand
         }
         finally
         {
-            try { if (Directory.Exists(tmp)) Directory.Delete(tmp, true); } catch (IOException) { }
+            try { PackageManager.DeleteTree(tmp); } catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
         }
 
         if (!args.Switch("git")) return;

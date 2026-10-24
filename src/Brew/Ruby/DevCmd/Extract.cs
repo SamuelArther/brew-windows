@@ -44,27 +44,6 @@ static class DevTap
         return dash < 0 ? dir : dir[..dash] + "/" + dir[(dash + 1)..];
     }
 
-    // DevCommands.FormulaPath plus fully-qualified <user>/<repo>/<formula> names in any tap.
-    public static string FormulaPath(string arg)
-    {
-        var parts = arg.Split('/');
-        if (parts.Length == 3 && !arg.EndsWith(".rb", StringComparison.OrdinalIgnoreCase))
-        {
-            string dir;
-            try { dir = Path(parts[0] + "/" + parts[1]); }
-            catch (BrewError) { return null; }
-            var name = parts[2].ToLowerInvariant();
-            return Directory.Exists(dir) ? FormulaFiles(dir).FirstOrDefault(f => System.IO.Path.GetFileNameWithoutExtension(f) == name) : null;
-        }
-        return DevCommands.FormulaPath(arg);
-    }
-
-    public static FormulaSpec LoadFormula(string arg)
-    {
-        var path = FormulaPath(arg) ?? throw new BrewError($"No available formula with the name \"{DevCommands.NameOf(arg)}\".");
-        return FormulaLoader.LoadSpec(path);
-    }
-
     public static string FormulaDir(string tapDir) =>
         Directory.Exists(System.IO.Path.Combine(tapDir, "Formula")) ? System.IO.Path.Combine(tapDir, "Formula")
         : Directory.Exists(System.IO.Path.Combine(tapDir, "HomebrewFormula")) ? System.IO.Path.Combine(tapDir, "HomebrewFormula")

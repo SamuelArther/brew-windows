@@ -150,20 +150,101 @@ public static class DevCommands
     public static string NameOf(string arg) =>
         arg.StartsWith("homebrew/core/", StringComparison.OrdinalIgnoreCase) ? arg["homebrew/core/".Length..] : arg;
 
-    // args.named.to_paths: a formula name or a path to a .rb file. Null when it doesn't exist.
+    // Formulary.loader_for (FromPathLoader, FromTapLoader, FromNameLoader): a path to a .rb file, a
+    // fully-qualified <user>/<repo>/<name> in any installed tap, or a bare name, which homebrew/core
+    // wins and otherwise must be in exactly one other installed tap. Names may be aliases or old
+    // (renamed) names. Null when nothing matches; BrewError when a bare name is ambiguous.
     public static string FormulaPath(string arg)
     {
         if (arg.EndsWith(".rb", StringComparison.OrdinalIgnoreCase) && File.Exists(arg)) return Path.GetFullPath(arg);
-        var name = NameOf(arg).ToLowerInvariant();
-        if (name.Length == 0 || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0) return null;
-        foreach (var p in new[] { Path.Combine(CoreTapFormulaDir, Shard(name), name + ".rb"), Path.Combine(CoreTapFormulaDir, name + ".rb") })
+        var parts = arg.ToLowerInvariant().Split('/');
+        if (parts.Length == 3)
+        {
+            string tapDir;
+            try { tapDir = DevCmd.DevTap.Path(parts[0] + "/" + parts[1]); }
+            catch (BrewError) { return null; }
+            return FormulaInTap(tapDir, parts[2]);
+        }
+        if (parts.Length != 1) return null;
+        var name = parts[0];
+        var coreDir = Path.GetDirectoryName(CoreTapFormulaDir)!;
+        if (FormulaInTap(coreDir, name) is { } core) return core;
+        var found = (Directory.Exists(DevCmd.DevTap.Root) ? Directory.GetDirectories(DevCmd.DevTap.Root) : [])
+            .Where(d => !string.Equals(Path.GetFullPath(d), Path.GetFullPath(coreDir), StringComparison.OrdinalIgnoreCase))
+            .Select(d => FormulaInTap(d, name)).Where(p => p != null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(p => (Path: p, Tap: DevCmd.DevTap.FromPath(p))).OrderBy(t => t.Tap, StringComparer.Ordinal).ToList();
+        if (found.Count > 1)
+        {
+            // TapFormulaAmbiguityError
+            var formulae = found.Select(t => $"{t.Tap}/{name}").ToList();
+            throw new BrewError($"Formulae found in multiple taps:{string.Concat(formulae.Select(f => "\n       * " + f))}\n\n"
+                + $"Please use the fully-qualified name (e.g. {formulae[0]}) to refer to a specific formula.");
+        }
+        return found.Count == 1 ? found[0].Path : null;
+    }
+
+    // Formulary.tap_formula_name_type + find_formula_in_tap: the tap's Aliases, then its
+    // formula_renames.json, then the formula file itself (Tap#formula_files_by_name).
+    static string FormulaInTap(string tapDir, string name)
+    {
+        if (!System.Text.RegularExpressions.Regex.IsMatch(name, @"\A[\w+\-.@]+\z") || !Directory.Exists(tapDir)) return null;
+        var formulaDir = DevCmd.DevTap.FormulaDir(tapDir);
+        var alias = Path.Combine(tapDir, "Aliases", name);
+        if (File.Exists(alias))
+        {
+            string target;
+            // Git with core.symlinks=false checks a symlink out as its relative target text.
+            try { target = new FileInfo(alias).LinkTarget ?? File.ReadAllText(alias).Trim(); }
+            catch (IOException) { target = null; }
+            if (target != null)
+            {
+                var file = Path.GetFullPath(target, Path.GetDirectoryName(alias)!);
+                if (file.StartsWith(Path.GetFullPath(formulaDir) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+                    && file.EndsWith(".rb", StringComparison.OrdinalIgnoreCase) && File.Exists(file))
+                    return file;
+            }
+        }
+        var renames = Path.Combine(tapDir, "formula_renames.json");
+        if (File.Exists(renames))
+            try
+            {
+                using var json = System.Text.Json.JsonDocument.Parse(File.ReadAllText(renames));
+                if (json.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object
+                    && json.RootElement.TryGetProperty(name, out var renamed) && renamed.GetString() is { Length: > 0 } newName
+                    && System.Text.RegularExpressions.Regex.IsMatch(newName, @"\A[\w+\-.@]+\z"))
+                    name = newName;
+            }
+            catch (Exception e) when (e is System.Text.Json.JsonException or InvalidOperationException or IOException) { }
+        foreach (var p in new[] { Path.Combine(formulaDir, Shard(name), name + ".rb"), Path.Combine(formulaDir, name + ".rb") })
             if (File.Exists(p)) return p;
-        return AllFormulaFiles().FirstOrDefault(f => Path.GetFileNameWithoutExtension(f) == name);
+        return DevCmd.DevTap.FormulaFiles(tapDir).FirstOrDefault(f => Path.GetFileNameWithoutExtension(f) == name);
+    }
+
+    // FormulaOrCaskUnavailableError (FormulaUnavailableError without orCask); for <user>/<repo>/<name>,
+    // TapFormulaOrCaskUnavailableError, which also says how to tap a tap that isn't installed.
+    public static string UnavailableMessage(string arg, bool orCask = true)
+    {
+        var what = orCask ? "formula or cask" : "formula";
+        var parts = arg.ToLowerInvariant().Split('/');
+        string tap = null;
+        if (parts.Length == 3)
+            try { tap = DevCmd.DevTap.Normalize(parts[0] + "/" + parts[1]); }
+            catch (BrewError) { }
+        if (tap == null) return $"No available {what} with the name \"{arg}\".";
+        var message = $"No available {what} with the name \"{tap}/{parts[2]}\".";
+        if (!Directory.Exists(DevCmd.DevTap.Path(tap)))
+            message += $"\nThis command requires the tap {tap}.\nIf you trust this tap, tap it explicitly and then try again:\n  brew tap {tap}";
+        return message;
     }
 
     // The path a formula would have, whether or not it exists.
     public static string ExpectedFormulaPath(string name)
     {
+        var parts = name.ToLowerInvariant().Split('/');
+        if (parts.Length == 3 && !(parts[0] == "homebrew" && parts[1] == "core"))
+            try { return Path.Combine(DevCmd.DevTap.FormulaDir(DevCmd.DevTap.Path(parts[0] + "/" + parts[1])), parts[2] + ".rb"); }
+            catch (BrewError) { }
         name = NameOf(name).ToLowerInvariant();
         return Path.Combine(CoreTapFormulaDir, Shard(name), name + ".rb");
     }
@@ -191,7 +272,7 @@ public static class DevCommands
     // Formulary.factory: loads or raises FormulaUnavailableError's message.
     public static FormulaSpec LoadFormula(string arg)
     {
-        var path = FormulaPath(arg) ?? throw new BrewError($"No available formula with the name \"{NameOf(arg)}\".");
+        var path = FormulaPath(arg) ?? throw new BrewError(UnavailableMessage(arg, orCask: false));
         return FormulaLoader.LoadSpec(path);
     }
 

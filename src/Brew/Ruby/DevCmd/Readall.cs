@@ -20,8 +20,6 @@ sealed class ReadallCmd : DevCommand
         .Switch(new[] { "--no-simulate" }, "Don't simulate other system configurations when checking formulae and casks.")
         .NamedArgs("tap");
 
-    const string CoreTap = "homebrew/core";
-
     public override void Run(ParsedArgs args)
     {
         if (args.Switch("eval-all"))
@@ -30,15 +28,19 @@ sealed class ReadallCmd : DevCommand
         if (args.Switch("syntax") && args.Named.Count == 0)
             if (!ValidRubySyntax(DevCommands.AllFormulaFiles())) DevCommands.Failed = true;
 
+        // Tap.installed, or args.named.to_installed_taps.
         var taps = new List<string>();
-        if (args.Named.Count == 0) taps.Add(CoreTap);
+        if (args.Named.Count == 0)
+        {
+            if (Directory.Exists(DevTap.Root))
+                taps.AddRange(Directory.GetDirectories(DevTap.Root).OrderBy(DevTap.FromPath, StringComparer.Ordinal));
+        }
         else
             foreach (var n in args.Named)
             {
-                var name = n.ToLowerInvariant().Replace("homebrew-", "");
-                if (name != CoreTap)
-                    throw new BrewError($"No available tap {n}.");
-                taps.Add(CoreTap);
+                var name = DevTap.Normalize(n);
+                if (!Directory.Exists(DevTap.Path(name))) throw new BrewError(DevTap.TapUnavailableMessage(name));
+                taps.Add(DevTap.Path(name));
             }
 
         // Homebrew's bottle tags are "<arch>_<os>"; Windows only has its own OS to "simulate".
@@ -47,13 +49,14 @@ sealed class ReadallCmd : DevCommand
         var oses = args.Flag("os") is { } o ? o == "all" ? new[] { "windows" } : new[] { o } : new[] { "windows" };
         var combos = args.Switch("no-simulate") ? new[] { (string)null } : oses.SelectMany(os => archs.Select(ar => $"{ar}_{os}")).ToArray();
 
-        foreach (var _ in taps.Distinct())
+        foreach (var tapDir in taps.Distinct(StringComparer.OrdinalIgnoreCase))
         {
             bool success = true;
-            if (args.Switch("aliases") && !ValidAliases()) success = false;
+            var files = DevTap.FormulaFiles(tapDir).ToList();
+            if (args.Switch("aliases") && !ValidAliases(tapDir, files)) success = false;
             var valid = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var tag in combos)
-                foreach (var file in DevCommands.AllFormulaFiles())
+                foreach (var file in files)
                 {
                     if (valid.Contains(file)) continue;
                     try
@@ -72,11 +75,11 @@ sealed class ReadallCmd : DevCommand
         }
     }
 
-    static bool ValidAliases()
+    static bool ValidAliases(string tapDir, IEnumerable<string> formulaFiles)
     {
-        var aliasDir = Path.Combine(StyleCheck.TapDir, "Aliases");
+        var aliasDir = Path.Combine(tapDir, "Aliases");
         if (!Directory.Exists(aliasDir)) return true;
-        var formulae = new HashSet<string>(DevCommands.AllFormulaFiles().Select(Path.GetFileName));
+        var formulae = new HashSet<string>(formulaFiles.Select(Path.GetFileName));
         bool ok = true;
         foreach (var f in Directory.EnumerateFileSystemEntries(aliasDir).Order(StringComparer.Ordinal))
         {

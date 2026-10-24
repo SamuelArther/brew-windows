@@ -87,7 +87,8 @@ sealed class AuditCmd : DevCommand
         else if (tapAudit)
         {
             if (!Regex.IsMatch(tap, @"^[\w-]+/[\w-]+$")) throw new BrewError($"Invalid tap name: '{tap}'");
-            if (tap.Equals("homebrew/core", StringComparison.OrdinalIgnoreCase)) paths.AddRange(DevCommands.AllFormulaFiles());
+            // Tap.fetch(args.tap).formula_files: none when the tap isn't installed.
+            paths.AddRange(DevTap.IsCore(tap) ? DevCommands.AllFormulaFiles() : DevTap.FormulaFiles(DevTap.Path(tap)));
         }
         else if (args.Switch("installed"))
         {
@@ -106,7 +107,7 @@ sealed class AuditCmd : DevCommand
             foreach (var n in args.Named)
             {
                 if (args.Switch("cask")) throw new BrewError($"Cask '{n}' is unavailable: No Cask with this name exists.");
-                var p = DevCommands.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{DevCommands.NameOf(n)}\".");
+                var p = DevCommands.FormulaPath(n) ?? throw new BrewError(DevCommands.UnavailableMessage(n));
                 paths.Add(p);
             }
         }
@@ -763,7 +764,8 @@ sealed class FormulaAuditor
         committed = (previous, baseInfo);
         var git = DevCommands.Which("git");
         if (!Git || git == null) return committed.Value;
-        var tapDir = StyleCheck.TapDir;
+        // The formula's own tap, which needn't be homebrew/core.
+        var tapDir = Path.GetDirectoryName(f.Path)!;
         if (DevCommands.Capture(git, new[] { "-C", tapDir, "rev-parse", "--git-dir" }).code != 0) return committed.Value;
         var top = DevCommands.Capture(git, new[] { "-C", tapDir, "rev-parse", "--show-toplevel" }).stdout.Trim();
         var rel = Path.GetRelativePath(top, f.Path).Replace('\\', '/');

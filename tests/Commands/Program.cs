@@ -99,6 +99,28 @@ try
         Equal(info.RootElement.GetProperty("formulae")[0].GetProperty("name").GetString(), "probe", "info JSON");
     Equal((await Run("tap")).Output, "hashicorp/tap\nhomebrew/core\nsecondary/tap\n", "tap listing");
     Equal((await Run("info", "hashicorp/tap/terraform")).Code, 0, "fully qualified third-party formula");
+    // Formula dev commands resolve names the way Formulary does: any installed tap, core first.
+    var terraformPath = Path.Combine(repo, "tap", "hashicorp-tap", "Formula", "t", "terraform.rb");
+    Equal((await Run("formula", "hashicorp/tap/terraform")).Output, terraformPath + "\n", "dev commands find fully-qualified third-party formulae");
+    Equal((await Run("formula", "HashiCorp/homebrew-tap/terraform")).Output, terraformPath + "\n", "dev commands accept user/homebrew-repo/name");
+    Equal((await Run("formula", "terraform")).Output, terraformPath + "\n", "dev commands find a name only one tap has");
+    Equal((await Run("formula", "terraform@1")).Output, terraformPath + "\n", "dev commands follow third-party aliases");
+    Equal((await Run("formula", "libfixture")).Output, libraryPath + "\n", "dev commands prefer homebrew/core");
+    var tapAudit = await Run("audit", "hashicorp/tap/terraform");
+    Equal(tapAudit.Error.Contains("No available formula"), false, "audit finds a fully-qualified tap formula: " + tapAudit.Error);
+    var shortAudit = await Run("audit", "terraform");
+    Equal(shortAudit.Error.Contains("No available formula"), false, "audit finds a tap formula by name: " + shortAudit.Error);
+    Equal((await Run("readall", "hashicorp/tap")).Code, 0, "readall reads a third-party tap");
+    var tapStyle = await Run("style", "hashicorp/tap/terraform");
+    Equal(tapStyle.Error.Contains("No available"), false, "style finds a tap formula: " + tapStyle.Error);
+    var untappedAudit = await Run("audit", "Nobody/homebrew-Tap/thing");
+    Equal((untappedAudit.Code, untappedAudit.Error), (1, "Error: No available formula or cask with the name \"nobody/tap/thing\".\n"
+        + "This command requires the tap nobody/tap.\nIf you trust this tap, tap it explicitly and then try again:\n  brew tap nobody/tap\n"), "Homebrew untapped-tap audit error");
+    Equal((await Run("audit", "hashicorp/tap/nothing")).Error, "Error: No available formula or cask with the name \"hashicorp/tap/nothing\".\n", "Homebrew missing tap formula audit error");
+    await Formula("terraform", "1.0", tap: "secondary-tap");
+    Equal((await Run("audit", "terraform")).Error, "Error: Formulae found in multiple taps:\n       * hashicorp/tap/terraform\n       * secondary/tap/terraform\n\n"
+        + "Please use the fully-qualified name (e.g. hashicorp/tap/terraform) to refer to a specific formula.\n", "Homebrew tap formula ambiguity error");
+    File.Delete(Path.Combine(repo, "tap", "secondary-tap", "Formula", "t", "terraform.rb"));
     await Formula("isolated", "1.0", kegOnly: true);
     Equal((await Run("install", "isolated")).Code, 0, "keg-only windows_exe installation");
     Equal(File.Exists(Path.Combine(prefix, "bin", "isolated.exe")), false, "keg-only executable stays out of global bin");

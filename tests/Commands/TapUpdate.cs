@@ -45,8 +45,14 @@ static class TapUpdate
             Check(log.Code == 0 && log.Output.Contains(Path.Combine("Formula", "delta.rb")), "log reads a tapped formula's history from its tap: " + log.Output + log.Error);
             Check((await Brew("info")).Output == "", "info without a Cellar prints nothing");
 
+            // git makes pack files (and loose objects) read-only; untap must still delete them.
+            var tapDir = Path.Combine(repo, "tap", "foo-bar");
+            await ProcessRunner.Git(tapDir, "gc", "-q");
+            var packs = Directory.GetFiles(Path.Combine(tapDir, ".git", "objects", "pack"), "pack-*.idx");
+            Check(packs.Length > 0 && packs.All(p => File.GetAttributes(p).HasFlag(FileAttributes.ReadOnly)), "the tap clone has read-only pack files");
             var untapped = await Brew("untap", "foo/bar");
             Check(untapped.Code == 0 && untapped.Error.StartsWith("Untapping foo/bar...\nUntapped 3 formulae ("), "Homebrew untap messages: " + untapped.Error);
+            Check(!Directory.Exists(tapDir), "untap deletes the whole clone, read-only pack files included");
 
             var bin = Path.Combine(root, "bin"); var staging = Path.Combine(root, "staging");
             Directory.CreateDirectory(bin); Directory.CreateDirectory(staging);

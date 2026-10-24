@@ -1622,11 +1622,11 @@ static class StyleCheck
             if (File.Exists(n) || Directory.Exists(n)) { res.Add(Path.GetFullPath(n)); continue; }
             if (Regex.IsMatch(n, @"^[\w-]+/[\w-]+$"))
             {
-                if (n.Equals("homebrew/core", StringComparison.OrdinalIgnoreCase)) { res.Add(TapDir); continue; }
+                if (Directory.Exists(DevTap.Path(n))) { res.Add(DevTap.Path(n)); continue; }
                 throw new BrewError($"No available tap {n}.");
             }
             if (cask) throw new BrewError($"No available cask with the name \"{n}\".");
-            var p = DevCommands.FormulaPath(n) ?? throw new BrewError($"No available formula or cask with the name \"{n}\".");
+            var p = DevCommands.FormulaPath(n) ?? throw new BrewError(DevCommands.UnavailableMessage(n));
             res.Add(p);
         }
         return res;
