@@ -1,0 +1,417 @@
+[
+  {
+    "name": "arkade",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "ascelerate",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 144
+  },
+  {
+    "name": "aws-iam-authenticator",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "backlog-md",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "bash-preexec",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "bashate",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "bruno-cli",
+    "status": "ok",
+    "seconds": 285
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 214
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "chrome-devtools-mcp",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "coconut",
+    "status": "ok",
+    "seconds": 166
+  },
+  {
+    "name": "cpp-peglib",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "crit",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 274
+  },
+  {
+    "name": "cypher-shell",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 547
+  },
+  {
+    "name": "ethereum",
+    "status": "ok",
+    "seconds": 295
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "exploitdb",
+    "status": "ok",
+    "seconds": 112
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 108
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 634
+  },
+  {
+    "name": "fleet-cli",
+    "status": "ok",
+    "seconds": 129
+  },
+  {
+    "name": "git-format-staged",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "git-pages-cli",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "gitea-cli",
+    "status": "test",
+    "seconds": 31
+  },
+  {
+    "name": "gogcli",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "govc",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "greenmask",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "jsrepo",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "k3sup",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "kata",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "ki",
+    "status": "ok",
+    "seconds": 97
+  },
+  {
+    "name": "kosli-cli",
+    "status": "ok",
+    "seconds": 162
+  },
+  {
+    "name": "kubecfg",
+    "status": "ok",
+    "seconds": 139
+  },
+  {
+    "name": "kubernetes-mcp-server",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "kubeseal",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "kubetrim",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "mark",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "micasa",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "monolith",
+    "status": "ok",
+    "seconds": 225
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "ok",
+    "seconds": 149
+  },
+  {
+    "name": "opa",
+    "status": "ok",
+    "seconds": 178
+  },
+  {
+    "name": "parallel",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "pgrx",
+    "status": "ok",
+    "seconds": 350
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 573
+  },
+  {
+    "name": "plz-cli",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "policy-engine",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "portop",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "prips",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "pv-migrate",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "pycparser",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "pyoxidizer",
+    "status": "build",
+    "seconds": 289
+  },
+  {
+    "name": "pyscn",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "qqqa",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "rainfrog",
+    "status": "ok",
+    "seconds": 991
+  },
+  {
+    "name": "rattler-index",
+    "status": "ok",
+    "seconds": 389
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "reshape",
+    "status": "ok",
+    "seconds": 301
+  },
+  {
+    "name": "roapi",
+    "status": "build",
+    "seconds": 1089
+  },
+  {
+    "name": "rover",
+    "status": "ok",
+    "seconds": 604
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "rune",
+    "status": "ok",
+    "seconds": 301
+  },
+  {
+    "name": "rustypaste",
+    "status": "ok",
+    "seconds": 159
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 342
+  },
+  {
+    "name": "shadowsocks-rust",
+    "status": "ok",
+    "seconds": 314
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "spytrap-adb",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "surfer",
+    "status": "build",
+    "seconds": 490
+  },
+  {
+    "name": "swc",
+    "status": "ok",
+    "seconds": 406
+  },
+  {
+    "name": "tele",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "terraform-mcp-server",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "terragrunt",
+    "status": "build",
+    "seconds": 64
+  },
+  {
+    "name": "wait4x",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "wild",
+    "status": "build",
+    "seconds": 435
+  },
+  {
+    "name": "xonsh",
+    "status": "ok",
+    "seconds": 102
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 39
+  }
+]

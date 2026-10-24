@@ -7,10 +7,18 @@ class Qqqa < Formula
   head "https://github.com/iagooar/qqqa.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6247364993ec0ab89f637effcf94b86d94c9fc240b2fe678a4ca6e6f985e521a"
+    sha256 cellar: :any, x86_64_windows: "6adda4d993e86f0b196833ee6b5ea80bf1902258f433ec2cccea73d0f103e433"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    # `Cargo.lock` is ignored
+    system "cargo", "generate-lockfile"
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args

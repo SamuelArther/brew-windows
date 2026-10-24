@@ -7,10 +7,18 @@ class Rune < Formula
   head "https://github.com/rune-rs/rune.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "74d58fade6918c2cdf0ce62688bacb995e150b608dc20da6d90f659dc324ee36"
+    sha256 cellar: :any, x86_64_windows: "20a68cc163367ec2844ff1ff34a76933b7f55a39813e490d42c5358d713bfdfd"
   end
 
   depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    # `Cargo.lock` is ignored
+    system "cargo", "generate-lockfile"
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "crates/rune-cli")

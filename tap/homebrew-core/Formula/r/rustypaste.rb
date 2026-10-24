@@ -7,10 +7,16 @@ class Rustypaste < Formula
   head "https://github.com/orhun/rustypaste.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6d21a4d16431da32b2e68087c223572be4e955254e7c8bd6d37afb82aa5a75ef"
+    sha256 cellar: :any, x86_64_windows: "04fdb4742d44810ae654f7cbbf7a6f79d8b527b34d9910ae81d0cbabf298d8f3"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args

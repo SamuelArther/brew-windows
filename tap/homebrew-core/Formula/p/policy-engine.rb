@@ -1,13 +1,13 @@
 class PolicyEngine < Formula
   desc "Unified Policy Engine"
   homepage "https://github.com/snyk/policy-engine"
-  url "https://github.com/snyk/policy-engine/archive/refs/tags/v1.1.6.tar.gz"
-  sha256 "294356f456510ed2d16ed30374d34855185277740cf1f818c4ddb660d98a1161"
+  url "https://github.com/snyk/policy-engine/archive/refs/tags/v1.1.7.tar.gz"
+  sha256 "235f3de2da44973db56731449886eb361f23b0bccaa63f7624504045f0087828"
   license "Apache-2.0"
   head "https://github.com/snyk/policy-engine.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "9c8702474ae2ebea359161ac07c6c48c9585ed7f7f65e8f11262eb8613c26aba"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4b597b55399c0481614c5fa29b05539f2848e03821883e6d1462f50063ec1412"
   end
 
   depends_on "go" => :build

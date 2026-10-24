@@ -12,15 +12,21 @@ class Swc < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1cff4ad2382583bb35a4e2f327390a1c435226688eb6eeb4ca1f438b8e5e8e71"
+    sha256 cellar: :any, x86_64_windows: "cae336642b73695c5499b63972703341a9770f82bab0c0d4a1a2443e13fc4ef4"
   end
 
   depends_on "rust" => :build
 
-  def install
+  deny_network_access!
+
+  def fetch
     # `-Zshare-generics=y` flag is only supported on nightly Rust
     rm ".cargo/config.toml"
 
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
+
+  def install
     system "cargo", "install", *std_cargo_args(path: "crates/swc_cli_impl")
   end
 

@@ -7,10 +7,16 @@ class ShadowsocksRust < Formula
   head "https://github.com/shadowsocks/shadowsocks-rust.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "977907d44abecc14c8355b242c9d4629f51e997fe285bccbc9f09a28aadc6daf"
+    sha256 cellar: :any, x86_64_windows: "1f02b1ef88f820a06864e8810c26c0445ba5a0ceb0507635e71a4c20cd5658de"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args

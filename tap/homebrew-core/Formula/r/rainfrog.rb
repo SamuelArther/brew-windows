@@ -7,10 +7,16 @@ class Rainfrog < Formula
   head "https://github.com/achristmascarl/rainfrog.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f9f4ebdb4e7f30310cead61fa32b84a212be03d729bbafcdbfa5d68d719d8648"
+    sha256 cellar: :any, x86_64_windows: "06c31957a58b18f1dc46451d9883d1352593e3ccd4153263fd85af6c36db2508"
   end
 
   depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args

@@ -11,10 +11,18 @@ class Prips < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "04a170f371effeff9a1751f1e6c37bde4087fc5b6def697f0eeb9e498a8a439e"
+    sha256 cellar: :any, x86_64_windows: "a21d2bb020467cf11a931e427e63213d18f15db4ad7ac5012ca4da9b59c8dedd"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    cd "rust" do
+      system "cargo", "fetch", *std_cargo_fetch_args
+    end
+  end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "rust")

@@ -1,8 +1,8 @@
 class Govc < Formula
   desc "Command-line tool for VMware vSphere"
   homepage "https://github.com/vmware/govmomi/tree/main/govc"
-  url "https://github.com/vmware/govmomi/archive/refs/tags/v0.56.0.tar.gz"
-  sha256 "f8f6a90fb59ea6145701b3b2584aed8ce057bb9fcec85a5044e98d7b3bc7c575"
+  url "https://github.com/vmware/govmomi/archive/refs/tags/v0.56.1.tar.gz"
+  sha256 "da5ed306f41a0ee2e8bf56f85e39092863ea34a008d80fdf63d43062c75ec161"
   license "Apache-2.0"
   head "https://github.com/vmware/govmomi.git", branch: "main"
 
@@ -15,7 +15,7 @@ class Govc < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5ec9b20f562c4ea2f4616cca814ed4023866d2b210482b01a6ca1ce2d793fc7d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5e42b89c170ed945ac95fed6b27beb74bbaf8847507e03fdf4298a1e42870d35"
   end
 
   depends_on "go" => :build

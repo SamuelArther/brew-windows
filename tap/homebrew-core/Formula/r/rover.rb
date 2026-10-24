@@ -12,13 +12,19 @@ class Rover < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "718974894c4e72eea1468ae020eb112ff23927f2cac2f6c9721923df6a278737"
+    sha256 cellar: :any, x86_64_windows: "c616bf9d4f746dcfecbece6a7758c3bec0366b210c58dd2035c7496cff5c6b6c"
   end
 
   depends_on "rust" => :build
 
   on_linux do
     depends_on "zlib-ng-compat"
+  end
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install

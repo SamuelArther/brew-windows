@@ -1,8 +1,8 @@
 class Kubetrim < Formula
   desc "Trim your KUBECONFIG automatically"
   homepage "https://github.com/alexellis/kubetrim"
-  url "https://github.com/alexellis/kubetrim/archive/refs/tags/v0.0.2.tar.gz"
-  sha256 "24455f11699c61760613f630ded0d395cdf5b2d3925a08a730878819f353e00f"
+  url "https://github.com/alexellis/kubetrim/archive/refs/tags/v0.0.3.tar.gz"
+  sha256 "0721b0712d0184cabc3424019f161220e9ae4cc39f0eaf6cb5051ffb94d0ce80"
   license "MIT"
   head "https://github.com/alexellis/kubetrim.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Kubetrim < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "29948fe4801d3f8f29041b9dc6a0517b2461f1a68b42419f2cf73bf40aa33eb3"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "84c4fe34c2ce3cff11f36560d54cc34b801951e10f0b3455dd65bff71ecc9aa2"
   end
 
   depends_on "go" => :build

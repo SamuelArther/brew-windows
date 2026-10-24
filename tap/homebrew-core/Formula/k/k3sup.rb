@@ -2,8 +2,8 @@ class K3sup < Formula
   desc "Utility to create k3s clusters on any local or remote VM"
   homepage "https://k3sup.dev"
   url "https://github.com/alexellis/k3sup.git",
-      tag:      "0.13.13",
-      revision: "2fa773c9db8995a193d9ec7a79db00944931525e"
+      tag:      "0.13.14",
+      revision: "07ee3911f65dc978899f036586c7a99317a31996"
   license "MIT"
   head "https://github.com/alexellis/k3sup.git", branch: "master"
 
@@ -13,7 +13,7 @@ class K3sup < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a9c489885b7d2c26a832e0861ec35b71296dfa6748cd063bbf8be48a3643ab2b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a1836ac77c253d18b1f1da96d00416cdfa37a1dd60f640e333b5fefd5a301615"
   end
 
   depends_on "go" => :build

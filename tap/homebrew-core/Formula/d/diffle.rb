@@ -1,19 +1,29 @@
 class Diffle < Formula
   desc "Keyboard-first diff viewer with LSP support and GitHub integration"
   homepage "https://github.com/moritzwilksch/diffle"
-  url "https://registry.npmjs.org/@moritzwilksch/diffle/-/diffle-0.2.10.tgz"
-  sha256 "10b28cbada562c2f0baaa69cc1380149be3390d93627a218d7253bf749f6f590"
+  url "https://github.com/moritzwilksch/diffle/archive/refs/tags/v0.3.3.tar.gz"
+  sha256 "48c4a2d5929b2d96a62d0262360f8e81c97da7f19c6b78aaa574c3045e944c58"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6fa4153d52cacf914a60ace3703cfb61849a49b55412cc31039692cba5e9616f"
+    sha256 cellar: :any, x86_64_windows: "ba51d5fdc9868f957c4f8696642fc66351d6c55f785ed7b7fdc95d3a77dc7bfb"
   end
 
-  depends_on "node"
+  depends_on "node" => :build
+  depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "npm", "ci", "--ignore-scripts", *std_npm_args(prefix: false)
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
-    system "npm", "install", *std_npm_args
-    bin.install_symlink libexec.glob("bin/*")
+    system "npm", "run", "build"
+    system "cargo", "install", *std_cargo_args(path: "crates/diffle")
+
+    generate_completions_from_executable(bin/"diffle", "completion", "--shell")
   end
 
   test do

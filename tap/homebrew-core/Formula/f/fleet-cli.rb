@@ -1,8 +1,8 @@
 class FleetCli < Formula
   desc "Manage large fleets of Kubernetes clusters"
   homepage "https://fleet.rancher.io/"
-  url "https://github.com/rancher/fleet/archive/refs/tags/v0.16.2.tar.gz"
-  sha256 "0bcb0378fb336d6c38af3f13fb28104a3c2e340e1efa92db953a5bbbe25d575b"
+  url "https://github.com/rancher/fleet/archive/refs/tags/v0.16.3.tar.gz"
+  sha256 "6c72695e11063427a42dc6bebfad4434b509491cc5d316f2053386f6640abf83"
   license "Apache-2.0"
   head "https://github.com/rancher/fleet.git", branch: "main"
 
@@ -12,7 +12,7 @@ class FleetCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "6b7111dec2417cc9efb767b73ec1193ebf48007bd1b205c4f61ab9910ee34245"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "66c5acee579022130712e3bc7c292814c8dcf7ea75913514b014221132ae3bd4"
   end
 
   depends_on "go" => :build

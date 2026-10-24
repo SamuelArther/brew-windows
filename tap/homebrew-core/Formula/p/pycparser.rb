@@ -1,13 +1,13 @@
 class Pycparser < Formula
   desc "C parser in Python"
   homepage "https://github.com/eliben/pycparser"
-  url "https://files.pythonhosted.org/packages/da/a8/c5fdbeee588bb8ada9458774f43adf1bdd30bd59157055142183e769a024/pycparser-3.11.tar.gz"
-  sha256 "d875f09c3507d00e1aba0eecc6dcadc1352f30fff09dc6bff2f1c2935e97c2bc"
+  url "https://files.pythonhosted.org/packages/cb/27/eeb9f307bf07060f3d9f9aa0fb8c15b01bdfded0a941e4b2719c7f94cacd/pycparser-3.12.tar.gz"
+  sha256 "f03387877eab82ce01bbdfd0ba7252ee55a90b1c708d5129e2ce915475cf1db6"
   license "BSD-3-Clause"
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "06a5456df26fb3a7d7e203e8148b966b545a25cbbbf7498ea0358da1b388c467"
+    sha256 cellar: :any, x86_64_windows: "3bd5783ae2600a8fb93e8ba0592c0fb0d3556a8307e95454ed19d2bf81911ce3"
   end
 
   depends_on "python-setuptools" => :build

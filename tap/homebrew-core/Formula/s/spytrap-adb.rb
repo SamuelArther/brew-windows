@@ -4,12 +4,19 @@ class SpytrapAdb < Formula
   url "https://github.com/spytrap-org/spytrap-adb/releases/download/v0.3.5/spytrap-adb-0.3.5.tar.gz"
   sha256 "e33a342aa461b56a8d857c2c29b743658bd87b4ade7bed20399dea2cea01b0f8"
   license "GPL-3.0-or-later"
+  head "https://github.com/spytrap-org/spytrap-adb.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a302755e0c5416f30a7b96e027c0127b83aef80262ff6db147d54edd6bc3eff0"
+    sha256 cellar: :any, x86_64_windows: "b0ffe7fa41c0e6c1b1701bbdf15d69be5281ca3437f88f7e2c6199d8821ee62b"
   end
 
   depends_on "rust" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args

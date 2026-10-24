@@ -1,8 +1,8 @@
 class Ethereum < Formula
   desc "Official Go implementation of the Ethereum protocol"
   homepage "https://geth.ethereum.org/"
-  url "https://github.com/ethereum/go-ethereum/archive/refs/tags/v1.17.9.tar.gz"
-  sha256 "dce5d109fb2a29a740cc41ed9e5b78e1e4a08af8bc0899baaf8797bef68aa591"
+  url "https://github.com/ethereum/go-ethereum/archive/refs/tags/v1.17.10.tar.gz"
+  sha256 "d947e1e82eef5ffb46900d1047f207ed5e6f6d2049970cf3f1442669a175fd27"
   license "LGPL-3.0-or-later"
   head "https://github.com/ethereum/go-ethereum.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Ethereum < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b1b3dbc593a915c7feb7840cf1f7fe0a0d0e47331c858e32dd42aa40e37642e7"
+    sha256 cellar: :any, x86_64_windows: "1c0a8a6bdcb1efc5416a32e609540dce79b6e38abb7431dd9441781ff2fca7dc"
   end
 
   depends_on "go" => :build

@@ -9,10 +9,12 @@ class GitFormatStaged < Formula
   head "https://github.com/hallettj/git-format-staged.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d76748eca6005efe93837025112fff70b0a470e23e675ac9337c9436dd79c8c6"
+    sha256 cellar: :any, x86_64_windows: "410dc7839bb912ce5244734dc491a46aa04fe98d24f994978f4a7d306a4a2aa2"
   end
 
   uses_from_macos "python"
+
+  deny_network_access!
 
   def install
     rewrite_shebang detected_python_shebang(use_python_from_path: true), "git-format-staged"

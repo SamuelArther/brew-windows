@@ -1,12 +1,12 @@
 class Wait4x < Formula
   desc "Wait for a port or a service to enter the requested state"
   homepage "https://wait4x.dev"
-  url "https://github.com/wait4x/wait4x/archive/refs/tags/v3.7.2.tar.gz"
-  sha256 "841781dba59ce4504deba7c5fc1aa8d85e2b10a1dbcc0749b0ac019a4666a87c"
+  url "https://github.com/wait4x/wait4x/archive/refs/tags/v3.7.3.tar.gz"
+  sha256 "4fbb68d1387128fed8d8072761e021f67853668287c37bfc7f52d6561dbf5f3e"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "3f621d936ca23c0578319498ee91fa4d7c2ce7aff52e9be9192d9f53b038119d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "44c3a007c891f6ab6439323534ffb5ea571b9ddb1be10d9a00b8a699077eec62"
   end
 
   depends_on "go" => :build

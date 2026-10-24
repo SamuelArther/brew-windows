@@ -3,13 +3,13 @@ class Xonsh < Formula
 
   desc "Python-powered, cross-platform, Unix-gazing shell language and command prompt"
   homepage "https://xon.sh"
-  url "https://files.pythonhosted.org/packages/c1/28/974f44afd5c05bcfb012d52a91b514e629706048c85d669a29eab2f0369a/xonsh-0.24.2.tar.gz"
-  sha256 "461244cf1de8ed28d0c07cc548342b9e7969d46e17ef8d71b5d3064307930a25"
+  url "https://files.pythonhosted.org/packages/35/e3/b0632485c281227e04f6d0fd215df09cf37d7eee247928f1dd7e14a4dc4b/xonsh-0.25.0.tar.gz"
+  sha256 "87949263855c7b5338092c57b573ee8b959f001352a5631f98cef413995d5c7b"
   license "BSD-2-Clause-Views"
   head "https://github.com/xonsh/xonsh.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "29052651f5498b3f05f58d35826468030f3e1e91abb10428b203d2307faf4010"
+    sha256 cellar: :any, x86_64_windows: "df9344e6eda36c94cafb2daa9cce5802e4fb645c6f7b770bf3249c25d239c6ff"
   end
 
   depends_on "python@3.15"
@@ -37,8 +37,8 @@ class Xonsh < Formula
   end
 
   resource "wcwidth" do
-    url "https://files.pythonhosted.org/packages/f0/b4/7830542634bb2d3e62aa3b586a72d5b3b6c91c3168929e7000ef3fed041d/wcwidth-0.9.2.tar.gz"
-    sha256 "ae0ef90b90f6af38b54f1fe6d58662ec33b3cb4b8391958a62416d654231727b"
+    url "https://files.pythonhosted.org/packages/69/4a/82d61476a1ccc20d43d0805724c5de4baa4971131a8db1816705ef53fe16/wcwidth-0.9.3.tar.gz"
+    sha256 "dfe7cfbd4cb59db9fe0931bd6091ab4a95b3acc5d56bfb50fa9fef0ccba5dc5c"
   end
 
   def install

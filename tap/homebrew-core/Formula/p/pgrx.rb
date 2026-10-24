@@ -6,7 +6,7 @@ class Pgrx < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c7fa133e1436c1fcb9f93f7ccce31654713024ac1295ce7da107d372a030e10c"
+    sha256 cellar: :any, x86_64_windows: "3fd6897eb8dfe1e5f47df61b691b43f586db6fef0dc392b00bedf4aa17e5d70f"
   end
 
   depends_on "pkgconf" => :build
@@ -15,6 +15,12 @@ class Pgrx < Formula
 
   on_linux do
     depends_on "openssl@4"
+  end
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install

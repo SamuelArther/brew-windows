@@ -6,11 +6,11 @@ class Bashate < Formula
   url "https://files.pythonhosted.org/packages/4d/0c/35b92b742cc9da7788db16cfafda2f38505e19045ae1ee204ec238ece93f/bashate-2.1.1.tar.gz"
   sha256 "4bab6e977f8305a720535f8f93f1fb42c521fcbc4a6c2b3d3d7671f42f221f4c"
   license "Apache-2.0"
-  revision 3
+  revision 4
   head "https://github.com/openstack/bashate.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f53ac6b598f67fafbf360002104d288ba779d69292b972ad6ccd82a403af0564"
+    sha256 cellar: :any, x86_64_windows: "b0d61af08df66752b3622669837e0b670d62cad8981b42133ef602ff9fbacda5"
   end
 
   depends_on "python@3.15"
@@ -21,8 +21,8 @@ class Bashate < Formula
   end
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/6d/44/f5da03a8ef95d369145c5bb53050e7877c9f3d312e128605fd9504829143/setuptools-84.0.0.tar.gz"
-    sha256 "f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73"
+    url "https://files.pythonhosted.org/packages/70/b3/c19426f783614d625699a4b247faf628ea9ab1db228674491767b417f9e1/setuptools-84.2.1.tar.gz"
+    sha256 "3ff8b3b5492a0aa66960f4419365a86b84e013070d4313e4d4a6894f5d64d6bc"
   end
 
   def install

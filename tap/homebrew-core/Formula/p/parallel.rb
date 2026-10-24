@@ -14,11 +14,12 @@ class Parallel < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/parallel-20260922"
-    sha256 cellar: :any, x86_64_windows: "cdb8973779109ddaa2762d348b34918ba4a55673bcc67c9bcef2f4b1579c0e62"
+    sha256 cellar: :any, x86_64_windows: "6db0f1544fd9a6869b37eafa84c1717acbc19c76d53ad80630158d5daabd88a2"
   end
 
   conflicts_with "moreutils", because: "both install a `parallel` executable"
+
+  deny_network_access!
 
   def install
     ENV.append_path "PATH", bin

@@ -6,8 +6,10 @@ class BashPreexec < Formula
   license "MIT"
   head "https://github.com/rcaloras/bash-preexec.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "28fd1179ae9b0e4a63bb3131c202682c69e290067697d8ba9d39b50a2f9b17d4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "78e3dc42bfb91104ca571fb92aedaa40605552c806af24202606637645d5b549"
   end
 
   def install
