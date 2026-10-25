@@ -7,7 +7,7 @@ class Srgn < Formula
   head "https://github.com/alexpovel/srgn.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "978652866e6bf56b9ab59baa2460e968e46b2e2cd7eb22a4c795857241367e59"
+    sha256 cellar: :any, x86_64_windows: "94d2c080517c0350b7da504d775d8301a50501c13c6e9c4426f7ddfa4a7de5f8"
   end
 
   depends_on "rust" => :build
@@ -21,7 +21,7 @@ class Srgn < Formula
   def install
     system "cargo", "install", *std_cargo_args
 
-    generate_completions_from_executable(bin/"srgn", "--completions")
+    generate_completions_from_executable(bin/"srgn", shell_parameter_format: "--completions=")
   end
 
   test do

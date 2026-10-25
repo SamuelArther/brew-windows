@@ -6,8 +6,11 @@ class Nanobot < Formula
   license "Apache-2.0"
   head "https://github.com/obot-platform/nanobot.git", branch: "main"
 
+  deprecate! date: "2026-10-24", because: :repo_archived
+  disable! date: "2027-01-24", because: :repo_archived
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "162ff22c470dfe376b3bea252e9a47b10df549279f4a0b85a2633fc642642aec"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5046a1a84ca715d8a6c85a3d316f1b19f5d1b46b70f1ce9281e30797b5544305"
   end
 
   depends_on "go" => :build

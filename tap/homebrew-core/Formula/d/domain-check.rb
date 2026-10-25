@@ -1,13 +1,13 @@
 class DomainCheck < Formula
   desc "CLI tool for checking domain availability using RDAP and WHOIS protocols"
   homepage "https://github.com/saidutt46/domain-check"
-  url "https://github.com/saidutt46/domain-check/archive/refs/tags/v1.2.0.tar.gz"
-  sha256 "eb7fd0a42fe85efd220ac40123ea3629ca5e6b32aeaf3318dedfc9b2e66b2974"
+  url "https://github.com/saidutt46/domain-check/archive/refs/tags/v1.2.1.tar.gz"
+  sha256 "175e738e72042bd6d6175f7a29b3ca69fca382560f98fd6a6429409d5a86a811"
   license "Apache-2.0"
   head "https://github.com/saidutt46/domain-check.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c827ecd63d5e790db1ed42188f42d8edf3345ee0fdd01961d665f976372a2910"
+    sha256 cellar: :any, x86_64_windows: "c8059d8dd40e1084ca92799f8ef5ad243af2c8744a87022791212e4c3a46b7de"
   end
 
   depends_on "rust" => :build

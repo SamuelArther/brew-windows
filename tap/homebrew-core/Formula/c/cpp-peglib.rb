@@ -1,12 +1,12 @@
 class CppPeglib < Formula
   desc "Header-only PEG (Parsing Expression Grammars) library for C++"
   homepage "https://yhirose.github.io/cpp-peglib/"
-  url "https://github.com/yhirose/cpp-peglib/archive/refs/tags/v1.26.0.tar.gz"
-  sha256 "a80f0f7cff743da505fd72f57b6c1c477d7c811e087841726351484b888a4031"
+  url "https://github.com/yhirose/cpp-peglib/archive/refs/tags/v1.27.0.tar.gz"
+  sha256 "c61a8edb590ee2ac171f79046421e40436b03e3e9730dbff3b68ab86419fc031"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ac2c8f09bb7fef3a0ac552ddd81ee41769eda71ac9ad7bad2deb8c38c27bc087"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "116b44bb5984a3f9fc41f38454ef158f11780ed1dc16bda5c6fd5cd7aa2efdcf"
   end
 
   depends_on "cmake" => :build

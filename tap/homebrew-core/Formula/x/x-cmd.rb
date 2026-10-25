@@ -1,8 +1,8 @@
 class XCmd < Formula
   desc "Bootstrap 1000+ command-line tools in seconds"
   homepage "https://x-cmd.com"
-  url "https://github.com/x-cmd/x-cmd/archive/refs/tags/v0.10.12.tar.gz"
-  sha256 "f33a29e2232570e117bb96285fe3fcb7a39536f920fba07dfd06b345745d48d6"
+  url "https://github.com/x-cmd/x-cmd/archive/refs/tags/v0.10.13.tar.gz"
+  sha256 "7ac52d518a4424a6149cb15d14a322ce809575c210629068912cfba4942ee6c5"
   license all_of: ["Apache-2.0", "MIT", "BSD-3-Clause"]
   head "https://github.com/x-cmd/x-cmd.git", branch: "X"
 
@@ -12,7 +12,7 @@ class XCmd < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "43c86502a2f4d4887c0ad7be774c1c64ea0c1202d3b651cbfd232ce0febaece1"
+    sha256 cellar: :any, x86_64_windows: "b2892dd0a214da3798fbf55c01bf0a5fb14818783fe1be94350463656b935495"
   end
 
   def install

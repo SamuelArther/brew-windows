@@ -1,12 +1,12 @@
 class TrzszSsh < Formula
   desc "Highly OpenSSH-compatible client with extended features"
   homepage "https://trzsz.github.io/tssh"
-  url "https://github.com/trzsz/trzsz-ssh/archive/refs/tags/v0.1.26.tar.gz"
-  sha256 "67c9082543e1785ece3f5ab09f6299cd655e3657593d55cc85751c097c1bb381"
+  url "https://github.com/trzsz/trzsz-ssh/archive/refs/tags/v0.1.27.tar.gz"
+  sha256 "8655411ebe865b8d91463bc9ab336c14f8ff3eecf4889c3b2547e26559796b6f"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "9b19b447fdf9c7b7c940b9a2efa464eb072a8b34c7753d2158555edaabb255ae"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e45f4b49d63af055733f1383a17c96e49287e2b25dafd6548ebbbeb9c576a8eb"
   end
 
   depends_on "go" => :build

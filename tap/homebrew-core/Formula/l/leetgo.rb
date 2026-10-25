@@ -1,13 +1,13 @@
 class Leetgo < Formula
   desc "CLI tool for LeetCode"
   homepage "https://github.com/j178/leetgo"
-  url "https://github.com/j178/leetgo/archive/refs/tags/v1.5.1.tar.gz"
-  sha256 "0bcd0b22ec53e527f06d9a12aa8540f0dfa97ba5ff0c5aa0a095002ff7c90c42"
+  url "https://github.com/j178/leetgo/archive/refs/tags/v1.5.2.tar.gz"
+  sha256 "d196b7daa0f5ecd49a9dfb735650d7ff8f4ab2df4ce8e3b4d0ec1cd00a457c61"
   license "MIT"
   head "https://github.com/j178/leetgo.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8d857349eac5260701766750b636485fb026e00e89ffe496df9e979c3c57bcee"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8080a9996a850a31bd2320e88fa040a938550f5dfd2ac814cd45b08f05c18a48"
   end
 
   depends_on "go" => :build

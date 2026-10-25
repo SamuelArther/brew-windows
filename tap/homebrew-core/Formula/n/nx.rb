@@ -1,13 +1,13 @@
 class Nx < Formula
   desc "Smart, Fast and Extensible Build System"
   homepage "https://nx.dev"
-  url "https://registry.npmjs.org/nx/-/nx-24.0.0.tgz"
-  sha256 "bc67dd9158d050b52015c9d9c75710717be8415ab62b2a891aeefea838d2ada6"
+  url "https://registry.npmjs.org/nx/-/nx-24.0.1.tgz"
+  sha256 "a6e40c32b13fa893c9a7e0b532a56c8d32b3cd245edb8771486c45b686f3bbaf"
   license "MIT"
   version_scheme 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "56cbe4dcee49f3b8e8ba7ea810dde420d7a35736e511405868f942327f20603e"
+    sha256 cellar: :any, x86_64_windows: "c5d2d18e8909c1510f020539ae35054ab39d1b3e0dfa8c9cdd443964766af9c3"
   end
 
   depends_on "node"

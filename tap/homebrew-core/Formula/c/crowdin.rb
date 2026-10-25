@@ -12,13 +12,13 @@ class Crowdin < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4097d3a24c2cf34cecb5d310e1408fe45fe522ccb667312e5c5d73453f38f13c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1fbfd5cacf033a5cc23660555b321d701a039663dec88a4a34ce7b8ae3c988aa"
   end
 
   depends_on "bun" => :build
 
   on_linux do
-    depends_on "icu4c@78"
+    depends_on "icu4c@79"
   end
 
   deny_network_access! :test

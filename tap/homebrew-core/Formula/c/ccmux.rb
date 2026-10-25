@@ -7,7 +7,7 @@ class Ccmux < Formula
   revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ce29197f526e63d9c749ec97cb2b7607eebe222950439e7fe4857b640788c9dd"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5805601abd8ec2a6a1f5fa869a93241189c46fecb723e4520210a1eab6e707a0"
   end
 
   depends_on "bun" => :build
@@ -20,7 +20,7 @@ class Ccmux < Formula
 
   on_linux do
     # `bun build --compile` embeds the runtime, so the output inherits bun's ICU linkage.
-    depends_on "icu4c@78"
+    depends_on "icu4c@79"
   end
 
   deny_network_access!

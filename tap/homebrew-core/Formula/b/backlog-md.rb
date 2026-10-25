@@ -6,14 +6,14 @@ class BacklogMd < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "57737bd311cc1bf59a23f848b91fa69b445b58206db75c937aa9575cd57a0551"
+    sha256 cellar: :any, x86_64_windows: "64b4fa05f3c508026d84d40f9dcf551619f64ec5bb31c329a08e8c15add686f2"
   end
 
   depends_on "bun" => :build
 
   on_linux do
     # `bun build --compile` embeds the runtime, so the output inherits bun's ICU linkage.
-    depends_on "icu4c@78"
+    depends_on "icu4c@79"
   end
 
   deny_network_access!

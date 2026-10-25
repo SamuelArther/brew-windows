@@ -1,13 +1,13 @@
 class Webdav < Formula
   desc "Simple and standalone WebDAV server"
   homepage "https://github.com/hacdias/webdav"
-  url "https://github.com/hacdias/webdav/archive/refs/tags/v5.17.1.tar.gz"
-  sha256 "2ef3605a0d52ffb190ed854630a0e2c8772cca8788375558b7f25153c981b622"
+  url "https://github.com/hacdias/webdav/archive/refs/tags/v5.17.2.tar.gz"
+  sha256 "d4d84822f0ceb5255cf7b360e33218b3ff2f0e54c2167c39a392565561a11f96"
   license "MIT"
   head "https://github.com/hacdias/webdav.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "081435caac31b89daf80f8312a02c8b6e54180fe3dd9d77ee1c5274f1d4eed12"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "90f2f6cc041ef6d6a35db4fc1e2f93785acd60a080106388fa3a446ffe257a3f"
   end
 
   depends_on "go" => :build

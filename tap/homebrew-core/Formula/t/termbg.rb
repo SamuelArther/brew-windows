@@ -7,10 +7,18 @@ class Termbg < Formula
   head "https://github.com/dalance/termbg.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "19ac14e7e28e065e52219b39f5a05c9b7a55d795f2106925a619279a023eb71d"
+    sha256 cellar: :any, x86_64_windows: "8caad0b8b1d2563a1d956373868c90b76c6359bc68628a73b0925789fb6a74cd"
   end
 
   depends_on "rust" => :build
+
+  deny_network_access!
+
+  def fetch
+    # `Cargo.lock` is ignored
+    system "cargo", "generate-lockfile"
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
 
   def install
     system "cargo", "install", *std_cargo_args
