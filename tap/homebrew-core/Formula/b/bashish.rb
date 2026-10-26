@@ -11,6 +11,8 @@ class Bashish < Formula
 
   depends_on "dialog"
 
+  deny_network_access!
+
   def install
     system "./configure", *std_configure_args
     system "make"

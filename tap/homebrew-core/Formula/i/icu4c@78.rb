@@ -16,10 +16,13 @@ class Icu4cAT78 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "43b1853034a281c22c56434eb38e68ab27734bb0b03904cab696b518efac678f"
+    sha256 cellar: :any, x86_64_windows: "0c2aadd45886fc00ef8c387cc0322a719630c2b8ac03d79f49d31063674eef99"
   end
 
   keg_only :versioned_formula
+
+  deprecate! date: "2026-10-30", because: :versioned_formula
+  disable! date: "2027-10-30", because: :versioned_formula
 
   deny_network_access!
 

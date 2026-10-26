@@ -1,13 +1,13 @@
 class Egctl < Formula
   desc "Command-line utility for operating Envoy Gateway"
   homepage "https://gateway.envoyproxy.io/"
-  url "https://github.com/envoyproxy/gateway/archive/refs/tags/v1.9.2.tar.gz"
-  sha256 "52878ac962ec0b377974de7f62e336b0b26936ce6c65d01aa874bfa6e210c5ac"
+  url "https://github.com/envoyproxy/gateway/archive/refs/tags/v1.9.3.tar.gz"
+  sha256 "e508d2e81edf674005058e6acc07d21bf869932393b9a1baca5c4e75a88bd9db"
   license "Apache-2.0"
   head "https://github.com/envoyproxy/gateway.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "6861a5b111f2e62acc4b7d36caba31b812eb5f8baa7b0f972528c49a837e2050"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5646a9aacbbfdd9b5d932c30f2f67704cbf20614689c0690642e6fd644597684"
   end
 
   depends_on "go" => :build

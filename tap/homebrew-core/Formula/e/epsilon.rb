@@ -14,13 +14,15 @@ class Epsilon < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "02fa3caf1b798a07ddbbd2a546b8004b0038ca4e86898cf8192f051cff2932bf"
+    sha256 cellar: :any, x86_64_windows: "dddde0cf4cff6b50cc5da77694f72ba5b6fcaae5c7f37c0625fa8191b03b8cbb"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "popt"
+
+  deny_network_access!
 
   def install
     # None of our patches apply, so regenerate `configure` to fix the `-flat_namespace` bug.

@@ -4,7 +4,7 @@ class Lv2 < Formula
   url "https://lv2plug.in/spec/lv2-1.18.10.tar.xz"
   sha256 "78c51bcf21b54e58bb6329accbb4dae03b2ed79b520f9a01e734bd9de530953f"
   license any_of: ["0BSD", "ISC"]
-  head "https://gitlab.com/lv2/lv2.git", branch: "master"
+  head "https://gitlab.com/lv2/lv2.git", branch: "main"
 
   livecheck do
     url "https://lv2plug.in/spec/"
@@ -12,7 +12,7 @@ class Lv2 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0aebb6657d7f068122f44ac1ece1c8fad160d2c2eb09b872578641b14a6f328a"
+    sha256 cellar: :any, x86_64_windows: "ec7af08ade1a43ab1dc471a2ffc2c6129595f2d1bf62f361a97dd50069a1a852"
   end
 
   depends_on "meson" => :build

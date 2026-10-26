@@ -14,12 +14,14 @@ class Exif < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bc2de6749adbd16ddba2f05ff64939b6d86d96bd9bd2c5a785fd891e90d4f9cf"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0ecf1cab1f8402a840c5bc506ee14cff7d688161ca0db2aab92eb4365fb5b9df"
   end
 
   depends_on "pkgconf" => :build
   depends_on "libexif"
   depends_on "popt"
+
+  deny_network_access!
 
   def install
     args = %w[

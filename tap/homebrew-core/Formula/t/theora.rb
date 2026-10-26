@@ -13,11 +13,11 @@ class Theora < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8404a0df7930b5fb8615556f00941427b4f1ea2f6e153d4566ecf803c77c500a"
+    sha256 cellar: :any, x86_64_windows: "6bf4a87e22cfbce0edc809c134bb2c2d88328d24a3828e368333829eabdd2996"
   end
 
   head do
-    url "https://gitlab.xiph.org/xiph/theora.git", branch: "master"
+    url "https://gitlab.xiph.org/xiph/theora.git", branch: "main"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build

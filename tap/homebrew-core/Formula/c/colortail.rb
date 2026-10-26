@@ -5,6 +5,8 @@ class Colortail < Formula
   sha256 "8d259560c6f4a4aaf1f4bbdb2b62d3e1053e7e19fefad7de322131b7e80e294d"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
     sha256 cellar: :any_skip_relocation, x86_64_windows: "8c8e608ac94d5a907980f370b39e7582a72d249ca84a9ae09a494bf40d1debdc"
   end

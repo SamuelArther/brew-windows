@@ -11,11 +11,12 @@ class Cvsutils < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cvsutils-0.2.6"
-    sha256 cellar: :any, x86_64_windows: "279071f0f743042ca4a1ff67959af405648b151110bd4db841c2c85a676d7e91"
+    sha256 cellar: :any, x86_64_windows: "87c4d20826037f3e72fc396c3f471391ab22c751e221abcd2a55d3da849db80c"
   end
 
   uses_from_macos "perl"
+
+  deny_network_access!
 
   def install
     ENV["CONFIG_SHELL"] = "/bin/bash" # for all bottle

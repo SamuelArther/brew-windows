@@ -7,8 +7,7 @@ class Cuetools < Formula
   head "https://github.com/svend/cuetools.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cuetools-1.4.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8631a98dcd3d7e57e08284a41d12d2e63284ed58d8b4dbdd9168693e4a1dfe63"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5884fde849957fc56d83290ededfe4448c812e2d0039e63b0af99143704252c8"
   end
 
   depends_on "autoconf" => :build
@@ -20,6 +19,8 @@ class Cuetools < Formula
 
   # see https://github.com/svend/cuetools/pull/18
   patch :DATA
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

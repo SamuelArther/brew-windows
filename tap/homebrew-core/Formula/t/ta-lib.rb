@@ -1,13 +1,12 @@
 class TaLib < Formula
   desc "Tools for market analysis"
   homepage "https://ta-lib.org/"
-  url "https://github.com/ta-lib/ta-lib/releases/download/v0.8.1/ta-lib-0.8.1-src.tar.gz"
-  sha256 "ec59ccd88c0c77f618587d858787c8f9d06c40460a09d66751926f6fd670f985"
+  url "https://github.com/ta-lib/ta-lib/releases/download/v0.8.3/ta-lib-0.8.3-src.tar.gz"
+  sha256 "28b1179b178a0db15f3dad0d846ef77f18eb06db5dfc5b5a8ca153a9ea5d84e6"
   license "BSD-3-Clause"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ta-lib-0.8.1"
-    sha256 cellar: :any, x86_64_windows: "83b57708472fb26160c5f0f937f88f5d0ac5b3e8f7d207f49628764126faad1f"
+    sha256 cellar: :any, x86_64_windows: "4fa570c0f0b8dae587e674eb9d704c2ab561005b8fdfec0310f0edc848c81d34"
   end
 
   on_macos do

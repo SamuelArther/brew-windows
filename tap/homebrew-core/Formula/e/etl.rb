@@ -11,11 +11,13 @@ class Etl < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e7d3c78e6aacf8e748fc4a64e1f41ae24495520d493d1a4009cd5470b8ea1cc5"
+    sha256 cellar: :any, x86_64_windows: "09cb4429b1d92214b443aafc34e9b3d9a98ac8f80c34ebd9d6df59633e781d72"
   end
 
   depends_on "pkgconf" => :build
   depends_on "glibmm@2.66"
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

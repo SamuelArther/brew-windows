@@ -14,6 +14,8 @@ class Bibclean < Formula
     sha256 cellar: :any, x86_64_windows: "bf93ff97698ac7035dba3c52f3e8f768f047ba0545646ca8c7a773a70503bfed"
   end
 
+  deny_network_access!
+
   def install
     ENV.deparallelize
 

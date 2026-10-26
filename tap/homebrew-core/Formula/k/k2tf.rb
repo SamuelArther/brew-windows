@@ -4,10 +4,10 @@ class K2tf < Formula
   url "https://github.com/sl1pm4t/k2tf/archive/refs/tags/v0.8.0.tar.gz"
   sha256 "9efdac448a99dbdda558eb93b63ed0b3ccabbac43c14df21ef3ba9bd402a4003"
   license "MPL-2.0"
-  head "https://github.com/sl1pm4t/k2tf.git", branch: "master"
+  head "https://github.com/sl1pm4t/k2tf.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "232bcaf5b48a986c9e52c40f1e47ed51a158fefc065a7003ddc34065ad0bbd67"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ba7d7ead3add759c38e981543727e838b5aacc1c93ab755da2008c0118360498"
   end
 
   depends_on "go" => :build

@@ -6,7 +6,7 @@ class Ancient < Formula
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "24235221d650676fd4f4f57de81c7518ae9b72911c78a7dfda96d5912aec8a9c"
+    sha256 cellar: :any, x86_64_windows: "0da86d14c80ac677b178f819125eba4b9be609b486ec7e3e4b5d58f1831013d9"
   end
 
   depends_on "autoconf" => :build
@@ -14,6 +14,8 @@ class Ancient < Formula
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "pkgconf" => :build
+
+  deny_network_access!
 
   def install
     system "./autogen.sh"

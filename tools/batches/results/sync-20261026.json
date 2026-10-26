@@ -1,0 +1,442 @@
+[
+  {
+    "name": "amass",
+    "status": "build",
+    "seconds": 39
+  },
+  {
+    "name": "ancient",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "apache-arrow-adbc",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "arm-linux-gnueabihf-binutils",
+    "status": "build",
+    "seconds": 48
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "asn1c",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "asnmap",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "bas55",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "base64",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "bash-completion@2",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "bashish",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "bcpp",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "bfs",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "bibclean",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "byacc",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "calcurse",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "cargo-about",
+    "status": "ok",
+    "seconds": 320
+  },
+  {
+    "name": "cf",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "cheops",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "cksfv",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "cln",
+    "status": "ok",
+    "seconds": 554
+  },
+  {
+    "name": "clpbar",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "cocot",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "colortail",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "cpp-peglib",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "cppad",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "cproto",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 206
+  },
+  {
+    "name": "cuetools",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "cvsutils",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "dblab",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "defuddle",
+    "status": "ok",
+    "seconds": 124
+  },
+  {
+    "name": "djl-serving",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "egctl",
+    "status": "ok",
+    "seconds": 267
+  },
+  {
+    "name": "elvish",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "eot-utils",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "epsilon",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "etl",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "exif",
+    "status": "ok",
+    "seconds": 91
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 127
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1325
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 500
+  },
+  {
+    "name": "flowrs",
+    "status": "ok",
+    "seconds": 292
+  },
+  {
+    "name": "git-graph",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "gita",
+    "status": "ok",
+    "seconds": 84
+  },
+  {
+    "name": "gitlab-ci-local",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "gomi",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "icu4c@78",
+    "status": "ok",
+    "seconds": 497
+  },
+  {
+    "name": "k2tf",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "kubecfg",
+    "status": "ok",
+    "seconds": 138
+  },
+  {
+    "name": "kubekey",
+    "status": "ok",
+    "seconds": 146
+  },
+  {
+    "name": "linecast",
+    "status": "ok",
+    "seconds": 72
+  },
+  {
+    "name": "livekit",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "lizard-analyzer",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "lv2",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "markdownlint-cli",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "md-tui",
+    "status": "ok",
+    "seconds": 457
+  },
+  {
+    "name": "mediamtx",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "micasa",
+    "status": "build",
+    "seconds": 46
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 104
+  },
+  {
+    "name": "ng-log",
+    "status": "test",
+    "seconds": 57
+  },
+  {
+    "name": "overarch",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 514
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 861
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 891
+  },
+  {
+    "name": "qqqa",
+    "status": "ok",
+    "seconds": 115
+  },
+  {
+    "name": "r-rig",
+    "status": "ok",
+    "seconds": 282
+  },
+  {
+    "name": "rtk",
+    "status": "ok",
+    "seconds": 375
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 89
+  },
+  {
+    "name": "shuttle-cli",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "spidermonkey@140",
+    "status": "build",
+    "seconds": 675
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "style-dictionary",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "svlang",
+    "status": "ok",
+    "seconds": 680
+  },
+  {
+    "name": "swagger-codegen",
+    "status": "ok",
+    "seconds": 263
+  },
+  {
+    "name": "ta-lib",
+    "status": "ok",
+    "seconds": 744
+  },
+  {
+    "name": "tclap",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "tfmigrate",
+    "status": "ok",
+    "seconds": 114
+  },
+  {
+    "name": "tfupdate",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "theora",
+    "status": "ok",
+    "seconds": 98
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "yadm",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "yj",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 39
+  }
+]

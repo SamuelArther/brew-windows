@@ -6,7 +6,7 @@ class Asn1c < Formula
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3396a41a2e8dc3a7f6444a7091e7a4676e62bbea4bff1075acab62262aad4fdc"
+    sha256 cellar: :any, x86_64_windows: "44605dbc3ac2ffee5a297248469dacc62e04b8409dbdf90112d0fe4d6204674a"
   end
 
   head do
@@ -16,6 +16,8 @@ class Asn1c < Formula
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose" if build.head?

@@ -1,13 +1,18 @@
 class GitGraph < Formula
   desc "Command-line tool to show clear git graphs arranged for your branching model"
   homepage "https://github.com/git-bahn/git-graph"
-  url "https://github.com/git-bahn/git-graph/archive/refs/tags/v0.8.0.tar.gz"
-  sha256 "906ef8f5931c32324ab372ac0047b6440faf76b8ce61fda811d8b85cdc3da577"
+  url "https://github.com/git-bahn/git-graph/archive/refs/tags/v0.8.1.tar.gz"
+  sha256 "0694bcf963c7a0ba865303fa03f1b7382031271e651625ac55a97aeb340f36b4"
   license "MIT"
   head "https://github.com/git-bahn/git-graph.git", branch: "master"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ced369dd71ba882c1a92bfa8d47a92b58edb39871a6d3a23c14e3db81d5110f6"
+    sha256 cellar: :any, x86_64_windows: "2f73f48ce3201e0a7c8e927a61a1332d2ba1fea0ebd8b7158ad5bc04169a95a0"
   end
 
   depends_on "rust" => :build

@@ -11,13 +11,15 @@ class EotUtils < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1a602231381acae35ed566f4380740336da469838cf007b61baf7dae29008a48"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "47bb273fae91e5c043d5b2e710771ce823922f489df744f2cbb4bc58687593ff"
   end
 
-  resource "eot" do
+  resource "eot", :test do
     url "https://github.com/RoelN/font-face-render-check/raw/98f0adda9cfe44fe97f6d538aa893a37905a7add/dev/pixelambacht-dash.eot"
     sha256 "23d6fbe778abe8fe51cfc5ea22f8e061b4c8d32b096ef4a252ba6f2f00406c91"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

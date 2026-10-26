@@ -6,6 +6,8 @@ class Cocot < Formula
   license "BSD-3-Clause"
   head "https://github.com/vmi/cocot.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
     root_url "https://github.com/SamuelArther/brew-windows/releases/download/cocot-1.2-20171118"
     sha256 cellar: :any_skip_relocation, x86_64_windows: "3a6ede12dddf4b7ee8b055efce6b57300b2c2422374f5baf803a7189c1029ecc"

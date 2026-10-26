@@ -1,8 +1,8 @@
 class RRig < Formula
   desc "R Installation Manager"
   homepage "https://github.com/r-lib/rig"
-  url "https://github.com/r-lib/rig/archive/refs/tags/v0.11.0.tar.gz"
-  sha256 "7db832e504371b12fd0d43611ccb4530572da3b679133a8ce33577752d374604"
+  url "https://github.com/r-lib/rig/archive/refs/tags/v0.11.1.tar.gz"
+  sha256 "e6186c4fd550f1c31323d5732c95da78e8a2f0cafcd3e505264b2ec7f5a09da2"
   license "MIT"
 
   livecheck do
@@ -11,7 +11,7 @@ class RRig < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "32df78fab3dcd84adad66906eb4811fbaebdba9082504030b5061e65d088ae13"
+    sha256 cellar: :any, x86_64_windows: "573c5150786a829c6f5db65b55a242aa479e95750ccabeb3a8b72e6d9cef293c"
   end
 
   depends_on "rust" => :build

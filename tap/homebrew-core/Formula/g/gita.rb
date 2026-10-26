@@ -8,7 +8,7 @@ class Gita < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5f6e9766570175fc15c28b8b175ad1b341751dd3a122baf26e3d4885a1b02821"
+    sha256 cellar: :any, x86_64_windows: "23db4fe3bcaed18baceda9e2fbbf5ff7147afb232082e6d0057ff2d1626a02a5"
   end
 
   depends_on "python@3.15"
@@ -24,7 +24,11 @@ class Gita < Formula
   end
 
   def install
-    virtualenv_install_with_resources
+    venv = virtualenv_install_with_resources
+
+    # Build an `:all` bottle by replacing comments
+    file = venv.site_packages.glob("argcomplete-*.dist-info/METADATA")
+    inreplace file, "/opt/homebrew/bin/bash", "$HOMEBREW_PREFIX/bin/bash"
   end
 
   test do

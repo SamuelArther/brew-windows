@@ -14,6 +14,8 @@ class Bcpp < Formula
     sha256 cellar: :any, x86_64_windows: "7464eb18d49d28fc597ea27cb69aafa2948ba8e9858bd476cb43b81449817780"
   end
 
+  deny_network_access!
+
   def install
     system "./configure", "--prefix=#{prefix}", "--mandir=#{man}"
     system "make", "install"

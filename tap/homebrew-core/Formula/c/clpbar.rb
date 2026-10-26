@@ -5,6 +5,8 @@ class Clpbar < Formula
   sha256 "fa0f5ec5c8400316c2f4debdc6cdcb80e186e668c2e4471df4fec7bfcd626503"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
     sha256 cellar: :any_skip_relocation, x86_64_windows: "20ed6406ee0caa3f872dd92c75016238e14879dcf65189b54056a9d7b4312def"
   end

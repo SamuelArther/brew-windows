@@ -11,8 +11,10 @@ class Bas55 < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "e36531f1ef632a0a5bfd88f9f711c0399e840aaf31e2907f698d3b81498a7d9c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6bc6367f855e8489bcfb4e238693674ec8050656be9eca597a029a1252b343f5"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-dependency-tracking",

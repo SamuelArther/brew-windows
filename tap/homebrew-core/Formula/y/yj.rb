@@ -4,10 +4,10 @@ class Yj < Formula
   url "https://github.com/sclevine/yj/archive/refs/tags/v5.1.0.tar.gz"
   sha256 "9a3e9895181d1cbd436a1b02ccf47579afacd181c73f341e697a8fe74f74f99d"
   license "Apache-2.0"
-  head "https://github.com/sclevine/yj.git", branch: "master"
+  head "https://github.com/sclevine/yj.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f6c112d8af7cf6789f896d28233d082cd4540a3f075a7073267f105da68ca229"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "37fc735c74eeb44af47ad4c3178d5ca74cdc3ba162223537b855ea858d4b8361"
   end
 
   depends_on "go" => :build

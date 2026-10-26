@@ -4,12 +4,12 @@ class Yadm < Formula
   url "https://github.com/yadm-dev/yadm/archive/refs/tags/3.5.0.tar.gz"
   sha256 "2a15ed91238dd2f15db9905eb56702272c079ad9c37c505dfee69c6b5e9054b6"
   license "GPL-3.0-or-later"
-  head "https://github.com/yadm-dev/yadm.git", branch: "master"
+  head "https://github.com/yadm-dev/yadm.git", branch: "develop"
 
   deny_network_access!
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "15bddc8625858887172210a82447f9293464881b1ba4a359dca5d32fb388fc61"
+    sha256 cellar: :any, x86_64_windows: "bac4d0d7f7b9d0bf7b6a593db41cb680412057cdf95013d52db971f26f796cdc"
   end
 
   def install

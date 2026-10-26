@@ -1,8 +1,8 @@
 class ApacheArrowAdbc < Formula
   desc "Cross-language, Arrow-native database access"
   homepage "https://arrow.apache.org/adbc"
-  url "https://www.apache.org/dyn/closer.lua?path=arrow/apache-arrow-adbc-24/apache-arrow-adbc-24.tar.gz"
-  sha256 "2b4b420937f62f7ae56f46dbd6951a5e4ef0da43158080a58cb44cdd09a8b2e0"
+  url "https://www.apache.org/dyn/closer.lua?path=arrow/apache-arrow-adbc-25/apache-arrow-adbc-25.tar.gz"
+  sha256 "de2910f951eeb3c57d882e621a32d133580cc6b0ad01ac25056f4ac709b8b2c0"
   license "Apache-2.0"
   compatibility_version 1
   head "https://github.com/apache/arrow-adbc.git", branch: "main"
@@ -13,7 +13,7 @@ class ApacheArrowAdbc < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5fdcc6790762f305dede981967a275132727f75f1350aea98fa24f8bfd91b97a"
+    sha256 cellar: :any, x86_64_windows: "646789e32a0ee39bd1fb50d81c3f17bd8caafc5f1786baf84bdf9941718a465d"
   end
 
   depends_on "cmake" => :build

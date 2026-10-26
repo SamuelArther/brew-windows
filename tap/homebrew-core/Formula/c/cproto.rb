@@ -12,11 +12,13 @@ class Cproto < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "04dc6ae71a07ef57644574b73efa59d5587a47b5d43de0ce39811722c04c91fe"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5ae5864ca68c334498be6307606e191f7c0c85cf293ad4c0d8d23c37bd1784b9"
   end
 
   uses_from_macos "bison" => :build
   uses_from_macos "flex" => :build
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-debug",
