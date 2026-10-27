@@ -9,12 +9,13 @@ class Dnsmap < Formula
   head "https://github.com/resurrecting-open-source-projects/dnsmap.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/dnsmap-0.36"
-    sha256 cellar: :any, x86_64_windows: "27cbab60d9c66a9c26ba82f5a8ff910541c5b4d8ec9c05d76283c6b92d311f33"
+    sha256 cellar: :any, x86_64_windows: "525f33e881e4b3da0999917eb164273d8954c00911163819024a16cbcdfce01a"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
+
+  deny_network_access!
 
   def install
     system "./autogen.sh"

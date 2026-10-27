@@ -5,8 +5,10 @@ class Dbacl < Formula
   sha256 "ff0dfb67682e863b1c3250acc441ce77c033b9b21d8e8793e55b622e42005abd"
   license "GPL-3.0-or-later"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "03222f17c279e846efe6200df915668b24d7700d188f9e044a4478c9f655453e"
+    sha256 cellar: :any, x86_64_windows: "ef26241dac481edb6600828af1dfd744afde5ff1faaaae5a5a2272b8fcc0d4ed"
   end
 
   def install

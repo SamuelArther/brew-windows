@@ -8,12 +8,14 @@ class DnscryptWrapper < Formula
   head "https://github.com/Cofyc/dnscrypt-wrapper.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "217be99706d806e0e7d84197fd57c51e6d282e99687ade34454a03b7cc2e7cd4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0651046f531b5f5d17df45d801d56bfddc0569a26907c125ae3febf53737ea61"
   end
 
   depends_on "autoconf" => :build
   depends_on "libevent"
   depends_on "libsodium"
+
+  allow_network_access! :test
 
   def install
     # Workaround for arm64 macOS, https://github.com/cofyc/dnscrypt-wrapper/issues/177

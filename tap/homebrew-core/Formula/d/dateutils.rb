@@ -6,16 +6,18 @@ class Dateutils < Formula
   license "BSD-3-Clause"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/dateutils-0.4.12"
-    sha256 cellar: :any, x86_64_windows: "08b9cd0256e8007e6cdad9133279fa8cc9d02af221e4f014384c55d4d4edd499"
+    sha256 cellar: :any, x86_64_windows: "979e5f77640b19307161dbc9516c447f0e029b3f341b765128a45a06a4690ed8"
   end
 
   head do
     url "https://github.com/hroptatyr/dateutils.git", branch: "master"
+
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose" if build.head?

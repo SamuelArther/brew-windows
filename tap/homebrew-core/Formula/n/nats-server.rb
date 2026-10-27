@@ -1,8 +1,8 @@
 class NatsServer < Formula
   desc "Lightweight cloud messaging system"
   homepage "https://nats.io"
-  url "https://github.com/nats-io/nats-server/archive/refs/tags/v2.15.1.tar.gz"
-  sha256 "41b25fcb78a174f3afce4ec1eca0c1035439abf580f0a0569dbb03bd0d955e08"
+  url "https://github.com/nats-io/nats-server/archive/refs/tags/v2.15.2.tar.gz"
+  sha256 "78399249f4f65366f2af60ff5833029f66f1939a094e110fcf86d96c4da4b8b4"
   license "Apache-2.0"
   head "https://github.com/nats-io/nats-server.git", branch: "main"
 
@@ -12,7 +12,7 @@ class NatsServer < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "25ddf67ab3052f7956d2057ce0cd97f9fba8925b6c6ff9bfde8968cef05ee89f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9221e288ff8b54ca0f7556dedaed9601949164e1e488a8796f0a51f16c5b215e"
   end
 
   depends_on "go" => :build

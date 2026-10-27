@@ -1,13 +1,13 @@
 class Kubecfg < Formula
   desc "Manage complex enterprise Kubernetes environments as code"
   homepage "https://github.com/kubecfg/kubecfg"
-  url "https://github.com/kubecfg/kubecfg/archive/refs/tags/v0.41.1.tar.gz"
-  sha256 "71e0f6ad576581f203a25e332c47320a5271199efbc0d614b78c79aaf6f30c76"
+  url "https://github.com/kubecfg/kubecfg/archive/refs/tags/v0.42.0.tar.gz"
+  sha256 "bb360e2fb604c8c963e689e05c2db765a9592f35030707ff693ac2f0792776bf"
   license "Apache-2.0"
   head "https://github.com/kubecfg/kubecfg.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ff2553d65f9f89cfeb9cccf0a20339f3e355125239462c288672a87ba88c7b73"
+    sha256 cellar: :any, x86_64_windows: "b67e65a8b768a8a16cb4508c106bef7e450f9be04c573a4843b22ac915fd4b51"
   end
 
   depends_on "go" => :build

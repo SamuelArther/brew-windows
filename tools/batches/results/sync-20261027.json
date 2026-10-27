@@ -1,0 +1,297 @@
+[
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "c-blosc2",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "cargo-nextest",
+    "status": "ok",
+    "seconds": 533
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 163
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "cloudlist",
+    "status": "ok",
+    "seconds": 279
+  },
+  {
+    "name": "coffeescript",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "conduit",
+    "status": "ok",
+    "seconds": 169
+  },
+  {
+    "name": "croaring",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "dateutils",
+    "status": "ok",
+    "seconds": 155
+  },
+  {
+    "name": "dbacl",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "dbml-cli",
+    "status": "ok",
+    "seconds": 210
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 110
+  },
+  {
+    "name": "dhcping",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "dmalloc",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 50
+  },
+  {
+    "name": "dnscrypt-wrapper",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "dnsmap",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "doublecpp",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "dpic",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "duff",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "exploitdb",
+    "status": "ok",
+    "seconds": 197
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 183
+  },
+  {
+    "name": "falcoctl",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "fastly",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "flagd",
+    "status": "ok",
+    "seconds": 208
+  },
+  {
+    "name": "gitea-runner",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "gogcli",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "gomi",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "govc",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "kosli-cli",
+    "status": "ok",
+    "seconds": 192
+  },
+  {
+    "name": "kubecfg",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "kubeseal",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "libheif",
+    "status": "ok",
+    "seconds": 260
+  },
+  {
+    "name": "libxmlsec1",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "mark",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "micronaut",
+    "status": "ok",
+    "seconds": 221
+  },
+  {
+    "name": "mockserver",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "nats-server",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "numpy",
+    "status": "ok",
+    "seconds": 700
+  },
+  {
+    "name": "officecli",
+    "status": "ok",
+    "seconds": 368
+  },
+  {
+    "name": "pydantic",
+    "status": "ok",
+    "seconds": 477
+  },
+  {
+    "name": "render",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "rhino",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "sf",
+    "status": "ok",
+    "seconds": 367
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "stripe-cli",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "talosctl",
+    "status": "ok",
+    "seconds": 443
+  },
+  {
+    "name": "tele",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 72
+  },
+  {
+    "name": "victoriametrics",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 32
+  }
+]

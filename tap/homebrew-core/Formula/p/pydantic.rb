@@ -10,7 +10,7 @@ class Pydantic < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "503be109dfd77ea187bfadb83fe7a6ee2b63c3c32e160b36389368e35993e3d3"
+    sha256 cellar: :any, x86_64_windows: "5216c51cc38e8e45d9b64c9bacfa923914664a8c44bcfc39eb55428135623b7e"
   end
 
   depends_on "maturin" => :build
@@ -50,7 +50,8 @@ class Pydantic < Formula
     pythons.each do |python3|
       resources.each do |r|
         r.stage do
-          system python3, "-m", "pip", "install", *std_pip_args(build_isolation: true), "."
+          build_isolation = r.name != "pydantic-core"
+          system python3, "-m", "pip", "install", *std_pip_args(build_isolation:), "."
         end
       end
 

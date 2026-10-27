@@ -1,12 +1,12 @@
 class GiteaRunner < Formula
   desc "Official Actions runner for Gitea"
   homepage "https://gitea.com/gitea/runner"
-  url "https://gitea.com/gitea/runner/archive/v5.2.2.tar.gz"
-  sha256 "4f56d45548ceae40c5814e4c0f014d86b42e5966c69592e292cd21c01bc050af"
+  url "https://gitea.com/gitea/runner/archive/v5.2.3.tar.gz"
+  sha256 "59dcab612594a88ab346cd92889af0fa050fd25a4ac18ba715421fedaec19f7f"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f7683808a660620719333fbbf64bec10cd11177f01b274aa2576312c2d0fb97c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4b53debbf15f3e7837ea4d7e526a09948f838e01dd21eb1a9416369b42937242"
   end
 
   depends_on "go" => :build

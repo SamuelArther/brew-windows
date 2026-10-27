@@ -12,8 +12,10 @@ class Dhcping < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4c67f06dca206487c4a2e124e3ee6eef82098d7f7bebbd46e7d71ec8981b2327"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "2f63ed497e4c2d062f2668297aabc5926b12332a2f24677be753b3014dbd5ae2"
   end
+
+  allow_network_access! :test
 
   def install
     args = ["--mandir=#{man}"]

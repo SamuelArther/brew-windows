@@ -3,12 +3,14 @@ class Numpy < Formula
   homepage "https://www.numpy.org/"
   url "https://files.pythonhosted.org/packages/95/b0/c7453d0b6e2073c3264468b106ee1563750cecc910965e67357e3698c83e/numpy-2.5.4.tar.gz"
   sha256 "9a94cf751c9ad8ebaa835bcd3d40dacf8534ad086b88c38029b65123c7999d2a"
-  license "BSD-3-Clause"
+  # TODO: Remove Zlib from license when release includes
+  # https://github.com/numpy/numpy/commit/3d065710eee404a34788deb8f05f977a88879b20
+  license all_of: ["BSD-3-Clause", "0BSD", "MIT", "Zlib", "CC0-1.0"]
   compatibility_version 1
   head "https://github.com/numpy/numpy.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ba66e9bfc7b864ccc3ed6fed55b5425fefee9dd015475cd7f5501869b03408ed"
+    sha256 cellar: :any, x86_64_windows: "8a34e3bff1b46f52e07b6585fa8e90e037b36428938b95509aa37251f6631ef1"
   end
 
   depends_on "gcc" => :build # for gfortran

@@ -1,13 +1,13 @@
 class Mark < Formula
   desc "Sync your markdown files with Confluence pages"
   homepage "https://samizdat.dev"
-  url "https://github.com/kovetskiy/mark/archive/refs/tags/v16.22.0.tar.gz"
-  sha256 "b713695ecc0bde718a0598279236934819c9fb07e3a3978f5499871d02b9898f"
+  url "https://github.com/kovetskiy/mark/archive/refs/tags/v16.24.0.tar.gz"
+  sha256 "c452660accedf43fc841d9227dc9db41e2274f0ed0ec087f93c45b8c155410d1"
   license "Apache-2.0"
   head "https://github.com/kovetskiy/mark.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1d639177f834f4b136919daabb1d20e81ad5068a572a34286891c1b21838bf00"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "be86ada83704f55e2172f7e6b359b1b98b1d61ee53f5bcf1db52e0c35e31fc26"
   end
 
   depends_on "go" => :build
@@ -30,7 +30,7 @@ class Mark < Formula
     MARKDOWN
 
     touch testpath/"mark.toml"
-    output = shell_output("#{bin}/mark --config mark.toml sync 2>&1", 1)
+    output = shell_output("#{bin}/mark --config mark.toml publish 2>&1", 1)
     assert_match "confluence base URL should be specified", output
   end
 end

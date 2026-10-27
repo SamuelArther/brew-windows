@@ -11,9 +11,10 @@ class Dpic < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/dpic-2025.08.01"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ecf94afc3e707a3b2e449b99f9e895e467fe85de65d68ce414bf5d0fc753de7a"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4a5fb8c327e2ca83cacd450529623fed249aa0508818bfc2f69edfcd7ecaf4ba"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

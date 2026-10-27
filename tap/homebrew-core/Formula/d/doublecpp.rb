@@ -9,9 +9,10 @@ class Doublecpp < Formula
   # Patch submitted to author by email.
   patch :DATA
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/doublecpp-0.6.3"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7f7bb2375b9f02dab5de6253c92b2809b00b1f019c3ebc6ca3d65705d6d80539"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "54b55338986120d309a63bb60bb46a3db62106348ff9a86ce3e10ad18cafd513"
   end
 
   def install

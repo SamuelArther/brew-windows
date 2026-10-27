@@ -1,14 +1,14 @@
 class Croaring < Formula
   desc "Roaring bitmaps in C (and C++)"
   homepage "https://roaringbitmap.org"
-  url "https://github.com/RoaringBitmap/CRoaring/archive/refs/tags/v5.3.2.tar.gz"
-  sha256 "f8eba67b2655cd6df08f4f92cf104cde5e4f7fa5280bccad0ec6b79c6734cd08"
+  url "https://github.com/RoaringBitmap/CRoaring/archive/refs/tags/v5.4.0.tar.gz"
+  sha256 "45721e700880556d69e327da2fc322394960b8b85120f716c38615429c92e932"
   license "Apache-2.0"
-  compatibility_version 1
+  compatibility_version 2
   head "https://github.com/RoaringBitmap/CRoaring.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2876173b307e8138de041a3694ceb6e1bc9f834fb655d55d605dfcc7ad82e6e2"
+    sha256 cellar: :any, x86_64_windows: "5bcdbff20511edfd1dd75f251b82164aaf659ef9146621e18bb9a1287bb3e716"
   end
 
   depends_on "cmake" => :build

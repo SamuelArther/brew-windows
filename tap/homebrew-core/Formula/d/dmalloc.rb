@@ -11,9 +11,10 @@ class Dmalloc < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/dmalloc-5.6.5"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8a1172a18eb6a006046d1c68c30277e8a342b311abca312eec8a12acfc9d2c44"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "fd06b56de54307d5bc3d5f5871b84c15ba795a2f5df7a6a0abcdac47cd0c2f34"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--enable-threads", "--prefix=#{prefix}"

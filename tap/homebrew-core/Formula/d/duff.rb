@@ -5,9 +5,10 @@ class Duff < Formula
   sha256 "15b721f7e0ea43eba3fd6afb41dbd1be63c678952bf3d80350130a0e710c542e"
   license "Zlib"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/duff-0.5.2"
-    sha256 cellar: :any, x86_64_windows: "71b22acc7620dc0e584d45e1674cb2c350e32c616fafbe6c60a9ee8587e5e18a"
+    sha256 cellar: :any, x86_64_windows: "6ebc4820456b51063f3e102f1f7eb4b43927af9703fc75fddb9cef49176dea45"
   end
 
   def install
