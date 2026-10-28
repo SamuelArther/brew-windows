@@ -11,12 +11,14 @@ class Freexl < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0695b0ccadf970fc5f820665bd5125e77199b1d5a82f026da77c02521781cb6f"
+    sha256 cellar: :any, x86_64_windows: "d5e26f44dc86888ed6e7fa89235cbb50d4103714d3fa83975f7df8227c3f4e6b"
   end
 
   depends_on "minizip"
 
   uses_from_macos "expat"
+
+  deny_network_access!
 
   def install
     args = ["--disable-silent-rules"]

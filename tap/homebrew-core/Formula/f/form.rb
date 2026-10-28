@@ -11,7 +11,7 @@ class Form < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4651b274e80dec5cbeeae7c643969ae75a50b2fae6bea8c93ff2a97cf654b0f8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9f314eac5429dd60d6d4901c831148bfa73d3335948dd2de77a85889f227130d"
   end
 
   depends_on "flint"
@@ -22,6 +22,8 @@ class Form < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args, "--disable-silent-rules", "--disable-native"

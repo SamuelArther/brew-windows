@@ -2,13 +2,13 @@ class Kn < Formula
   desc "Command-line interface for managing Knative Serving and Eventing resources"
   homepage "https://github.com/knative/client"
   url "https://github.com/knative/client.git",
-      tag:      "knative-v1.23.0",
-      revision: "e411e88475005c36abaa42530521065210c8588d"
+      tag:      "knative-v1.24.0",
+      revision: "f2bfc7f364743c60fefce78e392e5f547aa5ad71"
   license "Apache-2.0"
   head "https://github.com/knative/client.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f548913b4c66065f1395e6266c259340349b08a31bbe4bcc44319aa9f7cecf61"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c367bd181b91123bcc3536ad186db2f317ba5c6b47602c589d7a23a026a16946"
   end
 
   depends_on "go" => :build

@@ -1,13 +1,13 @@
 class Erpc < Formula
   desc "Fault-tolerant RPC proxy with re-org-aware permanent caching"
   homepage "https://docs.erpc.cloud/"
-  url "https://github.com/erpc/erpc/archive/refs/tags/0.4.0.tar.gz"
-  sha256 "72084f5e865807e15346f9670645b46fb705803f297c7a59b603fe4413f19159"
+  url "https://github.com/erpc/erpc/archive/refs/tags/0.5.0.tar.gz"
+  sha256 "54c1776002ed22a93741296781fc7996a1bf64bf3f243da23545958b2f182138"
   license "Apache-2.0"
   head "https://github.com/erpc/erpc.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6e67748b54a7bbfe13cdd8087ec0b30d28d8f475cdf8c0f79ab2d0f9d6de34ac"
+    sha256 cellar: :any, x86_64_windows: "141f96fab7ac001f64e91135838ccede4e92c2d5fef5a44b4e93393b3ad8bf4c"
   end
 
   depends_on "go" => :build

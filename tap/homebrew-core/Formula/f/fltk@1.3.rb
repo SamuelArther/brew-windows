@@ -11,7 +11,7 @@ class FltkAT13 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9688b110ac8f796a714b4ab5a50f01f50d0d9d723afea190e294ad592f23e5c5"
+    sha256 cellar: :any, x86_64_windows: "b0e0d42c60254f56667ca00ac9a59d543600e2fdbabfbc9c65d577aa40a53a2f"
   end
 
   keg_only :versioned_formula
@@ -31,6 +31,8 @@ class FltkAT13 < Formula
     depends_on "mesa"
     depends_on "mesa-glu"
   end
+
+  deny_network_access!
 
   def install
     args = %w[

@@ -1,0 +1,442 @@
+[
+  {
+    "name": "addons-linter",
+    "status": "ok",
+    "seconds": 84
+  },
+  {
+    "name": "aicommits",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "akamai",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "bfs",
+    "status": "build",
+    "seconds": 36
+  },
+  {
+    "name": "butane",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 224
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "chart-releaser",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "closure-compiler",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "cmctl",
+    "status": "ok",
+    "seconds": 112
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "conduit",
+    "status": "ok",
+    "seconds": 133
+  },
+  {
+    "name": "convox",
+    "status": "ok",
+    "seconds": 235
+  },
+  {
+    "name": "cyclonedx-cli",
+    "status": "ok",
+    "seconds": 100
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 236
+  },
+  {
+    "name": "der-ascii",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 278
+  },
+  {
+    "name": "erpc",
+    "status": "ok",
+    "seconds": 132
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1593
+  },
+  {
+    "name": "fdupes",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "fizsh",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "flow-tools",
+    "status": "ok",
+    "seconds": 169
+  },
+  {
+    "name": "fltk@1.3",
+    "status": "ok",
+    "seconds": 207
+  },
+  {
+    "name": "font-util",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "form",
+    "status": "ok",
+    "seconds": 149
+  },
+  {
+    "name": "freexl",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "fstrm",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "gf",
+    "status": "ok",
+    "seconds": 147
+  },
+  {
+    "name": "git-graph",
+    "status": "ok",
+    "seconds": 212
+  },
+  {
+    "name": "git-pages",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "gitea-importer",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "gitea-runner",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "go-parquet-tools",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "gost",
+    "status": "ok",
+    "seconds": 129
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 150
+  },
+  {
+    "name": "kargo",
+    "status": "ok",
+    "seconds": 115
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "ketch",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "kn",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "ktor",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "kubekey",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "lacework-cli",
+    "status": "ok",
+    "seconds": 238
+  },
+  {
+    "name": "marked",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "mcp-server-kubernetes",
+    "status": "ok",
+    "seconds": 385
+  },
+  {
+    "name": "metabase",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "mongosh",
+    "status": "ok",
+    "seconds": 207
+  },
+  {
+    "name": "mp4ff",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "test",
+    "seconds": 43
+  },
+  {
+    "name": "newrelic-infra-agent",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "nx",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "ok",
+    "seconds": 215
+  },
+  {
+    "name": "oj",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "osctrl-mcp",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "oxfmt",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "phpstan",
+    "status": "test-deps",
+    "seconds": 5
+  },
+  {
+    "name": "policy-engine",
+    "status": "ok",
+    "seconds": 193
+  },
+  {
+    "name": "pulsarctl",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "rattler-index",
+    "status": "ok",
+    "seconds": 776
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "render",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "repo",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "resterm",
+    "status": "ok",
+    "seconds": 122
+  },
+  {
+    "name": "roborev",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 97
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 414
+  },
+  {
+    "name": "scala@3.3",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "serialize",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "shadcn",
+    "status": "ok",
+    "seconds": 418
+  },
+  {
+    "name": "sip",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "slumber",
+    "status": "ok",
+    "seconds": 428
+  },
+  {
+    "name": "sonar-scanner",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "spiffe-helper",
+    "status": "build",
+    "seconds": 53
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "stripe-cli",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "technitium-library",
+    "status": "ok",
+    "seconds": 125
+  },
+  {
+    "name": "tfcmt",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tgrep",
+    "status": "ok",
+    "seconds": 334
+  },
+  {
+    "name": "thanos",
+    "status": "ok",
+    "seconds": 192
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 138
+  },
+  {
+    "name": "werf",
+    "status": "ok",
+    "seconds": 237
+  },
+  {
+    "name": "zeroclaw",
+    "status": "ok",
+    "seconds": 1340
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 44
+  }
+]

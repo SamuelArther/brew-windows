@@ -1,13 +1,13 @@
 class Resterm < Formula
   desc "Terminal client for .http/.rest files with HTTP, GraphQL, and gRPC support"
   homepage "https://github.com/unkn0wn-root/resterm"
-  url "https://github.com/unkn0wn-root/resterm/archive/refs/tags/v1.16.1.tar.gz"
-  sha256 "c3f2d44aa925bb0a327e5978915eaeb5ade04334f98ed27585883bc281808042"
+  url "https://github.com/unkn0wn-root/resterm/archive/refs/tags/v1.17.0.tar.gz"
+  sha256 "f0824676bd593fc96d46817ace86585a05dd8dd32bd7048da70202216ca74fc6"
   license "Apache-2.0"
   head "https://github.com/unkn0wn-root/resterm.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "754fbe31e49aea2dac6d8fd7facc4a1717796989c3e2dc360e2b64de60e4df3f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0d66c873e0d7dfc2704de1975af1d74f032c869f4737dcb4034039db18c6f67a"
   end
 
   depends_on "go" => :build

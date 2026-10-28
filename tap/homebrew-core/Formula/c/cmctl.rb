@@ -1,13 +1,13 @@
 class Cmctl < Formula
   desc "Command-line tool to manage cert-manager"
   homepage "https://cert-manager.io"
-  url "https://github.com/cert-manager/cmctl/archive/refs/tags/v2.6.1.tar.gz"
-  sha256 "83226abe4516e4e39953dee0d341b26e4c6f5a7f2f62ea07074bd2f8dd55c664"
+  url "https://github.com/cert-manager/cmctl/archive/refs/tags/v2.6.2.tar.gz"
+  sha256 "5dd1bc9a68e0d3a76776746b4c20b60e44516176b97921dd5d8e71c304726182"
   license "Apache-2.0"
   head "https://github.com/cert-manager/cmctl.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f33a64227145b512aa3dad8511e5a06ab97c74c80136a1a38af1fb4a93f83590"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e9bc1e085a09a6f02a605158ed581806166bac188c2837ffe653d64d17090678"
   end
 
   depends_on "go" => :build

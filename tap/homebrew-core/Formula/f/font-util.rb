@@ -6,11 +6,13 @@ class FontUtil < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a941e6ec7e5311f9503000b602c5fc6a65ce82e107ff1d1a87c7bc0e25a71015"
+    sha256 cellar: :any, x86_64_windows: "b055d23d9f27d89174eedfe8e9a49c6713bfdccc515c0ab58fbc370d5c703818"
   end
 
   depends_on "pkgconf" => [:build, :test]
   depends_on "util-macros" => :build
+
+  deny_network_access!
 
   def install
     args = %W[

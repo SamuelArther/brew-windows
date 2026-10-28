@@ -1,10 +1,10 @@
 class Butane < Formula
   desc "Translates human-readable Butane Configs into machine-readable Ignition Configs"
   homepage "https://coreos.github.io/butane/"
-  url "https://github.com/coreos/butane/archive/refs/tags/v0.29.0.tar.gz"
-  sha256 "fb53732f08479a8057f60e7d7535e3717ecd013e362d65f474272b44374e0f97"
+  url "https://github.com/coreos/ignition/archive/refs/tags/v2.28.0.tar.gz"
+  sha256 "a2ff1a2aafc1a54fedd535487c4b0cf2afad5945a788edfb85140420a1f772de"
   license "Apache-2.0"
-  head "https://github.com/coreos/butane.git", branch: "main"
+  head "https://github.com/coreos/ignition.git", branch: "main"
 
   livecheck do
     url :stable
@@ -12,16 +12,20 @@ class Butane < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "cca890a28058d93bc2b4a05a58cb0ff4e31d467ef3f2c8e025707b2779043973"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7081767684c56711cd3985fbac7fb89445130b0b9fd371fe29bc15565ad48e25"
   end
 
   depends_on "go" => :build
 
   deny_network_access!
 
+  def fetch
+    system "go", "mod", "download"
+  end
+
   def install
-    system "go", "build", "-mod=vendor",
-      *std_go_args(ldflags: "-w -X github.com/coreos/butane/internal/version.Raw=#{version}"), "internal/main.go"
+    ldflags = "-X github.com/coreos/ignition/v2/butane/internal/version.Raw=#{version}"
+    system "go", "build", *std_go_args(ldflags:), "./butane/internal"
   end
 
   test do

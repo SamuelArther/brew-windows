@@ -1,8 +1,8 @@
 class StorjUplink < Formula
   desc "Uplink CLI for the Storj network"
   homepage "https://storj.io"
-  url "https://github.com/storj/storj/archive/refs/tags/v1.165.5.tar.gz"
-  sha256 "55a8b22c0c8d2add263f917f205b81bcc833448e88daf29ed0adce5b82c98503"
+  url "https://github.com/storj/storj/archive/refs/tags/v1.165.6.tar.gz"
+  sha256 "cf4500baca96b190eb81d17a5cfa3f13a94992d70e8e93f46604cf2a23bd24ca"
   license "AGPL-3.0-only"
 
   # Upstream creates stable releases and marks them as "pre-release" before
@@ -18,7 +18,7 @@ class StorjUplink < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d41d7296c5894d0028815bb80cb8977eecd46799691fdc1e7312861db91887ab"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a2eca7de43ac590616bb5529057c6cd6527d12264cfcebe6f815100fec1e5e20"
   end
 
   depends_on "go" => :build

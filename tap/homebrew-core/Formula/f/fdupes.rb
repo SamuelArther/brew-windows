@@ -7,13 +7,15 @@ class Fdupes < Formula
   version_scheme 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "fba6eca6083a6e091191c81f59434b36de2c2618adfe9bdbfc48d3cf5c3d45b6"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "40225644ee1561a98d6cd4c4b723ac648b4069dd59aab08a0f1faffa9873cdea"
   end
 
   depends_on "pcre2"
 
   uses_from_macos "ncurses"
   uses_from_macos "sqlite"
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args.reject { |s| s["--disable-debug"] }

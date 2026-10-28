@@ -6,8 +6,7 @@ class FlowTools < Formula
   license "BSD-2-Clause"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/flow-tools-0.68.5.1"
-    sha256 cellar: :any, x86_64_windows: "fb5f4c2a8ae7722126d67bfb7a22f4c77fb6f663333d94478093a609ac6e9f8d"
+    sha256 cellar: :any, x86_64_windows: "4168aed4d0e19580b2b7344efedd461ed2e4b3805d41f9cb5997a99d7bcc4578"
   end
 
   uses_from_macos "bison" => :build
@@ -33,6 +32,8 @@ class FlowTools < Formula
     sha256 "3b0937004edfabc53d966e035ad2a2c3239bcfccdc1bacef2f54612fccd84290"
     type :unofficial
   end
+
+  deny_network_access!
 
   def install
     args = []

@@ -12,10 +12,12 @@ class Fizsh < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8fa4b52b662e31a3f1d48d6bb9a4362c5109ae4c89a8544c7163284cf61a594d"
+    sha256 cellar: :any, x86_64_windows: "eb53c5d04e85af8c46e7b898a3b841c057e2a485943f39cc86b2eb8927676ed0"
   end
 
   depends_on "zsh"
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-debug",

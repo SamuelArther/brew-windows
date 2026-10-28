@@ -1,13 +1,13 @@
 class Gf < Formula
   desc "App development framework of Golang"
   homepage "https://goframe.org"
-  url "https://github.com/gogf/gf/archive/refs/tags/v2.10.3.tar.gz"
-  sha256 "548e000382e013d853b8b3e360aa48e5bd23689a3a2eb3946d6f0b17e8339c5e"
+  url "https://github.com/gogf/gf/archive/refs/tags/v2.10.4.tar.gz"
+  sha256 "eab11107d1e4f3fbd0d8653c6e998182e99b2a3c42a4f4111c4d2362827a3af0"
   license "MIT"
   head "https://github.com/gogf/gf.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "2ad87f1a31a4bc1ace293c1df0c0832b623b456c148e63a41b6f83eb182c1f2c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d3b762e97b99e824d773713dbc0c60c9e828c18a618ef090f26b9fd45e9164de"
   end
 
   depends_on "go" => [:build, :test]

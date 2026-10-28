@@ -20,7 +20,7 @@ class Fstrm < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e79e6be2e34fb5f63bb998d10399618395afbc46eae79249732148615dee87bd"
+    sha256 cellar: :any, x86_64_windows: "f6a64e451db101b0ca343622bf056d7850613cf4288c165c04001efbc57fe283"
   end
 
   head do
@@ -33,6 +33,8 @@ class Fstrm < Formula
 
   depends_on "pkgconf" => :build
   depends_on "libevent"
+
+  allow_network_access! :test
 
   def install
     system "autoreconf", "--force", "--install", "--verbose" if build.head?
