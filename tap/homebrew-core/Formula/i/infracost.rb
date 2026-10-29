@@ -1,8 +1,8 @@
 class Infracost < Formula
   desc "Cost estimates for Terraform, Terragrunt, and CloudFormation"
   homepage "https://www.infracost.io/docs/"
-  url "https://github.com/infracost/cli/archive/refs/tags/v2.18.2.tar.gz"
-  sha256 "3821209272ded08e4a5711d0f53fc2b4fe942c1e0c667dbbe889087087490fa1"
+  url "https://github.com/infracost/cli/archive/refs/tags/v2.18.3.tar.gz"
+  sha256 "1e3cea2ed00d07a5be1450a43a302acbb72a427ec56800c23a207b37e6d2ae47"
   license "Apache-2.0"
   head "https://github.com/infracost/cli.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Infracost < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d56fb48bbb36471bffd8d2c3ec6c120d394ac73390c44a016258d58545fd5a83"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "555479aefe2b2d8beae286c9916ea3f91833907f6f95422102c52e5678fc8263"
   end
 
   depends_on "go" => :build

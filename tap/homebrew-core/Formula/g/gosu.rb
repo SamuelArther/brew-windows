@@ -1,13 +1,13 @@
 class Gosu < Formula
   desc "Pragmatic language for the JVM"
   homepage "https://gosu-lang.github.io/"
-  url "https://github.com/gosu-lang/gosu-lang/archive/refs/tags/v1.18.12.tar.gz"
-  sha256 "22bc5e2d5a7e9dd25c9028764b4cbf5d9febcb7f85a7f192bc97c7999cf1003c"
+  url "https://github.com/gosu-lang/gosu-lang/archive/refs/tags/v1.18.13.tar.gz"
+  sha256 "b6d6f83270c6badea7baa882e2658399879fde3e4d695b93685d34853f30d1de"
   license "Apache-2.0"
   head "https://github.com/gosu-lang/gosu-lang.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8eefdd6b36948e508e9695d65ad8794d09c8a5c0118df71956abbd33b763efb6"
+    sha256 cellar: :any, x86_64_windows: "36d77b07f0bb434b04e2c4cb592cf9889df5936b81147687dd392b5f86882f3c"
   end
 
   depends_on "maven" => :build

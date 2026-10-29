@@ -12,8 +12,10 @@ class Hmmer < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7c8e9cb9532558b6866d021c80bd9676cf8131a867dec3286001597882ccc97e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9829a2ee90d36ab54d67f4d74a2882fa36eb53bc3f4c9c16ebf6380ab758d978"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

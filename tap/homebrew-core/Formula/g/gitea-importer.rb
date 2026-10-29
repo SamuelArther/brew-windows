@@ -1,13 +1,13 @@
 class GiteaImporter < Formula
   desc "CLI to migrate repositories from GitHub, GitLab and Gitea into Gitea"
   homepage "https://gitea.com/gitea/importer"
-  url "https://gitea.com/gitea/importer/archive/v0.1.0.tar.gz"
-  sha256 "aee0711b52d1822f55499b4f5d0160fd6decb95224f8cb6ee1b89c8c2d082dcf"
+  url "https://gitea.com/gitea/importer/archive/v0.3.0.tar.gz"
+  sha256 "d6b3c742da398589f63d9ebdf664df1a7220745c71e974f9a6aa101c5754c8da"
   license "MIT"
   head "https://gitea.com/gitea/importer.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d9f597a33f6b15f96c1a93887c9171af30cedaeb69fd6112016c28bdfd69e610"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "2127236ea3172c5f9c988e43c7d759d4b5bd063f9eff1d4884fc3728531d224e"
   end
 
   depends_on "go" => :build
@@ -32,6 +32,6 @@ class GiteaImporter < Formula
     url = "http://127.0.0.1:#{free_port}"
     args = %W[--source-type gitea --source-url #{url} --source-auth pat://test --source-repos foo/bar]
     output = shell_output("#{bin}/gitea-importer scan #{args.join(" ")} 2>&1", 1)
-    assert_match "create gitea client: Get \"#{url}/api/v1/version\"", output
+    assert_match "Get \"#{url}/api/v1/", output
   end
 end

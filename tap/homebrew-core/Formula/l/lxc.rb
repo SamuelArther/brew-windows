@@ -1,8 +1,8 @@
 class Lxc < Formula
   desc "CLI client for interacting with LXD"
   homepage "https://ubuntu.com/lxd"
-  url "https://github.com/canonical/lxd/releases/download/lxd-6.9/lxd-6.9.tar.gz"
-  sha256 "c13dff67aa400d3cc4ef3a20344a500fa691263132ad9de843c5485caffe47dd"
+  url "https://github.com/canonical/lxd/archive/refs/tags/lxd-6.10.1.tar.gz"
+  sha256 "687495b7b989da5f29ab009f7e728462f845ebf65696d30c5a6a0d646ce3fb58"
   license "AGPL-3.0-only"
   head "https://github.com/canonical/lxd.git", branch: "main"
 
@@ -12,12 +12,16 @@ class Lxc < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b5da07d98d7755903be95ecf473b949b171068c6ceee6561a312ecdc0c274be8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b5e19510ae97e155b2182a889430ac09bbdc31b27ffe7524fe7935763a3c5034"
   end
 
   depends_on "go" => :build
 
   deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     system "go", "build", *std_go_args, "./lxc"

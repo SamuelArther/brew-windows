@@ -1,13 +1,13 @@
 class Goimapnotify < Formula
   desc "Execute scripts on IMAP mailbox changes using IDLE"
   homepage "https://gitlab.com/shackra/goimapnotify"
-  url "https://gitlab.com/shackra/goimapnotify/-/archive/2.5.8/goimapnotify-2.5.8.tar.bz2"
-  sha256 "0d5764737ca6b76a3b4c0ddb25671de059abfe8b8e51686ffc3cf526bc605618"
+  url "https://gitlab.com/shackra/goimapnotify/-/archive/2.6.0/goimapnotify-2.6.0.tar.bz2"
+  sha256 "9d51636d8f546d3fd2c85284800d5491b0919eecdb110092431e7ca15b771516"
   license "GPL-3.0-or-later"
   head "https://gitlab.com/shackra/goimapnotify.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "73493790b20bb0e2518b8f07b1ca057a9dc20a275d03cde3e63325c381c931e2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "648c522d0fe24275ca30c4ca85ca855c7b604a6f110bc70a8f0b4ba64f6ca11f"
   end
 
   depends_on "go" => :build

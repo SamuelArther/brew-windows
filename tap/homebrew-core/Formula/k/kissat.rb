@@ -11,8 +11,10 @@ class Kissat < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ae8de97632fd70731b6e2d09f1e457ee0e778056b06fdcfbb5aab67555f7afbb"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7bcd9f67023f402c31a6e0f0efc1bcc10ff216e248095bdacf537cddeef1710e"
   end
+
+  deny_network_access!
 
   def install
     system "./configure"

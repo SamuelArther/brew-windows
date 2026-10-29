@@ -11,8 +11,10 @@ class Jcal < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d9acc14ba4f115bc9ae04c38c102d7e59902772fc481b7c5586e6faf022fd3f6"
+    sha256 cellar: :any, x86_64_windows: "949ce8a603407d17b0c015a26d76223810b6ce2797db7bebb4dfd9f2245e5966"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}",

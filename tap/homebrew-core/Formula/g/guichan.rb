@@ -6,8 +6,7 @@ class Guichan < Formula
   license "BSD-3-Clause"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/guichan-0.8.3"
-    sha256 cellar: :any, x86_64_windows: "cca1cf91467f8dc726c95ec6094361fb785426dba4dc75b52d9edf7a28bbcebb"
+    sha256 cellar: :any, x86_64_windows: "59369a564d8728827bc2fa12d302c2a2acdc6d3923e1385a1a5ae82cb90a9c38"
   end
 
   depends_on "pkgconf" => :test
@@ -16,6 +15,8 @@ class Guichan < Formula
     depends_on "mesa"
     depends_on "mesa-glu"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

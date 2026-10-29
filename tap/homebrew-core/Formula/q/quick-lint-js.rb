@@ -7,8 +7,11 @@ class QuickLintJs < Formula
   revision 13
   head "https://github.com/quick-lint/quick-lint-js.git", branch: "master"
 
+  deprecate! date: "2026-10-29", because: :repo_archived
+  disable! date: "2027-10-29", because: :repo_archived
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "98d0a32684eb9c3e69d274b8a6d3e28e7b5115d1aced00dee757d108aa883c98"
+    sha256 cellar: :any, x86_64_windows: "fe052be25bef89baec309712bcadd83c06e130ff465f6679a146047ffa0644d0"
   end
 
   depends_on "cmake" => :build

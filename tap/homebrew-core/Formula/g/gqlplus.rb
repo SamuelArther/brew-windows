@@ -10,8 +10,10 @@ class Gqlplus < Formula
   # We also cannot use macOS libedit as it lacks _history_list
   depends_on "libedit"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "63337890b6267aaaaab7400e6d37e6702c95ce61e0a31fe076090af597dadbc5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ea22a15e20b745619c527bc49ead0f8c8416bfd19ac99b1d01fbc53487161473"
   end
 
   def install

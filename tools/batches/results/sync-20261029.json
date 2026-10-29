@@ -1,0 +1,452 @@
+[
+  {
+    "name": "auth0",
+    "status": "ok",
+    "seconds": 136
+  },
+  {
+    "name": "azure-dev",
+    "status": "ok",
+    "seconds": 174
+  },
+  {
+    "name": "beszel",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "bitcoin",
+    "status": "ok",
+    "seconds": 1460
+  },
+  {
+    "name": "bqlog",
+    "status": "ok",
+    "seconds": 163
+  },
+  {
+    "name": "buildifier",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "buildkite",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "buildozer",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "calcure",
+    "status": "test",
+    "seconds": 87
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 142
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "checkpwn",
+    "status": "ok",
+    "seconds": 161
+  },
+  {
+    "name": "cimg",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 198
+  },
+  {
+    "name": "docker-agent",
+    "status": "ok",
+    "seconds": 213
+  },
+  {
+    "name": "e2b",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 385
+  },
+  {
+    "name": "faker",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 582
+  },
+  {
+    "name": "flagd",
+    "status": "ok",
+    "seconds": 408
+  },
+  {
+    "name": "gemini-cli",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "gifsicle",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "git-graph",
+    "status": "ok",
+    "seconds": 107
+  },
+  {
+    "name": "gitea-importer",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "gitlab-runner",
+    "status": "ok",
+    "seconds": 296
+  },
+  {
+    "name": "glaze",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "goimapnotify",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "gosu",
+    "status": "ok",
+    "seconds": 369
+  },
+  {
+    "name": "gpp",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "gqlplus",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "guichan",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "gvp",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "hamlib",
+    "status": "build",
+    "seconds": 649
+  },
+  {
+    "name": "hmmer",
+    "status": "ok",
+    "seconds": 131
+  },
+  {
+    "name": "html-xml-utils",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "infracost",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "jcal",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "jfrog-cli",
+    "status": "ok",
+    "seconds": 88
+  },
+  {
+    "name": "jpeg-turbo",
+    "status": "ok",
+    "seconds": 118
+  },
+  {
+    "name": "jupp",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "kissat",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "kosli-cli",
+    "status": "ok",
+    "seconds": 136
+  },
+  {
+    "name": "kytea",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "lacework-cli",
+    "status": "ok",
+    "seconds": 113
+  },
+  {
+    "name": "ldcli",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "lego",
+    "status": "ok",
+    "seconds": 232
+  },
+  {
+    "name": "libupnp",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "livereload",
+    "status": "ok",
+    "seconds": 92
+  },
+  {
+    "name": "lovable-oj",
+    "status": "build",
+    "seconds": 858
+  },
+  {
+    "name": "lxc",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "mockery",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "neo4j-mcp",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "notion-mcp-server",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "oh-my-agent",
+    "status": "ok",
+    "seconds": 191
+  },
+  {
+    "name": "openapi",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "openfga",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 292
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 536
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 577
+  },
+  {
+    "name": "phpstan",
+    "status": "test-deps",
+    "seconds": 5
+  },
+  {
+    "name": "pyscn",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "pytest",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "quick-lint-js",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "quint",
+    "status": "ok",
+    "seconds": 111
+  },
+  {
+    "name": "rattler-index",
+    "status": "ok",
+    "seconds": 730
+  },
+  {
+    "name": "readwise-cli",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 150
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 87
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 377
+  },
+  {
+    "name": "serialize",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "sf",
+    "status": "ok",
+    "seconds": 403
+  },
+  {
+    "name": "shadcn",
+    "status": "ok",
+    "seconds": 368
+  },
+  {
+    "name": "snakeviz",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "snowflake",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "tele",
+    "status": "ok",
+    "seconds": 180
+  },
+  {
+    "name": "terraform-ls",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "tesseract",
+    "status": "ok",
+    "seconds": 882
+  },
+  {
+    "name": "tika",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "upki",
+    "status": "ok",
+    "seconds": 172
+  },
+  {
+    "name": "weaviate",
+    "status": "ok",
+    "seconds": 229
+  },
+  {
+    "name": "whistle",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "woodpecker-cli",
+    "status": "ok",
+    "seconds": 121
+  },
+  {
+    "name": "z.lua",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 39
+  }
+]

@@ -1,14 +1,13 @@
 class Bitcoin < Formula
   desc "Decentralized, peer to peer payment network"
   homepage "https://bitcoincore.org/"
-  url "https://bitcoincore.org/bin/bitcoin-core-31.1/bitcoin-31.1.tar.gz"
-  sha256 "50411d5b43c7e4c90099394759eb6c2add6e7c2dbe728840893d638b6fc6afc9"
+  url "https://bitcoincore.org/bin/bitcoin-core-32.1/bitcoin-32.1.tar.gz"
+  sha256 "a5f2f61e32cf7f790641c9ec306a3c88ca7b5a556946956b1f35ffd7e27813f9"
   license all_of: [
     "MIT",
     "BSD-3-Clause", # src/crc32c, src/leveldb
     "BSL-1.0", # src/tinyformat.h
   ]
-  revision 1
   head "https://github.com/bitcoin/bitcoin.git", branch: "master"
 
   livecheck do
@@ -17,7 +16,7 @@ class Bitcoin < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "20743183262753e38d9a828f983c5a0cd8756d51b7b3f8092da1072c3d357d57"
+    sha256 cellar: :any, x86_64_windows: "0f948c032e7dae5b21633c86efafc6d8416b7ffe2ebdcc3f90ad21ebf0689a43"
   end
 
   depends_on "boost" => :build
@@ -58,6 +57,7 @@ class Bitcoin < Formula
   test do
     ENV["TMPDIR"] = testpath
 
-    system bin/"bitcoin", "test"
+    # sock_tests bind TCP sockets on loopback, which the network sandbox denies
+    system bin/"bitcoin", "test", "--run_test=!sock_tests"
   end
 end

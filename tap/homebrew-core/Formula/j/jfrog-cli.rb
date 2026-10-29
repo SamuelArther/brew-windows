@@ -1,8 +1,8 @@
 class JfrogCli < Formula
   desc "Command-line interface for JFrog products"
   homepage "https://docs.jfrog.com/integrations/docs/jfrog-cli"
-  url "https://github.com/jfrog/jfrog-cli/archive/refs/tags/v2.127.0.tar.gz"
-  sha256 "7f04e866303c714552a05f315bbeeb59692a36f2b6220ed2845b90aa2655834a"
+  url "https://github.com/jfrog/jfrog-cli/archive/refs/tags/v2.129.0.tar.gz"
+  sha256 "20f1187e844df288f24bbcd01e79577822faa164633d5b1b268d5a3e09e2e34b"
   license "Apache-2.0"
   head "https://github.com/jfrog/jfrog-cli.git", branch: "master"
 
@@ -15,7 +15,7 @@ class JfrogCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1676b627b0293c92ec60b36a5ca861da9f95ee992c88e91249eac0cc602a9971"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "13ab9dfeca64e925c9c245fb4bd388f8a7af10fe044934f8875c579cf2513f4b"
   end
 
   depends_on "go" => :build

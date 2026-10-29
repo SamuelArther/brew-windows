@@ -1,13 +1,13 @@
 class Buildozer < Formula
   desc "Rewrite bazel BUILD files using standard commands"
   homepage "https://github.com/bazelbuild/buildtools"
-  url "https://github.com/bazelbuild/buildtools/archive/refs/tags/v10.1.0.tar.gz"
-  sha256 "fa0b905032d49a621679e7318875736e451895a1417d992fbbebd27f82b83c38"
+  url "https://github.com/bazelbuild/buildtools/archive/refs/tags/v10.2.0.tar.gz"
+  sha256 "5af90068e9e8812abdc455ad04cc474470bccc8bbabc8b571e3f58a66799680f"
   license "Apache-2.0"
   head "https://github.com/bazelbuild/buildtools.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "863c0c22dcdbcf7e2c56caab96fe459bef462507176cc5752d215a3f2821627b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "50f2180ab23c1e998b87e7d07020eb770ddb478957907818af8bb017cc5fc21e"
   end
 
   depends_on "go" => :build

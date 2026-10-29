@@ -13,9 +13,10 @@ class Gvp < Formula
     resolves "https://github.com/pote/gvp/pull/46"
   end
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/gvp-0.3.0"
-    sha256 cellar: :any, x86_64_windows: "7cc8e96de0c0c589ae4f86f807c7d11db981312d56399fd00e7a751164e95ed6"
+    sha256 cellar: :any, x86_64_windows: "6a9b4ec0d2ee74e97b3fc1f06a7353b1eb7a19296e7c5dcd3f6684a38c74e96a"
   end
 
   def install

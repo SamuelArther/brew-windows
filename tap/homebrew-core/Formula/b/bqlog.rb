@@ -1,8 +1,8 @@
 class Bqlog < Formula
   desc "Cross-language logging library"
   homepage "https://github.com/Tencent/BqLog"
-  url "https://github.com/Tencent/BqLog/archive/refs/tags/Release_2.7.1.tar.gz"
-  sha256 "39678545fe7322d2193ff5e22a6e99937de1b6dc01a0531f31440991fa4881a9"
+  url "https://github.com/Tencent/BqLog/archive/refs/tags/Release_2.7.2.tar.gz"
+  sha256 "7a8071333f3fccdf933f15f15024e370fae5717e076f3d7796de4000a3e47c81"
   license "Apache-2.0"
   head "https://github.com/Tencent/BqLog.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Bqlog < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "257c14c3b66022dfda2fe68204f78dfcce7a1566104ea61378547343ce672a31"
+    sha256 cellar: :any, x86_64_windows: "4020255102bbce0d5d7e7b67528353d452f0153601e7625f1f39a4fd13ebacb6"
   end
 
   depends_on "cmake" => :build

@@ -11,8 +11,7 @@ class Gpp < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/gpp-2.28"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0490823041fcf0698dadf7ea5c88fd70be647a38b93f8a201a38dbd0c5387135"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b2e5aecc03d54a6468c448baec44db74c0f1057197355b12c4be515d9a31c139"
   end
 
   head do
@@ -21,6 +20,8 @@ class Gpp < Formula
     depends_on "autoconf" => :build
     depends_on "automake" => :build
   end
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose" if build.head?

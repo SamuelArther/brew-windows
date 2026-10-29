@@ -1,8 +1,8 @@
 class Tesseract < Formula
   desc "OCR (Optical Character Recognition) engine"
   homepage "https://tesseract-ocr.github.io/"
-  url "https://github.com/tesseract-ocr/tesseract/archive/refs/tags/5.5.3.tar.gz"
-  sha256 "9218e62793116d42a9f6d14cd9348518b27f382096eea3d0f2d1a24616bb5884"
+  url "https://github.com/tesseract-ocr/tesseract/archive/refs/tags/5.5.4.tar.gz"
+  sha256 "a8dbf8b8c8ee427ff6ad1d99116502feaf59440af1adb893caf60a6576826cf4"
   license "Apache-2.0"
   compatibility_version 1
   head "https://github.com/tesseract-ocr/tesseract.git", branch: "main"
@@ -13,7 +13,7 @@ class Tesseract < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "34c7e4c21867e14afa79b7214cbc0912ca66ca4f602f9cd5912c356af29b16b8"
+    sha256 cellar: :any, x86_64_windows: "6d3cdee45bc5f6e545e1da591b7bec60e80225b1acc47313562ec1cdd50fe4e6"
   end
 
   depends_on "autoconf" => :build
@@ -24,7 +24,7 @@ class Tesseract < Formula
   depends_on "fontconfig"
   depends_on "glib"
   depends_on "harfbuzz"
-  depends_on "icu4c@78"
+  depends_on "icu4c@79"
   depends_on "leptonica"
   depends_on "libarchive"
   depends_on "pango"

@@ -13,7 +13,7 @@ class Jupp < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e9323e15d61993f0a444c9c80c9af9a4f8903a4226f7dafdea1be6d46497a3be"
+    sha256 cellar: :any, x86_64_windows: "002dac7ac8a53dea863e025c1d4f5202e7302fea7cb36d8aaa54e9e588f7f1ae"
   end
 
   depends_on "autoconf" => :build
@@ -27,6 +27,8 @@ class Jupp < Formula
   end
 
   conflicts_with "joe", because: "both install the same binaries"
+
+  deny_network_access!
 
   def install
     # C23 makes `()` mean `(void)`, breaking the K&R-style `jpoly_int` callback typedef
