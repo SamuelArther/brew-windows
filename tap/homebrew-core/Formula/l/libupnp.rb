@@ -1,17 +1,13 @@
 class Libupnp < Formula
   desc "Portable UPnP development kit"
   homepage "https://pupnp.sourceforge.io/"
-  url "https://github.com/pupnp/pupnp/releases/download/release-22.1.9/libupnp-22.1.9.tar.bz2"
-  sha256 "9acebcd6f92c6161cf53c638b6f03ba56eb894893bb75c0894b2fb740822caf5"
+  url "https://github.com/pupnp/pupnp/releases/download/release-22.1.10/libupnp-22.1.10.tar.bz2"
+  sha256 "33b1dcb23a824a348ef4553f38b22a37f4d17e27d0998b3f33c156b3dcd8e06b"
   license "BSD-3-Clause"
 
   livecheck do
     url :stable
     regex(/^release[._-]v?(\d+(?:\.\d+)+)$/i)
-  end
-
-  bottle do
-    sha256 cellar: :any, x86_64_windows: "2a3d41204d9f950cbddee62d789e62587d8abfbdce88c805aeca5f0ab5d8f07e"
   end
 
   depends_on "cmake" => :build

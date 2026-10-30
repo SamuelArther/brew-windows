@@ -6,9 +6,10 @@ class Khard < Formula
   url "https://files.pythonhosted.org/packages/b8/80/56b6698504dd5ed2e1f354af6e823845da62254150198071958b900eada8/khard-0.22.0.tar.gz"
   sha256 "99f8ce6ab338eafb4840d82881a155b3f13031505123efc92ea42e88e900c6dd"
   license "GPL-3.0-only"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e22b56058d1556f92ba3d09f8bf5a3ceb4a05f1ec2fc92227feae32e2f114152"
+    sha256 cellar: :any, x86_64_windows: "70c276a22f13e6f359d39d6edcc7b86fc74039d1f0a0c4a759425e7919becb37"
   end
 
   depends_on "python@3.15"

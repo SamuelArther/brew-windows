@@ -5,12 +5,12 @@ class CmarkGfm < Formula
   version "0.29.0.gfm.13"
   sha256 "5abc61798ebd9de5660bc076443c07abad2b8d15dbc11094a3a79644b8ad243a"
   license "BSD-2-Clause"
+  compatibility_version 1
 
   no_autobump! because: :incompatible_version_format
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cmark-gfm-0.29.0.gfm.13"
-    sha256 cellar: :any, x86_64_windows: "ff4b325cfe40c27101bd4704502ce83ac22724904fe4fa3f19a2b96b9ef67cd5"
+    sha256 cellar: :any, x86_64_windows: "d1e453728e5204c82fdf15c2318b3b8c2613c9525d60e4ad125540e41f892cfa"
   end
 
   depends_on "cmake" => :build

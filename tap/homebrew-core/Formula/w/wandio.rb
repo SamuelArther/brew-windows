@@ -5,6 +5,7 @@ class Wandio < Formula
   version "4.2.7"
   sha256 "45021795b5c4d1609ba509358e730ea605c4c9621704d75214abb003f37602ab"
   license "LGPL-3.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -15,7 +16,7 @@ class Wandio < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9c85ca5915e844e8e081f294986596801aecba6daf600b7586ae62270c3bab7c"
+    sha256 cellar: :any, x86_64_windows: "c56da376ed6eee610e6572e8d9ae0de582befa10af29babd191ae845eef7545f"
   end
 
   depends_on "autoconf" => :build

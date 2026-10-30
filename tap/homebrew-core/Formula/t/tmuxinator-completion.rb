@@ -4,6 +4,7 @@ class TmuxinatorCompletion < Formula
   url "https://github.com/tmuxinator/tmuxinator/archive/refs/tags/v3.4.2.tar.gz"
   sha256 "5abf32ddd6cb22fac7991310024bc14d95820e09cb7d86c6b633210afd549f67"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/tmuxinator/tmuxinator.git", branch: "master"
 
   livecheck do
@@ -11,8 +12,7 @@ class TmuxinatorCompletion < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tmuxinator-completion-3.4.2"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8fc77ee3586f99675954885f5835dbf80e59cb8edfce2564e2ee4054e8120f14"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4bbabd8b047641419e49910eb0125f9bbbb165d3d28648d873c41a1b597caefb"
   end
 
   def install

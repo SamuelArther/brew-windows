@@ -5,6 +5,7 @@ class Voroxx < Formula
   sha256 "ef7970071ee2ce3800daa8723649ca069dc4c71cc25f0f7d22552387f3ea437e"
   license "BSD-3-Clause"
   revision 2
+  compatibility_version 1
 
   livecheck do
     url "https://math.lbl.gov/voro++/download/"
@@ -12,7 +13,7 @@ class Voroxx < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d43d5b6ef5d15cb1e3eee1c355463f575bae6575d80e1b4bb2c44630ec5e04a2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "172c8f469ddf3b436ce5d7ae7b7cd9bb8b3332d2deb34037da7dbf37f006feb8"
   end
 
   def install

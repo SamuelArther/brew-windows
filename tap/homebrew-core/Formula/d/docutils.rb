@@ -6,9 +6,10 @@ class Docutils < Formula
   url "https://files.pythonhosted.org/packages/39/a4/5180d9afc57e8fca05601dd652bdff19604c218814037fe90ffc7625a50a/docutils-0.23.tar.gz"
   sha256 "746f5060322511280a1e50eb76846ed6bf2342984b2ac04dc42caa1a8d78799e"
   license all_of: [:public_domain, "BSD-2-Clause", "GPL-3.0-or-later", "Python-2.0"]
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7061e37d904227dc4755a7c59258957c133d2dbd547c363da10a43607a8dc09f"
+    sha256 cellar: :any, x86_64_windows: "c620ad846aaa985a1e073d336ff7043c20c1bf3e27afb91fd74041ccb36df24d"
   end
 
   depends_on "python@3.15"

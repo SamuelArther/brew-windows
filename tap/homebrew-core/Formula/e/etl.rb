@@ -4,6 +4,7 @@ class Etl < Formula
   url "https://github.com/synfig/synfig/releases/download/v1.5.5/ETL-1.5.5.tar.gz"
   sha256 "570c898f1c976fac3026866d718ea3f48f8bce1b232ed8cbedc65921c4e3cc25"
   license "GPL-3.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -11,7 +12,7 @@ class Etl < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "09cb4429b1d92214b443aafc34e9b3d9a98ac8f80c34ebd9d6df59633e781d72"
+    sha256 cellar: :any, x86_64_windows: "55aa3c662d676bcc412e85dc4ca65107a17d9adfbf5c24c14657899e90ff77d6"
   end
 
   depends_on "pkgconf" => :build

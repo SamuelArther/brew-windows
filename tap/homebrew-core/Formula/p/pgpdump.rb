@@ -4,11 +4,11 @@ class Pgpdump < Formula
   url "https://github.com/kazu-yamamoto/pgpdump/archive/refs/tags/v0.38.tar.gz"
   sha256 "6e994c2ee7479ea4f4492d5d94d7177ac493fdb1b1bcf698aa90ae26495fd95b"
   license "BSD-3-Clause"
+  compatibility_version 1
   head "https://github.com/kazu-yamamoto/pgpdump.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pgpdump-0.38"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "cfc45a76c0567f1ba89286395f14e8f0e0801f2db4fac85f4b06b3d21cfbd387"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "78aba7563e3ad266a6912b975bc4299e2ae9b8053185926f4ecd361bf8bd7fff"
   end
 
   depends_on "autoconf" => :build

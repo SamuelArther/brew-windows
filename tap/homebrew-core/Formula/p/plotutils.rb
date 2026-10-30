@@ -6,6 +6,7 @@ class Plotutils < Formula
   sha256 "4f4222820f97ca08c7ea707e4c53e5a3556af4d8f1ab51e0da6ff1627ff433ab"
   license "GPL-3.0-or-later"
   revision 1
+  compatibility_version 1
 
   bottle do
     sha256 cellar: :any, x86_64_windows: "0ef9436c100baf0e2e6aa55b50fcc54267c02c4015e0e2fa8289b923f1506a40"

@@ -4,6 +4,7 @@ class SpiceProtocol < Formula
   url "https://www.spice-space.org/download/releases/spice-protocol-0.14.5.tar.xz"
   sha256 "baf58449f6e89d19f475899ad5fb9196fdc46c03cc53233f4e39cf2978f9cff7"
   license "BSD-3-Clause"
+  compatibility_version 1
 
   livecheck do
     url "https://www.spice-space.org/download/releases/"
@@ -11,8 +12,7 @@ class SpiceProtocol < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/spice-protocol-0.14.5"
-    sha256 cellar: :any, x86_64_windows: "3e7c8972deed3312c0b706e092fd62cf4dd2d90087a091f6ba69da433382ada4"
+    sha256 cellar: :any, x86_64_windows: "230c390e9701b0fe97a7947d3726e7055a2e73bf716699cac2d9827c97c9ba4e"
   end
 
   depends_on "meson" => :build

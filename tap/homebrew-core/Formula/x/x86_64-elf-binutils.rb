@@ -5,13 +5,14 @@ class X8664ElfBinutils < Formula
   mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.47.tar.bz2"
   sha256 "3068128c75cda9f898ccb4211d360246e8e195ffcc9dfb655b23ae23a54800e8"
   license "GPL-3.0-or-later"
+  compatibility_version 1
 
   livecheck do
     formula "binutils"
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6b90aff702bc93a9e006d513e2d8b79ff5c88903f2ad2b020f48559b016b9a85"
+    sha256 cellar: :any, x86_64_windows: "4dd89eb665f1a3e4685d867b530b3721be69445d896ab56c249c0d8e149a9017"
   end
 
   depends_on "pkgconf" => :build

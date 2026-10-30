@@ -4,9 +4,10 @@ class Bowtie2 < Formula
   url "https://github.com/BenLangmead/bowtie2/archive/refs/tags/v2.5.5.tar.gz"
   sha256 "e38d1833ec235ca27fa57589d32d897c9addf87085b7cb7bc978662954662da2"
   license "GPL-3.0-or-later"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "53d8808eed47ed9729b6d2d7c481d13a0f7e32e52a3a9a5f7a40d7e3c844ad36"
+    sha256 cellar: :any, x86_64_windows: "cd14423c4647922a191ac2e6a396b45e79a8024076457a5519ca680866db7fae"
   end
 
   uses_from_macos "perl"

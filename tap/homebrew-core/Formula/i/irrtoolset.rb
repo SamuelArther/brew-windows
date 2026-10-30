@@ -13,7 +13,7 @@ class Irrtoolset < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c74dee824e5885f5fe1ebd38ae775ced18cf15be6a59e7f89002d6ed3b529145"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f0b3d660d66314d5c964c2c89768152b7f02dd5d005fdfac5048b1e70882e9ad"
   end
 
   depends_on "autoconf" => :build
@@ -27,6 +27,8 @@ class Irrtoolset < Formula
   on_linux do
     depends_on "readline"
   end
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

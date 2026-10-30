@@ -4,6 +4,7 @@ class Freexl < Formula
   url "https://www.gaia-gis.it/gaia-sins/freexl-sources/freexl-2.0.0.tar.gz"
   sha256 "176705f1de58ab7c1eebbf5c6de46ab76fcd8b856508dbd28f5648f7c6e1a7f0"
   license any_of: ["MPL-1.1", "GPL-2.0-or-later", "LGPL-2.1-or-later"]
+  compatibility_version 1
 
   livecheck do
     url :homepage
@@ -11,7 +12,7 @@ class Freexl < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d5e26f44dc86888ed6e7fa89235cbb50d4103714d3fa83975f7df8227c3f4e6b"
+    sha256 cellar: :any, x86_64_windows: "b9ae924a801fce10e7046767b726a744b98769cda8a64a38e28ee43f91a9f45a"
   end
 
   depends_on "minizip"

@@ -11,11 +11,12 @@ class Idsgrep < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/idsgrep-0.6"
-    sha256 cellar: :any, x86_64_windows: "ca81d9f0eef0b5be57c99bd268714476fb0819fd6719922a88486c4d22a919e6"
+    sha256 cellar: :any, x86_64_windows: "08c9f6f8f47103a5c78bd82c4cd7eab7f2f8589c28913cc3f392be4a7e8ba6be"
   end
 
   depends_on "cmake" => :build
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-silent-rules",

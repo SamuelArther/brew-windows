@@ -4,11 +4,11 @@ class CpuFeatures < Formula
   url "https://github.com/google/cpu_features/archive/refs/tags/v0.11.0.tar.gz"
   sha256 "ab2463f2d38fcaff1ce806be8e4c91333449931f5e02009d543b2569a3fa471a"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/google/cpu_features.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cpu_features-0.11.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "cd7ed64a2355084d677f2c083ad93bf3801a03f275c4a53f08af8fe7302d7333"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7ce47066831b272b75d6921e4a4ec76678d22090ba78bb22340b88ddaec156e6"
   end
 
   depends_on "cmake" => :build

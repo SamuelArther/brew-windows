@@ -4,9 +4,10 @@ class Vc < Formula
   url "https://github.com/VcDevel/Vc/archive/refs/tags/1.4.5.tar.gz"
   sha256 "eb734ef4827933fcd67d4c74aef54211b841c350a867c681c73003eb6d511a48"
   license "BSD-3-Clause"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "866e7a1d097442b4cc2ca9626c2fae1bf067a26f9201dc1f60392add203a2540"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ac8195773ee66c74beae526089e751df374572c1c9425e5f907496a0efb02624"
   end
 
   depends_on "cmake" => :build

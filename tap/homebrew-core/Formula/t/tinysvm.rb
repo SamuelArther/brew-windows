@@ -5,6 +5,7 @@ class Tinysvm < Formula
   mirror "http://chasen.org/~taku/software/TinySVM/src/TinySVM-0.09.tar.gz"
   sha256 "e377f7ede3e022247da31774a4f75f3595ce768bc1afe3de9fc8e962242c7ab8"
   license "LGPL-2.1-or-later"
+  compatibility_version 1
 
   livecheck do
     url :homepage
@@ -12,7 +13,7 @@ class Tinysvm < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4fb00bf80ead5a8631c196fd49143fa8df13408958864e21ee92cca076e5c15f"
+    sha256 cellar: :any, x86_64_windows: "eb28c8563799909ecb927538e185959298c9214613b6cfe8fa18fdc408361202"
   end
 
   # Use correct compilation flag, via MacPorts.

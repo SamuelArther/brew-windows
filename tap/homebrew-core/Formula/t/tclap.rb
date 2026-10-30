@@ -4,6 +4,7 @@ class Tclap < Formula
   url "https://downloads.sourceforge.net/project/tclap/v1.6.0/tclap-1.6.0.tar.gz"
   sha256 "2ed4bb7655cb4feb7a0432311f1194875bf2d61d6624bf3e513fa101cb0bcb10"
   license "MIT"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -11,7 +12,7 @@ class Tclap < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5ae0653f03d3695c9796d9415576d14556163fcecff98ccccec9b77aaacb4760"
+    sha256 cellar: :any, x86_64_windows: "71947d801c7817cd95c9beba0372bef498d097475503473b05593544c84ae8e4"
   end
 
   depends_on "cmake" => :build

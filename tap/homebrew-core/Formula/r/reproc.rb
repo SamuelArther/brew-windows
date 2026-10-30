@@ -4,11 +4,11 @@ class Reproc < Formula
   url "https://github.com/daandemeyer/reproc/archive/refs/tags/14.2.8.tar.gz"
   sha256 "27c3b452bfc419a2deda23969aa10c77909c4ff9e71c549eb65d09ae6aa7aa32"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/DaanDeMeyer/reproc.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/reproc-14.2.8"
-    sha256 cellar: :any, x86_64_windows: "e616830736c18e77b6b37a0bfb297e8a7ffe212e500078d2bf09862a273f6a70"
+    sha256 cellar: :any, x86_64_windows: "0d73583db667d25dc36089b479a2196038f1c6893c2c90fd8b8e7863ee3df802"
   end
 
   depends_on "cmake" => :build

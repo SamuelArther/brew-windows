@@ -4,13 +4,13 @@ class OpenclHeaders < Formula
   url "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2026.05.29.tar.gz"
   sha256 "d9e6c48357de5002da11ce45de600e0c3ffe6ab4f628a3b9fe2b38603161658a"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/KhronosGroup/OpenCL-Headers.git", branch: "main"
 
   keg_only :shadowed_by_macos, "macOS provides OpenCL.framework"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/opencl-headers-2026.05.29"
-    sha256 cellar: :any, x86_64_windows: "a0857c00d0257cdd7e74b3520fc0ceabbf91fc321e287e7d93a2161b33dfa431"
+    sha256 cellar: :any, x86_64_windows: "67adeb691d07b8848a957611aa338aabba8441f95d6b473dd334cddf5a16d8c1"
   end
 
   depends_on "cmake" => :build

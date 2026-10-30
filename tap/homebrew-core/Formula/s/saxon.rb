@@ -5,6 +5,7 @@ class Saxon < Formula
   version "13.0"
   sha256 "4a08ac02d8ea26b769bf14274bef27b3c8bbf2557b20b7e4258d172e99638163"
   license all_of: ["BSD-3-Clause", "MIT", "MPL-2.0"]
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -22,7 +23,7 @@ class Saxon < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ca4d70e238044eaac7651d4603d8e83683fa0a896f893549e3b27e3cedee0e9f"
+    sha256 cellar: :any, x86_64_windows: "bd5136d9d5c39feeb672ca880b9b3c49c617430bb58acf9c639abb3a1669b601"
   end
 
   no_autobump! because: :incompatible_version_format

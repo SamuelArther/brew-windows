@@ -2,6 +2,7 @@ class Cmrc < Formula
   desc "CMake Resource Compiler"
   homepage "https://github.com/vector-of-bool/cmrc"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/vector-of-bool/cmrc.git", branch: "master"
 
   stable do
@@ -18,8 +19,7 @@ class Cmrc < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cmrc-2.0.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ac398b0ec0e1c8e56795ae3b40072497963e1c2c80fed0d06b8b14b0855e5c4c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5e3c420b79c557a18574af67433bdefd7af59ac8b207202bb303266936da56db"
   end
 
   depends_on "cmake" => [:build, :test]

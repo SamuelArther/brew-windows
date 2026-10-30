@@ -5,6 +5,7 @@ class Cryptopp < Formula
   version "8.9.0"
   sha256 "4cc0ccc324625b80b695fcd3dee63a66f1a460d3e51b71640cdbfc4cd1a3779c"
   license all_of: [:public_domain, "BSL-1.0"]
+  compatibility_version 1
   head "https://github.com/weidai11/cryptopp.git", branch: "master"
 
   livecheck do
@@ -16,8 +17,7 @@ class Cryptopp < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cryptopp-8.9.0"
-    sha256 cellar: :any, x86_64_windows: "cae1b34cf0de51575247ad2f541264553a546239c1fcc70c128201eeee80066b"
+    sha256 cellar: :any, x86_64_windows: "c3acb6dda89ad63968cac4578966f9150094f436cd5c7ccfd34ea4689e9f1d1e"
   end
 
   deny_network_access!

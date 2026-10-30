@@ -4,6 +4,7 @@ class Immer < Formula
   url "https://github.com/arximboldi/immer/archive/refs/tags/v0.9.1.tar.gz"
   sha256 "b18b92ba60ec3186dc36ef671d3c2ae542cbb63eb6dc0e258476c6111a67c971"
   license "BSL-1.0"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -11,8 +12,7 @@ class Immer < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/immer-0.9.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "dfb9efeef953e3b3e80ed9c08d86b1a0239c7f3bee63e3bace771d2eeac8584d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3c22aeefebdbf77efa72471376d4912b493d5d16ce95ab09239d7b5de9b3a7a4"
   end
 
   depends_on "cmake" => :build

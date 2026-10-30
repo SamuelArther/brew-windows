@@ -4,10 +4,10 @@ class Fruit < Formula
   url "https://github.com/google/fruit/archive/refs/tags/v3.7.1.tar.gz"
   sha256 "ed4c6b7ebfbf75e14a74e21eb74ce2703b8485bfc9e660b1c36fb7fe363172d0"
   license "Apache-2.0"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/fruit-3.7.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "caf5ddd8e3455fe7cc65513e8c129cc5d3b99cbc51bb136bf0e6733c45fe1e56"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e41986f174727a97baec1415f222934b45e5716f2287243403d153128be3bf56"
   end
 
   depends_on "cmake" => :build

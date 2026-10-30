@@ -4,6 +4,7 @@ class Libdshconfig < Formula
   url "https://www.netfort.gr.jp/~dancer/software/downloads/libdshconfig-0.20.13.tar.gz"
   sha256 "6f372686c5d8d721820995d2b60d2fda33fdb17cdddee9fce34795e7e98c5384"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url "https://www.netfort.gr.jp/~dancer/software/downloads/"
@@ -11,8 +12,7 @@ class Libdshconfig < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdshconfig-0.20.13"
-    sha256 cellar: :any, x86_64_windows: "fb80993830f495ca1cd97917dee6e268c8bf16797947c458ce884ed634441171"
+    sha256 cellar: :any, x86_64_windows: "bba269b5550f934c7dfedd07a08ab955b773814a4473da9184f8b1536d85dc63"
   end
 
   depends_on "autoconf" => :build

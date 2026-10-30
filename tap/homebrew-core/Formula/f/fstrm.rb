@@ -2,6 +2,7 @@ class Fstrm < Formula
   desc "Frame Streams implementation in C"
   homepage "https://github.com/farsightsec/fstrm"
   license "MIT"
+  compatibility_version 1
 
   stable do
     url "https://dl.farsightsecurity.com/dist/fstrm/fstrm-0.6.1.tar.gz"
@@ -20,7 +21,7 @@ class Fstrm < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f6a64e451db101b0ca343622bf056d7850613cf4288c165c04001efbc57fe283"
+    sha256 cellar: :any, x86_64_windows: "0c6dd4c124e809b148b076868dd9bbdb535f970deea6f7532f4cea4fa05e252f"
   end
 
   head do

@@ -4,9 +4,10 @@ class Xbitmaps < Formula
   url "https://xorg.freedesktop.org/archive/individual/data/xbitmaps-1.1.4.tar.xz"
   sha256 "895722f136e21e728c52f2d99fd2dae95018b9ddad1bac1f29d61bcd6593721d"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8fe1157be57076659c15b732855311a170694bfe66f34a282db087f270724bce"
+    sha256 cellar: :any, x86_64_windows: "e3cce3fbfa11f6f41e20f3e156199212d9d35ea906d1cad54a5c2fd313a6f611"
   end
 
   depends_on "pkgconf" => :build

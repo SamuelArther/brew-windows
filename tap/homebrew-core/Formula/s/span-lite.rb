@@ -4,11 +4,11 @@ class SpanLite < Formula
   url "https://github.com/nonstd-lite/span-lite/archive/refs/tags/v0.11.0.tar.gz"
   sha256 "ef4e028e18ff21044da4b4641ca1bc8a2e2d656e2028322876c0e1b9b6904f9d"
   license "BSL-1.0"
+  compatibility_version 1
   head "https://github.com/nonstd-lite/span-lite.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/span-lite-0.11.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a9a3a45dc9f813fb841f4c5361a313a6edbae64e67d63cebf4d243fc21d673a4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "28a32cae629bd0ae4f819a298136637e5f965463793665d4523eba4c58bbda8a"
   end
 
   depends_on "cmake" => :build

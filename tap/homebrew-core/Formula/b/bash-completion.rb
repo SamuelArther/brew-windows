@@ -7,13 +7,14 @@ class BashCompletion < Formula
   sha256 "8ebe30579f0f3e1a521013bcdd183193605dab353d7a244ff2582fb3a36f7bec"
   license "GPL-2.0-or-later"
   revision 3
+  compatibility_version 1
 
   livecheck do
     skip "1.x versions are no longer developed"
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5aa31a54c80ef9c9f18ee821a3913602d4ffeeddc4451d53be281eb3263e8554"
+    sha256 cellar: :any, x86_64_windows: "79b7be8b1c6cb186aeeffa13f85b973b42b1b887adeeab3774ccb925f3540b5e"
   end
 
   on_linux do

@@ -6,10 +6,11 @@ class Toxcore < Formula
   url "https://github.com/TokTok/c-toxcore/releases/download/v0.2.23/c-toxcore-v0.2.23.tar.xz"
   sha256 "a6c3d559ac06eb6b9d48b3edc72f64a97df823c9f64f7dd97c3999ffdc05381b"
   license "GPL-3.0-or-later"
+  compatibility_version 1
   head "https://github.com/TokTok/c-toxcore.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "dd5fdead63114da62bfb4f7498f6c156f285f483d4080dbe06c0c7e17ab353a7"
+    sha256 cellar: :any, x86_64_windows: "242fa42f582c9c7a63fcedccf55fb701e6820caf0f5779bdfb86dd93bcede1ff"
   end
 
   depends_on "cmake" => :build

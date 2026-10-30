@@ -4,9 +4,10 @@ class Tlx < Formula
   url "https://github.com/tlx/tlx/archive/refs/tags/v0.6.1.tar.gz"
   sha256 "24dd1acf36dd43b8e0414420e3f9adc2e6bb0e75047e872a06167961aedad769"
   license "BSL-1.0"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "28a3f8c97e52af43e8c96b8a9fb52326217d2076fe528a0f3da536918eda973b"
+    sha256 cellar: :any, x86_64_windows: "132d74787025c149355b99bdb5d438fcce27ce0bd8460618a2ac7ea51111c792"
   end
 
   depends_on "cmake" => :build

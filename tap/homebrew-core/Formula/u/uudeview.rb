@@ -6,6 +6,7 @@ class Uudeview < Formula
   sha256 "e49a510ddf272022af204e96605bd454bb53da0b3fe0be437115768710dae435"
   license "GPL-2.0-or-later"
   revision 1
+  compatibility_version 1
 
   livecheck do
     url :homepage
@@ -13,7 +14,7 @@ class Uudeview < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d796e658a00d0698ac3f8f69c7674d60cf64dc3889ae3237ce1ac738889f3d41"
+    sha256 cellar: :any, x86_64_windows: "ff29b48b2d034fb802fb70a09a02db83544a9b849d43414110aeb05000964c0a"
   end
 
   # fix implicit declaration, remove in release > 0.5.20

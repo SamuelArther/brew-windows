@@ -4,6 +4,7 @@ class Tirith < Formula
   url "https://github.com/sheeki03/tirith/archive/refs/tags/v0.4.2.tar.gz"
   sha256 "84e1fdc35e60d684ab932e73c342b71e27d575bc70defcec4989c36957153b0a"
   license "AGPL-3.0-only"
+  compatibility_version 1
   head "https://github.com/sheeki03/tirith.git", branch: "main"
 
   livecheck do
@@ -12,7 +13,7 @@ class Tirith < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "115ece5cc284974e7e47bf8dd3b0f57f693e57c4c6361f96966bc15a7ffca4dd"
+    sha256 cellar: :any, x86_64_windows: "9c6f0811c91ab97090b3c03b9842fb9e549ef03967dbcefb6757866babf5da2d"
   end
 
   depends_on "rust" => :build

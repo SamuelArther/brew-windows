@@ -4,11 +4,11 @@ class Cminpack < Formula
   url "https://github.com/devernay/cminpack/archive/refs/tags/v1.3.14.tar.gz"
   sha256 "10a76d214e01baa0480828fa473c2ef6209983c80941eca10b5a69df4de02cee"
   license "Minpack"
+  compatibility_version 1
   head "https://github.com/devernay/cminpack.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cminpack-1.3.14"
-    sha256 cellar: :any, x86_64_windows: "185820996ab1450469224e7e15040cae67126d1142bedfaf371038c8132569bf"
+    sha256 cellar: :any, x86_64_windows: "cf9692957e0fc0487cd15e1c3c5dcba5046efc05164564f8afdcfe66df7caf50"
   end
 
   depends_on "cmake" => :build

@@ -1,13 +1,13 @@
 class ApiLinter < Formula
   desc "Linter for APIs defined in protocol buffers"
   homepage "https://linter.aip.dev/"
-  url "https://github.com/googleapis/api-linter/archive/refs/tags/v2.4.0.tar.gz"
-  sha256 "8625ac84518ae0db94bd112858d30f4a91fcbb63b8743f64a962faa3ab3d406a"
+  url "https://github.com/googleapis/api-linter/archive/refs/tags/v2.4.1.tar.gz"
+  sha256 "253dc16eac247991b2c27d37e044bba2f1c4040da4a20fc3e82af4e800149b91"
   license "Apache-2.0"
   head "https://github.com/googleapis/api-linter.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ee0feca6015d3ab1331ae37f3cf864f8305b34b228415b52afd6a24e4fe23183"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "60ece889af534e1d591a708cc99fecc4ad765855f653e1816c77f6f2b6974151"
   end
 
   depends_on "go" => :build

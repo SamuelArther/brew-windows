@@ -4,6 +4,7 @@ class IcarusVerilog < Formula
   url "https://github.com/steveicarus/iverilog/archive/refs/tags/v13_0.tar.gz"
   sha256 "c897bbfa9848688982c6d5c30529fc29d68df0b9ff22ffa73bad89db73a7ce49"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.1-or-later"]
+  compatibility_version 1
   head "https://github.com/steveicarus/iverilog.git", branch: "master"
 
   livecheck do
@@ -15,7 +16,7 @@ class IcarusVerilog < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "109c0470ee459ab680031a4f92a114e8c3ec1a6875d415225fee237c66032256"
+    sha256 cellar: :any, x86_64_windows: "052ea1c5fda8247aae4db652083ee3085902013ad03017ad1a6e777d6e991c8e"
   end
 
   depends_on "autoconf" => :build
@@ -38,6 +39,8 @@ class IcarusVerilog < Formula
     type :backport
     resolves "https://github.com/steveicarus/iverilog/pull/1315"
   end
+
+  deny_network_access!
 
   def install
     system "autoconf"

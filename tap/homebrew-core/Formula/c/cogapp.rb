@@ -6,9 +6,10 @@ class Cogapp < Formula
   url "https://files.pythonhosted.org/packages/64/ea/4ffa8095e0b675e9961cbdcad002c09d35d4ab76ff99d61a014e9e6bcd53/cogapp-3.6.0.tar.gz"
   sha256 "ec2a9170bfa644bf0d91996fdb5576c13d7e5e848bb2378a6f92727b48f92604"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1b7955860c94ff67e2af6d55ef6f5d425127ff3ba83b98c2f5fea5e32e7c3ed3"
+    sha256 cellar: :any, x86_64_windows: "d993e3d68d54b0da6859b431d4344b5b8d4fdab57380b6d21740ee6b75d31561"
   end
 
   depends_on "python@3.15"

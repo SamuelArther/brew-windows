@@ -4,11 +4,11 @@ class Cli11 < Formula
   url "https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.7.2.tar.gz"
   sha256 "46eef3101da70852ec7af026e09d485ccee81813331c8c6052d39344443b83da"
   license "BSD-3-Clause"
+  compatibility_version 1
   head "https://github.com/CLIUtils/CLI11.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cli11-2.7.2"
-    sha256 cellar: :any, x86_64_windows: "a1092b418c790c4a9317d173794d7e91609b2efa767ce9be323ea60bae6cd015"
+    sha256 cellar: :any, x86_64_windows: "64113fae8b32ba079f685867d2443bee4f845ff1b9616e06b95abfaa6d720eeb"
   end
 
   depends_on "cmake" => :build

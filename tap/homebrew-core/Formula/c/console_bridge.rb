@@ -4,10 +4,10 @@ class ConsoleBridge < Formula
   url "https://github.com/ros/console_bridge/archive/refs/tags/1.0.2.tar.gz"
   sha256 "303a619c01a9e14a3c82eb9762b8a428ef5311a6d46353872ab9a904358be4a4"
   license "BSD-3-Clause"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/console_bridge-1.0.2"
-    sha256 cellar: :any, x86_64_windows: "ed9813542ea8957d91de4205c3b4220e2402e4fdb1c0e300731f02239df21e06"
+    sha256 cellar: :any, x86_64_windows: "2ba7a6894a5473ed74356c2e0626faa779292bdab089a56dc94a01a6709cadc2"
   end
 
   depends_on "cmake" => :build

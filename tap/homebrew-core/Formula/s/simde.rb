@@ -4,10 +4,11 @@ class Simde < Formula
   url "https://github.com/simd-everywhere/simde/archive/refs/tags/v0.8.2.tar.gz"
   sha256 "ed2a3268658f2f2a9b5367628a85ccd4cf9516460ed8604eed369653d49b25fb"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/simd-everywhere/simde.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cbab63210c20603748dd41e34d75c50ecb63d7d78d25434486a465d9d552bdfc"
+    sha256 cellar: :any, x86_64_windows: "3b14060ed869a9a0d48ae9528ab6e3aafb7dc434ed00172c32545bf1857df9e0"
   end
 
   depends_on "meson" => :build

@@ -4,6 +4,7 @@ class Libbinio < Formula
   url "https://github.com/adplug/libbinio/releases/download/libbinio-1.5/libbinio-1.5.tar.bz2"
   sha256 "398b2468e7838d2274d1f62dbc112e7e043433812f7ae63ef29f5cb31dc6defd"
   license "LGPL-2.1-or-later"
+  compatibility_version 1
 
   # Fix -flat_namespace being used on Big Sur and later.
   patch do
@@ -11,8 +12,7 @@ class Libbinio < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libbinio-1.5"
-    sha256 cellar: :any, x86_64_windows: "e7b0aae0dce64fdb3fda806a0e112a8eae76c30d18e57f0bdb13b19564c35e25"
+    sha256 cellar: :any, x86_64_windows: "9b641e147c844679523ff133c85a6a858c77e81881179580437a1dcab0ee9973"
   end
 
   def install

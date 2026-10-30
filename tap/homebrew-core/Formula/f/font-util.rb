@@ -4,9 +4,10 @@ class FontUtil < Formula
   url "https://xorg.freedesktop.org/archive/individual/font/font-util-1.4.2.tar.xz"
   sha256 "02e4f8afdcf03cc8372ca9c37aa104b1e36b47722dbc79531be08f0a4c622999"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b055d23d9f27d89174eedfe8e9a49c6713bfdccc515c0ab58fbc370d5c703818"
+    sha256 cellar: :any, x86_64_windows: "925bad177b77f4f06882ed86570c78a0bc51cfa2478d3a5af260b7acbb931874"
   end
 
   depends_on "pkgconf" => [:build, :test]

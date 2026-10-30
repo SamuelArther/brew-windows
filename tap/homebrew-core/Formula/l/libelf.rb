@@ -7,13 +7,14 @@ class Libelf < Formula
   sha256 "591a9b4ec81c1f2042a97aa60564e0cb79d041c52faa7416acb38bc95bd2c76d"
   license "LGPL-2.0-or-later"
   revision 1
+  compatibility_version 1
 
   livecheck do
     skip "No longer developed or maintained"
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e823126ce5f1a6783ee5865430312cd4877560586fe17fae30a97bf6172cd76c"
+    sha256 cellar: :any, x86_64_windows: "67dd824cfae0864489dba7c3b8c4441e801268bc6da369b0121b8b6f78231dbd"
   end
 
   # Commented out while this formula still has dependents.

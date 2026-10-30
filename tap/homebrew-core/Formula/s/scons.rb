@@ -6,9 +6,10 @@ class Scons < Formula
   url "https://files.pythonhosted.org/packages/42/b9/b7a5c88f348a0c34594d88100872c55fa1cae863ccb222c1c438341b5503/scons-4.11.1.tar.gz"
   sha256 "4210d1a80a62e986029208117991b6347ccaaaab37b67463a3ff31ee065dc487"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2e54a5ba9da3f638442700609eaa2337f3226d851df6950fc14456d278370f33"
+    sha256 cellar: :any, x86_64_windows: "11f01d1931f18693520ea53c405d1cf439f884565cb07edc16df43bd3b5cc2fa"
   end
 
   depends_on "python@3.15"

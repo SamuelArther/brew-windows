@@ -4,6 +4,7 @@ class Protozero < Formula
   url "https://github.com/mapbox/protozero/archive/refs/tags/v1.8.2.tar.gz"
   sha256 "68d1df951b4d8397355c8fc9ffed40d9c06282a877fe847403feac6edcee3ef1"
   license "BSD-2-Clause"
+  compatibility_version 1
 
   bottle do
     root_url "https://github.com/SamuelArther/brew-windows/releases/download/protozero-1.8.2"

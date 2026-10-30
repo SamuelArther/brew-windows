@@ -4,6 +4,7 @@ class Taktuk < Formula
   url "https://deb.debian.org/debian/pool/main/t/taktuk/taktuk_3.7.8.orig.tar.gz"
   sha256 "f674edd33d27760b1ee6d41abf4542e07061d049405f0203d151e1af74be9b5c"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url "https://deb.debian.org/debian/pool/main/t/taktuk/"
@@ -11,7 +12,7 @@ class Taktuk < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "62d363da04a76b157b52d95882b119fb37f6a5ce2c626032a390da8309f23e90"
+    sha256 cellar: :any, x86_64_windows: "a4b12572ff052f7a2c1626c5dda49d9babec16332293692906b3eb9c6d6ed904"
   end
 
   depends_on "autoconf" => :build

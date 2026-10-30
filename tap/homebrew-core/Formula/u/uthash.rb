@@ -4,11 +4,11 @@ class Uthash < Formula
   url "https://github.com/troydhanson/uthash/archive/refs/tags/v2.4.0.tar.gz"
   sha256 "387ba027946d7c64e9aa19cc53b2edcd714f8f9dca9fa8e3aaef17e0e8e3d736"
   license "BSD-1-Clause"
+  compatibility_version 1
   head "https://github.com/troydhanson/uthash.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/uthash-2.4.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c94823c5cdebcd6c185c83397984967ba36b81de427f793690dbe16d2249d487"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1128fde06952410b3d83b212ac5b07f115df3ba58eed3348a71ba24f15f166d7"
   end
 
   def install

@@ -1,13 +1,13 @@
 class Evtx < Formula
   desc "Windows XML Event Log parser"
   homepage "https://github.com/omerbenamram/evtx"
-  url "https://github.com/omerbenamram/evtx/archive/refs/tags/v0.13.0.tar.gz"
-  sha256 "618d66d3bf7cb151260b0d3f7e9c42229b6af3141abec5670040c62abb1f3e2a"
+  url "https://github.com/omerbenamram/evtx/archive/refs/tags/v0.14.0.tar.gz"
+  sha256 "0cc10f27423fbe51e6809530cca05e375f1a5b8a855915fce3cd5891c79743e0"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/omerbenamram/evtx.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6b38c6ad830b7c283188434d49f0f25ec53e79fdb5b1928a89f9034addb586ad"
+    sha256 cellar: :any, x86_64_windows: "3a9cf3506aebc914131f4188b4aaa5e22b0a8058388e245e786b9b6cb49ba80c"
   end
 
   depends_on "rust" => :build

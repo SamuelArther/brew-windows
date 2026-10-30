@@ -4,9 +4,10 @@ class AklompBase64 < Formula
   url "https://github.com/aklomp/base64/archive/refs/tags/v0.5.2.tar.gz"
   sha256 "723a0f9f4cf44cf79e97bcc315ec8f85e52eb104c8882942c3f2fba95acc080d"
   license "BSD-2-Clause"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "647a9f4a7bd7bc37bfb05a40ddbd6466e49d7a1d3aeadf3359199dc06491714e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d15bdb94ed8d00f3de5e1cf03d7d87b465c9f6b078e503882c4f137960420040"
   end
 
   depends_on "cmake" => :build

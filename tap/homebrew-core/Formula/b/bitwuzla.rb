@@ -4,6 +4,7 @@ class Bitwuzla < Formula
   url "https://github.com/bitwuzla/bitwuzla/archive/refs/tags/0.9.1.tar.gz"
   sha256 "42707f38900a20bb18108e426ba667560d1fd2ccce0d4f75aa60439b546488b4"
   license "MIT"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -11,7 +12,7 @@ class Bitwuzla < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "888a03c4854acbd775b8f4354f694d248298567dba000809916ca6a25a7153bd"
+    sha256 cellar: :any, x86_64_windows: "5bcb942b590d8f43d60f1530d4ae6d4a392dd40c1b7d48625b42957b05c64edc"
   end
 
   depends_on "meson" => :build

@@ -4,9 +4,10 @@ class Corepack < Formula
   url "https://registry.npmjs.org/corepack/-/corepack-0.36.0.tgz"
   sha256 "9128cfe26aee0c99f4fc68c15c6b8b12309a68be0de2c012cdfea2a463cb722f"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "dae6cd63f00004d86c003a983eaed67105a2beacfb362bf1333c9d9fdf719eb7"
+    sha256 cellar: :any, x86_64_windows: "e6be69aade2bbca027d22659a9f3884b9461e765c76029b9bb9fa929b542bb3a"
   end
 
   depends_on "node"

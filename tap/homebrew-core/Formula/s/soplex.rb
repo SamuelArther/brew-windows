@@ -4,6 +4,7 @@ class Soplex < Formula
   url "https://soplex.zib.de/download/release/soplex-8.1.0.tgz"
   sha256 "e7daa1725d9cf01ea1f0a548fa396e7dcc945c1e81af626c2c98503b0c4e5990"
   license "Apache-2.0"
+  compatibility_version 1
 
   livecheck do
     url "https://soplex.zib.de/soplexdata.js"
@@ -11,7 +12,7 @@ class Soplex < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "54113168da912c6fd56ef06572eb1ac6297f0ee651487fa56f8fa0085eedcf06"
+    sha256 cellar: :any, x86_64_windows: "a3cea82abe28a74a8c4f6765845b95888884d174f0bb3c10e70fc1af0249162e"
   end
 
   depends_on "cmake" => :build

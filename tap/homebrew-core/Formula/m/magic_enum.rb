@@ -4,10 +4,10 @@ class MagicEnum < Formula
   url "https://github.com/Neargye/magic_enum/archive/refs/tags/v0.9.8.tar.gz"
   sha256 "1e54959a3f3cb675938d858603ad69d0f3f7c82439fc2bf86d7232daec2bd10e"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/magic_enum-0.9.8"
-    sha256 cellar: :any, x86_64_windows: "3453310a0a5084a242963b75b6b2de616350e52850db129d3628e135a323e5e9"
+    sha256 cellar: :any, x86_64_windows: "ee517684576e25bfc63bb690b28282ae71cdcf2dcb1b75cb4a9b99c11fbc259a"
   end
 
   depends_on "cmake" => :build

@@ -4,9 +4,10 @@ class Doctest < Formula
   url "https://github.com/doctest/doctest/archive/refs/tags/v2.5.3.tar.gz"
   sha256 "174ebc4e769928959614789c5b4e9c3d0a0f81a62bb608756b127bfebfb21331"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "aae30b84c08d5c73416769cfdb16e559aa7e249fef753d52d5e3822bfad30819"
+    sha256 cellar: :any, x86_64_windows: "d0a74ad670657d983811ce137a6b26313e9f56704d388c889f445adbe734016a"
   end
 
   depends_on "cmake" => :build

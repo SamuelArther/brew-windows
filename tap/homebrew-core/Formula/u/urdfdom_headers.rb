@@ -4,6 +4,7 @@ class UrdfdomHeaders < Formula
   url "https://github.com/ros/urdfdom_headers/archive/refs/tags/3.0.1.tar.gz"
   sha256 "42d85a82d1dea2e1252596131e58997244ce6c59d12ae9ab852fe7c35d09f0ec"
   license "BSD-3-Clause"
+  compatibility_version 1
 
   # Upstream uses Git tags (e.g. `1.0.0`) to indicate a new version. They
   # created a few releases on GitHub in the past but now they simply use tags.
@@ -14,8 +15,7 @@ class UrdfdomHeaders < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/urdfdom_headers-3.0.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "47fad29fd3ed497afeebe02e9ce900f6ab8f9214dedaacf928bfd6d6690ec9c5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4d87d1acfd98e623229816e06d1ea39b855ce71f0934a6f074c5712d01fb03b5"
   end
 
   depends_on "cmake" => :build

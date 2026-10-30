@@ -4,10 +4,11 @@ class Leiningen < Formula
   url "https://github.com/technomancy/leiningen/archive/refs/tags/2.13.0.tar.gz"
   sha256 "a71aaf44eaf7796198943bd6db7662c99664bb6441f8dc7216d4a87fa4ea4dad"
   license "EPL-1.0"
+  compatibility_version 1
   head "https://github.com/technomancy/leiningen.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "521c4e82dc8cc00f9c1cd604c312a5e6ea30b3b917c8f3f367ae52c30afabac6"
+    sha256 cellar: :any, x86_64_windows: "a7035dbe7e73192bc51c43269636d767e1ecaea4e9c22f0939ea72bdbbf1c4e5"
   end
 
   depends_on "openjdk"

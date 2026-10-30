@@ -5,6 +5,7 @@ class CypherShell < Formula
   sha256 "cd3604b5bcaa45079d2ea64746ae9bbc880a262d09f92d4d8fa89576fd0484b8"
   license "GPL-3.0-only"
   version_scheme 1
+  compatibility_version 1
 
   livecheck do
     url "https://neo4j.com/deployment-center/"
@@ -12,7 +13,7 @@ class CypherShell < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "183249094fb15442fe7ec56819dd8fa63806737b07df867c7044b4bf8fad2dd3"
+    sha256 cellar: :any, x86_64_windows: "44be4f261682d682f4045c1f756200385ec71e3c0fabff4496d7c29e448078c1"
   end
 
   depends_on "openjdk@21"

@@ -4,9 +4,10 @@ class Libosmium < Formula
   url "https://github.com/osmcode/libosmium/archive/refs/tags/v2.23.1.tar.gz"
   sha256 "eb47d8163396c73870dbf27819dcadda0c56f0191935c4f8659d1e61b261552f"
   license "BSL-1.0"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "fab48d1368c8295aab55dcf75965a3e858fc4db61057386eb2e44c7120a4a529"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e6fd001c819ac1a1491d20cc629e93dd1a55a2eab28360a6579b20e1086dd3e2"
   end
 
   depends_on "boost" => :build

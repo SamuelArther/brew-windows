@@ -4,6 +4,7 @@ class Cimg < Formula
   url "https://cimg.eu/files/CImg_4.0.7.zip"
   sha256 "32b93f038681f7e489af5d2e0a7937a32c90e020d0d9fc01f7d5badf430e6697"
   license "CECILL-2.0"
+  compatibility_version 1
 
   livecheck do
     url "https://cimg.eu/files/"
@@ -11,7 +12,7 @@ class Cimg < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "fe728e367b32db845a76ca3de89a6fdfc21a9282239af20bfeda9887182467d8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "308d39b081edf77e0da143eb6f68f0eb7993dd81e00409d10ba24473ceb20dae"
   end
 
   def install

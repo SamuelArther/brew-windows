@@ -4,9 +4,10 @@ class Cctz < Formula
   url "https://github.com/google/cctz/archive/refs/tags/v2.5.tar.gz"
   sha256 "47d2d68e7cb5af3296dc7e69b0f4a765589f1b2f4af4b9c42e772414c428b421"
   license "Apache-2.0"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "3131fad3fc45fac26d313e2e82ac4d295fdbb8fe9ec12be1870875431bc5771d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ef4340c2e4629ee88e0566928d38ac51cf4a2d448a55efd7f2aec00c7242c2f7"
   end
 
   depends_on "cmake" => :build

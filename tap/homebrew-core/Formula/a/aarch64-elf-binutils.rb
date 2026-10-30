@@ -5,13 +5,14 @@ class Aarch64ElfBinutils < Formula
   mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.47.tar.bz2"
   sha256 "3068128c75cda9f898ccb4211d360246e8e195ffcc9dfb655b23ae23a54800e8"
   license "GPL-3.0-or-later"
+  compatibility_version 1
 
   livecheck do
     formula "binutils"
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f895af709a07a5cf7ab8ce1800062120640d1f155b151ff8ec7c88670ca55c23"
+    sha256 cellar: :any, x86_64_windows: "04dc329e8f5f24b87ba096d2d3b58d25558e2f77000f7fb391b031313fade35c"
   end
 
   depends_on "pkgconf" => :build

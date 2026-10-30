@@ -4,6 +4,7 @@ class FltkAT13 < Formula
   url "https://github.com/fltk/fltk/releases/download/release-1.3.11/fltk-1.3.11-source.tar.bz2"
   sha256 "ca2e144e5f89173cd094cc273940d56230b1bf613083a0792e6406dc191cd99f"
   license "LGPL-2.0-only" => { with: "FLTK-exception" }
+  compatibility_version 1
 
   livecheck do
     url "https://www.fltk.org/software.php"
@@ -11,7 +12,7 @@ class FltkAT13 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b0e0d42c60254f56667ca00ac9a59d543600e2fdbabfbc9c65d577aa40a53a2f"
+    sha256 cellar: :any, x86_64_windows: "2c55eb5c34f3e667a2cadfa150cb51c51b97617c02010a42e17504dbd44d2d11"
   end
 
   keg_only :versioned_formula

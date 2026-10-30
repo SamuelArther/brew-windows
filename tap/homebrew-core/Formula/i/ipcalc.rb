@@ -4,10 +4,10 @@ class Ipcalc < Formula
   url "https://github.com/kjokjo/ipcalc/archive/refs/tags/0.51.tar.gz"
   sha256 "a4dbfaeb7511b81830793ab9936bae9d7b1b561ad33e29106faaaf97ba1c117e"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/ipcalc-0.51"
-    sha256 cellar: :any, x86_64_windows: "11dfef8ba452869b9a4b276083c06be33ce7d473fe026b92134b5ce4814332fa"
+    sha256 cellar: :any, x86_64_windows: "f561273bce78a8b73b820494e8d494f71ebf397d56976323efa2f43b87bc0e15"
   end
 
   def install

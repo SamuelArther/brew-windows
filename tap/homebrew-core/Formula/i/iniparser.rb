@@ -4,10 +4,11 @@ class Iniparser < Formula
   url "https://gitlab.com/iniparser/iniparser/-/archive/v4.3.2/iniparser-v4.3.2.tar.bz2"
   sha256 "60fbba5c2f6c2aa3856c3ba1b6674e48f3322e3437228e5e7df7a0f222e52ac7"
   license "MIT"
+  compatibility_version 1
   head "https://gitlab.com/iniparser/iniparser.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bdc4a0534bcba0d8c532a4e0e37f145f4b8649e6ec87f88a06945c5f24e60e9b"
+    sha256 cellar: :any, x86_64_windows: "554541c9b872f93ba683614cff7afaba10585a58192a1748e049fc4174f40dfd"
   end
 
   depends_on "cmake" => :build

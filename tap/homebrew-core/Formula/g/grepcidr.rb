@@ -4,6 +4,7 @@ class Grepcidr < Formula
   url "https://www.pc-tools.net/files/unix/grepcidr-2.0.tar.gz"
   sha256 "61886a377dabf98797145c31f6ba95e6837b6786e70c932324b7d6176d50f7fb"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url :homepage
@@ -11,8 +12,7 @@ class Grepcidr < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/grepcidr-2.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d361691f918551d01aaa208e869a3dc70043ccc8946d42684bda4cc83833409c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c297ef949fd4d42ee24d0d6251713769150e1ed74ba8b8f82d43e870e8311052"
   end
 
   def install

@@ -4,6 +4,7 @@ class Minimap2 < Formula
   url "https://github.com/lh3/minimap2/archive/refs/tags/v2.31.tar.gz"
   sha256 "bff334a0e4512644e2f3e29944aeec408f49450f4f74dc39fe89e5273869255b"
   license "MIT"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -11,8 +12,7 @@ class Minimap2 < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/minimap2-2.31"
-    sha256 cellar: :any, x86_64_windows: "f1be41be8d135b0fc3580b9bb5e6072993cdb3919a6958dbd409f5cfe27a8f55"
+    sha256 cellar: :any, x86_64_windows: "ae0f64aa8903189fccbe5212568b6d7ca3e0a596105156b16dd5a07543783017"
   end
 
   on_linux do

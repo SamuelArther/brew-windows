@@ -4,11 +4,11 @@ class Zug < Formula
   url "https://github.com/arximboldi/zug/archive/refs/tags/v0.1.2.tar.gz"
   sha256 "75ff666a4ce1615b3ca26abbb17b10f5cb5cf5f86c9c293ec430c34750d3ea27"
   license "BSL-1.0"
+  compatibility_version 1
   head "https://github.com/arximboldi/zug.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/zug-0.1.2"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8062b182d071a03af61820005e1556fe36645160a11459694103b3f41b75eb1b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ec3d275ff6bc3b5792a093f71647883c4b4bb1d3cf9bad33180010a75e129e04"
   end
 
   depends_on "cmake" => :build

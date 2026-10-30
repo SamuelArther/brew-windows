@@ -4,10 +4,10 @@ class RobinMap < Formula
   url "https://github.com/Tessil/robin-map/archive/refs/tags/v1.4.1.tar.gz"
   sha256 "0e3f53a377fdcdc5f9fed7a4c0d4f99e82bbb64175233bd13427fef9a771f4a1"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/robin-map-1.4.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4c9f866416a111c9e8040c97d8d6c7e6f59c0a997be873039f5c9dd8868ab895"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f391dfcfeb011c12cc4e7108eff42cbc7d3df4b54bab15309bb08e50c916dde2"
   end
 
   depends_on "cmake" => [:build, :test]

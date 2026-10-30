@@ -4,10 +4,11 @@ class Rustypaste < Formula
   url "https://github.com/orhun/rustypaste/archive/refs/tags/v0.18.1.tar.gz"
   sha256 "4b63be093e080d4a39e9ca03b378df96f0ae604e469a9c4d9bb437f9643524f0"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/orhun/rustypaste.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "04fdb4742d44810ae654f7cbbf7a6f79d8b527b34d9910ae81d0cbabf298d8f3"
+    sha256 cellar: :any, x86_64_windows: "e3e8dc528e4079f66bd856a320afb752e422e77d6e2d50503b207b517fab22c7"
   end
 
   depends_on "rust" => :build

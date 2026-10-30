@@ -5,13 +5,14 @@ class I686ElfBinutils < Formula
   mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.47.tar.bz2"
   sha256 "3068128c75cda9f898ccb4211d360246e8e195ffcc9dfb655b23ae23a54800e8"
   license "GPL-3.0-or-later"
+  compatibility_version 1
 
   livecheck do
     formula "binutils"
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0f24f4e664b5fe772db418cac04e4842bfda1dc3b67d925d6b955ec27b9108fd"
+    sha256 cellar: :any, x86_64_windows: "7794c2e8fd89a01a05cd7c473b15647a9683e5110e6efe1ae8676b0884e0aea3"
   end
 
   depends_on "pkgconf" => :build

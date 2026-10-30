@@ -4,9 +4,10 @@ class Save3dsFuse < Formula
   url "https://github.com/wwylele/save3ds/archive/refs/tags/v1.4.0.tar.gz"
   sha256 "3bf47e34db1f3e5162df5b8e67a5673b473b37bf0eaa729be28e5e7a62212858"
   license "Apache-2.0"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cb1274bdbb4209371f76c9315354ab91e143b5de7d601f11610ad7f50190ee0d"
+    sha256 cellar: :any, x86_64_windows: "156dabe868683e3df5220700e520cc11a008859d99052414880b333f31eb5b4a"
   end
 
   depends_on "rust" => :build

@@ -4,6 +4,7 @@ class Lzo < Formula
   url "https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz"
   sha256 "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url "https://www.oberhumer.com/opensource/lzo/download/"
@@ -11,8 +12,7 @@ class Lzo < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lzo-2.10"
-    sha256 cellar: :any, x86_64_windows: "07779305e375c3293f208304852e11edcfee860ff6a616274ee7e0c4bed57262"
+    sha256 cellar: :any, x86_64_windows: "d75111336f9aa8ca50d044ac55a704646d10df5d8f8c57ab7c95e244b907e669"
   end
 
   def install

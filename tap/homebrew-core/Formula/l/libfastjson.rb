@@ -4,6 +4,7 @@ class Libfastjson < Formula
   url "https://download.rsyslog.com/libfastjson/libfastjson-1.2609.0.tar.gz"
   sha256 "7cd6f78c1c07f4140f6976a9a0e0048bcaa7292329c6ac2c0e070383d83d8edd"
   license "BSD-2-Clause"
+  compatibility_version 1
 
   livecheck do
     url "https://download.rsyslog.com/libfastjson/"
@@ -11,8 +12,7 @@ class Libfastjson < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libfastjson-1.2609.0"
-    sha256 cellar: :any, x86_64_windows: "d2855a80bec68a2f1de941f06b9c2e93fdab22d65a973a90315ec7423a7c89e7"
+    sha256 cellar: :any, x86_64_windows: "6c268bafc6034e854157d938bc65198cec28db824dd4e6b68625a17fa18452e9"
   end
 
   def install

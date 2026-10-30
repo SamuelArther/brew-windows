@@ -4,6 +4,7 @@ class Orcania < Formula
   url "https://github.com/babelouest/orcania/archive/refs/tags/v2.3.3.tar.gz"
   sha256 "e26947f7622acf3660b71fb8018ee791c97376530ab6c4a00e4aa2775e052626"
   license "LGPL-2.1-only"
+  compatibility_version 1
 
   bottle do
     sha256 cellar: :any, x86_64_windows: "15bd07182c8f832c5d0eb79e09c3b23805cc3c876a5500858735346d3c5c5200"

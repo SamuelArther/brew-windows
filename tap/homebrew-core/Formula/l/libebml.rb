@@ -4,6 +4,7 @@ class Libebml < Formula
   url "https://dl.matroska.org/downloads/libebml/libebml-1.4.7.tar.xz"
   sha256 "5b08214f929ee54c6187c370f84235fc9d0f2a2258c4d320d68eae6e2bdfd3f7"
   license "LGPL-2.1-or-later"
+  compatibility_version 1
   head "https://github.com/Matroska-Org/libebml.git", branch: "master"
 
   livecheck do
@@ -12,7 +13,7 @@ class Libebml < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bbd63da6f1d3daf5b591392965f4e95dc3b1e8f0ed41f1d25a9ff43fbc901c0c"
+    sha256 cellar: :any, x86_64_windows: "dbc9d68d0b6c24a2390e433a695610902d02a1ff6735392dadb7c0dca168ec9d"
   end
 
   depends_on "cmake" => :build

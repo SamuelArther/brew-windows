@@ -5,6 +5,7 @@ class RancherMachine < Formula
   version "0.15.0-rancher145"
   sha256 "e039feb0f202854a97737bf7eadfde1d1a647294494c153791d191f8277835b0"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/rancher/machine.git", branch: "master"
 
   livecheck do
@@ -13,7 +14,7 @@ class RancherMachine < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "395226a306b3f0cd6bd740b9fd47d45d84c5480b65a74542d2819e63c122cbaf"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "99c188bec317ad2368bbb504fb0119781665aa1393a0f16ae8bc5d85f9961fb5"
   end
 
   depends_on "go" => :build

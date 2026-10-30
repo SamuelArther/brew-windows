@@ -4,6 +4,7 @@ class Libxshmfence < Formula
   url "https://xorg.freedesktop.org/archive/individual/lib/libxshmfence-1.3.3.tar.xz"
   sha256 "d4a4df096aba96fea02c029ee3a44e11a47eb7f7213c1a729be83e85ec3fde10"
   license "MIT"
+  compatibility_version 1
 
   bottle do
     sha256 cellar: :any, x86_64_windows: "fe69eca9146c2eb22c441f6d22d8fc2f227b1ab98fc5a2d5bb4a5b7dda101a16"

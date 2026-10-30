@@ -1,8 +1,8 @@
 class ForgejoRunner < Formula
   desc "Official Actions runner for Forgejo instances"
   homepage "https://code.forgejo.org/forgejo/runner"
-  url "https://code.forgejo.org/forgejo/runner/archive/v13.2.0.tar.gz"
-  sha256 "9a7cc5bce2385feaa124213a7e000090dfac6e6a0177b04ae084e7dcb6ba46d5"
+  url "https://code.forgejo.org/forgejo/runner/archive/v13.2.1.tar.gz"
+  sha256 "c5596ecdf5336b5c4777109a373ba675130324104618ce34952f28682a44c948"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -13,7 +13,7 @@ class ForgejoRunner < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d09c49cf40b7bb57230451f23376e844fc0ec2a8382a70d0443606155e5bbd54"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3c23ed91c84eb52d681a353af2ef57079e49bc9cf14d5356d908ed7ad2fbb0a4"
   end
 
   depends_on "go" => :build

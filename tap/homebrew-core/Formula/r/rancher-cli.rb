@@ -1,8 +1,8 @@
 class RancherCli < Formula
   desc "Unified tool to manage your Rancher server"
   homepage "https://github.com/rancher/cli"
-  url "https://github.com/rancher/cli/archive/refs/tags/v2.15.2.tar.gz"
-  sha256 "77ed5b7cc5ba86962c241ec6e96efc48871c115ee04ec180e43f3b8a44c59973"
+  url "https://github.com/rancher/cli/archive/refs/tags/v2.15.3.tar.gz"
+  sha256 "c9ea33994de4c4600a403fd6c90545d3481b60fe4e5e96318dbc28c40faa7c68"
   license "Apache-2.0"
   head "https://github.com/rancher/cli.git", branch: "main"
 
@@ -15,7 +15,7 @@ class RancherCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "3376a2c6be533f03871a93550d79724f19b2eada7f060ee35da4f631cc775bb1"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0f5fe51040b43caad6dc9842b08919413327ec614e821b0f9060305b81c90a9e"
   end
 
   depends_on "go" => :build

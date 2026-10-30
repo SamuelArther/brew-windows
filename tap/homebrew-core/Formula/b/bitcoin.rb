@@ -8,6 +8,7 @@ class Bitcoin < Formula
     "BSD-3-Clause", # src/crc32c, src/leveldb
     "BSL-1.0", # src/tinyformat.h
   ]
+  compatibility_version 1
   head "https://github.com/bitcoin/bitcoin.git", branch: "master"
 
   livecheck do
@@ -16,7 +17,7 @@ class Bitcoin < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0f948c032e7dae5b21633c86efafc6d8416b7ffe2ebdcc3f90ad21ebf0689a43"
+    sha256 cellar: :any, x86_64_windows: "bf87282c163532abb01a65061516daf912a6045de68592138c8a0631bd7788f0"
   end
 
   depends_on "boost" => :build

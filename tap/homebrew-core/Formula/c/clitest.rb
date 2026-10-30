@@ -4,11 +4,11 @@ class Clitest < Formula
   url "https://github.com/aureliojargas/clitest/archive/refs/tags/0.5.0.tar.gz"
   sha256 "4005de0bc27e4676e418ab1e1e64861272aa74af1212c73a1173760fc449b049"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/aureliojargas/clitest.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clitest-0.5.0"
-    sha256 cellar: :any, x86_64_windows: "483c105182b3e0835356379ddefda2d3855a96ca00863a3f9d272d7de06655ec"
+    sha256 cellar: :any, x86_64_windows: "c233812f48261c71abc16332a162cfc4670ae7a0e797d5b7b21882b4b39c3896"
   end
 
   def install

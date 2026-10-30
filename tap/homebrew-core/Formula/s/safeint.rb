@@ -5,6 +5,7 @@ class Safeint < Formula
   version "3.0.28a"
   sha256 "9e652d065a3cef80623287d5dc61edcf6a95ddab38a9dfeb34f155261fc9cef7"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/dcleblanc/SafeInt.git", branch: "master"
 
   # The `GithubLatest` strategy is used here because upstream changed their
@@ -16,8 +17,7 @@ class Safeint < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/safeint-3.0.28a"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ad3ffc129948b7fb81233949aedb133ed17d0ffcfd6f4d6cabba2fa6b8d5b677"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "bf969c6c4ee15576176f19f918c67016e42f4864ae85d4f86418120ee2053e1a"
   end
 
   def install

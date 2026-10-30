@@ -4,6 +4,7 @@ class SpirvHeaders < Formula
   url "https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-1.4.363.0.tar.gz"
   sha256 "5b3a0d099f5c7649e29c0938476c462e71d66ad89a0bde42fa1ba3eb476956c9"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/KhronosGroup/SPIRV-Headers.git", branch: "main"
 
   livecheck do
@@ -12,7 +13,7 @@ class SpirvHeaders < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "80e0a8252c8aa69ee831abc8a6d26b6c815091389f4bcffbc7399ee91de0906a"
+    sha256 cellar: :any, x86_64_windows: "cd1fa21d8ce6149411a028310ecb2271a8632bde966e97ec8252d614cca31941"
   end
 
   depends_on "cmake" => [:build, :test]

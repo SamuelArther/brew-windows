@@ -6,10 +6,11 @@ class EyeD3 < Formula
   url "https://files.pythonhosted.org/packages/ee/aa/5873b98fa5f570724a65757987c155dea68d27f0acae17da1b1ffc8cd0d2/eyed3-0.9.9.tar.gz"
   sha256 "a8affaae19384aca66f6efef3babd705042a76e546f08e886f5f28691ac62a3b"
   license "GPL-3.0-or-later"
+  compatibility_version 1
   head "https://github.com/nicfit/eyeD3.git", branch: "0.9.x"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "51471acc4e5da077103beb256568f9a73a0728fd0ffb32e8e97252646d233138"
+    sha256 cellar: :any, x86_64_windows: "ba397b4d35d8929e2486d454d36892c2682114ed9d32aeb59ee1ce3daf54715c"
   end
 
   depends_on "python@3.15"

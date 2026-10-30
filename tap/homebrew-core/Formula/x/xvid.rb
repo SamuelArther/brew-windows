@@ -4,6 +4,7 @@ class Xvid < Formula
   url "https://downloads.xvid.com/downloads/xvidcore-1.3.7.tar.bz2"
   sha256 "aeeaae952d4db395249839a3bd03841d6844843f5a4f84c271ff88f7aa1acff7"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url "https://downloads.xvid.com/downloads/"
@@ -11,7 +12,7 @@ class Xvid < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f4e49c8155904ccc170b87a091c6ed3d25baaf4012e2e9f908482f2413510ff7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4af44543373b5e66ec0ba5dfb8fa1fd3c32422e68757040728d59cbaa20b7739"
   end
 
   # Remove -flat_namespace based on MacPorts patch (which needs autoreconf).

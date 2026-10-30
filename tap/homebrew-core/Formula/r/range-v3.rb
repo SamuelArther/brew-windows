@@ -4,9 +4,10 @@ class RangeV3 < Formula
   url "https://github.com/ericniebler/range-v3/archive/refs/tags/0.12.0.tar.gz"
   sha256 "015adb2300a98edfceaf0725beec3337f542af4915cec4d0b89fa0886f4ba9cb"
   license "BSL-1.0"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8405ae71e73e6f37f4b506d7c03bae2ba9076a0666560dba784b6b0acbe9b23f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "82a82b1a80c9e012337b921a572a9e48003d22d566e856dcb66da5d40b5ef834"
   end
 
   depends_on "cmake" => :build

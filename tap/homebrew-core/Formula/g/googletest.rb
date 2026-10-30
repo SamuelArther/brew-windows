@@ -4,10 +4,11 @@ class Googletest < Formula
   url "https://github.com/google/googletest/archive/refs/tags/v1.18.0.tar.gz"
   sha256 "6e3191c1455468b3fc35a417fb565c1c5071aee1b7e7f85e30cf48a98d37d8b5"
   license "BSD-3-Clause"
+  compatibility_version 1
   head "https://github.com/google/googletest.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b862b6fc6abf67e4734089592a1d9bdc3e8f13d8523a508eb76f63133c4ebcc4"
+    sha256 cellar: :any, x86_64_windows: "165630d44da0b72cd36dba106c90a9e0c85055e0e44428caa23d139bdf92cd85"
   end
 
   depends_on "cmake" => :build

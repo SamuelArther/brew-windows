@@ -4,10 +4,11 @@ class CppGsl < Formula
   url "https://github.com/Microsoft/GSL/archive/refs/tags/v5.0.1.tar.gz"
   sha256 "733a87a7eea56db075ee060735ba7616a27c1c55955f264d5473bf9e83294ad0"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/Microsoft/GSL.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "749bc49240ed5352874028bae61a29edeb4d32eb5e5ce33e82545e1151cd8999"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6d39b5d4617aec67ca11c3a528d506ba3c7b8d701d29441d6c0b2dceaf36dd38"
   end
 
   depends_on "cmake" => :build

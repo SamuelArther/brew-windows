@@ -5,10 +5,11 @@ class Ant < Formula
   mirror "https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.18-bin.tar.xz"
   sha256 "e03e4f4047b51ea0164dfdfa7827dce267b6e033bac1387241731ca037bda7b9"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://git-wip-us.apache.org/repos/asf/ant.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "709623f0faa1d11539f75f2dd119be3df7f0e67deacea35dd8e93e3da0be3c23"
+    sha256 cellar: :any, x86_64_windows: "abbe0348fb8baaf3f5c8daf5b537b61f1b446c58cf9e020a4b6b1e0a4e4fe223"
   end
 
   depends_on "openjdk"

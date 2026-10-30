@@ -3,6 +3,7 @@ class Cereal < Formula
   homepage "https://uscilab.github.io/cereal/"
   license "BSD-3-Clause"
   revision 1
+  compatibility_version 1
   head "https://github.com/USCiLab/cereal.git", branch: "master"
 
   stable do
@@ -19,7 +20,7 @@ class Cereal < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "9f5ddb0b2bbcb04dc39ca9c49bd457338c86dce1c29177988323ed00d850f844"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d64de3bfe42560cf20535db8d4d5016c9082279b4e91cfbedffc0f07947d5016"
   end
 
   depends_on "cmake" => :build

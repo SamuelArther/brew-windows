@@ -4,6 +4,7 @@ class Libestr < Formula
   url "https://libestr.adiscon.com/files/download/libestr-0.1.11.tar.gz"
   sha256 "46632b2785ff4a231dcf241eeb0dcb5fc0c7d4da8ee49cf5687722cdbe8b2024"
   license "LGPL-2.1-or-later"
+  compatibility_version 1
 
   livecheck do
     url "https://libestr.adiscon.com/download/"
@@ -11,7 +12,7 @@ class Libestr < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "14415876f40ba93810158ef1be3d8227fe052a6771da388d7d122227e917d8de"
+    sha256 cellar: :any, x86_64_windows: "a7009bc2b12d4934fb378f67d41d96a8aff2ead86b7f62dc0719f34c0fab0658"
   end
 
   depends_on "pkgconf" => :build

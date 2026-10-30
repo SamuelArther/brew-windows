@@ -4,10 +4,11 @@ class Thriftgo < Formula
   url "https://github.com/cloudwego/thriftgo/archive/refs/tags/v0.4.5.tar.gz"
   sha256 "8469be2df13bb1c2128a3594e4d59fb718ddf3da603181d163dbcf3d230214af"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/cloudwego/thriftgo.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "71d53e5d13900b825c4257530ed62cf2a3e00270afc1efeefa4d88ac501f9e1a"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "52da41c30a67e17ba1b0f84c1cf3d78451dc29498589718ba90dc8243f47edee"
   end
 
   depends_on "go" => :build

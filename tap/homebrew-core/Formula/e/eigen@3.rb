@@ -10,6 +10,7 @@ class EigenAT3 < Formula
     "Minpack",       # LevenbergMarquardt
     "LGPL-2.1-only", # IterativeSolvers
   ]
+  compatibility_version 1
 
   livecheck do
     url "https://gitlab.com/api/v4/projects/libeigen%2Feigen/releases"
@@ -20,8 +21,7 @@ class EigenAT3 < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/eigen@3-3.4.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7d3efe49bc3c0e375ff76548edfb9500222127df8ea4a17f73f477e8ddbf2163"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "884da6c58da496bdb28ca8aadded5498a2d43425a24dfb718951edb0a4168855"
   end
 
   keg_only :versioned_formula

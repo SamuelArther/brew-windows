@@ -5,10 +5,11 @@ class Cpptoml < Formula
   sha256 "23af72468cfd4040984d46a0dd2a609538579c78ddc429d6b8fd7a10a6e24403"
   license "MIT"
   revision 1
+  compatibility_version 1
   head "https://github.com/skystrife/cpptoml.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0665de05a49c85b5f7143514ed571836b75996fd0f93618244fd6d25231adfc3"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "04abc3976968244270988320df38b4c8685f8a805fbf786121e955170322445f"
   end
 
   depends_on "cmake" => :build

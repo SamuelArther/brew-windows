@@ -4,9 +4,10 @@ class Spoa < Formula
   url "https://github.com/rvaser/spoa/archive/refs/tags/4.1.6.tar.gz"
   sha256 "5c69a2329456f9d7f611eccddf5cc8e85414a2f2ad23b539f77140919ba0da27"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "53ea03f689d4516e4b5b2583b78373dd99a7e7da0612dcb47e9181f4dfe5cd05"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b0a055e0282073de69687d71e480ba904081b5e7694278d5b378eca2d7b101f1"
   end
 
   depends_on "cmake" => :build

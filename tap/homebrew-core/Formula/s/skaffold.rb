@@ -5,10 +5,11 @@ class Skaffold < Formula
       tag:      "v2.25.0",
       revision: "d915e113210eb7590ccbc8363aeab38053172ab3"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/GoogleContainerTools/skaffold.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e0403868b6ea4a5a09c1798a26b32f11bf8ccb599ad9a7e6a0682a45d71ecf6f"
+    sha256 cellar: :any, x86_64_windows: "f8868f77269f4573c133cd961c7fef201629a33d2ded2b534ac7627ef743d81b"
   end
 
   depends_on "go" => :build

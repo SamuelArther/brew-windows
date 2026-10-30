@@ -5,10 +5,11 @@ class Bamtools < Formula
   sha256 "7d4e59bac7c03bde488fe43e533692f78b5325a097328785ec31373ffac08344"
   license "MIT"
   revision 1
+  compatibility_version 1
   head "https://github.com/pezmaster31/bamtools.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "04036cdb49d1072f44e30c33331fcfe765406394dfa22cfe950827a99f0af3e9"
+    sha256 cellar: :any, x86_64_windows: "52a35ca911dff501ad157374cc5559d26f00fe4045d466b7bbdae877241c9c90"
   end
 
   depends_on "cmake" => :build

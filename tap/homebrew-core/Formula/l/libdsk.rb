@@ -4,6 +4,7 @@ class Libdsk < Formula
   url "https://www.seasip.info/Unix/LibDsk/libdsk-1.4.2.tar.gz"
   sha256 "71eda9d0e33ab580cea1bb507467877d33d887cea6ec042b8d969004db89901a"
   license "LGPL-2.0-or-later"
+  compatibility_version 1
 
   livecheck do
     url :homepage
@@ -11,8 +12,7 @@ class Libdsk < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdsk-1.4.2"
-    sha256 cellar: :any, x86_64_windows: "8864a279266c3974c20863330d5548e05988aab13149bdd6640ba8ae26ca734f"
+    sha256 cellar: :any, x86_64_windows: "63297f38a500ca8cbdd6e4ca0321d2eb07efa656249e7f747ce628ded89fd88f"
   end
 
   on_linux do

@@ -4,9 +4,10 @@ class Cppzmq < Formula
   url "https://github.com/zeromq/cppzmq/archive/refs/tags/v4.11.0.tar.gz"
   sha256 "0fff4ff311a7c88fdb76fceefba0e180232d56984f577db371d505e4d4c91afd"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ba4d65f16262e039bddf1c9e0f74c5e51cf9738e55937566bdcef26fb143688c"
+    sha256 cellar: :any, x86_64_windows: "7c86b7b2856413dcf6fc393150e4017ea27be172893885f53716f38ea64066de"
   end
 
   depends_on "cmake" => :build

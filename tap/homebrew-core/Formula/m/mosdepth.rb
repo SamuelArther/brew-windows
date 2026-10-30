@@ -1,14 +1,10 @@
 class Mosdepth < Formula
   desc "Fast BAM/CRAM depth calculation for WGS, exome, or targeted sequencing"
   homepage "https://github.com/brentp/mosdepth"
-  url "https://github.com/brentp/mosdepth/archive/refs/tags/v0.3.14.tar.gz"
-  sha256 "abac67de4547dc5642efd46846044d6b3536d2ca3443b4ca172446edf82eeb42"
+  url "https://github.com/brentp/mosdepth/archive/refs/tags/v0.3.15.tar.gz"
+  sha256 "7fc4bacd5cd1fecad76c93f08921e32efaad2ebabccd7a65e6f4fdf9095ea08e"
   license "MIT"
   head "https://github.com/brentp/mosdepth.git", branch: "master"
-
-  bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1304bda26b8c0cf818bb5bf533dbe2064e31b1ee90e74ded9b4529e67581b773"
-  end
 
   depends_on "nim" => :build
   depends_on "samtools" => :test
@@ -18,23 +14,41 @@ class Mosdepth < Formula
   # d4 output is intentionally omitted: it needs the out-of-core d4 library,
   # so mosdepth is built without `-d:d4` (all other functionality is present).
   resource "hts-nim" do
-    url "https://github.com/brentp/hts-nim/archive/refs/tags/v0.3.31.tar.gz"
-    sha256 "e2e8572156cced4557fcb75ecf5a7ee072bcc7abf81066d4b54d5bf674dab3e0"
+    url "https://github.com/brentp/hts-nim/archive/refs/tags/v0.3.32.tar.gz"
+    sha256 "98eb4da6140e61e1383946b77451b684865d8b7ea00ddc17a4bf331ee171892d"
+
+    livecheck do
+      url :url
+    end
   end
 
   resource "docopt" do
     url "https://github.com/docopt/docopt.nim/archive/refs/tags/v0.7.1.tar.gz"
     sha256 "a172f7e8be5c10735727ca00f69294e8615c4ad055dd9b58dcdb0f7c6bd7d025"
+
+    # mosdepth pins an exact docopt version
+    livecheck do
+      url "https://raw.githubusercontent.com/brentp/mosdepth/refs/tags/v#{LATEST_VERSION}/mosdepth.nimble"
+      regex(/docopt\s*==\s*v?(\d+(?:\.\d+)+)/i)
+    end
   end
 
   resource "regex" do
-    url "https://github.com/nitely/nim-regex/archive/refs/tags/v0.26.3.tar.gz"
-    sha256 "f237ca8e162cd203c5530f0ca05c0dc3b00288ee190d8ad8efba45cd51a2d4d6"
+    url "https://github.com/nitely/nim-regex/archive/refs/tags/v0.27.0.tar.gz"
+    sha256 "3132a9c3f04b1b8b8ded14228062c815b083d475ab30006fd66604e9484dc47c"
+
+    livecheck do
+      url :url
+    end
   end
 
   resource "unicodedb" do
-    url "https://github.com/nitely/nim-unicodedb/archive/refs/tags/v0.13.2.tar.gz"
-    sha256 "61a994fbdc3f3596e5dd663ca17fe585726da5c5b7059e437087787b3aa9aae2"
+    url "https://github.com/nitely/nim-unicodedb/archive/refs/tags/v0.14.1.tar.gz"
+    sha256 "dc2861b9e19feab099695aa49ffae37f1a3fd1930a536e67ddc02dd917ba560e"
+
+    livecheck do
+      url :url
+    end
   end
 
   def install

@@ -4,6 +4,7 @@ class Byacc < Formula
   url "https://invisible-mirror.net/archives/byacc/byacc-20260126.tgz"
   sha256 "b618c5fb44c2f5f048843db90f7d1b24f78f47b07913c8c7ba8c942d3eb24b00"
   license :public_domain
+  compatibility_version 1
 
   livecheck do
     url "https://invisible-mirror.net/archives/byacc/"
@@ -11,7 +12,7 @@ class Byacc < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c481d848d133c9bb67d98169510ac469dd788797c420a902f3bceb6ec78f8faf"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1b1fdc30c46e4973573ed826e36947a786b477a86f2f282687b29a8031d7dc30"
   end
 
   deny_network_access!

@@ -4,9 +4,10 @@ class Any2fasta < Formula
   url "https://github.com/tseemann/any2fasta/archive/refs/tags/v0.8.1.tar.gz"
   sha256 "73f4f2c1eb0cb5525703a5368fe4b34ddd252e64af1f9c3aba2ba63d8f9723b6"
   license "GPL-3.0-only"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "497c741a75a2c76f97eaee91c459fb630c5c33f15652e8ce86fb20c01f651040"
+    sha256 cellar: :any, x86_64_windows: "8c6b9e5787f2429092bafa54aceef67390255e5555a5939df55993d7720b449f"
   end
 
   uses_from_macos "perl"

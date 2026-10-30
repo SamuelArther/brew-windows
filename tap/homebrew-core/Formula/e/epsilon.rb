@@ -7,6 +7,7 @@ class Epsilon < Formula
     "BSD-3-Clause",
     any_of: ["GPL-3.0-or-later", "LGPL-3.0-or-later"],
   ]
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -14,7 +15,7 @@ class Epsilon < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "dddde0cf4cff6b50cc5da77694f72ba5b6fcaae5c7f37c0625fa8191b03b8cbb"
+    sha256 cellar: :any, x86_64_windows: "7eec5601fcbeb1006e1bed999559682b71e103cf7c6d1cc31102f042d0b89a7a"
   end
 
   depends_on "autoconf" => :build

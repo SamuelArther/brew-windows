@@ -4,10 +4,10 @@ class Tass64 < Formula
   url "https://downloads.sourceforge.net/project/tass64/source/64tass-1.60.3243-src.zip"
   sha256 "9d83be3d23a2c55e085b7c7a7856c2f96080447ea120a6a8c21a217ed76427f0"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.0-or-later", "LGPL-2.1-only", "MIT"]
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tass64-1.60.3243"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "faf756c980e85cf2e4f2bcbad732d05fe9967bbde25f8034b0af71f33fb091b4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "19004110e45985ef732b44c782df1aa8d3c0c53c982d6eed3e87900bae628450"
   end
 
   def install

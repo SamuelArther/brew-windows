@@ -13,11 +13,13 @@ class Ifstat < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a8882245a2cde655626e9b7aac48a383e42f746195551440d73cdf0343c52c84"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "21f5dc7da74dce1923fed5fa96542cd8180c32d7373879fe463231b390797e6e"
   end
 
   # Fixes 32/64 bit incompatibility
   patch :DATA
+
+  deny_network_access!
 
   def install
     # Fix compile with newer Clang

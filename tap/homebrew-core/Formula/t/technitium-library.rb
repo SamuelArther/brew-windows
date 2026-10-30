@@ -4,9 +4,10 @@ class TechnitiumLibrary < Formula
   url "https://github.com/TechnitiumSoftware/TechnitiumLibrary/archive/refs/tags/dns-server-v15.6.2.tar.gz"
   sha256 "e7f5add92da555fc3120991fabd802c0605ab9c45cb4b56137dfb0699a006cec"
   license "GPL-3.0-only"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ebbd1324ca9c0a7faf4ba73398cb2b7658992e4f588ea6a02e1d912e2ebe4d8c"
+    sha256 cellar: :any, x86_64_windows: "6a2b546862ce29ac29aeb4f54e7d3b10043f243096c2a847ebb7857246002a00"
   end
 
   depends_on "dotnet"

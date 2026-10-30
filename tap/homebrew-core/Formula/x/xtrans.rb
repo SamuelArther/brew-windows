@@ -4,9 +4,10 @@ class Xtrans < Formula
   url "https://xorg.freedesktop.org/archive/individual/lib/xtrans-1.6.0.tar.xz"
   sha256 "faafea166bf2451a173d9d593352940ec6404145c5d1da5c213423ce4d359e92"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "726f7d1bce227b23e7a8e1fd392370fc12e96fd2f54ebfd565df81b54fa0850d"
+    sha256 cellar: :any, x86_64_windows: "39fb9522dc806b26f15015c8b9e11e182de5dfbd09b839a3deab17d9a09d9d73"
   end
 
   depends_on "pkgconf" => :build

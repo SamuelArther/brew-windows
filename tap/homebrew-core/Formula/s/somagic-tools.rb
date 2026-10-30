@@ -4,9 +4,10 @@ class SomagicTools < Formula
   url "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/easycap-somagic-linux/somagic-easycap-tools_1.1.tar.gz"
   sha256 "b091723c55e6910cbf36c88f8d37a8d69856868691899683ec70c83b122a0715"
   license "GPL-2.0-or-later"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "19fb7c25b58aa0f9d9a87df9b41d626722a92acebf39fbaf7c320e76faf6fda5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8e99bb79f4072f3b078be92449bf8a6292a5b253d74c0750bb63c61f2882f95d"
   end
 
   depends_on "libgcrypt"

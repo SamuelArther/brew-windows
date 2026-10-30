@@ -4,9 +4,10 @@ class Libltc < Formula
   url "https://github.com/x42/libltc/releases/download/v1.3.2/libltc-1.3.2.tar.gz"
   sha256 "0a6d42cd6c21e925a27fa560dc45ac80057d275f23342102825909c02d3b1249"
   license "LGPL-3.0-or-later"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3070e4561eb23289ff1c92f14fc6011afa3a7a2fcd0c781189ac1d876bad4b9d"
+    sha256 cellar: :any, x86_64_windows: "cc8bca7469ffe9ccf348eb4585045ba17c713464eccc7171b370abd0f3984840"
   end
 
   def install

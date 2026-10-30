@@ -4,10 +4,11 @@ class GoMd2man < Formula
   url "https://github.com/cpuguy83/go-md2man/archive/refs/tags/v2.0.7.tar.gz"
   sha256 "ca3a5b57e2c01759f5a00ad2a578d034c5370fae9aa7a6c3af5648b2fc802a92"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/cpuguy83/go-md2man.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "86356630a3c505a1d3cfe5df07924594a52433ea7db6f43608e44313090a4847"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4c391f63707e547c773d42485c5c6bca5efce37579f2e4748db763e8b7621864"
   end
 
   depends_on "go" => :build

@@ -1,13 +1,13 @@
 class KubernetesMcpServer < Formula
   desc "MCP server for Kubernetes"
   homepage "https://github.com/containers/kubernetes-mcp-server"
-  url "https://github.com/containers/kubernetes-mcp-server/archive/refs/tags/v0.0.69.tar.gz"
-  sha256 "621e07933333f9915a55e02abe479be61251627657ad9e8467963f783f7e1c2b"
+  url "https://github.com/containers/kubernetes-mcp-server/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "37189b9939dabab68d2d5f0cb4eac20525027b2317d1d7f468d9e4144c97410d"
   license "Apache-2.0"
   head "https://github.com/containers/kubernetes-mcp-server.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b0a1d39456f5c86fc5490159dbdb03909412481fbc9646a86eaa8c60845c0d3d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "80c0ae0a4527fc0b8216108169f19d451b5e76dc17ff65f5a51304b6f1845f14"
   end
 
   depends_on "go" => :build

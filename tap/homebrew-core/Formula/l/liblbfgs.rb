@@ -4,10 +4,10 @@ class Liblbfgs < Formula
   url "https://github.com/chokkan/liblbfgs/archive/refs/tags/v1.10.tar.gz"
   sha256 "95c1997e6c215c58738f5f723ca225d64c8070056081a23d636160ff2169bd2f"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/liblbfgs-1.10"
-    sha256 cellar: :any, x86_64_windows: "e6194a6382479cd67e6801733874045a461c344775df729907fbbed82d323f61"
+    sha256 cellar: :any, x86_64_windows: "22084261975ad2f9b07e338ad9e0fd0c4f3c2a4189e0561c65ec8100bdb314ab"
   end
 
   depends_on "autoconf" => :build

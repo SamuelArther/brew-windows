@@ -4,10 +4,11 @@ class Editorconfig < Formula
   url "https://github.com/editorconfig/editorconfig-core-c/archive/refs/tags/v0.12.11.tar.gz"
   sha256 "9d8b420b56a969ea3cf784861c72d26fa0e158fa1494d732df2c8a1480d36a5c"
   license "BSD-2-Clause"
+  compatibility_version 1
   head "https://github.com/editorconfig/editorconfig-core-c.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3cfc21efd5339a7e352e63ac5f52340b1bb0f018c5c5fe2e695f699acc315931"
+    sha256 cellar: :any, x86_64_windows: "c757791700a649a91f6dc855d10a49d9c8306a1a50dd36b7429a2d332e2f60b6"
   end
 
   depends_on "cmake" => :build

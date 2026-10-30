@@ -4,9 +4,10 @@ class Bower < Formula
   url "https://registry.npmjs.org/bower/-/bower-1.8.14.tgz"
   sha256 "00df3dcc6e8b3a4dd7668934a20e60e6fc0c4269790192179388c928553a3f7e"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bf4851083203d8cbb263c4f94fd3d4de8851a68c04fc18da461d61db5b6720b3"
+    sha256 cellar: :any, x86_64_windows: "31d9b95172df9cad115ccc8a820445f94d6e348faf19fe051d6c43d1a6f6364d"
   end
 
   depends_on "node"

@@ -4,6 +4,7 @@ class GradleAT8 < Formula
   url "https://services.gradle.org/distributions/gradle-8.14.6-all.zip"
   sha256 "24fc39aedd1b68c3de8e4d46a0277c9b42d9ccdb172231a634fad54a3693e50a"
   license "Apache-2.0"
+  compatibility_version 1
 
   livecheck do
     url "https://gradle.org/releases/"
@@ -11,7 +12,7 @@ class GradleAT8 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f5f0ffea7d64c3c3614019a517e9080edad5397dfb72dac9c4c37e934c563605"
+    sha256 cellar: :any, x86_64_windows: "182bab1ea6a2c2be28aaeda3b61f69b2c48d268c11bfde755bfbffd8e6e01139"
   end
 
   keg_only :versioned_formula

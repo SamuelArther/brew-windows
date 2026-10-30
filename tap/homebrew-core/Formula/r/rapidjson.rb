@@ -2,6 +2,7 @@ class Rapidjson < Formula
   desc "JSON parser/generator for C++ with SAX and DOM style APIs"
   homepage "https://rapidjson.org/"
   license "MIT"
+  compatibility_version 1
   head "https://github.com/Tencent/rapidjson.git", branch: "master"
 
   stable do
@@ -18,7 +19,7 @@ class Rapidjson < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "437821140de570b1d07146248cd2e6dfe7690bb3cd2966b09d144813fb3dcc63"
+    sha256 cellar: :any, x86_64_windows: "bd42f56a5d5851b6e8165054eeda3b2494c6f77a78285bd8bc5e3267d3ce0146"
   end
 
   depends_on "cmake" => :build

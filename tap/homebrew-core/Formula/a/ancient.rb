@@ -4,9 +4,10 @@ class Ancient < Formula
   url "https://github.com/temisu/ancient/archive/refs/tags/v2.3.0.tar.gz"
   sha256 "5d1d71f0fb8c69955bb4ec01ed9ffd2b5bf546b10463030dda85d949ea422bc9"
   license "BSD-2-Clause"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0da86d14c80ac677b178f819125eba4b9be609b486ec7e3e4b5d58f1831013d9"
+    sha256 cellar: :any, x86_64_windows: "4c45fc36c612ec405c9957f0bca251e48d18ab94cb64116bf75faa1a66f4151a"
   end
 
   depends_on "autoconf" => :build

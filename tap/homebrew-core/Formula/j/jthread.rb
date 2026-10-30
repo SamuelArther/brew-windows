@@ -4,6 +4,7 @@ class Jthread < Formula
   url "https://research.edm.uhasselt.be/jori/jthread/jthread-1.3.3.tar.bz2"
   sha256 "17560e8f63fa4df11c3712a304ded85870227b2710a2f39692133d354ea0b64f"
   license "MIT"
+  compatibility_version 1
 
   livecheck do
     url :homepage
@@ -11,8 +12,7 @@ class Jthread < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/jthread-1.3.3"
-    sha256 cellar: :any, x86_64_windows: "817f3d2ec4355986f90ab1385e43dd34a829a005fc0460a4da93c04c1304fdc6"
+    sha256 cellar: :any, x86_64_windows: "566ca4557af935a5320f70dea582074c803131c65a708654402dbfc0a15d17d2"
   end
 
   depends_on "cmake" => :build

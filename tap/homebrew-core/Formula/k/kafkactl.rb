@@ -4,10 +4,11 @@ class Kafkactl < Formula
   url "https://github.com/deviceinsight/kafkactl/archive/refs/tags/v5.21.0.tar.gz"
   sha256 "31baacbaab41a9b3f945a894440b11647b99e1dd49744ccfa750aa082fb4632e"
   license "Apache-2.0"
+  compatibility_version 1
   head "https://github.com/deviceinsight/kafkactl.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bae008384f26105b0ea4612dcc0fe7a1d71fa1670b3c5b1b866321c0c8dc8b86"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6588f6dd72e05827169b3646dd650c6b50bd8a49b62ae2dfccb3715b9695342c"
   end
 
   depends_on "go" => :build

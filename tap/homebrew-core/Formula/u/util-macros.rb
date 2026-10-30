@@ -4,10 +4,10 @@ class UtilMacros < Formula
   url "https://xorg.freedesktop.org/archive/individual/util/util-macros-1.20.2.tar.xz"
   sha256 "9ac269eba24f672d7d7b3574e4be5f333d13f04a7712303b1821b2a51ac82e8e"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/util-macros-1.20.2"
-    sha256 cellar: :any, x86_64_windows: "a7593542431cb12925c98b72e24fc27247aaf4e334ac3c85e6821c3bd817e99d"
+    sha256 cellar: :any, x86_64_windows: "c665d6055853e37c48a869469d4add6c723bb2e17512c5bfe22fadc540c3c051"
   end
 
   depends_on "pkgconf" => :test

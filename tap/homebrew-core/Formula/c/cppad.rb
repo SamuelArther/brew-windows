@@ -5,6 +5,7 @@ class Cppad < Formula
   sha256 "41ec617bb1e4163da381aaa5083a152e033631e9b5e135ccdc3466aaa1dc9001"
   license "EPL-2.0"
   version_scheme 1
+  compatibility_version 1
   head "https://github.com/coin-or/CppAD.git", branch: "main"
 
   livecheck do
@@ -13,7 +14,7 @@ class Cppad < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5f71a7b63c0c987b818c6dcac987af96f3ad57a434d228d24607d72e74a5ad53"
+    sha256 cellar: :any, x86_64_windows: "cc32cf9593ac3049c16485d58670a24cc62a7f4717c9b170800917d48dfe75cd"
   end
 
   depends_on "cmake" => :build

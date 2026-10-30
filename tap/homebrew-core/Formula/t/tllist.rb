@@ -4,10 +4,10 @@ class Tllist < Formula
   url "https://codeberg.org/dnkl/tllist/releases/download/1.1.0/tllist-1.1.0.tar.gz"
   sha256 "a1f0ce0dc4fcb4ce59c37202a1d914c853a8bd2d7c5d57d623b15a8dd9778767"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tllist-1.1.0"
-    sha256 cellar: :any, x86_64_windows: "ad7aa5fee527032e13fe9e470aa2dfc4e64a67f2c13c7e5e6ca4bf41f8be4ffc"
+    sha256 cellar: :any, x86_64_windows: "a517f7715d53e5be1d7f385d8733502bb326eda64d1c065eb79df8a534097b57"
   end
 
   depends_on "meson" => :build

@@ -4,10 +4,10 @@ class Nbytes < Formula
   url "https://github.com/nodejs/nbytes/archive/refs/tags/v0.1.4.tar.gz"
   sha256 "67f4b8363f12abb64c07a0cecf2bf2dce7ab47b5f8b9fd2efdb852ea254c2d40"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/nbytes-0.1.4"
-    sha256 cellar: :any, x86_64_windows: "4ccb7a8055e6c53adcabf20e7e4b0d5742c008cd360ef96f49429cfdafe8fd25"
+    sha256 cellar: :any, x86_64_windows: "4a6b1a5eb2d6af3ed3bce6fcf15ee9402919b5aaefa98eaca85906dc4398779c"
   end
 
   depends_on "cmake" => :build

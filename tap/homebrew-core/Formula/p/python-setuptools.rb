@@ -4,9 +4,10 @@ class PythonSetuptools < Formula
   url "https://files.pythonhosted.org/packages/70/b3/c19426f783614d625699a4b247faf628ea9ab1db228674491767b417f9e1/setuptools-84.2.1.tar.gz"
   sha256 "3ff8b3b5492a0aa66960f4419365a86b84e013070d4313e4d4a6894f5d64d6bc"
   license "MIT"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "92c5635660391dc5795f333d88463e86e3297d1f340ae0a2b1419f1c3afe1fcf"
+    sha256 cellar: :any, x86_64_windows: "3bdead9def8f06811be8b0b04d380586888de56eb5749909d1a11c7dce2e7bab"
   end
 
   depends_on "python@3.15" => [:build, :test]

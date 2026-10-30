@@ -4,6 +4,7 @@ class Ivykis < Formula
   url "https://github.com/buytenh/ivykis/archive/refs/tags/v0.43.2-trunk.tar.gz"
   sha256 "22621ae6a7144039cfb8666ed509b99ea1876d7642021a3505c7351502641103"
   license "LGPL-2.1-only"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -11,12 +12,14 @@ class Ivykis < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9cea43b2e2de5a7d5fbda7c276e9ffc1eec4f58f5c555909c24e39872b80615d"
+    sha256 cellar: :any, x86_64_windows: "3bc26a3b73f26935de1cf1aa6728a96b6b7e1a1ae16e2c65bf00f8c54452cd0a"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

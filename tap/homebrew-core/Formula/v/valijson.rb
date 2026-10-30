@@ -4,9 +4,10 @@ class Valijson < Formula
   url "https://github.com/tristanpenman/valijson/archive/refs/tags/v1.1.3.tar.gz"
   sha256 "887b53b1a924f6fe0b35fa3bbc9bbbe5ae8c72097b7f0f7c17b45f4cfa646029"
   license "BSD-2-Clause"
+  compatibility_version 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "aa5ab81734fabe0976cf1dbc0b4293d8557665498d8950a8f0850c0025309692"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ef9fc1dfea6ca50f0d279b17471d5624ddf8781ac918cd5071ad915fc4697758"
   end
 
   depends_on "cmake" => :build

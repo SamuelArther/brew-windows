@@ -5,9 +5,10 @@ class Iat < Formula
   sha256 "fb72c42f4be18107ec1bff8448bd6fac2a3926a574d4950a4d5120f0012d62ca"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/iat-0.1.7"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "359c21d5f46f3fd7cd610636fd2dbd89ae2b772b66f06c4c6efd6dbcf3c430a5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ff0b2849b9394fb4244f7a4293a50524415c30917a8ac680ad620dfdccd7048a"
   end
 
   def install

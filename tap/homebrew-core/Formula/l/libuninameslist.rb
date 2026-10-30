@@ -4,6 +4,7 @@ class Libuninameslist < Formula
   url "https://github.com/fontforge/libuninameslist/releases/download/20260918/libuninameslist-dist-20260918.tar.gz"
   sha256 "deb2ec02640c232a4bc333c2cd301ee6b286914eeeb0ccc31ccafe326aed0029"
   license "BSD-3-Clause"
+  compatibility_version 1
 
   livecheck do
     url :stable
@@ -12,8 +13,7 @@ class Libuninameslist < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libuninameslist-20260918"
-    sha256 cellar: :any, x86_64_windows: "93c5493d230b06bcdcc7623bb6164c37387ef0e7f08bdd3e46d16b64969a665a"
+    sha256 cellar: :any, x86_64_windows: "c9cf3c636055f2b6fab13b52d63ece95d19d7f8807fb8b0f34dc3d87ed6722c4"
   end
 
   head do

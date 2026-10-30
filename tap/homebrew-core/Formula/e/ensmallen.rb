@@ -4,10 +4,11 @@ class Ensmallen < Formula
   url "https://github.com/mlpack/ensmallen/archive/refs/tags/3.11.1.tar.gz"
   sha256 "3606c0d0a06ac75858ddb4eecd0802154bc91d45763aa9521cf53a0e78178d55"
   license "BSD-3-Clause"
+  compatibility_version 1
   head "https://github.com/mlpack/ensmallen.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "cce54598f2d8921b09245aa54b723601b13675b8384c06d620ea0b58ce9f0bde"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "60384fa598e4dcd13c34a33e6337d94e3187ea3ab56a2f58e51e2094282d4409"
   end
 
   depends_on "cmake" => :build
