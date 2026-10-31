@@ -7,7 +7,7 @@ class KanataTray < Formula
   head "https://github.com/rszyma/kanata-tray.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d3b66063cecde4dc40980b5fa5c620d732931e9c896ed31889ceb2b21e16d5dc"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "aaec9aadbccaf0336b861e64ef7a58c6f07d11d98fdda758b98594311c5d1133"
   end
 
   depends_on "go" => :build
@@ -27,7 +27,7 @@ class KanataTray < Formula
 
   def install
     # Workaround to avoid patchelf corruption when cgo is required
-    if OS.linux? && Hardware::CPU.arch == :arm64
+    if OS.linux? && Hardware::CPU.arm64?
       ENV["CGO_ENABLED"] = "1"
       ENV["GO_EXTLINK_ENABLED"] = "1"
       ENV.append "GOFLAGS", "-buildmode=pie"

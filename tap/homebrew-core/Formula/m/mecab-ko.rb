@@ -12,7 +12,7 @@ class MecabKo < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cdb340047e75ae2b47e65a3993f623ead6ef18c9b4faa68bd00d58a67bd15982"
+    sha256 cellar: :any, x86_64_windows: "a5dee592968a8b06b75eceb759d405cbf0a03c8fa66dc853af2aed3d25cbc974"
   end
 
   conflicts_with "mecab", because: "both install mecab binaries"
@@ -20,7 +20,7 @@ class MecabKo < Formula
   def install
     args = ["--sysconfdir=#{etc}"]
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

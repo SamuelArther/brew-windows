@@ -11,7 +11,7 @@ class Paperkey < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "21de5f2cfcd169ff7ec7573ea61f08c309ad7d17bb0f3df221df3d09d4041803"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "264f02a60932457798ccdd608e435266bfaf9cde54701d9cd404c49034758950"
   end
 
   resource "homebrew-test_sec", :test do
@@ -22,7 +22,7 @@ class Paperkey < Formula
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

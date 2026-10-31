@@ -6,7 +6,7 @@ class Asn1c < Formula
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "44605dbc3ac2ffee5a297248469dacc62e04b8409dbdf90112d0fe4d6204674a"
+    sha256 cellar: :any, x86_64_windows: "74fd22e75bc788de2ce246935b88b36025219a9bcdb3c0708ad30cea385a7cd4"
   end
 
   head do
@@ -24,7 +24,7 @@ class Asn1c < Formula
 
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", "--mandir=#{man}", *args, *std_configure_args
     system "make", "install"

@@ -8,13 +8,13 @@ class Clpbar < Formula
   deny_network_access!
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "20ed6406ee0caa3f872dd92c75016238e14879dcf65189b54056a9d7b4312def"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f41ba044544edc6162da0652ff6e377399ec56ecaf266cec426f7006ca3199fd"
   end
 
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", "--program-prefix='clp'", *args, *std_configure_args
     system "make", "install"

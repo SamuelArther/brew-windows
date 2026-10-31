@@ -6,10 +6,12 @@ class YamlLanguageServer < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e201866a183163e64e3cb8470ce5d4cf816bd4951dd379ce30f367a1fec6afb8"
+    sha256 cellar: :any, x86_64_windows: "1a4dd98d9b2d8cc99962a0792c54453496d4581555f04f33127dd3edf6b01a4d"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

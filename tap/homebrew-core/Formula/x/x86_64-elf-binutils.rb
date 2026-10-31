@@ -12,7 +12,7 @@ class X8664ElfBinutils < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4dd89eb665f1a3e4685d867b530b3721be69445d896ab56c249c0d8e149a9017"
+    sha256 cellar: :any, x86_64_windows: "4cf0932806de52692902ec1341688bcb8a911f7bcb8b2349d740bc4fc0869923"
   end
 
   depends_on "pkgconf" => :build
@@ -25,6 +25,8 @@ class X8664ElfBinutils < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     target = "x86_64-elf"

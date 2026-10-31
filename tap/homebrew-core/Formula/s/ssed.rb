@@ -13,7 +13,7 @@ class Ssed < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b7e595e6556ca2a73ae3eaef3749b2fe2beed60b0ad9aa2f454e9a7615139f9b"
+    sha256 cellar: :any, x86_64_windows: "2880329d0af13f5fe4bbca80e823d29329d9126862752430f4ac37b73f5e080e"
   end
 
   def install
@@ -26,7 +26,7 @@ class Ssed < Formula
       --program-prefix=s
     ]
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

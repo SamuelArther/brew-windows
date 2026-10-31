@@ -9,7 +9,7 @@ class Yapf < Formula
   head "https://github.com/google/yapf.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5faff0012c7cfd30932ac49223d968ab4ff973aaab1615c97198e729d4e66d25"
+    sha256 cellar: :any, x86_64_windows: "8c194a2e9e48a3a1eb82f4e4a63c69741716c406f24fc9b322f5cba669de82c3"
   end
 
   depends_on "python@3.15"
@@ -18,6 +18,8 @@ class Yapf < Formula
     url "https://files.pythonhosted.org/packages/90/a1/d5f9002a70298c64a789779077d8dd90c10aa1f47fe40c86802df874f2a6/platformdirs-4.12.4.tar.gz"
     sha256 "63743c02414e755de4e31b8f68125c1407495b86c5a006e203c01ff8b9924250"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

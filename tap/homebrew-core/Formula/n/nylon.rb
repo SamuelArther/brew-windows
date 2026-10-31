@@ -11,7 +11,7 @@ class Nylon < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6038991761b71e406afc85549d3eea08ffd5f6b68bd99d5c87654143a913dc9d"
+    sha256 cellar: :any, x86_64_windows: "43b825cff451f62af880cecc2d3ff5b07302d12e935b62c3b1d2e2d0eb026eaa"
   end
 
   depends_on "libevent"
@@ -19,7 +19,7 @@ class Nylon < Formula
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", "--mandir=#{man}", "--with-libevent=#{HOMEBREW_PREFIX}", *args, *std_configure_args
     system "make", "install"

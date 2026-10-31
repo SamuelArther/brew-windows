@@ -7,10 +7,12 @@ class Yo < Formula
   head "https://github.com/yeoman/yo.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b3480b5c51f5a4c702eeb93a75984f64e3e3e227eddff746c4a30dd72c26bff3"
+    sha256 cellar: :any, x86_64_windows: "9d3c8d60a3d48ad397372f175ef88d81f65d8aa7e12a2b65014f22dcf0051047"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

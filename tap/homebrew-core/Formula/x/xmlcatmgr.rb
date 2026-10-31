@@ -5,9 +5,10 @@ class Xmlcatmgr < Formula
   sha256 "ea1142b6aef40fbd624fc3e2130cf10cf081b5fa88e5229c92b8f515779d6fdc"
   license "BSD-3-Clause"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xmlcatmgr-2.2"
-    sha256 cellar: :any, x86_64_windows: "cb05151331ce8e42a5c7a9de6ac6545b1a0482ad20afac0340f764104fab8996"
+    sha256 cellar: :any, x86_64_windows: "a0aa596ba28bb469c341416af183d49f8c29cff1027a5f90c9d63ee425666072"
   end
 
   def install

@@ -6,7 +6,7 @@ class Xmp < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7f3a874c455e938a6822f27fa96efdb2780259466712e5d89fe75720380646c2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "17a437fb792de928d98db89b80d2648645c9e0df7513d0741dc433328267ee40"
   end
 
   head do
@@ -19,6 +19,8 @@ class Xmp < Formula
 
   depends_on "pkgconf" => :build
   depends_on "libxmp"
+
+  deny_network_access!
 
   def install
     if build.head?

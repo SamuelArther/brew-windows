@@ -7,7 +7,7 @@ class Rqlite < Formula
   head "https://github.com/rqlite/rqlite.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7cf307e8c03043185bfd244b75322835ce50eb92d6d1b8b8710caed3d3762ee5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7a6f11a30b67ed5bd626b68efbec310ff62467f568898dbdc289b2f8d55a7cb2"
   end
 
   depends_on "go" => :build
@@ -20,7 +20,7 @@ class Rqlite < Formula
 
   def install
     # Workaround to avoid patchelf corruption when cgo is required (for go-sqlite3)
-    if OS.linux? && Hardware::CPU.arch == :arm64
+    if OS.linux? && Hardware::CPU.arm64?
       ENV["CGO_ENABLED"] = "1"
       ENV["GO_EXTLINK_ENABLED"] = "1"
       ENV.append "GOFLAGS", "-buildmode=pie"

@@ -8,10 +8,12 @@ class Ydiff < Formula
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1593a0cdf264ec990e9760746adc2bab9ce70888a1fd13f437fcd25403d3e771"
+    sha256 cellar: :any, x86_64_windows: "1bcdef6808900812257c1e6206869173c955c185ef2e14139b4762f2a5754318"
   end
 
   depends_on "python@3.15"
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

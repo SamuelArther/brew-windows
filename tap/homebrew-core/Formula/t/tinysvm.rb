@@ -13,7 +13,7 @@ class Tinysvm < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "eb28c8563799909ecb927538e185959298c9214613b6cfe8fa18fdc408361202"
+    sha256 cellar: :any, x86_64_windows: "6229c17452d388c4c2e1f2c39a2c10b19e3e8ed52c11bcee87610dbc176451a9"
   end
 
   # Use correct compilation flag, via MacPorts.
@@ -31,7 +31,7 @@ class Tinysvm < Formula
 
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--host=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--host=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", "--mandir=#{man}", "--disable-shared", *args, *std_configure_args
     system "make", "install"

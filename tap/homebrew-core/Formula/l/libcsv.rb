@@ -11,14 +11,13 @@ class Libcsv < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libcsv-3.0.3"
-    sha256 cellar: :any, x86_64_windows: "3f3a90247179772d0a8692f57a60a85b4fc38aab7fe1e40867dbcb621138c6c9"
+    sha256 cellar: :any, x86_64_windows: "a67c2815bcc294d326168e53fc1e8bcb805177ce4b62e006f8d1c93b823b5248"
   end
 
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

@@ -12,13 +12,13 @@ class Doublecpp < Formula
   deny_network_access!
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "54b55338986120d309a63bb60bb46a3db62106348ff9a86ce3e10ad18cafd513"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5632f5994ffaf27d40ce49c8641b5f1e74e2d8321f1c824f1b5787e548a23801"
   end
 
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

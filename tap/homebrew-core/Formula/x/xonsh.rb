@@ -9,7 +9,7 @@ class Xonsh < Formula
   head "https://github.com/xonsh/xonsh.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "df9344e6eda36c94cafb2daa9cce5802e4fb645c6f7b770bf3249c25d239c6ff"
+    sha256 cellar: :any, x86_64_windows: "150cdcffdcc58c269f126e11d761b638b97a42aea3fe70cbf8d4e392f4feb460"
   end
 
   depends_on "python@3.15"
@@ -40,6 +40,8 @@ class Xonsh < Formula
     url "https://files.pythonhosted.org/packages/69/4a/82d61476a1ccc20d43d0805724c5de4baa4971131a8db1816705ef53fe16/wcwidth-0.9.3.tar.gz"
     sha256 "dfe7cfbd4cb59db9fe0931bd6091ab4a95b3acc5d56bfb50fa9fef0ccba5dc5c"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

@@ -12,7 +12,7 @@ class Xvid < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4af44543373b5e66ec0ba5dfb8fa1fd3c32422e68757040728d59cbaa20b7739"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "060700bdcfc7699b7aba2221ff2ef08998bfa18062cf60804f1c6c2fd348eb88"
   end
 
   # Remove -flat_namespace based on MacPorts patch (which needs autoreconf).
@@ -21,6 +21,8 @@ class Xvid < Formula
   on_macos do
     patch :DATA
   end
+
+  deny_network_access!
 
   def install
     cd "build/generic" do

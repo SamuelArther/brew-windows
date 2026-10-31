@@ -1,12 +1,12 @@
 class Sanity < Formula
   desc "Command-line interface for Sanity"
   homepage "https://www.sanity.io/"
-  url "https://registry.npmjs.org/@sanity/cli/-/cli-8.25.0.tgz"
-  sha256 "56ec6f89c905d92fc2b50aa4094d357e50387848497c1448a2d78ead73f444f0"
+  url "https://registry.npmjs.org/@sanity/cli/-/cli-8.26.0.tgz"
+  sha256 "a03b77b9bc7bd1ac08b87f1ad954acc36c859f7bac97b64cddbe87b16609e270"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "fd50107906b072fa081f3cc4a3d18d7c037514e62f1e3d74f690172302a894d2"
+    sha256 cellar: :any, x86_64_windows: "4f3a16a3364c62600d1f0fe26122b0e2adb562a35306ebe3d0c178bc3fcaf93a"
   end
 
   depends_on "node"

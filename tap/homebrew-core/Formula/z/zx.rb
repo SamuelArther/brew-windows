@@ -6,10 +6,12 @@ class Zx < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "39b1a5afc0ff5ea8bc89ff2e54c9194253b47789d663b21c444c5367ec75e5ab"
+    sha256 cellar: :any, x86_64_windows: "594c068af3844cbb7460c41fdcb9e20a1513c599342fc25554f1ee212d798a14"
   end
 
   depends_on "node"
+
+  deny_network_access!
 
   def install
     system "npm", "install", *std_npm_args

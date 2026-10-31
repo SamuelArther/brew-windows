@@ -1,8 +1,8 @@
 class XCmd < Formula
   desc "Bootstrap 1000+ command-line tools in seconds"
   homepage "https://x-cmd.com"
-  url "https://github.com/x-cmd/x-cmd/archive/refs/tags/v0.10.13.tar.gz"
-  sha256 "7ac52d518a4424a6149cb15d14a322ce809575c210629068912cfba4942ee6c5"
+  url "https://github.com/x-cmd/x-cmd/archive/refs/tags/v0.10.14.tar.gz"
+  sha256 "6940eba3bf4306d4b9f463567973fb073097f7d2a5b936d1b6a295bd83f65409"
   license all_of: ["Apache-2.0", "MIT", "BSD-3-Clause"]
   head "https://github.com/x-cmd/x-cmd.git", branch: "X"
 
@@ -12,8 +12,10 @@ class XCmd < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b2892dd0a214da3798fbf55c01bf0a5fb14818783fe1be94350463656b935495"
+    sha256 cellar: :any, x86_64_windows: "b3b1ce5cbade6d143211787b43175d0f7f009de9eda29ca060e5e4362ea7c7b1"
   end
+
+  deny_network_access!
 
   def install
     prefix.install Dir.glob("*")

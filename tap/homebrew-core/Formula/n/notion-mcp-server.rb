@@ -1,12 +1,12 @@
 class NotionMcpServer < Formula
   desc "MCP Server for Notion"
   homepage "https://github.com/makenotion/notion-mcp-server"
-  url "https://registry.npmjs.org/@notionhq/notion-mcp-server/-/notion-mcp-server-2.6.0.tgz"
-  sha256 "47fe38dc2321b9e0ed07f267d2285d9c4faf7a5c45d9f17a64ae6570ec6332c6"
+  url "https://registry.npmjs.org/@notionhq/notion-mcp-server/-/notion-mcp-server-2.6.1.tgz"
+  sha256 "dda051e78271e754b6c6fe6907bfb71ee28b3cd81efe8d39fb39268c3b10aec5"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0d9e5acfbb6c99a1644415d86fa18879570812f5adb078f186b62dd57258fc6e"
+    sha256 cellar: :any, x86_64_windows: "a6127675fc8bbc1f7d23d97ab57754ad9a4c101b20383eb663cf842bcf240a22"
   end
 
   depends_on "node"

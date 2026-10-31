@@ -6,10 +6,12 @@ class YuqueDl < Formula
   license "ISC"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "eb88c6d0798738c06d8cb921914743df320878169bae8bed3182d07bdc0f84e8"
+    sha256 cellar: :any, x86_64_windows: "119bdb2602f02a947571fbf7ab63f182dac0027923a28b970d2ca15614f7d1cc"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

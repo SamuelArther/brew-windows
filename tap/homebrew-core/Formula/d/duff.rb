@@ -8,13 +8,13 @@ class Duff < Formula
   deny_network_access!
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6ebc4820456b51063f3e102f1f7eb4b43927af9703fc75fddb9cef49176dea45"
+    sha256 cellar: :any, x86_64_windows: "5e953fb8889341efe251403011e6961abaeef33aedac55da55b9f5f3657fd66e"
   end
 
   def install
     args = ["--mandir=#{man}"]
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

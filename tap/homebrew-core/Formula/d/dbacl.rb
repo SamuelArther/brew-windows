@@ -8,14 +8,14 @@ class Dbacl < Formula
   deny_network_access!
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ef26241dac481edb6600828af1dfd744afde5ff1faaaae5a5a2272b8fcc0d4ed"
+    sha256 cellar: :any, x86_64_windows: "3ba531a95026a87fcbea583ed6d74100af0876f928c5d18fbb84146fad37ce54"
   end
 
   def install
     args = []
     if OS.linux?
       # Help old config scripts identify arm64 linux
-      args << "--build=aarch64-unknown-linux-gnu" if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      args << "--build=aarch64-unknown-linux-gnu" if Hardware::CPU.arm64?
       # Work around error: unknown type name 'locale_t'
       ENV.append "CFLAGS", "-std=gnu99"
     end

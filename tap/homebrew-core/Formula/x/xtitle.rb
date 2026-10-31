@@ -11,9 +11,10 @@ class Xtitle < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xtitle-1.0.4"
-    sha256 cellar: :any, x86_64_windows: "da06410dfb24cdbae3d59e92f6808ba825863f89cec86492d5700d7f1da7ea46"
+    sha256 cellar: :any, x86_64_windows: "28d8cbaf22df1fc7b1dd273e1f79097a1d423a91f65c2b139b78c56b558c533c"
   end
+
+  deny_network_access!
 
   def install
     bin.install "xtitle.sh" => "xtitle"

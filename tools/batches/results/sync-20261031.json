@@ -1,0 +1,527 @@
+[
+  {
+    "name": "ai-cli",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 91
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "asn1c",
+    "status": "ok",
+    "seconds": 107
+  },
+  {
+    "name": "cargo-generate",
+    "status": "ok",
+    "seconds": 623
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 164
+  },
+  {
+    "name": "chart-releaser",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "clpbar",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 223
+  },
+  {
+    "name": "dbacl",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "diagram",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "doublecpp",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "duff",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 215
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1641
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "fernflower",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 648
+  },
+  {
+    "name": "gitea-mcp-server",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "google-java-format",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 254
+  },
+  {
+    "name": "ipython",
+    "status": "ok",
+    "seconds": 211
+  },
+  {
+    "name": "jbang",
+    "status": "test",
+    "seconds": 5
+  },
+  {
+    "name": "kanata-tray",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "karmadactl",
+    "status": "ok",
+    "seconds": 148
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "ketch",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "kosli-cli",
+    "status": "ok",
+    "seconds": 193
+  },
+  {
+    "name": "kytea",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "libcsv",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "libdsk",
+    "status": "ok",
+    "seconds": 126
+  },
+  {
+    "name": "liblerc",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "libpoker-eval",
+    "status": "build",
+    "seconds": 44
+  },
+  {
+    "name": "libquantum",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "liqoctl",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "lout",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "md-tui",
+    "status": "ok",
+    "seconds": 465
+  },
+  {
+    "name": "mecab-ko",
+    "status": "ok",
+    "seconds": 147
+  },
+  {
+    "name": "metabase",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "modflow6",
+    "status": "ok",
+    "seconds": 113
+  },
+  {
+    "name": "mongosh",
+    "status": "ok",
+    "seconds": 183
+  },
+  {
+    "name": "mq",
+    "status": "ok",
+    "seconds": 583
+  },
+  {
+    "name": "nebula",
+    "status": "build",
+    "seconds": 44
+  },
+  {
+    "name": "notion-mcp-server",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "nylon",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "overarch",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 465
+  },
+  {
+    "name": "paperkey",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 871
+  },
+  {
+    "name": "pgdbf",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 942
+  },
+  {
+    "name": "plotutils",
+    "status": "ok",
+    "seconds": 692
+  },
+  {
+    "name": "pmd",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "prestd",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "puf",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "pydantic",
+    "status": "ok",
+    "seconds": 411
+  },
+  {
+    "name": "rattler-index",
+    "status": "ok",
+    "seconds": 760
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "release-it",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "resterm",
+    "status": "ok",
+    "seconds": 182
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 140
+  },
+  {
+    "name": "ryl",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 336
+  },
+  {
+    "name": "sbomqs",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "ssed",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "stripe-cli",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "swc",
+    "status": "ok",
+    "seconds": 636
+  },
+  {
+    "name": "termframe",
+    "status": "ok",
+    "seconds": 351
+  },
+  {
+    "name": "tetra",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "tfstate-lookup",
+    "status": "ok",
+    "seconds": 80
+  },
+  {
+    "name": "tgrep",
+    "status": "ok",
+    "seconds": 388
+  },
+  {
+    "name": "timoni",
+    "status": "ok",
+    "seconds": 218
+  },
+  {
+    "name": "tinysvm",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 84
+  },
+  {
+    "name": "vue-language-server",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "webdav",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "x-cmd",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "x86_64-elf-binutils",
+    "status": "ok",
+    "seconds": 528
+  },
+  {
+    "name": "xbitmaps",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "xcv",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "xdg-ninja",
+    "status": "test",
+    "seconds": 6
+  },
+  {
+    "name": "xfr",
+    "status": "ok",
+    "seconds": 302
+  },
+  {
+    "name": "xmlcatmgr",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "xmp",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "xonsh",
+    "status": "ok",
+    "seconds": 102
+  },
+  {
+    "name": "xorgrgb",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "xtitle",
+    "status": "ok",
+    "seconds": 4
+  },
+  {
+    "name": "xtrans",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "xvid",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "yaml-language-server",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "yapf",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "ydiff",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "yetris",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "yo",
+    "status": "ok",
+    "seconds": 169
+  },
+  {
+    "name": "yuicompressor",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "yuque-dl",
+    "status": "ok",
+    "seconds": 93
+  },
+  {
+    "name": "znapzend",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "zx",
+    "status": "ok",
+    "seconds": 6
+  }
+]

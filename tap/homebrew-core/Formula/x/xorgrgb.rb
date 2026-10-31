@@ -7,12 +7,14 @@ class Xorgrgb < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8ee8400bab51bb83adfd799bc5abd5e55f488ee4b3af6516109bd95babcc6abf"
+    sha256 cellar: :any, x86_64_windows: "3b4d97e4268bbda7ea729dc9abedb21d1453695ca79f7631e96fc7d617cae40b"
   end
 
   depends_on "pkgconf" => :build
   depends_on "util-macros" => :build
   depends_on "xorgproto" => :build
+
+  deny_network_access!
 
   def install
     args = %W[

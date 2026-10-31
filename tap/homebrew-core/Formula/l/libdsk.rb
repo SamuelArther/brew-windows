@@ -12,7 +12,7 @@ class Libdsk < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "63297f38a500ca8cbdd6e4ca0321d2eb07efa656249e7f747ce628ded89fd88f"
+    sha256 cellar: :any, x86_64_windows: "8f2b059c195a11e6ff7c94ff8f8657dda9cf14b7ca31c747d1715f38c7b35974"
   end
 
   on_linux do
@@ -32,7 +32,7 @@ class Libdsk < Formula
     args = []
     if OS.linux?
       # Help old config scripts identify arm64 linux
-      args << "--build=aarch64-unknown-linux-gnu" if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      args << "--build=aarch64-unknown-linux-gnu" if Hardware::CPU.arm64?
       # Workaround for undefined reference to `major'. Remove in the next release
       ENV.append "CFLAGS", "-include sys/sysmacros.h"
       odie "Remove sys/sysmacros.h workaround!" if version >= "1.5"

@@ -7,7 +7,7 @@ class Diagram < Formula
   head "https://github.com/esimov/diagram.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8b3a042841c48ea79a0377fb136dc2b27436d9165aad1c4b22ab12bd1cc97886"
+    sha256 cellar: :any, x86_64_windows: "f5e80f1fb069da45d091c8aeea19380c2464081b0b99a91c4ba67236fcf16b2e"
   end
 
   depends_on "go" => :build
@@ -31,7 +31,7 @@ class Diagram < Formula
 
   def install
     # Workaround to avoid patchelf corruption when cgo is required (for gioui.org/internal/vk)
-    if OS.linux? && Hardware::CPU.arch == :arm64
+    if OS.linux? && Hardware::CPU.arm64?
       ENV["CGO_ENABLED"] = "1"
       ENV["GO_EXTLINK_ENABLED"] = "1"
       ENV.append "GOFLAGS", "-buildmode=pie"

@@ -13,10 +13,12 @@ class Yuicompressor < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7af1d77e8e900daddc38564d4c868e804477ff36e89242cfa79a4038bbdfdd1b"
+    sha256 cellar: :any, x86_64_windows: "39608ddf09a47cf00d1087ad6873730cda33111ca857c29ab06f13c35184fd8b"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     libexec.install "yuicompressor-#{version}.jar"

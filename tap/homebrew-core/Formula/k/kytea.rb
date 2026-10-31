@@ -38,7 +38,7 @@ class Kytea < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6225a30787229f9e73248988a33dbfa05083fc97013f686812e481def4f499a3"
+    sha256 cellar: :any, x86_64_windows: "179011b1b0fdf750d1d2c1260113cee3dcaaaf2e7c01d6c60139bf1c6a5cca30"
   end
 
   head do
@@ -55,7 +55,7 @@ class Kytea < Formula
 
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

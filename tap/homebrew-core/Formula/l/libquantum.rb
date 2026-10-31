@@ -13,13 +13,13 @@ class Libquantum < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1236f7eae587d19ae8d03498b3f77be5de34e4e25e2a59c7d9178046e91b55fe"
+    sha256 cellar: :any, x86_64_windows: "3c5c3fc2831417a74705f310c19bcf83e88d1d042676f13c6c9647dcd560e86d"
   end
 
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

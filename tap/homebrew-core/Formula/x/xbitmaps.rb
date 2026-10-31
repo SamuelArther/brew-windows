@@ -7,11 +7,13 @@ class Xbitmaps < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e3cce3fbfa11f6f41e20f3e156199212d9d35ea906d1cad54a5c2fd313a6f611"
+    sha256 cellar: :any, x86_64_windows: "367653304de35fe2c40a41ef599598067ea650cbfc3e90248aba8503691c8ccc"
   end
 
   depends_on "pkgconf" => :build
   depends_on "util-macros" => :build
+
+  deny_network_access!
 
   def install
     args = %W[

@@ -8,14 +8,13 @@ class Pgdbf < Formula
   deny_network_access!
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/pgdbf-0.6.2"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b3c43505868f72ddf5201ea8373f87c90ce7ce61eb1858d3443165b4bd7fc97a"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "32438142b4c1b1b8771a924e47baf257bdf5cd2368c0f33ec724e52ad7fed1e4"
   end
 
   def install
     args = []
     # Help old config scripts identify arm64 linux
-    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    args << "--build=aarch64-unknown-linux-gnu" if OS.linux? && Hardware::CPU.arm64?
 
     system "./configure", *args, *std_configure_args
     system "make", "install"

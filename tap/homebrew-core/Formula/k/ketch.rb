@@ -1,13 +1,13 @@
 class Ketch < Formula
   desc "Web search and scraping for agents"
   homepage "https://github.com/1broseidon/ketch"
-  url "https://github.com/1broseidon/ketch/archive/refs/tags/v0.20.1.tar.gz"
-  sha256 "bb566506574775622fa233f0f000df9dc0603abc3b87808722f5dd4d7befeb44"
+  url "https://github.com/1broseidon/ketch/archive/refs/tags/v0.20.2.tar.gz"
+  sha256 "b26b7ebb03fad37c0089f91ef0004d9d0632f615484b536a0d2d3f4fab5e5ad8"
   license "MIT"
   head "https://github.com/1broseidon/ketch.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "6445e2b715a5b034b5452f6a4cada7c70a026a3e38d6372bbc1ab7c7cfc5397d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1d924e0d8fb26c4b1276d5460a188d5180097721a7a3ca45162aad4160460657"
   end
 
   depends_on "go" => :build

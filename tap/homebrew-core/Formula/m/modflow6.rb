@@ -1,13 +1,13 @@
 class Modflow6 < Formula
   desc "USGS modular hydrologic model"
   homepage "https://www.usgs.gov/software/modflow-6-usgs-modular-hydrologic-model"
-  url "https://github.com/MODFLOW-ORG/modflow6/archive/refs/tags/6.8.1.tar.gz"
-  sha256 "16b9368d582c66de83106a4c075d22c2a7a08daa7d8dfb7f40e21a5d983be699"
+  url "https://github.com/MODFLOW-ORG/modflow6/archive/refs/tags/6.8.2.tar.gz"
+  sha256 "f40c64d333cf2d5089bb777cb296aa05a8b4ba11a49a1602d6e5e8626019dade"
   license "CC0-1.0"
   head "https://github.com/MODFLOW-ORG/modflow6.git", branch: "develop"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "e15865d3d86184f580443b2cd076359c75ff6d0aef2dc22e16d1e8fe20bb909e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "226a5a82c185b0012a460dafca125301723dfa72f5c4dcfa64061c707b7679b3"
   end
 
   depends_on "meson" => :build

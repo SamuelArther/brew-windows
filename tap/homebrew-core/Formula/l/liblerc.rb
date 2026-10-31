@@ -1,8 +1,8 @@
 class Liblerc < Formula
   desc "Esri LERC library (Limited Error Raster Compression)"
   homepage "https://github.com/Esri/lerc"
-  url "https://github.com/Esri/lerc/archive/refs/tags/v4.2.0.tar.gz"
-  sha256 "a1fb593ed1fcb5b38800caf3c4454f872745202e961d00d745e53d81447e17c9"
+  url "https://github.com/Esri/lerc/archive/refs/tags/v4.3.0.tar.gz"
+  sha256 "28d74992e0bc0f13ecdda1dd9ca3b40b1a87009369b9ec5a599853f6f311fee7"
   license "Apache-2.0"
   compatibility_version 1
 
@@ -12,8 +12,7 @@ class Liblerc < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/liblerc-4.2.0"
-    sha256 cellar: :any, x86_64_windows: "81f577b56262eb5e405ba983bc55ae123c64707a0bc136b964973ff9c22408bd"
+    sha256 cellar: :any, x86_64_windows: "4805d71accc48dabde97269459a0703d1e68c78b770662837d5c2e5ff4446dc6"
   end
 
   depends_on "cmake" => :build

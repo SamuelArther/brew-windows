@@ -7,12 +7,14 @@ class Xtrans < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "39fb9522dc806b26f15015c8b9e11e182de5dfbd09b839a3deab17d9a09d9d73"
+    sha256 cellar: :any, x86_64_windows: "ee7c6c9eab4f0173819fbceeb45cb2f44446151a394b7cc4d89ccd6165a66ee6"
   end
 
   depends_on "pkgconf" => :build
   depends_on "util-macros" => :build
   depends_on "xorgproto" => :test
+
+  deny_network_access!
 
   def install
     args = %W[

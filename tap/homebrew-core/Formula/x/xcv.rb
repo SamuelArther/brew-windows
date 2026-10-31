@@ -6,9 +6,10 @@ class Xcv < Formula
   license "ISC"
   head "https://github.com/busterc/xcv.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/xcv-1.0.1"
-    sha256 cellar: :any, x86_64_windows: "11eeca37f3674c0454e6d6e360acef691df01279c29b3e2d0add9c2e70d1a0e0"
+    sha256 cellar: :any, x86_64_windows: "d45ad0b646bc72e6ebc8f72da02a536581bb4c4a09fabaa06c58a90ce32d15a6"
   end
 
   def install
