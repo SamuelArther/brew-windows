@@ -11,10 +11,12 @@ class Arcadedb < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f50c313a2612ee038959c9815a50678d717fe937f968ae28060586b76e8dd508"
+    sha256 cellar: :any, x86_64_windows: "b424c4e02112041261f9ebece4785d963043143c55db5ae7cdadd2f31d83e1de"
   end
 
   depends_on "openjdk"
+
+  allow_network_access! :test
 
   def install
     rm Dir["bin/*.bat"]

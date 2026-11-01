@@ -1,13 +1,13 @@
 class ChartReleaser < Formula
   desc "Hosting Helm Charts via GitHub Pages and Releases"
   homepage "https://github.com/helm/chart-releaser/"
-  url "https://github.com/helm/chart-releaser/archive/refs/tags/v1.10.0.tar.gz"
-  sha256 "fb785f8c1a74b8abff39b1ac843ba6d6e7403d824bc2113785131d31fecdd561"
+  url "https://github.com/helm/chart-releaser/archive/refs/tags/v1.10.1.tar.gz"
+  sha256 "eb0277025c5ab1e7281ad344e415b2721f1f3698c6a1f850cd42b1f1aae838b6"
   license "Apache-2.0"
   head "https://github.com/helm/chart-releaser.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "186c85d61f7d24fefd46cdeaa0b234df35b8c1bb8ac6ba9c73234da95704b127"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8b326fc74b92b286f27e3391b84b6d6997f3be94ff2e99f27d09ffedece160b1"
   end
 
   depends_on "go" => :build

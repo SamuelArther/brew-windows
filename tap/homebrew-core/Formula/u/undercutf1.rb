@@ -1,13 +1,13 @@
 class Undercutf1 < Formula
   desc "F1 Live Timing TUI for all F1 sessions with variable delay to sync to your TV"
   homepage "https://amandhoot.com"
-  url "https://github.com/JustAman62/undercut-f1/archive/refs/tags/v4.0.103.tar.gz"
-  sha256 "58907341f4027ac6ae9019da9893655cfda41accf1fb46d2fff2d5f6fbb0c799"
+  url "https://github.com/JustAman62/undercut-f1/archive/refs/tags/v4.0.105.tar.gz"
+  sha256 "b2fcaa200a7f6a0a7046f32846bec457e01080b8bd7bab78e1fdc53d6b4feb4d"
   license "GPL-3.0-only"
   head "https://github.com/JustAman62/undercut-f1.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1d821e30a3071a4165c46056b3c84a5377d871b6f911d721c6e8fcbea1f7da86"
+    sha256 cellar: :any, x86_64_windows: "02edab77f66cd83b90440a018e4cb95521fd6b3404d5cbb4404477bff2a0641d"
   end
 
   depends_on "dotnet"
@@ -17,6 +17,8 @@ class Undercutf1 < Formula
 
   def install
     ENV["DOTNET_CLI_TELEMETRY_OPTOUT"] = "1"
+    # .NET named mutexes need `XDG_RUNTIME_DIR` (or `USER`) on Linux, which build containers may lack
+    ENV["XDG_RUNTIME_DIR"] = buildpath
 
     dotnet = Formula["dotnet"]
     args = %W[
@@ -62,6 +64,6 @@ class Undercutf1 < Formula
         # GNU/Linux raises EIO when read is done on closed pty end
       end
     end
-    assert_match "Received HTTP response headers after", output
+    assert_match "Importing sessions now requires logging in", output
   end
 end

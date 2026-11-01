@@ -6,10 +6,12 @@ class Apng2gif < Formula
   license all_of: ["libpng-2.0", "Zlib"]
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4744a0e924d5fb08a2851be6f989fbe92d87880721adeb981ce9bcf68843f3f2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f9d1495acbd56ed94972f0192449a9e62092b4cc87e8ed4ee214d6040df5bae0"
   end
 
   depends_on "libpng"
+
+  deny_network_access!
 
   def install
     system "make"

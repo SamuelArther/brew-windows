@@ -6,10 +6,12 @@ class Alexjs < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ac0cdae2d58d191e7a06bdb59f31caf3e3cd4c40a572817b05acf1e2ff6ac137"
+    sha256 cellar: :any, x86_64_windows: "b84a90a86dd4387e3511e8c26bba3b61c7805ba5b61bb7cd5aed8be57260d521"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

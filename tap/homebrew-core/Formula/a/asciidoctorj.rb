@@ -12,10 +12,12 @@ class Asciidoctorj < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "607430de2594459be8348b608468b58f8c7c45fdb460ef9933f9462099d2c7cf"
+    sha256 cellar: :any, x86_64_windows: "b6d407836c79b49f7db46f5d7d1a985393bc0e48d1802829cb7211fc9bf94cda"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     rm_r(Dir["bin/*.bat"]) # Remove Windows files.

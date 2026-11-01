@@ -6,10 +6,12 @@ class AirtableMcpServer < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b3a05be2a7b6d03f98a3e43bb8301a53ce479edde722e8aebd8a2fe145b9b57a"
+    sha256 cellar: :any, x86_64_windows: "239454734d86fd40f9a28dfad9932234e73280d1904aa27a915eaf776dec6b9d"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

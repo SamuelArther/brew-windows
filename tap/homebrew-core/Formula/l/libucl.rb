@@ -1,12 +1,12 @@
 class Libucl < Formula
   desc "Universal configuration library parser"
   homepage "https://github.com/vstakhov/libucl"
-  url "https://github.com/vstakhov/libucl/archive/refs/tags/0.9.4.tar.gz"
-  sha256 "319d8ff13441f55d91cd7f3708a54bd03779733e26958c2346c5109014520aaf"
+  url "https://github.com/vstakhov/libucl/archive/refs/tags/0.10.0.tar.gz"
+  sha256 "3e27a97d48561aa262f93715ad5b483dceca02b033662b9a5a29c36f48b518e7"
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "436f0ae79205b45397b9dbfd84372209ba4bfef62c05ea66faa3e8d3f9bc60d9"
+    sha256 cellar: :any, x86_64_windows: "4d231d150f3c9fd139d559415517052b337bc38ad1b27fcc596543807aab3b7c"
   end
 
   depends_on "autoconf" => :build

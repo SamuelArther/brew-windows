@@ -10,7 +10,7 @@ class Awslogs < Formula
   head "https://github.com/jorgebastida/awslogs.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ca718a06c932e916401adf7bf655bb8df94de49cc0337443e73c65de0553656e"
+    sha256 cellar: :any, x86_64_windows: "246723bc6db435279031ef5f0d0ff5e0ad2f4a8f693a38a300360cdfc6f971e1"
   end
 
   depends_on "python@3.15"
@@ -58,6 +58,8 @@ class Awslogs < Formula
     url "https://files.pythonhosted.org/packages/e3/05/b17359e1cefb4f909b5e40b1b90a496d987258916dbbf88e842c729f510e/urllib3-2.8.0.tar.gz"
     sha256 "63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

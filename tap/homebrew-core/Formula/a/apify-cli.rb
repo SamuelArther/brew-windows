@@ -8,10 +8,12 @@ class ApifyCli < Formula
   no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "64b4262d38c7c065400f23cdebac0cca365b718c9eb50c0ca64e56856523c5ba"
+    sha256 cellar: :any, x86_64_windows: "43e035437adba18bc4b767e9edd5eadf3db5a66591681367d8583c619264575a"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

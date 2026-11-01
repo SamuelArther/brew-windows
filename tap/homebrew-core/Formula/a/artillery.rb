@@ -11,10 +11,12 @@ class Artillery < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d88c7e8ba77c37480ba6137a546c34ae0dd556f9a1f9a68f3392a8955dab6282"
+    sha256 cellar: :any, x86_64_windows: "6062b5c95694b6e5e7e9164cce9bc5e2be1dacb4f433be7788bf6839a37a46b4"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args(ignore_scripts: false)

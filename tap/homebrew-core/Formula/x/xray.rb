@@ -1,8 +1,8 @@
 class Xray < Formula
   desc "Platform for building proxies to bypass network restrictions"
   homepage "https://xtls.github.io/"
-  url "https://github.com/XTLS/Xray-core/archive/refs/tags/v26.10.29.tar.gz"
-  sha256 "ee22c6f21855f70a52e19bff02fa71f4b28ce071d83ff9154fafcaa0f315a642"
+  url "https://github.com/XTLS/Xray-core/archive/refs/tags/v26.10.31.tar.gz"
+  sha256 "be44f95d497ad4ba6e9d1dcfbbd71e8e51f812aff077d4c15c9947eff5e3046a"
   license all_of: ["MPL-2.0", "CC-BY-SA-4.0"]
   head "https://github.com/XTLS/Xray-core.git", branch: "main"
 
@@ -12,15 +12,15 @@ class Xray < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f71157623549dbfeafb9e3e39475490c4871867f6a6ea6ed57ca50540b58a176"
+    sha256 cellar: :any, x86_64_windows: "c773b797d90d4c80aaf4580838d54c8998ac6304801d517b932c7c4a9f657e73"
   end
 
   depends_on "go" => :build
 
   resource "geoip" do
-    url "https://github.com/XTLS/Xray-rules-dat/releases/download/20261028222509/geoip-lite.dat"
-    version "20261028222509"
-    sha256 "36e0e76145dba3f13ac4bf7be0b738d7eae957835fefd2ee220e7034fe52a4d1"
+    url "https://github.com/XTLS/Xray-rules-dat/releases/download/20261031001536/geoip-lite.dat"
+    version "20261031001536"
+    sha256 "ce90dc02a81528109c99d769e1f8fe3071ded6b02a574f31e62d8f4eee312563"
 
     livecheck do
       url :url
@@ -28,9 +28,9 @@ class Xray < Formula
   end
 
   resource "geosite" do
-    url "https://github.com/XTLS/Xray-rules-dat/releases/download/20261028222509/geosite.dat"
-    version "20261028222509"
-    sha256 "b8a31ce12d3ec997358bf2bde95be502df7402179d1c93d1e8b3eda6f7b08f3a"
+    url "https://github.com/XTLS/Xray-rules-dat/releases/download/20261031001536/geosite.dat"
+    version "20261031001536"
+    sha256 "9ee94acb06e2f795831fb1589c0dc7af9242b0fb8d9196afd981b915b1097ed3"
 
     livecheck do
       url :url

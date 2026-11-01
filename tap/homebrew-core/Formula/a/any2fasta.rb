@@ -7,10 +7,12 @@ class Any2fasta < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8c6b9e5787f2429092bafa54aceef67390255e5555a5939df55993d7720b449f"
+    sha256 cellar: :any, x86_64_windows: "daa8d4238da332de1d1d6a270745bdb8a45f1b11710a6e26c0053c9231f0c2c9"
   end
 
   uses_from_macos "perl"
+
+  deny_network_access!
 
   def install
     bin.install "any2fasta"

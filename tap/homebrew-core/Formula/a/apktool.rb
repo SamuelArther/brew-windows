@@ -6,7 +6,7 @@ class Apktool < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "de55282dd290fdbb6bbe4bc47f22a0e50b618a9140f079f897a19c38f773dc7e"
+    sha256 cellar: :any, x86_64_windows: "a821cc6cf9f4f1e94448d05e651df3fb8b88a0f74eb8ad2a265fa1ea00e2ff55"
   end
 
   depends_on "openjdk"
@@ -15,6 +15,8 @@ class Apktool < Formula
     url "https://raw.githubusercontent.com/iBotPeaches/Apktool/v3.0.1/brut.apktool/apktool-lib/src/test/resources/issue1157/issue1157.apk"
     sha256 "b3159fd172d39c6b73d1c0f18e31ceeaf1fe25c638e8946eb1a9af9432e1fd24"
   end
+
+  deny_network_access!
 
   def install
     libexec.install "apktool_#{version}.jar"

@@ -6,7 +6,7 @@ class Yamlresume < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ef8526d52fb15632fdcd9c2d990bf9214384f9f50c847d2ac9af88ec4895c1fd"
+    sha256 cellar: :any, x86_64_windows: "8be85e56aff97cd97e54880444b5c8032d228247673243be795ba290d9e27688"
   end
 
   depends_on "node"
@@ -14,6 +14,8 @@ class Yamlresume < Formula
   on_linux do
     depends_on "fontconfig" # for font-list to run fc-list
   end
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

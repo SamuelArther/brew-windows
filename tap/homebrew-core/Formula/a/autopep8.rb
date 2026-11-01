@@ -8,7 +8,7 @@ class Autopep8 < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d8ddaceedd632fbe8d5d480a083bba43297a2e1312bc8cd1ff41c02f59cb622b"
+    sha256 cellar: :any, x86_64_windows: "c25f8f84b3a35b35d82f234c910debdf0903ab86b38b91cf34bff458d2306898"
   end
 
   depends_on "python@3.15"
@@ -17,6 +17,8 @@ class Autopep8 < Formula
     url "https://files.pythonhosted.org/packages/86/df/178e41c9ed0ff33c23b3f3757e4e658c889f9abc5ad76ece6cd607b12e9c/pycodestyle-2.15.0.tar.gz"
     sha256 "318f5db083869b4c4dad922d0b11124fb27ab181b6730b93371da671e31bd50e"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

@@ -1,0 +1,322 @@
+[
+  {
+    "name": "airtable-mcp-server",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "alexjs",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "ansible-language-server",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "any2fasta",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "apify-cli",
+    "status": "ok",
+    "seconds": 88
+  },
+  {
+    "name": "apktool",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "apng2gif",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "arcadedb",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 54
+  },
+  {
+    "name": "arm-optimized-routines",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "artillery",
+    "status": "ok",
+    "seconds": 558
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "asciidoctorj",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "asitop",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "automysqlbackup",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "autopep8",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 194
+  },
+  {
+    "name": "awslogs",
+    "status": "ok",
+    "seconds": 199
+  },
+  {
+    "name": "cargo-binstall",
+    "status": "ok",
+    "seconds": 713
+  },
+  {
+    "name": "chart-releaser",
+    "status": "ok",
+    "seconds": 164
+  },
+  {
+    "name": "crit",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 255
+  },
+  {
+    "name": "cx",
+    "status": "ok",
+    "seconds": 586
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "eslint",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 184
+  },
+  {
+    "name": "evtx",
+    "status": "ok",
+    "seconds": 90
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1485
+  },
+  {
+    "name": "fast_float",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "forgit",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "git-pages-cli",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "gitea",
+    "status": "ok",
+    "seconds": 208
+  },
+  {
+    "name": "gitea-importer",
+    "status": "ok",
+    "seconds": 64
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "hblock",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 190
+  },
+  {
+    "name": "jaguar",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "libucl",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "mac",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "nx",
+    "status": "ok",
+    "seconds": 124
+  },
+  {
+    "name": "obscura",
+    "status": "ok",
+    "seconds": 488
+  },
+  {
+    "name": "openspec",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "parallel",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "qo",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "quick-lint-js",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "redress",
+    "status": "ok",
+    "seconds": 72
+  },
+  {
+    "name": "reuse",
+    "status": "ok",
+    "seconds": 131
+  },
+  {
+    "name": "rio-terminal",
+    "status": "build",
+    "seconds": 186
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "ryelang",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "ryl",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 360
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "slackdump",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 64
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "undercutf1",
+    "status": "ok",
+    "seconds": 159
+  },
+  {
+    "name": "xray",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "yamlresume",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "zmij",
+    "status": "ok",
+    "seconds": 10
+  }
+]

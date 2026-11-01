@@ -6,10 +6,12 @@ class AnsibleLanguageServer < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5fa0548df07ec65fc401d7fdf5c5991058f857ff221186db98c248caca57ccfc"
+    sha256 cellar: :any, x86_64_windows: "00afaaced49b41fa1d5819624e2f9bd420aecbe9e90fd211c3f88d9d13d6141c"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

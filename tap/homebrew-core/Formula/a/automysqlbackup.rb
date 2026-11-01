@@ -12,10 +12,12 @@ class Automysqlbackup < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "da83aa4384da7da6332afce73cac2c7662126c639a69d4e06ae3a2de77383721"
+    sha256 cellar: :any, x86_64_windows: "e935c0f59ba294e8891d5a9cebb9be9ddb9e3a782b60e23a1e15d6e586b9f5e2"
   end
 
   no_autobump! because: :incompatible_version_format
+
+  deny_network_access!
 
   def install
     inreplace "automysqlbackup" do |s|
