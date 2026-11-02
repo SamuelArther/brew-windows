@@ -11,7 +11,7 @@ class MipsLinuxGnuBinutils < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d1db10b0577b2df173d532613b310f3a06775dbc9dd2813de56bba905d9b35a1"
+    sha256 cellar: :any, x86_64_windows: "9613224ac01ac4c9c40a343aafc37baa4de685db089b728d38735339977dc3bb"
   end
 
   depends_on "pkgconf" => :build
@@ -24,6 +24,8 @@ class MipsLinuxGnuBinutils < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     target = "mips-linux-gnu"

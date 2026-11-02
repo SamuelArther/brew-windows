@@ -6,10 +6,12 @@ class Wy60 < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3256b7202b7edb2a80a0096d77f98b2776c3af35aad2803f94f362fdd58e4de0"
+    sha256 cellar: :any, x86_64_windows: "8999796224f3a231a152f967d9f23288d227cce50939d4efd496e0995ee3bee7"
   end
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

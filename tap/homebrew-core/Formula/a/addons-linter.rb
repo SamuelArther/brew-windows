@@ -6,12 +6,12 @@ class AddonsLinter < Formula
   license "MPL-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9d7c7f125c9790dc26e220d28284fc4578c552040f1765006d177f051778db28"
+    sha256 cellar: :any, x86_64_windows: "a31a9002437042b054d09f744361bc33a1129625a378a45c75f27fb550efa709"
   end
 
   depends_on "node"
 
-  deny_network_access! [:postinstall, :test]
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

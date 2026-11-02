@@ -6,12 +6,12 @@ class Aicommits < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7359ab4a2c7f76dd7cd232cd758f54f427e859e06111477f835a9d1203b966ad"
+    sha256 cellar: :any, x86_64_windows: "75d02a2cec9d6dbccfb68fdebd8d8a4e212f21307a1aac5465680ae09303f33f"
   end
 
   depends_on "node"
 
-  deny_network_access! [:postinstall, :test]
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

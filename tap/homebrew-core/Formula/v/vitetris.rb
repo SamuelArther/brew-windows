@@ -6,9 +6,10 @@ class Vitetris < Formula
   license "BSD-2-Clause"
   head "https://github.com/vicgeralds/vitetris.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/vitetris-0.59.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "738f21d259d02abff1e021ec53695db4139477cb1487505fccb1549b59560538"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e99cb8b015b5b5e768eb28fde18285541941c88d48a8015a39afaa05f54d312f"
   end
 
   def install

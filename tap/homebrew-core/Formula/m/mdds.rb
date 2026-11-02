@@ -7,7 +7,7 @@ class Mdds < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "341481fb7d5d632bf2f907539d21d3fb7d90fa2815b1f02124da0e043da1d7ac"
+    sha256 cellar: :any, x86_64_windows: "641f029d2ee718e0a368680804db21470c3afde1e488bdb7412b6cf8894fd158"
   end
 
   head do
@@ -18,6 +18,8 @@ class Mdds < Formula
   end
 
   depends_on "boost" => :no_linkage
+
+  deny_network_access!
 
   def install
     args = ["--disable-openmp"] if OS.mac?

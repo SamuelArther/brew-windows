@@ -8,7 +8,7 @@ class XkeyboardConfig < Formula
   head "https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c10e5e576416037c2fed6edb606db059d47828d878328fa58bf905ed3e7fd8ed"
+    sha256 cellar: :any, x86_64_windows: "720cd0f61de09667e1860382329cca7a784ea21bd9c64dc09a794ce83ee83c75"
   end
 
   depends_on "gettext" => :build
@@ -18,6 +18,8 @@ class XkeyboardConfig < Formula
   depends_on "python@3.15" => :build
 
   uses_from_macos "libxslt" => :build
+
+  deny_network_access!
 
   def install
     system "meson", "setup", "build", *std_meson_args

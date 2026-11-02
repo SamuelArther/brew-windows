@@ -6,12 +6,13 @@ class Qstat < Formula
   license "Artistic-2.0"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/qstat-2.18"
-    sha256 cellar: :any, x86_64_windows: "447e136bee053194fda949c6e78660bab54c1b66d37af4520e1675d0208088e1"
+    sha256 cellar: :any, x86_64_windows: "7b1954a8c9f21f125c688dbd4721eb6ef62af4d0091cbf7423ece903a75ec49a"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
+
+  deny_network_access!
 
   def install
     system "autoupdate" unless OS.mac?

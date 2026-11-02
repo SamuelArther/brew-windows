@@ -3,14 +3,13 @@ class GitArchiveAll < Formula
 
   desc "Archive a project and its submodules"
   homepage "https://github.com/Kentzo/git-archive-all"
-  url "https://github.com/Kentzo/git-archive-all/archive/refs/tags/1.23.1.tar.gz"
-  sha256 "0c440d15be18e336672549231510fa3c66d0cb95069a5e4800fdd876ab6814df"
+  url "https://github.com/Kentzo/git-archive-all/archive/refs/tags/1.24.0.tar.gz"
+  sha256 "d7eb0c7ef3e908b6e666f0b8c9e583e4ea866dffb87a4590d4b8ff0fd136fb6f"
   license "MIT"
   head "https://github.com/Kentzo/git-archive-all.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/git-archive-all-1.23.1"
-    sha256 cellar: :any, x86_64_windows: "cb267c064462d9db4ec5257d539cdb8b0c7ff7412f0a2290dd6e792420f4fd5b"
+    sha256 cellar: :any, x86_64_windows: "1ee395ccb2f0c2cb080c19542c99b23b2feeb845a7d2d5a087c2e2078008d1c0"
   end
 
   uses_from_macos "python"

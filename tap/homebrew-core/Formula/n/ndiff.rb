@@ -11,10 +11,12 @@ class Ndiff < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1adb0577f12cf14b185ed9fdd0eb73a953ef55650ae96ce1f5a4456a0c3572be"
+    sha256 cellar: :any, x86_64_windows: "8b4caf6157f283f7212d5f96818f47155abc69feb8dacbebcd8a7039cc97554d"
   end
 
   conflicts_with "cern-ndiff", "nmap", because: "both install `ndiff` binaries"
+
+  deny_network_access!
 
   def install
     # workaround for newer clang

@@ -1,13 +1,12 @@
 class Libversion < Formula
   desc "Advanced version string comparison library"
   homepage "https://github.com/repology/libversion"
-  url "https://github.com/repology/libversion/archive/refs/tags/3.0.4.tar.gz"
-  sha256 "48c2a4a98b6f220dedd535979f1e9ab83f9bf869e06c0f5e7bb1be6d2e662fee"
+  url "https://github.com/repology/libversion/archive/refs/tags/3.0.5.tar.gz"
+  sha256 "b2da53a5adc8189332dbdf9bddd4f7ce897bcefac3755d8bcaf2a9a620682acd"
   license "MIT"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libversion-3.0.4"
-    sha256 cellar: :any, x86_64_windows: "c9d1cf3373f78649ff735ae4b72060bcf4642e705dd06c74f25f940a0718449a"
+    sha256 cellar: :any, x86_64_windows: "939054c614468cbc9b72e2dd10a2739f55b1c9762acf16f62d859f98acc38896"
   end
 
   depends_on "cmake" => :build

@@ -9,7 +9,7 @@ class AdrViewer < Formula
   revision 7
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "99a014d0fac4973f8b262c7df713cfda39e846d9c6b91600db6cc81290d9f2ae"
+    sha256 cellar: :any, x86_64_windows: "a9d50569eada2d156765e67fc6a01d216b9b670fa409cec38d6a0dd3369f06ff"
   end
 
   depends_on "python@3.15"
@@ -61,7 +61,7 @@ class AdrViewer < Formula
 
   # Although the virtualenv_install_with_resources uses the package resources listed above,
   # pip still needs to fetch the project's chosen build system via the network.
-  deny_network_access! [:postinstall, :test]
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

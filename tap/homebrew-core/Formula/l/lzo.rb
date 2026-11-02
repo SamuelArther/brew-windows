@@ -12,8 +12,10 @@ class Lzo < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d75111336f9aa8ca50d044ac55a704646d10df5d8f8c57ab7c95e244b907e669"
+    sha256 cellar: :any, x86_64_windows: "4cd2b8ab3c5fc7ca457eeeb77aa8ddd67cbdbc7a252c58b0e62ee390c7720d71"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-dependency-tracking",

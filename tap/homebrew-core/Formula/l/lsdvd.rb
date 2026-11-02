@@ -7,7 +7,7 @@ class Lsdvd < Formula
   license "GPL-2.0-only"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ac50a0e91237e13acb9d4a856b0703e832baa0f49adba1df3df37251a4971c65"
+    sha256 cellar: :any, x86_64_windows: "ee3fa3f8f0a3b6266a8e5217a93f8e865f23a81f3ca1ff3c2180b95cce890ad0"
   end
 
   depends_on "autoconf" => :build
@@ -22,6 +22,8 @@ class Lsdvd < Formula
   patch do
     file "Patches/lsdvd/logging.patch"
   end
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

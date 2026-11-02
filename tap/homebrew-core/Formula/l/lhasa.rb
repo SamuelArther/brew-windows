@@ -6,8 +6,7 @@ class Lhasa < Formula
   license "ISC"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lhasa-0.6.0"
-    sha256 cellar: :any, x86_64_windows: "8425e03b969a8ad7b99d0284870e04ea1b11ca2f7096c8b86efca0c0ecba7abf"
+    sha256 cellar: :any, x86_64_windows: "523bc998f51a04070eba798aba27c5ce79a0b8053d2fda57be77f86d047e401d"
   end
 
   head do
@@ -20,12 +19,12 @@ class Lhasa < Formula
 
   depends_on "pkgconf" => :build
 
+  deny_network_access!
+
   def install
-    if build.head?
-      system "./autogen.sh", "--prefix=#{prefix}"
-    else
-      system "./configure", "--prefix=#{prefix}"
-    end
+    configure = build.head? ? "./autogen.sh" : "./configure"
+
+    system configure, "--prefix=#{prefix}"
     system "make", "install"
   end
 

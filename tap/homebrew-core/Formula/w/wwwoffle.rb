@@ -11,7 +11,7 @@ class Wwwoffle < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "eed157a2e6e3c012a21740c3271e5ac78f8a82ba78c1bb0d3e35d95f4936a884"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ad25c27097dfa5adce5fb25558662b957ac6e8a6cf9ce20e91ffd6de33c4984b"
   end
 
   uses_from_macos "flex" => :build
@@ -19,6 +19,8 @@ class Wwwoffle < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     args = []

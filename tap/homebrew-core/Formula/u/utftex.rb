@@ -5,9 +5,10 @@ class Utftex < Formula
   sha256 "8ca5a11d387631a34979295f73f9a2eccc87e17c690dcd4c1454eb65a9e372bc"
   license "GPL-3.0-only"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/utftex-1.31"
-    sha256 cellar: :any, x86_64_windows: "c6c33a8b115b1f8b32da64bb1d89e797cff0e617a80e0aa5e28f0f9dfd22a397"
+    sha256 cellar: :any, x86_64_windows: "d44f30b67d12f14a7f9a0cbd5021269eb4504ea3136e528a79cdd878ba69b0de"
   end
 
   def install

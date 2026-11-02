@@ -11,9 +11,10 @@ class Qprint < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/qprint-1.1"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b3b3f5587aab37e61c964df04f40a527c85d8b54caf45fdcc020930e727e3cc0"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "302698a48c1eacdb0650e00fd66b1fea53a2b4f5219a867a113cb5df9d3ad944"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

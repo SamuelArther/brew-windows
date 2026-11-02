@@ -7,12 +7,16 @@ class Aiac < Formula
   head "https://github.com/gofireflyio/aiac.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "976ba2a42cd5f4465e9f23bb6eeb192f587882200c26b564ac85fe2b7f98783f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "57ae8a25c4736f7263a5d505138fc13408a8d03207167f30fad6f2ad8cc20603"
   end
 
   depends_on "go" => :build
 
-  deny_network_access! [:postinstall, :test]
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     ldflags = %W[-X github.com/gofireflyio/aiac/v#{version.major}/libaiac.Version=#{version}]

@@ -7,12 +7,16 @@ class Glci < Formula
   head "https://gitlab.com/gitlab-org/ci-cd/runner-tools/glci.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "cb07332f7b53b1bf1e1e32d1131c7b81b24a2b748b458fd6107041b9efd364f8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f288cc2ac9fa9a7c9ee682a0a8d3ef0bdeb9f47fb030c2106b6150f2fe3e3866"
   end
 
   depends_on "go" => :build
 
-  deny_network_access! [:postinstall, :test]
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     ldflags = %W[

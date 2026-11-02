@@ -12,10 +12,12 @@ class Lziprecover < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f1f8b2cf50a64253068b1ec52b402299cd53021e47b9abdfd42b009d6f00a2f5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "bc4f181d8366b780edeb81c19a18c85b4d355b758c3721c744ac9136fe16ccf4"
   end
 
   depends_on "lzip" => :test
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

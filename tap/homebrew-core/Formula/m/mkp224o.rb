@@ -7,10 +7,12 @@ class Mkp224o < Formula
   head "https://github.com/cathugger/mkp224o.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a0fee24e857bb1633e9bdd23c11f9d71749da18df41abf1f6029418235bb14f5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8ed5cb9e56d867af787b58c308158dd2fd9652b09f9b6d4c8678b95770e60120"
   end
 
   depends_on "libsodium"
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

@@ -7,7 +7,7 @@ class Mailutils < Formula
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4f764a26d3c4b764cfcf94d94f8b1d2dbb6bf3f31f2e616ea5f00cb7f62183d8"
+    sha256 cellar: :any, x86_64_windows: "088f4b7014bc2e6230e3ff66731c47cc6aacdf167774b43ffe97e435fc268903"
   end
 
   depends_on "gdbm"
@@ -22,6 +22,8 @@ class Mailutils < Formula
   on_macos do
     depends_on "gettext"
   end
+
+  deny_network_access!
 
   def install
     # This is hardcoded to be owned by `root`, but we have no privileges on installation.

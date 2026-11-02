@@ -12,7 +12,7 @@ class M68kElfBinutils < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ab13639d8714ad45d72b9382e0341c1ed938acd602a9bf61af7e58e24a5da1ab"
+    sha256 cellar: :any, x86_64_windows: "946f78ef90bf256b9e86a9a6fca51c2dbc4459f4519bb0623461a6d7a6330004"
   end
 
   depends_on "pkgconf" => :build
@@ -25,6 +25,8 @@ class M68kElfBinutils < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     target = "m68k-elf"

@@ -6,9 +6,10 @@ class KitchenCompletion < Formula
   license "MIT"
   head "https://github.com/MarkBorcherding/test-kitchen-bash-completion.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kitchen-completion-1.0.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "37e200065905b4bef71a4e59b42eafc6c61444de93119997633f5f20b21dcffa"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ab292d9e8432baa9ed53550745b55b82eb3488069b5f93c1b76cf92c7ac73e2d"
   end
 
   def install

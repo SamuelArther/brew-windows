@@ -12,11 +12,12 @@ class Lunzip < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lunzip-1.16"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "46d1d9b9a919dbe8845d402d6ce08bd93b6e8c2f7bbb19d6152f008ee42f097d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "40411b97acc4370890d80cc552fd0fb94c6214726fb58dc38bdd3849f0786858"
   end
 
   depends_on "lzip" => :test
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

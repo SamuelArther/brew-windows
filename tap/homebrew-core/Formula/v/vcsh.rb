@@ -6,14 +6,15 @@ class Vcsh < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/vcsh-2.0.10"
-    sha256 cellar: :any, x86_64_windows: "5e6e1434a644f59f3179802b1eac56d23196077c41a6edc4bde8789d71a3b210"
+    sha256 cellar: :any, x86_64_windows: "e71c3a37911ca74311f4e26803904f53a469a9cf9412a98dd8de5198d9b012a5"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "pkgconf" => :build
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

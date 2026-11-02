@@ -12,8 +12,7 @@ class Kakoune < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kakoune-2026.05.21"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "adf7d20ea602c0b8638fc6c9991ae1ebec3bd873515b93e8d1c9000363693fc5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d154ba46b28506592044cf0411da051aa76e39a475844421658e9394e55bd29d"
   end
 
   on_linux do
@@ -30,6 +29,8 @@ class Kakoune < Formula
     version "10.2"
     cause "Requires GCC >= 10.3"
   end
+
+  deny_network_access!
 
   def install
     system "make", "install", "debug=no", "PREFIX=#{prefix}"

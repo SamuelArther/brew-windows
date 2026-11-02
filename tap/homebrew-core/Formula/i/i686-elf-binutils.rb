@@ -12,7 +12,7 @@ class I686ElfBinutils < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7794c2e8fd89a01a05cd7c473b15647a9683e5110e6efe1ae8676b0884e0aea3"
+    sha256 cellar: :any, x86_64_windows: "75747aa3123ffe9379048cf2d54d3cb5e06b7eb605ac09c0aa3768a3976b4470"
   end
 
   depends_on "pkgconf" => :build
@@ -25,6 +25,8 @@ class I686ElfBinutils < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     target = "i686-elf"

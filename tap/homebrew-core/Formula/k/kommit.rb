@@ -5,9 +5,10 @@ class Kommit < Formula
   sha256 "c51e87c9719574feb9841fdcbd6d1a43b73a45afeca25e1312d2699fdf730161"
   license "MIT"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/kommit-1.1.0"
-    sha256 cellar: :any, x86_64_windows: "77eeaaec498be8f296e86c19a0a2beaf4b2809a7132a5b7ba34f8f6a6800533a"
+    sha256 cellar: :any, x86_64_windows: "ef43a35b300330498d1430f45b2424c403c0592ab27f6dfde06705574a911fc7"
   end
 
   def install

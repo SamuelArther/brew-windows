@@ -12,10 +12,12 @@ class Ncftp < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a146e42584183e720e03d3f256bb8a6d7e85f68c7ce858f86a4c097f51a0c24d"
+    sha256 cellar: :any, x86_64_windows: "68a4585a10a38a42725851e0a7eb8d8fd7a6cdc00385e6c9a151876250ffc463"
   end
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     # Fix compile with newer Clang

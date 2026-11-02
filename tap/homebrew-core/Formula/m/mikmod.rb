@@ -11,12 +11,14 @@ class Mikmod < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "64657f4f7f1e57489ce31c912bf5e9b50a9d86b06e32f2e269922affe0d961f5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7798ae82771568235cd1b09dbeba51ee30df5e5ce4bde7412c07462b338d6e80"
   end
 
   depends_on "libmikmod"
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-debug",

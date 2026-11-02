@@ -16,7 +16,7 @@ class Wandio < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c56da376ed6eee610e6572e8d9ae0de582befa10af29babd191ae845eef7545f"
+    sha256 cellar: :any, x86_64_windows: "1ed67f17ebe7e023cf3ba3a5c967c8e61f5170cba4ef8cee53c64cc626ba700b"
   end
 
   depends_on "autoconf" => :build
@@ -33,6 +33,8 @@ class Wandio < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     system "./bootstrap.sh"

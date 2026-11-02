@@ -6,12 +6,12 @@ class ActionDocs < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2027541f211cdc21a64b803a58bd7b7f632aaf9c8a533cdcc791a6017a9b44c0"
+    sha256 cellar: :any, x86_64_windows: "3b2ef7f0c2ecf730c833deaefdb62dd2d124c41247673eb0e544c9bd0317d3fb"
   end
 
   depends_on "node"
 
-  deny_network_access! [:postinstall, :test]
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

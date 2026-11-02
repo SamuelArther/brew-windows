@@ -1,14 +1,13 @@
 class Inih < Formula
   desc "Simple .INI file parser in C"
   homepage "https://github.com/benhoyt/inih"
-  url "https://github.com/benhoyt/inih/archive/refs/tags/r62.tar.gz"
-  sha256 "9c15fa751bb8093d042dae1b9f125eb45198c32c6704cd5481ccde460d4f8151"
+  url "https://github.com/benhoyt/inih/archive/refs/tags/r63.tar.gz"
+  sha256 "5d7967de62c5bfdc4f9f5ab06ce44c9e498bae021c7dac5792c0696e76aa9963"
   license "BSD-3-Clause"
   compatibility_version 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/inih-62"
-    sha256 cellar: :any, x86_64_windows: "9d3c6415ccec0d2cb6f52bffdecdf180a28b661d241907ffdc208637d88d3e63"
+    sha256 cellar: :any, x86_64_windows: "59034ba054dcda8480b05e25a57023de1aab266d0d52f7fe9b4466e5c8f9031a"
   end
 
   depends_on "meson" => :build

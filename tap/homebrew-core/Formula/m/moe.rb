@@ -7,10 +7,12 @@ class Moe < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bee7b2b4cf8fddc379b583d55f531d14f6b0144623609592293722c2be520bd3"
+    sha256 cellar: :any, x86_64_windows: "216ca68afacc11ed4c2251f222f7e5c7e717d02e24cd5f444887776170696c3d"
   end
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

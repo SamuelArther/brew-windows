@@ -5,9 +5,10 @@ class Krep < Formula
   sha256 "536342ce821bfaa4afc37c19d96cc54a37755a866b6564dc825be7a0a242a068"
   license "BSD-2-Clause"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/krep-3.1.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "72313f9bcfdf0b5a152eb9955285ac580ad9804401b13c1fecf387a74ead3450"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c0353a2ab3fdf22802ceae996e25f5a70a87bd36b4af94f3952950f238996f0b"
   end
 
   def install

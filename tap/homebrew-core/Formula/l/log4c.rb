@@ -12,14 +12,15 @@ class Log4c < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/log4c-1.2.4"
-    sha256 cellar: :any, x86_64_windows: "1c7274c751b017e4f4bf65d6258c7420b7c49a236e98485f47ec40ff587f4bcb"
+    sha256 cellar: :any, x86_64_windows: "513b79665242b9648e6e04cd7138586139d9c87465a449f4c20b65bc7123a1f5"
   end
 
   # Fix -flat_namespace being used on Big Sur and later.
   patch do
     file "Patches/libtool/configure-pre-0.4.2.418-big_sur.diff"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

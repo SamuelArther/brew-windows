@@ -9,7 +9,7 @@ class Kin < Formula
   head "https://github.com/Serchinastico/Kin.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "76de2a06ecf0ee3df61b10b771305d13f58eac32b27b68558ff0a42749b0f864"
+    sha256 cellar: :any, x86_64_windows: "b25fce5e8ff5b907407fd16d00f9c28e9c9c6d59e043005af1285d6c9a5b8403"
   end
 
   depends_on "python@3.15"
@@ -18,6 +18,8 @@ class Kin < Formula
     url "https://files.pythonhosted.org/packages/b6/00/7f1cab9b44518ca225a03f4493ac9294aab5935a7a28486ba91a20ea29cf/antlr4-python3-runtime-4.13.1.tar.gz"
     sha256 "3cd282f5ea7cfb841537fe01f143350fdb1c0b1ce7981443a2fa8513fddb6d1a"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

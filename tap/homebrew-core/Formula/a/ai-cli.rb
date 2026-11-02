@@ -6,12 +6,12 @@ class AiCli < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2a71b94b75dd9fd90ec0f099014c534db12d3695dbbbb5e3e1d6aad75a7d03a5"
+    sha256 cellar: :any, x86_64_windows: "cbd8dd58479af3426fc3e0ca6e21592b7d922692e8f07787788adfb3212ef93f"
   end
 
   depends_on "node"
 
-  deny_network_access! [:postinstall, :test]
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

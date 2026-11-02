@@ -12,8 +12,10 @@ class Mpegdemux < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "09a5d8c33c6d56c124884414640f84113902535f1c8bb086904ef503ce2b2e90"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e6089e4fa8546382e7e0ffcc4c93d03106f61975ed6b8b74d879e4b8eb20958b"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

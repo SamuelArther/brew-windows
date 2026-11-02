@@ -12,10 +12,12 @@ class KaitaiStructCompiler < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a23a6ea102c7a0ff8d18704a5e64f72041baaf815572de922ca5dd37eb59f27c"
+    sha256 cellar: :any, x86_64_windows: "ffc2df3ded28ff8bfe693032b56fa9f3dae9b9dd562193d996650575402d71fd"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     libexec.install Dir["*"]

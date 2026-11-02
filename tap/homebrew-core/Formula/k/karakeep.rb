@@ -6,10 +6,12 @@ class Karakeep < Formula
   license "AGPL-3.0-only"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2c2a4c54e743f642dcdb90edec922b5f5b612580eccf84fe9d8bff22f060dee0"
+    sha256 cellar: :any, x86_64_windows: "3e98c7e8345c1147f9f638e98fc126540650f0e8e49836eb8edca521459fafd4"
   end
 
   depends_on "node"
+
+  allow_network_access! :test
 
   def install
     system "npm", "install", *std_npm_args

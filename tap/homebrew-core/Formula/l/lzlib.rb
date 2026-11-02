@@ -13,14 +13,15 @@ class Lzlib < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lzlib-1.16"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0c7d8c0cf603e980f28e3c88c54233df36514b513ff9184d6cece667517307e2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "981cec699ba5b5cf70a12d9dbc342fd7cef3b905c97caf54001171a66b548333"
   end
 
   on_macos do
     # Change shared library name and flags for macOS
     patch :DATA
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}",

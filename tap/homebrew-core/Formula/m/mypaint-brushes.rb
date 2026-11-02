@@ -6,13 +6,15 @@ class MypaintBrushes < Formula
   license "CC0-1.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e2cdc4108d86ee72c407fb5d666c25be915542c66c9e9f2abc20d3f5b7b3e635"
+    sha256 cellar: :any, x86_64_windows: "212aa8678a243a0c27b055f5f61855a584295da5a452e2c3003496dcfc1107ad"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
   depends_on "libmypaint"
+
+  deny_network_access!
 
   def install
     ENV["ACLOCAL"] = "aclocal"

@@ -14,7 +14,7 @@ class Uudeview < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ff29b48b2d034fb802fb70a09a02db83544a9b849d43414110aeb05000964c0a"
+    sha256 cellar: :any, x86_64_windows: "fded3eec94ce09ecaaec11864c73d9a193acc8b480d1d97b74668ccefae66a9b"
   end
 
   # fix implicit declaration, remove in release > 0.5.20
@@ -35,6 +35,8 @@ class Uudeview < Formula
     sha256 "452788a9e81a0839b8bab924406db26542b529dedb8e8073df50eb299aae9dfc"
     type :backport
   end
+
+  deny_network_access!
 
   def install
     # Fix for newer clang

@@ -8,7 +8,7 @@ class Ykdl < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0e74f1a41c57c4ab90e05327c7aab71904aeb00f7e3f4834615e356b0a2a490e"
+    sha256 cellar: :any, x86_64_windows: "95204facd3e0f914c6eae6568b36a57f7fd88210aef825fee3b906ecd84f5aa5"
   end
 
   depends_on "python@3.15"
@@ -22,6 +22,8 @@ class Ykdl < Formula
     url "https://files.pythonhosted.org/packages/9b/a5/73697aaa99bb32b610adc1f11d46a0c0c370351292e9b271755084a145e6/m3u8-6.0.0.tar.gz"
     sha256 "7ade990a1667d7a653bcaf9413b16c3eb5cd618982ff46aaff57fe6d9fa9c0fd"
   end
+
+  deny_network_access! :postinstall
 
   def install
     virtualenv_install_with_resources

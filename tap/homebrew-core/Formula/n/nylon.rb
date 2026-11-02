@@ -11,10 +11,12 @@ class Nylon < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "43b825cff451f62af880cecc2d3ff5b07302d12e935b62c3b1d2e2d0eb026eaa"
+    sha256 cellar: :any, x86_64_windows: "8fb14ed8b787eb4576b96eaad0672d789249befdb6b2eb09869edc371e87fb9e"
   end
 
   depends_on "libevent"
+
+  deny_network_access!
 
   def install
     args = []

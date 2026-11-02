@@ -11,11 +11,13 @@ class Vorbisgain < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b8e1b06d0d01e3dfd5d4cdd76a87fd3a0063c86ba2a956bf74469ad247f5626f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b148230b69db9e35d5be3ed7eccdb1d1a5dd0a16f2400be289ecab407fcc28f4"
   end
 
   depends_on "libogg"
   depends_on "libvorbis"
+
+  deny_network_access!
 
   def install
     # fix implicit-function-declaration errors

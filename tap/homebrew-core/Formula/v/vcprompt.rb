@@ -6,12 +6,14 @@ class Vcprompt < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "149c3981e53d8b6e75b2f70e9c4b424ebef206d8612e71f02a3a4afae54de9c5"
+    sha256 cellar: :any, x86_64_windows: "0c011a4fb76567b63b72e569c2e5079d8bc634e9fe456c341e084c3282eea632"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "sqlite"
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

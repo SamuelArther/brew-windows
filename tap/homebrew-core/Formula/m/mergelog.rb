@@ -6,12 +6,14 @@ class Mergelog < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "3bde19fe55097f686120f6da54a519a7c720d3e80b7a3adc798e6677af81d29b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "87ae6e13b647eef45b6c5096f01ad1da3c05a3e18f8c8a697069d3c30248008d"
   end
 
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     # Workaround for newer Clang

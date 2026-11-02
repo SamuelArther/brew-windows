@@ -9,7 +9,7 @@ class Khard < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "70c276a22f13e6f359d39d6edcc7b86fc74039d1f0a0c4a759425e7919becb37"
+    sha256 cellar: :any, x86_64_windows: "9827dce5db55cfa73df6b8a94e01a00eb6023462c1f752be2a3b30c3254f67d0"
   end
 
   depends_on "python@3.15"
@@ -43,6 +43,8 @@ class Khard < Formula
     url "https://files.pythonhosted.org/packages/d0/8a/15c34b3d27c43fc81a467d0f66577afc5542326804c42f30557e31c3259e/vobject-0.9.9.tar.gz"
     sha256 "ac44e5d7e2079d84c1d52c50a615b9bec4b1ba958608c4c7fe40cbf33247b38e"
   end
+
+  allow_network_access! :build
 
   def install
     venv = virtualenv_install_with_resources without: "vobject"

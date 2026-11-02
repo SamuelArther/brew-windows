@@ -6,7 +6,7 @@ class Netmask < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "8797aa89d12717a459f1e394c4a566f04108dcd6dd43bc46327dcb1838648f2d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "07ed90fb12b200f14243fda4fe92b835108e68a6e719cb34f83df5db77125e4e"
   end
 
   depends_on "pkgconf" => :build
@@ -16,6 +16,8 @@ class Netmask < Formula
   on_system :linux, macos: :ventura_or_newer do
     depends_on "texinfo" => :build
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

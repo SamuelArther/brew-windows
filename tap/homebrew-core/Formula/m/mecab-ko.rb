@@ -12,10 +12,12 @@ class MecabKo < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a5dee592968a8b06b75eceb759d405cbf0a03c8fa66dc853af2aed3d25cbc974"
+    sha256 cellar: :any, x86_64_windows: "05873551777631da07ebb7aa52e720a4e7f5de6eeb00c07317a230fa7b380f38"
   end
 
   conflicts_with "mecab", because: "both install mecab binaries"
+
+  deny_network_access!
 
   def install
     args = ["--sysconfdir=#{etc}"]

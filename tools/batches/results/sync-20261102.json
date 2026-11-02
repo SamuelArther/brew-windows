@@ -1,0 +1,557 @@
+[
+  {
+    "name": "action-docs",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "actions-batch",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "actions-up",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "addons-linter",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "adr-viewer",
+    "status": "ok",
+    "seconds": 118
+  },
+  {
+    "name": "ai-cli",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "aiac",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "aicommits",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "arm-optimized-routines",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "aws-vault",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "beszel-agent",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "carapace",
+    "status": "ok",
+    "seconds": 211
+  },
+  {
+    "name": "ccmux",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 284
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "cloudquery",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 72
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 152
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 591
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "docker-agent",
+    "status": "ok",
+    "seconds": 184
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 104
+  },
+  {
+    "name": "faudio",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "filebrowser",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 504
+  },
+  {
+    "name": "gcem",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "git-archive-all",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "glci",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "gost",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "gridcraft-cli",
+    "status": "test",
+    "seconds": 431
+  },
+  {
+    "name": "hack-browser-data",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "hmmer",
+    "status": "ok",
+    "seconds": 188
+  },
+  {
+    "name": "hoppr",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "hoverfly",
+    "status": "build",
+    "seconds": 63
+  },
+  {
+    "name": "i686-elf-binutils",
+    "status": "ok",
+    "seconds": 546
+  },
+  {
+    "name": "inih",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "jfrog-cli",
+    "status": "ok",
+    "seconds": 146
+  },
+  {
+    "name": "kaitai-struct-compiler",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "kakoune",
+    "status": "ok",
+    "seconds": 131
+  },
+  {
+    "name": "karakeep",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "kerl",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "keyring",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "khard",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "kin",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "kirimase",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "kitchen-completion",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "kommit",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "krep",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "lesspipe",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "lhasa",
+    "status": "ok",
+    "seconds": 64
+  },
+  {
+    "name": "libversion",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "log4c",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "log4cplus",
+    "status": "ok",
+    "seconds": 241
+  },
+  {
+    "name": "lsdvd",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "lunzip",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "lziprecover",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "lzlib",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "lzo",
+    "status": "ok",
+    "seconds": 108
+  },
+  {
+    "name": "m68k-elf-binutils",
+    "status": "ok",
+    "seconds": 370
+  },
+  {
+    "name": "mailutils",
+    "status": "ok",
+    "seconds": 912
+  },
+  {
+    "name": "mairix",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "mawk",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "mdds",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "mdf2iso",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "mecab-ko",
+    "status": "ok",
+    "seconds": 145
+  },
+  {
+    "name": "mergelog",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "mikmod",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "mips-linux-gnu-binutils",
+    "status": "ok",
+    "seconds": 515
+  },
+  {
+    "name": "mipsel-linux-gnu-binutils",
+    "status": "ok",
+    "seconds": 489
+  },
+  {
+    "name": "mkp224o",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "moe",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "mpegdemux",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "mypaint-brushes",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "ncftp",
+    "status": "ok",
+    "seconds": 178
+  },
+  {
+    "name": "ndiff",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "netmask",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "nylon",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "openapi-generator",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 1122
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 992
+  },
+  {
+    "name": "phpantom-lsp",
+    "status": "ok",
+    "seconds": 537
+  },
+  {
+    "name": "playwright-cli",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "playwright-mcp",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "pulsarctl",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "qd",
+    "status": "ok",
+    "seconds": 148
+  },
+  {
+    "name": "qprint",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "qstat",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "slackdump",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "svt-jpegxs",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "swagger-codegen",
+    "status": "ok",
+    "seconds": 249
+  },
+  {
+    "name": "termframe",
+    "status": "ok",
+    "seconds": 364
+  },
+  {
+    "name": "toit",
+    "status": "ok",
+    "seconds": 160
+  },
+  {
+    "name": "toxcore",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "utftex",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "util-macros",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "uudeview",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "vcprompt",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "vcsh",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "vitetris",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "vorbisgain",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "wandio",
+    "status": "ok",
+    "seconds": 180
+  },
+  {
+    "name": "wwwoffle",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "wy60",
+    "status": "ok",
+    "seconds": 92
+  },
+  {
+    "name": "xkeyboard-config",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "yara",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "ykdl",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "zfp",
+    "status": "test",
+    "seconds": 41
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 102
+  }
+]

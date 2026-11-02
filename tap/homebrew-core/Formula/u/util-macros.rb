@@ -7,10 +7,12 @@ class UtilMacros < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c665d6055853e37c48a869469d4add6c723bb2e17512c5bfe22fadc540c3c051"
+    sha256 cellar: :any, x86_64_windows: "68f010512358844fb2c1014b914a40d7ba7236ecea10f8b1b4cda457f2e7b64d"
   end
 
   depends_on "pkgconf" => :test
+
+  deny_network_access!
 
   def install
     args = %W[

@@ -1,13 +1,13 @@
 class Carapace < Formula
   desc "Multi-shell multi-command argument completer"
   homepage "https://carapace.sh"
-  url "https://github.com/carapace-sh/carapace-bin/archive/refs/tags/v1.8.1.tar.gz"
-  sha256 "1dc7314cbda4643186bcf00b6e2402002a113b09a0220e5d564a40e77daa886e"
+  url "https://github.com/carapace-sh/carapace-bin/archive/refs/tags/v1.8.2.tar.gz"
+  sha256 "56b934e1c94cb4e10d912c0158a74f8b727e430e6d9c8aff5bfb99e124fa3ace"
   license "MIT"
   head "https://github.com/carapace-sh/carapace-bin.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "da8e0f34382615570c8c6412c590eff186a1217f252d84f9eb23625cc7f74691"
+    sha256 cellar: :any, x86_64_windows: "76d591ebce6d566b9bac3cd77d5fc50d66c8d5a76abe587fdb553d54567d9571"
   end
 
   depends_on "go" => :build

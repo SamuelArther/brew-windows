@@ -10,8 +10,10 @@ class Mdf2iso < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "118bad870cdcc95ae53d053d1ee5fc3b28177bcf076ef7cc7ffb00c8e69e247e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a6a159ec527b7a219919647606ef9dff9750b08bf396f575d28ad913cfc51344"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",

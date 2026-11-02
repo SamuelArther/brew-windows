@@ -6,8 +6,11 @@ class Filebrowser < Formula
   license "Apache-2.0"
   head "https://github.com/filebrowser/filebrowser.git", branch: "master"
 
+  deprecate! date: "2026-11-02", because: :repo_archived
+  disable! date: "2027-05-02", because: :repo_archived
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "6aed377685ed105b0d22c9c14cef37fec768da42495f42fd8201c359d20b2c71"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "79b11eca22ea8aa810a72de4304ac7ce7535751c14ee2504fe1e9e6370e63b0c"
   end
 
   depends_on "go" => :build

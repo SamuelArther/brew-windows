@@ -11,7 +11,7 @@ class MipselLinuxGnuBinutils < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cc1ff5c0b2a83c09e7ca0e2889d9951b534732860e9853719485531d04db7f1d"
+    sha256 cellar: :any, x86_64_windows: "a630eaf89f4c4193c3ce75eaa0106cc0654440b84bf191ee42d3e405ff063ac6"
   end
 
   depends_on "pkgconf" => :build
@@ -24,6 +24,8 @@ class MipselLinuxGnuBinutils < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     target = "mipsel-linux-gnu"

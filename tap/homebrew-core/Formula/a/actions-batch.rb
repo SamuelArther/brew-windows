@@ -7,12 +7,16 @@ class ActionsBatch < Formula
   head "https://github.com/alexellis/actions-batch.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5b782f7c2574017b6eb15ac1f7de832eff4fc701c6e9e60f5de7eaafa23801ac"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f734b3ae318dbd9d96a603475fdc46fe240a8a931f19c680e228dce0cd0bfbba"
   end
 
   depends_on "go" => :build
 
-  deny_network_access! [:postinstall]
+  allow_network_access! :test
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     system "go", "build", *std_go_args

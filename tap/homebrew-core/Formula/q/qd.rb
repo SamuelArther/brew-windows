@@ -13,7 +13,7 @@ class Qd < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "13ed45d3234d9a3920df46e6f5a3b8610a53e236579eb3791db97d64250c92de"
+    sha256 cellar: :any, x86_64_windows: "7d78a5b31f8e1ab1bf335636636de09cd5a273d9161aca20003c0ec1c2626d76"
   end
 
   # Drop `autoconf`, `automake`, `libtool` when the patch is removed.
@@ -21,6 +21,8 @@ class Qd < Formula
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "gcc" # for gfortran
+
+  deny_network_access!
 
   def install
     odie "check if autoreconf line can be removed" if version > "2.3.24"

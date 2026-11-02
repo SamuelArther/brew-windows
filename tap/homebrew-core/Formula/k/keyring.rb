@@ -9,7 +9,7 @@ class Keyring < Formula
   revision 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6543b783b21b952edcc939ddc15be2ab153a5023cb36bfd7c08975cf994c6e19"
+    sha256 cellar: :any, x86_64_windows: "b8ca80782ea4ecd1d6c54ce797bb66fb20ec7ad2079a5ed6b1741233d900bad2"
   end
 
   depends_on "python@3.15"
@@ -56,6 +56,8 @@ class Keyring < Formula
     url "https://files.pythonhosted.org/packages/ef/71/ddb3c0a7a86db44d2fb3f9cbac162f7ddbcbf563b4a174963ba2b3d4d819/shtab-1.12.1.tar.gz"
     sha256 "0637338723a8fc08ed1c2fd826d8432229924649c26e3247bb48c53d60ca3bf9"
   end
+
+  allow_network_access! :build
 
   def install
     without = %w[jeepney secretstorage] unless OS.linux?
