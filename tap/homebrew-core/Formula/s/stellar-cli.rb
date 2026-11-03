@@ -1,13 +1,13 @@
 class StellarCli < Formula
   desc "Stellar command-line tool for interacting with the Stellar network"
   homepage "https://developers.stellar.org"
-  url "https://static.crates.io/crates/stellar-cli/stellar-cli-28.1.0.crate"
-  sha256 "ceb241c122707ff7678e07c3459d43714eeae6af0c82c125f6a448e856805139"
+  url "https://static.crates.io/crates/stellar-cli/stellar-cli-30.0.1.crate"
+  sha256 "c33c65392d9227c4628ecbb73041ae62bf81b25579badbabd27ebbbd6fa58992"
   license "Apache-2.0"
   head "https://github.com/stellar/stellar-cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6561fb4e3cd34fdf524478c699ec45be6b92514ae2064da85ca984084b4b63f9"
+    sha256 cellar: :any, x86_64_windows: "e843301fad53ac1506b9ac714037ed88429ad712b940f0caf2f0d82f0d476b4d"
   end
 
   depends_on "rust" => :build

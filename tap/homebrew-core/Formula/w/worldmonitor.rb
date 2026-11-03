@@ -1,12 +1,12 @@
 class Worldmonitor < Formula
   desc "Command-line client for the World Monitor global intelligence API"
   homepage "https://worldmonitor.app/docs/cli"
-  url "https://registry.npmjs.org/worldmonitor/-/worldmonitor-0.2.1.tgz"
-  sha256 "00aa7f7cef2c279d4e8ef965cdfd7cdfbcff4b806603a8755b34bd68af114bd0"
+  url "https://registry.npmjs.org/worldmonitor/-/worldmonitor-0.2.2.tgz"
+  sha256 "74d7b9b0e60c09deeb2b99b659bb6cea4ecab3c755a7fd73774c2fb379bf3899"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "48dbf5ed5e9e7af6acdbd5f783ead737f5f1d2e41546d74f16e9fc50d0fff29d"
+    sha256 cellar: :any, x86_64_windows: "fd46dfa71fcfe89a3d468e4ca3b35044f9e745c137d4c6ab8a02d8a7f0bbc118"
   end
 
   depends_on "node"

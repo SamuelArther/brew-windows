@@ -12,9 +12,10 @@ class Libgrapheme < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libgrapheme-3.0.0"
-    sha256 cellar: :any, x86_64_windows: "94259c1ceccc4e69a3cd135fcdb52c9275bc8768bcc2c2ddef00311299be7ade"
+    sha256 cellar: :any, x86_64_windows: "6e6c4c727c78fa20a95c7baf10866971daa8eb7ec3d5448bc4f675acfcd7ece1"
   end
+
+  deny_network_access!
 
   def install
     system "./configure"

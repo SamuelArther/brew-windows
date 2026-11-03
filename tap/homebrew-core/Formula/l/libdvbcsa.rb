@@ -13,13 +13,14 @@ class Libdvbcsa < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libdvbcsa-1.1.0"
-    sha256 cellar: :any, x86_64_windows: "15430a2a8203657f2ee1372d4f9fbdf2c66f7f6afb7e33e2b958ab700880a307"
+    sha256 cellar: :any, x86_64_windows: "ffb9e123a86cac817a8a67e44747c1c2d5d91008b03cac7b0a8f72172df1f74f"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

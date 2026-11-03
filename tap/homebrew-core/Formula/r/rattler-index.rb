@@ -1,8 +1,8 @@
 class RattlerIndex < Formula
   desc "Index conda channels using rattler"
   homepage "https://github.com/conda/rattler"
-  url "https://github.com/conda/rattler/archive/refs/tags/rattler_index-v0.34.4.tar.gz"
-  sha256 "f997e5cc21dbe48cf89e0e30efe53d9b38ce89c9baa10932279bfc833a18e40d"
+  url "https://github.com/conda/rattler/archive/refs/tags/rattler_index-v0.34.5.tar.gz"
+  sha256 "162b37e24e7e73b5db8ba88a9372a6c5bd779404410c7d2759866a6f88f81fe6"
   license "BSD-3-Clause"
   head "https://github.com/conda/rattler.git", branch: "main"
 
@@ -12,7 +12,7 @@ class RattlerIndex < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f37e869bff133acc5c8da6fd85f450ee0c996c06abd7ad8066fbeadeaae2fe4a"
+    sha256 cellar: :any, x86_64_windows: "88c04fdf0c4090e35abcb27daaf11b2d631240567bc8e93dc6cf20b074534e03"
   end
 
   depends_on "pkgconf" => :build

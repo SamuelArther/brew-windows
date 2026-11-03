@@ -12,8 +12,10 @@ class Libfastjson < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6c268bafc6034e854157d938bc65198cec28db824dd4e6b68625a17fa18452e9"
+    sha256 cellar: :any, x86_64_windows: "acd28caa17aad67563b466d02570b921b4a80a643d9803a75647ad8982b133eb"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

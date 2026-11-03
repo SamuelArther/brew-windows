@@ -1,8 +1,8 @@
 class Murex < Formula
   desc "Bash-like shell designed for greater command-line productivity and safer scripts"
   homepage "https://murex.rocks"
-  url "https://github.com/lmorg/murex/archive/refs/tags/v7.3.1232.tar.gz"
-  sha256 "a907bea8e343c3c3627fe4934233f352de2cc0f87d53230745534bd8f0037de4"
+  url "https://github.com/lmorg/murex/archive/refs/tags/v7.4.1116.tar.gz"
+  sha256 "7589791f8743336f904946b5fefcd27f58e7c2367757d629059145e98ab2f372"
   license "GPL-2.0-only"
   head "https://github.com/lmorg/murex.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Murex < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "67843a09e2c8f749d3eebdcc1d1558bf8f468cbb5eceee40fb38cf40c21730db"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3d3ccfeee6275d79e448cddf17a7733d0e61f3c1972ab3d234f9daf4997e551a"
   end
 
   depends_on "go" => :build

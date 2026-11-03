@@ -8,7 +8,7 @@ class Libicns < Formula
   revision 5
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d80205a46f573e77d6a66a17553567078be1093b77ce30a80a715aaa63b3fa25"
+    sha256 cellar: :any, x86_64_windows: "cc17922d247fe7c43b0df3d35bb1438e3f097ffbe398ee412e37a9f56561c04e"
   end
 
   depends_on "jasper"
@@ -18,6 +18,8 @@ class Libicns < Formula
   patch do
     file "Patches/libtool/configure-pre-0.4.2.418-big_sur.diff"
   end
+
+  deny_network_access!
 
   def install
     # Fix for libpng 1.5

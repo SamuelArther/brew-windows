@@ -1,12 +1,12 @@
 class Monocle < Formula
   desc "See through all BGP data with a monocle"
   homepage "https://github.com/bgpkit/monocle"
-  url "https://github.com/bgpkit/monocle/archive/refs/tags/v1.6.0.tar.gz"
-  sha256 "1940d5c880a18e1839d327a87abdf29c3ec5ab95c45fcfd76b71f60ae2274ec5"
+  url "https://github.com/bgpkit/monocle/archive/refs/tags/v1.6.1.tar.gz"
+  sha256 "4aff8f4d13b300f87d6ef49dbb417dc2cbcdbbd3cc64babb0affdc2c3d663aa3"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "093c252425051b5ccf39362e157d18417712542bc3a0d428f38122d13619dfbd"
+    sha256 cellar: :any, x86_64_windows: "083ae944b1f21189911c9bf9faa9e1df97b9c6578ed3c1cd77dbd09f7079a20f"
   end
 
   depends_on "rust" => :build

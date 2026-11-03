@@ -12,7 +12,7 @@ class Libdsk < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8f2b059c195a11e6ff7c94ff8f8657dda9cf14b7ca31c747d1715f38c7b35974"
+    sha256 cellar: :any, x86_64_windows: "638869912315f8350e9a087e2542439ed5a43bdf72c5f52608d03255f2e12522"
   end
 
   on_linux do
@@ -23,6 +23,8 @@ class Libdsk < Formula
   patch do
     file "Patches/libtool/configure-big_sur.diff"
   end
+
+  deny_network_access!
 
   def install
     # Avoid lyx dependency

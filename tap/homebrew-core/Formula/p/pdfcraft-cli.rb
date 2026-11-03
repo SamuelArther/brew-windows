@@ -1,13 +1,13 @@
 class PdfcraftCli < Formula
   desc "Headless PdfCraft CLI and MCP server to create, edit, inspect and fill PDFs"
   homepage "https://getartcraft.com/apps/pdfcraft"
-  url "https://github.com/storytold/pdfcraft/archive/refs/tags/v0.17.0.tar.gz"
-  sha256 "51f6c4ff4a71809f00a93356d074816e89afe0dfd4f8fcc6be42e59f63c78365"
+  url "https://github.com/storytold/pdfcraft/archive/refs/tags/v0.18.0.tar.gz"
+  sha256 "f560c2e7752daa4841624d8b8b4f4c5b7968936132bdf0e80cfe02581ac58da4"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/storytold/pdfcraft.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0ee41f769a1ee9bb314e62470e3ca5030215237d7a75e93aa51b76208f279544"
+    sha256 cellar: :any, x86_64_windows: "a2278dd18e6a4c0a80c9bd9b758c0c28f7183ee8de3aea41a08c64d074dbcba0"
   end
 
   depends_on "rust" => :build

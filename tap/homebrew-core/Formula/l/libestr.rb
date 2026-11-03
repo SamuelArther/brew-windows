@@ -12,7 +12,7 @@ class Libestr < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a7009bc2b12d4934fb378f67d41d96a8aff2ead86b7f62dc0719f34c0fab0658"
+    sha256 cellar: :any, x86_64_windows: "ee45e635d8e550525bd0390794beb5ac1b7dad6eea9ea5203031b31f2d1c0f14"
   end
 
   depends_on "pkgconf" => :build
@@ -21,6 +21,8 @@ class Libestr < Formula
   patch do
     file "Patches/libtool/configure-big_sur.diff"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

@@ -7,7 +7,7 @@ class Libfontenc < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f6a0bb0bbefb22d19c53b3900681f2736acd0ebb3e4fc5d7abfadf56a2059697"
+    sha256 cellar: :any, x86_64_windows: "aad4e75e833608b19a0bb5b52275a4356c98ed9e542f1328f42727d63f984c43"
   end
 
   depends_on "font-util" => :build
@@ -18,6 +18,8 @@ class Libfontenc < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     args = %W[

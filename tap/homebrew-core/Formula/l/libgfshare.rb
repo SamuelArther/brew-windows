@@ -6,13 +6,14 @@ class Libgfshare < Formula
   license "MIT"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libgfshare-2.0.0"
-    sha256 cellar: :any, x86_64_windows: "35d1318af8b81cdcb0d96d30d87779c555df288e16f246701e98fc507b66e512"
+    sha256 cellar: :any, x86_64_windows: "4c4d96de50efc200958fd3ee7cd44e430f8c8c643e259b3fa1968cfa4911acd9"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

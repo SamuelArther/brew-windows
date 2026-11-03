@@ -6,10 +6,12 @@ class LibpthreadStubs < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "17ba911117643c402e3cbbecc734550886fe7b8abdbfd810f8bbe943dcf0f6a7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "148d59411b74fd879380ad3b1336e7cba90a42f1603596e272a489bd65172bf9"
   end
 
-  depends_on "pkgconf"
+  depends_on "pkgconf" => :test
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

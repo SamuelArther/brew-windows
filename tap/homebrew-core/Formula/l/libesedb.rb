@@ -6,11 +6,12 @@ class Libesedb < Formula
   license "LGPL-3.0-or-later"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libesedb-20260704"
-    sha256 cellar: :any, x86_64_windows: "efc18d8f48c2bec7e9031948a5f2bc33fbd2566d062e743149013d588abf1571"
+    sha256 cellar: :any, x86_64_windows: "fe2c11e3730027281fd93641737865eb17879a14be97f520ece8fb8a08df3771"
   end
 
   depends_on "pkgconf" => [:build, :test]
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

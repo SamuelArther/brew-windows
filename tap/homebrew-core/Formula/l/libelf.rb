@@ -14,7 +14,7 @@ class Libelf < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "67dd824cfae0864489dba7c3b8c4441e801268bc6da369b0121b8b6f78231dbd"
+    sha256 cellar: :any, x86_64_windows: "149d75dc148ed64a52eee1171b8c7128c2e8fc4c7b0016d5771a72d65f9e2f44"
   end
 
   # Commented out while this formula still has dependents.
@@ -24,6 +24,8 @@ class Libelf < Formula
   depends_on "automake" => :build
   depends_on "libtool" => :build
   # `libelf` should never be used on Linux as `elfutils` is available.
+
+  deny_network_access!
 
   def install
     # Workaround for ancient config files not recognising aarch64 macos.

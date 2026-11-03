@@ -1,12 +1,12 @@
 class BeadsViewer < Formula
   desc "Terminal-based UI for the Beads issue tracker"
   homepage "https://github.com/Dicklesworthstone/beads_viewer"
-  url "https://github.com/Dicklesworthstone/beads_viewer/archive/refs/tags/v0.25.2.tar.gz"
-  sha256 "e8895e4de9beb68d243f37d4dd797af0e0223324da541737a1252a2dfa1b1a37"
+  url "https://github.com/Dicklesworthstone/beads_viewer/archive/refs/tags/v0.26.0.tar.gz"
+  sha256 "24ec074f293f0d36f5c3b9a852832ffc1eecd9b7ae3b4aebf5cee02e81fe27c8"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d5709b882e9ae7984df5227561f67bb4b35f761bdeea8242d697977dae08bd85"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "2f10c42722f6de626ff7337d16dc045f657a754a8645028de3e35542cd328a1b"
   end
 
   depends_on "go" => :build
