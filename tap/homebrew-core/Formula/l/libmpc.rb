@@ -8,11 +8,12 @@ class Libmpc < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5c65daa6355b44831c59b384537f911d102fdbd714b51b7c0a489ff1fa853fec"
+    sha256 cellar: :any, x86_64_windows: "8e493bba39e7039d29ced4ad96067cc2103eefdf26ef2a22205b92e994b8cff6"
   end
 
   head do
     url "https://gitlab.inria.fr/mpc/mpc.git", branch: "master"
+
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
@@ -20,6 +21,8 @@ class Libmpc < Formula
 
   depends_on "gmp"
   depends_on "mpfr"
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose" if build.head?

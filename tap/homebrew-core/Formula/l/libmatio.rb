@@ -1,14 +1,13 @@
 class Libmatio < Formula
   desc "C library for reading and writing MATLAB MAT files"
   homepage "https://matio.sourceforge.net/"
-  url "https://downloads.sourceforge.net/project/matio/matio/1.5.30/matio-1.5.30.tar.gz"
-  sha256 "8bd3b9477042ecc00dd71c04762fa58468e14cccc32fd8c6826c2da1e8bc3107"
+  url "https://github.com/tbeu/matio/releases/download/v1.6.0/matio-1.6.0.tar.gz"
+  sha256 "1481dc74e01d249e90f064333f969369fe3dd11d6cc6963e8635c581aa5d7711"
   license "BSD-2-Clause"
-  revision 1
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bf8cb187a7dc944191f74160b9263fcafe870f879d398b577218ebcf9769a499"
+    sha256 cellar: :any, x86_64_windows: "111132d391a649fdff2fa433dc999041221911a86805d383a5025bfce6a5c7f8"
   end
 
   depends_on "pkgconf" => :test
@@ -23,8 +22,7 @@ class Libmatio < Formula
     sha256 "a29df222605476dcfa660597a7805176d7cb6e6c60413a3e487b62b6dbf8e6fe"
   end
 
-  # fix pkg-config linkage for hdf5 and zlib
-  patch :DATA
+  deny_network_access!
 
   def install
     args = %W[
@@ -74,18 +72,3 @@ class Libmatio < Formula
     refute_includes "-I/usr/include", shell_output("pkgconf --cflags matio")
   end
 end
-
-__END__
-diff --git a/matio.pc.in b/matio.pc.in
-index 96d9402..139f11e 100644
---- a/matio.pc.in
-+++ b/matio.pc.in
-@@ -6,6 +6,5 @@ includedir=@includedir@
- Name: MATIO
- Description: MATIO Library
- Version: @VERSION@
--Libs: -L${libdir} -lmatio
--Cflags: -I${includedir}
--Requires.private: @HDF5_REQUIRES_PRIVATE@ @ZLIB_REQUIRES_PRIVATE@
-+Libs: -L${libdir} -lmatio @HDF5_LIBS@ @ZLIB_LIBS@
-+Cflags: -I${includedir} @HDF5_CFLAGS@ @ZLIB_CFLAGS@

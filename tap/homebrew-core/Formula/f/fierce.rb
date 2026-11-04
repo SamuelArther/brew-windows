@@ -9,10 +9,12 @@ class Fierce < Formula
   head "https://github.com/mschwager/fierce.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "828375e6db8457699b22aa7ec6d4971185cdd7aeff1b81f0810b7b7ebee5a426"
+    sha256 cellar: :any, x86_64_windows: "f22431d621ab68db07f6a1c94ddead1e6a0f7ab045e61f3628b93d78657f0469"
   end
 
   depends_on "python@3.15"
+
+  pypi_packages package_name: "fierce"
 
   resource "dnspython" do
     url "https://files.pythonhosted.org/packages/ec/c5/14bcd63cb6d06092a004793399ec395405edf97c2301dfdc146dfbd5beed/dnspython-1.16.0.zip"

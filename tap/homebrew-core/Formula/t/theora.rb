@@ -13,7 +13,7 @@ class Theora < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6bf4a87e22cfbce0edc809c134bb2c2d88328d24a3828e368333829eabdd2996"
+    sha256 cellar: :any, x86_64_windows: "fb6ac243c26f269f11ea4960fa86dac04717dffb3a384eed1f1923489ccce982"
   end
 
   head do
@@ -26,6 +26,8 @@ class Theora < Formula
   depends_on "pkgconf" => :build
   depends_on "libogg"
   depends_on "libvorbis"
+
+  deny_network_access!
 
   def install
     system "./autogen.sh" if build.head?

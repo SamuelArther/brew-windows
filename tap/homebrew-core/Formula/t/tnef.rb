@@ -6,7 +6,7 @@ class Tnef < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1033e8693c2523ed954d8c639a7a884a3a4e047344a402cb67972dc12a119bb2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0cee90a4e58fadce0be28e2606e46a1159b45af5f72b9c9590af157de24db2b4"
   end
 
   depends_on "autoconf" => :build
@@ -20,6 +20,8 @@ class Tnef < Formula
     type :backport
     resolves "https://github.com/verdammelt/tnef/pull/49"
   end
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

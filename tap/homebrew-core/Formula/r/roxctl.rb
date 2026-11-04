@@ -1,8 +1,8 @@
 class Roxctl < Formula
   desc "CLI for Stackrox"
   homepage "https://www.stackrox.io/"
-  url "https://github.com/stackrox/stackrox/archive/refs/tags/4.11.6.tar.gz"
-  sha256 "ed6a42650fb8c3c87ff50ece55ff1138153b9106e84b61800accc75fbd884e2f"
+  url "https://github.com/stackrox/stackrox/archive/refs/tags/4.11.7.tar.gz"
+  sha256 "85398baace5d5a828c173164afb09b596aa93f715c0c5b07c02d8b73944d2608"
   license "Apache-2.0"
   head "https://github.com/stackrox/stackrox.git", branch: "master"
 
@@ -15,7 +15,7 @@ class Roxctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "011ace5a93f6fa3f3126f8cfe46c8d5bbd1344355756815d947b739b5a012e3b"
+    sha256 cellar: :any, x86_64_windows: "a89ebe45e1f5490850298553eef7c7c7b45a2623858ee447e0fed9ad778b993a"
   end
 
   depends_on "go" => :build

@@ -12,7 +12,7 @@ class Toilet < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ac12e89dea30afb24b130d310477b4987897894bf81678c083609b3718a949d6"
+    sha256 cellar: :any, x86_64_windows: "fa130f4b141ff57d9ea9421ed2911f567089ef4733a350173057401b8709241f"
   end
 
   head do
@@ -24,6 +24,8 @@ class Toilet < Formula
 
   depends_on "pkgconf" => :build
   depends_on "libcaca"
+
+  deny_network_access!
 
   def install
     system "./bootstrap" if build.head?

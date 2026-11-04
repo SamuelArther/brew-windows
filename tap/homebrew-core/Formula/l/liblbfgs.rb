@@ -7,12 +7,14 @@ class Liblbfgs < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "22084261975ad2f9b07e338ad9e0fd0c4f3c2a4189e0561c65ec8100bdb314ab"
+    sha256 cellar: :any, x86_64_windows: "2aeec9311ae654fd35084056dfd71eb9e37a97ac6f09f8dc984cefbe631fd5aa"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

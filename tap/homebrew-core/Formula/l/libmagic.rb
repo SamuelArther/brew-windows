@@ -11,7 +11,7 @@ class Libmagic < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1508f9a06cc5f26ad253db31fc167249191c2831edaa0d0f5fa4414177ca5473"
+    sha256 cellar: :any, x86_64_windows: "d4b65de602137de2b326efa88a183cb92a196fdb53c1b3cd1106cd5fe062e92f"
   end
 
   depends_on "pkgconf" => :test
@@ -19,6 +19,8 @@ class Libmagic < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-silent-rules",

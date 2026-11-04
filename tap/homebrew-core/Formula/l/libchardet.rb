@@ -6,8 +6,7 @@ class Libchardet < Formula
   license any_of: ["MPL-1.1", "LGPL-2.1-only"]
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libchardet-1.0.6"
-    sha256 cellar: :any, x86_64_windows: "c98dcb2759d4fc8487cc98628b32488dd110c2599276249d61bd77cd00cba954"
+    sha256 cellar: :any, x86_64_windows: "9e558798e4ad352868dafa7079ace4ed3d76319fbc3afd077b9e31e0be4a2301"
   end
 
   depends_on "pkgconf" => :test
@@ -17,6 +16,8 @@ class Libchardet < Formula
     file "Patches/libtool/configure-pre-0.4.2.418-big_sur.diff"
     type :unofficial
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-silent-rules", *std_configure_args

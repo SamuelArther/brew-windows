@@ -12,7 +12,7 @@ class Libdivecomputer < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e5bd8feed0d81609c66d81a2fef355796fcd09dbab9946a48da08bd445f02344"
+    sha256 cellar: :any, x86_64_windows: "520616e89e20625ba3bb18dbee7377fd7d7e8f252cb5f946aa81024f9c969d91"
   end
 
   depends_on "autoconf" => :build
@@ -20,6 +20,8 @@ class Libdivecomputer < Formula
   depends_on "libtool" => :build
   depends_on "pkgconf" => :build
   depends_on "libusb"
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose" if build.head?

@@ -10,8 +10,10 @@ class Libcsv < Formula
     file "Patches/libtool/configure-pre-0.4.2.418-big_sur.diff"
   end
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a67c2815bcc294d326168e53fc1e8bcb805177ce4b62e006f8d1c93b823b5248"
+    sha256 cellar: :any, x86_64_windows: "52a08fe20622da1a249f61f02442a6bb7967067466fa0beffb8d7969f0b9c72c"
   end
 
   def install

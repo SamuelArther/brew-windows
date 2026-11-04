@@ -1,13 +1,13 @@
 class Container2wasm < Formula
   desc "Container to WASM converter"
   homepage "https://ktock.github.io/container2wasm-demo/"
-  url "https://github.com/container2wasm/container2wasm/archive/refs/tags/v0.8.4.tar.gz"
-  sha256 "4216e148c88588924f4026d8359be35f5c861967ab8e55a733bb879cdca678e8"
+  url "https://github.com/container2wasm/container2wasm/archive/refs/tags/v0.8.5.tar.gz"
+  sha256 "a6846c11d8ebab255f530d70241fa28e26ce9afff5cd6a727d0fd33037d10970"
   license "Apache-2.0"
   head "https://github.com/container2wasm/container2wasm.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "19cb915b810ba464b5d84b460f2adc9a83d767bc646de734c5aa35ed527a2266"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e6ec84cbf8e2e79c2e10a46afa928488a2d95155b4d3dc989e1d0342e269178d"
   end
 
   depends_on "go" => :build
@@ -19,7 +19,7 @@ class Container2wasm < Formula
   end
 
   def install
-    ldflags = "-X github.com/ktock/container2wasm/version.Version=#{version}"
+    ldflags = "-X github.com/container2wasm/container2wasm/version.Version=#{version}"
 
     %w[c2w c2w-net].each do |cmd|
       system "go", "build", *std_go_args(ldflags:, output: bin/cmd), "./cmd/#{cmd}"

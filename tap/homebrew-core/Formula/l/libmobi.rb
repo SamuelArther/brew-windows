@@ -7,7 +7,7 @@ class Libmobi < Formula
   revision 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "13573e3bef6f3e2b79f0fae03aeb2c73a61df64fa0a68109cc2c02dc76441f06"
+    sha256 cellar: :any, x86_64_windows: "220b8d9e6155008eccfb96c93ec8164e3e9c5bae9b48298379964aa6f2312019"
   end
 
   uses_from_macos "libxml2"
@@ -20,6 +20,8 @@ class Libmobi < Formula
   patch do
     file "Patches/libtool/configure-big_sur.diff"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args, "--disable-silent-rules"

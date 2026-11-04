@@ -1,24 +1,13 @@
 class Groestlcoin < Formula
   desc "Decentralized, peer to peer payment network"
   homepage "https://www.groestlcoin.org/groestlcoin-core-wallet/"
+  url "https://github.com/Groestlcoin/groestlcoin/releases/download/v32.1/groestlcoin-32.1.tar.gz"
+  sha256 "aef409fecb3e6ed69bda4ae3405e0bd86a21e00f5092d6b05368a88917aa9b2b"
   license "MIT"
-  revision 2
   head "https://github.com/groestlcoin/groestlcoin.git", branch: "master"
 
-  stable do
-    url "https://github.com/Groestlcoin/groestlcoin/releases/download/v31.0/groestlcoin-31.0.tar.gz"
-    sha256 "9c8b3004f7ed640a24acdadccace49ea123feae66ba562ca967de4119f061be3"
-
-    # Backport for newer Boost
-    patch do
-      url "https://github.com/Groestlcoin/groestlcoin/commit/0bc9d354dfd8074d1c36a891a69b6585a8775c65.patch?full_index=1"
-      sha256 "3f163d9775d4f80e559c28bd5a0c58586b25cb9fe08ec9340d5950355476b477"
-      type :backport
-    end
-  end
-
   bottle do
-    sha256 cellar: :any, x86_64_windows: "719db1f6c294c1fcc1f6f8a38d4cb2e8643341da731fac846ee4937898445088"
+    sha256 cellar: :any, x86_64_windows: "67f03d889c67b23aba3ad40572270157bbedf14f898b6d911b0f70ef7f04532a"
   end
 
   depends_on "boost" => :build

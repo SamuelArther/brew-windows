@@ -1,8 +1,8 @@
 class Clusterctl < Formula
   desc "Home for the Cluster Management API work, a subproject of sig-cluster-lifecycle"
   homepage "https://cluster-api.sigs.k8s.io"
-  url "https://github.com/kubernetes-sigs/cluster-api/archive/refs/tags/v1.14.3.tar.gz"
-  sha256 "656214da5b8a773303512d49edcb4d0760672d8d71b2be3f3bc36e31b0919c49"
+  url "https://github.com/kubernetes-sigs/cluster-api/archive/refs/tags/v1.14.4.tar.gz"
+  sha256 "0d22b58ffeb5b6bddb9085a1b35c059e2109507e8cfddec7b54b1fad87f49849"
   license "Apache-2.0"
   head "https://github.com/kubernetes-sigs/cluster-api.git", branch: "main"
 
@@ -17,7 +17,7 @@ class Clusterctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7736c2709a68d7915a8be01ba2361ab64a3c0e2c8880d08494a3ce42317555bf"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "58189b1a367133e37ccb77ffa2b83e14983147d8e4601e0962b3ddcdb2e4e70f"
   end
 
   depends_on "go" => :build

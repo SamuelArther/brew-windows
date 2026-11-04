@@ -6,8 +6,10 @@ class Libltc < Formula
   license "LGPL-3.0-or-later"
   compatibility_version 1
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cc8bca7469ffe9ccf348eb4585045ba17c713464eccc7171b370abd0f3984840"
+    sha256 cellar: :any, x86_64_windows: "5ea7c980522e6b1d63cd892b4c66cc5a4e7459da66d76ea68000ddf64459e4e3"
   end
 
   def install

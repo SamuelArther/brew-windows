@@ -3,13 +3,12 @@ class Cutadapt < Formula
 
   desc "Removes adapter sequences from sequencing reads"
   homepage "https://cutadapt.readthedocs.io"
-  url "https://github.com/marcelm/cutadapt.git",
-      tag:      "v5.2",
-      revision: "ef852629f667637439f28761499bb56126e390a1"
+  url "https://files.pythonhosted.org/packages/25/0a/2b4007e4577dd3e19affdf7aa716ebf9642e224d68a9205b2081d42ed08a/cutadapt-5.2.tar.gz"
+  sha256 "2394deead42ecae5fe0fdf369e35f3e2afed770e14059582272779c2e8295d3c"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8e1471a7463153ed0d52269c5963b67a7a410dfee1a6158ac3bb6db68b251743"
+    sha256 cellar: :any, x86_64_windows: "13a4b26ae64396bca71a98e9bd764412d33fa614268cdf59e28cb51f34b2704c"
   end
 
   depends_on "python@3.15"

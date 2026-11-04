@@ -1,0 +1,502 @@
+[
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 48
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "aws-nuke",
+    "status": "ok",
+    "seconds": 284
+  },
+  {
+    "name": "babel",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "buildkit",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "claude-code-templates",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "closure-compiler",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "clusterctl",
+    "status": "ok",
+    "seconds": 102
+  },
+  {
+    "name": "container2wasm",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "convox",
+    "status": "ok",
+    "seconds": 261
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 190
+  },
+  {
+    "name": "cutadapt",
+    "status": "ok",
+    "seconds": 87
+  },
+  {
+    "name": "cx",
+    "status": "ok",
+    "seconds": 668
+  },
+  {
+    "name": "dblab",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 149
+  },
+  {
+    "name": "django-completion",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "docker-completion",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 262
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 154
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1551
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "fierce",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "git-pages-cli",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "git-pkgs-proxy",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "godu",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "gosu",
+    "status": "ok",
+    "seconds": 468
+  },
+  {
+    "name": "groestlcoin",
+    "status": "ok",
+    "seconds": 1508
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "jfrog-cli",
+    "status": "ok",
+    "seconds": 175
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "ketch",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "lib3ds",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "libantlr3c",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "libbinio",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "libchardet",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "libcsv",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "libdivecomputer",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "libdshconfig",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "liblbfgs",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "liblockfile",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "libltc",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "liblzf",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "libmagic",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "libmatio",
+    "status": "ok",
+    "seconds": 165
+  },
+  {
+    "name": "libmobi",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "libmpc",
+    "status": "ok",
+    "seconds": 265
+  },
+  {
+    "name": "libmtp",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "libngspice",
+    "status": "ok",
+    "seconds": 1234
+  },
+  {
+    "name": "libpostal",
+    "status": "ok",
+    "seconds": 444
+  },
+  {
+    "name": "marked",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "marmot",
+    "status": "ok",
+    "seconds": 310
+  },
+  {
+    "name": "mermaid-cli",
+    "status": "ok",
+    "seconds": 377
+  },
+  {
+    "name": "mp4ff",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "mt32emu",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "nelm",
+    "status": "ok",
+    "seconds": 148
+  },
+  {
+    "name": "nelm@1",
+    "status": "ok",
+    "seconds": 129
+  },
+  {
+    "name": "netbird",
+    "status": "test",
+    "seconds": 101
+  },
+  {
+    "name": "newrelic-infra-agent",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "nuxi",
+    "status": "ok",
+    "seconds": 210
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 209
+  },
+  {
+    "name": "oxfmt",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 867
+  },
+  {
+    "name": "phpstan",
+    "status": "test-deps",
+    "seconds": 5
+  },
+  {
+    "name": "pluto",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "polaris",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "repo",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "roxctl",
+    "status": "ok",
+    "seconds": 328
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "skills",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "sonar-scanner",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "stress-ng",
+    "status": "ok",
+    "seconds": 454
+  },
+  {
+    "name": "stripe-cli",
+    "status": "ok",
+    "seconds": 108
+  },
+  {
+    "name": "taktuk",
+    "status": "ok",
+    "seconds": 111
+  },
+  {
+    "name": "tccutil",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "termrec",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "texi2mdoc",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "tgrep",
+    "status": "ok",
+    "seconds": 312
+  },
+  {
+    "name": "the_silver_searcher",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "theora",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "tinysvm",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "tmpreaper",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "tnef",
+    "status": "ok",
+    "seconds": 64
+  },
+  {
+    "name": "toilet",
+    "status": "ok",
+    "seconds": 98
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "tre",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "two-lame",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "wordcraft-cli",
+    "status": "ok",
+    "seconds": 743
+  },
+  {
+    "name": "yaegi",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "zero",
+    "status": "test",
+    "seconds": 30
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 42
+  }
+]

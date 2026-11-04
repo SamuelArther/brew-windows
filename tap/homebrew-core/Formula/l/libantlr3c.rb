@@ -11,12 +11,14 @@ class Libantlr3c < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "592ac3b6cb251831bf614b09ae07839af862c4c81e3f380916953479ced3ec82"
+    sha256 cellar: :any, x86_64_windows: "45ff0c269c7579cbf95926c8614c898b608bcc388d9230cacefa14041fdc7f42"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     cd "runtime/C" do

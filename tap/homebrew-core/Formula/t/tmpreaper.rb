@@ -11,8 +11,7 @@ class Tmpreaper < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/tmpreaper-1.6.18"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0fe85263433dde8469cecfff968316b8381d5987d3791fa6e716f7237d525c36"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "387da6619adfdd6fb7ecd3a6e1ac2d45d3b39f9383de122d7015002f020c11ae"
   end
 
   depends_on "autoconf" => :build
@@ -22,6 +21,8 @@ class Tmpreaper < Formula
     depends_on "e2fsprogs"
     depends_on "util-linux"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}", "--sysconfdir=#{etc}"

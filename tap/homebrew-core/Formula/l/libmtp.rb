@@ -7,11 +7,13 @@ class Libmtp < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c2ba48f9dfcd63239479779265ccfa60e4e0075230cb7f2bd485b24c82e996d3"
+    sha256 cellar: :any, x86_64_windows: "5efb8d97bd377600caaec75a051fcdcb04b135c28411da5939de2cd5cfd606d4"
   end
 
   depends_on "pkgconf" => :build
   depends_on "libusb"
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-mtpz",

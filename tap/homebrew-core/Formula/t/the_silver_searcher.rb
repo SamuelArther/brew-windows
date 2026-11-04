@@ -7,7 +7,7 @@ class TheSilverSearcher < Formula
   head "https://github.com/ggreer/the_silver_searcher.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "eb61676d8a27dd4aae7d4becada05baa3e2ab6290f5407f7eccf62e2b9df5d3f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ede9b81592e54a1a3f79e86978d8adf5384ad0ac14304d3a36b8176b6487ecd4"
   end
 
   depends_on "autoconf" => :build
@@ -26,6 +26,8 @@ class TheSilverSearcher < Formula
     sha256 "86b4758595d96e6d049dca70b160ae4f60ea1198daa713a058628a749ab1be75"
     type :unofficial
   end
+
+  deny_network_access!
 
   def install
     ENV.append_to_cflags "-fcommon" if ENV.compiler.to_s.start_with?("gcc")

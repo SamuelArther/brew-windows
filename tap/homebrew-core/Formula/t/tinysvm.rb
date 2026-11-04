@@ -13,7 +13,7 @@ class Tinysvm < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6229c17452d388c4c2e1f2c39a2c10b19e3e8ed52c11bcee87610dbc176451a9"
+    sha256 cellar: :any, x86_64_windows: "cf26f912200137123fbcc9c2bcaa21b96638927d3e00b2dd206f8ccc5bd5cc4b"
   end
 
   # Use correct compilation flag, via MacPorts.
@@ -21,6 +21,8 @@ class Tinysvm < Formula
     file "Patches/tinysvm/patch-configure.diff"
     type :unofficial
   end
+
+  deny_network_access!
 
   def install
     # Needed to select proper getopt, per MacPorts

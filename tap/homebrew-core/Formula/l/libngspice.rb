@@ -12,12 +12,13 @@ class Libngspice < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libngspice-47"
-    sha256 cellar: :any, x86_64_windows: "203427ab8416d59d992ab5810b53941ae098a46316b555af212677f803b92157"
+    sha256 cellar: :any, x86_64_windows: "774612cf827499fc97a43d0155729225a628f5cd1b13987abbe7510db6bad7dd"
   end
 
   uses_from_macos "bison" => :build
   uses_from_macos "flex" => :build
+
+  deny_network_access!
 
   def install
     args = %w[

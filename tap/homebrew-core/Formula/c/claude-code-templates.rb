@@ -1,15 +1,17 @@
 class ClaudeCodeTemplates < Formula
   desc "CLI tool for configuring and monitoring Claude Code"
   homepage "https://www.aitmpl.com/agents"
-  url "https://registry.npmjs.org/claude-code-templates/-/claude-code-templates-1.30.0.tgz"
-  sha256 "46a920e5380ac2e871df4c8c6d121330ddc22c2c3ec483f158c78462f1d58510"
+  url "https://registry.npmjs.org/claude-code-templates/-/claude-code-templates-1.31.0.tgz"
+  sha256 "52813fb1775f1c2c1a4c4aa91b1a34a2fd4635ed0dfcb15caf5d86a59ef3898a"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1335b1104e61069ce2d07d4624d6b1ab3ed697b4de079b231aa6d4354360a8e4"
+    sha256 cellar: :any, x86_64_windows: "1a4d2abd78b5a703a141b1715deac861d779697c759b09afb40383887984d000"
   end
 
   depends_on "node"
+
+  conflicts_with "proj", because: "both install `cct` binaries"
 
   def install
     system "npm", "install", *std_npm_args(ignore_scripts: false)

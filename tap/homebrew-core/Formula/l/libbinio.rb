@@ -11,8 +11,10 @@ class Libbinio < Formula
     file "Patches/libtool/configure-big_sur.diff"
   end
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9b641e147c844679523ff133c85a6a858c77e81881179580437a1dcab0ee9973"
+    sha256 cellar: :any, x86_64_windows: "ba620b732a94165d69bac390169be70ba11bdec5869cea0a20d3d72bd91c908d"
   end
 
   def install

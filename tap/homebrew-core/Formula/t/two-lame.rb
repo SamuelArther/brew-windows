@@ -6,8 +6,10 @@ class TwoLame < Formula
   license "LGPL-2.1-or-later"
   compatibility_version 1
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b04c62a0454126da3a7155f409eb3495c7eee7df091ae4eaabf705b36bcdbdd6"
+    sha256 cellar: :any, x86_64_windows: "91d564c45b826303d261e0fb85f4bb979076d17e37825e61990cdb42b744dbab"
   end
 
   def install

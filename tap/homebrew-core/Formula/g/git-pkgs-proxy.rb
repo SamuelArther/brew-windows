@@ -1,13 +1,13 @@
 class GitPkgsProxy < Formula
   desc "Lightweight caching proxy for package registries"
   homepage "https://github.com/git-pkgs/proxy"
-  url "https://github.com/git-pkgs/proxy/archive/refs/tags/v0.10.0.tar.gz"
-  sha256 "b07335586199df429dac55c0bfc2d1a3d9489ada00c8c1583817ffa491722189"
+  url "https://github.com/git-pkgs/proxy/archive/refs/tags/v0.11.0.tar.gz"
+  sha256 "9a66aacec64f02f850cf2f3106787045750f8556bdfac32442f44ff8ac781780"
   license "GPL-3.0-or-later"
   head "https://github.com/git-pkgs/proxy.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f1901125269f8e847b715160e8b01ee98029d74d51b90a6357935be6378ef6fa"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b0ea495b10b5fb3f479289bf724c9880800a4c6498935a5c74512b20dd39d902"
   end
 
   depends_on "go" => :build

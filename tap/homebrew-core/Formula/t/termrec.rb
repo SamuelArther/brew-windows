@@ -12,7 +12,7 @@ class Termrec < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "304249a2a22ebe5b141c15d5942050a651529653cd089b35ebf7d6c2a86497d2"
+    sha256 cellar: :any, x86_64_windows: "e66b678c5ae9fafa59f4d7c5466027ad0a86c1cd37567ecccde0057ba61a4d6c"
   end
 
   depends_on "autoconf" => :build
@@ -23,6 +23,8 @@ class Termrec < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     # Work around build error: call to undeclared function 'forkpty'

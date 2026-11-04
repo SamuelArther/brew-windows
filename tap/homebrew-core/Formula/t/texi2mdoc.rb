@@ -12,8 +12,10 @@ class Texi2mdoc < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "87dfd9c6ca286c89e3e56c6964811a69fcc1fb297bfc1f292020ef53f8d8a2ea"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "938c6fb502f01423ee8898a8186829b7589030a7412506d2c8ed3aa850f08aa0"
   end
+
+  deny_network_access!
 
   def install
     system "make", "install", "PREFIX=#{prefix}"

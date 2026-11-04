@@ -6,8 +6,10 @@ class Tre < Formula
   license "BSD-2-Clause"
   compatibility_version 1
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "075d10436a79afaced7c624fd1edd2f1ecce1f767929da1fb3bf6f737e6478f0"
+    sha256 cellar: :any, x86_64_windows: "508184e60d3fef440a7a800a4fb4a6ff1d44c8ebc7daaeb15bb0bf4018a6760d"
   end
 
   def install

@@ -6,13 +6,14 @@ class Lib3ds < Formula
   license "LGPL-2.1-or-later"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/lib3ds-1.3.0"
-    sha256 cellar: :any, x86_64_windows: "d6de7da914202c5bf3a6eb439ab2473d2747b72f36b732aff7829ce18a5a32c0"
+    sha256 cellar: :any, x86_64_windows: "f0e943c507d6ffcd729ece6682108fdd1fe1ecf2f85a776c5a3fbbdba3ccbda7"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     # Run autoreconf to regenerate the configure script and update outdated macros.

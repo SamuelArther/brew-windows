@@ -12,12 +12,14 @@ class Libdshconfig < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bba269b5550f934c7dfedd07a08ab955b773814a4473da9184f8b1536d85dc63"
+    sha256 cellar: :any, x86_64_windows: "0fe51ba399de6881aec8d04f05b69bfd1159f58ac62919155be9459c4eb73f08"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     # Run autoreconf to regenerate the configure script and update outdated macros.

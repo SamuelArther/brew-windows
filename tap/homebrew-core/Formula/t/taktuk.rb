@@ -12,7 +12,7 @@ class Taktuk < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a4b12572ff052f7a2c1626c5dda49d9babec16332293692906b3eb9c6d6ed904"
+    sha256 cellar: :any, x86_64_windows: "99f96731c7c7be3c6ecdd0e410ba7553d6c3b710e48337beb1e448abe4eebbaa"
   end
 
   depends_on "autoconf" => :build
@@ -20,6 +20,8 @@ class Taktuk < Formula
   depends_on "libtool" => :build
 
   uses_from_macos "perl"
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

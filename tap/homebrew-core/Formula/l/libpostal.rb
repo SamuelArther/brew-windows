@@ -8,7 +8,7 @@ class Libpostal < Formula
   head "https://github.com/openvenues/libpostal.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4fd95b888cec8c9af670f7654da95c5347ad2054712fbdfb88b78f9df494955a"
+    sha256 cellar: :any, x86_64_windows: "a7ec1796106bf54852b79c485f62903a240e53f45a0e54ac8778fc31cf891278"
   end
 
   depends_on "autoconf" => :build
@@ -47,6 +47,8 @@ class Libpostal < Formula
       regex(/^v?(\d+(?:\.\d+)+)$/i)
     end
   end
+
+  deny_network_access!
 
   def install
     pkgshare.install resource("libpostal_data")
