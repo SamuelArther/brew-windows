@@ -1,13 +1,13 @@
 class VectorcraftCli < Formula
   desc "Headless VectorCraft CLI and MCP server to convert, inspect and script artwork"
   homepage "https://getartcraft.com/apps/vectorcraft"
-  url "https://github.com/storytold/vectorcraft/archive/refs/tags/v0.21.0.tar.gz"
-  sha256 "d051a395f62511b52e7ad023f3029bfc8846871b5f2f61b19312f71e777c4efe"
+  url "https://github.com/storytold/vectorcraft/archive/refs/tags/v0.21.1.tar.gz"
+  sha256 "6735d662f8545c843bb671daa20f4378b405afa5e2aa681b3bf40f1e2c3abf58"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/storytold/vectorcraft.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5095d6c22ac9526c25b1dd88b474217f19afd055aed5ee08e3f2c23f0a33cf6e"
+    sha256 cellar: :any, x86_64_windows: "0b8511a76e08f196c798faae75abf8d83b5b4a18df75c3164469f5c4cb3d5eb0"
   end
 
   depends_on "rust" => :build

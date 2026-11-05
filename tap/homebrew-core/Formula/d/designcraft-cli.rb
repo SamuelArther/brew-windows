@@ -1,13 +1,13 @@
 class DesigncraftCli < Formula
   desc "Headless DesignCraft CLI and MCP server to script, export and validate layouts"
   homepage "https://getartcraft.com/apps/designcraft"
-  url "https://github.com/storytold/designcraft/archive/refs/tags/v0.17.0.tar.gz"
-  sha256 "d88af51773f33d1b66b8bb4858a959e99cd1ad9a39d7b7e0728b873fff21262b"
+  url "https://github.com/storytold/designcraft/archive/refs/tags/v0.17.2.tar.gz"
+  sha256 "73fde84d7142ab05d9069bdbf9929aaa4747b1ce3c6a820c3317c79f5d0653fe"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/storytold/designcraft.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5f6f1a6f0a2e4c89e6246f25e8476274a40123ad56d7ca408790c70e75f254c5"
+    sha256 cellar: :any, x86_64_windows: "8d24f8d5aeecae74e8063f0fffaef833e093eb81c61a45de92fefafcad7d2e3e"
   end
 
   depends_on "rust" => :build

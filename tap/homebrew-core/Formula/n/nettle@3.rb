@@ -13,7 +13,7 @@ class NettleAT3 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "22ed60b7c5afa732fb36939b2faa158de7f17dc6875c373ca51c65ffba1ef3b5"
+    sha256 cellar: :any, x86_64_windows: "6e8fa7db13e390e16cd1dc15c60a20dfad66ba93b7d98f0034319a7d6fafe290"
   end
 
   keg_only :versioned_formula
@@ -21,6 +21,8 @@ class NettleAT3 < Formula
   depends_on "gmp"
 
   uses_from_macos "m4" => :build
+
+  deny_network_access!
 
   def install
     system "./configure", "--enable-shared", *std_configure_args

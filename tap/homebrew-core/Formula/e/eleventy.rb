@@ -1,13 +1,13 @@
 class Eleventy < Formula
   desc "Simpler static site generator"
   homepage "https://www.11ty.dev"
-  url "https://registry.npmjs.org/@11ty/eleventy/-/eleventy-3.1.7.tgz"
-  sha256 "71a54c83855a9eec0171321d9aded12de5d8635cbbf06dd8edfbc92d9cb3ef58"
+  url "https://registry.npmjs.org/@11ty/eleventy/-/eleventy-3.1.8.tgz"
+  sha256 "c818a912a1fa65ec2337ac5bbc43dc6dfb657e343f98a1d6f227fd5c6cf7a8ba"
   license "MIT"
   head "https://github.com/11ty/eleventy.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b9803b24016ca47ec0457e3fb3b85fb0461df01b8bfb1dabe22c50d8b16bbaf7"
+    sha256 cellar: :any, x86_64_windows: "5014cf35068200bd9eafa3ad02f2193fc2efb1c522f08627fe138a7be826098b"
   end
 
   depends_on "node"
@@ -15,6 +15,9 @@ class Eleventy < Formula
   def install
     system "npm", "install", *std_npm_args
     bin.install_symlink libexec.glob("bin/*")
+
+    node_modules = libexec/"lib/node_modules/@11ty/eleventy/node_modules"
+    deuniversalize_machos node_modules/"fsevents/fsevents.node" if OS.mac?
   end
 
   test do

@@ -13,8 +13,10 @@ class Ssed < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2880329d0af13f5fe4bbca80e823d29329d9126862752430f4ac37b73f5e080e"
+    sha256 cellar: :any, x86_64_windows: "5c1667d1a36ce4763d5b6597e6641dee0a039d7da9d4ef83b8efdbbaf961fa69"
   end
+
+  deny_network_access!
 
   def install
     # Fix compile with newer Clang

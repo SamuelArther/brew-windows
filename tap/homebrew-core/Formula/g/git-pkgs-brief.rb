@@ -1,13 +1,13 @@
 class GitPkgsBrief < Formula
   desc "Tool that detects and reports a project's toolchain, configuration, and more"
   homepage "https://github.com/git-pkgs/brief"
-  url "https://github.com/git-pkgs/brief/archive/refs/tags/v0.14.2.tar.gz"
-  sha256 "e01028fc5bc79a49b76b0804325ea5b12796c3275799f82b89e4cc0717bc3bb5"
+  url "https://github.com/git-pkgs/brief/archive/refs/tags/v0.15.0.tar.gz"
+  sha256 "8a542483ba377b9b50614773fc575ee1b5f50e231a0bce9e9984c0a1c4f7882c"
   license "MIT"
   head "https://github.com/git-pkgs/brief.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "3a5eb19f5b36bca6e802b5775a633691d01b897895d3cb1404e9b7dfd6260566"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c0513a87873389da91886c5c10fb95f0fe752433f331912f7e927e6bca5611b9"
   end
 
   depends_on "go" => :build

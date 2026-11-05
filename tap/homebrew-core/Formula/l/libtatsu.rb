@@ -1,15 +1,14 @@
 class Libtatsu < Formula
   desc "Library handling the communication with Apple's Tatsu Signing Server (TSS)"
   homepage "https://libimobiledevice.org/"
-  url "https://github.com/libimobiledevice/libtatsu/releases/download/1.0.5/libtatsu-1.0.5.tar.bz2"
-  sha256 "536fa228b14f156258e801a7f4d25a3a9dd91bb936bf6344e23171403c57e440"
+  url "https://github.com/libimobiledevice/libtatsu/releases/download/1.1.0/libtatsu-1.1.0.tar.bz2"
+  sha256 "96c8abd97552a4a0c487c701aba9a65d590c338dd331058ffb38304290b696c7"
   license "LGPL-2.1-or-later"
-  revision 1
   compatibility_version 1
   head "https://github.com/libimobiledevice/libtatsu.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d19f7b48155b5cf1b811d3fa896bee8c3eda2ba4e6df4732f435e47989a255c2"
+    sha256 cellar: :any, x86_64_windows: "dcf94f8dd593b2ad3c3cca53a825cfaaa25f0b838702f8b3e392b4c57fd1a8ec"
   end
 
   depends_on "autoconf" => :build

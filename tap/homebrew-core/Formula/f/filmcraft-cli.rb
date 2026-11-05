@@ -1,13 +1,13 @@
 class FilmcraftCli < Formula
   desc "Headless FilmCraft CLI and MCP server to edit, render and export video projects"
   homepage "https://getartcraft.com/apps/filmcraft"
-  url "https://github.com/storytold/filmcraft/archive/refs/tags/v0.17.0.tar.gz"
-  sha256 "430de17dcf3c63223064e6f23c889c6abc4a2f08f351e0c854ff518944f9b60e"
+  url "https://github.com/storytold/filmcraft/archive/refs/tags/v0.17.1.tar.gz"
+  sha256 "392e1bec5241cf6342699d316c0e87c65071ed6de2b742c1b23e5bb9e3c1916e"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/storytold/filmcraft.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5d3e82377c0d3c5c6b9bd7c29c4cd4bf111252b4c932774a50e31e4181ff6ce5"
+    sha256 cellar: :any, x86_64_windows: "09bce7f7838bb93b1869dab0de30a07d2cfd9f70b6bd0d1e214f5bba1d37cc76"
   end
 
   depends_on "rust" => :build

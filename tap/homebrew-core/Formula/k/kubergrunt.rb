@@ -1,8 +1,8 @@
 class Kubergrunt < Formula
   desc "Collection of commands to fill in the gaps between Terraform, Helm, and Kubectl"
   homepage "https://github.com/gruntwork-io/kubergrunt"
-  url "https://github.com/gruntwork-io/kubergrunt/archive/refs/tags/v0.19.0.tar.gz"
-  sha256 "0bc4d67db238b974bb2a80b4786beb8ff3c38b748b3e10448c5f0174c7ead488"
+  url "https://github.com/gruntwork-io/kubergrunt/archive/refs/tags/v0.19.1.tar.gz"
+  sha256 "7199de22f0e638ddd33a4fa1d62f0486b1c3812a3da4f9f1c9e12542de6b7d38"
   license "Apache-2.0"
   head "https://github.com/gruntwork-io/kubergrunt.git", branch: "main"
 
@@ -15,7 +15,7 @@ class Kubergrunt < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "78235f6643faf78e74ac0ea06b1b98a577189a3a4c30b064045d1571574e44f8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5d87622e16df94f8cb4680c12fe59d6a2ca039cf1949df82903c8011de90d1fb"
   end
 
   depends_on "go" => :build
