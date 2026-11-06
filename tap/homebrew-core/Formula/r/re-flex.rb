@@ -6,12 +6,14 @@ class ReFlex < Formula
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ded2ff4f2f5abf7d678f0a759aed1880241e2c24985e16380eaacafd60f0c4c4"
+    sha256 cellar: :any, x86_64_windows: "b4b921a65082ec431de5218550bde3259fa4d71b96796dafbe8abc8cf511ec03"
   end
 
   depends_on "pcre2"
 
   conflicts_with "reflex", because: "both install `reflex` binaries"
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-dependency-tracking",

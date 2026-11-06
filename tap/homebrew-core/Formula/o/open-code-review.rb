@@ -1,13 +1,13 @@
 class OpenCodeReview < Formula
   desc "AI-powered code review tool with deterministic pipelines and an LLM agent"
   homepage "https://open-codereview.ai"
-  url "https://github.com/alibaba/open-code-review/archive/refs/tags/v1.13.5.tar.gz"
-  sha256 "bc8e08333abf7bbad98330397b0fdbe070fe43370b7121d154421d55e1f9f43e"
+  url "https://github.com/alibaba/open-code-review/archive/refs/tags/v1.13.6.tar.gz"
+  sha256 "6152a3a57c2c8769c6bdbbcc5b7219a97742ea380aef2c1b9e777f482f677154"
   license "Apache-2.0"
   head "https://github.com/alibaba/open-code-review.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "be8cb4196521936110702b5a56cd0afeffd08d3572436f5ae849c9156541ae0c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "4f9496b51699f675fbf9d835a68789b36701ed1a9f7c364359034c5f1f3f39da"
   end
 
   depends_on "go" => :build

@@ -5,8 +5,10 @@ class Dtach < Formula
   sha256 "32e9fd6923c553c443fab4ec9c1f95d83fa47b771e6e1dafb018c567291492f3"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "819e71d99ed59c167d7a33ea1a0db8da61189bee133ad02c91c76871e2fc8d7b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "fc7318399be66bef0a6469719a81a7bd692cf6327b48e34825fe660860daa6b0"
   end
 
   def install

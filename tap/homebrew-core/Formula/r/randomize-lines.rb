@@ -11,8 +11,10 @@ class RandomizeLines < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a53634cc3ece7035aaf9badbc9fc1f1d76ba635a759d15629be9cd7c60287252"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "266f14300e2098357f329d5714a3471f63d0ac988462e7efc9fe3476f6fe87f6"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-dependency-tracking",

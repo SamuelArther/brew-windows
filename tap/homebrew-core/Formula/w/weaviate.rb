@@ -1,8 +1,8 @@
 class Weaviate < Formula
   desc "Open-source vector database that stores both objects and vectors"
   homepage "https://weaviate.io/developers/weaviate/"
-  url "https://github.com/weaviate/weaviate/archive/refs/tags/v1.40.3.tar.gz"
-  sha256 "009820dbdc5a2081681bc79e72774593f1c4a254f5fca3d645036b2cf6389f65"
+  url "https://github.com/weaviate/weaviate/archive/refs/tags/v1.40.4.tar.gz"
+  sha256 "a3d437830e57592008e43a3d0a278ca853f899f5403bc3417c4a784936939ff4"
   license "BSD-3-Clause"
 
   livecheck do
@@ -11,7 +11,7 @@ class Weaviate < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1ce19c7d82448ce7e9dbb653cf178db5c23cb9ce008d85915fdfa7bbcd7488b2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d421ddf24a4acb9422cc0fced2b30f5c2b1ac3d6fc646df407356636b345664e"
   end
 
   depends_on "go" => :build

@@ -1,8 +1,8 @@
 class Ringojs < Formula
   desc "CommonJS-based JavaScript runtime"
   homepage "https://ringojs.org"
-  url "https://github.com/ringo/ringojs/releases/download/v4.0.0/ringojs-4.0.0.tar.gz"
-  sha256 "9aea219fc6b4929a7949a34521cb96207073d29aa88f89f9a8833e31e84b14d5"
+  url "https://github.com/ringo/ringojs/releases/download/v4.1.0/ringojs-4.1.0.tar.gz"
+  sha256 "298fe66f4de3af5bb2971a16c9d6648ab3ee39fed211160802b75901693d8f43"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class Ringojs < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6263e03d155e479441e8a23b3010d4d47fb96dad8661d05f46530317d2d0f54d"
+    sha256 cellar: :any, x86_64_windows: "18016e13e7e3ead2e463f6a983d99a49551d38fbe3ea91dab3ef6600232d6d01"
   end
 
   depends_on "openjdk"

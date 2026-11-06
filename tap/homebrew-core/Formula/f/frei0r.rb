@@ -1,13 +1,13 @@
 class Frei0r < Formula
   desc "Minimalistic plugin API for video effects"
   homepage "https://frei0r.dyne.org/"
-  url "https://github.com/dyne/frei0r/archive/refs/tags/v3.6.0.tar.gz"
-  sha256 "425ddc9358151c52775a00b14e9dbd4044fc1f3aa931beef2aa3633707ba1eb8"
+  url "https://github.com/dyne/frei0r/archive/refs/tags/v3.7.0.tar.gz"
+  sha256 "352e1e583865a0bb0a7404302a14cdfb30e26c2cf1e8724605bd29067d089159"
   license "GPL-2.0-or-later"
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b410c1eaf4669700f2b05b756454e68a2c9374fe0294f1eb6208f5b55a2358d5"
+    sha256 cellar: :any, x86_64_windows: "2ef614ae6c2490f727a946429d7e252b87a414695eb08745c01823a66e18943d"
   end
 
   depends_on "cmake" => :build

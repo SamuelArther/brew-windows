@@ -1,0 +1,392 @@
+[
+  {
+    "name": "algernon",
+    "status": "build",
+    "seconds": 53
+  },
+  {
+    "name": "aws-nuke",
+    "status": "ok",
+    "seconds": 311
+  },
+  {
+    "name": "aws-vault",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "awscli@1",
+    "status": "ok",
+    "seconds": 254
+  },
+  {
+    "name": "aztfexport",
+    "status": "ok",
+    "seconds": 161
+  },
+  {
+    "name": "azure-dev",
+    "status": "ok",
+    "seconds": 150
+  },
+  {
+    "name": "bfs",
+    "status": "build",
+    "seconds": 48
+  },
+  {
+    "name": "bibutils",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "clang-format",
+    "status": "ok",
+    "seconds": 1844
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "convox",
+    "status": "ok",
+    "seconds": 267
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "dtach",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "egctl",
+    "status": "build",
+    "seconds": 76
+  },
+  {
+    "name": "eslint_d",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1804
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "firebase-cli",
+    "status": "ok",
+    "seconds": 267
+  },
+  {
+    "name": "frei0r",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "gemini-cli",
+    "status": "ok",
+    "seconds": 139
+  },
+  {
+    "name": "gitea-mcp-server",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "gitea-runner",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "gitlab-runner",
+    "status": "ok",
+    "seconds": 237
+  },
+  {
+    "name": "go-passbolt-cli",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "gogcli",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "gtl",
+    "status": "ok",
+    "seconds": 423
+  },
+  {
+    "name": "hexedit",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 151
+  },
+  {
+    "name": "html2text",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "immich-cli",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 311
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 252
+  },
+  {
+    "name": "kata",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "kosli-cli",
+    "status": "ok",
+    "seconds": 176
+  },
+  {
+    "name": "ktop",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "lfk",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "mcp-toolbox",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "npq",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "oauth2_proxy",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "okteto",
+    "status": "ok",
+    "seconds": 201
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "parallel-hashmap",
+    "status": "ok",
+    "seconds": 278
+  },
+  {
+    "name": "permify",
+    "status": "ok",
+    "seconds": 215
+  },
+  {
+    "name": "pkl",
+    "status": "ok",
+    "seconds": 691
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "qshell",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "randomize-lines",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "ratfor",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "rcm",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "re-flex",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "recoverjpeg",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "rinetd",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "ringojs",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "roll",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "roundup",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "rush",
+    "status": "ok",
+    "seconds": 160
+  },
+  {
+    "name": "ryelang",
+    "status": "ok",
+    "seconds": 168
+  },
+  {
+    "name": "ryl",
+    "status": "build",
+    "seconds": 152
+  },
+  {
+    "name": "rzip",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "scale2x",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "secp256k1",
+    "status": "ok",
+    "seconds": 82
+  },
+  {
+    "name": "shmux",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "shtool",
+    "status": "ok",
+    "seconds": 90
+  },
+  {
+    "name": "sipcalc",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "smenu",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "snyk-cli",
+    "status": "ok",
+    "seconds": 191
+  },
+  {
+    "name": "superseedr",
+    "status": "ok",
+    "seconds": 720
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 136
+  },
+  {
+    "name": "vite",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "weaviate",
+    "status": "ok",
+    "seconds": 473
+  },
+  {
+    "name": "wikibase-cli",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 44
+  }
+]

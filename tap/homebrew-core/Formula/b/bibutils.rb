@@ -11,8 +11,10 @@ class Bibutils < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b3bc350c58d648dad80fa9edda19e3241c2f1f569e6229418b418532a70c674f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "21438ce02bba077720d338989dc1576c11cd0e94be183a635172d7f96343d5be"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--install-dir", bin,

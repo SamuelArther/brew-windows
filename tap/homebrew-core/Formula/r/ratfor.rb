@@ -13,10 +13,12 @@ class Ratfor < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5e7b8e19ad152dfa4ea7264b8cc9605159ce84803b3cbaf84a304ff40c16032e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f0c3933d638e4e133eab01f88f0bd0716cc58e519a644617832f5c269cde1691"
   end
 
   depends_on "gcc" # for gfortran
+
+  deny_network_access!
 
   def install
     system "./configure", "--prefix=#{prefix}"

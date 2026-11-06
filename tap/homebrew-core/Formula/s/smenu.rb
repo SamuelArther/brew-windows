@@ -12,10 +12,12 @@ class Smenu < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "2f181b735ae70bf3d73976072cf2b9635f82354fec11214fc9621d100fc8ccec"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "860781b91a676d29cdc37133fe045de390655e9d492ed6b2ed06f8aef7d5624c"
   end
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

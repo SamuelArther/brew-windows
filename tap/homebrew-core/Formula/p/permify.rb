@@ -1,13 +1,13 @@
 class Permify < Formula
   desc "Open-source authorization service & policy engine based on Google Zanzibar"
   homepage "https://permify.co/"
-  url "https://github.com/Permify/permify/archive/refs/tags/v1.7.5.tar.gz"
-  sha256 "bdb558b5890ded1da3aa311b6f34da3abbafa2b1c35c2365d902383970fcbbac"
+  url "https://github.com/Permify/permify/archive/refs/tags/v1.7.6.tar.gz"
+  sha256 "9a1cc5b77e9929820b1e1ed10fa6d57e2c665bdd3fb0f755cb9a7499e147c37d"
   license "AGPL-3.0-only"
   head "https://github.com/Permify/permify.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "02ec4a0799a82eb8d02638ad8972a8b61874523c0595031b1ff8cdd8dcbcb42b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f5388127b3fdc66c131f7edd525d9f792e3aef6f94781d742e79b4852076e143"
   end
 
   depends_on "go" => :build

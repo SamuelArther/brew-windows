@@ -15,9 +15,10 @@ class Rinetd < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/rinetd-0.73_1"
-    sha256 cellar: :any, x86_64_windows: "2b001d7fcf0075492fc018c697c0543c47c7a20bf09f012021794ac4b9a0bc04"
+    sha256 cellar: :any, x86_64_windows: "0d0a6e616403615d7062579695da35bdf12b5f019075ffb0403a09877b6780df"
   end
+
+  deny_network_access!
 
   def install
     # The daemon() function does exist but its deprecated so keep configure

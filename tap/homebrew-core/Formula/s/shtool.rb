@@ -6,8 +6,10 @@ class Shtool < Formula
   sha256 "1298a549416d12af239e9f4e787e6e6509210afb49d5cf28eb6ec4015046ae19"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "eec37459f2c5503c61c248d3e862903d33665bf647f3a4633e4513b3a0edd9dc"
+    sha256 cellar: :any, x86_64_windows: "86c3358d824ff155756f1efaf7180ec1f588653ea6ef8e074c96e1ae134c35b1"
   end
 
   def install

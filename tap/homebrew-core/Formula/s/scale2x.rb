@@ -6,7 +6,7 @@ class Scale2x < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "11c5aef0ef610247031a567fdda073c51412600811234c882781fee49742718e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d06fac759dcd0cda568904d48e9c923836c5a36f0eaeb865e6e28cec7c7bf531"
   end
 
   depends_on "libpng"
@@ -14,6 +14,8 @@ class Scale2x < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

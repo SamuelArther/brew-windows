@@ -6,8 +6,7 @@ class Roll < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/roll-2.7.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7698d4aef683f6cc4f7c084c89ac81b908683b8c247cdc8db925c27621b2bcfc"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "536851477bf52c4b41c43dd6c0efcddb27604172e7aa120a4a1c3a25bc5e8294"
   end
 
   head do
@@ -19,6 +18,8 @@ class Roll < Formula
   on_macos do
     depends_on "pkgconf" => :build
   end
+
+  deny_network_access!
 
   def install
     system "./regen.sh" if build.head?

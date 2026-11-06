@@ -7,14 +7,15 @@ class Hexedit < Formula
   head "https://github.com/pixel/hexedit.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/hexedit-1.6"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f0234021209e1cf80f3e5b69f94f61f14be50b41ef15400a3a5d0ab0aec5ecd8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5c0643d2f676a8b2ccd0a488098fa0a7b4348c1bce4f8d77f52d1fea79b1c85e"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "./autogen.sh"

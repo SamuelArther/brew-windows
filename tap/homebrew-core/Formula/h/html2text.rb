@@ -6,9 +6,10 @@ class Html2text < Formula
   license "GPL-2.0-or-later"
   head "https://gitlab.com/grobian/html2text.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/html2text-2.4.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0ed47dacf1e8c7c02ff013f238a5a91b4cdfc993d6ea2e5903e06d98e8c53af2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3d43a3b697367f0273f052e06d165338c3390b3bee4900b7f1f92017af67a292"
   end
 
   def install

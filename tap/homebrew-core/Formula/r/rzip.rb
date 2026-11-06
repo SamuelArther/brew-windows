@@ -11,10 +11,12 @@ class Rzip < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ef401c5c711ba6742ff9e806735e321a4745ae0af0bd0c7c756a96265bea3817"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1c6d120ed2319539a77f9a3dcad62927f629b0e016adf23f8fb0fb3590d996b4"
   end
 
   uses_from_macos "bzip2"
+
+  deny_network_access!
 
   def install
     # Workaround for newer Clang

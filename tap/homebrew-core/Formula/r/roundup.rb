@@ -6,9 +6,10 @@ class Roundup < Formula
   license "MIT"
   head "https://github.com/bmizerany/roundup.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/roundup-0.0.6"
-    sha256 cellar: :any, x86_64_windows: "46faf433731bd7692be050e229f228ae7fb5c66ade75f82eb4a7dbec5cc6c67f"
+    sha256 cellar: :any, x86_64_windows: "84bbb5e7fb7d66f0225af179f170a3cd00d37feefefe2714a9b8b74a7618c6ce"
   end
 
   def install

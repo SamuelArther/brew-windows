@@ -7,12 +7,14 @@ class Secp256k1 < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b69cdced8de3b70ccc90eeb7319c9957e71edc930d3ca94a16385f9f29641632"
+    sha256 cellar: :any, x86_64_windows: "5c64a83266ddd0811e075b0e49b46130ad3fcaebf4d6bdd1e1a3539880a05946"
   end
 
-  depends_on "autoconf" => [:build]
-  depends_on "automake" => [:build]
-  depends_on "libtool" => [:build]
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "libtool" => :build
+
+  deny_network_access!
 
   def install
     system "./autogen.sh"
