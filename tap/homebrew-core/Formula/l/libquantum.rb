@@ -13,8 +13,10 @@ class Libquantum < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3c5c3fc2831417a74705f310c19bcf83e88d1d042676f13c6c9647dcd560e86d"
+    sha256 cellar: :any, x86_64_windows: "062eec3e8b4f9b5fa7723e3f4722199a31f49ee4f4e6e0b552650b9ce10b12cd"
   end
+
+  deny_network_access!
 
   def install
     args = []

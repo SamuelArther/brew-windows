@@ -6,13 +6,15 @@ class Libucl < Formula
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4d231d150f3c9fd139d559415517052b337bc38ad1b27fcc596543807aab3b7c"
+    sha256 cellar: :any, x86_64_windows: "0a38b89e648f66371a33bdeaab0738aa632303434c0540ec9f4250b33b4a95fd"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "pkgconf" => :build
+
+  deny_network_access!
 
   def install
     system "./autogen.sh"

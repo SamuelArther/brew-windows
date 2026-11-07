@@ -1,12 +1,12 @@
 class Appwrite < Formula
   desc "Command-line tool for Appwrite"
   homepage "https://appwrite.io"
-  url "https://github.com/appwrite/sdk-for-cli/archive/refs/tags/28.10.2.tar.gz"
-  sha256 "4cc89cf153b9d9c87e18fdcf44aed79d46c78d55b79867eba911925456ba26f0"
+  url "https://github.com/appwrite/sdk-for-cli/archive/refs/tags/28.11.0.tar.gz"
+  sha256 "a6e20c19b068f262538b0837d89dd3e537b3e5c42321c5cf7307bf501911364e"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "be016f5d2c3319639fbcaf8f97065ca8e47b4fc3c9d0b2bc8e0a802b13806cd6"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "eca27be6bf11d60521a453fe7f867108bdb8e4c95663585aeac4f1d670758345"
   end
 
   depends_on "go" => :build

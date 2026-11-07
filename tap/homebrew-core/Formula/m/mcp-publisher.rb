@@ -1,13 +1,13 @@
 class McpPublisher < Formula
   desc "Publisher CLI tool for the Official Model Context Protocol (MCP) Registry"
   homepage "https://github.com/modelcontextprotocol/registry"
-  url "https://github.com/modelcontextprotocol/registry/archive/refs/tags/v1.8.7.tar.gz"
-  sha256 "08e70094a9171da957f0bdd5514d37b47b315f7e1eedaf850a8e2d9fadd6a00d"
+  url "https://github.com/modelcontextprotocol/registry/archive/refs/tags/v1.8.8.tar.gz"
+  sha256 "713f398b52075e6389f09164e836dda4cb1068e7c2c4933ba488287fb084bcaa"
   license "MIT"
   head "https://github.com/modelcontextprotocol/registry.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0d6a8fa8307ec0feec61466a732b30cd804b549c66686a8cf85640a8dbd7fd8a"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1b58c228eec33edc27d17fcdbabcb454e7c7e120f08068c59d9bed9c50b1be4e"
   end
 
   depends_on "go" => :build

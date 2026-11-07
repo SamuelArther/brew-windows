@@ -7,11 +7,13 @@ class Libxdmcp < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "aebe971218ec0b2fd14c7f855cc07bc0cb29d1035df3a66a9026c794965950b2"
+    sha256 cellar: :any, x86_64_windows: "663a7e9c5cc09fb011393ce947344630209973d6ff8e055743126c9c1cbb7a06"
   end
 
   depends_on "pkgconf" => :build
   depends_on "xorgproto"
+
+  deny_network_access!
 
   def install
     args = %W[

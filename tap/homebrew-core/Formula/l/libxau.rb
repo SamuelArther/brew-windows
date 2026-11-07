@@ -7,12 +7,14 @@ class Libxau < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4b8f8d656402988acc9b2d022e1e16acaa4cb22dedd94f0241023aa75933b74c"
+    sha256 cellar: :any, x86_64_windows: "e125d73be754dd9f19e7b66cb7a8d601f42330e35ab3303058ce9714a6ee0880"
   end
 
   depends_on "pkgconf" => :build
   depends_on "util-macros" => :build
   depends_on "xorgproto"
+
+  deny_network_access!
 
   def install
     args = %W[

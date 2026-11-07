@@ -6,7 +6,7 @@ class Libredwg < Formula
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5443c9dd28b14130a7453e1db328bc646ef629986952e70b18492ff972ad73e7"
+    sha256 cellar: :any, x86_64_windows: "1746d8544cb22933deda073aede76a73ee33b14b3391c1a49e97d3ac110a0b0c"
   end
 
   depends_on "autoconf" => :build
@@ -18,6 +18,8 @@ class Libredwg < Formula
     url "https://github.com/LibreDWG/libredwg/raw/refs/heads/master/test/test-data/example_2000.dwg"
     sha256 "34574244d7556d1ef7b437443d9b3d1ad8662e1c669c42d80cff6a8a19799be9"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-silent-rules", *std_configure_args

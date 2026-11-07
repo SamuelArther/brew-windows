@@ -13,7 +13,7 @@ class Libuninameslist < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c9cf3c636055f2b6fab13b52d63ece95d19d7f8807fb8b0f34dc3d87ed6722c4"
+    sha256 cellar: :any, x86_64_windows: "5e6c35c28dcaa49546eef5b796ee75608a5d4ad412daec1480fa7867bd197e19"
   end
 
   head do
@@ -23,6 +23,8 @@ class Libuninameslist < Formula
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
+
+  deny_network_access!
 
   def install
     if build.head?

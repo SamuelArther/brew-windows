@@ -1,0 +1,342 @@
+[
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 93
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "awscli@1",
+    "status": "ok",
+    "seconds": 265
+  },
+  {
+    "name": "cypher-shell",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "dbml-cli",
+    "status": "ok",
+    "seconds": 208
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "designcraft-cli",
+    "status": "ok",
+    "seconds": 895
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 519
+  },
+  {
+    "name": "dockerfmt",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 192
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 668
+  },
+  {
+    "name": "git-town",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "go-parquet-tools",
+    "status": "ok",
+    "seconds": 108
+  },
+  {
+    "name": "goda",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "gtl",
+    "status": "ok",
+    "seconds": 412
+  },
+  {
+    "name": "hubble",
+    "status": "ok",
+    "seconds": 184
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 197
+  },
+  {
+    "name": "istioctl",
+    "status": "ok",
+    "seconds": 229
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "ktop",
+    "status": "ok",
+    "seconds": 82
+  },
+  {
+    "name": "kubevela",
+    "status": "ok",
+    "seconds": 259
+  },
+  {
+    "name": "libkrun",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "libquantum",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "libredwg",
+    "status": "ok",
+    "seconds": 296
+  },
+  {
+    "name": "libretls",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libtatsu",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "libucl",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "libuninameslist",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "libvo-aacenc",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "libxau",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "libxdmcp",
+    "status": "ok",
+    "seconds": 56
+  },
+  {
+    "name": "libxmlsec1",
+    "status": "build",
+    "seconds": 19
+  },
+  {
+    "name": "libxmp-lite",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "libxshmfence",
+    "status": "ok",
+    "seconds": 87
+  },
+  {
+    "name": "lightcraft-cli",
+    "status": "ok",
+    "seconds": 1099
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 92
+  },
+  {
+    "name": "mcp-remote",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "metabase",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "oasis",
+    "status": "ok",
+    "seconds": 91
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 800
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 912
+  },
+  {
+    "name": "php-cs-fixer",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "pkl-lsp",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "pydantic",
+    "status": "ok",
+    "seconds": 392
+  },
+  {
+    "name": "python-markdown",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "rattler-index",
+    "status": "ok",
+    "seconds": 668
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "render",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "riff",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "robot-framework-robocop",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "safe-chain",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "spectral-cli",
+    "status": "ok",
+    "seconds": 88
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "swctl",
+    "status": "ok",
+    "seconds": 105
+  },
+  {
+    "name": "tele",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "termframe",
+    "status": "ok",
+    "seconds": 267
+  },
+  {
+    "name": "texres",
+    "status": "ok",
+    "seconds": 422
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 137
+  },
+  {
+    "name": "vectorcraft-cli",
+    "status": "ok",
+    "seconds": 1099
+  },
+  {
+    "name": "versitygw",
+    "status": "ok",
+    "seconds": 113
+  },
+  {
+    "name": "wordcraft-cli",
+    "status": "ok",
+    "seconds": 433
+  },
+  {
+    "name": "xfr",
+    "status": "ok",
+    "seconds": 230
+  }
+]

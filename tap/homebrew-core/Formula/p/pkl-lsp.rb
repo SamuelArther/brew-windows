@@ -1,8 +1,8 @@
 class PklLsp < Formula
   desc "Language server for Pkl"
   homepage "https://pkl-lang.org/lsp/current/index.html"
-  url "https://github.com/apple/pkl-lsp/releases/download/0.8.0/pkl-lsp-0.8.0.jar"
-  sha256 "06f9de45a21aa7a16bf5c052513521f98793cd9c57036b9368fcad799e96a8ff"
+  url "https://github.com/apple/pkl-lsp/releases/download/0.9.0/pkl-lsp-0.9.0.jar"
+  sha256 "41d74d907520d0a5051aea128b145e3c39695cf83a384e46d98c74eee2d39592"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class PklLsp < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "120ebc6f79637e821722531fa1ac3d916fa9a542d83cd09896bbd488cfc4232b"
+    sha256 cellar: :any, x86_64_windows: "1bd94b719119d92cfaf878c8343868ace27d1dc945f19f1f6e3fa69804d20b6a"
   end
 
   depends_on "openjdk"

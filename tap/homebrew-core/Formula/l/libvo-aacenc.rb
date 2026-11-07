@@ -12,8 +12,10 @@ class LibvoAacenc < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "59ab5377a68583df33c80726871b0636b535a4958303b84a6cf992b6b34de3a8"
+    sha256 cellar: :any, x86_64_windows: "c3d15d959d45c814ac0a2e910a2928285f233a3526516a415c6e085b07becc22"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

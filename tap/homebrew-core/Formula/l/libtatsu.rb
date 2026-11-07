@@ -8,7 +8,7 @@ class Libtatsu < Formula
   head "https://github.com/libimobiledevice/libtatsu.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "dcf94f8dd593b2ad3c3cca53a825cfaaa25f0b838702f8b3e392b4c57fd1a8ec"
+    sha256 cellar: :any, x86_64_windows: "89bcc7e9dd7c4331219840ae256070466a31723a6154cd806bd909787aa7a24c"
   end
 
   depends_on "autoconf" => :build
@@ -18,6 +18,8 @@ class Libtatsu < Formula
   depends_on "libplist"
 
   uses_from_macos "curl"
+
+  deny_network_access!
 
   def install
     configure = build.head? ? "./autogen.sh" : "./configure"

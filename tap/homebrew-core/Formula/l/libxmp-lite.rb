@@ -5,9 +5,10 @@ class LibxmpLite < Formula
   sha256 "d4b6108b6e8c7ecc106403bc4bab28fb46686867a7b5247567371ad557634c12"
   license "MIT"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libxmp-lite-4.7.4"
-    sha256 cellar: :any, x86_64_windows: "0d590fe1a453cabf9d503bdb08c26d03008704c7ee0bdb36805ffdf6e38de9dc"
+    sha256 cellar: :any, x86_64_windows: "1b206e677e05d3a5104d1037f1ab4948bf1db2ceafe6309dee033138099399b1"
   end
 
   def install

@@ -7,11 +7,13 @@ class Libxshmfence < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "fe69eca9146c2eb22c441f6d22d8fc2f227b1ab98fc5a2d5bb4a5b7dda101a16"
+    sha256 cellar: :any, x86_64_windows: "197fc9b9c22dad1ee95a30a597b9f433eb03417c5441fcbce752d779c7807c6e"
   end
 
   depends_on "pkgconf" => :build
   depends_on "xorgproto" => [:build, :test]
+
+  deny_network_access!
 
   def install
     args = %W[
@@ -35,6 +37,5 @@ class Libxshmfence < Formula
       }
     C
     system ENV.cc, "test.c"
-    assert_equal 0, $CHILD_STATUS.exitstatus
   end
 end
