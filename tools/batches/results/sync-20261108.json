@@ -1,0 +1,212 @@
+[
+  {
+    "name": "autocannon",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "checkbashisms",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 80
+  },
+  {
+    "name": "cspell",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 130
+  },
+  {
+    "name": "desed",
+    "status": "ok",
+    "seconds": 181
+  },
+  {
+    "name": "dunamai",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 173
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 175
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1248
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "git-pkgs",
+    "status": "ok",
+    "seconds": 81
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "jscpd",
+    "status": "ok",
+    "seconds": 340
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 44
+  },
+  {
+    "name": "kubevpn",
+    "status": "ok",
+    "seconds": 255
+  },
+  {
+    "name": "lfk",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "linecast",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "lizard-analyzer",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "mac",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "mcp-remote",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "mq",
+    "status": "ok",
+    "seconds": 599
+  },
+  {
+    "name": "mycorrhiza",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 80
+  },
+  {
+    "name": "nx",
+    "status": "ok",
+    "seconds": 98
+  },
+  {
+    "name": "openspec",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "oxfmt",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "portop",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "pyscn",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "resterm",
+    "status": "ok",
+    "seconds": 187
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 72
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 334
+  },
+  {
+    "name": "spytrap-adb",
+    "status": "ok",
+    "seconds": 315
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "threatcl",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "vals",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 37
+  }
+]

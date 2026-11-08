@@ -1,12 +1,12 @@
 class Autocannon < Formula
   desc "Fast HTTP/1.1 benchmarking tool written in Node.js"
   homepage "https://github.com/mcollina/autocannon"
-  url "https://registry.npmjs.org/autocannon/-/autocannon-8.0.0.tgz"
-  sha256 "470ac762b261d8eca3d8069be8776b25fc111e4caa962bc144a85e9631fd07fa"
+  url "https://registry.npmjs.org/autocannon/-/autocannon-9.0.0.tgz"
+  sha256 "a71969dd42cffd529f7dc6a0430b9aab830ba697e842360a2ee044f55b13672f"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "750d3c984d26b19b833044752c1e916cb9aa30eab4403ea5f63195b27e7bdf36"
+    sha256 cellar: :any, x86_64_windows: "1483ea58971da31fe8ea2fb235e6bce2b8c3afb82b37d39be64315f498798125"
   end
 
   depends_on "node"

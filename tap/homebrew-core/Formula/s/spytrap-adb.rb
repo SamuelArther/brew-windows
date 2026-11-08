@@ -1,13 +1,13 @@
 class SpytrapAdb < Formula
   desc "Test a phone for stalkerware and suspicious configuration using usb debugging"
   homepage "https://github.com/spytrap-org/spytrap-adb"
-  url "https://github.com/spytrap-org/spytrap-adb/releases/download/v0.3.5/spytrap-adb-0.3.5.tar.gz"
-  sha256 "e33a342aa461b56a8d857c2c29b743658bd87b4ade7bed20399dea2cea01b0f8"
+  url "https://github.com/spytrap-org/spytrap-adb/releases/download/v0.3.6/spytrap-adb-0.3.6.tar.gz"
+  sha256 "8a6e9d43d1495fc052e4724500b43ff19e8bdaa097dde3a716413fe0bb9100fa"
   license "GPL-3.0-or-later"
   head "https://github.com/spytrap-org/spytrap-adb.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b0ffe7fa41c0e6c1b1701bbdf15d69be5281ca3437f88f7e2c6199d8821ee62b"
+    sha256 cellar: :any, x86_64_windows: "69ca7f42e7288a6a95aa88f8e903ef7e154e507d3a96c081184bc9dc16a0d357"
   end
 
   depends_on "rust" => :build
