@@ -13,12 +13,14 @@ class Ocproxy < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "114de168630f1bfb631588560e7528dc5392623d27c18ca4bc6b1cafff16df49"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e11ff86d5b734a992f6bc4f7a67f375ffca0bb33030cbab0bd63db7050cbabb1"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libevent"
+
+  deny_network_access!
 
   def install
     system "./autogen.sh"

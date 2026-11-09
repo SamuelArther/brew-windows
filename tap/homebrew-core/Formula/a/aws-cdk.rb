@@ -6,10 +6,12 @@ class AwsCdk < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e69af7b77e54c42ebf60c25cee8aeb12af72ba24a7f0f74f2190e820b0fec014"
+    sha256 cellar: :any, x86_64_windows: "5e5b209b4cded0676bbd834b8123723b653b3a7a4bd2720d5a1227a0897d9cdb"
   end
 
   depends_on "node"
+
+  allow_network_access! :test
 
   def install
     system "npm", "install", *std_npm_args

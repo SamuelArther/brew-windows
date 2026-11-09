@@ -11,10 +11,12 @@ class Kumo < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d2c1006b1cc7f0a407b7da043afc14c00780a2cd89810959c10588f8df34d839"
+    sha256 cellar: :any, x86_64_windows: "eb72d905d1e3453d0a93226bbfa469d69a10b2a05dd1193f4d5ec14a7de2856c"
   end
 
   depends_on "openjdk"
+
+  allow_network_access! :test
 
   def install
     libexec.install "kumo-cli-#{version}.jar"

@@ -7,12 +7,14 @@ class KubePs1 < Formula
   head "https://github.com/jonmosco/kube-ps1.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "21d6709a6443831d9105f8469cb671dee5df91dac05f8e1be4ae33209600c6ad"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "dcc66c167d699da8cd58327dee9ad873bce447f526b57a92d4818836617cfdc6"
   end
 
   depends_on "kubernetes-cli"
 
   uses_from_macos "zsh" => :test
+
+  deny_network_access!
 
   def install
     share.install "kube-ps1.sh"

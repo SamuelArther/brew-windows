@@ -1,13 +1,13 @@
 class Srgn < Formula
   desc "Code surgeon for precise text and code transplantation"
   homepage "https://github.com/alexpovel/srgn"
-  url "https://github.com/alexpovel/srgn/archive/refs/tags/srgn-v0.14.2.tar.gz"
-  sha256 "2f39cbb6e86e3bfe0a01d7727b6d287a2c2399a9ceeda7ee2f47e7c00503b194"
+  url "https://github.com/alexpovel/srgn/archive/refs/tags/srgn-v0.14.3.tar.gz"
+  sha256 "10b26f3c28b25ab2adcd5a43b4dabf59109f370f60b6e65948fb8c006da49f68"
   license "MIT"
   head "https://github.com/alexpovel/srgn.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "94d2c080517c0350b7da504d775d8301a50501c13c6e9c4426f7ddfa4a7de5f8"
+    sha256 cellar: :any, x86_64_windows: "451aa68db39c7dab247a574f0008f809f37c86409e4f38c90b9ccd16c9122668"
   end
 
   depends_on "rust" => :build

@@ -6,7 +6,7 @@ class KotlinLanguageServer < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d5933050c0922c37ddce1a3f00f8779252acce173e88f52f320d1d4a68cb2438"
+    sha256 cellar: :any, x86_64_windows: "88f368eb94f344f383c76c15f806590fcdafd561006040d15055272fb19ee3fc"
   end
 
   depends_on "gradle" => :build
@@ -20,12 +20,14 @@ class KotlinLanguageServer < Formula
     resolves "https://github.com/fwcd/kotlin-language-server/pull/611"
   end
 
+  allow_network_access! :build
+
   def install
     ENV["JAVA_HOME"] = Language::Java.java_home("21")
     #  Remove Windows files
     rm "gradlew.bat"
 
-    system "gradle", ":server:installDist", "-PjavaVersion=#{Formula["openjdk@21"].version.major}"
+    system "gradle", "--no-daemon", ":server:installDist", "-PjavaVersion=#{Formula["openjdk@21"].version.major}"
 
     libexec.install Dir["server/build/install/server/*"]
 

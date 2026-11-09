@@ -6,10 +6,12 @@ class Azurite < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "56e400cc3bf3d7d4f3450bbdf737b68fcc8bd0f09c553e846bbb4ef9671521dc"
+    sha256 cellar: :any, x86_64_windows: "fdd29e5d8aafd9f5aa778f639e1d50832533e11ad3f75b6514473546e00c8be3"
   end
 
   depends_on "node"
+
+  allow_network_access! [:build, :test]
 
   def install
     system "npm", "install", *std_npm_args

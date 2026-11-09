@@ -11,10 +11,12 @@ class Ktlint < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f5512d67e074a766d8bfe82620bfc088f11b2630cf548f7f8d75a630e15e690e"
+    sha256 cellar: :any, x86_64_windows: "6f1b23570e11ac5c5e0cf5abeae4a433071f36c60ecd114bb0178253bd8ab7c1"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     libexec.install "bin/ktlint"

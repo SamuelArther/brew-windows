@@ -6,10 +6,12 @@ class Autocannon < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1483ea58971da31fe8ea2fb235e6bce2b8c3afb82b37d39be64315f498798125"
+    sha256 cellar: :any, x86_64_windows: "86c9c3693ee6c8c3b5299fe02f66039d5df8555a554d71033b5d15430d4b3c8c"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

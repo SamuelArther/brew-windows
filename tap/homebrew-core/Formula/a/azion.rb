@@ -7,10 +7,16 @@ class Azion < Formula
   head "https://github.com/aziontech/azion.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a64ffaf93681279be7b3ec132fdb1e3cb7a3d925c738719f1a0b085af57aa94e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "f7f87c2ab240fa78645069183a03ff3b2690d7de28671528cb8b3c6c0f29a397"
   end
 
   depends_on "go" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     ldflags = %W[
@@ -21,8 +27,6 @@ class Azion < Formula
       -X github.com/aziontech/azion-cli/pkg/constants.ApiV4URL=https://api.azion.com/v4
     ]
     system "go", "build", *std_go_args(ldflags:), "./cmd/azion"
-
-    generate_completions_from_executable(bin/"azion", shell_parameter_format: :cobra)
   end
 
   test do

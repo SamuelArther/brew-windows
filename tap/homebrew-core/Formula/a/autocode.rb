@@ -6,10 +6,12 @@ class Autocode < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0dd9b42ca584833475f4dab95b71d18ac7b8676899d1c562f87d0b00814a2358"
+    sha256 cellar: :any, x86_64_windows: "bf9b5105a73ca3fe86c11e10d4509b6a567be0cb0fff5673ad3babda4539d43b"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

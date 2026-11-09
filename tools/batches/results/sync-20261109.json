@@ -1,0 +1,427 @@
+[
+  {
+    "name": "abtop",
+    "status": "ok",
+    "seconds": 92
+  },
+  {
+    "name": "athenacli",
+    "status": "ok",
+    "seconds": 220
+  },
+  {
+    "name": "autocannon",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "autocode",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "avra",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "avro-tools",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "aws-amplify",
+    "status": "ok",
+    "seconds": 1062
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 130
+  },
+  {
+    "name": "azion",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "azurite",
+    "status": "ok",
+    "seconds": 318
+  },
+  {
+    "name": "buildkite",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "c-blosc2",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "codeburn",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "csound-plugins",
+    "status": "build",
+    "seconds": 33
+  },
+  {
+    "name": "dbmate",
+    "status": "ok",
+    "seconds": 131
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "designcraft-cli",
+    "status": "ok",
+    "seconds": 561
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "docker-agent",
+    "status": "ok",
+    "seconds": 157
+  },
+  {
+    "name": "drydock",
+    "status": "ok",
+    "seconds": 140
+  },
+  {
+    "name": "emeraldian",
+    "status": "ok",
+    "seconds": 461
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 90
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 397
+  },
+  {
+    "name": "gam",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "git-codereview",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "go-feature-flag-relay-proxy",
+    "status": "ok",
+    "seconds": 165
+  },
+  {
+    "name": "ipatool",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "kata",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "kics",
+    "status": "ok",
+    "seconds": 206
+  },
+  {
+    "name": "knife",
+    "status": "ok",
+    "seconds": 181
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "kotlin-language-server",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "kpt",
+    "status": "ok",
+    "seconds": 171
+  },
+  {
+    "name": "ktlint",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "kube-ps1",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "kubespy",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "kumo",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "lief-patchelf",
+    "status": "ok",
+    "seconds": 312
+  },
+  {
+    "name": "lightcraft-cli",
+    "status": "ok",
+    "seconds": 795
+  },
+  {
+    "name": "llamastash",
+    "status": "ok",
+    "seconds": 556
+  },
+  {
+    "name": "lsoff",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "mt32emu",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 102
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "build",
+    "seconds": 34
+  },
+  {
+    "name": "npq",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "ocproxy",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "oksh",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "onigmo",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "osmfilter",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "otel-tui",
+    "status": "ok",
+    "seconds": 451
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 740
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 756
+  },
+  {
+    "name": "php-cs-fixer",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "qshell",
+    "status": "ok",
+    "seconds": 82
+  },
+  {
+    "name": "repomix",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "robot-framework-robocop",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "rtk",
+    "status": "ok",
+    "seconds": 248
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "rustypaste",
+    "status": "ok",
+    "seconds": 159
+  },
+  {
+    "name": "scalingo",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "slackdump",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "sonar-scanner",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "sping",
+    "status": "ok",
+    "seconds": 80
+  },
+  {
+    "name": "sqlmux",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "srgn",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "stockfish",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 131
+  },
+  {
+    "name": "tennis",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "terramate",
+    "status": "ok",
+    "seconds": 162
+  },
+  {
+    "name": "texres",
+    "status": "ok",
+    "seconds": 665
+  },
+  {
+    "name": "trim-galore",
+    "status": "ok",
+    "seconds": 219
+  },
+  {
+    "name": "upmd",
+    "status": "test",
+    "seconds": 836
+  },
+  {
+    "name": "vectorcraft-cli",
+    "status": "ok",
+    "seconds": 1364
+  },
+  {
+    "name": "victoriametrics",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "wordcraft-cli",
+    "status": "ok",
+    "seconds": 558
+  },
+  {
+    "name": "woxi",
+    "status": "build",
+    "seconds": 2702
+  },
+  {
+    "name": "xray",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "youtubedr",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "zero",
+    "status": "test",
+    "seconds": 28
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 43
+  }
+]

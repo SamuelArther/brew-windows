@@ -13,9 +13,10 @@ class Onigmo < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/onigmo-6.2.0"
-    sha256 cellar: :any, x86_64_windows: "79b05b619d6f1d08e03e36e6ff58db68387afbfa61e036e6e50f44fa9e45ba33"
+    sha256 cellar: :any, x86_64_windows: "30ff420899154024d7fd47e4a9805855d604e32c07154f65424a1d3d005f24c5"
   end
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args

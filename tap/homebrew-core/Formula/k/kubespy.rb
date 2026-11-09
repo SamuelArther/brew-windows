@@ -7,15 +7,19 @@ class Kubespy < Formula
   head "https://github.com/pulumi/kubespy.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "32f2064e191e3baeabbf145f9b891f8740b885c97307f947365a8e22bff7ec3a"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8afe8354a5caa1735f3fd0035a3992b227fda07a450b86dbf8113c27f51de9e8"
   end
 
   depends_on "go" => :build
 
+  allow_network_access! :test
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
   def install
     system "go", "build", *std_go_args(ldflags: "-X github.com/pulumi/kubespy/version.Version=#{version}")
-
-    generate_completions_from_executable(bin/"kubespy", shell_parameter_format: :cobra)
   end
 
   test do

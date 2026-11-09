@@ -6,10 +6,12 @@ class AwsAmplify < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "265dc9bd951437fcac3558b14ee681440e3445a48e3eb86cb653f9ee3d88d16b"
+    sha256 cellar: :any, x86_64_windows: "6710818c1ac66c7b1d208682213e233c38d50928a3489f29cfaf4ad8ac4066c2"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args
@@ -25,7 +27,7 @@ class AwsAmplify < Formula
     # Remove incompatible pre-built `bare-fs`/`bare-os`/`bare-url` binaries
     os = OS.kernel_name.downcase
     arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
-    node_modules.glob("{bare-fs,bare-os,bare-path,bare-url}/prebuilds/*")
+    node_modules.glob("bare-{buffer,fs,os,path,url}/prebuilds/*")
                 .each { |dir| rm_r(dir) if dir.basename.to_s != "#{os}-#{arch}" }
 
     # Remove non-native libsqlite4java files

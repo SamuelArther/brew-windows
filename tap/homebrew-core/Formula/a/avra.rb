@@ -6,11 +6,13 @@ class Avra < Formula
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5981485fce2d4d1be81fe166d785d8a08cbc6508ffeea4774cb761200c357ac5"
+    sha256 cellar: :any, x86_64_windows: "f54ae5657f3d317168db5ede7df7ec161f71a20afaabe1de6020c1a313171dcb"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
+
+  deny_network_access!
 
   def install
     system "make", "install", "PREFIX=#{prefix}", "OS=osx"

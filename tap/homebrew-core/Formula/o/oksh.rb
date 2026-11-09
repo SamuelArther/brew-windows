@@ -7,10 +7,12 @@ class Oksh < Formula
   head "https://github.com/ibara/oksh.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "1aea37f49bcf39ab0381fdcec4213a07831370f44f6ffea20535ce88d03f594d"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d7c10a09d0472525e5539bc7589f6268e5cb40bb9683a7f0bfd6f5dcc99ffb7c"
   end
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args, "--disable-silent-rules"

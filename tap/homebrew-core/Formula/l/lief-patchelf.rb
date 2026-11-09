@@ -6,10 +6,13 @@ class LiefPatchelf < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "18c6e83ee992ce38f9cb77b44e1496899fc16bf9bb6cd68d386ff63a36ebeddc"
+    sha256 cellar: :any, x86_64_windows: "60b3936bd7cb1ff0ac6c99cb1d6de97fc4ca85bde2d862ed4e2644e98bf8d4d3"
   end
 
   depends_on "rust" => :build
+
+  # `leif-ffi` crate downloads pre-built binaries
+  allow_network_access! :build
 
   def install
     system "cargo", "install", *std_cargo_args(path: "tools/lief-patchelf")

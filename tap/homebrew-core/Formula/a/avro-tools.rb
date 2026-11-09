@@ -7,10 +7,12 @@ class AvroTools < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "564d2be66400d3c72fc23d7be24b33f518f27c59bfe3e8d8c63252a0dfcd87a6"
+    sha256 cellar: :any, x86_64_windows: "ab9dc79b296da499f3b38877b98ab78ae811834850fd7f2cf59bf5132ad92dfd"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     libexec.install "avro-tools-#{version}.jar"

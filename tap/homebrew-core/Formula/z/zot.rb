@@ -1,13 +1,13 @@
 class Zot < Formula
   desc "Lightweight coding agent harness written in Go"
   homepage "https://www.zot.sh/"
-  url "https://github.com/patriceckhart/zot/archive/refs/tags/v0.4.67.tar.gz"
-  sha256 "024b5228dc6b764612460ab3e6abe6dee44225c9d2cdf37d20587de13dfdaf62"
+  url "https://github.com/patriceckhart/zot/archive/refs/tags/v0.4.69.tar.gz"
+  sha256 "43f0e1c222e9a6676d944377e2e0e1e9ba74a9b70aac68b2d1748f6f3d1f7146"
   license "MIT"
   head "https://github.com/patriceckhart/zot.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "dedec61630ed6a3eb146ea828beb693acd447deb017e78f34c327cb4ec006740"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "fa2bf051f1f4317d769319514179142b9b001df83674f28805ef8de16208746d"
   end
 
   depends_on "go" => :build

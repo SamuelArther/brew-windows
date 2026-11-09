@@ -1,8 +1,8 @@
 class Kics < Formula
   desc "Detect vulnerabilities, compliance issues, and misconfigurations"
   homepage "https://kics.io/"
-  url "https://github.com/Checkmarx/kics/archive/refs/tags/v2.2.0.tar.gz"
-  sha256 "3be94ee0b393699b72f00be8603260c60d5531c61aada740cfcbbc3009d1ef05"
+  url "https://github.com/Checkmarx/kics/archive/refs/tags/v2.2.1.tar.gz"
+  sha256 "df72535798cb79671d570c41e95bfd6b38e30f893850e67c8c522b94ebb61cbe"
   license "Apache-2.0"
   head "https://github.com/Checkmarx/kics.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Kics < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f18a2dbcbef11d46c335e000651238785b1e8127b6a4f55d45546c8d3044e4a7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d2dbac5081cf03fec50fac7e7f0e4fc28b849ac0232e9e0f9ace16adc9465742"
   end
 
   depends_on "go" => :build

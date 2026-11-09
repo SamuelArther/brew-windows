@@ -8,6 +8,7 @@ class Kpt < Formula
 
   livecheck do
     url :stable
+    regex(/^v?(\d+(:?\.\d+)+)$/i)
     # Cannot use `github_latest` here as this might be "API" release
     strategy :github_releases do |json, regex|
       json.map do |release|
@@ -25,7 +26,7 @@ class Kpt < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "71d4fb82ae276086774bf74d7d1eb1771f7681c4fdc873d250a99c451ab3405c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ac60047c75973881d8c8ec0a5e88db6c55b9f765375e8839546ddefeda157518"
   end
 
   depends_on "go" => :build

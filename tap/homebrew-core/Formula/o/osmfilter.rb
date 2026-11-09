@@ -8,7 +8,7 @@ class Osmfilter < Formula
   head "https://gitlab.com/osm-c-tools/osmctools.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0548dff696174f0cdd12c16b27256021f1ef8020d890c9f46799145d2dec4782"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "df4fbd9b5577cd0f0cfc5fadea8b77278595d491d989aad05363138eaf7d2fea"
   end
 
   depends_on "autoconf" => :build
@@ -18,10 +18,12 @@ class Osmfilter < Formula
     depends_on "zlib-ng-compat"
   end
 
-  resource "pbf" do
+  resource "pbf", :test do
     url "https://download.gisgraphy.com/openstreetmap/pbf/AD.tar.bz2"
     sha256 "f8decd915758139e8bff2fdae6102efa0dc695b9d1d64cc89a090a91576efda9"
   end
+
+  deny_network_access!
 
   def install
     # Upstream declares `bool`, `false`, and `true` as identifiers, which do not compile as C23.
