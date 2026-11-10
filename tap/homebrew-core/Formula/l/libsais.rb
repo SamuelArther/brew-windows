@@ -1,13 +1,13 @@
 class Libsais < Formula
   desc "Fast linear time suffix array, lcp array and bwt construction"
   homepage "https://github.com/IlyaGrebnov/libsais"
-  url "https://github.com/IlyaGrebnov/libsais/archive/refs/tags/v2.12.1.tar.gz"
-  sha256 "d3779d60976f1e7112c1cba711250a88b731d3c5e0611592cafb8954c71b32e5"
+  url "https://github.com/IlyaGrebnov/libsais/archive/refs/tags/v2.12.2.tar.gz"
+  sha256 "9a3ab90beb94ef4d9cf633f39f3d45fe355401dcffcda067a4e330895afc20d7"
   license "Apache-2.0"
   head "https://github.com/IlyaGrebnov/libsais.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4a3d49ad663983c93464a534eaeaaf9500389ec72624785ca3681b2a25802a63"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ac390864065683da6373e61d1713fd08a23bfcc35836e2e85585eac54313506b"
   end
 
   depends_on "cmake" => :build

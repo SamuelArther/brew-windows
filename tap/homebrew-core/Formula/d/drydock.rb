@@ -1,13 +1,13 @@
 class Drydock < Formula
   desc "Dashboard for a fleet of Git repositories"
   homepage "https://github.com/yetidevworks/drydock"
-  url "https://github.com/yetidevworks/drydock/archive/refs/tags/v1.3.1.tar.gz"
-  sha256 "a22ee71cb99f98b6f3d2b769cccd7f629323c9f3463cbe1914de95c6042da229"
+  url "https://github.com/yetidevworks/drydock/archive/refs/tags/v1.4.0.tar.gz"
+  sha256 "b9f471e44de92982b7039f486d838aeb7d7f27baaae6b585ecd68fd3197ffca3"
   license "MIT"
   head "https://github.com/yetidevworks/drydock.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1d1b3d1e6cc6d905c59d52922996b90284e238a1ee58b647d0a0ed4454efe5b9"
+    sha256 cellar: :any, x86_64_windows: "dafd0e67df05cf47920f9dfdb7ed53b6488baf1d5833a83efd2eec10420968a3"
   end
 
   depends_on "rust" => :build

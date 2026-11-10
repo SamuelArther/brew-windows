@@ -5,8 +5,10 @@ class Pipemeter < Formula
   sha256 "e470ac5f3e71b5eee1a925d7174a6fa8f0753f2107e067fbca3f383fab2e87d8"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "58aae040191a511865279d9040557f40a3158393d402fd106c8dc5ae03b25aab"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "146b396edea1cdbab5c4a050da294f53693c457377d29e1a2de12244a405c8da"
   end
 
   def install

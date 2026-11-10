@@ -9,7 +9,7 @@ class Plotutils < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bf211ce45fdf23d93e0cbecf708f3f60803e1bedc0d6ddda8c43fcd906ac94a3"
+    sha256 cellar: :any, x86_64_windows: "46b78f3de72b42ac6a29046dadf2e873132c20ac4e18730cf2f296ae7c38d0de"
   end
 
   depends_on "libpng"
@@ -20,6 +20,8 @@ class Plotutils < Formula
     depends_on "libxext"
     depends_on "libxt"
   end
+
+  deny_network_access!
 
   def install
     # Fix usage of libpng to be 1.5 compatible

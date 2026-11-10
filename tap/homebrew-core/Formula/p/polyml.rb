@@ -6,9 +6,10 @@ class Polyml < Formula
   license "LGPL-2.1-or-later"
   head "https://github.com/polyml/polyml.git", branch: "master"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/polyml-5.9.2"
-    sha256 cellar: :any, x86_64_windows: "ff425ffb225e3c9d31fe256aca04d0f8e3b9d94d575a240a9f857144e8786a2c"
+    sha256 cellar: :any, x86_64_windows: "28c3d8275b6cc042c8b173a9e6f637efdf64eadf89d8c24627dd0bdbcbe5d9b7"
   end
 
   def install
@@ -18,13 +19,13 @@ class Polyml < Formula
   end
 
   test do
-    (testpath/"hello.ml").write <<~EOS
+    (testpath/"hello.ml").write <<~ML
       let
         fun concatWithSpace(a,b) = a ^ " " ^ b
       in
         TextIO.print(concatWithSpace("Hello", "World"))
       end
-    EOS
+    ML
     assert_match "Hello World", shell_output("#{bin}/poly --script hello.ml")
   end
 end

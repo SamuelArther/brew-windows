@@ -1,12 +1,12 @@
 class CyclonedxNpm < Formula
   desc "Creates CycloneDX Software Bill of Materials (SBOM) from npm projects"
   homepage "https://github.com/CycloneDX/cyclonedx-node-npm"
-  url "https://registry.npmjs.org/@cyclonedx/cyclonedx-npm/-/cyclonedx-npm-6.0.1.tgz"
-  sha256 "569c41869fbd969d6bd435fec2a0e035c7e442d4a8dad323e32b9baa80e1d9e7"
+  url "https://registry.npmjs.org/@cyclonedx/cyclonedx-npm/-/cyclonedx-npm-7.0.0.tgz"
+  sha256 "61f7d4df91d0c9d9f4ecf97de78fa666c31f10a364cbe0b70272a234117b0eed"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "1a6f4e0d47570fd50ad03d98a5d45d780bd56e04c5633c50414017ca1446178f"
+    sha256 cellar: :any, x86_64_windows: "cb4accb8cedd32e2c94eb8525be9050874741a0ab8f49e7564228e0a4b8d8652"
   end
 
   depends_on "node"

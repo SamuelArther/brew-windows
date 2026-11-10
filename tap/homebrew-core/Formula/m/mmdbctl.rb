@@ -1,13 +1,13 @@
 class Mmdbctl < Formula
   desc "MMDB file management CLI supporting various operations on MMDB database files"
   homepage "https://github.com/ipinfo/mmdbctl"
-  url "https://github.com/ipinfo/mmdbctl/archive/refs/tags/mmdbctl-1.5.2.tar.gz"
-  sha256 "6dda2fb069eb310bb3a22fe79daf15950f2e87d01bedfd05d4a6fb0df264993f"
+  url "https://github.com/ipinfo/mmdbctl/archive/refs/tags/mmdbctl-1.5.3.tar.gz"
+  sha256 "2928e3c4c1210e04bf4069d719c81fa13eed923763957f5c3922f702fbf2d5f9"
   license "Apache-2.0"
   head "https://github.com/ipinfo/mmdbctl.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "90b17f6250bf6cf43e124dbe9d92449f2e8d7e7e885f41325960c0d413db0fa1"
+    sha256 cellar: :any, x86_64_windows: "3306edf1f49c7713222c3fa2e17c705f99ab3c4f4d80b97d1cc22a4441842f56"
   end
 
   depends_on "go" => :build

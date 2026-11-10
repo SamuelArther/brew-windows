@@ -1,13 +1,13 @@
 class Qshell < Formula
   desc "Shell Tools for Qiniu Cloud"
   homepage "https://github.com/qiniu/qshell"
-  url "https://github.com/qiniu/qshell/archive/refs/tags/v2.21.0.tar.gz"
-  sha256 "13fd7aa7b6eb980541cfff49a94d9fececa324ffef67a20e763fc7b5ea5ba738"
+  url "https://github.com/qiniu/qshell/archive/refs/tags/v2.21.1.tar.gz"
+  sha256 "b56471e93294a106bd3812c973c7257fece91649d6d7028b7d9285bf5858ed45"
   license "MIT"
   head "https://github.com/qiniu/qshell.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ea8b6a691c2ee6cf8bc9ca682d5fcb5ff9d9d9c77af97d7789527105b3b32a50"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "08bbd41892035a4d54bac4b77b2918d1b369795b546d2d8948de9fd3b6619b70"
   end
 
   depends_on "go" => :build

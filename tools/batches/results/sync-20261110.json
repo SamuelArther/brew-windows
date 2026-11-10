@@ -1,0 +1,302 @@
+[
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 54
+  },
+  {
+    "name": "aws-sso-cli",
+    "status": "test",
+    "seconds": 668
+  },
+  {
+    "name": "blocky",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "cadence",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "cot",
+    "status": "ok",
+    "seconds": 437
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "cyclonedx-npm",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "dbmate",
+    "status": "ok",
+    "seconds": 141
+  },
+  {
+    "name": "dbml-cli",
+    "status": "ok",
+    "seconds": 199
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "drydock",
+    "status": "ok",
+    "seconds": 153
+  },
+  {
+    "name": "dunamai",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 154
+  },
+  {
+    "name": "faker",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1591
+  },
+  {
+    "name": "git-pkgs-brief",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "istioctl",
+    "status": "ok",
+    "seconds": 248
+  },
+  {
+    "name": "jetty",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "kubectl-rook-ceph",
+    "status": "ok",
+    "seconds": 105
+  },
+  {
+    "name": "libsais",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "mmdbctl",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "mockery",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "mp4ff",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 89
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "osv-scanner",
+    "status": "build",
+    "seconds": 68
+  },
+  {
+    "name": "ovsx",
+    "status": "ok",
+    "seconds": 137
+  },
+  {
+    "name": "paperkey",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "pipemeter",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "plotutils",
+    "status": "ok",
+    "seconds": 487
+  },
+  {
+    "name": "podcast-dl",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "polyml",
+    "status": "ok",
+    "seconds": 232
+  },
+  {
+    "name": "posh",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "psftools",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "puf",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "qshell",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "redress",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "resterm",
+    "status": "ok",
+    "seconds": 112
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 204
+  },
+  {
+    "name": "serie",
+    "status": "ok",
+    "seconds": 268
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "stripe-cli",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "strobealign",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "uutils-sed",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "valijson",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "vite",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "werf",
+    "status": "ok",
+    "seconds": 238
+  },
+  {
+    "name": "whistle",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "yorkie",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "zimfw",
+    "status": "test",
+    "seconds": 34
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 43
+  }
+]

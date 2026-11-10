@@ -11,13 +11,15 @@ class Paperkey < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "264f02a60932457798ccdd608e435266bfaf9cde54701d9cd404c49034758950"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "cd0958af2ac4fa65a432ca79908f066bf9c2e8a26974e9aec4c32fcebbda276d"
   end
 
   resource "homebrew-test_sec", :test do
     url "https://raw.githubusercontent.com/dmshaw/paperkey/46adad971458a798e203bf8ec65d6bc897494754/checks/papertest-rsa.sec"
     sha256 "0f39397227339171209760e0f27aa60ecf7eae31c32d0ec3a358434afd38eacd"
   end
+
+  deny_network_access!
 
   def install
     args = []

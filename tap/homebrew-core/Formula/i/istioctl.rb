@@ -1,8 +1,8 @@
 class Istioctl < Formula
   desc "Istio configuration command-line utility"
   homepage "https://istio.io/"
-  url "https://github.com/istio/istio/archive/refs/tags/1.31.4.tar.gz"
-  sha256 "32f917c19d9510b33568979a49de05b4ac8e26ca4e14484450bcc007e2c4c575"
+  url "https://github.com/istio/istio/archive/refs/tags/1.32.0.tar.gz"
+  sha256 "223c10f3460c3361214e9bc3a041b7f466bfba7847302675662f7890247afd34"
   license "Apache-2.0"
   head "https://github.com/istio/istio.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Istioctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "0aba7d3e228579622c6f189855c1a6578495e8ee2f5ddedfd17880e2c007e4f7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c2db7ee72c04ca8dc644a395dd3c4aed6bb267b7234ede9053f012e25c2de404"
   end
 
   depends_on "go" => :build

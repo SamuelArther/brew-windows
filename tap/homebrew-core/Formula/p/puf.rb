@@ -5,8 +5,10 @@ class Puf < Formula
   sha256 "3f1602057dc47debeb54effc2db9eadcffae266834389bdbf5ab14fc611eeaf0"
   license "GPL-2.0-only"
 
+  allow_network_access! :test
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "99026deb0f53cb87bc121b086070919a8f9fb87ef4bcb5cc353e1c1e71f5920b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "429b5a3896dfa518a00f91c1a2870738873e2ebfbc40afe688e9b31915e3f8a0"
   end
 
   def install

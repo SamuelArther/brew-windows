@@ -18,7 +18,7 @@ class Psftools < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f1833899e6818d2c8b094512a61dd64b1b3adffd586e56fbaa3e8a3b376a6f01"
+    sha256 cellar: :any, x86_64_windows: "4256193f1b16715c0330ebfd54b8edef6980c5577e65a988c4f4d0443da4a947"
   end
 
   # The `autoconf` dependency originates from 54cfae502ee4
@@ -30,10 +30,12 @@ class Psftools < Formula
   depends_on "automake" => :build
   depends_on "libtool" => :build
 
-  resource "pc8x8font" do
+  resource "pc8x8font", :test do
     url "https://www.zone38.net/font/pc8x8.zip"
     sha256 "13a17d57276e9ef5d9617b2d97aa0246cec9b2d4716e31b77d0708d54e5b978f"
   end
+
+  deny_network_access!
 
   def install
     # Regenerate `configure` to fix `-flat_namespace`.
