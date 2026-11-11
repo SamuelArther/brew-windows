@@ -1,13 +1,13 @@
 class SbomTools < Formula
   desc "SBOM multi-tool: diff, quality, compliance, vulnerability tracking, VEXes, etc."
   homepage "https://sbom.tools"
-  url "https://github.com/sbom-tool/sbom-tools/archive/refs/tags/v0.3.0.tar.gz"
-  sha256 "0d5594bb6c4698afce319c62a09198df8826cc701dbbe522ef0a5ef09cc1649e"
+  url "https://github.com/sbom-tool/sbom-tools/archive/refs/tags/v0.4.0.tar.gz"
+  sha256 "249607a385ae5feeb91637c047827480983b6580fd56cdbeae605de0640b9582"
   license "MIT"
   head "https://github.com/sbom-tool/sbom-tools.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "033bfca60a25f66e9508fd41937a4ae116fd325f6a8df0082cb6d493ca2cb4d3"
+    sha256 cellar: :any, x86_64_windows: "91e544cd4f55c6cde400d0d6e4c74b6ad43852d5dc925bae6c238bba4f952539"
   end
 
   depends_on "rust" => :build

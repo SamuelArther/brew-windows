@@ -9,7 +9,7 @@ class Cpptoml < Formula
   head "https://github.com/skystrife/cpptoml.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "04abc3976968244270988320df38b4c8685f8a805fbf786121e955170322445f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "690636ca164214403dc75136bf5f6988cf317fdba163344551f522f823776d6d"
   end
 
   depends_on "cmake" => :build
@@ -21,6 +21,16 @@ class Cpptoml < Formula
     type :unofficial
     resolves "https://github.com/skystrife/cpptoml/pull/123"
   end
+
+  # Add CMake 4.x compatibility
+  patch do
+    url "https://github.com/skystrife/cpptoml/commit/5e3493f7c8eea6e4d61134b42db232a63771be95.patch?full_index=1"
+    sha256 "df368939c01a4f33981b69412800a2fa44d8423aedea24cb46a4dc557bafa7d2"
+    type :unofficial
+    resolves "https://github.com/skystrife/cpptoml/pull/132"
+  end
+
+  deny_network_access!
 
   def install
     args = %W[

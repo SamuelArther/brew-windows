@@ -4,11 +4,11 @@ class Garble < Formula
   url "https://github.com/burrowers/garble/archive/refs/tags/v0.18.0.tar.gz"
   sha256 "56ca8f1c354eb1043c18099726c7ab7b685751d5f020434561b1676308ea9754"
   license "BSD-3-Clause"
-  revision 1
+  revision 3
   head "https://github.com/burrowers/garble.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "66087b026cff980e70668b71f82d0b9d928ac1ec729e04df5cb8ce8e8a5241f1"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b15589932e9a765229f360cc75bc2bb696c93a09f355623d94fa65b380517c73"
   end
 
   depends_on "go" => [:build, :test]

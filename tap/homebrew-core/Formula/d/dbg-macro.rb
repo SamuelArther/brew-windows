@@ -7,16 +7,23 @@ class DbgMacro < Formula
   head "https://github.com/sharkdp/dbg-macro.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "cee5c74c97a5b22e5f74a34e7e28c8a99e2b9c89960a4d74c3d9c0868e1f524e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d74456ef05f71d3c9df9e5a0aad217b1a5bccebffb33163e76793be4e1ad10ca"
   end
 
   depends_on "cmake" => :build
+
+  deny_network_access!
 
   def install
     args = %w[
       -DCATCH_BUILD_TESTING=OFF
       -DDBG_MACRO_ENABLE_TESTS=OFF
     ]
+
+    # CMake 4.x compatibility
+    # https://github.com/sharkdp/dbg-macro/commit/aeca93c064792c38ababe0128372cf6d3387466b.patch?full_index=1
+    # TODO: remove in the next release
+    args << "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" if build.stable?
 
     system "cmake", "-S", ".", "-B", "builddir", *args, *std_cmake_args
     system "cmake", "--build", "builddir"

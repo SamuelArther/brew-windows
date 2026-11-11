@@ -1,9 +1,9 @@
 class GoAT126 < Formula
   desc "Open source programming language to build simple/reliable/efficient software"
   homepage "https://go.dev/"
-  url "https://go.dev/dl/go1.26.9.src.tar.gz"
-  mirror "https://fossies.org/linux/misc/go1.26.9.src.tar.gz"
-  sha256 "9735d7dcdb65b35d3fa577f04064737c03b89cf1a2b71e6e69fe2f3c6f9fd4ca"
+  url "https://go.dev/dl/go1.26.11.src.tar.gz"
+  mirror "https://fossies.org/linux/misc/go1.26.11.src.tar.gz"
+  sha256 "d44101b0ff27ed2a4c75ad46c17b9c74359209e2eb2ca7c9df6cb4fdb68e1969"
   license "BSD-3-Clause"
   compatibility_version 1
 
@@ -21,7 +21,7 @@ class GoAT126 < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "e4b4c86d6208df83d50ca6d6ea3c761f8133195ea00ce37f19a4d3b3c145045e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9a0e57d44d59f1dc72a792c5c8dc0161e60ad50b40d80aa093bb95d9a1988397"
   end
 
   keg_only :versioned_formula

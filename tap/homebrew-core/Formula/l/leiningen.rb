@@ -1,21 +1,21 @@
 class Leiningen < Formula
   desc "Build tool for Clojure"
   homepage "https://codeberg.org/leiningen/leiningen"
-  url "https://github.com/technomancy/leiningen/archive/refs/tags/2.13.0.tar.gz"
-  sha256 "a71aaf44eaf7796198943bd6db7662c99664bb6441f8dc7216d4a87fa4ea4dad"
+  url "https://github.com/technomancy/leiningen/archive/refs/tags/2.13.1.tar.gz"
+  sha256 "28bd0f099ad7e155c6f2880b118fbab591fa43baf0baff862bd402249825d88b"
   license "EPL-1.0"
   compatibility_version 1
   head "https://github.com/technomancy/leiningen.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a7035dbe7e73192bc51c43269636d767e1ecaea4e9c22f0939ea72bdbbf1c4e5"
+    sha256 cellar: :any, x86_64_windows: "c7c474be1bd7fb3c0d3ddfad6034fa8b338fa3ecf1f207d542d1ca3ccf12b815"
   end
 
   depends_on "openjdk"
 
   resource "jar" do
-    url "https://github.com/technomancy/leiningen/releases/download/2.13.0/leiningen-2.13.0-standalone.jar"
-    sha256 "5f5231f06c3c7924e3241e3dfa52885577fb44ddf8a9ea373d2c5e2f27217565"
+    url "https://github.com/technomancy/leiningen/releases/download/2.13.1/leiningen-2.13.1-standalone.jar"
+    sha256 "2e4c36cbaef717d0fa589a1f95e4c526a1cb6c35b48dc92e6dbb30d6f8595b5c"
 
     livecheck do
       formula :parent

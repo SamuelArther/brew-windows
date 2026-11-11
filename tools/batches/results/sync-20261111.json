@@ -1,0 +1,362 @@
+[
+  {
+    "name": "allure",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "arduino-cli",
+    "status": "build",
+    "seconds": 53
+  },
+  {
+    "name": "asc",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "aws-sso-cli",
+    "status": "test",
+    "seconds": 662
+  },
+  {
+    "name": "c-blosc2",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 172
+  },
+  {
+    "name": "cargo-audit",
+    "status": "ok",
+    "seconds": 493
+  },
+  {
+    "name": "cargo-binstall",
+    "status": "ok",
+    "seconds": 433
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 128
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "cminpack",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "cpptoml",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 288
+  },
+  {
+    "name": "dbg-macro",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "dblab",
+    "status": "ok",
+    "seconds": 101
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 830
+  },
+  {
+    "name": "docker-agent",
+    "status": "ok",
+    "seconds": 221
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 284
+  },
+  {
+    "name": "engram",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "faker",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "garble",
+    "status": "ok",
+    "seconds": 44
+  },
+  {
+    "name": "go@1.26",
+    "status": "ok",
+    "seconds": 247
+  },
+  {
+    "name": "goose",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "gradle@8",
+    "status": "ok",
+    "seconds": 155
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 207
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 191
+  },
+  {
+    "name": "infracost",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 340
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "kor",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "leiningen",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "lesspipe",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "libtatsu",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "mark",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "marked",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "mcp-grafana",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "mihomo",
+    "status": "ok",
+    "seconds": 139
+  },
+  {
+    "name": "murex",
+    "status": "ok",
+    "seconds": 35
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "newrelic-infra-agent",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "openspec",
+    "status": "build",
+    "seconds": 30
+  },
+  {
+    "name": "osctrl-mcp",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "oxfmt",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "parquet-cli",
+    "status": "ok",
+    "seconds": 144
+  },
+  {
+    "name": "pi-coding-agent",
+    "status": "ok",
+    "seconds": 267
+  },
+  {
+    "name": "playwright-cli",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "playwright-mcp",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "qshell",
+    "status": "ok",
+    "seconds": 91
+  },
+  {
+    "name": "rekor-cli",
+    "status": "ok",
+    "seconds": 118
+  },
+  {
+    "name": "reliable",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "repo",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "robot-framework-robocop",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "sbom-tools",
+    "status": "ok",
+    "seconds": 674
+  },
+  {
+    "name": "serialize",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "spicedb",
+    "status": "ok",
+    "seconds": 149
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 116
+  },
+  {
+    "name": "storm",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "streamvbyte",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "stripe-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "tidemail",
+    "status": "ok",
+    "seconds": 40
+  },
+  {
+    "name": "tock",
+    "status": "ok",
+    "seconds": 72
+  },
+  {
+    "name": "tomee-plus",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "tomee-webprofile",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "uutils-grep",
+    "status": "ok",
+    "seconds": 159
+  },
+  {
+    "name": "weaviate",
+    "status": "ok",
+    "seconds": 251
+  },
+  {
+    "name": "yamlresume",
+    "status": "ok",
+    "seconds": 78
+  }
+]

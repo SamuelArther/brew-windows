@@ -1,8 +1,8 @@
 class CargoAudit < Formula
   desc "Audit Cargo.lock files for crates with security vulnerabilities"
   homepage "https://rustsec.org/"
-  url "https://github.com/rustsec/rustsec/archive/refs/tags/cargo-audit/v0.22.2.tar.gz"
-  sha256 "85c368a4d166b2cc4972108d50abc5fad605013b65098929a06122439488beb5"
+  url "https://github.com/rustsec/rustsec/archive/refs/tags/cargo-audit/v0.23.0.tar.gz"
+  sha256 "9d3950c98058e14c3ee82d73632581dc12d2e0f655c270169ce95ab3bc9d0cc7"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/rustsec/rustsec.git", branch: "main"
 
@@ -12,7 +12,7 @@ class CargoAudit < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7c8beb04f66ad7cfddcf1bd63c83f083c8b0083febae1ad6f803c76d8bc31544"
+    sha256 cellar: :any, x86_64_windows: "cab6d1ae971ab4647af0897812ab7ae31fba64440311892e7fb9760115caae22"
   end
 
   depends_on "rust" => :build
