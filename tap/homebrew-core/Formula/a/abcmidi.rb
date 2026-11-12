@@ -1,8 +1,8 @@
 class Abcmidi < Formula
   desc "Converts abc music notation files to MIDI files"
   homepage "https://ifdo.ca/~seymour/runabc/"
-  url "https://ifdo.ca/~seymour/runabc/abcMIDI-2026.10.23.zip"
-  sha256 "5d91850dd116fab9e313e4e28ea257b0dde3b290b779f436c9a875577c289573"
+  url "https://ifdo.ca/~seymour/runabc/abcMIDI-2026.11.11.zip"
+  sha256 "83b04edaf3c6cdf51873346739a30de9700af16dfb3a029c07a65a1191ce824b"
   license "GPL-2.0-or-later"
   head "https://github.com/sshlien/abcmidi.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Abcmidi < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a2871b6b6a040f669b5c0156f9d1a07e755a28833adca5847b2f8d16456692b9"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e0cc19304281b391fbf864af9db726540f6b2ee12959e211baca3b85b67fc909"
   end
 
   deny_network_access!

@@ -1,13 +1,13 @@
 class Prettier < Formula
   desc "Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML"
   homepage "https://prettier.io/"
-  url "https://registry.npmjs.org/prettier/-/prettier-3.9.10.tgz"
-  sha256 "9dc72045591793dff972432fb78722f7ab91aaa90a7fa8c1261ede55969246b7"
+  url "https://registry.npmjs.org/prettier/-/prettier-3.10.0.tgz"
+  sha256 "cd2f903d7e7b8d5d30f584eecbeb6d1916132e7882b3db842e7524ccfd9da1af"
   license "MIT"
   head "https://github.com/prettier/prettier.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "05496dd7a1a5288ec207dcfd26c4e2b5f0595978267c8b9a9e491445426fbd3c"
+    sha256 cellar: :any, x86_64_windows: "dac98d805cf24e1f629055b1eee0ec57c2c837ae69aec3e57070de6a962a96f4"
   end
 
   depends_on "node"

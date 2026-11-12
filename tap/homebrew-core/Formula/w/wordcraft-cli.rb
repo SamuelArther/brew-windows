@@ -1,13 +1,13 @@
 class WordcraftCli < Formula
   desc "Headless WordCraft CLI and MCP server to convert, inspect and script documents"
   homepage "https://getartcraft.com/apps/wordcraft"
-  url "https://github.com/storytold/wordcraft/archive/refs/tags/v0.17.0.tar.gz"
-  sha256 "2012e3462595d712764fe23d1786136ba2e50907fcac3d08b1a3b2dfdcfd4d9d"
+  url "https://github.com/storytold/wordcraft/archive/refs/tags/v0.18.1.tar.gz"
+  sha256 "55e6e6ca0e988a7ba320bef506e3910d2e2e5c1d1599a79571e144947438ab92"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/storytold/wordcraft.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ec9f6131dd257c9436973a2cef6ee06afb2e70222dd9dacd4371bfb289f3ce37"
+    sha256 cellar: :any, x86_64_windows: "3c3fb12df6ea1f07a6b4f0621a881dc55c7cde3f758d9dc80fbdfb64ecc10c32"
   end
 
   depends_on "rust" => :build

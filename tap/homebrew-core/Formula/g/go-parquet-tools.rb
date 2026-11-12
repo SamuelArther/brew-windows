@@ -1,19 +1,19 @@
 class GoParquetTools < Formula
   desc "Utility to deal with Parquet data"
   homepage "https://github.com/hangxie/parquet-tools"
-  url "https://github.com/hangxie/parquet-tools/archive/refs/tags/v1.57.3.tar.gz"
-  sha256 "0ccff478d9ceb1b73a2593aa1ec48044ef6dccd1a8cb71741fbc583e4d77fadb"
+  url "https://github.com/hangxie/parquet-tools/archive/refs/tags/v1.57.4.tar.gz"
+  sha256 "1af87863f2ed760670b8fb016890ec2e3146884d089ef466dd4099cd5133d613"
   license "BSD-3-Clause"
   head "https://github.com/hangxie/parquet-tools.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "36042d5902397eac404d1680cac90fbebecdb747ab139b774560b7792455252a"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "e226859d926581b5e2bf9d9dd887e2a7b117b49e89e02e90dd23a5c82e6612dd"
   end
 
   depends_on "go" => :build
 
   # `test do` block downloads a test fixture resource
-  resource("test-parquet", :test) do
+  resource "test-parquet", :test do
     url "https://github.com/hangxie/parquet-tools/raw/950d21759ff3bd398d2432d10243e1bace3502c5/testdata/good.parquet"
     sha256 "daf5090fbc5523cf06df8896cf298dd5e53c058457e34766407cb6bff7522ba5"
   end

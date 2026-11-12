@@ -7,10 +7,16 @@ class Gitsign < Formula
   head "https://github.com/sigstore/gitsign.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "149dda6b1fe43292e666f862d4639eabe7475bea5af9edc56913e27825f3178b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "aaaaf200ff4790783b8cc987e7f76ab5e3a8481c3b1dd80615fd1cb2e23d5fc8"
   end
 
   depends_on "go" => :build
+
+  allow_network_access! :test
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     ldflags = %W[-X github.com/sigstore/gitsign/pkg/version.gitVersion=#{version}]

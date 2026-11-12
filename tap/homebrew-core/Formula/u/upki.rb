@@ -1,13 +1,13 @@
 class Upki < Formula
   desc "Implements platform-independent browser-grade certificate infrastructure"
   homepage "https://github.com/rustls/upki"
-  url "https://github.com/rustls/upki/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "c6aa6e5519fb4d6be662d21809d86e9b006e1a4ed98380e4d27dd4c29d84542e"
+  url "https://github.com/rustls/upki/archive/refs/tags/v1.0.2.tar.gz"
+  sha256 "41f22e15eaa85044edb3a291270702e04f46e4d1c464c47459affe964f66bf7e"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/rustls/upki.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2850dbe9eb3d2d97a35b529b5032c9f979f06331c755b983adf4e234527df04e"
+    sha256 cellar: :any, x86_64_windows: "272b40ec2e69b93acb373a5a1afde75d22acb6b8df3d65653d8584b6973759f5"
   end
 
   depends_on "rust" => :build

@@ -1,13 +1,13 @@
 class Neo4jMcp < Formula
   desc "Neo4j official Model Context Protocol server for AI tools"
   homepage "https://neo4j.com/docs/mcp/current/"
-  url "https://github.com/neo4j/mcp/archive/refs/tags/v2.1.0.tar.gz"
-  sha256 "046289f55e09265b1afcc6d412cba5da580674bf919ce0f1ee957c1c3275fcd3"
+  url "https://github.com/neo4j/mcp/archive/refs/tags/v2.1.1.tar.gz"
+  sha256 "8597bc20aad4ff3aa94fa66d1a0cfbda44517289570b237d68ce2d2fc35c6237"
   license "GPL-3.0-or-later"
   head "https://github.com/neo4j/mcp.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "214c71537feb1d918dfc215e13052c88f2cab0eb3e1069e75de7c859f9c8eeaf"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "51958cd0f0a2448d03e124fa7597a4145679912ec2c7333cf2191771aaa51560"
   end
 
   depends_on "go" => :build

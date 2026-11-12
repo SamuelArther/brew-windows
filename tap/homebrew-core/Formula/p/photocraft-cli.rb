@@ -1,13 +1,13 @@
 class PhotocraftCli < Formula
   desc "Headless PhotoCraft engine to convert, inspect and batch-edit images"
   homepage "https://getartcraft.com/apps/photocraft"
-  url "https://github.com/storytold/photocraft/archive/refs/tags/v0.22.0.tar.gz"
-  sha256 "6632913f47e6ddace490c63311b3d26c7cdad941c46deaa74ac3e7764d758810"
+  url "https://github.com/storytold/photocraft/archive/refs/tags/v0.23.1.tar.gz"
+  sha256 "66786e5b1e88bff0a1f04ab5073be50faa7e65b3cdebcbd679e1837ff52a82c6"
   license any_of: ["MIT", "Apache-2.0"]
   head "https://github.com/storytold/photocraft.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ae2b20a2b5c5ceb3e9b6d1f6eae1c04a22e62b740aa74f2a4ba8ad9a0a5d7a7f"
+    sha256 cellar: :any, x86_64_windows: "610b1b5989bd7da0814382f71f398796b525e94eb3797c321bbafcf18f2a9841"
   end
 
   depends_on "rust" => :build

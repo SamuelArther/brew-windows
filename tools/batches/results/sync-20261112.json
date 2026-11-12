@@ -1,0 +1,477 @@
+[
+  {
+    "name": "abcmidi",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "apify-cli",
+    "status": "ok",
+    "seconds": 118
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 105
+  },
+  {
+    "name": "aws-amplify",
+    "status": "ok",
+    "seconds": 1249
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 152
+  },
+  {
+    "name": "azion",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "bfs",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "bnd",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "bpmnlint",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "buildkit",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "c-blosc2",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "calcurse",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 140
+  },
+  {
+    "name": "cargo-show-asm",
+    "status": "ok",
+    "seconds": 190
+  },
+  {
+    "name": "ccusage",
+    "status": "ok",
+    "seconds": 183
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 39
+  },
+  {
+    "name": "chrome-devtools-mcp",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "clickhouse-sql-parser",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "cx",
+    "status": "ok",
+    "seconds": 438
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 112
+  },
+  {
+    "name": "descope",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "designcraft-cli",
+    "status": "ok",
+    "seconds": 526
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 598
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "dvm",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 203
+  },
+  {
+    "name": "engram",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "exploitdb",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "filmcraft-cli",
+    "status": "ok",
+    "seconds": 761
+  },
+  {
+    "name": "forcecli",
+    "status": "ok",
+    "seconds": 89
+  },
+  {
+    "name": "frei0r",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "gemini-cli",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "git-xargs",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "gitea-runner",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "gitsign",
+    "status": "ok",
+    "seconds": 166
+  },
+  {
+    "name": "go-parquet-tools",
+    "status": "ok",
+    "seconds": 93
+  },
+  {
+    "name": "goose",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "gowsdl",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "immich-cli",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "infracost",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "inshellisense",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "ipatool",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "jfrog-cli",
+    "status": "ok",
+    "seconds": 180
+  },
+  {
+    "name": "kapp",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "kubecfg",
+    "status": "ok",
+    "seconds": 184
+  },
+  {
+    "name": "kyverno",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "lfk",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "lightcraft-cli",
+    "status": "ok",
+    "seconds": 1282
+  },
+  {
+    "name": "little-cms2",
+    "status": "ok",
+    "seconds": 130
+  },
+  {
+    "name": "lizard-analyzer",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "mackup",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "mark",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "massdriver",
+    "status": "test",
+    "seconds": 68
+  },
+  {
+    "name": "mcp-remote",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "mcp-server-kubernetes",
+    "status": "ok",
+    "seconds": 310
+  },
+  {
+    "name": "mdspan",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "micronaut",
+    "status": "ok",
+    "seconds": 257
+  },
+  {
+    "name": "nats-server",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "nelm@1",
+    "status": "ok",
+    "seconds": 142
+  },
+  {
+    "name": "neo4j-mcp",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "test",
+    "seconds": 43
+  },
+  {
+    "name": "nx",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "octl",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 441
+  },
+  {
+    "name": "pdfcraft-cli",
+    "status": "ok",
+    "seconds": 1004
+  },
+  {
+    "name": "photocraft-cli",
+    "status": "ok",
+    "seconds": 1219
+  },
+  {
+    "name": "pi-coding-agent",
+    "status": "ok",
+    "seconds": 171
+  },
+  {
+    "name": "prettier",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "rainfrog",
+    "status": "ok",
+    "seconds": 1849
+  },
+  {
+    "name": "rea",
+    "status": "test",
+    "seconds": 157
+  },
+  {
+    "name": "redress",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "rekor-cli",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "retire",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "safe-chain",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 367
+  },
+  {
+    "name": "sf",
+    "status": "ok",
+    "seconds": 768
+  },
+  {
+    "name": "skills",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "stripe-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "talosctl",
+    "status": "ok",
+    "seconds": 391
+  },
+  {
+    "name": "terragrunt",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "upki",
+    "status": "ok",
+    "seconds": 241
+  },
+  {
+    "name": "vectorcraft-cli",
+    "status": "ok",
+    "seconds": 1030
+  },
+  {
+    "name": "vite",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "wordcraft-cli",
+    "status": "ok",
+    "seconds": 403
+  },
+  {
+    "name": "xfr",
+    "status": "ok",
+    "seconds": 205
+  },
+  {
+    "name": "zeroclaw",
+    "status": "ok",
+    "seconds": 1199
+  },
+  {
+    "name": "ziggy",
+    "status": "build",
+    "seconds": 287
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 90
+  }
+]

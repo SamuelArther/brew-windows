@@ -8,10 +8,16 @@ class Gowsdl < Formula
   head "https://github.com/hooklift/gowsdl.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d44a982470abb83eed3979f348fc4cd3afebabaedce09bc58478e285c8f1f019"
+    sha256 cellar: :any, x86_64_windows: "14815cd551a2bdacf60096c7bfa393663d153b4185edd37e8cc4fe30e3d19320"
   end
 
   depends_on "go" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     system "make", "build"

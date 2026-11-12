@@ -7,10 +7,16 @@ class Dvm < Formula
   head "https://github.com/howtowhale/dvm.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ef6bf87ce1cfe30b17791df64526e0153177bc19145c6c47ccc0dc11800c180d"
+    sha256 cellar: :any, x86_64_windows: "b7bb143bee6a586ee3670a43465d739028407dec9edb8b45169b9c33d71ca012"
   end
 
   depends_on "go" => :build
+
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
 
   def install
     system "make", "VERSION=#{version}", "UPGRADE_DISABLED=true"

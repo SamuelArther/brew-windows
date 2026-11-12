@@ -1,13 +1,13 @@
 class Forcecli < Formula
   desc "Command-line interface to Force.com"
   homepage "https://force-cli.herokuapp.com/"
-  url "https://github.com/ForceCLI/force/archive/refs/tags/v1.16.0.tar.gz"
-  sha256 "baa08cad260353c47097f9f06818c42c659d27dc34b777d6044fcc753eac5e84"
+  url "https://github.com/ForceCLI/force/archive/refs/tags/v1.17.0.tar.gz"
+  sha256 "9ad6f8b36b945f211b5a5904b4e538d5c30be216d71008860b09fd00619cb30a"
   license "MIT"
   head "https://github.com/ForceCLI/force.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bdfc1ae2d756249422a3638ab0ad918f2b26b8ed17c7957a0e74cc544fad80ee"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0483686150547de5a2a97bf6b1ea3202d621851c76cbcc39cf6df653e929635e"
   end
 
   depends_on "go" => :build

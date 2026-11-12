@@ -1,13 +1,13 @@
 class Rainfrog < Formula
   desc "Database management TUI for PostgreSQL/MySQL/SQLite"
   homepage "https://github.com/achristmascarl/rainfrog"
-  url "https://github.com/achristmascarl/rainfrog/archive/refs/tags/v0.4.6.tar.gz"
-  sha256 "30d4c4843c040441422eb9d64d386bf35f6c2c1de345944cc3e12f17e0cd0ca5"
+  url "https://github.com/achristmascarl/rainfrog/archive/refs/tags/v0.4.7.tar.gz"
+  sha256 "9bcbbb6576fbb046fc823dfbd9fc592f69791ca7c3a2031be1b1e0b0fe9147e5"
   license "MIT"
   head "https://github.com/achristmascarl/rainfrog.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "06c31957a58b18f1dc46451d9883d1352593e3ccd4153263fd85af6c36db2508"
+    sha256 cellar: :any, x86_64_windows: "c2ae1f3cd3ae1e986f8b4e27cfe0b07e3d1b2e0c0b8cff904ac04fc3eec4eef7"
   end
 
   depends_on "rust" => :build

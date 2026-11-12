@@ -1,12 +1,12 @@
 class Cx < Formula
   desc "CLI for querying and managing Coralogix observability data"
   homepage "https://github.com/coralogix/cx-cli"
-  url "https://github.com/coralogix/cx-cli/archive/refs/tags/v0.1.31.tar.gz"
-  sha256 "f217ae62ba6eb7703f5f69fce06f774b2ccf5d46f6eed0240f6f978f49257dd6"
+  url "https://github.com/coralogix/cx-cli/archive/refs/tags/v0.1.33.tar.gz"
+  sha256 "4b4e88c2208806d545eccb5a5abc72b1ca9e3f0f585613c984fe23c4d7d6b212"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "adc29da314deb922fb9a3014d1035fae9c4065e2821efb2fe3f887c8a82c3837"
+    sha256 cellar: :any, x86_64_windows: "561834c3b080625a96c50c67fb0c5f752264eec2e3174372c878ef527aef0746"
   end
 
   depends_on "rust" => :build

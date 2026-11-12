@@ -1,13 +1,13 @@
 class Octl < Formula
   desc "Modern CLI for Outscale"
   homepage "https://github.com/outscale/octl"
-  url "https://github.com/outscale/octl/archive/refs/tags/v0.0.35.tar.gz"
-  sha256 "404287fb14eca8f614e02d2449c6e1ac148adbce236fdf85617e40088a468557"
+  url "https://github.com/outscale/octl/archive/refs/tags/v0.0.36.tar.gz"
+  sha256 "48227f33d83c02f9b688eb965e8c7d8c1718a89545d7b3a1ee4968112357e718"
   license "BSD-3-Clause"
   head "https://github.com/outscale/octl.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "05a3b4b5dd0eb31d087cddc77c19e58cc433acd2b6c7e18107a919fad1158a24"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "492e6da6082f03bbb538cd5b0f39bcbe56c06fc87f332b52845fb7f6bac07795"
   end
 
   depends_on "go" => :build
