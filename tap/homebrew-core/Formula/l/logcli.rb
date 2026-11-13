@@ -1,8 +1,8 @@
 class Logcli < Formula
   desc "Run LogQL queries against a Loki server"
   homepage "https://grafana.com/oss/loki"
-  url "https://github.com/grafana/loki/archive/refs/tags/v3.7.9.tar.gz"
-  sha256 "374cc8b5f9aab740b44b1b0d9689e69b0e6f2c0feb41942cb52d3e1c4bb7bdeb"
+  url "https://github.com/grafana/loki/archive/refs/tags/v3.7.10.tar.gz"
+  sha256 "52e1a821de73d634a152e6737f7a4629dae830240015a2d6f244ccaaf3b13357"
   license "AGPL-3.0-only"
   head "https://github.com/grafana/loki.git", branch: "main"
 
@@ -11,7 +11,7 @@ class Logcli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "36fe428fb05d7f212e2737a9a5341a22d911a7b8a0af160ad98680e806c25980"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "0784a41401910312052733313ab032c98bf2106f11c4a3b9fd39045785e33415"
   end
 
   depends_on "go" => :build

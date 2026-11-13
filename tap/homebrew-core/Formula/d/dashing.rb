@@ -8,12 +8,12 @@ class Dashing < Formula
   head "https://github.com/technosophos/dashing.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "98ba068855592ec5bd26c942562e3761808b43bfaa0839f2cb3cf372c388a696"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "39d43d97b6547100beeb7a89bb169e578d1dcc54f71fa7c97a3c54aa6bc61239"
   end
 
   depends_on "go" => :build
 
-  resource "redux_saga_docs_tarball" do
+  resource "redux_saga_docs_tarball", :test do
     url "https://github.com/dmitrytut/redux-saga-docset/archive/7df9e3070934c0f4b92d66d2165312bf78ecd6a0.tar.gz"
     sha256 "08e5cc1fc0776fd60492ae90961031b1419ea6ed02e2c2d9db2ede67d9d67852"
   end

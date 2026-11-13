@@ -1,0 +1,277 @@
+[
+  {
+    "name": "adr-viewer",
+    "status": "ok",
+    "seconds": 90
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 88
+  },
+  {
+    "name": "azion",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "bqlog",
+    "status": "ok",
+    "seconds": 140
+  },
+  {
+    "name": "caracal",
+    "status": "ok",
+    "seconds": 394
+  },
+  {
+    "name": "cilium-cli",
+    "status": "ok",
+    "seconds": 229
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 223
+  },
+  {
+    "name": "cyclonedx-cli",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "dashing",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "docker-agent",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 182
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 166
+  },
+  {
+    "name": "fastly",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "firebase-cli",
+    "status": "ok",
+    "seconds": 281
+  },
+  {
+    "name": "gittuf",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "glooctl",
+    "status": "ok",
+    "seconds": 239
+  },
+  {
+    "name": "greenmask",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "immich-cli",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "keploy",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "ketch",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "kosli-cli",
+    "status": "ok",
+    "seconds": 114
+  },
+  {
+    "name": "libaegis",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "logcli",
+    "status": "ok",
+    "seconds": 275
+  },
+  {
+    "name": "loki",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "markdownlint-cli2",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "mcp-toolbox",
+    "status": "build",
+    "seconds": 48
+  },
+  {
+    "name": "metabase",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "mongosh",
+    "status": "ok",
+    "seconds": 219
+  },
+  {
+    "name": "naga-cli",
+    "status": "ok",
+    "seconds": 203
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "openspec",
+    "status": "build",
+    "seconds": 26
+  },
+  {
+    "name": "pgrok",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "pgrx",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "prettier",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 60
+  },
+  {
+    "name": "rattler-index",
+    "status": "ok",
+    "seconds": 611
+  },
+  {
+    "name": "rfcstrip",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "rio-terminal",
+    "status": "build",
+    "seconds": 24
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 79
+  },
+  {
+    "name": "scalastyle",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "scw",
+    "status": "ok",
+    "seconds": 184
+  },
+  {
+    "name": "sip",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "technitium-library",
+    "status": "build",
+    "seconds": 23
+  },
+  {
+    "name": "tgpt",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "undercutf1",
+    "status": "build",
+    "seconds": 139
+  },
+  {
+    "name": "vcfanno",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "victorialogs",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 32
+  }
+]

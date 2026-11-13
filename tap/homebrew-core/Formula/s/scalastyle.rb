@@ -13,12 +13,12 @@ class Scalastyle < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b4b1709ce7450f4cc94ff58115ce124febe8649c1cad41760ebd1383986e4987"
+    sha256 cellar: :any, x86_64_windows: "b3922b1dfba85f34e9d22b633be176e0fb1283ebf530979f2cc1da9a2029ac59"
   end
 
   depends_on "openjdk"
 
-  resource "default_config" do
+  resource "default_config", :test do
     url "https://raw.githubusercontent.com/scalastyle/scalastyle/v1.0.0/lib/scalastyle_config.xml"
     sha256 "6ce156449609a375d973cc8384a17524e4538114f1747efc2295cf4ca473d04e"
   end

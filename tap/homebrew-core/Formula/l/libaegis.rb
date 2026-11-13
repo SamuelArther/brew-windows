@@ -1,13 +1,12 @@
 class Libaegis < Formula
   desc "Portable C implementations of the AEGIS family of encryption algorithms"
   homepage "https://github.com/aegis-aead/libaegis"
-  url "https://github.com/aegis-aead/libaegis/archive/refs/tags/0.10.6.tar.gz"
-  sha256 "aaa17587424e1f4992b04abb4efa32c406965625f60fe34857c8679eea9fb7ce"
+  url "https://github.com/aegis-aead/libaegis/archive/refs/tags/0.10.7.tar.gz"
+  sha256 "0c64e1addcfb6297d2dcfaba083c76cd041ff9bf63306498ab2a57b6011e8cb9"
   license "MIT"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/libaegis-0.10.6"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "9213a59a36aa85e34d99f3a7125eb3e278170efad336e736b97afca7b945447c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "91622e2bc8d6295d3dc4880366dda65e9aaaebc86b8d001d3965bf357eb98f85"
   end
 
   depends_on "cmake" => :build

@@ -1,8 +1,8 @@
 class Metabase < Formula
   desc "Business intelligence report server"
   homepage "https://www.metabase.com/"
-  url "https://downloads.metabase.com/v0.65.3/metabase.jar"
-  sha256 "5230dea520f341bf60250f59e882e2cf69c958f7bed42eec05cb4b7c61cf6bf5"
+  url "https://downloads.metabase.com/v0.65.4/metabase.jar"
+  sha256 "b38f20e7cb1e22d795fefc2a5bc5d247b64dbb4f3d2175fec22eb491080afe1c"
   license "AGPL-3.0-only"
 
   # The first-party download page only provides an unversioned link to the
@@ -14,7 +14,7 @@ class Metabase < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "965d8a5b6c3b9af2f2a402597cc571dcf2bafa6e7e3c080cdebef10cd0a332ea"
+    sha256 cellar: :any, x86_64_windows: "a1b9771460aa767571e8b21fdc8f45b5a9d582b19309990bdedaede815cf5931"
   end
 
   depends_on "openjdk"
