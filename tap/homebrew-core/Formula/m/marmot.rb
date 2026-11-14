@@ -1,8 +1,8 @@
 class Marmot < Formula
   desc "Open-source data catalog exposing metadata to AI agents"
   homepage "https://marmotdata.io"
-  url "https://github.com/marmotdata/marmot/archive/refs/tags/v0.12.0.tar.gz"
-  sha256 "5fcbeb16b1194601d4deeea503c99856a6f340be11d20bb450f204fe1730a344"
+  url "https://github.com/marmotdata/marmot/archive/refs/tags/v0.13.0.tar.gz"
+  sha256 "1006d916fff3b81e3d06a25a6b9fcf78323d0301277c86ad04bf6095176b08f2"
   license "MIT"
   head "https://github.com/marmotdata/marmot.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Marmot < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bc78097c84837a82a12f845a469a6efbd594c9e86817e7cec4e9043840a0e3d0"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "95115ea4f99a3bb30c7203b50ab0e35088726037c88526785c11226a01b67506"
   end
 
   depends_on "go" => :build

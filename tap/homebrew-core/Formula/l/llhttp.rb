@@ -1,13 +1,13 @@
 class Llhttp < Formula
   desc "Port of http_parser to llparse"
   homepage "https://llhttp.org/"
-  url "https://github.com/nodejs/llhttp/archive/refs/tags/release/v9.4.3.tar.gz"
-  sha256 "1eb813c7437b31a87496a1cd3ed79f00746720f5e7e29c79b42c02cb69f36c39"
+  url "https://github.com/nodejs/llhttp/archive/refs/tags/release/v9.4.4.tar.gz"
+  sha256 "5600adb1498f82a9c719b8eb19310021737388e0d92362a6d47be532710d3c96"
   license "MIT"
   compatibility_version 2
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5b88f7fd783f36ef3b013716f9e0c21c091fdb7248768b9a963a6028215ff49c"
+    sha256 cellar: :any, x86_64_windows: "4ef6cabf9786441a756b97ec1c06f4dd12361d59d7d80160138a7b925b454c83"
   end
 
   depends_on "cmake" => :build

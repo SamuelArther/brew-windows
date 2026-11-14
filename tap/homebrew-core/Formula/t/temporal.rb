@@ -1,8 +1,8 @@
 class Temporal < Formula
   desc "Command-line interface for running and interacting with Temporal Server and UI"
   homepage "https://temporal.io/"
-  url "https://github.com/temporalio/cli/archive/refs/tags/v1.10.0.tar.gz"
-  sha256 "eb9d85a95da1c391b5b5dfcb4ce6c745a937bbe14155297a60c81c7610d9fa66"
+  url "https://github.com/temporalio/cli/archive/refs/tags/v1.10.1.tar.gz"
+  sha256 "80e81a40a2da38f6ec13bc61e9cd4dd9441ba865507cd253cf94850538dc9a9a"
   license "MIT"
   head "https://github.com/temporalio/cli.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Temporal < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bbb93e3e8960e25b4b954c631ca0f36dce2ac8c5d958f45751b973ebcc40227e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "139ed46f7c1e7a9debfbd5b58d4ac11e84988fd311336bf0ddd091bc9debd756"
   end
 
   depends_on "go" => :build

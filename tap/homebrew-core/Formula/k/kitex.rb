@@ -10,7 +10,7 @@ class Kitex < Formula
 
     # Fix the reported version, upstream PR ref, https://github.com/cloudwego/kitex/pull/2009
     patch do
-      url "https://github.com/chenrui333/kitex/commit/e136273bd4fce56882cc3f59efa5cbf55170892f.patch?full_index=1"
+      url "https://github.com/cloudwego/kitex/commit/e136273bd4fce56882cc3f59efa5cbf55170892f.patch?full_index=1"
       sha256 "17bb2821c34139f8111e921b261f696d80aab95888abc44beee3158c59aee9d9"
       type :unofficial
       resolves "https://github.com/cloudwego/kitex/pull/2009"
@@ -23,7 +23,7 @@ class Kitex < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "dba57f9b2c0c4b164dc8a2831a3e0df9d7b4e7cea7c6f9b4db6bbfd8edf0060e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8577a36d3e7ffc20c82e925d2b8d8f9ba7ac214331863e2bc87b7b874e8abf16"
   end
 
   depends_on "go" => [:build, :test]

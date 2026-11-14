@@ -1,10 +1,10 @@
 class Bitwuzla < Formula
   desc "SMT solver for bit-vectors, floating-points, arrays and uninterpreted functions"
   homepage "https://bitwuzla.github.io"
-  url "https://github.com/bitwuzla/bitwuzla/archive/refs/tags/0.9.1.tar.gz"
-  sha256 "42707f38900a20bb18108e426ba667560d1fd2ccce0d4f75aa60439b546488b4"
+  url "https://github.com/bitwuzla/bitwuzla/archive/refs/tags/0.10.0.tar.gz"
+  sha256 "5f4309dfe3e7d716889fa113e7a48a3b4e33efc95348b3cafb036f10e8d17e1d"
   license "MIT"
-  compatibility_version 1
+  compatibility_version 2
 
   livecheck do
     url :stable
@@ -12,7 +12,7 @@ class Bitwuzla < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5bcb942b590d8f43d60f1530d4ae6d4a392dd40c1b7d48625b42957b05c64edc"
+    sha256 cellar: :any, x86_64_windows: "89d3c82188c9190ba9bc9041dd262a6941b91e5f7b1b117753fbc1ad07d0ee19"
   end
 
   depends_on "meson" => :build

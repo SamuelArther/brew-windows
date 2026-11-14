@@ -1,8 +1,8 @@
 class TrimGalore < Formula
   desc "Quality and adapter trimming for FastQ sequencing reads"
   homepage "https://github.com/FelixKrueger/TrimGalore"
-  url "https://github.com/FelixKrueger/TrimGalore/archive/refs/tags/v2.4.0.tar.gz"
-  sha256 "e88fa19e71781792e469f7f0ed8a85272b4ede9518a0f41d7babc81be6e32dd1"
+  url "https://github.com/FelixKrueger/TrimGalore/archive/refs/tags/v2.5.0.tar.gz"
+  sha256 "decc7a884b8504a216d739e8a9e26d62e855e5827bc81876bff612281f92917b"
   license "GPL-3.0-only"
   head "https://github.com/FelixKrueger/TrimGalore.git", branch: "master"
 
@@ -12,7 +12,7 @@ class TrimGalore < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a4b300228e35f4412f38f4e021d42d21619943a3129d303039ba49c2f35905e0"
+    sha256 cellar: :any, x86_64_windows: "804ede24c73d1b18da533ddd36659913f48d0eed0e98a8e9108db668bb5e4685"
   end
 
   depends_on "rust" => :build

@@ -1,12 +1,12 @@
 class Obscura < Formula
   desc "Headless browser for AI agents and web scraping"
   homepage "https://obscura.sh"
-  url "https://github.com/h4ckf0r0day/obscura/archive/refs/tags/v0.2.6.tar.gz"
-  sha256 "809fbe7636a755e426257bb1c0fbbd390316f78026bfc468f4d483db7b31c07c"
+  url "https://github.com/h4ckf0r0day/obscura/archive/refs/tags/v0.2.7.tar.gz"
+  sha256 "6e6da68d8f630973394d7f1319779edb1f1f3e19590940291c947a3601892155"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f63f5406d8dc6139f3ef5459f8d4bcd2cc05c78ed1b1924f34833b8d30afaefa"
+    sha256 cellar: :any, x86_64_windows: "8888b20fa093486fcb9115de0852939abb566264e135cf14a53d17d2c01e5f45"
   end
 
   depends_on "rust" => :build

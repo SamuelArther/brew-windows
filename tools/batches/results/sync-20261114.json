@@ -1,0 +1,312 @@
+[
+  {
+    "name": "abcmidi",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "anycable-go",
+    "status": "ok",
+    "seconds": 100
+  },
+  {
+    "name": "aws-vault",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "azcopy",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "azion",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "bitwuzla",
+    "status": "ok",
+    "seconds": 156
+  },
+  {
+    "name": "bpmnlint",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "cargo-nextest",
+    "status": "ok",
+    "seconds": 426
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 22
+  },
+  {
+    "name": "cloudquery",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "cozypkg",
+    "status": "ok",
+    "seconds": 98
+  },
+  {
+    "name": "crit",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "curl-impersonate",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "cyclonedx-npm",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 952
+  },
+  {
+    "name": "dockerfmt",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 203
+  },
+  {
+    "name": "engram",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 209
+  },
+  {
+    "name": "extra-cmake-modules",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 152
+  },
+  {
+    "name": "fakecloud",
+    "status": "ok",
+    "seconds": 1615
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1567
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "goose-lang",
+    "status": "ok",
+    "seconds": 172
+  },
+  {
+    "name": "graphql-inspector",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "hebcal",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 180
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "ketch",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "kitex",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "ktop",
+    "status": "ok",
+    "seconds": 87
+  },
+  {
+    "name": "kubeone",
+    "status": "ok",
+    "seconds": 405
+  },
+  {
+    "name": "kubernetes-mcp-server",
+    "status": "ok",
+    "seconds": 123
+  },
+  {
+    "name": "livereload",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "llhttp",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "lsoff",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "marmot",
+    "status": "ok",
+    "seconds": 196
+  },
+  {
+    "name": "mcp-server-kubernetes",
+    "status": "ok",
+    "seconds": 269
+  },
+  {
+    "name": "mp4ff",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "obscura",
+    "status": "ok",
+    "seconds": 774
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "rio-terminal",
+    "status": "build",
+    "seconds": 141
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 78
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 123
+  },
+  {
+    "name": "snakeviz",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "tektoncd-cli",
+    "status": "ok",
+    "seconds": 181
+  },
+  {
+    "name": "tele",
+    "status": "ok",
+    "seconds": 98
+  },
+  {
+    "name": "temporal",
+    "status": "ok",
+    "seconds": 222
+  },
+  {
+    "name": "termframe",
+    "status": "ok",
+    "seconds": 364
+  },
+  {
+    "name": "threatcl",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "trim-galore",
+    "status": "ok",
+    "seconds": 226
+  },
+  {
+    "name": "upki",
+    "status": "ok",
+    "seconds": 181
+  },
+  {
+    "name": "vals",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "varlock",
+    "status": "ok",
+    "seconds": 16
+  }
+]

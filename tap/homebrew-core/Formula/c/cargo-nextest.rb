@@ -1,8 +1,8 @@
 class CargoNextest < Formula
   desc "Next-generation test runner for Rust"
   homepage "https://nexte.st"
-  url "https://github.com/nextest-rs/nextest/archive/refs/tags/cargo-nextest-0.9.151.tar.gz"
-  sha256 "613c8855e6a5b9f9d12920bf74a0c191af3f8b5f86ff4cf27446f0f7adfc44ec"
+  url "https://github.com/nextest-rs/nextest/archive/refs/tags/cargo-nextest-0.9.152.tar.gz"
+  sha256 "b93dfdf2c5d187f0154e71ee86bcfc40e8ea39abfe7bf20f95f1fa05c12afb2f"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class CargoNextest < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8e183eeb3929ca34924060bed38968b65e1c8527f4115c8b1030d58cf13f6a2b"
+    sha256 cellar: :any, x86_64_windows: "e2dcb21972471ffd4f6f36e2e8be6f7ec74bf0fd0b171c6f755fc5e0c5340920"
   end
 
   depends_on "rust" => :build

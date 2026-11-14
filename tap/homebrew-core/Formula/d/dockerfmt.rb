@@ -1,13 +1,13 @@
 class Dockerfmt < Formula
   desc "Dockerfile format and parser. a modern dockfmt"
   homepage "https://github.com/reteps/dockerfmt"
-  url "https://github.com/reteps/dockerfmt/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "9e631544b9cdc1fda8c0380749ecb37a45574762b0e2ccbb17d7d93d66f46cd0"
+  url "https://github.com/reteps/dockerfmt/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "3bbed8d06a049bac352cbb06b7a369439578896f63a6995d1ac6b52c7b7fed52"
   license "MIT"
   head "https://github.com/reteps/dockerfmt.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d777d42edf0d0fd65efbeb1aded41c6b7da739392d5d7485345d9ebec8ed162e"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "60e52209be6531bdc8e628445067e0c8db5383affd0394cc63b487f0a0caf9fa"
   end
 
   depends_on "go" => :build
@@ -27,10 +27,13 @@ class Dockerfmt < Formula
     assert_match version.to_s, shell_output("#{bin}/dockerfmt version")
 
     (testpath/"Dockerfile").write <<~DOCKERFILE
-      FROM alpine:latest
+      from alpine:latest
+      run   echo hi
     DOCKERFILE
 
-    output = shell_output("#{bin}/dockerfmt --check Dockerfile 2>&1", 1)
-    assert_match "Dockerfile is not formatted", output
+    shell_output("#{bin}/dockerfmt --check Dockerfile", 1)
+    system bin/"dockerfmt", "--write", "Dockerfile"
+    assert_equal "FROM alpine:latest\nRUN echo hi\n", (testpath/"Dockerfile").read
+    system bin/"dockerfmt", "--check", "Dockerfile"
   end
 end
