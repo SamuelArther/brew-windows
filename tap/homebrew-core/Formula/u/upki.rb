@@ -7,7 +7,7 @@ class Upki < Formula
   head "https://github.com/rustls/upki.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "69a83aed29ed14f0a067759c340765aa6e4be646fb026893a15dc3e778e30a18"
+    sha256 cellar: :any, x86_64_windows: "2124652d4f5f92f9f2d936d3c8bce0d643693285e55c58ce60de35fc169c2a57"
   end
 
   depends_on "rust" => :build
@@ -20,6 +20,12 @@ class Upki < Formula
 
   def install
     system "cargo", "install", *std_cargo_args(path: "upki-cli")
+  end
+
+  service do
+    run [opt_bin/"upki", "fetch"]
+    run_type :interval
+    interval 7200
   end
 
   test do

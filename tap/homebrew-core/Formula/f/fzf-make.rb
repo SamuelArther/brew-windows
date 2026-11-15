@@ -6,10 +6,8 @@ class FzfMake < Formula
   license "MIT"
   head "https://github.com/kyu08/fzf-make.git", branch: "main"
 
-  no_autobump! because: :bumped_by_upstream
-
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e0060c412a229ff663907f14efd2e1cca5f0871e2831435a2d926aece2b05871"
+    sha256 cellar: :any, x86_64_windows: "e7e0fc8c78aa51dfbe9122cfb42ad51eff248d7cd54941650037fcc9bdaac3c6"
   end
 
   depends_on "rust" => :build

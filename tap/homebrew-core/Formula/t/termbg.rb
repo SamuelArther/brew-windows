@@ -1,13 +1,13 @@
 class Termbg < Formula
   desc "Rust library for terminal background color detection"
   homepage "https://github.com/dalance/termbg"
-  url "https://github.com/dalance/termbg/archive/refs/tags/v0.6.2.tar.gz"
-  sha256 "b933907d181e59ce0aa522ed598a9fa70125a6523f7fbd1f537c3b99bd75ffdd"
+  url "https://static.crates.io/crates/termbg/termbg-0.6.2.crate"
+  sha256 "8bf44577a1adf3dfd7fec3b8763074467e27b2ad35ff9157bc3f0a51bb0a3dd4"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/dalance/termbg.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8caad0b8b1d2563a1d956373868c90b76c6359bc68628a73b0925789fb6a74cd"
+    sha256 cellar: :any, x86_64_windows: "64301980821a103cc77ed76cc694a0696bb129cd8d754f576ddd0dc01ba9839c"
   end
 
   depends_on "rust" => :build
@@ -15,8 +15,7 @@ class Termbg < Formula
   deny_network_access!
 
   def fetch
-    # `Cargo.lock` is ignored
-    system "cargo", "generate-lockfile"
+    system "cargo", "generate-lockfile" if build.head?
     system "cargo", "fetch", *std_cargo_fetch_args
   end
 

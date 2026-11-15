@@ -1,0 +1,252 @@
+[
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 44
+  },
+  {
+    "name": "bao",
+    "status": "ok",
+    "seconds": 144
+  },
+  {
+    "name": "boring",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 132
+  },
+  {
+    "name": "ccusage",
+    "status": "build",
+    "seconds": 95
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 20
+  },
+  {
+    "name": "cspell",
+    "status": "ok",
+    "seconds": 24
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 195
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 136
+  },
+  {
+    "name": "dita-ot",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "e2b",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "eas-cli",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "eslint",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1611
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "flawfinder",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "flowrs",
+    "status": "ok",
+    "seconds": 339
+  },
+  {
+    "name": "fzf-make",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "globus-cli",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "go-parquet-tools",
+    "status": "ok",
+    "seconds": 117
+  },
+  {
+    "name": "goose",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "goose-lang",
+    "status": "ok",
+    "seconds": 108
+  },
+  {
+    "name": "graphql-inspector",
+    "status": "ok",
+    "seconds": 67
+  },
+  {
+    "name": "hysteria",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 173
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "lfk",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "nanoflann",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "openspec",
+    "status": "build",
+    "seconds": 41
+  },
+  {
+    "name": "porter",
+    "status": "ok",
+    "seconds": 282
+  },
+  {
+    "name": "reshape",
+    "status": "ok",
+    "seconds": 351
+  },
+  {
+    "name": "rhai",
+    "status": "ok",
+    "seconds": 76
+  },
+  {
+    "name": "rio-terminal",
+    "status": "build",
+    "seconds": 34
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 448
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 36
+  },
+  {
+    "name": "sslscan",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "starlark-rust",
+    "status": "ok",
+    "seconds": 214
+  },
+  {
+    "name": "streamvbyte",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "termbg",
+    "status": "ok",
+    "seconds": 22
+  },
+  {
+    "name": "threatcl",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "tinyice",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "tldx",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "upki",
+    "status": "ok",
+    "seconds": 324
+  },
+  {
+    "name": "utf8cpp",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "worktrunk",
+    "status": "ok",
+    "seconds": 381
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 91
+  }
+]

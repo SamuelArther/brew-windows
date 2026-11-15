@@ -1,13 +1,13 @@
 class Rhai < Formula
   desc "Embedded scripting language for Rust"
   homepage "https://rhai.rs/"
-  url "https://github.com/rhaiscript/rhai/archive/refs/tags/v1.27.0.tar.gz"
-  sha256 "27f8b34917a778116bd5959a1b3064f1c4cdb2e3153cf31d13c8ea2cbd30e937"
+  url "https://static.crates.io/crates/rhai/rhai-1.27.0.crate"
+  sha256 "c3925b784c0bee6542637e425ed7511a63257bf11b7ecf51ffd845e2d24d9163"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/rhaiscript/rhai.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "bf3e53d550175e86797bf9df7d06ace6c397c4037d60a9303eb2c6a3ea341a9c"
+    sha256 cellar: :any, x86_64_windows: "64d2d5f37cd4e78f9244fde2261b4b2590f49c5134ae20cdafd0965b622f3c1f"
   end
 
   depends_on "rust" => :build
@@ -15,8 +15,7 @@ class Rhai < Formula
   deny_network_access!
 
   def fetch
-    # The release does not include a `Cargo.lock`.
-    system "cargo", "generate-lockfile"
+    system "cargo", "generate-lockfile" if build.head?
     system "cargo", "fetch", *std_cargo_fetch_args
   end
 

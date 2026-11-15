@@ -1,13 +1,13 @@
 class Sslscan < Formula
   desc "Test SSL/TLS enabled services to discover supported cipher suites"
   homepage "https://github.com/rbsec/sslscan"
-  url "https://github.com/rbsec/sslscan/archive/refs/tags/2.2.3.tar.gz"
-  sha256 "b0498467604c3f4eb7a1b3258ee9f37b709f7844d7edf338d40e85af40ede960"
+  url "https://github.com/rbsec/sslscan/archive/refs/tags/2.2.4.tar.gz"
+  sha256 "93674469cfbfea7326e5236165b1824df5fbab32a9e0499f03edc10b36befff2"
   license "GPL-3.0-or-later" => { with: "cryptsetup-OpenSSL-exception" }
   head "https://github.com/rbsec/sslscan.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "576b44f2ea16080983a2b18cf37a3084506e9d5d76ea3731c4cbf866e4231d58"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6a4544f0464ca266230ab85f02647f81b8da37167e7a4dd698a422088c6c9fba"
   end
 
   depends_on "openssl@3" # TODO: OpenSSL 4 issue - https://github.com/rbsec/sslscan/issues/361

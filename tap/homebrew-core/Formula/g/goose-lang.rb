@@ -7,12 +7,12 @@ class GooseLang < Formula
   head "https://github.com/aardappel/goose.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cbe3967378cfe15bdbcf6d32809374f58dfe83d15a0838506ce27ae64d29eafc"
+    sha256 cellar: :any, x86_64_windows: "2232e3acaa8c794f6acec456a067f01cba6e5af0df5c1ff4e6e03a3f751ac4ec"
   end
 
   depends_on "cmake" => :build
 
-  # TODO: add `conflicts_with "goose", "block-goose-cli", because: "both install `goose` binaries"`
+  conflicts_with "goose", "block-goose-cli", because: "both install `goose` binaries"
 
   deny_network_access!
 

@@ -7,12 +7,12 @@ class Goose < Formula
   head "https://github.com/pressly/goose.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a2d526ad39d3647691d7b0a22b5f64c530d4f9e6814e706ff2e0f4d1dd6927cd"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d3253c720bb2297192a3099d9a71078ed7de1ad2214ec547e1e4da9f0cbbe91f"
   end
 
   depends_on "go" => :build
 
-  conflicts_with "block-goose-cli", because: "both install `goose` binaries"
+  conflicts_with "block-goose-cli", "goose-lang", because: "both install `goose` binaries"
 
   deny_network_access!
 

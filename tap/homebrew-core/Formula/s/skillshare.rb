@@ -1,13 +1,13 @@
 class Skillshare < Formula
   desc "Sync skills across AI CLI tools"
   homepage "https://skillshare.runkids.cc"
-  url "https://github.com/runkids/skillshare/archive/refs/tags/v0.30.7.tar.gz"
-  sha256 "51a8c48267574d7f684fbd6f025625f9dc0df443f999a8beb2dada7015ae09b8"
+  url "https://github.com/runkids/skillshare/archive/refs/tags/v0.30.8.tar.gz"
+  sha256 "69b07d633ba2fa8674e2d0d72a7346c17f7a2fdc99d99e0cd86a799b018aaab7"
   license "MIT"
   head "https://github.com/runkids/skillshare.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "d4e7d2fed1ad87694285f61163bde23593ff4d39759ad7837cdebc1c8e642900"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d57de13be43366a20f9e306829c7bbd34a2b20db2343cf1fcbd23b0b7fdf0dc0"
   end
 
   depends_on "go" => :build
