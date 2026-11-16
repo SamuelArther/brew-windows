@@ -1,8 +1,8 @@
 class Flowrs < Formula
   desc "TUI application for Apache Airflow"
   homepage "https://github.com/jvanbuel/flowrs"
-  url "https://github.com/jvanbuel/flowrs/archive/refs/tags/flowrs-tui-v0.16.4.tar.gz"
-  sha256 "70e1de55151eb5a15ed54dba588a26db6fefc70d228d5d9ad5a5cf88cee8302e"
+  url "https://github.com/jvanbuel/flowrs/archive/refs/tags/flowrs-tui-v0.16.5.tar.gz"
+  sha256 "96547403bbce6e3713fef7dc099231b65388b01e0962807957a31d6274fe8a23"
   license "MIT"
   head "https://github.com/jvanbuel/flowrs.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Flowrs < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "271fe7a86f02647e588f9b54b12028b5f952bd153da0d268d834316dedafb6b5"
+    sha256 cellar: :any, x86_64_windows: "5048b9ae3fde122ac05861da6a2ccb9bb1d72b05bd5633eca9ba092503a5cf63"
   end
 
   depends_on "pkgconf" => :build

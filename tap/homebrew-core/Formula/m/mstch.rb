@@ -7,7 +7,7 @@ class Mstch < Formula
   revision 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "68fd2f080725d059a6045617755176aba46b62adb8427b2cac308d89f4a3dbff"
+    sha256 cellar: :any, x86_64_windows: "2b907f01b71d57a0f9446f0d8f99a6e71fa91bc28c58e0273ea6304eb562bcfa"
   end
 
   depends_on "cmake" => :build
@@ -20,11 +20,7 @@ class Mstch < Formula
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
 
-    (lib/"pkgconfig/mstch.pc").write pc_file
-  end
-
-  def pc_file
-    <<~EOS
+    (lib/"pkgconfig/mstch.pc").write <<~EOS
       prefix=#{HOMEBREW_PREFIX}
       exec_prefix=${prefix}
       libdir=${exec_prefix}/lib

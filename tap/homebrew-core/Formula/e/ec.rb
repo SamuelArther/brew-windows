@@ -1,12 +1,12 @@
 class Ec < Formula
   desc "TUI 3-way git mergetool"
   homepage "https://github.com/chojs23/ec"
-  url "https://github.com/chojs23/ec/archive/refs/tags/v0.4.2.tar.gz"
-  sha256 "bfd7017c09b395df73850b72d7b27f026fb6001b2ac165097f7c3d7cebf23534"
+  url "https://github.com/chojs23/ec/archive/refs/tags/v0.4.3.tar.gz"
+  sha256 "b6df932aede4c445c818c98cd58f3de08e28d3fdc0a5ed4cb964fcd54acf8779"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "058fe5febb887754715696e86eddce12893387cd3ac923f7ddec3b4e32c41f64"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1e654567ba9f33efb2ae093c97fc0fec9d01a6650ad5e1c35e9c8cb3fb0066e4"
   end
 
   depends_on "go" => :build

@@ -1,13 +1,13 @@
 class Imagineer < Formula
   desc "Image processing and conversion from the terminal"
   homepage "https://github.com/foresterre/imagineer"
-  url "https://github.com/foresterre/imagineer/archive/refs/tags/v0.24.0.tar.gz"
-  sha256 "2511068e1919ee67af1fb9203a1bbcfc9f24894cd3b2e341c52d493e79535e93"
+  url "https://github.com/foresterre/imagineer/archive/refs/tags/v0.25.1.tar.gz"
+  sha256 "16ed8ebe47f7af676b333a8abc11bf60b0ab490bbda0de9cf8a04cbf50d5f8c9"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/foresterre/imagineer.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c89ad44dcd7c6dfdb6596eb55405100c1fd4b00d78a66ccec8d18c34b77852d1"
+    sha256 cellar: :any, x86_64_windows: "14416ceb4e92e2ef1834ba65441110725bbfa3fca10f882ac6fcf957cd4a47c8"
   end
 
   depends_on "rust" => :build

@@ -15,8 +15,7 @@ class SquirrelLang < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/squirrel-lang-3.2"
-    sha256 cellar: :any, x86_64_windows: "c71c9cde9d9d9705273b9e8f646d5ea375a65f2203d9ecf344beeb4f345ef3b0"
+    sha256 cellar: :any, x86_64_windows: "2a086da616ec6183c3d56020cc61b411f23616fe3460a7e249f248d9789baa1c"
   end
 
   no_autobump! because: :incompatible_version_format
@@ -38,11 +37,7 @@ class SquirrelLang < Formula
     doc.install Dir["doc/*.pdf"]
     doc.install %w[etc samples]
     # See: https://github.com/Homebrew/homebrew/pull/9977
-    (lib/"pkgconfig/libsquirrel.pc").write pc_file
-  end
-
-  def pc_file
-    <<~PC
+    (lib/"pkgconfig/libsquirrel.pc").write <<~PC
       prefix=#{opt_prefix}
       exec_prefix=${prefix}
       libdir=/${exec_prefix}/lib

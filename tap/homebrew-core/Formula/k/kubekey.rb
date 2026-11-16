@@ -2,8 +2,8 @@ class Kubekey < Formula
   desc "Installer for Kubernetes and / or KubeSphere, and related cloud-native add-ons"
   homepage "https://kubesphere.io"
   url "https://github.com/kubesphere/kubekey.git",
-      tag:      "v4.0.9",
-      revision: "0cb245f681f91f1305fd1880f292076e21343dab"
+      tag:      "v4.0.10",
+      revision: "58fdd469a88f4d5f4e734e62121b80cbd403d768"
   license "Apache-2.0"
   head "https://github.com/kubesphere/kubekey.git", branch: "main"
 
@@ -16,7 +16,7 @@ class Kubekey < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5a44e3df89cc96538f7e9bcb9490371c967b9ac62c7458c23d6b6100e88ddba4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a7b0b1b736e206a2affb93abcefff2688b64c6555e1e4e85bf077436c13999c5"
   end
 
   depends_on "go" => :build

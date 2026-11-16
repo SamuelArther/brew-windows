@@ -1,0 +1,247 @@
+[
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 43
+  },
+  {
+    "name": "bento",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "bqlog",
+    "status": "ok",
+    "seconds": 178
+  },
+  {
+    "name": "calicoctl",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "chdig",
+    "status": "ok",
+    "seconds": 589
+  },
+  {
+    "name": "corkscrew",
+    "status": "build",
+    "seconds": 17
+  },
+  {
+    "name": "cspell",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 204
+  },
+  {
+    "name": "cx",
+    "status": "ok",
+    "seconds": 481
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 149
+  },
+  {
+    "name": "docker-completion",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "ec",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 156
+  },
+  {
+    "name": "flowrs",
+    "status": "ok",
+    "seconds": 361
+  },
+  {
+    "name": "git-pages",
+    "status": "ok",
+    "seconds": 106
+  },
+  {
+    "name": "gitea",
+    "status": "ok",
+    "seconds": 217
+  },
+  {
+    "name": "gogcli",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "imagineer",
+    "status": "ok",
+    "seconds": 492
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 266
+  },
+  {
+    "name": "jfrog-cli",
+    "status": "ok",
+    "seconds": 109
+  },
+  {
+    "name": "kamal-proxy",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "kbld",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "kraftkit",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "ktop",
+    "status": "test",
+    "seconds": 80
+  },
+  {
+    "name": "kubekey",
+    "status": "ok",
+    "seconds": 149
+  },
+  {
+    "name": "kubevpn",
+    "status": "ok",
+    "seconds": 267
+  },
+  {
+    "name": "mediamtx",
+    "status": "ok",
+    "seconds": 69
+  },
+  {
+    "name": "mmctl",
+    "status": "ok",
+    "seconds": 382
+  },
+  {
+    "name": "mockserver",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "mstch",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "build",
+    "seconds": 42
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "phpstan",
+    "status": "test-deps",
+    "seconds": 6
+  },
+  {
+    "name": "pv-migrate",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "resterm",
+    "status": "ok",
+    "seconds": 127
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "squirrel-lang",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "srgn",
+    "status": "ok",
+    "seconds": 237
+  },
+  {
+    "name": "storj-uplink",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "toxcore",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "tuios",
+    "status": "ok",
+    "seconds": 84
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "yorkie",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "ytt",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "yutu",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 31
+  }
+]

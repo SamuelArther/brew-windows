@@ -1,12 +1,12 @@
 class GitPages < Formula
   desc "Scalable static site server for Git forges"
   homepage "https://codeberg.org/git-pages/git-pages"
-  url "https://codeberg.org/git-pages/git-pages/releases/download/v0.10.1/git-pages-src.zip"
-  sha256 "d9a06bc1801a4f88302ecd96452238974c05ff17b06532c0a97671b47cd7bb27"
+  url "https://codeberg.org/git-pages/git-pages/releases/download/v0.10.2/git-pages-src.zip"
+  sha256 "bfbb4cd1e5481a051cc513ad1c0a1e9e6220f2403fe9f1311cd1207404aeed3d"
   license "0BSD"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "f4159820e33065172978c866b54c37c438ecc37873eef137a3d489ba97083324"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6adba309326a26ca34baed97835a04635f33d49a802e4ed256451d9f3f1e2a78"
   end
 
   depends_on "go" => :build

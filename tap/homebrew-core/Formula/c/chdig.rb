@@ -1,13 +1,13 @@
 class Chdig < Formula
   desc "Dig into ClickHouse with TUI interface"
   homepage "https://github.com/azat/chdig"
-  url "https://github.com/azat/chdig/archive/refs/tags/v26.10.1.tar.gz"
-  sha256 "a6c63271cec839d862cab09ef46feb062e6a41b18b826984c92a53b537db1236"
+  url "https://github.com/azat/chdig/archive/refs/tags/v26.11.1.tar.gz"
+  sha256 "c385cc9f1aba57e49aea577ff0b68bb279cd5d3366d90074e4fa4a67aaa2b499"
   license "MIT"
   head "https://github.com/azat/chdig.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2916003065c41e652781226a6e15fd26fb0d9c23bbf5825a578c6988878be86f"
+    sha256 cellar: :any, x86_64_windows: "0968f29ba57e2b967a28d6e8e9036dc2b237beba37441606bff720b857cd2f0d"
   end
 
   depends_on "rust" => :build
