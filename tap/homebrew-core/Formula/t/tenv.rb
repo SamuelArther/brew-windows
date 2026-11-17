@@ -1,8 +1,8 @@
 class Tenv < Formula
   desc "OpenTofu / Terraform / Terragrunt / Terramate / Atmos version manager"
   homepage "https://tofuutils.github.io/tenv/"
-  url "https://github.com/tofuutils/tenv/archive/refs/tags/v4.15.1.tar.gz"
-  sha256 "dcdc001456b1a3d5d2f680f20cb4ef3f049eb17d9def9abc96b0303c6b16b99f"
+  url "https://github.com/tofuutils/tenv/archive/refs/tags/v4.16.3.tar.gz"
+  sha256 "40121dbf57ca9502471a6728a906211269e11eb51939e1fa50f2e82edf2f3407"
   license "Apache-2.0"
   head "https://github.com/tofuutils/tenv.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Tenv < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ee4fb7b81cf3b1dd827b0afb5443270ee151d0eab4ee026d3c198fd9574024f6"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "03d85720e8b33f85d12d52fa8d330718776e47583025a3685abd2e1a0f29dbc3"
   end
 
   depends_on "go" => :build

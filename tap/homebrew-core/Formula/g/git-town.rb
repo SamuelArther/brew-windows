@@ -1,13 +1,13 @@
 class GitTown < Formula
   desc "High-level command-line interface for Git"
   homepage "https://www.git-town.com/"
-  url "https://github.com/git-town/git-town/archive/refs/tags/v24.1.1.tar.gz"
-  sha256 "454665cd678b40e4b7ae89697e6351d900db3454e2de3651f44085a92e9806ad"
+  url "https://github.com/git-town/git-town/archive/refs/tags/v24.2.0.tar.gz"
+  sha256 "592e067a54712b36c5eac50af2cf8aa6d4030359f5fad3b16fe5779e0eed1aeb"
   license "MIT"
   head "https://github.com/git-town/git-town.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "3b00c0f6bf7c9f8004a27aa688257fb162dc34b7ff7e05389aa9faf66bdb1cb3"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "54d4d64741cb739df5e934936df93e1dc633fd2808ce7b31292ab6b9d88df08d"
   end
 
   depends_on "go" => :build
