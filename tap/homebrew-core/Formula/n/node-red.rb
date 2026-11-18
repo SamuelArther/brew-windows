@@ -1,12 +1,12 @@
 class NodeRed < Formula
   desc "Low-code programming for event-driven applications"
   homepage "https://nodered.org/"
-  url "https://registry.npmjs.org/node-red/-/node-red-5.0.9.tgz"
-  sha256 "1f88a60af9cf305f0e94b9045ee2451abdbefe98a33e9a71acb468affbf6d126"
+  url "https://registry.npmjs.org/node-red/-/node-red-5.0.10.tgz"
+  sha256 "3575bea4be2308a890a4510194ba475304eb12c6deef82c3c9f10fa7ea1690d3"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6d060d9d2eee8f772e7943d5e3b054652f07521fb3cc6c58c2d08e12c09e3fd6"
+    sha256 cellar: :any, x86_64_windows: "1fb0c19d48bd8f0369cbb4686ccba6de56e28e6dd4a835fa4e9a2f0750672470"
   end
 
   depends_on "node"

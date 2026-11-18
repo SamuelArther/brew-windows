@@ -1,13 +1,13 @@
 class Fastly < Formula
   desc "Build, deploy and configure Fastly services"
   homepage "https://www.fastly.com/documentation/reference/cli/"
-  url "https://github.com/fastly/cli/archive/refs/tags/v17.1.0.tar.gz"
-  sha256 "1327d5aa61e572b34535501f32ee730fe7ce54f0f26422d7b04862963f4fa7a8"
+  url "https://github.com/fastly/cli/archive/refs/tags/v17.2.0.tar.gz"
+  sha256 "9814c0990a68142fbf2e50007eecdd17be368d0dee2b636ca060311a0af6067e"
   license "Apache-2.0"
   head "https://github.com/fastly/cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "afde8623fc40780419c85c4adf8a62640bc5b747d4591473f3f17470fe516e5c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c20b2bbe5edd1c669ba1e9bf29c0f15aff7512d6c1bd2fc1dece560bb15a8144"
   end
 
   depends_on "go" => :build

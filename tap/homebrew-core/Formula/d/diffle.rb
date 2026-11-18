@@ -1,12 +1,12 @@
 class Diffle < Formula
   desc "Keyboard-first diff viewer with LSP support and GitHub integration"
   homepage "https://github.com/moritzwilksch/diffle"
-  url "https://github.com/moritzwilksch/diffle/archive/refs/tags/v0.5.3.tar.gz"
-  sha256 "3acd6759e4c6c39c8c194e2943366ce930a554b688d2e6f057e12b45f4a9fbcc"
+  url "https://github.com/moritzwilksch/diffle/archive/refs/tags/v0.5.4.tar.gz"
+  sha256 "01dcf92b3dee3011ec926d8ff21389e8aea9d3f472f633cc2c0236c4ad595009"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ca29d26faa4f136830e951185ff2f1b68bf18399d2f7a2902c4ccda3da9e163b"
+    sha256 cellar: :any, x86_64_windows: "cb924ca7d232f980b6cd4cf7709462e8ea933e3450be8e9a04df5480721d9bc4"
   end
 
   depends_on "node" => :build

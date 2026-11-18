@@ -1,13 +1,13 @@
 class Libfontenc < Formula
   desc "X.Org: Font encoding library"
   homepage "https://www.x.org/"
-  url "https://xorg.freedesktop.org/archive/individual/lib/libfontenc-1.1.9.tar.xz"
-  sha256 "9d8392705cb10803d5fe1d27d236cbab3f664e26841ce01916bbbe430cf273e2"
+  url "https://xorg.freedesktop.org/archive/individual/lib/libfontenc-1.1.10.tar.xz"
+  sha256 "daa186a49e3cc2b6fc585ca09971351e6f010f618abc6a164eda82e42e4aa4d6"
   license "MIT"
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "aad4e75e833608b19a0bb5b52275a4356c98ed9e542f1328f42727d63f984c43"
+    sha256 cellar: :any, x86_64_windows: "ac1c8b8459f1b355cd73fac9c0d165362ebfb36126e9ea68650f8a5562ff7c73"
   end
 
   depends_on "font-util" => :build

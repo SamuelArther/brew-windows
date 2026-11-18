@@ -6,14 +6,13 @@ class Fnlfmt < Formula
   license "LGPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0445bae657b01e3a47f85cce7a147b40c2a300696bed6712189250b09fae331c"
+    sha256 cellar: :any, x86_64_windows: "7980c34ffa0418874a5ffafd5e0f32bd91850c02a1b94044230ef836e087fe96"
   end
 
   depends_on "lua"
 
   def install
-    system "make"
-    bin.install "fnlfmt"
+    system "make", "install", "PREFIX=#{prefix}"
   end
 
   test do

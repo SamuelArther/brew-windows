@@ -1,13 +1,13 @@
 class N < Formula
   desc "Node version management"
   homepage "https://github.com/tj/n"
-  url "https://github.com/tj/n/archive/refs/tags/v11.0.0.tar.gz"
-  sha256 "44e0bfd66aadff042817d1da90adaf5dfd16d269aefb4f0c79b5a4da23bd0abd"
+  url "https://github.com/tj/n/archive/refs/tags/v12.0.0.tar.gz"
+  sha256 "3fbcf08440f25df6b1fd415c5f7fb860ef6c76a3c3d8e72c5bfa73b24f45bf84"
   license "MIT"
   head "https://github.com/tj/n.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4dd5581c7cae217f8dfd3ffdbb474fbc04451899c262bb1352820ffc2b37138d"
+    sha256 cellar: :any, x86_64_windows: "6a7e37ab91af90aa2b207507b5705dc8b35e6895cea85ba3dc47a31839e42fb1"
   end
 
   def install

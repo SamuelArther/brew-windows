@@ -1,14 +1,14 @@
 class Datafusion < Formula
   desc "Apache Arrow DataFusion and Ballista query engines"
   homepage "https://arrow.apache.org/datafusion"
-  url "https://www.apache.org/dyn/closer.lua?path=datafusion/datafusion-55.2.0/apache-datafusion-55.2.0.tar.gz"
-  mirror "https://archive.apache.org/dist/datafusion/datafusion-55.2.0/apache-datafusion-55.2.0.tar.gz"
-  sha256 "54b40ccacf006ad5967b7d398b5f7e111a682c4d6f9a519c929ab0f02da0f176"
+  url "https://www.apache.org/dyn/closer.lua?path=datafusion/datafusion-55.3.0/apache-datafusion-55.3.0.tar.gz"
+  mirror "https://archive.apache.org/dist/datafusion/datafusion-55.3.0/apache-datafusion-55.3.0.tar.gz"
+  sha256 "94e460e7ca1434d8d50a9efbb3fc8dfa2aa7b9ff19759cd733be03e808e9802c"
   license "Apache-2.0"
   head "https://github.com/apache/datafusion.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a538f28b4da8c50b98b4e96a0ebb459d3483edd252e252729b428529f1618ac9"
+    sha256 cellar: :any, x86_64_windows: "fd8ea644082bdb03cab2d4b39e0dc629ad1124b5a64839231adf1db4ef4869d0"
   end
 
   depends_on "rust" => :build

@@ -1,0 +1,287 @@
+[
+  {
+    "name": "apify-cli",
+    "status": "ok",
+    "seconds": 154
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "atlas",
+    "status": "ok",
+    "seconds": 147
+  },
+  {
+    "name": "aws-vault",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "benthos",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "clang-format",
+    "status": "ok",
+    "seconds": 1796
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 27
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "datafusion",
+    "status": "ok",
+    "seconds": 2241
+  },
+  {
+    "name": "dbml-cli",
+    "status": "ok",
+    "seconds": 242
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 70
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 143
+  },
+  {
+    "name": "diffle",
+    "status": "ok",
+    "seconds": 839
+  },
+  {
+    "name": "docker-agent",
+    "status": "build",
+    "seconds": 51
+  },
+  {
+    "name": "dolt",
+    "status": "build",
+    "seconds": 9
+  },
+  {
+    "name": "eslint_d",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 198
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 2114
+  },
+  {
+    "name": "fastly",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "fedify",
+    "status": "build",
+    "seconds": 187
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "flagd",
+    "status": "ok",
+    "seconds": 204
+  },
+  {
+    "name": "flowrs",
+    "status": "ok",
+    "seconds": 382
+  },
+  {
+    "name": "fnlfmt",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "git-xargs",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "go-feature-flag-relay-proxy",
+    "status": "ok",
+    "seconds": 212
+  },
+  {
+    "name": "hoverfly",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 168
+  },
+  {
+    "name": "ktop",
+    "status": "test",
+    "seconds": 120
+  },
+  {
+    "name": "libfontenc",
+    "status": "ok",
+    "seconds": 42
+  },
+  {
+    "name": "marked",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "micronaut",
+    "status": "build",
+    "seconds": 18
+  },
+  {
+    "name": "n",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "node-red",
+    "status": "ok",
+    "seconds": 119
+  },
+  {
+    "name": "oasis",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 94
+  },
+  {
+    "name": "openspec",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "php-cs-fixer",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "qshell",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "repo",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 118
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 484
+  },
+  {
+    "name": "scw",
+    "status": "ok",
+    "seconds": 229
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 50
+  },
+  {
+    "name": "stripe-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "tenv",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "termframe",
+    "status": "ok",
+    "seconds": 494
+  },
+  {
+    "name": "tock",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "whistle",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "yamlresume",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 42
+  }
+]

@@ -7,7 +7,7 @@ class Fallow < Formula
   head "https://github.com/fallow-rs/fallow.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "453b77032977476bd6c0258a739c39b768f25b6e103aa27df8cdbe963968d750"
+    sha256 cellar: :any, x86_64_windows: "64c7f9811ccc2c30da07828f7e64dfd904bfdd9205363574d067d9e1d7abbe88"
   end
 
   depends_on "rust" => :build
@@ -16,10 +16,12 @@ class Fallow < Formula
 
   def fetch
     system "cargo", "fetch", *std_cargo_fetch_args
+    system "cargo", "fetch", *std_cargo_fetch_args, "--manifest-path", "tools/similar-code-sidecar/Cargo.toml"
   end
 
   def install
     system "cargo", "install", *std_cargo_args(path: "crates/cli")
+    system "cargo", "install", *std_cargo_args(path: "tools/similar-code-sidecar")
   end
 
   test do
@@ -49,5 +51,8 @@ class Fallow < Formula
     assert_kind_of Hash, output.fetch("dupes")
     assert_kind_of Numeric, output.dig("health", "vital_signs", "dead_file_pct")
     assert_match version.to_s, shell_output("#{bin}/fallow --version")
+
+    status = JSON.parse(shell_output("#{bin}/fallow similar-code status --format json"))
+    assert_equal version.to_s, status.fetch("companion_version")
   end
 end
