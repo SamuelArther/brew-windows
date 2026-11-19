@@ -1,0 +1,347 @@
+[
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 102
+  },
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "azure-dev",
+    "status": "ok",
+    "seconds": 132
+  },
+  {
+    "name": "beszel",
+    "status": "build",
+    "seconds": 11
+  },
+  {
+    "name": "bosh-cli",
+    "status": "ok",
+    "seconds": 113
+  },
+  {
+    "name": "c-blosc2",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 132
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 25
+  },
+  {
+    "name": "context7-mcp",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "cspell",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 27
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 226
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 59
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 47
+  },
+  {
+    "name": "docker-language-server",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 384
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1891
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "gnhf",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "go-feature-flag-relay-proxy",
+    "status": "ok",
+    "seconds": 266
+  },
+  {
+    "name": "go-parquet-tools",
+    "status": "ok",
+    "seconds": 73
+  },
+  {
+    "name": "graphql-inspector",
+    "status": "ok",
+    "seconds": 75
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 169
+  },
+  {
+    "name": "jadx",
+    "status": "ok",
+    "seconds": 240
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "mark",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "marmot",
+    "status": "ok",
+    "seconds": 209
+  },
+  {
+    "name": "mdserve",
+    "status": "ok",
+    "seconds": 261
+  },
+  {
+    "name": "metabase",
+    "status": "ok",
+    "seconds": 64
+  },
+  {
+    "name": "mongoose",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "newrelic-infra-agent",
+    "status": "build",
+    "seconds": 43
+  },
+  {
+    "name": "node_exporter",
+    "status": "build",
+    "seconds": 29
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "phpstan",
+    "status": "test-deps",
+    "seconds": 4
+  },
+  {
+    "name": "pkgsite",
+    "status": "ok",
+    "seconds": 43
+  },
+  {
+    "name": "pkl",
+    "status": "ok",
+    "seconds": 440
+  },
+  {
+    "name": "prestd",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "pyrefly",
+    "status": "ok",
+    "seconds": 818
+  },
+  {
+    "name": "redress",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "rekor-cli",
+    "status": "ok",
+    "seconds": 81
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "ruby-build",
+    "status": "build",
+    "seconds": 50
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 133
+  },
+  {
+    "name": "saf-cli",
+    "status": "ok",
+    "seconds": 567
+  },
+  {
+    "name": "sanity",
+    "status": "ok",
+    "seconds": 717
+  },
+  {
+    "name": "scorecard",
+    "status": "build",
+    "seconds": 52
+  },
+  {
+    "name": "scw",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "serie",
+    "status": "ok",
+    "seconds": 287
+  },
+  {
+    "name": "sf",
+    "status": "ok",
+    "seconds": 1553
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "snowflake",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "sql-formatter",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "sqlx-cli",
+    "status": "ok",
+    "seconds": 140
+  },
+  {
+    "name": "stripe-cli",
+    "status": "build",
+    "seconds": 5
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 81
+  },
+  {
+    "name": "tgrep",
+    "status": "ok",
+    "seconds": 377
+  },
+  {
+    "name": "tlsx",
+    "status": "build",
+    "seconds": 43
+  },
+  {
+    "name": "tock",
+    "status": "ok",
+    "seconds": 95
+  },
+  {
+    "name": "tox",
+    "status": "ok",
+    "seconds": 164
+  },
+  {
+    "name": "trim-galore",
+    "status": "build",
+    "seconds": 132
+  },
+  {
+    "name": "virtctl",
+    "status": "ok",
+    "seconds": 234
+  },
+  {
+    "name": "xbyak",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "zbctl",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 43
+  }
+]

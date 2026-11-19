@@ -6,8 +6,11 @@ class Mdserve < Formula
   license "MIT"
   head "https://github.com/jfernandez/mdserve.git", branch: "main"
 
+  deprecate! date: "2026-11-19", because: :repo_archived
+  disable! date: "2027-05-19", because: :repo_archived
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5f1ce5b1ea66bf61f5ace02d17b24271a1a401ac20416af55783dd65910626f5"
+    sha256 cellar: :any, x86_64_windows: "d5c92a95fe7ae4ca9b455e9ac257039f32635d86130209bcec211c47f3d0068e"
   end
 
   depends_on "rust" => :build

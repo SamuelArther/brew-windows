@@ -1,13 +1,13 @@
 class Pyrefly < Formula
   desc "Fast type checker and IDE for Python"
   homepage "https://pyrefly.org/"
-  url "https://github.com/facebook/pyrefly/archive/refs/tags/1.4.1.tar.gz"
-  sha256 "9ee9147892727ff0a28d5cfc18f13440f8d267fa018213bf5b97beff242db3e6"
+  url "https://github.com/facebook/pyrefly/archive/refs/tags/1.5.0.tar.gz"
+  sha256 "87b240e0224a3050f03ff708efbd528ef52419078e2838eb41b63a897ea734e6"
   license "MIT"
   head "https://github.com/facebook/pyrefly.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "056794702ce197fc8545cf8afe68b6d838021af83019c4842885a1d9871e708b"
+    sha256 cellar: :any, x86_64_windows: "35d06a14fa105c0ba32355d4a8ffec94e1a6b99f0dd2e441e636774ea323aa46"
   end
 
   depends_on "rust" => :build

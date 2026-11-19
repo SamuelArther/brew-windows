@@ -1,8 +1,8 @@
 class Pkgsite < Formula
   desc "Documentation server for Go packages"
   homepage "https://pkg.go.dev/golang.org/x/pkgsite"
-  url "https://github.com/golang/pkgsite/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "63643f608bf927d35b5216cf546b7c52d90ec88190a2c83cc78eca5d42191d61"
+  url "https://github.com/golang/pkgsite/archive/refs/tags/v0.7.0.tar.gz"
+  sha256 "c8c0a319ade7fa9b87561aaf61b57694080060a76afc1d7dc035759e3eb76b39"
   license "BSD-3-Clause"
   head "https://go.googlesource.com/pkgsite.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Pkgsite < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5da1a8878a59d3eccd3d2f71c7930626041df2c98dc641ee56680d243160ad46"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3f20e33d8284f885f6e2a887dcc1e84359cbd48e77371fd03595e46d6f178b29"
   end
 
   depends_on "go" => [:build, :test]

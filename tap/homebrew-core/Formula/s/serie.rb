@@ -1,13 +1,13 @@
 class Serie < Formula
   desc "Rich git commit graph in your terminal"
   homepage "https://lusingander.github.io/serie/"
-  url "https://github.com/lusingander/serie/archive/refs/tags/v0.10.2.tar.gz"
-  sha256 "5308ce8d696465642ab2c0dc5c5b9c30541af919b61236457a9e2270d1116a45"
+  url "https://github.com/lusingander/serie/archive/refs/tags/v0.11.0.tar.gz"
+  sha256 "ca6c8ae0799917ef19febc23f08f2495e05a69748536e51bfce67b0236644af9"
   license "MIT"
   head "https://github.com/lusingander/serie.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "e737155f27e4641e7ee06ba9805a32adb576b47b558a4363bca4a13b2efc777f"
+    sha256 cellar: :any, x86_64_windows: "bde0ac83e22a2e14d3feed7089ee9bd00d5a36b3b3c23698a5f90536e0dd9e59"
   end
 
   depends_on "rust" => :build
