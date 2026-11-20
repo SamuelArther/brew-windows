@@ -2,13 +2,13 @@ class Eksctl < Formula
   desc "Simple command-line tool for creating clusters on Amazon EKS"
   homepage "https://eksctl.io"
   url "https://github.com/eksctl-io/eksctl.git",
-      tag:      "v0.231.0",
-      revision: "f671416a1ca0f8eb407dd0056de22044283926b2"
+      tag:      "v0.232.0",
+      revision: "69bb49fc68dbd532398c78abcfca27ed43df85cb"
   license "Apache-2.0"
   head "https://github.com/eksctl-io/eksctl.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c85c414a6c6e94e9a99f4d3e222810ca2dc2db18082ea65573d5521d6beceb34"
+    sha256 cellar: :any, x86_64_windows: "5cf33b2f8650f3db0507661473206384381770b1cb960780fc400ae399666d26"
   end
 
   depends_on "go" => :build

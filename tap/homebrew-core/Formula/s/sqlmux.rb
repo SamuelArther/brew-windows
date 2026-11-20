@@ -1,8 +1,8 @@
 class Sqlmux < Formula
   desc "Terminal database client with tmux-style panes and Vim keybindings"
   homepage "https://github.com/kackerx/sqlmux"
-  url "https://github.com/kackerx/sqlmux/archive/refs/tags/v0.10.0.tar.gz"
-  sha256 "58ee19faa767394e1941d181602191d0b76d618463ade6d0959924c06d9b7c67"
+  url "https://github.com/kackerx/sqlmux/archive/refs/tags/v0.11.0.tar.gz"
+  sha256 "49409df9a00fdbf9ca6b8951e8fb11a35070ad2c9456feea8de0870203eb1225"
   license "MIT"
   head "https://github.com/kackerx/sqlmux.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Sqlmux < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "45d9bd7e2330902cc62d3388bdf7b3f6aaf275df406687821b54e427f0fe2a13"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7ebc8040c6997fc3b60d11ea61f98a2402d8c0a9135658067c37a5fd3fc2f9ab"
   end
 
   depends_on "go" => :build

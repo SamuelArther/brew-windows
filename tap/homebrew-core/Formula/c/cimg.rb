@@ -1,8 +1,8 @@
 class Cimg < Formula
   desc "C++ toolkit for image processing"
   homepage "https://cimg.eu/"
-  url "https://cimg.eu/files/CImg_4.0.7.zip"
-  sha256 "32b93f038681f7e489af5d2e0a7937a32c90e020d0d9fc01f7d5badf430e6697"
+  url "https://cimg.eu/files/CImg_4.0.8.zip"
+  sha256 "ac19142becada361283b18b27f6eaf49b121e857224117d52c214d1650e53b92"
   license "CECILL-2.0"
   compatibility_version 1
 
@@ -12,7 +12,7 @@ class Cimg < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "308d39b081edf77e0da143eb6f68f0eb7993dd81e00409d10ba24473ceb20dae"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "ec910619cbad926332aa25799f4e51841b98f91faa0e8422f76cc07b5be358b3"
   end
 
   def install

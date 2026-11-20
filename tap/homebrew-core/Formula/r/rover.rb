@@ -1,8 +1,8 @@
 class Rover < Formula
   desc "CLI for managing and maintaining data graphs with Apollo Studio"
   homepage "https://www.apollographql.com/docs/rover/"
-  url "https://github.com/apollographql/rover/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "224cdfdd705856d703187a9ee09911cb499177394ec5f3b993d7abc127754e1e"
+  url "https://github.com/apollographql/rover/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "e95d6a8923f1fe3aff402156c12d037db46c2f99aa9c95099ec23c0c7ebeca1b"
   license "MIT"
   head "https://github.com/apollographql/rover.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Rover < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c616bf9d4f746dcfecbece6a7758c3bec0366b210c58dd2035c7496cff5c6b6c"
+    sha256 cellar: :any, x86_64_windows: "9835f79a324e9113c916b1dc5ec33385f95a42d191bc174cdf857b932060b8fb"
   end
 
   depends_on "rust" => :build

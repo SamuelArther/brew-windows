@@ -1,13 +1,13 @@
 class Auth0 < Formula
   desc "Build, manage and test your Auth0 integrations from the command-line"
   homepage "https://auth0.github.io/auth0-cli"
-  url "https://github.com/auth0/auth0-cli/archive/refs/tags/v1.39.0.tar.gz"
-  sha256 "be98893dc831faaf0fb8772f92183d9e2a4d980b7eec6b2de72d1a5e4770f31a"
+  url "https://github.com/auth0/auth0-cli/archive/refs/tags/v1.40.0.tar.gz"
+  sha256 "c7b060e6290bfca852a3069961dfe3abffd7e5e5fcc4e92791b39c663a867473"
   license "MIT"
   head "https://github.com/auth0/auth0-cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "67f5c19708f51632fc46c6f230b55c730a7d4648a48cb411d993262dd70dc32b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "799f6d45e7d12ce71c83233ac151affc6fdb0b6151a31a5aba03e7e4d79eb301"
   end
 
   depends_on "go" => :build

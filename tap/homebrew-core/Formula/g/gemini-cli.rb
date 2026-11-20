@@ -1,8 +1,8 @@
 class GeminiCli < Formula
   desc "Interact with Google Gemini AI models from the command-line"
   homepage "https://geminicli.com"
-  url "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.68.0.tgz"
-  sha256 "325099ddcb56937c27d119e7297bfa8a5e29b529bae3c92fdf3b71a36d5fa006"
+  url "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.70.0.tgz"
+  sha256 "be811606fc364c5679693d686c456fa2413c50bc6174d568439b4ddb4533906b"
   license "Apache-2.0"
 
   livecheck do
@@ -10,7 +10,7 @@ class GeminiCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c3a71eaa1a6dcbfeadb8ed0cc83ad3cefe5a2746672c53345483f9be83101eeb"
+    sha256 cellar: :any, x86_64_windows: "cf339a8024720c652a2acb60ffa997643c382fd8bcc758611b2a5ca9a90e3482"
   end
 
   deprecate! date: "2026-06-18", because: :unsupported, replacement_cask: "antigravity-cli"

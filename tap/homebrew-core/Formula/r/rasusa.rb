@@ -1,13 +1,13 @@
 class Rasusa < Formula
   desc "Randomly subsample sequencing reads or alignments"
   homepage "https://doi.org/10.21105/joss.03941"
-  url "https://github.com/mbhall88/rasusa/archive/refs/tags/5.1.0.tar.gz"
-  sha256 "c58ee8cdb2e40c921fbef4b8ceffcb7999687b473152f942a6bda0089da6b256"
+  url "https://github.com/mbhall88/rasusa/archive/refs/tags/5.1.1.tar.gz"
+  sha256 "c9674624e2a24af5924b55709969e761e2b6abb43fe8cf45abfd40d693b65c26"
   license "MIT"
   head "https://github.com/mbhall88/rasusa.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7f9be1dd1da74ee5596c6f37afb9f74ad648f9f273ed375946a3b863d23c90dc"
+    sha256 cellar: :any, x86_64_windows: "1a75773e0ac6ea3ee23d0945f4afff8137ec446c56580566e885bbd6770093d7"
   end
 
   depends_on "rust" => :build

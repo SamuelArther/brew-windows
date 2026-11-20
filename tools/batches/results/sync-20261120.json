@@ -1,0 +1,357 @@
+[
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 38
+  },
+  {
+    "name": "auth0",
+    "status": "ok",
+    "seconds": 71
+  },
+  {
+    "name": "aws-cdk",
+    "status": "ok",
+    "seconds": 133
+  },
+  {
+    "name": "azurite",
+    "status": "ok",
+    "seconds": 361
+  },
+  {
+    "name": "bitwarden-cli",
+    "status": "build",
+    "seconds": 1381
+  },
+  {
+    "name": "buildkit",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "chaoskube",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "cimg",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 58
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "crit",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "cubejs-cli",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "dbmate",
+    "status": "ok",
+    "seconds": 112
+  },
+  {
+    "name": "deepline",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "defuddle",
+    "status": "ok",
+    "seconds": 49
+  },
+  {
+    "name": "depot",
+    "status": "ok",
+    "seconds": 230
+  },
+  {
+    "name": "dnscontrol",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "docker-agent",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "draft",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "eksctl",
+    "status": "ok",
+    "seconds": 304
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 2169
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 53
+  },
+  {
+    "name": "firebase-cli",
+    "status": "ok",
+    "seconds": 327
+  },
+  {
+    "name": "forgejo-runner",
+    "status": "ok",
+    "seconds": 63
+  },
+  {
+    "name": "gemini-cli",
+    "status": "ok",
+    "seconds": 145
+  },
+  {
+    "name": "gf",
+    "status": "ok",
+    "seconds": 97
+  },
+  {
+    "name": "git-remote-codecommit",
+    "status": "ok",
+    "seconds": 134
+  },
+  {
+    "name": "gitea-runner",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "gitlab-runner",
+    "status": "ok",
+    "seconds": 211
+  },
+  {
+    "name": "gixy",
+    "status": "ok",
+    "seconds": 54
+  },
+  {
+    "name": "gosu",
+    "status": "ok",
+    "seconds": 286
+  },
+  {
+    "name": "gradle@8",
+    "status": "ok",
+    "seconds": 139
+  },
+  {
+    "name": "graphql-inspector",
+    "status": "ok",
+    "seconds": 83
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 143
+  },
+  {
+    "name": "immich-cli",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "infisical",
+    "status": "ok",
+    "seconds": 208
+  },
+  {
+    "name": "infracost",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "kosli-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "lerna",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "mcp-remote",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "mockserver",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "test",
+    "seconds": 89
+  },
+  {
+    "name": "node_exporter",
+    "status": "ok",
+    "seconds": 41
+  },
+  {
+    "name": "nogon",
+    "status": "ok",
+    "seconds": 222
+  },
+  {
+    "name": "oasis",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "osctrl-mcp",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "php-cs-fixer",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "php@8.5",
+    "status": "build",
+    "seconds": 2
+  },
+  {
+    "name": "playwright-cli",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "playwright-mcp",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 58
+  },
+  {
+    "name": "rasusa",
+    "status": "ok",
+    "seconds": 274
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "redress",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "render",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "rollup",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "rover",
+    "status": "ok",
+    "seconds": 829
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 113
+  },
+  {
+    "name": "rtk",
+    "status": "ok",
+    "seconds": 511
+  },
+  {
+    "name": "sqlmux",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "stripe-cli",
+    "status": "build",
+    "seconds": 4
+  },
+  {
+    "name": "tbls",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 47
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 9
+  },
+  {
+    "name": "weaviate",
+    "status": "ok",
+    "seconds": 210
+  },
+  {
+    "name": "xbyak",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 29
+  }
+]

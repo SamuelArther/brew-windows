@@ -1,8 +1,8 @@
 class Deepline < Formula
   desc "CLI for Deepline data enrichment and durable plays"
   homepage "https://code.deepline.com"
-  url "https://registry.npmjs.org/deepline/-/deepline-0.3.544.tgz"
-  sha256 "5fa62c695cafe27a793030e56f31aacf4ac715969e3d753e51d0b52f22f98dd0"
+  url "https://registry.npmjs.org/deepline/-/deepline-0.3.551.tgz"
+  sha256 "44105efbed6bd7e2cd42401b79f25e5d586ed71d6b01c90df82b31cc25d27f71"
   license "MIT"
 
   livecheck do
@@ -10,7 +10,7 @@ class Deepline < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3140886ec5862650d609ccba207bc0f16fb8a2dcb5161c5be87258380ce8507b"
+    sha256 cellar: :any, x86_64_windows: "80c1e3b640a3e60697dd4c7ebefaa0a5134bcb670e97666c0212f8efc1f39967"
   end
 
   depends_on "node"
