@@ -1,13 +1,13 @@
 class Zbctl < Formula
   desc "Zeebe CLI client"
   homepage "https://github.com/camunda-community-hub/zeebe-client-go"
-  url "https://github.com/camunda-community-hub/zeebe-client-go/archive/refs/tags/v8.7.0.tar.gz"
-  sha256 "7798bd2bb8719b18e767acbd31ea7db69f0b170c799b5ef98aa988be2d06dddf"
+  url "https://github.com/camunda-community-hub/zeebe-client-go/archive/refs/tags/v8.7.1.tar.gz"
+  sha256 "42fc26f985d91c9004ab6cf5a92940789ab0dd9516e7949a4097f1479194e73b"
   license "Apache-2.0"
   head "https://github.com/camunda-community-hub/zeebe-client-go.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5784513583bae43ca6f1f21076f1bcdf708b5f58e1573cca2d40778b0bff93a5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a0ed26635f3dfd847a8e33198ac983947d79267af5936e5a973ad540dcce5b03"
   end
 
   depends_on "go" => :build

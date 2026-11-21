@@ -1,8 +1,8 @@
 class Llamastash < Formula
   desc "Terminal-native local LLM orchestrator and proxy"
   homepage "https://github.com/llamastash/llamastash"
-  url "https://github.com/llamastash/llamastash/archive/refs/tags/v0.11.0.tar.gz"
-  sha256 "af28a44b2356d93e834da3eb189f79bb375b35e60bf6f684fe657547b01dd08e"
+  url "https://github.com/llamastash/llamastash/archive/refs/tags/v0.12.0.tar.gz"
+  sha256 "924d1229a3824aa877112d946ab2cec94ad62c5acc5de0b7d5eb46961186f7e8"
   license "MIT"
   head "https://github.com/llamastash/llamastash.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Llamastash < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9e5620314c811742b2bb36882edcf2fe24547075268dd0fbcb2bee90d2d549ef"
+    sha256 cellar: :any, x86_64_windows: "e07bdabdcad1d740488c8325ecd0af22f39d16dd1095e6b392381b724b4b40fe"
   end
 
   depends_on "pkgconf" => :build

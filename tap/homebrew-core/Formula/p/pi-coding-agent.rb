@@ -1,12 +1,12 @@
 class PiCodingAgent < Formula
   desc "AI agent toolkit"
   homepage "https://pi.dev/"
-  url "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-1.5.2.tgz"
-  sha256 "691bde186273b457d9d1c41d0fd47b57853b5e85ded1add1a1f6b78e66c261f4"
+  url "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-1.6.0.tgz"
+  sha256 "85d5de404e019e850c90ee9ac6dc6c16240da122fdce0314895608164030336b"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5a7156cf219a788ff528521073a8a1ad725b541aeb4358fef69c0155a811018a"
+    sha256 cellar: :any, x86_64_windows: "6bcafe40a4a7826110ddf6a9bd7907efa65f58a606e536c5d2eb3782ab8d35f1"
   end
 
   depends_on "node"

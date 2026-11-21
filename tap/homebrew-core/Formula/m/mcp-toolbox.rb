@@ -1,12 +1,12 @@
 class McpToolbox < Formula
   desc "MCP server for databases"
   homepage "https://github.com/googleapis/mcp-toolbox"
-  url "https://github.com/googleapis/mcp-toolbox/archive/refs/tags/v1.15.0.tar.gz"
-  sha256 "b870a9f2be0ea64dd7d2706f22a60c9d0bcce47742cf674ab08702f8dad64e5f"
+  url "https://github.com/googleapis/mcp-toolbox/archive/refs/tags/v1.18.0.tar.gz"
+  sha256 "538a77ecba470fad44835b60672642831fff1fc116fcf450649c619ed82d9e8c"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "a688c1c8fc65991295f09103cbaf653b2d108fd262f534982c13066611cdf3fb"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "95d2308fafc540d3104df563ba9f87acf11c0437b968ea733852984c14850c07"
   end
 
   depends_on "go" => :build

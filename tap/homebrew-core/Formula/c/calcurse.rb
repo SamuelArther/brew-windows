@@ -1,8 +1,8 @@
 class Calcurse < Formula
   desc "Text-based personal organizer"
   homepage "https://calcurse.org/"
-  url "https://calcurse.org/files/calcurse-4.9.0.tar.gz"
-  sha256 "8d4c36c868cc37d50decb49423548320488e64693d01527a272d1c2fb0afa8e6"
+  url "https://calcurse.org/files/calcurse-4.9.1.tar.gz"
+  sha256 "111f58413e62d47e6eda5807f63b589a2b458e4bf3c80f156ded0107957aa675"
   license "BSD-2-Clause"
 
   livecheck do
@@ -11,7 +11,7 @@ class Calcurse < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cb7a009ff0e9b5a80add80090e760a361a901d3d1fc8c7d62b9670e1409a43a1"
+    sha256 cellar: :any, x86_64_windows: "7065928ce672ec5a7345814137daf62de47580c068816c724de7ef90c9c92c95"
   end
 
   head do

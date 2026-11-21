@@ -1,13 +1,13 @@
 class Svlang < Formula
   desc "SystemVerilog compiler and language services"
   homepage "https://sv-lang.com/"
-  url "https://github.com/MikePopoloski/slang/archive/refs/tags/v12.1.tar.gz"
-  sha256 "e7454393956ef0f3e9bbcac27f7de473e11e1fd7be125c3009f1f2bfeddf0358"
+  url "https://github.com/MikePopoloski/slang/archive/refs/tags/v12.2.tar.gz"
+  sha256 "29c8dee801e489e10f84ebc8a65b641bbcee18614fd183223b35e85c2461b6ab"
   license "MIT"
   head "https://github.com/MikePopoloski/slang.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5501ea8469ddf0fec94739515a5e7ebc54e2671abad1f2ac1c1e847b3d92de8f"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7832f1c1f46299ef605cd92e2af584c48031b8bf7c619ea9be272bc92b4f0068"
   end
 
   depends_on "cmake" => :build

@@ -11,7 +11,7 @@ class BashCompletionAT2 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0cab033c1afe4caaba58ef57e9e30fb3649495c678e0cfe369b40d112db7dc63"
+    sha256 cellar: :any, x86_64_windows: "aa6f037c9e79ad3238e911f7adb57f318339ab74389fa9be438f732d5cbc640e"
   end
 
   head do
@@ -25,18 +25,18 @@ class BashCompletionAT2 < Formula
     depends_on "bash"
   end
 
+  # Allow all bottle to work on macOS without `readlink -f` (12.3+) or `realpath` (13+)
+  on_big_sur :or_older do
+    depends_on "coreutils"
+  end
+
   conflicts_with "bash-completion", because: "each are different versions of the same formula"
 
   deny_network_access!
 
   def install
-    inreplace "bash_completion" do |s|
-      # `/usr/bin/readlink -f` exists since macOS 12.3. Older systems
-      # (including earlier Monterey releases) do not support this option.
-      s.gsub! "readlink -f", "readlink" if OS.mac? && MacOS.version <= :monterey
-      # Automatically read Homebrew's existing v1 completions
-      s.gsub! "(/etc/bash_completion.d)", "(#{etc}/bash_completion.d)"
-    end
+    # Automatically read Homebrew's existing v1 completions
+    inreplace "bash_completion", "(/etc/bash_completion.d)", "(#{etc}/bash_completion.d)"
 
     system "autoreconf", "--force", "--install", "--verbose" if build.head?
     system "./configure", *std_configure_args

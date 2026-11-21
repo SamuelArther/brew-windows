@@ -1,15 +1,15 @@
 class Boring < Formula
   desc "Simple command-line SSH tunnel manager that just works"
   homepage "https://alebeck.github.io/boring/"
-  url "https://github.com/alebeck/boring/archive/refs/tags/v0.18.0.tar.gz"
-  sha256 "2e9b07032a242d7bd3ff92a712c6ae04875afc9f99dcb72f649dde4925aa119f"
+  url "https://github.com/alebeck/boring/archive/refs/tags/v0.18.1.tar.gz"
+  sha256 "a847e3fbd99eaf82c5a3386c51021a6b93c0b74eb9f51ebbfac8e2bca9547a16"
   license "MIT"
   head "https://github.com/alebeck/boring.git", branch: "main"
 
   no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "dd0d6fb522f099f8f14dbd018dda948047ce2f84eead129eb3b0f799e0f50dd2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "363082253654e074209cbf3642e820e96f6cfd41cd15b7dbf58232cf4c110c7f"
   end
 
   depends_on "go" => :build

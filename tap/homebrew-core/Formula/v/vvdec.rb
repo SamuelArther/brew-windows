@@ -1,13 +1,13 @@
 class Vvdec < Formula
   desc "Fraunhofer Versatile Video Decoder"
   homepage "https://www.hhi.fraunhofer.de/en/departments/vca/technologies-and-solutions/h266-vvc.html"
-  url "https://github.com/fraunhoferhhi/vvdec/archive/refs/tags/v3.2.1.tar.gz"
-  sha256 "5c334557a33cd93e981b84ba0e77126ef970a38e2481b67f0475db40f75379b8"
+  url "https://github.com/fraunhoferhhi/vvdec/archive/refs/tags/v3.3.0.tar.gz"
+  sha256 "8b09dbd3e3ea76972a6a2fb59e96b81a9c953f414e69f8a1b5a23eeca5bc2600"
   license "BSD-3-Clause-Clear"
   head "https://github.com/fraunhoferhhi/vvdec.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "fd16c34986dc53214ff21ec122f2f70aa72455e4fea444b5c3f548cf07fd9f6c"
+    sha256 cellar: :any, x86_64_windows: "d48ee169be83f98de75d288ba247d29fc73084a198a942bbf9781db90be9cbc0"
   end
 
   depends_on "cmake" => :build
