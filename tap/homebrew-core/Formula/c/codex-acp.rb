@@ -1,13 +1,13 @@
 class CodexAcp < Formula
   desc "ACP server that exposes Codex CLI functionality for ACP-compatible clients"
   homepage "https://github.com/agentclientprotocol/codex-acp"
-  url "https://registry.npmjs.org/@agentclientprotocol/codex-acp/-/codex-acp-2.8.0.tgz"
-  sha256 "4c281cfc52d7ba5b2584755343bd68392d0bd92240bdf3968ea73a9a6fea5782"
+  url "https://registry.npmjs.org/@agentclientprotocol/codex-acp/-/codex-acp-2.9.0.tgz"
+  sha256 "8fce3bb06be5c1e18fdc947dddda4e87458e5f088c00087c9ebad1ea979f9f1f"
   license "Apache-2.0"
   head "https://github.com/agentclientprotocol/codex-acp.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2131640d8080a50582dc1c145306547df95d6956e965627a2d02af24f0ff5bb1"
+    sha256 cellar: :any, x86_64_windows: "67b878ce48a99f22d834d8def2bf437377838f592400b679a18bcbddd2a1ac84"
   end
 
   depends_on "node"

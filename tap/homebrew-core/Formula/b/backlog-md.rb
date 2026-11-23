@@ -1,12 +1,12 @@
 class BacklogMd < Formula
   desc "Markdown‑native Task Manager & Kanban visualizer for any Git repository"
   homepage "https://github.com/MrLesk/Backlog.md"
-  url "https://github.com/MrLesk/Backlog.md/archive/refs/tags/v1.56.0.tar.gz"
-  sha256 "e37248e09b4c179de9e4036806a52dcdd18e8cb7b459156ee8bfd174081e55b7"
+  url "https://github.com/MrLesk/Backlog.md/archive/refs/tags/v1.57.4.tar.gz"
+  sha256 "cdbbf444445f63a4cd2fe9a3e815269e80d71d218f9ea80474afc01a9de61cb5"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "143cfe848fb2176ed94f145597946f45a56de3bf369d2be54d24087e753f4f9a"
+    sha256 cellar: :any, x86_64_windows: "4dd05f4e9efd2e21fc8e0b7d730efb136e0f4378ef7853cf77e154503f501bd5"
   end
 
   depends_on "bun" => :build
@@ -24,8 +24,8 @@ class BacklogMd < Formula
 
   def install
     if OS.linux?
-      bun_icu = Formula["bun"].deps.find { |dep| dep.name.match?(/^icu4c/) }.to_formula
-      icu = deps.find { |dep| dep.name.match?(/^icu4c/) }.to_formula
+      bun_icu = Formula["bun"].deps("icu4c").first.to_formula
+      icu = deps("icu4c").first.to_formula
 
       odie "Update icu4c dependency!" if bun_icu.name != icu.name
     end

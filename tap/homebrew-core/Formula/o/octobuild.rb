@@ -7,7 +7,7 @@ class Octobuild < Formula
   head "https://github.com/octobuild/octobuild.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "eb5f5c745ce69d100cabeb1ab7c5491cc02c2bcbe75be522cba6f47277d1986c"
+    sha256 cellar: :any, x86_64_windows: "b73680052b87e8f8fbed274c44bbf5f1ca800b44aa63b5988e7234c12c01b0ed"
   end
 
   depends_on "pkgconf" => :build
@@ -26,7 +26,7 @@ class Octobuild < Formula
   end
 
   def install
-    ENV["OPENSSL_DIR"] = formula_opt_prefix("openssl@4") if OS.linux?
+    ENV["OPENSSL_DIR"] = dep("openssl").opt_prefix if OS.linux?
     system "cargo", "install", *std_cargo_args
   end
 

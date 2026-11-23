@@ -10,7 +10,7 @@ class Mdserve < Formula
   disable! date: "2027-05-19", because: :repo_archived
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d5c92a95fe7ae4ca9b455e9ac257039f32635d86130209bcec211c47f3d0068e"
+    sha256 cellar: :any, x86_64_windows: "9157c80b09bb57c950b176288c7ca354fa23d387479e7ba07497558da7fce0df"
   end
 
   depends_on "rust" => :build
@@ -32,16 +32,11 @@ class Mdserve < Formula
     (testpath/"test.md").write("# Test\n\nThis is a test markdown file.")
 
     port = free_port
-    pid = spawn bin/"mdserve", "--port", port.to_s, "test.md"
+    with_test_process(bin/"mdserve", "--port", port.to_s, "test.md") do
+      sleep 1
 
-    sleep 1
-
-    begin
       output = shell_output("curl -s http://localhost:#{port}")
       assert_match "This is a test markdown file", output
-    ensure
-      Process.kill("TERM", pid)
-      Process.wait(pid)
     end
   end
 end

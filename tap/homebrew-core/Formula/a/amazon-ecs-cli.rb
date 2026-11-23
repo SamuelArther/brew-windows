@@ -10,10 +10,12 @@ class AmazonEcsCli < Formula
   disable! date: "2026-12-25", because: :repo_archived
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "f4c3f547d1a784ccd7fe6f3fd190b68c0f54e66329c8e4d4e3ca62674458a335"
+    sha256 cellar: :any, x86_64_windows: "e295426244f2317ffe6bc8244f4798e12bc0881f2ff3cf3fe6ae231ee579178f"
   end
 
   depends_on "go" => :build
+
+  deny_network_access!
 
   def install
     ENV["GOPATH"] = buildpath

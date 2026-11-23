@@ -7,11 +7,13 @@ class Erfa < Formula
   head "https://github.com/liberfa/erfa.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d472d4aa2c59d2bb7a66f38264367b340ac28814ad0a922a223792c791b29151"
+    sha256 cellar: :any, x86_64_windows: "38519b84b9999b1073b7019be42517e4e60a48bc65e85e5f2baca40a79e34903"
   end
 
   depends_on "meson" => :build
   depends_on "ninja" => :build
+
+  deny_network_access!
 
   def install
     system "meson", "setup", "build", *std_meson_args

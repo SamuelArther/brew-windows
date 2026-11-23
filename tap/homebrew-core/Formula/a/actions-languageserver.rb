@@ -6,13 +6,18 @@ class ActionsLanguageserver < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4113c487dbcabf7f0e821f0b401a64d04e6d19483a4984409166c9cee32ab1e5"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "aea40acee80a646ba81abd2c652fe4ae1039f2383cbec44a8506285da5ff95e3"
   end
 
   depends_on "node"
 
-  def install
+  deny_network_access!
+
+  def fetch
     system "npm", "install", *std_npm_args(prefix: false)
+  end
+
+  def install
     system "npm", "run", "build", "--workspaces"
     libexec.install "languageserver/bin", "languageserver/dist"
     bin.install_symlink Dir[libexec/"bin/*"]

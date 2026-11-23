@@ -13,9 +13,10 @@ class Envv < Formula
     resolves "https://github.com/jakewendt/envv/pull/4"
   end
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/envv-1.7"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5d1ccfc2b81faeb738741dc5093c9f673a5ecf232433f92178ff074de6740391"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "6cdffe6f985d1ccae86a53a90ec615df0f13e48761febce9a9c56f75432065b2"
   end
 
   def install

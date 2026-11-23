@@ -7,7 +7,7 @@ class Reshape < Formula
   head "https://github.com/fabianlindfors/reshape.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8a4b83e089d5359975bf26ad81019450597d11c195687dcced5375fa9f0b3329"
+    sha256 cellar: :any, x86_64_windows: "415bbe01d2c86c9c9850b0607f21b27819c27b5d5f747c0687dfcdf283f72f09"
   end
 
   depends_on "pkgconf" => :build
@@ -21,7 +21,7 @@ class Reshape < Formula
 
   allow_network_access! :test
 
-  def openssl = deps.map(&:name).find { |d| d.match?(/^openssl(@\d+(\.\d+)*)?$/) }
+  def openssl = deps("openssl").first&.name
 
   def fetch
     system "cargo", "generate-lockfile" if build.head?

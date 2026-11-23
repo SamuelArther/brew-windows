@@ -11,11 +11,13 @@ class Avce00 < Formula
   deprecate! date: "2026-07-17", because: :unmaintained
   disable! date: "2027-01-17", because: :unmaintained
 
-  bottle do
-    sha256 cellar: :any, x86_64_windows: "8b90dfa0490c8899a244e2229bbed2d65e5ab8cf445a621134feb14fc4b18e50"
-  end
-
   conflicts_with "gdal", because: "both install a cpl_conv.h header"
+
+  deny_network_access!
+
+  bottle do
+    sha256 cellar: :any, x86_64_windows: "667cf0abc1c32b88cb6e65f1958e6cdd4cbff047fd057108e671bac4015256d5"
+  end
 
   def install
     system "make", "CC=#{ENV.cc}"

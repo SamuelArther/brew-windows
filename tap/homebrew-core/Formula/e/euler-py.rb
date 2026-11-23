@@ -21,7 +21,7 @@ class EulerPy < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d58bf26dade1091fbc319b46859ef9e650ff989a0a0e122079bac1ef55f59abc"
+    sha256 cellar: :any, x86_64_windows: "2c7f4ca6b23fefac78ce84d3509ca27ff0f74742e7f6b0187844d4af077a5e52"
   end
 
   depends_on "python@3.15"
@@ -31,6 +31,8 @@ class EulerPy < Formula
     url "https://files.pythonhosted.org/packages/76/d4/81420972a676e8ffea40450d8c8c92943e7218a78fe9b64359836cc9876b/click-8.4.2.tar.gz"
     sha256 "9a6cea6e60b17ebe0a44c5cc636d94f09bd66142c1cd7d8b4cd731c4917a15f6"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

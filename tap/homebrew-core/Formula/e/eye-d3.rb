@@ -10,7 +10,7 @@ class EyeD3 < Formula
   head "https://github.com/nicfit/eyeD3.git", branch: "0.9.x"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ba397b4d35d8929e2486d454d36892c2682114ed9d32aeb59ee1ce3daf54715c"
+    sha256 cellar: :any, x86_64_windows: "f2b51573e69c3f78e520e8541ca5b856c830d98052b4d29f2268b2dec366dbe9"
   end
 
   depends_on "python@3.15"
@@ -29,6 +29,8 @@ class EyeD3 < Formula
     url "https://files.pythonhosted.org/packages/7d/fa/3944b40b07da9ce895c0e6303a5ab7d53da063554f534556b134a54d6093/packaging-26.3.tar.gz"
     sha256 "94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

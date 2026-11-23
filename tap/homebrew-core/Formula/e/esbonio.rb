@@ -8,7 +8,7 @@ class Esbonio < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3d9ec5cecc2d9a694deca1adb89c80a3000614b651075c71db1c4355f0a30fc9"
+    sha256 cellar: :any, x86_64_windows: "a5ab4f6c283ebfa546291ea493e10ceac10ce3df33ddf1264145528ff795a559"
   end
 
   depends_on "python@3.15"
@@ -57,6 +57,8 @@ class Esbonio < Formula
     url "https://files.pythonhosted.org/packages/01/89/3f825ab71c242fffb62ea8fe638741c290f62f8d7aadf8125ff897747af3/websockets-17.2.tar.gz"
     sha256 "36c2fb94c990cc2545143b12690e2de6c16300f9dbe5b4f33fa300cf57dc8792"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

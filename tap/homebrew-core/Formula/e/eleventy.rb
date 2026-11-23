@@ -7,10 +7,12 @@ class Eleventy < Formula
   head "https://github.com/11ty/eleventy.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "5014cf35068200bd9eafa3ad02f2193fc2efb1c522f08627fe138a7be826098b"
+    sha256 cellar: :any, x86_64_windows: "57158e7f458d98379c4908805ad83592dad29852fc97a104671436e1e99991a7"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

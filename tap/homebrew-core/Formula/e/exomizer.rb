@@ -15,9 +15,10 @@ class Exomizer < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/exomizer-3.1.2"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "2fc4734242ce6c2bc4b91687f37ec82195fbd9c9d80b6bac6e6d111ebb3e7417"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "aa888eac3b4fcfd86b90ce1c067b4911d08e1666fb99f5202b7a0d8d76445bea"
   end
+
+  deny_network_access!
 
   def install
     cd "src" do

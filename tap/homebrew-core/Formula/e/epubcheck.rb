@@ -6,10 +6,12 @@ class Epubcheck < Formula
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8c7614d0e8f8d5607584ef7eddae9414481df4bfe13784e2ff7c763bcac1be27"
+    sha256 cellar: :any, x86_64_windows: "5ae2bac9e46f8a109f7922018ecb2e4a981c2fb444938e4474e0e818628f4f8e"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     jarname = "epubcheck.jar"

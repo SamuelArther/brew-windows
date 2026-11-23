@@ -11,7 +11,7 @@ class Brag < Formula
   disable! date: "2027-02-04", because: :unmaintained
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d3f506e61e7cfd00f5302ef279edcaed25faf7b12ba6e18a7e21f5ab5b5da5a9"
+    sha256 cellar: :any, x86_64_windows: "e185590aa967a98c35bc4c5dfcedcc360f24e0ddf094dd45cc33e3e5746423a7"
   end
 
   depends_on "uudeview"
@@ -19,6 +19,8 @@ class Brag < Formula
   on_linux do
     depends_on "tcl-tk@8"
   end
+
+  deny_network_access!
 
   def install
     bin.install "brag"

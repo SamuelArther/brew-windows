@@ -10,10 +10,12 @@ class AwsKeychain < Formula
   disable! date: "2026-12-08", because: :unmaintained, replacement_formula: "aws-vault"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0abd0e650e24800845456f20abb8204a85c16939c3a66ba6dba726d071bfb329"
+    sha256 cellar: :any, x86_64_windows: "b0c16f8bd98a44d14f8db2ec8b9cd3b0f971bef4cfbfcc2d525889dbf8c50f19"
   end
 
   depends_on :macos
+
+  deny_network_access!
 
   def install
     bin.install "aws-keychain"

@@ -6,7 +6,7 @@ class Mapscii < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8180602d7ed40c6a551f1e024fa6a7cf0b3f98503c02d629a3e93703e1a423eb"
+    sha256 cellar: :any, x86_64_windows: "01ea0297078352c3ac549aace1d3632156f3bec69083922179b230ae74b8bbb0"
   end
 
   depends_on "node"
@@ -18,11 +18,9 @@ class Mapscii < Formula
 
   test do
     output_log = testpath/"output.log"
-    pid = spawn bin/"mapscii", [:out, :err] => output_log.to_s
-    sleep 5
-    assert_match "Failed to start MapSCII", output_log.read
-  ensure
-    Process.kill("TERM", pid)
-    Process.wait(pid)
+    with_test_process(bin/"mapscii", [:out, :err] => output_log.to_s) do
+      sleep 5
+      assert_match "Failed to start MapSCII", output_log.read
+    end
   end
 end

@@ -6,7 +6,7 @@ class Bltool < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "2c4d3e107a5331b42b800ad7d274ad9ffdfa78401d46ba3b9806e3400f7ef5a5"
+    sha256 cellar: :any, x86_64_windows: "6acb7ce730fcbf67399195485169a5de8c85dc01a5a9efd5bb420120e53c3169"
   end
 
   head do
@@ -18,6 +18,8 @@ class Bltool < Formula
   disable! date: "2027-01-17", because: :deprecated_upstream
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     if build.head?

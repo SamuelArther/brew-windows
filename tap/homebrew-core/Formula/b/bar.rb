@@ -8,8 +8,10 @@ class Bar < Formula
   deprecate! date: "2026-01-05", because: "is not available via HTTPS"
   disable! date: "2027-01-05", because: "is not available via HTTPS"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7a392092a2a04e71fdb37c370b3a3b3d0161e39f4b99a87a541187344b240cb7"
+    sha256 cellar: :any, x86_64_windows: "578e70959ac6a1797e6489098389acb1ca3f075e9d45b1c399b9c09c32480887"
   end
 
   def install

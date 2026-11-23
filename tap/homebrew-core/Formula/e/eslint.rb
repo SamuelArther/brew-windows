@@ -7,10 +7,12 @@ class Eslint < Formula
   head "https://github.com/eslint/eslint.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c1abe4ea0404b4a9e408ffc75fa13ab6271bf3915ac3e2c1dfe1e96c5e3ba369"
+    sha256 cellar: :any, x86_64_windows: "5265359bbd1ab8fc9511b1a70f3d1bd6b37b8c39f54dcc5c0aaea08ab574b01c"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

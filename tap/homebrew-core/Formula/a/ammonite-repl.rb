@@ -15,13 +15,15 @@ class AmmoniteRepl < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ad7400349e0852b7eb3d84e0675dd7d3ad1901e2036a5128e3a603c15ba4cc51"
+    sha256 cellar: :any, x86_64_windows: "33d52ba05b80fed5c265366c6cc106fa43d307dcc6720c492d0b0bd1eeca7858"
   end
 
   deprecate! date: "2026-07-17", because: :deprecated_upstream, replacement_formula: "scala-cli"
   disable! date: "2027-01-17", because: :deprecated_upstream, replacement_formula: "scala-cli"
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     (libexec/"bin").install Dir["*"].first => "amm"

@@ -13,14 +13,14 @@ class CfrDecompiler < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "205c362f91b47690a21d716d7eac9b97d18cc93679e47b26f0dd0f982a7cfbcd"
+    sha256 cellar: :any, x86_64_windows: "35ad7323ec95bdf1c3e00fc8a5e0c1c8f56bae8f0d593daedc2d0578b93ebbaa"
   end
 
   depends_on "maven" => :build
   depends_on "openjdk@21"
 
   def install
-    ENV["JAVA_HOME"] = formula_opt_prefix("openjdk@21")
+    ENV["JAVA_HOME"] = dep("openjdk").opt_prefix
     # changing the compiler because 6 is used by upstream and openjdk no longer supports it
     system formula_opt_bin("maven")/"mvn", "package", "-Dmaven.compiler.source=8", "-Dmaven.compiler.target=8"
 
@@ -44,7 +44,7 @@ class CfrDecompiler < Formula
       doc.install doc_jar
       mkdir doc/"javadoc"
       cd doc/"javadoc" do
-        system formula_opt_bin("openjdk@21")/"jar", "-xf", doc/doc_jar
+        system dep("openjdk").opt_bin/"jar", "-xf", doc/doc_jar
         rm_r("META-INF")
       end
     end
@@ -65,7 +65,7 @@ class CfrDecompiler < Formula
       }
     JAVA
     (testpath/"T.java").write fixture
-    system formula_opt_bin("openjdk@21")/"javac", "T.java"
+    system dep("openjdk").opt_bin/"javac", "T.java"
     output = pipe_output("#{bin}/cfr-decompiler --comments false T.class")
     assert_match fixture, output
   end

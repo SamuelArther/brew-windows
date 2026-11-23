@@ -11,7 +11,7 @@ class Ebook2cw < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "05484d4cae6c2761146db69beea70b16f4abc8a3a0fcf6c56151fef364af5f7a"
+    sha256 cellar: :any, x86_64_windows: "4d2bc14f341fa869c92ebf27c87b9e4818b368c56502d9788ec85616ec9353b6"
   end
 
   depends_on "lame"
@@ -25,6 +25,8 @@ class Ebook2cw < Formula
   on_linux do
     depends_on "gettext" => :build # for msgfmt
   end
+
+  deny_network_access!
 
   def install
     system "make", "DESTDIR=#{prefix}"

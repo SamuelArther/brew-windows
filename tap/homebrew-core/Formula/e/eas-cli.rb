@@ -6,10 +6,12 @@ class EasCli < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c034536ace5bfd8f15f305ac41fc4f482d4542c36706b7662ffefc39d294f6b5"
+    sha256 cellar: :any, x86_64_windows: "5151d558a9d75003b5d61fd52bfd558e2c4408c19d4724e914d339250d31ca59"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

@@ -7,7 +7,7 @@ class Gat < Formula
   head "https://github.com/koki-develop/gat.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "10aaac49932d5d2ee0b131cd37f24f072850a9d8cc71273b15c849a1cf35d5f6"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "cd49681a047969ac4eba62193d430b9974ef8bb45c921fa9f6f4b52077f4d980"
   end
 
   depends_on "go" => :build
@@ -20,6 +20,7 @@ class Gat < Formula
 
   def install
     system "go", "build", *std_go_args(ldflags: "-X github.com/koki-develop/gat/cmd.version=v#{version}")
+    generate_completions_from_executable(bin/"gat", shell_parameter_format: :cobra)
   end
 
   test do

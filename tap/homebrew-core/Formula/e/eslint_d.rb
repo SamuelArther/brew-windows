@@ -6,10 +6,12 @@ class EslintD < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8329cb14c0e9ea7db7c130998d27667141413289dbf92d161668f1e349850e52"
+    sha256 cellar: :any, x86_64_windows: "c845202669fe1e88b27ca6f77bf80b9718e35d94f982d6e7e88a6d0e65b141e2"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

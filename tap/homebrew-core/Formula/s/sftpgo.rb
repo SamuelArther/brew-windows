@@ -11,7 +11,7 @@ class Sftpgo < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d67b16bac8ad5d161cb962f05197f058bb9097f845c015a187dbfe2a0a2c7d2f"
+    sha256 cellar: :any, x86_64_windows: "3362eea2c3ad600c8872ffd668ecb4080d6cf0773a54f35ff9141614861c7502"
   end
 
   depends_on "go" => :build
@@ -79,13 +79,10 @@ class Sftpgo < Formula
     ENV["SFTPGO_SFTPD__BINDINGS__0__ADDRESS"] = "127.0.0.1"
     ENV["SFTPGO_SFTPD__HOST_KEYS"] = "#{testpath}/id_ecdsa,#{testpath}/id_ed25519"
     ENV["SFTPGO_LOG_FILE_PATH"] = ""
-    pid = spawn bin/"sftpgo", "serve", "--config-file", "#{pkgetc}/sftpgo.json"
-
-    sleep 5
-    assert_match expected_output, shell_output("curl -s 127.0.0.1:#{http_port}/healthz")
-    system "ssh-keyscan", "-p", sftp_port.to_s, "127.0.0.1"
-  ensure
-    Process.kill("TERM", pid)
-    Process.wait(pid)
+    with_test_process(bin/"sftpgo", "serve", "--config-file", "#{pkgetc}/sftpgo.json") do
+      sleep 5
+      assert_match expected_output, shell_output("curl -s 127.0.0.1:#{http_port}/healthz")
+      system "ssh-keyscan", "-p", sftp_port.to_s, "127.0.0.1"
+    end
   end
 end

@@ -14,7 +14,7 @@ class ScryerProlog < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "da9d44dbd3b9f9a4d55a95332292f84b45ed2af2dcc1ae05a73dfa358da0e669"
+    sha256 cellar: :any, x86_64_windows: "6c227e12ff32cf190222b7d03946534b34ba1fadeb90a196e81339b5d132d90c"
   end
 
   depends_on "pkgconf" => :build
@@ -31,7 +31,7 @@ class ScryerProlog < Formula
   end
 
   def install
-    ENV["OPENSSL_DIR"] = formula_opt_prefix("openssl@4") if OS.linux?
+    ENV["OPENSSL_DIR"] = dep("openssl").opt_prefix if OS.linux?
 
     system "cargo", "install", *std_cargo_args
   end

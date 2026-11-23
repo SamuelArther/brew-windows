@@ -15,10 +15,12 @@ class BrewGem < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7824f0c3ec0f123fbacfde654583bf6bbde811e68ae89b92530ee8ed2654379b"
+    sha256 cellar: :any, x86_64_windows: "e6f6d7822666982a1f83adb952a02c181c162861aaa11e30f5d595a264023f60"
   end
 
   uses_from_macos "ruby"
+
+  deny_network_access!
 
   def install
     lib.install Dir["lib/*"]

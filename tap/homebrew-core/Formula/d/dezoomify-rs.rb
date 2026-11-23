@@ -15,8 +15,11 @@ class DezoomifyRs < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8d3bd6b7460bb5ef5efc336a62db06a1ca79288ba5ce8fb64bef2eeb1d4548fc"
+    sha256 cellar: :any, x86_64_windows: "13ab423d6196112d5689e39c71f46cb8c54f880137e74940e3b3dcb7613d9e99"
   end
+
+  deprecate! date: "2026-11-22", because: :repo_archived, replacement_formula: "dezoomify-cli"
+  disable! date: "2027-11-22", because: :repo_archived, replacement_formula: "dezoomify-cli"
 
   depends_on "pkgconf" => :build
   depends_on "rust" => :build

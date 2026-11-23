@@ -6,10 +6,12 @@ class E2b < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "259dc9420ce19275044cc02fd4f5d31a7db721296288c1db46617ea3f3e51986"
+    sha256 cellar: :any, x86_64_windows: "363834f9d6859248002cd2ebb5051c26a52c5c1ba9a6822b64d8551a44b20839"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

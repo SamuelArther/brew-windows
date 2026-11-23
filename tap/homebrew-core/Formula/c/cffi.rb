@@ -8,7 +8,7 @@ class Cffi < Formula
   compatibility_version 1
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "8761515bb8ce35670220d82a76f62ba2f678f3c031a7e4765ec1339587d66be5"
+    sha256 cellar: :any, x86_64_windows: "d7375f74cf67afec2cb616baf76a2881cae796a8957b328ea89628e11e815099"
   end
 
   depends_on "python@3.14" => [:build, :test]
@@ -19,14 +19,8 @@ class Cffi < Formula
 
   pypi_packages exclude_packages: "pycparser"
 
-  def pythons
-    deps.map(&:to_formula)
-        .select { |f| f.name.start_with?("python@") }
-        .map { |f| f.opt_libexec/"bin/python" }
-  end
-
   def install
-    pythons.each do |python|
+    python3_interpreters.each do |python|
       system python, "-m", "pip", "install", *std_pip_args(build_isolation: true), "."
     end
   end
@@ -53,7 +47,7 @@ class Cffi < Formula
       print(lib.sum(1, 2))
     PYTHON
 
-    pythons.each do |python|
+    python3_interpreters.each do |python|
       assert_equal 3, shell_output("#{python} sum.py").to_i
     end
   end

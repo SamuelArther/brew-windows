@@ -6,10 +6,12 @@ class EaskCli < Formula
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "de10dd9dce7423fd42adccb4cb04e37d09535b4f0036dce9096a728b1ed8ab5d"
+    sha256 cellar: :any, x86_64_windows: "fc4519accaedf9164673ddfc625affd1ec62b5422a4b3acccd7298659dbf24b6"
   end
 
   depends_on "node"
+
+  allow_network_access! [:build, :test]
 
   def install
     system "npm", "install", *std_npm_args

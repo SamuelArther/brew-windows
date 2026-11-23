@@ -7,7 +7,7 @@ class Shellshare < Formula
   head "https://github.com/vitorbaptista/shellshare.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "a5031d027c59a91cf58fcd63b4b9c79468cef7c7b7dedc81cc5f57c5a942786f"
+    sha256 cellar: :any, x86_64_windows: "dd76a49d8f3f918a5ce1dd37030f14ccaaa7dcef7d4d436de3335a2b6eb4fcde"
   end
 
   depends_on "rust" => :build
@@ -26,11 +26,9 @@ class Shellshare < Formula
     assert_match version.to_s, shell_output("#{bin}/shellshare --version")
 
     port = free_port
-    pid = spawn(bin/"shellshare", "server", "--port", port.to_s)
-    sleep 2
-    assert_match "shellshare", shell_output("curl --silent --max-time 5 http://localhost:#{port}")
-  ensure
-    Process.kill("TERM", pid)
-    Process.wait(pid)
+    with_test_process(bin/"shellshare", "server", "--port", port.to_s) do
+      sleep 2
+      assert_match "shellshare", shell_output("curl --silent --max-time 5 http://localhost:#{port}")
+    end
   end
 end

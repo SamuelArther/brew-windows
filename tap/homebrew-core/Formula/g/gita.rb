@@ -8,14 +8,14 @@ class Gita < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "23db4fe3bcaed18baceda9e2fbbf5ff7147afb232082e6d0057ff2d1626a02a5"
+    sha256 cellar: :any, x86_64_windows: "5dea34503e6cb8449afc0a798832a803fb23d3e94da64816631a146b58b65d8a"
   end
 
   depends_on "python@3.15"
 
   resource "argcomplete" do
-    url "https://files.pythonhosted.org/packages/87/6f/5a73f04007ca950701765949209f068da628bd11f9c2da287278ce91e0ee/argcomplete-3.7.2.tar.gz"
-    sha256 "aad8b69a0b9969edb62db0d1752354c0d50717b10e0cbb00e2a958381b9fc6b9"
+    url "https://files.pythonhosted.org/packages/19/0d/ca63f1b8b706c70590d0a4acc9c3c94ea8ed4dd9c83b4f7af195868abe76/argcomplete-3.8.0.tar.gz"
+    sha256 "0114d634013e11ac92cc329b3a7d886c3506e98ddc7bb23c99b1782aacc8b8bd"
   end
 
   resource "packaging" do
@@ -24,11 +24,7 @@ class Gita < Formula
   end
 
   def install
-    venv = virtualenv_install_with_resources
-
-    # Build an `:all` bottle by replacing comments
-    file = venv.site_packages.glob("argcomplete-*.dist-info/METADATA")
-    inreplace file, "/opt/homebrew/bin/bash", "$HOMEBREW_PREFIX/bin/bash"
+    virtualenv_install_with_resources
   end
 
   test do

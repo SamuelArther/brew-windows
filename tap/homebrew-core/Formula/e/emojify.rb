@@ -7,12 +7,14 @@ class Emojify < Formula
   head "https://github.com/mrowa44/emojify.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "0d2612a201976f740bb795e3ae80d0f16a28e2ddd92d947cc33ee45c9686f7db"
+    sha256 cellar: :any, x86_64_windows: "60feac2fedf265b52a89e8889553d9e7f029e3817eeccfca3baa505483c3f997"
   end
 
   on_macos do
     depends_on "bash"
   end
+
+  deny_network_access!
 
   def install
     bin.install "emojify"

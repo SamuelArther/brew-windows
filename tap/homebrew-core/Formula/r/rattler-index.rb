@@ -12,7 +12,7 @@ class RattlerIndex < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "9bdf7244032fda3c3e5ebd2dc2fcffb0786ed37f6899619f81c5825c22ce5f8e"
+    sha256 cellar: :any, x86_64_windows: "770d79b14cda721eba2067923c8cb8ba13c4df0b4fe2596824571a2dc99f7723"
   end
 
   depends_on "pkgconf" => :build
@@ -29,7 +29,7 @@ class RattlerIndex < Formula
   end
 
   def install
-    ENV["OPENSSL_DIR"] = formula_opt_prefix("openssl@4") if OS.linux?
+    ENV["OPENSSL_DIR"] = dep("openssl").opt_prefix if OS.linux?
     features = %w[native-tls s3]
     system "cargo", "install", "--no-default-features", *std_cargo_args(path: "crates/rattler_index", features:)
   end

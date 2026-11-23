@@ -6,10 +6,12 @@ class BrunoCli < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "6b5c3864513600eaafb731d3092eb01dbbc9cc25c4b0d761aa787fdd3fed0d98"
+    sha256 cellar: :any, x86_64_windows: "494dddb884e9007203cf5b6fd28a069b72a03f6a7a039a88b62113db3c6049f5"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

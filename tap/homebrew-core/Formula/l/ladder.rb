@@ -7,7 +7,7 @@ class Ladder < Formula
   head "https://github.com/everywall/ladder.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "7991b8f9918ff6170daf4674ebea24406ba64013b51e0e282078d341c0c9ee00"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "d4f58f340c3df40fa10ede0779635f3484674821324d9aea7a11d7430d92e06c"
   end
 
   depends_on "go" => :build
@@ -24,13 +24,11 @@ class Ladder < Formula
 
   test do
     port = free_port
-    pid = spawn bin/"ladder", "-p", port.to_s
-    sleep 2
+    with_test_process(bin/"ladder", "-p", port.to_s, signal: "INT") do
+      sleep 2
 
-    output = shell_output("curl -s http://127.0.0.1:#{port}/")
-    assert_match "ladder", output
-  ensure
-    Process.kill("SIGINT", pid)
-    Process.wait(pid)
+      output = shell_output("curl -s http://127.0.0.1:#{port}/")
+      assert_match "ladder", output
+    end
   end
 end
