@@ -6,14 +6,21 @@ class Libjodycode < Formula
   license "MIT"
   compatibility_version 1
 
+  livecheck do
+    url "https://codeberg.org/api/v1/repos/jbruchon/libjodycode/releases"
+    strategy :json do |json|
+      json.filter_map { |tag| tag["tag_name"]&.delete_prefix("v") }
+    end
+  end
+
+  bottle do
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "1d5dc59a91725fe5dcb0b625d1b1ca6058bedd5bf5fecd39eecbf29b60788ec0"
+  end
+
   # These files used to be distributed as part of the jdupes formula
   link_overwrite "include/libjodycode.h", "share/man/man7/libjodycode.7", "lib/libjodycode.a"
 
   deny_network_access!
-
-  bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "6ed9cce74d56dde55269e10659ee50ae8ac53035e1d8a793e9672d12b6b98fd8"
-  end
 
   def install
     system "make"

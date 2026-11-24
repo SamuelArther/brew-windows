@@ -1,8 +1,8 @@
 class Convox < Formula
   desc "Command-line interface for the Convox PaaS"
   homepage "https://convox.com/"
-  url "https://github.com/convox/convox/archive/refs/tags/3.26.0.tar.gz"
-  sha256 "a67d184e33da16881d2afd624a680ca8bc14b63f0df203de67a5f26e571ffd07"
+  url "https://github.com/convox/convox/archive/refs/tags/3.26.1.tar.gz"
+  sha256 "429b9ba0b119273d374c4ce200b36a1e5889d927dbc847250bb412bc908fcabb"
   license "Apache-2.0"
   version_scheme 1
   head "https://github.com/convox/convox.git", branch: "master"
@@ -13,7 +13,7 @@ class Convox < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "4f7c4607a306bb59baeb1a51b6d97b11f463f474d74f5fe99db7f79787252ab7"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "5b0d40219588709c2a3c160eecf04da19eafcae8701ee2b82c0adec1e901143e"
   end
 
   depends_on "go" => :build

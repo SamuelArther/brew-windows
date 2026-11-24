@@ -7,11 +7,12 @@ class Curseofwar < Formula
   head "https://github.com/a-nikolaev/curseofwar.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/curseofwar-1.3.0"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "286d3e58f16386f13e6e4f6fc58932718decc5bddbd808ed83b093e4cbdb780b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "3a2d11ee5c0475d638d8da76fa14ebdf7fe622e743cd3db0f3bcfbde6cd7fa14"
   end
 
   uses_from_macos "ncurses"
+
+  deny_network_access!
 
   def install
     system "make", "VERSION=#{version}"

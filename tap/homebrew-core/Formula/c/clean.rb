@@ -5,9 +5,10 @@ class Clean < Formula
   sha256 "761f3a9e1ed50747b6a62a8113fa362a7cc74d359ac6e8e30ba6b30d59115320"
   license :public_domain
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clean-3.4"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "fdc127e2d445cd958f8c84d1bc34ec978527f46a8a3b71e3f5a20caf98db1bf2"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8d3279da6d2d078846ceefeff9ea3f6cbe66aff2c2c4848dac00b4c1125334b5"
   end
 
   def install

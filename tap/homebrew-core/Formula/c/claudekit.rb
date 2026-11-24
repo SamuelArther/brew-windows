@@ -6,10 +6,12 @@ class Claudekit < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "29fa919c2df0f404707f0bebbcc43ef30c06aa898c67bcf43fffd787fe3df853"
+    sha256 cellar: :any, x86_64_windows: "58d7d9ee483c364ae3c2f3d9ec08f5dcc1e62205b60b7c829b8c6c43538c1883"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

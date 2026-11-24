@@ -6,10 +6,12 @@ class ChromeDevtoolsMcp < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "7fce2a8eafcbcce207c20052792315eb0e34863e9d123f1b277bc213efd5120a"
+    sha256 cellar: :any, x86_64_windows: "1c0df7967e345d3fcb8eee602da577e59d6bc55044c0f7a61469109e967509b2"
   end
 
   depends_on "node"
+
+  deny_network_access!
 
   def install
     system "npm", "install", *std_npm_args

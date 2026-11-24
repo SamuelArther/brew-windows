@@ -6,7 +6,7 @@ class BacklogMd < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "4dd05f4e9efd2e21fc8e0b7d730efb136e0f4378ef7853cf77e154503f501bd5"
+    sha256 cellar: :any, x86_64_windows: "62c9503b38c2187c1113874ae0041bdcbe7a40ec859ed4d5973590db793c29a1"
   end
 
   depends_on "bun" => :build
@@ -24,8 +24,8 @@ class BacklogMd < Formula
 
   def install
     if OS.linux?
-      bun_icu = Formula["bun"].deps("icu4c").first.to_formula
-      icu = deps("icu4c").first.to_formula
+      bun_icu = Formula["bun"].dep("icu4c").to_formula
+      icu = dep("icu4c").to_formula
 
       odie "Update icu4c dependency!" if bun_icu.name != icu.name
     end

@@ -15,8 +15,11 @@ class Kubergrunt < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "5d87622e16df94f8cb4680c12fe59d6a2ca039cf1949df82903c8011de90d1fb"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "dcc1f56f354307204a978fdf7d2b909ba716ff5820aef054379ea1853d176e64"
   end
+
+  deprecate! date: "2026-11-24", because: :repo_archived
+  disable! date: "2027-05-24", because: :repo_archived
 
   depends_on "go" => :build
 

@@ -6,10 +6,12 @@ class Ctx7 < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b3b83084b1381306f4e4b578636c2090ddc482417d66aace9a640e6720252c9b"
+    sha256 cellar: :any, x86_64_windows: "45883f6a33b0a9245fbd7f2fa4cd45c682830f220c4436f2c2cebf09c03dc812"
   end
 
   depends_on "node"
+
+  allow_network_access! [:build, :test]
 
   def install
     system "npm", "install", *std_npm_args

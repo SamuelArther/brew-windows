@@ -6,10 +6,12 @@ class Changelogen < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "93c595241f1a7436d31386fe3cafb2745644a0daa0e7bf53630033027663dd7a"
+    sha256 cellar: :any, x86_64_windows: "788fc74d555df9947f2db079bcfb71f1ccf3fbac7bef6cf2d2beb57d74b0b407"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

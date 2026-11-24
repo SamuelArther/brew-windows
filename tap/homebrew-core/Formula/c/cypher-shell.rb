@@ -13,10 +13,12 @@ class CypherShell < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "72e686fc00fc4b21bb5446d19359c59997c260eb492e3592a58876738ac48c24"
+    sha256 cellar: :any, x86_64_windows: "df74d8af97434b5eb3b41d33f2ae5951032c7be149583111c60faa083fc1884d"
   end
 
   depends_on "openjdk@21"
+
+  deny_network_access!
 
   def install
     libexec.install Dir["*"]

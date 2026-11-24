@@ -7,7 +7,7 @@ class Reshape < Formula
   head "https://github.com/fabianlindfors/reshape.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "415bbe01d2c86c9c9850b0607f21b27819c27b5d5f747c0687dfcdf283f72f09"
+    sha256 cellar: :any, x86_64_windows: "83216c2bbcc7235a91afe2b198e9b8affce011fabc9a05063ad85b758835ac36"
   end
 
   depends_on "pkgconf" => :build
@@ -21,15 +21,13 @@ class Reshape < Formula
 
   allow_network_access! :test
 
-  def openssl = deps("openssl").first&.name
-
   def fetch
     system "cargo", "generate-lockfile" if build.head?
     system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install
-    ENV["OPENSSL_DIR"] = formula_opt_prefix(openssl) if OS.linux?
+    ENV["OPENSSL_DIR"] = formula_opt_prefix(dep("openssl").name) if OS.linux?
     system "cargo", "install", *std_cargo_args
   end
 

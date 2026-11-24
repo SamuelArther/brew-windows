@@ -7,8 +7,10 @@ class Clitest < Formula
   compatibility_version 1
   head "https://github.com/aureliojargas/clitest.git", branch: "main"
 
+  deny_network_access!
+
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c233812f48261c71abc16332a162cfc4670ae7a0e797d5b7b21882b4b39c3896"
+    sha256 cellar: :any, x86_64_windows: "bfe0145b77dfde323846c100f608b9e6c1d7f22a79f6c0539e32253bf1ef3f91"
   end
 
   def install

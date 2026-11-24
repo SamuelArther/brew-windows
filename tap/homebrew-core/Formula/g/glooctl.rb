@@ -1,8 +1,8 @@
 class Glooctl < Formula
   desc "Envoy-Powered API Gateway"
   homepage "https://docs.solo.io/gloo-edge/main/reference/cli/glooctl/"
-  url "https://github.com/solo-io/gloo/archive/refs/tags/v1.22.8.tar.gz"
-  sha256 "fd4b381c81a253bbd7b64efe5c6e0037f015a4784c023ae057bee3a9b5eec0cd"
+  url "https://github.com/solo-io/gloo/archive/refs/tags/v1.22.9.tar.gz"
+  sha256 "a66b54468dd61d2b4e98557655eb91865d39d198a7dd2c42286e8893d6af1d43"
   license "Apache-2.0"
   head "https://github.com/solo-io/gloo.git", branch: "main"
 
@@ -16,7 +16,7 @@ class Glooctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "833f37d60bb092beb3581ecbb74202ba80fdfc15130efc5cb1272b05a5f7bad0"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "8e02ccba8a1c5d0f4d13f7f4bc6e2a220283b59f4835ab6eaff4a4ed6a5f3e0b"
   end
 
   deprecate! date: "2026-12-31", because: :deprecated_upstream

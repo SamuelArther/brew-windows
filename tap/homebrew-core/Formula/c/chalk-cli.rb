@@ -6,10 +6,12 @@ class ChalkCli < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "87ead7b308698d0f8153594debac7b8e05ebf9966f9a629a6d9aa8117130e864"
+    sha256 cellar: :any, x86_64_windows: "da5bbf965d0a7b90eb562b4dba6f71534e7103b9826c33977927c533b2f7a995"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

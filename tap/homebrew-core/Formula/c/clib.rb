@@ -12,11 +12,12 @@ class Clib < Formula
   end
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clib-2.8.7"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "955a49e1b89b57a2020f5f767a3e5de210ef1f002c6400b4caeb7e31488ea811"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "2b2ef8b6ad898a82c906d0cf95f51aa5674772fea015bcb2ddaf9f816f98f841"
   end
 
   uses_from_macos "curl"
+
+  deny_network_access!
 
   def install
     system "make", "install", "PREFIX=#{prefix}"

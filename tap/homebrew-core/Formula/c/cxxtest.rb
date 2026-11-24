@@ -10,14 +10,17 @@ class Cxxtest < Formula
   head "https://github.com/CxxTest/cxxtest.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "65d27357258c06aa71975c07546eecfd70e9bf41b7eacac67fd874bbf5d9879e"
+    sha256 cellar: :any, x86_64_windows: "71814d4cc696d58d39c75a97e379c8b600795447800d9b7e6bfe91be8e154848"
   end
 
+  depends_on "python-setuptools" => :build
   depends_on "python@3.15"
+
+  deny_network_access!
 
   def install
     venv = virtualenv_create(libexec, python3)
-    venv.pip_install_and_link buildpath/"python"
+    venv.pip_install_and_link buildpath/"python", build_isolation: false
 
     include.install "cxxtest"
     doc.install Dir["doc/*"]

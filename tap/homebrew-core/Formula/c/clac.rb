@@ -5,9 +5,10 @@ class Clac < Formula
   sha256 "ae0a989ba3efc5dbe8480aed5fe39e79e274ea51271bfa7a0193d73cca0b9711"
   license "BSD-2-Clause"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/clac-0.3.5"
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "711ae9017003dc3a124442a3e65bfd50eb718a654249731ce46ac02093d0223b"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7d54ebf8208fd0fb62b6c2af8cf7e22be55c72dc24523ddbb040e6ce2e6b9201"
   end
 
   def install

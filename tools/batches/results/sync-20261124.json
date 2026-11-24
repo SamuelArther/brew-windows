@@ -1,0 +1,462 @@
+[
+  {
+    "name": "actions-languageserver",
+    "status": "ok",
+    "seconds": 1301
+  },
+  {
+    "name": "actions-up",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "apibuilder-cli",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "asc",
+    "status": "ok",
+    "seconds": 201
+  },
+  {
+    "name": "backlog-md",
+    "status": "ok",
+    "seconds": 104
+  },
+  {
+    "name": "beads_viewer",
+    "status": "ok",
+    "seconds": 68
+  },
+  {
+    "name": "buildkite",
+    "status": "ok",
+    "seconds": 45
+  },
+  {
+    "name": "calabash",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 158
+  },
+  {
+    "name": "ccusage",
+    "status": "build",
+    "seconds": 241
+  },
+  {
+    "name": "cdlabelgen",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "cffi",
+    "status": "build",
+    "seconds": 16
+  },
+  {
+    "name": "cfn-flip",
+    "status": "ok",
+    "seconds": 57
+  },
+  {
+    "name": "cfr-decompiler",
+    "status": "build",
+    "seconds": 90
+  },
+  {
+    "name": "chainloop-cli",
+    "status": "build",
+    "seconds": 10
+  },
+  {
+    "name": "chalk-cli",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "changelogen",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "checkbashisms",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "chrome-devtools-mcp",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "chrome-export",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "cidrmerge",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "cimg",
+    "status": "ok",
+    "seconds": 26
+  },
+  {
+    "name": "clac",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "claude-cmd",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "claude-code-router",
+    "status": "ok",
+    "seconds": 195
+  },
+  {
+    "name": "claude-hooks",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "claudekit",
+    "status": "ok",
+    "seconds": 99
+  },
+  {
+    "name": "clean",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "clib",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "clitest",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "clojure-lsp",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "cloudflare-wrangler",
+    "status": "build",
+    "seconds": 77
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "convox",
+    "status": "ok",
+    "seconds": 383
+  },
+  {
+    "name": "crowdin",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "ctx7",
+    "status": "ok",
+    "seconds": 33
+  },
+  {
+    "name": "curseofwar",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "cutadapt",
+    "status": "ok",
+    "seconds": 91
+  },
+  {
+    "name": "cx",
+    "status": "ok",
+    "seconds": 633
+  },
+  {
+    "name": "cxxtest",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "cyclonedx-npm",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "cypher-shell",
+    "status": "ok",
+    "seconds": 18
+  },
+  {
+    "name": "czg",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "designcraft-cli",
+    "status": "ok",
+    "seconds": 1075
+  },
+  {
+    "name": "dezoomify-cli",
+    "status": "ok",
+    "seconds": 441
+  },
+  {
+    "name": "docker-agent",
+    "status": "build",
+    "seconds": 60
+  },
+  {
+    "name": "exploitdb",
+    "status": "ok",
+    "seconds": 194
+  },
+  {
+    "name": "fabric-ai",
+    "status": "ok",
+    "seconds": 166
+  },
+  {
+    "name": "fallow",
+    "status": "ok",
+    "seconds": 1759
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 32
+  },
+  {
+    "name": "fernflower",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "flowrs",
+    "status": "ok",
+    "seconds": 313
+  },
+  {
+    "name": "fn",
+    "status": "ok",
+    "seconds": 61
+  },
+  {
+    "name": "gitlab-runner",
+    "status": "ok",
+    "seconds": 186
+  },
+  {
+    "name": "glooctl",
+    "status": "ok",
+    "seconds": 272
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 177
+  },
+  {
+    "name": "ipsw",
+    "status": "ok",
+    "seconds": 207
+  },
+  {
+    "name": "ipython",
+    "status": "ok",
+    "seconds": 189
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 15
+  },
+  {
+    "name": "ktop",
+    "status": "test",
+    "seconds": 85
+  },
+  {
+    "name": "ktor",
+    "status": "ok",
+    "seconds": 77
+  },
+  {
+    "name": "kubergrunt",
+    "status": "ok",
+    "seconds": 82
+  },
+  {
+    "name": "lan-orangutan",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "lefthook",
+    "status": "build",
+    "seconds": 3
+  },
+  {
+    "name": "libjodycode",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "llamastash",
+    "status": "ok",
+    "seconds": 572
+  },
+  {
+    "name": "mcp-grafana",
+    "status": "ok",
+    "seconds": 85
+  },
+  {
+    "name": "micronaut",
+    "status": "ok",
+    "seconds": 178
+  },
+  {
+    "name": "mockery",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "mp4ff",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "neo4j-mcp",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "newrelic-cli",
+    "status": "build",
+    "seconds": 28
+  },
+  {
+    "name": "newrelic-infra-agent",
+    "status": "build",
+    "seconds": 6
+  },
+  {
+    "name": "ntfy",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "nuxi",
+    "status": "ok",
+    "seconds": 132
+  },
+  {
+    "name": "open-code-review",
+    "status": "ok",
+    "seconds": 46
+  },
+  {
+    "name": "packslip",
+    "status": "ok",
+    "seconds": 392
+  },
+  {
+    "name": "pscale",
+    "status": "ok",
+    "seconds": 101
+  },
+  {
+    "name": "quint",
+    "status": "ok",
+    "seconds": 62
+  },
+  {
+    "name": "rancher-machine",
+    "status": "ok",
+    "seconds": 155
+  },
+  {
+    "name": "reshape",
+    "status": "ok",
+    "seconds": 206
+  },
+  {
+    "name": "rqlite",
+    "status": "ok",
+    "seconds": 120
+  },
+  {
+    "name": "selenium-server",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "setconf",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "talosctl",
+    "status": "ok",
+    "seconds": 477
+  },
+  {
+    "name": "telegraf",
+    "status": "ok",
+    "seconds": 587
+  },
+  {
+    "name": "tidemail",
+    "status": "ok",
+    "seconds": 37
+  },
+  {
+    "name": "toit",
+    "status": "ok",
+    "seconds": 143
+  },
+  {
+    "name": "unciv",
+    "status": "ok",
+    "seconds": 7
+  },
+  {
+    "name": "valijson",
+    "status": "ok",
+    "seconds": 10
+  },
+  {
+    "name": "x-cmd",
+    "status": "ok",
+    "seconds": 54
+  }
+]

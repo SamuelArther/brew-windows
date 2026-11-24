@@ -11,8 +11,10 @@ class Cdlabelgen < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "06c3b1cfa9de2118238333fbee69885ae6609836b802c686a9838bd31f453aea"
+    sha256 cellar: :any, x86_64_windows: "37613f1f822b794b6e87b194eee7a52de56def233c0be7fe84c8a6e8a5c984c8"
   end
+
+  deny_network_access!
 
   def install
     man1.mkpath

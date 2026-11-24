@@ -12,7 +12,7 @@ class CfnFlip < Formula
   disable! date: "2027-01-17", because: :deprecated_upstream, replacement_formula: "rain"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "38610048fc9479b4bf597f1369e0981fa76fff602050c559fb0b4281e4fa219b"
+    sha256 cellar: :any, x86_64_windows: "670a538c90a6d0d9bc4cbb0f99cac4f158e12e6919c644ad8e74eb594f8e2792"
   end
 
   depends_on "libyaml"
@@ -32,6 +32,8 @@ class CfnFlip < Formula
     url "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz"
     sha256 "ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

@@ -14,10 +14,12 @@ class ClojureLsp < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d34fc21b029a22d092fdb9cb6a793e61db0b64a0cde418923e4d4322b64d1562"
+    sha256 cellar: :any, x86_64_windows: "73dcadba97b1588ee81edd4dfcce30b5391cac0479165ce695e4ab1535c73d13"
   end
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     libexec.install "clojure-lsp-standalone.jar"

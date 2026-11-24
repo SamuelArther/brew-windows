@@ -14,7 +14,8 @@ class Calabash < Formula
     url :stable
     regex(/^v?(\d+(?:[.-]\d+)+)$/i)
     strategy :github_releases do |json, regex|
-      saxon_suffix = "-#{Formula["saxon"].version.major}0"
+      saxon_major = Formula["saxon"].version.major
+      saxon_suffix = "-#{saxon_major}0"
 
       json.map do |release|
         next if release["draft"] || release["prerelease"]
@@ -28,11 +29,13 @@ class Calabash < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "82f49285c618a87921f8b737cfe1a867a6746b5e0ed0e4246cc1ad0769dfda9e"
+    sha256 cellar: :any, x86_64_windows: "f0f18ab71dc7111ffee8c919730e1f010c1b4eaf9a2004ad9cf5a7c28237a686"
   end
 
   depends_on "openjdk"
   depends_on "saxon"
+
+  deny_network_access!
 
   def install
     libexec.install Dir["*"]

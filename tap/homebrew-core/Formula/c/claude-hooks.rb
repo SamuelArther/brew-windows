@@ -6,10 +6,12 @@ class ClaudeHooks < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "20d536be53a44e48669c64be112ae2b63709d952b7fd518bfae71fa68102bf8c"
+    sha256 cellar: :any, x86_64_windows: "4ed12b4c154f4432700fcdf385d6beabd42a93643ab2eb06318a52656093328b"
   end
 
   depends_on "node"
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

@@ -11,7 +11,7 @@ class Crowdin < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "afd4c976d392ba9e1485faffcee11c3db653b663ac048a84188f15e9f1736438"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "b4689aab05e6c5e0e8abb5a27f24a98a3c39a168cd2b09e4713dd1703a9028f0"
   end
 
   depends_on "bun" => :build
@@ -24,8 +24,8 @@ class Crowdin < Formula
 
   def install
     if OS.linux?
-      bun_icu = Formula["bun"].deps("icu4c").first.to_formula
-      icu = deps("icu4c").first.to_formula
+      bun_icu = Formula["bun"].dep("icu4c").to_formula
+      icu = dep("icu4c").to_formula
 
       odie "Update icu4c dependency!" if bun_icu.name != icu.name
     end

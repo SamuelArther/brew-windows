@@ -8,7 +8,7 @@ class Cutadapt < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "13a4b26ae64396bca71a98e9bd764412d33fa614268cdf59e28cb51f34b2704c"
+    sha256 cellar: :any, x86_64_windows: "3aba5b83d0d3ea1220353bf6f92c2c07693a2f4bbd73f376f2ad7de00825a35d"
   end
 
   depends_on "python@3.15"
@@ -26,6 +26,8 @@ class Cutadapt < Formula
     url "https://files.pythonhosted.org/packages/77/bb/74a5222fc975fccb9f8bfb62613ca42a5a28008362c598df09806ecd12c1/xopen-2.1.0.tar.gz"
     sha256 "06584821588f813563863b63d5e02568a4328661b7507ea38c432f24c69ea4b7"
   end
+
+  allow_network_access! :build
 
   def install
     virtualenv_install_with_resources

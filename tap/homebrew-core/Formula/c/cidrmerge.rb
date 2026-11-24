@@ -5,9 +5,10 @@ class Cidrmerge < Formula
   sha256 "21b36fc8004d4fc4edae71dfaf1209d3b7c8f8f282d1a582771c43522d84f088"
   license "GPL-2.0-or-later"
 
+  deny_network_access!
+
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/cidrmerge-1.5.3"
-    sha256 cellar: :any, x86_64_windows: "3ff8ada163ffbd838ea9ed5038a9872f40c586794db8f8e98db1fa0fc9b74f60"
+    sha256 cellar: :any, x86_64_windows: "f63d273c662d213d756005a073317e4f6340de1d995fca4ebc2d40b3e9897492"
   end
 
   def install

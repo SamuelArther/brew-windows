@@ -9,11 +9,12 @@ class ChromeExport < Formula
   revision 1
 
   bottle do
-    root_url "https://github.com/SamuelArther/brew-windows/releases/download/chrome-export-2.0.2_1"
-    sha256 cellar: :any, x86_64_windows: "5c3ed1f5058ed9b6316a3b8f118c6d6b0f160567746387c6b63dcf4239b2013c"
+    sha256 cellar: :any, x86_64_windows: "47b5e8f24af4f8c28f35b92e4ea7475bb33211a576dd3318f78cc7de470c084a"
   end
 
   uses_from_macos "python"
+
+  deny_network_access!
 
   def install
     bin.install "export-chrome-bookmarks", "export-chrome-history"

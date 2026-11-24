@@ -11,8 +11,10 @@ class Checkbashisms < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "454f7271924f3ddcbec4888622dbfc9ce47708d48cb129e735b8969116f06adf"
+    sha256 cellar: :any, x86_64_windows: "70be268f8d460fd37bfba9fc803a65ff8dd3c18ae999d23fdd9de79d5eff6fc1"
   end
+
+  deny_network_access!
 
   def install
     inreplace "scripts/checkbashisms.pl" do |s|

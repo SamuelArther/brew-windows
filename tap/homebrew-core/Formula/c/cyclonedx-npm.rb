@@ -6,7 +6,7 @@ class CyclonedxNpm < Formula
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "b2b0f80c3747f2ac1d6ecbfbc0433e0002696280f0a78558daa8659724c22053"
+    sha256 cellar: :any, x86_64_windows: "7dfff10161d54612af936d8c612c6c810c6831e8486e48544723c93934858c1e"
   end
 
   depends_on "node"
@@ -20,6 +20,8 @@ class CyclonedxNpm < Formula
     url "https://raw.githubusercontent.com/CycloneDX/cyclonedx-node-npm/43bf9e7e176c4eb3c2d648a5c462f0bf7f401c89/demo/package-integrity/project/package-lock.json"
     sha256 "f7570777484bc3f03041264dbe6e9c8ca46b02a55187cda849f3e338aa627d4a"
   end
+
+  allow_network_access! :build
 
   def install
     system "npm", "install", *std_npm_args

@@ -12,8 +12,10 @@ class Cimg < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "ec910619cbad926332aa25799f4e51841b98f91faa0e8422f76cc07b5be358b3"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "01b16f50275b6d70285f1220f4968cbe2786ae7f3dce320750e01c7f6443c7a7"
   end
+
+  deny_network_access!
 
   def install
     include.install "CImg.h"

@@ -6,10 +6,12 @@ class Czg < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "efc1ac30c345b59f6ad18e389cd460186e6ddd69ac7755e74a8f988b933c4726"
+    sha256 cellar: :any, x86_64_windows: "15d76186246cc460c987a119060cf2408d7f3007a31199ac84f519d2b129e47c"
   end
 
   depends_on "node"
+
+  deny_network_access!
 
   def install
     system "npm", "install", *std_npm_args
