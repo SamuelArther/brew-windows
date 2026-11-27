@@ -6,7 +6,7 @@ class Coacd < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "d3e6df6e572160c208462434d9e535ab58b5c714fd0e4bbd24e8170acaa10ccb"
+    sha256 cellar: :any, x86_64_windows: "163a184d68c593219c2e6043024e97df32335ff8ba99391377bff878366132c6"
   end
 
   head "https://github.com/SarahWeiii/CoACD.git", branch: "main"
@@ -16,6 +16,14 @@ class Coacd < Formula
   resource "cdt" do
     url "https://github.com/artem-ogre/CDT.git",
         revision: "ec03b309fd18102ab1da069f2edf3b37be5d1fb3"
+    version "ec03b309fd18102ab1da069f2edf3b37be5d1fb3"
+
+    livecheck do
+      url "https://api.github.com/repos/SarahWeiii/CoACD/contents/3rd/cdt?ref=#{LATEST_VERSION}"
+      strategy :json do |json|
+        json["sha"]
+      end
+    end
   end
 
   deny_network_access!

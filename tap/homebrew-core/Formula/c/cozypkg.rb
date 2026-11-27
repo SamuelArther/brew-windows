@@ -1,8 +1,8 @@
 class Cozypkg < Formula
   desc "CLI for managing Cozystack packages"
   homepage "https://cozystack.io"
-  url "https://github.com/cozystack/cozystack/archive/refs/tags/v1.7.1.tar.gz"
-  sha256 "c0cfe16962c2501fa6db3e6f4b925ecbd28263f55679246be46167345d1b82a1"
+  url "https://github.com/cozystack/cozystack/archive/refs/tags/v1.7.2.tar.gz"
+  sha256 "3e75653d1f70dad368b8eebf6860093fdf3419699171535518d10e7492f101fc"
   license "Apache-2.0"
   head "https://github.com/cozystack/cozystack.git", branch: "main"
 
@@ -12,7 +12,7 @@ class Cozypkg < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "95a70ff5694361d5b3682f3c74c58b10d966d0ad2580b939befdd152136e9b5c"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "c2a2e020e57048850177838ff780d4d286bff0b9dbeaaedfd12dbc5513914ec5"
   end
 
   depends_on "go" => :build

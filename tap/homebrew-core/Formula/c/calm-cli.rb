@@ -1,12 +1,12 @@
 class CalmCli < Formula
   desc "CLI allows you to interact with the Common Architecture Language Model (CALM)"
   homepage "https://github.com/finos/architecture-as-code/tree/main/cli"
-  url "https://registry.npmjs.org/@finos/calm-cli/-/calm-cli-1.74.1.tgz"
-  sha256 "1beb77206362d23339dea9de44b201e689cbdfe3fd76f6f1fea7ac868fdf268a"
+  url "https://registry.npmjs.org/@finos/calm-cli/-/calm-cli-1.74.2.tgz"
+  sha256 "eae9b0162f0daab4d64651aab3fc9af80559d347fa693c7d33ac25ef4dc6d963"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "ceef61beb61ec088513f8ec8449697924daf01a4bba2b618eaba9f410dc369f8"
+    sha256 cellar: :any, x86_64_windows: "ce0786a1bbe07290276e385f645308e319af3965c88b4b99d096036e08541ab5"
   end
 
   depends_on "node"

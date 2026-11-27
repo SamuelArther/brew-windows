@@ -12,12 +12,14 @@ class Umple < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "718cf858e5861baaf5a8c4147e79b09bc1cc3c2121ad97c49d03d7cc0f43e621"
+    sha256 cellar: :any, x86_64_windows: "2d6bd73bceca95788a676f90ac70222676fa704aaf31c5ebdd16c716feb8fcd4"
   end
 
   no_autobump! because: :incompatible_version_format
 
   depends_on "openjdk"
+
+  deny_network_access!
 
   def install
     filename = File.basename(stable.url)

@@ -13,8 +13,10 @@ class Voroxx < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "172c8f469ddf3b436ce5d7ae7b7cd9bb8b3332d2deb34037da7dbf37f006feb8"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "127d43e47be3d9c8937c8a677b417591ec4fd72bd336677ba8bcb9f282730a85"
   end
+
+  deny_network_access!
 
   def install
     inreplace "config.mk", "CFLAGS=", "CFLAGS=-fPIC " if OS.linux?

@@ -1,12 +1,12 @@
 class Oxvg < Formula
   desc "Fastest SVG toolchain for optimisation, minification, linting, and actions"
   homepage "https://github.com/noahbald/oxvg"
-  url "https://github.com/noahbald/oxvg/archive/refs/tags/v0.0.9.tar.gz"
-  sha256 "9f6fbc2385784bcca8a3411fbbd7deb690799d0866bc5f5d7cd88756b7746af6"
+  url "https://github.com/noahbald/oxvg/archive/refs/tags/v0.0.10.tar.gz"
+  sha256 "9e19bcf36a543d48c25ee52927d46ca75bc8aa1f13b89ee0c1c994a609b7c734"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "52423f71b9910c5d849bab1769c9827199e49d34cabb956a3b6e7ab9e26ab159"
+    sha256 cellar: :any, x86_64_windows: "2ee499e6d3fecb744ccfb62f16ee92dba7e9b7765df7339211b0a103eb5a92b4"
   end
 
   depends_on "rust" => :build

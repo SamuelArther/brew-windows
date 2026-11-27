@@ -1,8 +1,8 @@
 class Immudb < Formula
   desc "Lightweight, high-speed immutable database"
   homepage "https://immudb.io/"
-  url "https://github.com/codenotary/immudb/archive/refs/tags/v1.11.2.tar.gz"
-  sha256 "5860663e92b663d0e72c2b4cd4a995090029e7d6e3b6a678115896f757300c21"
+  url "https://github.com/codenotary/immudb/archive/refs/tags/v1.12.0.tar.gz"
+  sha256 "89a4f8c10f7a541cdfe43ee8a701fb9f818398aa854b99ef60d8b6d7f425372d"
   license "Apache-2.0"
   head "https://github.com/codenotary/immudb.git", branch: "master"
 
@@ -12,7 +12,7 @@ class Immudb < Formula
   end
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "3f71c01a9f15a8cffbbdcf70043abdd3e80af7ab933a2d91e19e8f6165d3b270"
+    sha256 cellar: :any, x86_64_windows: "aa6758635c5f855ec501b318f67bfb86e33e6d9c15f6bda18335fade3bb01462"
   end
 
   depends_on "go" => :build

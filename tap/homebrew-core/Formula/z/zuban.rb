@@ -1,21 +1,21 @@
 class Zuban < Formula
   desc "Python language server and type checker, written in Rust"
   homepage "https://zubanls.com/"
-  url "https://github.com/zubanls/zuban/archive/refs/tags/v0.10.2.tar.gz"
-  sha256 "70b9ee27d93d1615cbfa24e7e40d44698066e2e0723383554a9403bda3e4165b"
+  url "https://github.com/zubanls/zuban/archive/refs/tags/v0.11.1.tar.gz"
+  sha256 "68ce3e0802e98d63f516a850eea987f43222988977bf597156ada414d442b093"
   license "AGPL-3.0-only"
   head "https://github.com/zubanls/zuban.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c4bb0e6834a7df35d8248f4da56aff2618a662ef810838cbed400c9f1f9e0400"
+    sha256 cellar: :any, x86_64_windows: "4411d10d6d8ec5fd93188a14c0fbdc3f777bfd14003fa217561f98acaf231d6c"
   end
 
   depends_on "rust" => :build
 
   resource "typeshed" do
-    url "https://github.com/python/typeshed/archive/e75a39fec6f375f5002d54c5607b44bedc025a4b.tar.gz"
-    version "e75a39fec6f375f5002d54c5607b44bedc025a4b"
-    sha256 "05c0f2faeaa57766ace6f334e9aa667e5abc16a6f611f0c9b1b42c92d8676f7f"
+    url "https://github.com/python/typeshed/archive/bfb82380a8688a981897d923a90f5d210623081c.tar.gz"
+    version "bfb82380a8688a981897d923a90f5d210623081c"
+    sha256 "d2c8796875fdd6dc16f8d0afa043ca602340a99ec159878d0c455433bac20ecf"
 
     livecheck do
       url "https://api.github.com/repos/zubanls/zuban/contents/third_party/typeshed?ref=v#{LATEST_VERSION}"

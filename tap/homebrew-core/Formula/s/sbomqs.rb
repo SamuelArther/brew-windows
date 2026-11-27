@@ -1,13 +1,13 @@
 class Sbomqs < Formula
   desc "SBOM quality scorer and compliance checker"
   homepage "https://github.com/interlynk-io/sbomqs"
-  url "https://github.com/interlynk-io/sbomqs/archive/refs/tags/v2.1.3.tar.gz"
-  sha256 "2e4f33a976594216b766be48b64c3af8484c7c9588cee9baf364fbcd2470eccb"
+  url "https://github.com/interlynk-io/sbomqs/archive/refs/tags/v2.1.4.tar.gz"
+  sha256 "4b85366003975fab2efb3955ad9a6a8a13c22b3b64e839b2b59943a72c00b92c"
   license "Apache-2.0"
   head "https://github.com/interlynk-io/sbomqs.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c1e0de853c7e17afff7ebb28388ee91cbaa86a9e47d9b5686588b086ab6eeb64"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "fc86b2a654d29aaa5d019483ee2a271c967d1683d9eb56ba3c78200015641a7b"
   end
 
   depends_on "go" => :build
@@ -19,9 +19,10 @@ class Sbomqs < Formula
   end
 
   def install
+    commit = build.head? ? Utils.git_head : tap.user
     ldflags = %W[
       -X sigs.k8s.io/release-utils/version.gitVersion=#{version}
-      -X sigs.k8s.io/release-utils/version.gitCommit=#{build.head? ? Utils.git_head : tap.user}
+      -X sigs.k8s.io/release-utils/version.gitCommit=#{commit}
       -X sigs.k8s.io/release-utils/version.gitTreeState=clean
       -X sigs.k8s.io/release-utils/version.buildDate=#{time.iso8601}
     ]

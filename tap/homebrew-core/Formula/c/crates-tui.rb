@@ -1,20 +1,26 @@
 class CratesTui < Formula
   desc "TUI for exploring crates.io using Ratatui"
   homepage "https://github.com/ratatui/crates-tui"
-  url "https://github.com/ratatui/crates-tui/archive/refs/tags/v0.1.25.tar.gz"
-  sha256 "b02e2fa3b7225b5638f9ab8716c3cf21dfb32d96aee140ead2f451005abd58c2"
+  url "https://github.com/ratatui/crates-tui/archive/refs/tags/v0.1.26.tar.gz"
+  sha256 "ea2a844f1e9a2ece95c3a09ad165c18529847b48141cf1a52a18eb9191ea8f45"
   license "MIT"
   head "https://github.com/ratatui/crates-tui.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "cbab7be5bf5ddb72242fe22543ac3ecb97bcab86f0c2b13676fd3bced2d82e57"
+    sha256 cellar: :any, x86_64_windows: "5572891de7c37c9a92499c8b71c9c5df0730cd271b4379e16cb30871814aeed1"
   end
 
   depends_on "pkgconf" => :build
   depends_on "rust" => :build
 
   on_linux do
-    depends_on "openssl@3"
+    depends_on "openssl@4"
+  end
+
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
   end
 
   def install

@@ -1,13 +1,13 @@
 class DockerGen < Formula
   desc "Generate files from docker container metadata"
   homepage "https://github.com/nginx-proxy/docker-gen"
-  url "https://github.com/nginx-proxy/docker-gen/archive/refs/tags/0.17.2.tar.gz"
-  sha256 "dfea32f45e8b3f0c61f93927375d538de6bb94c2089b0fb4adbbbce3289df378"
+  url "https://github.com/nginx-proxy/docker-gen/archive/refs/tags/0.18.0.tar.gz"
+  sha256 "abfe428a64997c1333911845efece7c83facea0fec86091136d985f027368c5f"
   license "MIT"
   head "https://github.com/nginx-proxy/docker-gen.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "b64b7a732f783c3b5914c877217d50912bfae8c57c26968dfa7d74275d73a5b0"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "7dc9b9d0305ce0e9d89f15287720906588d581e62a2f17d6e8935e6ea710fe5e"
   end
 
   depends_on "go" => :build

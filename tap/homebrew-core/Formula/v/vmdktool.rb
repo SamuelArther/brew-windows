@@ -11,7 +11,7 @@ class Vmdktool < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "16cd1e88dd7de848a9d950e57e97e4ab2eb0ff80f7bf2ac463cd58fdf30dafc4"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "a36a0a30a15946ded1bdb47ddbf00ef957ebab5be6da7c151c49f0c3b59f0ad2"
   end
 
   depends_on "groff" => :build
@@ -19,6 +19,8 @@ class Vmdktool < Formula
   on_linux do
     depends_on "zlib-ng-compat"
   end
+
+  deny_network_access!
 
   def install
     # Fixes "call to undeclared library function 'tolower' with type 'int (int)'".

@@ -1,0 +1,352 @@
+[
+  {
+    "name": "agent-deck",
+    "status": "build",
+    "seconds": 82
+  },
+  {
+    "name": "appwrite",
+    "status": "ok",
+    "seconds": 96
+  },
+  {
+    "name": "arcane-cli",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "atomgit-cli",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "aws-amplify",
+    "status": "ok",
+    "seconds": 1122
+  },
+  {
+    "name": "berglas",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "bqlog",
+    "status": "ok",
+    "seconds": 175
+  },
+  {
+    "name": "buildkite",
+    "status": "ok",
+    "seconds": 51
+  },
+  {
+    "name": "calm-cli",
+    "status": "ok",
+    "seconds": 131
+  },
+  {
+    "name": "checkpwn",
+    "status": "ok",
+    "seconds": 169
+  },
+  {
+    "name": "cminpack",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "coacd",
+    "status": "ok",
+    "seconds": 74
+  },
+  {
+    "name": "codex-acp",
+    "status": "ok",
+    "seconds": 52
+  },
+  {
+    "name": "cozypkg",
+    "status": "ok",
+    "seconds": 115
+  },
+  {
+    "name": "crates-tui",
+    "status": "ok",
+    "seconds": 257
+  },
+  {
+    "name": "d2",
+    "status": "build",
+    "seconds": 13
+  },
+  {
+    "name": "discordchatexporter",
+    "status": "test",
+    "seconds": 55
+  },
+  {
+    "name": "docker-agent",
+    "status": "build",
+    "seconds": 53
+  },
+  {
+    "name": "docker-gen",
+    "status": "ok",
+    "seconds": 31
+  },
+  {
+    "name": "e2b",
+    "status": "ok",
+    "seconds": 65
+  },
+  {
+    "name": "evnx",
+    "status": "ok",
+    "seconds": 441
+  },
+  {
+    "name": "fern-api",
+    "status": "ok",
+    "seconds": 17
+  },
+  {
+    "name": "gat",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "gcx",
+    "status": "build",
+    "seconds": 7
+  },
+  {
+    "name": "gemini-api-cli",
+    "status": "ok",
+    "seconds": 19
+  },
+  {
+    "name": "gf",
+    "status": "ok",
+    "seconds": 92
+  },
+  {
+    "name": "hf-mcp-server",
+    "status": "ok",
+    "seconds": 135
+  },
+  {
+    "name": "ikea-availability-checker",
+    "status": "ok",
+    "seconds": 23
+  },
+  {
+    "name": "immudb",
+    "status": "ok",
+    "seconds": 180
+  },
+  {
+    "name": "jsrepo",
+    "status": "ok",
+    "seconds": 12
+  },
+  {
+    "name": "k0sctl",
+    "status": "ok",
+    "seconds": 34
+  },
+  {
+    "name": "kata",
+    "status": "build",
+    "seconds": 21
+  },
+  {
+    "name": "keploy",
+    "status": "build",
+    "seconds": 12
+  },
+  {
+    "name": "ktop",
+    "status": "test",
+    "seconds": 99
+  },
+  {
+    "name": "kubeone",
+    "status": "ok",
+    "seconds": 474
+  },
+  {
+    "name": "linecast",
+    "status": "ok",
+    "seconds": 86
+  },
+  {
+    "name": "lxc",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "mcp-publisher",
+    "status": "ok",
+    "seconds": 48
+  },
+  {
+    "name": "mcp-remote",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "n8n-mcp",
+    "status": "ok",
+    "seconds": 84
+  },
+  {
+    "name": "npq",
+    "status": "ok",
+    "seconds": 25
+  },
+  {
+    "name": "openapi-generator",
+    "status": "ok",
+    "seconds": 16
+  },
+  {
+    "name": "openfasttrace",
+    "status": "ok",
+    "seconds": 5
+  },
+  {
+    "name": "oxvg",
+    "status": "ok",
+    "seconds": 607
+  },
+  {
+    "name": "pmd",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "proxify",
+    "status": "ok",
+    "seconds": 55
+  },
+  {
+    "name": "python-markdown",
+    "status": "ok",
+    "seconds": 21
+  },
+  {
+    "name": "redocly-cli",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "retire",
+    "status": "ok",
+    "seconds": 15
+  },
+  {
+    "name": "roadrunner",
+    "status": "build",
+    "seconds": 46
+  },
+  {
+    "name": "rqlite",
+    "status": "test",
+    "seconds": 155
+  },
+  {
+    "name": "rulesync",
+    "status": "ok",
+    "seconds": 159
+  },
+  {
+    "name": "safe-chain",
+    "status": "ok",
+    "seconds": 30
+  },
+  {
+    "name": "sbomqs",
+    "status": "ok",
+    "seconds": 20
+  },
+  {
+    "name": "shadcn",
+    "status": "ok",
+    "seconds": 317
+  },
+  {
+    "name": "skillshare",
+    "status": "ok",
+    "seconds": 39
+  },
+  {
+    "name": "supabase-mcp-server",
+    "status": "ok",
+    "seconds": 29
+  },
+  {
+    "name": "termaid",
+    "status": "ok",
+    "seconds": 66
+  },
+  {
+    "name": "tesseract",
+    "status": "ok",
+    "seconds": 733
+  },
+  {
+    "name": "ugit",
+    "status": "ok",
+    "seconds": 6
+  },
+  {
+    "name": "umple",
+    "status": "ok",
+    "seconds": 11
+  },
+  {
+    "name": "victorialogs",
+    "status": "build",
+    "seconds": 8
+  },
+  {
+    "name": "vite",
+    "status": "ok",
+    "seconds": 13
+  },
+  {
+    "name": "vmdktool",
+    "status": "ok",
+    "seconds": 28
+  },
+  {
+    "name": "vnu",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "voro++",
+    "status": "ok",
+    "seconds": 14
+  },
+  {
+    "name": "vtclock",
+    "status": "ok",
+    "seconds": 8
+  },
+  {
+    "name": "yaegi",
+    "status": "ok",
+    "seconds": 122
+  },
+  {
+    "name": "zot",
+    "status": "ok",
+    "seconds": 38
+  },
+  {
+    "name": "zuban",
+    "status": "ok",
+    "seconds": 423
+  }
+]

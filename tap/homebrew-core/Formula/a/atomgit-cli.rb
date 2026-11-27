@@ -1,13 +1,13 @@
 class AtomgitCli < Formula
   desc "Command-line interface for AtomGit"
   homepage "https://atomgit.com/hust-open-atom-club/atomgit-cli"
-  url "https://raw.atomgit.com/hust-open-atom-club/atomgit-cli/archive/refs/heads/v0.7.4.tar.gz"
-  sha256 "226a5d26c566360456fd87ad9331570d1b0212dc0b8f5fd2ec85745dcf107611"
+  url "https://raw.atomgit.com/hust-open-atom-club/atomgit-cli/archive/refs/heads/v0.7.5.tar.gz"
+  sha256 "b2cda7652c96fce4e573278d355929d2c617a98e86c3bbb68b38d957502b4815"
   license "MulanPSL-2.0"
   head "https://atomgit.com/hust-open-atom-club/atomgit-cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "bcd845f9c59579d07b223f131678100443996c1a41551a6007388e6cc3f3de76"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "26fcdeaf621b43f60a1b9c1e80727a02331bf29dfb5075afd166ba34355939d6"
   end
 
   depends_on "go" => :build

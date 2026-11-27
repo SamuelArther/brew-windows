@@ -6,7 +6,7 @@ class Ugit < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "c53a9d5f304b0457ed03983c068bc84f42b228feaeba9becaec93008f3239d4c"
+    sha256 cellar: :any, x86_64_windows: "6aa3f2f3bad9a6ad5afa25d261867ea0eb4b5bbc4377f1ba70e2c55413a49c4e"
   end
 
   depends_on "fzf"
@@ -16,6 +16,8 @@ class Ugit < Formula
   end
 
   conflicts_with "git-extras", because: "both install `git-undo` binaries"
+
+  deny_network_access!
 
   def install
     bin.install "ugit"

@@ -1,13 +1,13 @@
 class K0sctl < Formula
   desc "Bootstrapping and management tool for k0s clusters"
   homepage "https://github.com/k0sproject/k0sctl"
-  url "https://github.com/k0sproject/k0sctl/archive/refs/tags/v0.33.1.tar.gz"
-  sha256 "0106b84cd80db5af0cd6796302904b990c908a8bb76baba07e11c944d66bca52"
+  url "https://github.com/k0sproject/k0sctl/archive/refs/tags/v0.34.0.tar.gz"
+  sha256 "d9347c8f408714aabe1311ac1464180a02239e700cf411522c97e172fe1002c0"
   license "Apache-2.0"
   head "https://github.com/k0sproject/k0sctl.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, x86_64_windows: "08cc3e8e82508a838937177bc87336ea0118ce2fd51c5f2591eb21aeb4382dac"
+    sha256 cellar: :any, x86_64_windows: "9c0e8f3d4726af582aeb199d18a0c62f7c9335eea62db2c1e02b3136a70b9752"
   end
 
   depends_on "go" => :build

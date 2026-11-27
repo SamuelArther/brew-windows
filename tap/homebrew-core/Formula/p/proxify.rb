@@ -1,13 +1,24 @@
 class Proxify < Formula
   desc "Portable proxy for capturing, manipulating, and replaying HTTP/HTTPS traffic"
   homepage "https://projectdiscovery.io"
-  url "https://github.com/projectdiscovery/proxify/archive/refs/tags/v0.0.16.tar.gz"
-  sha256 "a156d8094ac5a31bc92029c1a9e02300caa5e2f189dc13949410d792e9f4e63c"
   license "MIT"
   head "https://github.com/projectdiscovery/proxify.git", branch: "main"
 
+  stable do
+    url "https://github.com/projectdiscovery/proxify/archive/refs/tags/v0.0.17.tar.gz"
+    sha256 "e0c5bc3c8b0666ccbfd34cadbab972ddfe3737f01f1bcde9fddb265c96262a76"
+
+    # Report the version of the release being packaged.
+    patch do
+      url "https://github.com/projectdiscovery/proxify/commit/af4d51b66733f93dae11c775c2ede39763bc4fe6.patch?full_index=1"
+      sha256 "3135398ce9478934784965c62f2ba66f235343ecad30d50399d8841a303ea82c"
+      type :unofficial
+      resolves "https://github.com/projectdiscovery/proxify/pull/791"
+    end
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_windows: "c137a0f8c66f5959006f4673802c3cf12af8025dc3b4cf733acbd7256751b8d6"
+    sha256 cellar: :any_skip_relocation, x86_64_windows: "9334238c184b54c0ef03807395d9afaf950757040823f006f24a9f7f1e34acaa"
   end
 
   depends_on "go" => :build
